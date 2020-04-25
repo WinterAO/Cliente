@@ -1169,15 +1169,6 @@
             255
         ]
     },
-    "BTN_ACTUALIZAR_LISTA": {
-        "TEXTO": "Actualizar Lista"
-    },
-    "BTN_CODIGO_FUENTE": {
-        "TEXTO": "Codigo Fuente"
-    },
-    "BTN_CREDITOS": {
-        "TEXTO": "Creditos"
-    },
     "BTN_CONECTARSE": {
         "TEXTO": "Conectarse"
     },
@@ -1187,20 +1178,11 @@
     "BTN_CREAR_SERVER": {
         "TEXTO": "Crear Server"
     },
-    "BTN_MANUAL": {
-        "TEXTO": "Manual"
-    },
     "BTN_RECUPERAR": {
         "TEXTO": "Cambiar Pass"
     },
-    "BTN_REGLAMENTO": {
-        "TEXTO": "Reglamento"
-    },
     "LBL_RECORDARME": {
         "TEXTO": "Recordarme"
-    },
-    "LBL_FORO": {
-        "TEXTO": "Ver Foro"
     },
     "BTN_SALIR": {
         "TEXTO": "Salir"
