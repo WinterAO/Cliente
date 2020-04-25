@@ -120,7 +120,6 @@ Class=clsArrayList; CODIGO\clsArrayList.cls
 Form=CODIGO\Formularios\frmKeysConfigurationSelect.frm
 Form=CODIGO\Formularios\frmCarpinteria.frm
 Form=CODIGO\Formularios\frmArtesano.frm
-Form=CODIGO\Formularios\frmCreditos.frm
 Form=CODIGO\Formularios\frmListaAmigos.frm
 IconForm="frmMain"
 Startup="Sub Main"

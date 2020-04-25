@@ -1169,32 +1169,14 @@
             255
         ]
     },
-    "BTN_ACTUALIZAR_LISTA": {
-        "TEXTO": "Update List"
-    },
-    "BTN_CODIGO_FUENTE": {
-        "TEXTO": "Source Code"
-    },
-    "BTN_CREDITOS": {
-        "TEXTO": "Credits"
-    },
     "BTN_CONECTARSE": {
         "TEXTO": "Connect"
     },
     "BTN_CREAR_CUENTA": {
         "TEXTO": "Create Account"
     },
-    "BTN_CREAR_SERVER": {
-        "TEXTO": "Create Server"
-    },
-    "BTN_MANUAL": {
-        "TEXTO": "Manual"
-    },
     "BTN_RECUPERAR": {
         "TEXTO": "Change Pass"
-    },
-    "BTN_REGLAMENTO": {
-        "TEXTO": "Rules"
     },
     "LBL_RECORDARME": {
         "TEXTO": "Remember Me"
