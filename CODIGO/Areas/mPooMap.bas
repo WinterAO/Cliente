@@ -52,7 +52,7 @@ Public Sub Map_DestroyObject(ByVal X As Byte, ByVal Y As Byte)
 
             With MapData(X, Y)
                   '.objgrh.GrhIndex = 0
-                  .OBJInfo.ObjIndex = 0
+                  .OBJInfo.objindex = 0
                   .OBJInfo.Amount = 0
                   Call GrhUninitialize(.ObjGrh)
         
@@ -146,7 +146,6 @@ Sub Map_MoveTo(ByVal Direccion As E_Heading)
                 
       End If
     
-      If frmMain.macrotrabajo.Enabled Then Call frmMain.DesactivarMacroTrabajo
       If frmMain.trainingMacro.Enabled Then Call frmMain.DesactivarMacroHechizos
 
       ' Update 3D sounds!
@@ -258,7 +257,7 @@ Function Map_LegalPos(ByVal X As Integer, ByVal Y As Integer) As Boolean
       
       'Esta el usuario Equitando bajo un techo?
       If UserEquitando And MapData(X, Y).Trigger = eTrigger.BAJOTECHO Or MapData(X, Y).Trigger = eTrigger.CASA Then
-            Call ShowConsoleMsg(JsonLanguage.Item("MENSAJE_MONTURA_SALIR").Item("TEXTO"))
+            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_MONTURA_SALIR").item("TEXTO"))
             Exit Function
       End If
       
@@ -285,15 +284,15 @@ End Function
 
 Public Function Map_CheckBonfire(ByRef Location As Position) As Boolean
 
-      Dim J As Long
+      Dim j As Long
       Dim k As Long
     
-      For J = UserPos.X - 8 To UserPos.X + 8
+      For j = UserPos.X - 8 To UserPos.X + 8
             For k = UserPos.Y - 6 To UserPos.Y + 6
 
-                  If Map_InBounds(J, k) Then
-                        If MapData(J, k).ObjGrh.GrhIndex = GrhFogata Then
-                              Location.X = J
+                  If Map_InBounds(j, k) Then
+                        If MapData(j, k).ObjGrh.GrhIndex = GrhFogata Then
+                              Location.X = j
                               Location.Y = k
                               Map_CheckBonfire = True
 
@@ -303,7 +302,7 @@ Public Function Map_CheckBonfire(ByRef Location As Position) As Boolean
                   End If
 
             Next k
-      Next J
+      Next j
 
 End Function
 

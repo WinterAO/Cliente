@@ -62,6 +62,11 @@ Public Type tSetupMods
     ' OTHER
     MostrarTips As Byte
     MostrarBindKeysSelection As Byte
+    
+    'MOUSE
+    MouseGeneral As Byte
+    MouseBaston As Byte
+    SkinSeleccionado As String
 End Type
 
 Public ClientSetup As tSetupMods

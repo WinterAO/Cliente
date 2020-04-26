@@ -61,12 +61,6 @@
             0
         ]
     },
-    "MENSAJE_MACRO_ACTIVADO": {
-        "TEXTO": "Work Macro ON."
-    },
-    "MENSAJE_MACRO_DESACTIVADO": {
-        "TEXTO": "Work Macro OFF."
-    },
     "MENSAJE_MACRO_ADVERTENCIA": {
         "TEXTO": "You can't cast VAR_LANZADO so fast."
     },

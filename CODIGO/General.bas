@@ -39,6 +39,9 @@ Public bLluvia() As Byte ' Array para determinar si
 
 Private lFrameTimer As Long
 
+Private m_Jpeg             As clsJpeg
+Private m_FileName         As String
+
 Private keysMovementPressedQueue As clsArrayList
 
 Public Function RandomNumber(ByVal LowerBound As Long, ByVal UpperBound As Long) As Long
@@ -368,130 +371,18 @@ Sub SwitchMap(ByVal Map As Integer)
     'Disenado y creado por Juan Martin Sotuyo Dodero (Maraxus) (juansotuyo@hotmail.com)
     '**********************************************************************************
     
-    '**********************************************************************************
-    'Formato de mapas optimizado para reducir el espacio que ocupan.
-    'Nueva carga de mapas desde la memoria (clsByteBuffer)
-    '[ https://www.gs-zone.org/temas/carga-de-mapas-desde-la-memoria-cliente.91444/ ]
-    '**********************************************************************************
-
-    Dim Y        As Long
-    Dim X        As Long
-    
-    Dim ByFlags  As Byte
-    Dim Handle   As Integer
-    Dim fileBuff As clsByteBuffer
-   
-    Dim dData()  As Byte
-    Dim dLen     As Long
-   
-    Set fileBuff = New clsByteBuffer
-    
     'Limpieza adicional del mapa. PARCHE: Solucion a bug de clones. [Gracias Yhunja]
     'EDIT: cambio el rango de valores en x y para solucionar otro bug con respecto al cambio de mapas
     Call Char_CleanAll
     
-    'Erase particle effects
+    'Borramos las particulas activas en el mapa.
     Call Particle_Group_Remove_All
     
-    dLen = FileLen(Game.path(Mapas) & "Mapa" & Map & ".map")
-    ReDim dData(dLen - 1)
-    
-    Handle = FreeFile()
-    
-    Open Game.path(Mapas) & "Mapa" & Map & ".map" For Binary As Handle
-        Get Handle, , dData
-    Close Handle
-     
-    fileBuff.initializeReader dData
-    
-    mapInfo.MapVersion = fileBuff.getInteger
-   
-    With MiCabecera
-        .Desc = fileBuff.getString(Len(.Desc))
-        .CRC = fileBuff.getLong
-        .MagicWord = fileBuff.getLong
-    End With
-    
-    fileBuff.getDouble
-   
-    'Load arrays
-    For Y = YMinMapSize To YMaxMapSize
-        For X = XMinMapSize To XMaxMapSize
-            ByFlags = fileBuff.getByte()
-
-            With MapData(X, Y)
-                
-                'Layer 1
-                .Blocked = (ByFlags And 1)
-                .Graphic(1).GrhIndex = fileBuff.getLong()
-                Call InitGrh(.Graphic(1), .Graphic(1).GrhIndex)
-           
-                'Layer 2 used?
-                If ByFlags And 2 Then
-                    .Graphic(2).GrhIndex = fileBuff.getLong()
-                    Call InitGrh(.Graphic(2), .Graphic(2).GrhIndex)
-                Else
-                    .Graphic(2).GrhIndex = 0
-                End If
-               
-                'Layer 3 used?
-                If ByFlags And 4 Then
-                    .Graphic(3).GrhIndex = fileBuff.getLong()
-                    Call InitGrh(.Graphic(3), .Graphic(3).GrhIndex)
-                Else
-                    .Graphic(3).GrhIndex = 0
-                End If
-               
-                'Layer 4 used?
-                If ByFlags And 8 Then
-                    .Graphic(4).GrhIndex = fileBuff.getLong()
-                    Call InitGrh(.Graphic(4), .Graphic(4).GrhIndex)
-                Else
-                    .Graphic(4).GrhIndex = 0
-                End If
-           
-                'Trigger used?
-                If ByFlags And 16 Then
-                    .Trigger = fileBuff.getInteger()
-                Else
-                    .Trigger = 0
-                End If
-                
-                If ByFlags And 32 Then
-                    Call General_Particle_Create(CLng(fileBuff.getInteger()), X, Y)
-                Else
-                    .Particle_Group_Index = 0
-                End If
-                
-                'Erase NPCs
-                If .CharIndex > 0 Then
-                    .CharIndex = 0
-                End If
-           
-                'Erase OBJs
-                If .ObjGrh.GrhIndex > 0 Then
-                    .ObjGrh.GrhIndex = 0
-                End If
-            
-                'Erase Lights
-                Call Engine_D3DColor_To_RGB_List(.Engine_Light(), Estado_Actual) 'Standelf, Light & Meteo Engine
-            
-            End With
-        Next X
-    Next Y
-    
-    Call LightRemoveAll
-
     'Borramos las particulas de lluvia
     Call mDx8_Particulas.RemoveWeatherParticles(eWeather.Rain)
     
-    'Limpiamos el buffer
-    Set fileBuff = Nothing
-    
-    With mapInfo
-        .name = vbNullString
-        .Music = vbNullString
-    End With
+    'Cargamos el mapa.
+    Call Carga.CargarMapa(Map)
     
     'Dibujamos el Mini-Mapa
     If FileExist(Game.path(Graficos) & "MiniMapa\" & Map & ".bmp", vbArchive) Then
@@ -501,12 +392,9 @@ Sub SwitchMap(ByVal Map As Integer)
         frmMain.RecTxt.Width = frmMain.RecTxt.Width + 100
     End If
     
-    CurMap = Map
-    
     Call Init_Ambient(Map)
     
-    'Carga las particulas especificas del mapa.
-    Call Load_Map_Particles(Map)
+    CurMap = Map
     
     'Resetear el mensaje en render con el nombre del mapa.
     renderText = nameMap
@@ -701,13 +589,13 @@ Private Sub LoadInitialConfig()
 '***************************************************
     
     'Cargamos los graficos de mouse guardados
-    Opciones.MouseGeneral = Val(GetVar(Game.path(INIT) & "Config.ini", "PARAMETERS", "MOUSEGENERAL"))
-    Opciones.MouseBaston = Val(GetVar(Game.path(INIT) & "Config.ini", "PARAMETERS", "MOUSEBASTON"))
+    ClientSetup.MouseGeneral = Val(GetVar(Game.path(INIT) & "Config.ini", "PARAMETERS", "MOUSEGENERAL"))
+    ClientSetup.MouseBaston = Val(GetVar(Game.path(INIT) & "Config.ini", "PARAMETERS", "MOUSEBASTON"))
     
     'Si es 0 cargamos el por defecto
-    If Opciones.MouseBaston > 0 Then
+    If ClientSetup.MouseBaston > 0 Then
         ' Mouse Pointer and Mouse Icon (Loaded before opening any form with buttons in it)
-        Set picMouseIcon = LoadPicture(Game.path(Graficos) & "MouseIcons\Baston" & Opciones.MouseBaston & ".ico")
+        Set picMouseIcon = LoadPicture(Game.path(Graficos) & "MouseIcons\Baston" & ClientSetup.MouseBaston & ".ico")
     End If
 
     ' Mouse Icon to use in the rest of the game this one is animated
@@ -716,9 +604,9 @@ Private Sub LoadInitialConfig()
     Dim CursorAniDir As String
     Dim Cursor As Long
     'Si es 0 cargamos el por defecto
-    If Opciones.MouseGeneral > 0 Then
+    If ClientSetup.MouseGeneral > 0 Then
     Debug.Print "asdasd"
-        CursorAniDir = Game.path(Graficos) & "MouseIcons\General" & Opciones.MouseGeneral & ".ani"
+        CursorAniDir = Game.path(Graficos) & "MouseIcons\General" & ClientSetup.MouseGeneral & ".ani"
         hSwapCursor = SetClassLong(frmMain.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
         hSwapCursor = SetClassLong(frmMain.MainViewPic.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
         hSwapCursor = SetClassLong(frmMain.hlst.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
@@ -779,7 +667,7 @@ Private Sub LoadInitialConfig()
     Audio.SoundVolume = ClientSetup.SoundVolume
 
     'Iniciamos cancion principal del juego turururuuuuuu
-    Call Audio.PlayBackgroundMusic("1", MusicTypes.Mp3)
+    Call Audio.PlayBackgroundMusic("1", MusicTypes.MP3)
     
     Call AddtoRichTextBox(frmCargando.status, _
                             "   " & JsonLanguage.item("HECHO").item("TEXTO"), _
@@ -863,7 +751,7 @@ Private Sub LoadInitialConfig()
                             True, False, False, rtfLeft)
     
     'Inicializamos el inventario grafico
-    Call Inventario.Initialize(DirectD3D8, frmMain.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call Inventario.Initialize(DirectD3D8, frmMain.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     'Set cKeys = New Collection
     Call AddtoRichTextBox(frmCargando.status, _
@@ -896,11 +784,6 @@ Private Sub LoadTimerIntervals()
         Call .SetInterval(TimersIndex.Arrows, eIntervalos.INT_ARROWS)
         Call .SetInterval(TimersIndex.CastAttack, eIntervalos.INT_CAST_ATTACK)
         Call .SetInterval(TimersIndex.ChangeHeading, eIntervalos.INT_CHANGE_HEADING)
-        
-        With frmMain.macrotrabajo
-            .Interval = eIntervalos.INT_MACRO_TRABAJO
-            .Enabled = False
-        End With
     
         'Init timers
         Call .Start(TimersIndex.Attack)
@@ -1286,7 +1169,6 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
 
     ' Disable timers
     frmMain.Second.Enabled = False
-    frmMain.macrotrabajo.Enabled = False
     Connected = False
     Call frmMain.hlst.Clear ' Ponemos esto aca para limpiar la lista de hechizos al desconectarse.
     
@@ -1373,7 +1255,7 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     Inventario.ClearAllSlots
 
     ' Connection screen mp3
-    Call Audio.PlayBackgroundMusic("2", MusicTypes.Mp3)
+    Call Audio.PlayBackgroundMusic("2", MusicTypes.MP3)
 
 End Sub
 

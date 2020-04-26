@@ -622,7 +622,7 @@ Private Sub LoadDefaultValues()
     
     cboItemsCiclo.ListIndex = 0
     
-    Scroll.Value = 0
+    Scroll.value = 0
     
     UsarMacro = True
     
@@ -636,27 +636,21 @@ Private Sub Construir(ByVal Index As Integer)
     Dim ItemIndex      As Integer
     Dim CantItemsCiclo As Integer
     
-    If Scroll.Visible = True Then ItemIndex = Scroll.Value
+    If Scroll.Visible = True Then ItemIndex = Scroll.value
     ItemIndex = ItemIndex + Index
     
     Select Case UltimaPestania
 
         Case ePestania.ieItems
         
-            If UsarMacro Then
-                CantItemsCiclo = Val(cboItemsCiclo.Text)
-                MacroBltIndex = ObjCarpintero(ItemIndex).ObjIndex
-                frmMain.ActivarMacroTrabajo
-            Else
-                ' Que cosntruya el maximo, total si sobra no importa, valida el server
-                CantItemsCiclo = Val(cboItemsCiclo.List(cboItemsCiclo.ListCount - 1))
-            End If
+            ' Que cosntruya el maximo, total si sobra no importa, valida el server
+            CantItemsCiclo = Val(cboItemsCiclo.List(cboItemsCiclo.ListCount - 1))
             
             Call WriteInitCrafting(Val(txtCantItems.Text), CantItemsCiclo)
-            Call WriteCraftCarpenter(ObjCarpintero(ItemIndex).ObjIndex)
+            Call WriteCraftCarpenter(ObjCarpintero(ItemIndex).objindex)
             
         Case ePestania.ieMejorar
-            Call WriteItemUpgrade(CarpinteroMejorar(ItemIndex).ObjIndex)
+            Call WriteItemUpgrade(CarpinteroMejorar(ItemIndex).objindex)
     End Select
         
     Unload Me
@@ -852,7 +846,7 @@ Private Sub imgPestania_Click(Index As Integer)
     If Cargando Then Exit Sub
     If UltimaPestania = Index Then Exit Sub
     
-    Scroll.Value = 0
+    Scroll.value = 0
     
     Select Case Index
 
@@ -887,7 +881,7 @@ Private Sub Scroll_Change()
     
     If Cargando Then Exit Sub
     
-    i = Scroll.Value
+    i = Scroll.value
     ' Cargo inventarios e imagenes
     
     Select Case UltimaPestania

@@ -61,12 +61,6 @@
             0
         ]
     },
-    "MENSAJE_MACRO_ACTIVADO": {
-        "TEXTO": "Macro de trabajo activado."
-    },
-    "MENSAJE_MACRO_DESACTIVADO": {
-        "TEXTO": "Macro de trabajo desactivado."
-    },
     "MENSAJE_MACRO_ADVERTENCIA": {
         "TEXTO": "No puedes lanzar VAR_LANZADO tan rapido."
     },
