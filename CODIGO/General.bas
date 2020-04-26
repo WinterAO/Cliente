@@ -702,18 +702,30 @@ Private Sub LoadInitialConfig()
 '15/03/2011: ZaMa - Initialize classes lazy way.
 '30/10/2019: Recox - Initialize Mouse icons
 '***************************************************
-    ' Mouse Pointer and Mouse Icon (Loaded before opening any form with buttons in it)
-    Set picMouseIcon = LoadPicture(Game.path(Graficos) & "MouseIcons\Baston.ico")
+    
+    'Cargamos los graficos de mouse guardados
+    Opciones.MouseGeneral = Val(GetVar(Game.path(INIT) & "Config.ini", "PARAMETERS", "MOUSEGENERAL"))
+    Opciones.MouseBaston = Val(GetVar(Game.path(INIT) & "Config.ini", "PARAMETERS", "MOUSEBASTON"))
+    
+    'Si es 0 cargamos el por defecto
+    If Opciones.MouseBaston > 0 Then
+        ' Mouse Pointer and Mouse Icon (Loaded before opening any form with buttons in it)
+        Set picMouseIcon = LoadPicture(Game.path(Graficos) & "MouseIcons\Baston" & Opciones.MouseBaston & ".ico")
+    End If
 
     ' Mouse Icon to use in the rest of the game this one is animated
     ' We load it in frmMain but for some reason is loaded in the rest of the game
     ' Better for us :)
     Dim CursorAniDir As String
     Dim Cursor As Long
-    CursorAniDir = Game.path(Graficos) & "MouseIcons\General.ani"
-    hSwapCursor = SetClassLong(frmMain.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
-    hSwapCursor = SetClassLong(frmMain.MainViewPic.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
-    hSwapCursor = SetClassLong(frmMain.hlst.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
+    'Si es 0 cargamos el por defecto
+    If Opciones.MouseGeneral > 0 Then
+    Debug.Print "asdasd"
+        CursorAniDir = Game.path(Graficos) & "MouseIcons\General" & Opciones.MouseGeneral & ".ani"
+        hSwapCursor = SetClassLong(frmMain.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
+        hSwapCursor = SetClassLong(frmMain.MainViewPic.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
+        hSwapCursor = SetClassLong(frmMain.hlst.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
+    End If
    
     frmCargando.Show
     frmCargando.Refresh

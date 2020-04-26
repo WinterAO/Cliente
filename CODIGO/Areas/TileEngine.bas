@@ -1037,12 +1037,7 @@ On Error GoTo 0
     
     'Cargamos indice de graficos.
     'TODO: No usar variable de compilacion y acceder a esto desde el config.ini
-    #If UsarGraficosIni = 1 Then
-        Call LoadGrhIni
-    #Else
-        Call LoadGrhInd
-    #End If
-    
+    Call LoadGrhData
     Call CargarCuerpos
     Call CargarCabezas
     Call CargarCascos
