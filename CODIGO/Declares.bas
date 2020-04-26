@@ -73,7 +73,6 @@ Public InvObjArtesano(1 To MAX_LIST_ITEMS) As clsGraphicalInventory
 Public Const MAX_ITEMS_CRAFTEO As Byte = 4
 
 Public CustomKeys As clsCustomKeys
-Public CustomMessages As clsCustomMessages
 
 Public incomingData As clsByteQueue
 Public outgoingData As clsByteQueue

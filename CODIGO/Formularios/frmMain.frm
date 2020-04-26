@@ -261,7 +261,6 @@ Begin VB.Form frmMain
       _ExtentY        =   2937
       _Version        =   393217
       BackColor       =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -1469,29 +1468,6 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                     Call WriteResuscitationToggle
                     
             End Select
-        Else
-            
-            'Evito que se muestren los mensajes personalizados cuando se cambie una configuracion de teclas.
-            If Shift = 2 Then Exit Sub
-            
-            Select Case KeyCode
-            
-                    'Custom messages!
-                Case vbKey0 To vbKey9
-                    Dim CustomMessage As String
-                    
-                    CustomMessage = CustomMessages.Message((KeyCode - 39) Mod 10)
-
-                    If LenB(CustomMessage) <> 0 Then
-
-                        ' No se pueden mandar mensajes personalizados de clan o privado!
-                        If UCase$(Left$(CustomMessage, 5)) <> "/CMSG" And Left$(CustomMessage, 1) <> "\" Then
-                            
-                            Call ParseUserCommand(CustomMessage)
-                        End If
-                    End If
-                    
-            End Select
             
         End If
         
@@ -1948,53 +1924,7 @@ Private Sub SendTxt_KeyDown(KeyCode As Integer, Shift As Integer)
         SendTxt.ForeColor = &HE0E0E0
     End If
     
-    ' Control + Shift
-    If Shift = 3 Then
-        On Error GoTo errhandler
-        
-        ' Only allow numeric keys
-        If KeyCode >= vbKey0 And KeyCode <= vbKey9 Then
-            
-            ' Get Msg Number
-            Dim NroMsg As Integer
-            NroMsg = KeyCode - vbKey0 - 1
-            
-            ' Pressed "0", so Msg Number is 9
-            If NroMsg = -1 Then NroMsg = 9
-            
-            'Como es KeyDown, si mantenes _
-             apretado el mensaje llena la consola
-
-            If CustomMessages.Message(NroMsg) = SendTxt.Text Then
-                Exit Sub
-            End If
-            
-            CustomMessages.Message(NroMsg) = SendTxt.Text
-            
-            Dim MENSAJE_PERSONALIZADO As String
-                MENSAJE_PERSONALIZADO = JsonLanguage.item("MENSAJE_PERSONALIZADO").item("TEXTO")
-                MENSAJE_PERSONALIZADO = Replace$(MENSAJE_PERSONALIZADO, "VAR_MENSAJE", SendTxt.Text)
-                MENSAJE_PERSONALIZADO = Replace$(MENSAJE_PERSONALIZADO, "VAR_MENSAJE_NUMERO", NroMsg + 1)
-            
-            With FontTypes(FontTypeNames.FONTTYPE_INFO)
-                Call ShowConsoleMsg(MENSAJE_PERSONALIZADO, .Red, .Green, .Blue, .bold, .italic)
-            End With
-            
-        End If
-        
-    End If
-    
-    Exit Sub
-    
 errhandler:
-
-    'Did detected an invalid message??
-    If Err.number = CustomMessages.InvalidMessageErrCode Then
-
-        With FontTypes(FontTypeNames.FONTTYPE_INFO)
-            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_CUSTOM_INVALIDO").item("TEXTO"), .Red, .Green, .Blue, .bold, .italic)
-        End With
-    End If
     
 End Sub
 
@@ -2009,8 +1939,8 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         SendTxt.Visible = False
         
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
         Else
             hlst.SetFocus
         End If
@@ -2370,7 +2300,7 @@ Private Sub btnInventario_Click()
     'InvEqu.Picture = LoadPicture(Game.path(Skins) & SkinSeleccionado & "\Centroinventario.jpg")
 
     ' Activo controles de inventario
-    picInv.Visible = True
+    PicInv.Visible = True
 
     ' Desactivo controles de hechizo
     hlst.Visible = False
@@ -2400,7 +2330,7 @@ Private Sub btnHechizos_Click()
     cmdMoverHechi(1).Visible = True
     
     ' Desactivo controles de inventario
-    picInv.Visible = False
+    PicInv.Visible = False
 
 End Sub
 
@@ -2463,8 +2393,8 @@ Private Sub RecTxt_Change()
            (Not frmCantidad.Visible) And _
            (Not MirandoParty) Then
 
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
                         
         ElseIf hlst.Visible Then
             hlst.SetFocus
@@ -2477,8 +2407,8 @@ End Sub
 
 Private Sub RecTxt_KeyDown(KeyCode As Integer, Shift As Integer)
 
-    If picInv.Visible Then
-        picInv.SetFocus
+    If PicInv.Visible Then
+        PicInv.SetFocus
     Else
         hlst.SetFocus
     End If
@@ -2543,8 +2473,8 @@ Private Sub SendCMSTXT_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         Me.SendCMSTXT.Visible = False
         
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
         Else
             hlst.SetFocus
         End If

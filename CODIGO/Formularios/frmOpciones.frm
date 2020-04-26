@@ -279,12 +279,6 @@ Begin VB.Form frmOpciones
       Top             =   5520
       Width           =   2010
    End
-   Begin VB.Image imgMsgPersonalizado 
-      Height          =   285
-      Left            =   2520
-      Top             =   5160
-      Width           =   2010
-   End
    Begin VB.Image imgConfigTeclas 
       Height          =   285
       Left            =   360
@@ -340,11 +334,9 @@ Option Explicit
 Private clsFormulario As clsFormMovementManager
 
 Private cBotonConfigTeclas As clsGraphicalButton
-Private cBotonMsgPersonalizado As clsGraphicalButton
 Private cBotonMapa As clsGraphicalButton
 Private cBotonCambiarPasswd As clsGraphicalButton
 Private cBotonManual As clsGraphicalButton
-Private cBotonRadio As clsGraphicalButton
 Private cBotonSoporte As clsGraphicalButton
 Private cBotonTutorial As clsGraphicalButton
 Private cBotonSalir As clsGraphicalButton
@@ -563,10 +555,6 @@ Private Sub imgMapa_Click()
     Call frmMapa.Show(vbModal, Me)
 End Sub
 
-Private Sub imgMsgPersonalizado_Click()
-    Call frmMessageTxt.Show(vbModeless, Me)
-End Sub
-
 Private Sub imgSalir_Click()
     Call Game.GuardarConfiguracion
     Unload Me
@@ -641,11 +629,9 @@ Private Sub LoadButtons()
     GrhPath = Game.path(Interfaces)
 
     Set cBotonConfigTeclas = New clsGraphicalButton
-    Set cBotonMsgPersonalizado = New clsGraphicalButton
     Set cBotonMapa = New clsGraphicalButton
     Set cBotonCambiarPasswd = New clsGraphicalButton
     Set cBotonManual = New clsGraphicalButton
-    Set cBotonRadio = New clsGraphicalButton
     Set cBotonSoporte = New clsGraphicalButton
     Set cBotonTutorial = New clsGraphicalButton
     Set cBotonSalir = New clsGraphicalButton
@@ -655,10 +641,6 @@ Private Sub LoadButtons()
     Call cBotonConfigTeclas.Initialize(imgConfigTeclas, GrhPath & "BotonConfigurarTeclas.jpg", _
                                     GrhPath & "BotonConfigurarTeclasRollover.jpg", _
                                     GrhPath & "BotonConfigurarTeclasClick.jpg", Me)
-                                    
-    Call cBotonMsgPersonalizado.Initialize(imgMsgPersonalizado, GrhPath & "BotonMsgPersonalizadoTeclas.jpg", _
-                                    GrhPath & "BotonMsgPersonalizadoRollover.jpg", _
-                                    GrhPath & "BotonMsgPersonalizadoClick.jpg", Me)
                                     
     Call cBotonMapa.Initialize(imgMapa, GrhPath & "BotonMapaAo.jpg", _
                                     GrhPath & "BotonMapaAoRollover.jpg", _

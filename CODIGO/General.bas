@@ -745,7 +745,6 @@ Private Sub LoadInitialConfig()
     Set Audio = New clsAudio
     Set Inventario = New clsGraphicalInventory
     Set CustomKeys = New clsCustomKeys
-    Set CustomMessages = New clsCustomMessages
     Set incomingData = New clsByteQueue
     Set outgoingData = New clsByteQueue
     Set MainTimer = New clsTimer
@@ -1129,7 +1128,6 @@ Public Sub CloseClient()
     Call Engine_DirectX8_End
 
     'Destruimos los objetos publicos creados
-    Set CustomMessages = Nothing
     Set CustomKeys = Nothing
     Set SurfaceDB = Nothing
     Set Dialogos = Nothing
