@@ -4,6 +4,7 @@ Option Explicit
 Public Type tOption
     MouseGeneral As Byte
     MouseBaston As Byte
+    SkinSeleccionado As String
 End Type
 
 Public Opciones As tOption
@@ -20,26 +21,26 @@ On Error GoTo ErrorHandler:
     Dim Grh As Long
     Dim Frame As Long
     Dim grhCount As Long
-    Dim handle As Integer
+    Dim Handle As Integer
     Dim fileVersion As Long
     
     'Open files
-    handle = FreeFile()
-    Open IniPath & "Graficos.ind" For Binary Access Read As handle
+    Handle = FreeFile()
+    Open IniPath & "Graficos.ind" For Binary Access Read As Handle
     
-        Get handle, , fileVersion
+        Get Handle, , fileVersion
         
-        Get handle, , grhCount
+        Get Handle, , grhCount
         
         ReDim GrhData(0 To grhCount) As GrhData
         
-        While Not EOF(handle)
-            Get handle, , Grh
+        While Not EOF(Handle)
+            Get Handle, , Grh
             
             With GrhData(Grh)
             
                 '.active = True
-                Get handle, , .NumFrames
+                Get Handle, , .NumFrames
                 If .NumFrames <= 0 Then GoTo ErrorHandler
                 
                 ReDim .Frames(1 To .NumFrames)
@@ -47,11 +48,11 @@ On Error GoTo ErrorHandler:
                 If .NumFrames > 1 Then
                 
                     For Frame = 1 To .NumFrames
-                        Get handle, , .Frames(Frame)
+                        Get Handle, , .Frames(Frame)
                         If .Frames(Frame) <= 0 Or .Frames(Frame) > grhCount Then GoTo ErrorHandler
                     Next Frame
                     
-                    Get handle, , .speed
+                    Get Handle, , .speed
                     If .speed <= 0 Then GoTo ErrorHandler
                     
                     .pixelHeight = GrhData(.Frames(1)).pixelHeight
@@ -68,19 +69,19 @@ On Error GoTo ErrorHandler:
                     
                 Else
                     
-                    Get handle, , .FileNum
+                    Get Handle, , .FileNum
                     If .FileNum <= 0 Then GoTo ErrorHandler
                     
-                    Get handle, , GrhData(Grh).sX
+                    Get Handle, , GrhData(Grh).sX
                     If .sX < 0 Then GoTo ErrorHandler
                     
-                    Get handle, , .sY
+                    Get Handle, , .sY
                     If .sY < 0 Then GoTo ErrorHandler
                     
-                    Get handle, , .pixelWidth
+                    Get Handle, , .pixelWidth
                     If .pixelWidth <= 0 Then GoTo ErrorHandler
                     
-                    Get handle, , .pixelHeight
+                    Get Handle, , .pixelHeight
                     If .pixelHeight <= 0 Then GoTo ErrorHandler
                     
                     .TileWidth = .pixelWidth / TilePixelHeight
@@ -94,7 +95,7 @@ On Error GoTo ErrorHandler:
             
         Wend
     
-    Close handle
+    Close Handle
     
 Exit Sub
 
@@ -470,7 +471,7 @@ Public Sub CargarHechizos()
 '********************************
 On Error GoTo errorH
 
-    Dim J As Long
+    Dim j As Long
     
     Set FileManager = New clsIniManager
     Call FileManager.Initialize(Game.path(INIT) & "Hechizos.dat")
@@ -479,29 +480,29 @@ On Error GoTo errorH
  
     ReDim Hechizos(1 To NumHechizos) As tHechizos
     
-    For J = 1 To NumHechizos
+    For j = 1 To NumHechizos
         
-        With Hechizos(J)
-            .Desc = FileManager.GetValue("HECHIZO" & J, "Desc")
-            .PalabrasMagicas = FileManager.GetValue("HECHIZO" & J, "PalabrasMagicas")
-            .Nombre = FileManager.GetValue("HECHIZO" & J, "Nombre")
-            .SkillRequerido = Val(FileManager.GetValue("HECHIZO" & J, "MinSkill"))
+        With Hechizos(j)
+            .Desc = FileManager.GetValue("HECHIZO" & j, "Desc")
+            .PalabrasMagicas = FileManager.GetValue("HECHIZO" & j, "PalabrasMagicas")
+            .Nombre = FileManager.GetValue("HECHIZO" & j, "Nombre")
+            .SkillRequerido = Val(FileManager.GetValue("HECHIZO" & j, "MinSkill"))
          
-            If J <> 38 And J <> 39 Then
+            If j <> 38 And j <> 39 Then
                 
-                .EnergiaRequerida = Val(FileManager.GetValue("HECHIZO" & J, "StaRequerido"))
+                .EnergiaRequerida = Val(FileManager.GetValue("HECHIZO" & j, "StaRequerido"))
                  
-                .HechiceroMsg = FileManager.GetValue("HECHIZO" & J, "HechizeroMsg")
-                .ManaRequerida = Val(FileManager.GetValue("HECHIZO" & J, "ManaRequerido"))
+                .HechiceroMsg = FileManager.GetValue("HECHIZO" & j, "HechizeroMsg")
+                .ManaRequerida = Val(FileManager.GetValue("HECHIZO" & j, "ManaRequerido"))
              
-                .PropioMsg = FileManager.GetValue("HECHIZO" & J, "PropioMsg")
-                .TargetMsg = FileManager.GetValue("HECHIZO" & J, "TargetMsg")
+                .PropioMsg = FileManager.GetValue("HECHIZO" & j, "PropioMsg")
+                .TargetMsg = FileManager.GetValue("HECHIZO" & j, "TargetMsg")
                 
             End If
             
         End With
         
-    Next J
+    Next j
     
     Set FileManager = Nothing
     
@@ -514,7 +515,7 @@ errorH:
         Select Case Err.number
             
             Case 9
-                Call MsgBox("Error cargando el archivo Hechizos.dat (Hechizo " & J & "). Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , "Argentum Online Libre")
+                Call MsgBox("Error cargando el archivo Hechizos.dat (Hechizo " & j & "). Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , "Argentum Online Libre")
                 Call LogError(Err.number, Err.Description, "CargarHechizos")
             
             Case 53

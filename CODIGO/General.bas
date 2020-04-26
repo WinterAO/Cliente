@@ -378,7 +378,7 @@ Sub SwitchMap(ByVal Map As Integer)
     Dim X        As Long
     
     Dim ByFlags  As Byte
-    Dim handle   As Integer
+    Dim Handle   As Integer
     Dim fileBuff As clsByteBuffer
    
     Dim dData()  As Byte
@@ -396,11 +396,11 @@ Sub SwitchMap(ByVal Map As Integer)
     dLen = FileLen(Game.path(Mapas) & "Mapa" & Map & ".map")
     ReDim dData(dLen - 1)
     
-    handle = FreeFile()
+    Handle = FreeFile()
     
-    Open Game.path(Mapas) & "Mapa" & Map & ".map" For Binary As handle
-        Get handle, , dData
-    Close handle
+    Open Game.path(Mapas) & "Mapa" & Map & ".map" For Binary As Handle
+        Get Handle, , dData
+    Close Handle
      
     fileBuff.initializeReader dData
     
@@ -659,9 +659,6 @@ Sub Main()
     
     lFrameTimer = GetTickCount
     
-    ' Load the form for screenshots
-    Call Load(frmScreenshots)
-        
     Do While prgRun
 
         'Solo dibujamos si la ventana no esta minimizada
@@ -866,7 +863,7 @@ Private Sub LoadInitialConfig()
                             True, False, False, rtfLeft)
     
     'Inicializamos el inventario grafico
-    Call Inventario.Initialize(DirectD3D8, frmMain.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call Inventario.Initialize(DirectD3D8, frmMain.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     'Set cKeys = New Collection
     Call AddtoRichTextBox(frmCargando.status, _
@@ -920,11 +917,11 @@ Private Sub LoadTimerIntervals()
 
 End Sub
 
-Sub WriteVar(ByVal File As String, ByVal Main As String, ByVal Var As String, ByVal Value As String)
+Sub WriteVar(ByVal File As String, ByVal Main As String, ByVal Var As String, ByVal value As String)
 '*****************************************************************
 'Writes a var to a text file
 '*****************************************************************
-    writeprivateprofilestring Main, Var, Value, File
+    writeprivateprofilestring Main, Var, value, File
 End Sub
 
 Function GetVar(ByVal File As String, ByVal Main As String, ByVal Var As String) As String
@@ -949,7 +946,7 @@ End Function
 Public Function CheckMailString(ByVal sString As String) As Boolean
 On Error GoTo errHnd
     Dim lPos  As Long
-    Dim lX    As Long
+    Dim Lx    As Long
     Dim iAsc  As Integer
     Dim Len_sString As Long
     
@@ -964,13 +961,13 @@ On Error GoTo errHnd
         Len_sString = Len(sString) - 1
         
         '3er test: Recorre todos los caracteres y los valida
-        For lX = 0 To Len_sString
-            If Not (lX = (lPos - 1)) Then   'No chequeamos la '@'
-                iAsc = Asc(mid$(sString, (lX + 1), 1))
+        For Lx = 0 To Len_sString
+            If Not (Lx = (lPos - 1)) Then   'No chequeamos la '@'
+                iAsc = Asc(mid$(sString, (Lx + 1), 1))
                 If Not CMSValidateChar_(iAsc) Then _
                     Exit Function
             End If
-        Next lX
+        Next Lx
         
         'Finale
         CheckMailString = True
@@ -1007,15 +1004,15 @@ Public Sub LeerLineaComandos()
 '
 '*************************************************
     
-    Dim i As Long, T() As String, Upper_t As Long, Lower_t As Long
+    Dim i As Long, t() As String, Upper_t As Long, Lower_t As Long
     
     'Parseo los comandos
-    T = Split(Command, " ")
-    Lower_t = LBound(T)
-    Upper_t = UBound(T)
+    t = Split(Command, " ")
+    Lower_t = LBound(t)
+    Upper_t = UBound(t)
     
     For i = Lower_t To Upper_t
-        Select Case UCase$(T(i))
+        Select Case UCase$(t(i))
             Case "/NORES" 'no cambiar la resolucion
                 NoRes = True
         End Select
@@ -1195,7 +1192,7 @@ Public Sub checkText(ByVal Text As String)
     Dim Nivel As Integer
 
     If Right$(Text, Len(JsonLanguage.item("MENSAJE_FRAGSHOOTER_TE_HA_MATADO").item("TEXTO"))) = JsonLanguage.item("MENSAJE_FRAGSHOOTER_TE_HA_MATADO").item("TEXTO") Then
-        Call ScreenCapture(True)
+        Call Client_Screenshot(frmMain.hDC, 1024, 768)
         Exit Sub
     End If
 
@@ -1207,7 +1204,7 @@ Public Sub checkText(ByVal Text As String)
     If EsperandoLevel Then
         If Right$(Text, Len(JsonLanguage.item("MENSAJE_FRAGSHOOTER_PUNTOS_DE_EXPERIENCIA").item("TEXTO"))) = JsonLanguage.item("MENSAJE_FRAGSHOOTER_PUNTOS_DE_EXPERIENCIA").item("TEXTO") Then
             If CInt(mid$(Text, Len(JsonLanguage.item("MENSAJE_FRAGSHOOTER_HAS_GANADO").item("TEXTO")), (Len(Text) - (Len(JsonLanguage.item("MENSAJE_FRAGSHOOTER_HAS_GANADO").item("TEXTO")))))) / 2 > ClientSetup.byMurderedLevel Then
-                Call ScreenCapture(True)
+                Call Client_Screenshot(frmMain.hDC, 1024, 768)
             End If
         End If
     End If
@@ -1499,3 +1496,52 @@ Public Function GetCountryCode(CurrentIp As String) As String
     End If
 
 End Function
+
+Public Sub Client_Screenshot(ByVal hDC As Long, ByVal Width As Long, ByVal Height As Long)
+'*******************************
+'Autor: ???
+'Fecha: ???
+'*******************************
+
+On Error GoTo ErrorHandler
+
+    Dim i As Long
+    Dim Index As Long
+    i = 1
+    
+    Set m_Jpeg = New clsJpeg
+    
+    '80 Quality
+    m_Jpeg.Quality = 100
+    
+    'Sample the cImage by hDC
+    m_Jpeg.SampleHDC hDC, Width, Height
+    
+    m_FileName = App.path & "\Fotos\AODrag_Foto"
+    
+    If Dir(App.path & "\Fotos", vbDirectory) = vbNullString Then
+        MkDir (App.path & "\Fotos")
+    End If
+    
+    Do While Dir(m_FileName & Trim(str(i)) & ".jpg") <> vbNullString
+        i = i + 1
+        DoEvents
+    Loop
+    
+    Index = i
+    
+    m_Jpeg.Comment = "Character: " & UserName & " - " & Format(Date, "dd/mm/yyyy") & " - " & Format(Time, "hh:mm AM/PM")
+    
+    'Save the JPG file
+    m_Jpeg.SaveFile m_FileName & Trim(str(Index)) & ".jpg"
+    
+    Call AddtoRichTextBox(frmMain.RecTxt, "¡Captura realizada con exito! Se guardo en " & m_FileName & Trim(str(Index)) & ".jpg", 204, 193, 155, 0, 1)
+    
+    Set m_Jpeg = Nothing
+    
+    Exit Sub
+
+ErrorHandler:
+    Call AddtoRichTextBox(frmMain.RecTxt, "¡Error en la captura!", 204, 193, 155, 0, 1)
+
+End Sub

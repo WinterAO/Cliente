@@ -1111,7 +1111,9 @@ Private FirstTimeClanChat  As Boolean
 
 'Usado para controlar que no se dispare el binding de la tecla CTRL cuando se usa CTRL+Tecla.
 Dim CtrlMaskOn             As Boolean
-Dim SkinSeleccionado       As String
+
+Private m_Jpeg             As clsJpeg
+Private m_FileName         As String
 
 Private Const NEWBIE_USER_GOLD_COLOR As Long = vbCyan
 Private Const USER_GOLD_COLOR As Long = vbYellow
@@ -1137,7 +1139,7 @@ Private Sub Form_Activate()
 End Sub
 
 Private Sub Form_Load()
-    SkinSeleccionado = GetVar(Game.path(INIT) & "Config.ini", "Parameters", "SkinSelected")
+    Opciones.SkinSeleccionado = GetVar(Game.path(INIT) & "Config.ini", "Parameters", "SkinSelected")
     
     If Not ResolucionCambiada Then
         ' Handles Form movement (drag and drop).
@@ -1194,7 +1196,7 @@ Private Sub LoadButtons()
 
     Set LastButtonPressed = New clsGraphicalButton
 
-    Set picSkillStar = LoadPicture(Game.path(Skins) & SkinSeleccionado & "\BotonAsignarSkills.bmp")
+    Set picSkillStar = LoadPicture(Game.path(Skins) & Opciones.SkinSeleccionado & "\BotonAsignarSkills.bmp")
 
     If SkillPoints > 0 Then imgAsignarSkill.Picture = picSkillStar
     
@@ -1485,7 +1487,7 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
             End If
         
         Case CustomKeys.BindedKey(eKeyType.mKeyTakeScreenShot)
-            Call ScreenCapture
+            Call Mod_General.Client_Screenshot(frmMain.hDC, 1024, 768)
                 
         Case CustomKeys.BindedKey(eKeyType.mKeyShowOptions)
             Call frmOpciones.Show(vbModeless, frmMain)
@@ -1939,8 +1941,8 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         SendTxt.Visible = False
         
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
         Else
             hlst.SetFocus
         End If
@@ -2297,10 +2299,10 @@ End Sub
 Private Sub btnInventario_Click()
     Call Audio.PlayWave(SND_CLICK)
 
-    'InvEqu.Picture = LoadPicture(Game.path(Skins) & SkinSeleccionado & "\Centroinventario.jpg")
+    'InvEqu.Picture = LoadPicture(Game.path(Skins) & opciones.SkinSeleccionado & "\Centroinventario.jpg")
 
     ' Activo controles de inventario
-    PicInv.Visible = True
+    picInv.Visible = True
 
     ' Desactivo controles de hechizo
     hlst.Visible = False
@@ -2319,7 +2321,7 @@ Private Sub btnHechizos_Click()
     
     Call Audio.PlayWave(SND_CLICK)
 
-    'InvEqu.Picture = LoadPicture(Game.path(Skins) & SkinSeleccionado & "\Centrohechizos.jpg")
+    'InvEqu.Picture = LoadPicture(Game.path(Skins) & opciones.SkinSeleccionado & "\Centrohechizos.jpg")
     
     ' Activo controles de hechizos
     hlst.Visible = True
@@ -2330,7 +2332,7 @@ Private Sub btnHechizos_Click()
     cmdMoverHechi(1).Visible = True
     
     ' Desactivo controles de inventario
-    PicInv.Visible = False
+    picInv.Visible = False
 
 End Sub
 
@@ -2393,8 +2395,8 @@ Private Sub RecTxt_Change()
            (Not frmCantidad.Visible) And _
            (Not MirandoParty) Then
 
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
                         
         ElseIf hlst.Visible Then
             hlst.SetFocus
@@ -2407,8 +2409,8 @@ End Sub
 
 Private Sub RecTxt_KeyDown(KeyCode As Integer, Shift As Integer)
 
-    If PicInv.Visible Then
-        PicInv.SetFocus
+    If picInv.Visible Then
+        picInv.SetFocus
     Else
         hlst.SetFocus
     End If
@@ -2473,8 +2475,8 @@ Private Sub SendCMSTXT_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         Me.SendCMSTXT.Visible = False
         
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
         Else
             hlst.SetFocus
         End If
@@ -2626,13 +2628,13 @@ End Sub
 
 Private Sub Client_DataArrival(ByVal bytesTotal As Long)
     Dim RD     As String
-    Dim data() As Byte
+    Dim Data() As Byte
     
     Client.GetData RD, vbByte, bytesTotal
-    data = StrConv(RD, vbFromUnicode)
+    Data = StrConv(RD, vbFromUnicode)
     
     'Set data in the buffer
-    Call incomingData.WriteBlock(data)
+    Call incomingData.WriteBlock(Data)
     
     'Send buffer to Handle data
     Call HandleIncomingData
@@ -2819,11 +2821,11 @@ Public Sub UpdateProgressExperienceLevelBar(ByVal UserExp As Long)
 
         'Si no tiene mas niveles que subir ponemos la barra al maximo.
         frmMain.uAOProgressExperienceLevel.max = 100
-        frmMain.uAOProgressExperienceLevel.Value = 100
+        frmMain.uAOProgressExperienceLevel.value = 100
     Else
         frmMain.lblPorcLvl.Caption = "[" & Round(CDbl(UserExp) * CDbl(100) / CDbl(UserPasarNivel), 2) & "%]"
         frmMain.uAOProgressExperienceLevel.max = UserPasarNivel
-        frmMain.uAOProgressExperienceLevel.Value = UserExp
+        frmMain.uAOProgressExperienceLevel.value = UserExp
     End If
 End Sub
 
