@@ -23,7 +23,6 @@ Public Enum ePath
     MusicaMp3
     Mapas
     Lenguajes
-    Extras
     Fonts
 End Enum
 
@@ -90,37 +89,34 @@ Public Function path(ByVal PathType As ePath) As String
     Select Case PathType
         
         Case ePath.INIT
-            path = App.path & "\INIT\"
+            path = App.path & "\Recursos\INIT\"
         
         Case ePath.Graficos
-            path = App.path & "\Graficos\"
+            path = App.path & "\Recursos\Graficos\"
         
         Case ePath.Skins
-            path = App.path & "\Graficos\Skins\"
+            path = App.path & "\Recursos\Graficos\Skins\"
             
         Case ePath.Interfaces
-            path = App.path & "\Graficos\Interfaces\"
+            path = App.path & "\Recursos\Graficos\Interfaces\"
             
         Case ePath.Fonts
-            path = App.path & "\Graficos\Fonts\"
+            path = App.path & "\Recursos\Graficos\Fonts\"
             
         Case ePath.Lenguajes
-            path = App.path & "\Lenguajes\"
+            path = App.path & "\Recursos\Lenguajes\"
             
         Case ePath.Mapas
-            path = App.path & "\Mapas\"
+            path = App.path & "\Recursos\Mapas\"
             
         Case ePath.Musica
-            path = App.path & "\AUDIO\MIDI\"
+            path = App.path & "\Recursos\AUDIO\MIDI\"
 
         Case ePath.MusicaMp3
-            path = App.path & "\AUDIO\MP3\"
+            path = App.path & "\Recursos\AUDIO\MP3\"
             
         Case ePath.Sounds
-            path = App.path & "\AUDIO\WAV\"
-            
-        Case ePath.Extras
-            path = App.path & "\Extras\"
+            path = App.path & "\Recursos\AUDIO\WAV\"
     
     End Select
 
