@@ -250,14 +250,6 @@ Public Enum eClass
     Pirate = 12    'Pirata
 End Enum
 
-Public Enum eCiudad
-    cUllathorpe = 1
-    cNix = 2
-    cBanderbill = 3
-    cLindos = 4
-    cArghal = 5
-End Enum
-
 Enum eRaza
     Humano = 1
     Elfo = 2
@@ -709,7 +701,6 @@ Public UserInvisible As Boolean
 Public UserNavegando As Boolean
 Public UserEquitando As Boolean
 Public UserEvento As Boolean
-Public UserHogar As eCiudad
 
 Public UserFuerza As Byte
 Public UserAgilidad As Byte

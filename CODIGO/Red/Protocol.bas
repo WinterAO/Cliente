@@ -1681,7 +1681,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -5724,8 +5724,6 @@ Public Sub WriteLoginNewChar()
         Call .WriteByte(UserSexo)
         Call .WriteByte(UserClase)
         Call .WriteInteger(UserHead)
-        
-        Call .WriteByte(UserHogar)
     End With
 End Sub
 

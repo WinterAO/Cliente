@@ -1019,9 +1019,6 @@
     "VALIDACION_CLASE": {
         "TEXTO": "Seleccione la clase del personaje."
     },
-    "VALIDACION_HOGAR": {
-        "TEXTO": "Seleccione el hogar del personaje."
-    },
     "VALIDACION_HASH": {
         "TEXTO": "Ha ocurrido un error en el inicio de sesion, por favor, intente nuevamente."
     },
@@ -1334,9 +1331,6 @@
     },
     "FRM_CREARPERSONAJE_TIRAR_DADOS": {
         "TEXTO": "Tirar Dados"
-    },
-    "FRM_CREARPERSONAJE_PUEBLO_ORIGEN": {
-        "TEXTO": "Pueblo de Origen"
     },
     "FRM_CREARPERSONAJE_RAZA": {
         "TEXTO": "Raza"

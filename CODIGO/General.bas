@@ -907,13 +907,8 @@ Private Sub InicializarNombres()
 '**************************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modify Date: 11/27/2005
-'Inicializa los nombres de razas, ciudades, clases, skills, atributos, etc.
+'Inicializa los nombres de razas, clases, skills, atributos, etc.
 '**************************************************************
-    Ciudades(eCiudad.cUllathorpe) = "Ullathorpe"
-    Ciudades(eCiudad.cNix) = "Nix"
-    Ciudades(eCiudad.cBanderbill) = "Banderbill"
-    Ciudades(eCiudad.cLindos) = "Lindos"
-    Ciudades(eCiudad.cArghal) = "Arghal"
     
     ListaRazas(eRaza.Humano) = JsonLanguage.item("RAZAS").item("HUMANO")
     ListaRazas(eRaza.Elfo) = JsonLanguage.item("RAZAS").item("ELFO")
@@ -1233,7 +1228,6 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     UserClase = 0
     UserSexo = 0
     UserRaza = 0
-    UserHogar = 0
     UserEmail = vbNullString
     SkillPoints = 0
     Alocados = 0
