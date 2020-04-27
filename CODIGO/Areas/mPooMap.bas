@@ -145,8 +145,6 @@ Sub Map_MoveTo(ByVal Direccion As E_Heading)
         End If
                 
       End If
-    
-      If frmMain.trainingMacro.Enabled Then Call frmMain.DesactivarMacroHechizos
 
       ' Update 3D sounds!
       Call Audio.MoveListener(UserPos.X, UserPos.Y)

@@ -766,12 +766,6 @@
     "DESCONECTADO": {
         "TEXTO": "Desconectado"
     },
-    "PREDETERMINADA": {
-        "TEXTO": "predeterminada"
-    },
-    "PERSONALIZADA": {
-        "TEXTO": "personalizada"
-    },
     "ANUNCIO": {
         "TEXTO": "Anuncio"
     },
@@ -1154,14 +1148,6 @@
     },
     "CUSTOMKEYS_TECLA_INVALIDA": {
         "TEXTO": "Hay una o mas teclas invalidas. Por favor verifique."
-    },
-    "CUSTOMKEYS_CONFIG_CARGADA": {
-        "TEXTO": "Se ha cargado la configuracion VAR_CONFIG_ELEGIDA VAR_CONFIG_CUSTOM_NUMERO !",
-        "COLOR": [
-            255,
-            255,
-            255
-        ]
     },
     "BTN_CONECTARSE": {
         "TEXTO": "Conectarse"

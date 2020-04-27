@@ -1681,7 +1681,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -3342,7 +3342,6 @@ Private Sub HandleStopWorking()
     With FontTypes(FontTypeNames.FONTTYPE_INFO)
         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_WORK_FINISHED"), .Red, .Green, .Blue, .bold, .italic)
     End With
-    If frmMain.trainingMacro.Enabled Then Call frmMain.DesactivarMacroHechizos
 End Sub
 
 ' Handles the CancelOfferItem message.

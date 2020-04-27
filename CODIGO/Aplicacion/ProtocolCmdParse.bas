@@ -159,7 +159,6 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                     End With
                     Exit Sub
                 End If
-                If frmMain.trainingMacro.Enabled Then Call frmMain.DesactivarMacroHechizos
                 Call WriteQuit
                 
             Case "/SALIRCLAN"

@@ -126,9 +126,6 @@ Private Sub cRegresar_Click()
         
     End If
     
-    ' Desactivamos los macros.
-    If frmMain.trainingMacro.Enabled Then Call frmMain.DesactivarMacroHechizos
-    
     ' Nos desconectamos y lo mando al Panel de la Cuenta
     Call WriteQuit
     

@@ -97,7 +97,6 @@ Public Const SND_DICE As String = "cupdice.Wav"
 
 ' Constantes de intervalo
 Public Enum eIntervalos
-    INT_MACRO_HECHIS = 2000
     INT_ATTACK = 1500
     INT_ARROWS = 1400
     INT_CAST_SPELL = 1400

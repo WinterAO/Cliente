@@ -50,27 +50,7 @@ Begin VB.Form frmCustomKeys
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   225
-      Index           =   7
-      Left            =   6270
-      TabIndex        =   18
-      Top             =   1980
-      Width           =   1620
-   End
-   Begin VB.TextBox Text1 
-      BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   225
-      Index           =   9
+      Index           =   8
       Left            =   6270
       TabIndex        =   16
       Top             =   1245
@@ -90,7 +70,7 @@ Begin VB.Form frmCustomKeys
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   225
-      Index           =   8
+      Index           =   7
       Left            =   6270
       TabIndex        =   15
       Top             =   885
@@ -130,10 +110,30 @@ Begin VB.Form frmCustomKeys
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   225
+      Index           =   21
+      Left            =   6270
+      TabIndex        =   18
+      Top             =   2835
+      Width           =   1620
+   End
+   Begin VB.TextBox Text1 
+      BackColor       =   &H00000000&
+      BorderStyle     =   0  'None
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   225
       Index           =   22
       Left            =   6270
       TabIndex        =   19
-      Top             =   2835
+      Top             =   3240
       Width           =   1620
    End
    Begin VB.TextBox Text1 
@@ -153,107 +153,7 @@ Begin VB.Form frmCustomKeys
       Index           =   23
       Left            =   6270
       TabIndex        =   20
-      Top             =   3240
-      Width           =   1620
-   End
-   Begin VB.TextBox Text1 
-      BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   225
-      Index           =   24
-      Left            =   6270
-      TabIndex        =   21
-      Top             =   3660
-      Width           =   1620
-   End
-   Begin VB.TextBox Text1 
-      BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   225
-      Index           =   25
-      Left            =   6270
-      TabIndex        =   22
-      Top             =   4080
-      Width           =   1620
-   End
-   Begin VB.TextBox Text1 
-      BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   225
-      Index           =   26
-      Left            =   6270
-      TabIndex        =   23
-      Top             =   4485
-      Width           =   1620
-   End
-   Begin VB.TextBox Text1 
-      BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   225
-      Index           =   27
-      Left            =   6270
-      TabIndex        =   24
       Top             =   4890
-      Width           =   1620
-   End
-   Begin VB.TextBox Text1 
-      BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   225
-      Index           =   15
-      Left            =   6270
-      TabIndex        =   26
-      Top             =   5685
       Width           =   1620
    End
    Begin VB.TextBox Text1 
@@ -272,7 +172,27 @@ Begin VB.Form frmCustomKeys
       Height          =   225
       Index           =   14
       Left            =   6270
-      TabIndex        =   25
+      TabIndex        =   22
+      Top             =   5685
+      Width           =   1620
+   End
+   Begin VB.TextBox Text1 
+      BackColor       =   &H00000000&
+      BorderStyle     =   0  'None
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   225
+      Index           =   13
+      Left            =   6270
+      TabIndex        =   21
       Top             =   5280
       Width           =   1620
    End
@@ -290,7 +210,7 @@ Begin VB.Form frmCustomKeys
       EndProperty
       ForeColor       =   &H80000004&
       Height          =   225
-      Index           =   20
+      Index           =   19
       Left            =   2070
       TabIndex        =   12
       Top             =   5565
@@ -310,7 +230,7 @@ Begin VB.Form frmCustomKeys
       EndProperty
       ForeColor       =   &H80000004&
       Height          =   225
-      Index           =   21
+      Index           =   20
       Left            =   2070
       TabIndex        =   13
       Top             =   5925
@@ -330,7 +250,7 @@ Begin VB.Form frmCustomKeys
       EndProperty
       ForeColor       =   &H80000004&
       Height          =   225
-      Index           =   10
+      Index           =   9
       Left            =   2070
       TabIndex        =   4
       Top             =   2325
@@ -350,7 +270,7 @@ Begin VB.Form frmCustomKeys
       EndProperty
       ForeColor       =   &H80000004&
       Height          =   225
-      Index           =   11
+      Index           =   10
       Left            =   2070
       TabIndex        =   5
       Top             =   2685
@@ -370,7 +290,7 @@ Begin VB.Form frmCustomKeys
       EndProperty
       ForeColor       =   &H80000004&
       Height          =   225
-      Index           =   12
+      Index           =   11
       Left            =   2070
       TabIndex        =   6
       Top             =   3045
@@ -390,7 +310,7 @@ Begin VB.Form frmCustomKeys
       EndProperty
       ForeColor       =   &H80000004&
       Height          =   225
-      Index           =   13
+      Index           =   12
       Left            =   2070
       TabIndex        =   7
       Top             =   3405
@@ -410,7 +330,7 @@ Begin VB.Form frmCustomKeys
       EndProperty
       ForeColor       =   &H80000004&
       Height          =   225
-      Index           =   16
+      Index           =   15
       Left            =   2070
       TabIndex        =   8
       Top             =   3765
@@ -430,7 +350,7 @@ Begin VB.Form frmCustomKeys
       EndProperty
       ForeColor       =   &H80000004&
       Height          =   225
-      Index           =   17
+      Index           =   16
       Left            =   2070
       TabIndex        =   9
       Top             =   4125
@@ -450,7 +370,7 @@ Begin VB.Form frmCustomKeys
       EndProperty
       ForeColor       =   &H80000004&
       Height          =   225
-      Index           =   18
+      Index           =   17
       Left            =   2070
       TabIndex        =   10
       Top             =   4485
@@ -470,7 +390,7 @@ Begin VB.Form frmCustomKeys
       EndProperty
       ForeColor       =   &H80000004&
       Height          =   225
-      Index           =   19
+      Index           =   18
       Left            =   2070
       TabIndex        =   11
       Top             =   4845
@@ -531,7 +451,7 @@ Begin VB.Form frmCustomKeys
       ForeColor       =   &H80000004&
       Height          =   225
       Index           =   3
-      Left            =   2070
+      Left            =   2040
       TabIndex        =   2
       Top             =   1230
       Width           =   1620
@@ -559,54 +479,38 @@ Begin VB.Form frmCustomKeys
    Begin WinterAO.uAOButton imgDefaultKeys 
       Height          =   375
       Left            =   480
-      TabIndex        =   27
+      TabIndex        =   23
       Top             =   6720
       Width           =   2655
-      _ExtentX        =   4683
-      _ExtentY        =   661
-      TX              =   ""
-      ENAB            =   -1  'True
-      FCOL            =   16777215
-      OCOL            =   16777215
-      PICE            =   "frmCustomKeys.frx":0000
-      PICF            =   "frmCustomKeys.frx":001C
-      PICH            =   "frmCustomKeys.frx":0038
-      PICV            =   "frmCustomKeys.frx":0054
-      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Arial"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
+      _extentx        =   4683
+      _extenty        =   661
+      tx              =   ""
+      enab            =   -1  'True
+      fcol            =   16777215
+      ocol            =   16777215
+      pice            =   "frmCustomKeys.frx":0000
+      picf            =   "frmCustomKeys.frx":001C
+      pich            =   "frmCustomKeys.frx":0038
+      picv            =   "frmCustomKeys.frx":0054
+      font            =   "frmCustomKeys.frx":0070
    End
    Begin WinterAO.uAOButton imgGuardar 
       Height          =   375
       Left            =   4680
-      TabIndex        =   28
+      TabIndex        =   24
       Top             =   6720
       Width           =   2655
-      _ExtentX        =   4683
-      _ExtentY        =   661
-      TX              =   ""
-      ENAB            =   -1  'True
-      FCOL            =   16777215
-      OCOL            =   16777215
-      PICE            =   "frmCustomKeys.frx":0070
-      PICF            =   "frmCustomKeys.frx":008C
-      PICH            =   "frmCustomKeys.frx":00A8
-      PICV            =   "frmCustomKeys.frx":00C4
-      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Arial"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
+      _extentx        =   4683
+      _extenty        =   661
+      tx              =   ""
+      enab            =   -1  'True
+      fcol            =   16777215
+      ocol            =   16777215
+      pice            =   "frmCustomKeys.frx":0094
+      picf            =   "frmCustomKeys.frx":00B0
+      pich            =   "frmCustomKeys.frx":00CC
+      picv            =   "frmCustomKeys.frx":00E8
+      font            =   "frmCustomKeys.frx":0104
    End
 End
 Attribute VB_Name = "frmCustomKeys"
@@ -660,8 +564,6 @@ Option Explicit
 
 Private clsFormulario As clsFormMovementManager
 
-Private SelectedConfig As Byte
-Private InitialConfig As Byte
 Private CurrentTab As Integer
 
 Private Sub Form_Load()
@@ -681,11 +583,6 @@ Private Sub Form_Load()
     
     Call LoadTextsForm
     Call LoadAOCustomControlsPictures(Me)
-    
-    SelectedConfig = CustomKeys.CurrentConfig
-    InitialConfig = SelectedConfig
-    
-    CurrentTab = SelectedConfig
     
     For i = 1 To CustomKeys.KeyCount
         Text1(i).Text = CustomKeys.ReadableName(CustomKeys.BindedKey(i))
@@ -713,26 +610,6 @@ Private Sub imgGuardar_Click()
             Exit Sub
         End If
     Next i
-    
-    CustomKeys.CurrentConfig = SelectedConfig
-    
-    If SelectedConfig <> InitialConfig Then
-
-        sMsg = JsonLanguage.item("CUSTOMKEYS_CONFIG_CARGADA").item("TEXTO")
-        
-        If SelectedConfig = 0 Then
-            sMsg = Replace$(sMsg, "VAR_CONFIG_ELEGIDA", JsonLanguage.item("PREDETERMINADA").item("TEXTO"))
-        Else
-            sMsg = Replace$(sMsg, "VAR_CONFIG_ELEGIDA", JsonLanguage.item("PERSONALIZADA").item("TEXTO"))
-            sMsg = Replace$(sMsg, "VAR_CONFIG_CUSTOM_NUMERO", CStr(SelectedConfig))
-        End If
-        
-        Call ShowConsoleMsg(sMsg, _
-                            JsonLanguage.item("CUSTOMKEYS_CONFIG_CARGADA").item("COLOR").item(1), _
-                            JsonLanguage.item("CUSTOMKEYS_CONFIG_CARGADA").item("COLOR").item(2), _
-                            JsonLanguage.item("CUSTOMKEYS_CONFIG_CARGADA").item("COLOR").item(3), _
-                            True)
-    End If
     
     Unload Me
 End Sub

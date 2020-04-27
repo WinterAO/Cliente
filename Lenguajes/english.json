@@ -766,12 +766,6 @@
     "DESCONECTADO": {
         "TEXTO": "Disconnected"
     },
-    "PREDETERMINADA": {
-        "TEXTO": "default"
-    },
-    "PERSONALIZADA": {
-        "TEXTO": "custom"
-    },
     "ANUNCIO": {
         "TEXTO": "Announcement"
     },
@@ -1154,14 +1148,6 @@
     },
     "CUSTOMKEYS_TECLA_INVALIDA": {
         "TEXTO": "There are one or more invalid keys, please check again."
-    },
-    "CUSTOMKEYS_CONFIG_CARGADA": {
-        "TEXTO": "It has loaded the configuration VAR_CONFIG_ELEGIDA VAR_CONFIG_CUSTOM_NUMERO !",
-        "COLOR": [
-            255,
-            255,
-            255
-        ]
     },
     "BTN_CONECTARSE": {
         "TEXTO": "Connect"
