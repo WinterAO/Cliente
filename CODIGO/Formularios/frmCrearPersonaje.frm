@@ -26,7 +26,7 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   64
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   39
-      TabIndex        =   32
+      TabIndex        =   31
       Top             =   6360
       Visible         =   0   'False
       Width           =   615
@@ -42,7 +42,7 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   65
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   41
-      TabIndex        =   31
+      TabIndex        =   30
       Top             =   6360
       Width           =   615
    End
@@ -66,7 +66,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   315
       Left            =   6060
       Style           =   2  'Dropdown List
-      TabIndex        =   3
+      TabIndex        =   2
       Top             =   4035
       Width           =   2625
    End
@@ -85,7 +85,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   315
       Left            =   6060
       Style           =   2  'Dropdown List
-      TabIndex        =   4
+      TabIndex        =   3
       Top             =   4560
       Width           =   2625
    End
@@ -104,27 +104,8 @@ Begin VB.Form frmCrearPersonaje
       Height          =   315
       Left            =   6060
       Style           =   2  'Dropdown List
-      TabIndex        =   2
-      Top             =   3495
-      Width           =   2625
-   End
-   Begin VB.ComboBox lstHogar 
-      BackColor       =   &H00000000&
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   315
-      Left            =   6060
-      Style           =   2  'Dropdown List
       TabIndex        =   1
-      Top             =   3000
+      Top             =   3495
       Width           =   2625
    End
    Begin VB.TextBox txtNombre 
@@ -159,7 +140,7 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   24
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   24
-      TabIndex        =   22
+      TabIndex        =   21
       Top             =   5880
       Visible         =   0   'False
       Width           =   360
@@ -176,7 +157,7 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   24
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   24
-      TabIndex        =   23
+      TabIndex        =   22
       Top             =   5880
       Visible         =   0   'False
       Width           =   360
@@ -193,7 +174,7 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   24
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   24
-      TabIndex        =   24
+      TabIndex        =   23
       Top             =   5880
       Visible         =   0   'False
       Width           =   360
@@ -210,7 +191,7 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   24
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   24
-      TabIndex        =   25
+      TabIndex        =   24
       Top             =   5880
       Visible         =   0   'False
       Width           =   360
@@ -227,7 +208,7 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   24
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   24
-      TabIndex        =   21
+      TabIndex        =   20
       Top             =   5880
       Visible         =   0   'False
       Width           =   360
@@ -235,7 +216,7 @@ Begin VB.Form frmCrearPersonaje
    Begin WinterAO.uAOButton imgVolver 
       Height          =   495
       Left            =   1200
-      TabIndex        =   29
+      TabIndex        =   28
       Top             =   8160
       Width           =   1455
       _ExtentX        =   2566
@@ -261,7 +242,7 @@ Begin VB.Form frmCrearPersonaje
    Begin WinterAO.uAOButton imgCrear 
       Height          =   495
       Left            =   9120
-      TabIndex        =   30
+      TabIndex        =   29
       Top             =   8160
       Width           =   2535
       _ExtentX        =   4471
@@ -287,7 +268,7 @@ Begin VB.Form frmCrearPersonaje
    Begin WinterAO.uAOButton imgDados 
       Height          =   975
       Left            =   1320
-      TabIndex        =   27
+      TabIndex        =   26
       Top             =   3000
       Width           =   1335
       _ExtentX        =   2355
@@ -325,7 +306,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   49
+      TabIndex        =   47
       Top             =   7440
       Width           =   1335
    End
@@ -344,7 +325,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   48
+      TabIndex        =   46
       Top             =   7125
       Width           =   735
    End
@@ -363,7 +344,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   47
+      TabIndex        =   45
       Top             =   6825
       Width           =   735
    End
@@ -382,7 +363,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   46
+      TabIndex        =   44
       Top             =   6525
       Width           =   735
    End
@@ -401,7 +382,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   45
+      TabIndex        =   43
       Top             =   6225
       Width           =   735
    End
@@ -420,7 +401,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   44
+      TabIndex        =   42
       Top             =   5925
       Width           =   735
    End
@@ -439,7 +420,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   43
+      TabIndex        =   41
       Top             =   5625
       Width           =   735
    End
@@ -449,7 +430,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   42
+      TabIndex        =   40
       Top             =   4800
       Width           =   855
    End
@@ -468,7 +449,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   6075
-      TabIndex        =   41
+      TabIndex        =   39
       Top             =   4350
       Width           =   1095
    End
@@ -487,7 +468,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   6075
-      TabIndex        =   40
+      TabIndex        =   38
       Top             =   3840
       Width           =   855
    End
@@ -506,7 +487,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   6075
-      TabIndex        =   39
+      TabIndex        =   37
       Top             =   3300
       Width           =   855
    End
@@ -516,7 +497,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   38
+      TabIndex        =   36
       Top             =   4440
       Width           =   855
    End
@@ -527,7 +508,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   37
+      TabIndex        =   35
       Top             =   4080
       Width           =   855
    End
@@ -537,7 +518,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   36
+      TabIndex        =   34
       Top             =   3720
       Width           =   735
    End
@@ -547,7 +528,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   35
+      TabIndex        =   33
       Top             =   3360
       Width           =   735
    End
@@ -566,28 +547,9 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   375
       Left            =   3600
-      TabIndex        =   34
+      TabIndex        =   32
       Top             =   2760
       Width           =   1455
-   End
-   Begin VB.Label imgPuebloOrigen 
-      BackStyle       =   0  'Transparent
-      Caption         =   "Pueblo de Origen"
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H8000000B&
-      Height          =   255
-      Left            =   6075
-      TabIndex        =   33
-      Top             =   2760
-      Width           =   1815
    End
    Begin VB.Label imgNombre 
       BackStyle       =   0  'Transparent
@@ -604,7 +566,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H80000018&
       Height          =   615
       Left            =   3525
-      TabIndex        =   28
+      TabIndex        =   27
       Top             =   1200
       Width           =   4815
    End
@@ -840,7 +802,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H00FFFFFF&
       Height          =   1215
       Left            =   4440
-      TabIndex        =   26
+      TabIndex        =   25
       Top             =   7395
       Width           =   1815
    End
@@ -900,7 +862,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   5
       Left            =   5445
-      TabIndex        =   20
+      TabIndex        =   19
       Top             =   4830
       Width           =   225
    End
@@ -920,7 +882,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   4
       Left            =   5445
-      TabIndex        =   19
+      TabIndex        =   18
       Top             =   4470
       Width           =   225
    End
@@ -940,7 +902,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   3
       Left            =   5445
-      TabIndex        =   18
+      TabIndex        =   17
       Top             =   4125
       Width           =   225
    End
@@ -960,7 +922,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   2
       Left            =   5445
-      TabIndex        =   17
+      TabIndex        =   16
       Top             =   3780
       Width           =   225
    End
@@ -980,7 +942,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   1
       Left            =   5445
-      TabIndex        =   16
+      TabIndex        =   15
       Top             =   3450
       Width           =   225
    End
@@ -1001,7 +963,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   5
       Left            =   4950
-      TabIndex        =   15
+      TabIndex        =   14
       Top             =   4830
       Width           =   225
    End
@@ -1022,7 +984,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   4
       Left            =   4950
-      TabIndex        =   14
+      TabIndex        =   13
       Top             =   4470
       Width           =   225
    End
@@ -1043,7 +1005,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   3
       Left            =   4950
-      TabIndex        =   13
+      TabIndex        =   12
       Top             =   4125
       Width           =   225
    End
@@ -1064,7 +1026,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   2
       Left            =   4950
-      TabIndex        =   12
+      TabIndex        =   11
       Top             =   3780
       Width           =   225
    End
@@ -1085,7 +1047,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   1
       Left            =   4950
-      TabIndex        =   11
+      TabIndex        =   10
       Top             =   3450
       Width           =   225
    End
@@ -1103,7 +1065,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H00FFFFFF&
       Height          =   4935
       Left            =   9480
-      TabIndex        =   10
+      TabIndex        =   9
       Top             =   1800
       Width           =   1935
    End
@@ -1193,7 +1155,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   4
       Left            =   4500
-      TabIndex        =   9
+      TabIndex        =   8
       Top             =   4470
       Width           =   225
    End
@@ -1214,7 +1176,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   3
       Left            =   4500
-      TabIndex        =   8
+      TabIndex        =   7
       Top             =   4125
       Width           =   225
    End
@@ -1235,7 +1197,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   5
       Left            =   4500
-      TabIndex        =   7
+      TabIndex        =   6
       Top             =   4830
       Width           =   225
    End
@@ -1256,7 +1218,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   2
       Left            =   4500
-      TabIndex        =   6
+      TabIndex        =   5
       Top             =   3780
       Width           =   225
    End
@@ -1277,7 +1239,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   1
       Left            =   4500
-      TabIndex        =   5
+      TabIndex        =   4
       Top             =   3450
       Width           =   225
    End
@@ -1402,7 +1364,6 @@ Private Sub Form_Load()
 
     UserSexo = 0
     UserRaza = 0
-    UserHogar = 0
     UserEmail = vbNullString
     UserHead = 0
 
@@ -1426,7 +1387,6 @@ Private Sub LoadTextsForm()
     imgEvasion.Caption = JsonLanguage.item("FRM_CREARPERSONAJE_EVASION").item("TEXTO")
     imgMagia.Caption = JsonLanguage.item("FRM_CREARPERSONAJE_MAGIA").item("TEXTO")
     imgVida.Caption = JsonLanguage.item("FRM_CREARPERSONAJE_VIDA").item("TEXTO")
-    imgPuebloOrigen.Caption = JsonLanguage.item("FRM_CREARPERSONAJE_PUEBLO_ORIGEN").item("TEXTO")
     imgRaza.Caption = JsonLanguage.item("FRM_CREARPERSONAJE_RAZA").item("TEXTO")
     imgClase.Caption = JsonLanguage.item("FRM_CREARPERSONAJE_CLASE").item("TEXTO")
     imgGenero.Caption = JsonLanguage.item("FRM_CREARPERSONAJE_GENERO").item("TEXTO")
@@ -1461,12 +1421,6 @@ Private Sub CargarCombos()
     
     For i = LBound(ListaClases) To NroClases
         Call lstProfesion.AddItem(ListaClases(i))
-    Next i
-
-    lstHogar.Clear
-    
-    For i = LBound(Ciudades()) To UBound(Ciudades())
-        Call lstHogar.AddItem(Ciudades(i))
     Next i
     
     lstRaza.Clear
@@ -1504,12 +1458,7 @@ Function CheckData() As Boolean
         MsgBox JsonLanguage.item("VALIDACION_CLASE").item("TEXTO")
         Exit Function
     End If
-    
-    If UserHogar = 0 Then
-        MsgBox JsonLanguage.item("VALIDACION_HOGAR").item("TEXTO")
-        Exit Function
-    End If
-    
+
     If Len(AccountHash) = 0 Then
         MsgBox JsonLanguage.item("VALIDACION_HASH").item("TEXTO")
         Exit Function
@@ -1613,8 +1562,6 @@ Private Sub ImgCrear_Click()
     For i = 1 To NUMATRIBUTES
         UserAtributos(i) = Val(lblAtributos(i).Caption)
     Next i
-         
-    UserHogar = lstHogar.ListIndex + 1
     
     If Not CheckData Then Exit Sub
     
@@ -1787,7 +1734,7 @@ Private Sub imgGenero_MouseMove(Button As Integer, _
 End Sub
 
 Private Sub imgVolver_Click()
-    Call Audio.PlayBackgroundMusic("2", MusicTypes.Mp3)
+    Call Audio.PlayBackgroundMusic("2", MusicTypes.MP3)
     bShowTutorial = False
     
     Unload Me

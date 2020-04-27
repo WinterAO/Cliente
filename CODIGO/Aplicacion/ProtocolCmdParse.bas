@@ -159,8 +159,6 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                     End With
                     Exit Sub
                 End If
-                If frmMain.trainingMacro.Enabled Then Call frmMain.DesactivarMacroHechizos
-                If frmMain.macrotrabajo.Enabled Then Call frmMain.DesactivarMacroTrabajo
                 Call WriteQuit
                 
             Case "/SALIRCLAN"
@@ -1007,54 +1005,30 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 
             Case "/SETDESC"
                 Call WriteSetCharDescription(ArgumentosRaw)
-
-            Case "/FORCEMP3MAP"
-                If notNullArguments Then
-                    'elegir el mapa es opcional
-                    If CantidadArgumentos = 1 Then
-                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Byte) Then
-                            'evitamos un mapa nulo para que tome el del usuario.
-                            Call WriteForceMP3ToMap(ArgumentosAll(0), 0)
-                        Else
-                            'No es numerico
-                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /forcemp3map MP3 MAPA")
-                        End If
-                    Else
-                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
-                            Call WriteForceMP3ToMap(ArgumentosAll(0), ArgumentosAll(1))
-                        Else
-                            'No es numerico
-                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /forcemp3map MP3 MAPA")
-                        End If
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg("Utilice /forcemp3map MP3 MAPA")
-                End If
                 
             
-            Case "/FORCEMIDIMAP"
+            Case "/FORCEMUSICMAP"
                 If notNullArguments Then
                     'elegir el mapa es opcional
                     If CantidadArgumentos = 1 Then
                         If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Byte) Then
                             'evitamos un mapa nulo para que tome el del usuario.
-                            Call WriteForceMIDIToMap(ArgumentosAll(0), 0)
+                            Call WriteForceMUSICToMap(ArgumentosAll(0), 0)
                         Else
                             'No es numerico
-                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /forcemidimap MIDI MAPA")
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /forcemusicmap MUSICA MAPA")
                         End If
                     Else
                         If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
-                            Call WriteForceMIDIToMap(ArgumentosAll(0), ArgumentosAll(1))
+                            Call WriteForceMUSICToMap(ArgumentosAll(0), ArgumentosAll(1))
                         Else
                             'No es numerico
-                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /forcemidimap MIDI MAPA")
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /forcemusicmap MUSIC MAPA")
                         End If
                     End If
                 Else
                     'Avisar que falta el parametro
-                    Call ShowConsoleMsg("Utilice /forcemidimap MIDI MAPA")
+                    Call ShowConsoleMsg("Utilice /forcemusicmap MUSIC MAPA")
                 End If
                 
             Case "/FORCEWAVMAP"
@@ -1265,31 +1239,18 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                     'Avisar que falta el parametro
                     Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /noreal NICKNAME.")
                 End If
-
-            Case "/FORCEMP3"
-                If notNullArguments Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Byte) Then
-                        Call WriteForceMP3All(ArgumentosAll(0))
-                    Else
-                        'No es numerico
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_MP3_INCORRECTO").item("TEXTO") & " /forcemp3 MP3.")
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /forcemp3 MP3.")
-                End If
     
-            Case "/FORCEMIDI"
+            Case "/FORCEMUSIC"
                 If notNullArguments Then
                     If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Byte) Then
-                        Call WriteForceMIDIAll(ArgumentosAll(0))
+                        Call WriteForceMUSICAll(ArgumentosAll(0))
                     Else
                         'No es numerico
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_MIDI_INCORRECTO").item("TEXTO") & " /forcemidi MIDI.")
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_MIDI_INCORRECTO").item("TEXTO") & " /forceusic MUSIC.")
                     End If
                 Else
                     'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /forcemidi MIDI.")
+                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /forcemusic MUSIC.")
                 End If
     
             Case "/FORCEWAV"

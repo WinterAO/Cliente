@@ -50,11 +50,7 @@ Option Explicit
 
 ''
 'Number of Customizable Keys
-Private Const NUM_CUSTOM_KEYS As Byte = 27
-
-''
-'Number of Key Configurations
-Private Const NUM_CUSTOM_CONFIGS As Byte = 9
+Private Const NUM_CUSTOM_KEYS As Byte = 23
 
 ''
 'Error Raised in case the key file doesn't exist
@@ -64,17 +60,9 @@ Private Const ERROR_NO_KEY_FILE As Long = vbObjectError + 16
 'The relative path from the application's location where the key config file is.
 Private Const KEY_CONFIG_FILE As String = "BindKeys.bin"
 
-Private Const KEY_CONFIG_FILE_ALTERNATIVE As String = "BindAlternativeKeys.bin"
-
-Private KEY_CONFIG_FILE_IN_USE As String
-
 ''
 'Array of mapped keys
-Private mappedKeys(0 To NUM_CUSTOM_CONFIGS, 1 To NUM_CUSTOM_KEYS) As Integer
-
-''
-'Active Key Configuration
-Private ActiveConfig As Byte
+Private mappedKeys(1 To NUM_CUSTOM_KEYS) As Integer
 
 
 ''
@@ -86,7 +74,6 @@ Private ActiveConfig As Byte
 '@param mKeyRight Key for moving character right
 '@param mKeyToggleMusic Key for toggling background music
 '@param mKeyToggleSound Key for toggling sound
-'@param mKeyToggleFxs Key for togglig the 3D Fxs
 '@param mKeyRequestRefresh Key for sending a request refreshing packet
 '@param mKeyToggleNames Key for toggling characters' names
 '@param mKeyGetObject Key for retrieving an object from the ground
@@ -103,9 +90,6 @@ Private ActiveConfig As Byte
 '@param mKeyTalkWithGuild Key for talking (only to guild members)
 '@param mKeyTakeScreenShot Key for taking a snapshot of the screen
 '@param mKeyShowOptions Key for showing the "Options" form
-'@param mKeyMeditate Key for start/stop meditation
-'@param mKeyCastSpellMacro Key for start/stop the Cast Spell Macro
-'@param mKeyWorkMacro Key for start/stop the Work Macro
 '@param mKeyExitGame Key for close the game
 Public Enum eKeyType
     mKeyUp = 1
@@ -114,7 +98,6 @@ Public Enum eKeyType
     mKeyRight
     mKeyToggleMusic
     mKeyToggleSound
-    mKeyToggleFxs
     mKeyRequestRefresh
     mKeyToggleNames
     mKeyGetObject
@@ -131,9 +114,6 @@ Public Enum eKeyType
     mKeyTalkWithGuild
     mKeyTakeScreenShot
     mKeyShowOptions
-    mKeyMeditate
-    mKeyCastSpellMacro
-    mKeyWorkMacro
     mKeyExitGame
 End Enum
 
@@ -243,6 +223,9 @@ Public Function ReadableName(ByVal KeyCode As Integer) As String
         
         Case KeyCodeConstants.vbKeyDelete
             ReadableName = "Suprimir"
+            
+        Case KeyCodeConstants.vbKeySnapshot
+            ReadableName = "Impr. Pant."
         
         Case Else
             'In all other cases, key is considered not valid.
@@ -258,43 +241,28 @@ End Function
 Public Sub LoadCustomKeys()
 '***************************************************
 'Author: Rapsodius
-'Last Modification: 18/11/2010
-'16/11/2010: Amraphen - Adapte el procedimiento para cargar todas las configuraciones de teclas.
-'18/11/2010: Amraphen - Modifique la forma en que se cargan los bindings y ahora carga los del formato viejo.
+'Last Modification: 08/21/07
+'
 '***************************************************
     Dim i As Long
-    Dim J As Long
     Dim FileNum As Integer
-
-     'Si no existe el archivo lo creamos con los bindings default:
-    If Not FileExist(Game.path(INIT) & KEY_CONFIG_FILE_IN_USE, vbArchive) Then
-
-        For i = 0 To NUM_CUSTOM_CONFIGS
-            Call LoadDefaults(i)
-        Next i
+    FileNum = FreeFile()
+    
+    'Inits keyboard config with default configurations
+    Call LoadDefaults(True)
         
-        ActiveConfig = 1
-        
-        Call SaveCustomKeys
-    Else 'Existe el archivo
-        
-        FileNum = FreeFile
-
-        'Formato nuevo
-        Open Game.path(INIT) & KEY_CONFIG_FILE_IN_USE For Binary Access Read Lock Read Write As FileNum
-        
-        Get FileNum, , ActiveConfig
-        
-        For i = 0 To NUM_CUSTOM_CONFIGS
-            For J = 1 To NUM_CUSTOM_KEYS
-                Get FileNum, , mappedKeys(i, J)
-            Next J
-        Next i
-        
-        Close FileNum
-        
-        Call SaveCustomKeys
-    End If
+    Open App.path & KEY_CONFIG_FILE For Binary Access Read Lock Read Write As FileNum
+    
+    For i = 1 To NUM_CUSTOM_KEYS
+        Get FileNum, , mappedKeys(i)
+        If LenB(ReadableName(mappedKeys(i))) = 0 Then
+            Close FileNum
+            Call Err.Raise(ERROR_NO_KEY_FILE)
+            Exit Sub
+        End If
+    Next i
+    
+    Close FileNum
 End Sub
 
 ''
@@ -303,29 +271,20 @@ End Sub
 Public Sub SaveCustomKeys()
 '***************************************************
 'Author: Rapsodius
-'Last Modification: 18/11/10
-'16/11/2010: Amraphen - Adapte el procedimiento para guardar todas las configuraciones de teclas.
-'18/11/2010: Amraphen - Ahora se guarda la configuracion activa.
+'Last Modification: 08/04/07
+'
 '***************************************************
-Dim i As Long
-Dim J As Long
-Dim FileNum As Integer
-
+    Dim FileNum As Integer
+    Dim i As Long
     FileNum = FreeFile()
     
-    Open Game.path(INIT) & KEY_CONFIG_FILE_IN_USE  For Binary Access Write As FileNum
+    Open App.path & KEY_CONFIG_FILE For Binary Access Write As FileNum
     
-    'Guardo la configuracion activa:
-    Put FileNum, , ActiveConfig
-    
-    'Guardo las distintas configuraciones:
-    For i = 0 To NUM_CUSTOM_CONFIGS
-        For J = 1 To NUM_CUSTOM_KEYS
-            Put FileNum, , mappedKeys(i, J)
-        Next J
+    For i = 1 To NUM_CUSTOM_KEYS
+        Put FileNum, , mappedKeys(i)
     Next i
     
-    Close FileNum
+    Close #FileNum
 End Sub
 
 ''
@@ -342,7 +301,7 @@ Public Property Get BindedKey(ByVal Index As eKeyType) As Integer
 '***************************************************
     If Index < 1 Or Index > NUM_CUSTOM_KEYS Then Exit Property
     
-    BindedKey = mappedKeys(ActiveConfig, Index)
+    BindedKey = mappedKeys(Index)
 End Property
 
 ''
@@ -367,7 +326,7 @@ Public Property Let BindedKey(ByVal Index As eKeyType, ByVal NewVal As Integer)
         Exit Property
     End If
     
-    mappedKeys(ActiveConfig, Index) = NewVal
+    mappedKeys(Index) = NewVal
 End Property
 
 ''
@@ -375,39 +334,51 @@ End Property
 '
 '@param KeyConfig Index of the key configuration to change
 
-Public Sub LoadDefaults(ByVal KeyConfig As Byte)
+Public Sub LoadDefaults(ByVal Clasica As Boolean)
 '***************************************************
 'Author: Rapsodius
 'Last Modification: 16/11/2010
 '16/11/2010: Amraphen - Adapte el procedimiento para que cargue los bindings por default en una sola configuracion.
+'27/04/2020: Lorwik - Añado 2 tipos de configuraciones por defecto
 '***************************************************
-    mappedKeys(KeyConfig, eKeyType.mKeyUp) = KeyCodeConstants.vbKeyUp
-    mappedKeys(KeyConfig, eKeyType.mKeyDown) = KeyCodeConstants.vbKeyDown
-    mappedKeys(KeyConfig, eKeyType.mKeyLeft) = KeyCodeConstants.vbKeyLeft
-    mappedKeys(KeyConfig, eKeyType.mKeyRight) = KeyCodeConstants.vbKeyRight
-    mappedKeys(KeyConfig, eKeyType.mKeyToggleMusic) = KeyCodeConstants.vbKeyM
-    mappedKeys(KeyConfig, eKeyType.mKeyToggleSound) = KeyCodeConstants.vbKeyS
-    mappedKeys(KeyConfig, eKeyType.mKeyToggleFxs) = KeyCodeConstants.vbKeyF
-    mappedKeys(KeyConfig, eKeyType.mKeyRequestRefresh) = KeyCodeConstants.vbKeyL
-    mappedKeys(KeyConfig, eKeyType.mKeyToggleNames) = KeyCodeConstants.vbKeyN
-    mappedKeys(KeyConfig, eKeyType.mKeyGetObject) = KeyCodeConstants.vbKeyA
-    mappedKeys(KeyConfig, eKeyType.mKeyEquipObject) = KeyCodeConstants.vbKeyE
-    mappedKeys(KeyConfig, eKeyType.mKeyTamAnimal) = KeyCodeConstants.vbKeyD
-    mappedKeys(KeyConfig, eKeyType.mKeySteal) = KeyCodeConstants.vbKeyR
-    mappedKeys(KeyConfig, eKeyType.mKeyToggleSafeMode) = KeyCodeConstants.vbKeyC
-    mappedKeys(KeyConfig, eKeyType.mKeyToggleResuscitationSafe) = KeyCodeConstants.vbKeyV
-    mappedKeys(KeyConfig, eKeyType.mKeyHide) = KeyCodeConstants.vbKeyO
-    mappedKeys(KeyConfig, eKeyType.mKeyDropObject) = KeyCodeConstants.vbKeyT
-    mappedKeys(KeyConfig, eKeyType.mKeyUseObject) = KeyCodeConstants.vbKeyU
-    mappedKeys(KeyConfig, eKeyType.mKeyAttack) = KeyCodeConstants.vbKeyControl
-    mappedKeys(KeyConfig, eKeyType.mKeyTalk) = KeyCodeConstants.vbKeyReturn
-    mappedKeys(KeyConfig, eKeyType.mKeyTalkWithGuild) = KeyCodeConstants.vbKeyDelete
-    mappedKeys(KeyConfig, eKeyType.mKeyTakeScreenShot) = KeyCodeConstants.vbKeyF2
-    mappedKeys(KeyConfig, eKeyType.mKeyShowOptions) = KeyCodeConstants.vbKeyF5
-    mappedKeys(KeyConfig, eKeyType.mKeyMeditate) = KeyCodeConstants.vbKeyF6
-    mappedKeys(KeyConfig, eKeyType.mKeyCastSpellMacro) = KeyCodeConstants.vbKeyF7
-    mappedKeys(KeyConfig, eKeyType.mKeyWorkMacro) = KeyCodeConstants.vbKeyF8
-    mappedKeys(KeyConfig, eKeyType.mKeyExitGame) = KeyCodeConstants.vbKeyF12
+    
+    If Clasica Then 'Configuración clasica con las flechitas
+        mappedKeys(eKeyType.mKeyUp) = KeyCodeConstants.vbKeyUp
+        mappedKeys(eKeyType.mKeyDown) = KeyCodeConstants.vbKeyDown
+        mappedKeys(eKeyType.mKeyLeft) = KeyCodeConstants.vbKeyLeft
+        mappedKeys(eKeyType.mKeyRight) = KeyCodeConstants.vbKeyRight
+        mappedKeys(eKeyType.mKeyGetObject) = KeyCodeConstants.vbKeyA
+        mappedKeys(eKeyType.mKeyTamAnimal) = KeyCodeConstants.vbKeyD
+        mappedKeys(eKeyType.mKeyDropObject) = KeyCodeConstants.vbKeyT
+        mappedKeys(eKeyType.mKeyUseObject) = KeyCodeConstants.vbKeyU
+        mappedKeys(eKeyType.mKeyAttack) = KeyCodeConstants.vbKeyControl
+    Else 'Configuracion con AWSD
+        mappedKeys(eKeyType.mKeyUp) = KeyCodeConstants.vbKeyW
+        mappedKeys(eKeyType.mKeyDown) = KeyCodeConstants.vbKeyS
+        mappedKeys(eKeyType.mKeyLeft) = KeyCodeConstants.vbKeyA
+        mappedKeys(eKeyType.mKeyRight) = KeyCodeConstants.vbKeyD
+        mappedKeys(eKeyType.mKeyGetObject) = KeyCodeConstants.vbKeyG
+        mappedKeys(eKeyType.mKeyTamAnimal) = KeyCodeConstants.vbKeyP
+        mappedKeys(eKeyType.mKeyUseObject) = KeyCodeConstants.vbKeySpace
+        mappedKeys(eKeyType.mKeyAttack) = KeyCodeConstants.vbKeyF
+    End If
+    
+    mappedKeys(eKeyType.mKeyToggleMusic) = KeyCodeConstants.vbKeyM
+    mappedKeys(eKeyType.mKeyToggleSound) = KeyCodeConstants.vbKeyS
+    mappedKeys(eKeyType.mKeyRequestRefresh) = KeyCodeConstants.vbKeyL
+    mappedKeys(eKeyType.mKeyToggleNames) = KeyCodeConstants.vbKeyN
+    mappedKeys(eKeyType.mKeyEquipObject) = KeyCodeConstants.vbKeyE
+    mappedKeys(eKeyType.mKeySteal) = KeyCodeConstants.vbKeyR
+    mappedKeys(eKeyType.mKeyToggleSafeMode) = KeyCodeConstants.vbKeyC
+    mappedKeys(eKeyType.mKeyToggleResuscitationSafe) = KeyCodeConstants.vbKeyV
+    mappedKeys(eKeyType.mKeyHide) = KeyCodeConstants.vbKeyO
+    mappedKeys(eKeyType.mKeyDropObject) = KeyCodeConstants.vbKeyT
+    mappedKeys(eKeyType.mKeyTalk) = KeyCodeConstants.vbKeyReturn
+    mappedKeys(eKeyType.mKeyTalkWithGuild) = KeyCodeConstants.vbKeyDelete
+    mappedKeys(eKeyType.mKeyTakeScreenShot) = KeyCodeConstants.vbKeySnapshot
+    mappedKeys(eKeyType.mKeyShowOptions) = KeyCodeConstants.vbKeyI
+    mappedKeys(eKeyType.mKeyExitGame) = KeyCodeConstants.vbKeyEscape
+    
 End Sub
 
 ''
@@ -427,7 +398,7 @@ Dim Counter As Long
     KeyAssigned = False
     
     For Counter = 1 To NUM_CUSTOM_KEYS
-        If mappedKeys(ActiveConfig, Counter) = KeyCode Then
+        If mappedKeys(Counter) = KeyCode Then
             KeyAssigned = True
             Exit For
         End If
@@ -448,69 +419,28 @@ Public Property Get KeyCount() As Byte
     KeyCount = NUM_CUSTOM_KEYS
 End Property
 
-'
-'@return The number of customizable key configurations
-
-Public Property Get ConfigCount() As Byte
-'***************************************************
-'Author: Amraphen
-'Last Modification: 16/11/2010
-'
-'***************************************************
-    ConfigCount = NUM_CUSTOM_CONFIGS
-End Property
-
-''
-'Sets the currently active key configuration index
-'
-'@param NewVal New currently active key configuration index
-
-Public Property Let CurrentConfig(ByVal NewVal As Byte)
-'***************************************************
-'Author: Amraphen
-'Last Modification: 16/11/2010
-'
-'***************************************************
-    If NewVal < 0 Or NewVal > NUM_CUSTOM_CONFIGS Then Exit Property
-    
-    ActiveConfig = NewVal
-End Property
-
-''
-'Retrieves the currently active key configuration index
-'
-'@return The currently active key configuration index
-
-Public Property Get CurrentConfig() As Byte
-'***************************************************
-'Author: Amraphen
-'Last Modification: 16/11/2010
-'
-'***************************************************
-    CurrentConfig = ActiveConfig
-End Property
-
 ''
 'Constructor. Loads Keys from file
 
 Private Sub Class_Initialize()
 '***************************************************
 'Author: Rapsodius
-'Last Modification: 06/11/2019 (Recox)
-'16/11/2010: Amraphen - Adapte el procedimiento para que trabaje sobre las distintas configuraciones de teclas.
-'18/11/2010: Amraphen - Ahora el manejo de errores se hace desde el sub LoadCustomKeys
-'06/11/2019: Recox - Ahora podemos manejar una configuracion default y una alternativa.
+'Last Modification: 27/04/2020
+'27/04/2020: Lorwik - Ahora podemos manejar una configuracion default y una alternativa.
 '***************************************************
-    Dim KeyBindingConfigurationToUse
-    KeyBindingConfigurationToUse = GetVar(Game.path(INIT) & "Config.ini", "OTHER", "BIND_KEYS")
-
-    If KeyBindingConfigurationToUse = "Alternative" Then
-        KEY_CONFIG_FILE_IN_USE = KEY_CONFIG_FILE_ALTERNATIVE
-    Else
-        KEY_CONFIG_FILE_IN_USE = KEY_CONFIG_FILE
-    End If
     
+On Error GoTo ErrHand:
+
     Call LoadCustomKeys
+    Exit Sub
+    
+ErrHand:
+    If Err.number = ERROR_NO_KEY_FILE Then
+        'Por defecto usaremos la clasica
+        Call LoadDefaults(True)
+        Call SaveCustomKeys
+        Resume Next
+    End If
 End Sub
 
 ''
@@ -525,26 +455,6 @@ Private Sub Class_Terminate()
 On Error Resume Next
 
     Call SaveCustomKeys
-End Sub
-
-''
-'Set the KEY_CONFIG_FILE_IN_USE. With the value desired
-
-Public Sub SetKeyConfigFileInUse(ByVal KeyConfigToUse As String)
-'***************************************************
-'Author: Recox
-'Last Modification: 06/11/19
-'
-'***************************************************
-    If KeyConfigToUse = "Alternative" Then
-        KEY_CONFIG_FILE_IN_USE = KEY_CONFIG_FILE_ALTERNATIVE
-    Else
-        KEY_CONFIG_FILE_IN_USE = KEY_CONFIG_FILE
-    End If
-
-    Call LoadCustomKeys
-
-    'We saved in the config file the key config desired.
-    Call WriteVar(Game.path(INIT) & "Config.ini", "OTHER", "BIND_KEYS", KeyConfigToUse)
+    
 End Sub
 

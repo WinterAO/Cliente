@@ -1,12 +1,12 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmOpciones 
    BackColor       =   &H8000000A&
    BorderStyle     =   0  'None
    ClientHeight    =   7185
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   4830
+   ClientWidth     =   7410
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    BeginProperty Font 
@@ -25,28 +25,96 @@ Begin VB.Form frmOpciones
    Picture         =   "frmOpciones.frx":0152
    ScaleHeight     =   479
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   322
+   ScaleWidth      =   494
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
+   Begin VB.Frame FraSkins 
+      Caption         =   "Skins"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   2895
+      Left            =   4920
+      TabIndex        =   5
+      Top             =   840
+      Width           =   2415
+      Begin VB.ComboBox cmdSkinsComboBox 
+         BackColor       =   &H00FFFFFF&
+         ForeColor       =   &H00000000&
+         Height          =   315
+         ItemData        =   "frmOpciones.frx":281E3
+         Left            =   240
+         List            =   "frmOpciones.frx":281E5
+         Style           =   2  'Dropdown List
+         TabIndex        =   10
+         Top             =   720
+         Width           =   1815
+      End
+      Begin VB.ComboBox ComMouseHechizos 
+         Height          =   315
+         ItemData        =   "frmOpciones.frx":281E7
+         Left            =   240
+         List            =   "frmOpciones.frx":28203
+         Style           =   2  'Dropdown List
+         TabIndex        =   9
+         Top             =   2160
+         Width           =   1815
+      End
+      Begin VB.ComboBox ComMouseGeneral 
+         Height          =   315
+         ItemData        =   "frmOpciones.frx":28279
+         Left            =   240
+         List            =   "frmOpciones.frx":28286
+         Style           =   2  'Dropdown List
+         TabIndex        =   7
+         Top             =   1440
+         Width           =   1815
+      End
+      Begin VB.Label lblSkinDe 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Skin de Interfaces"
+         Height          =   195
+         Left            =   240
+         TabIndex        =   11
+         Top             =   480
+         Width           =   1305
+      End
+      Begin VB.Label lblMouseHechizos 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Mouse Grafico de Hechizos"
+         Height          =   195
+         Left            =   240
+         TabIndex        =   8
+         Top             =   1920
+         Width           =   1920
+      End
+      Begin VB.Label lblMouseGrafico 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Mouse Grafico General"
+         Height          =   195
+         Left            =   240
+         TabIndex        =   6
+         Top             =   1200
+         Width           =   1620
+      End
+   End
    Begin VB.ComboBox cmdLenguajesComboBox 
       BackColor       =   &H00004080&
       ForeColor       =   &H80000018&
       Height          =   315
       Left            =   3000
-      TabIndex        =   5
+      TabIndex        =   4
       Text            =   "Lenguaje"
       Top             =   4680
-      Width           =   1575
-   End
-   Begin VB.ComboBox cmdSkinsComboBox 
-      BackColor       =   &H00004080&
-      ForeColor       =   &H80000018&
-      Height          =   315
-      Left            =   3000
-      TabIndex        =   4
-      Text            =   "Seleccione skin"
-      Top             =   480
-      Visible         =   0   'False
       Width           =   1575
    End
    Begin VB.TextBox txtCantMensajes 
@@ -193,12 +261,6 @@ Begin VB.Form frmOpciones
       Top             =   6240
       Width           =   2010
    End
-   Begin VB.Image imgRadio 
-      Height          =   285
-      Left            =   2520
-      Top             =   5880
-      Width           =   2010
-   End
    Begin VB.Image imgManual 
       Height          =   285
       Left            =   360
@@ -215,12 +277,6 @@ Begin VB.Form frmOpciones
       Height          =   285
       Left            =   360
       Top             =   5520
-      Width           =   2010
-   End
-   Begin VB.Image imgMsgPersonalizado 
-      Height          =   285
-      Left            =   2520
-      Top             =   5160
       Width           =   2010
    End
    Begin VB.Image imgConfigTeclas 
@@ -278,11 +334,9 @@ Option Explicit
 Private clsFormulario As clsFormMovementManager
 
 Private cBotonConfigTeclas As clsGraphicalButton
-Private cBotonMsgPersonalizado As clsGraphicalButton
 Private cBotonMapa As clsGraphicalButton
 Private cBotonCambiarPasswd As clsGraphicalButton
 Private cBotonManual As clsGraphicalButton
-Private cBotonRadio As clsGraphicalButton
 Private cBotonSoporte As clsGraphicalButton
 Private cBotonTutorial As clsGraphicalButton
 Private cBotonSalir As clsGraphicalButton
@@ -307,15 +361,35 @@ Private Sub cmdLenguajesComboBox_Click()
     MsgBox ("Debe reiniciar el juego aplicar el cambio de idioma. Idioma Seleccionado: " & cmdLenguajesComboBox.Text)
 End Sub
 
-'Private Sub cmdSkinsComboBox_Click()
+Private Sub cmdSkinsComboBox_Click()
 '***************************************************
 'Author: Recox
 'Last Modification: 01/04/2019
 '08/11/2019: Recox - Seteamos el skin
 '***************************************************
-'    Call WriteVar(Game.path(INIT) & "Config.ini", "Parameters", "SkinSelected", cmdSkinsComboBox.Text)
-'    MsgBox ("Debe reiniciar el juego aplicar el cambio de skin. Skin Seleccionado: " & cmdSkinsComboBox.Text)
-'End Sub
+    Call WriteVar(Game.path(INIT) & "Config.ini", "Parameters", "SkinSelected", cmdSkinsComboBox.Text)
+    MsgBox ("Debe reiniciar el juego aplicar el cambio de skin. Skin Seleccionado: " & cmdSkinsComboBox.Text)
+End Sub
+
+Private Sub ComMouseGeneral_Click()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 26/04/2020
+'26/04/2020: Lorwik - Seteamos el mouse general
+'***************************************************
+    Call WriteVar(Game.path(INIT) & "Config.ini", "Parameters", "MOUSEGENERAL", ComMouseGeneral.ListIndex)
+    MsgBox ("Debe reiniciar el juego aplicar el cambio de mouse. Mouse Seleccionado: " & ComMouseGeneral.Text)
+End Sub
+
+Private Sub ComMouseHechizos_Click()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 26/04/2020
+'26/04/2020: Lorwik - Seteamos el mouse baston
+'***************************************************
+    Call WriteVar(Game.path(INIT) & "Config.ini", "Parameters", "MOUSEBASTON", ComMouseHechizos.ListIndex)
+    MsgBox ("Debe reiniciar el juego aplicar el cambio de mouse. Mouse Seleccionado: " & ComMouseHechizos.Text)
+End Sub
 
 Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     LastButtonPressed.ToggleToNormal
@@ -481,10 +555,6 @@ Private Sub imgMapa_Click()
     Call frmMapa.Show(vbModal, Me)
 End Sub
 
-Private Sub imgMsgPersonalizado_Click()
-    Call frmMessageTxt.Show(vbModeless, Me)
-End Sub
-
 Private Sub imgSalir_Click()
     Call Game.GuardarConfiguracion
     Unload Me
@@ -559,11 +629,9 @@ Private Sub LoadButtons()
     GrhPath = Game.path(Interfaces)
 
     Set cBotonConfigTeclas = New clsGraphicalButton
-    Set cBotonMsgPersonalizado = New clsGraphicalButton
     Set cBotonMapa = New clsGraphicalButton
     Set cBotonCambiarPasswd = New clsGraphicalButton
     Set cBotonManual = New clsGraphicalButton
-    Set cBotonRadio = New clsGraphicalButton
     Set cBotonSoporte = New clsGraphicalButton
     Set cBotonTutorial = New clsGraphicalButton
     Set cBotonSalir = New clsGraphicalButton
@@ -573,10 +641,6 @@ Private Sub LoadButtons()
     Call cBotonConfigTeclas.Initialize(imgConfigTeclas, GrhPath & "BotonConfigurarTeclas.jpg", _
                                     GrhPath & "BotonConfigurarTeclasRollover.jpg", _
                                     GrhPath & "BotonConfigurarTeclasClick.jpg", Me)
-                                    
-    Call cBotonMsgPersonalizado.Initialize(imgMsgPersonalizado, GrhPath & "BotonMsgPersonalizadoTeclas.jpg", _
-                                    GrhPath & "BotonMsgPersonalizadoRollover.jpg", _
-                                    GrhPath & "BotonMsgPersonalizadoClick.jpg", Me)
                                     
     Call cBotonMapa.Initialize(imgMapa, GrhPath & "BotonMapaAo.jpg", _
                                     GrhPath & "BotonMapaAoRollover.jpg", _
@@ -589,10 +653,6 @@ Private Sub LoadButtons()
     Call cBotonManual.Initialize(imgManual, GrhPath & "BotonManualAo.jpg", _
                                     GrhPath & "BotonManualAoRollover.jpg", _
                                     GrhPath & "BotonManualAoClick.jpg", Me)
-                                    
-    Call cBotonRadio.Initialize(imgRadio, GrhPath & "BotonEscucharRadioAo.jpg", _
-                                    GrhPath & "BotonEscucharRadioAoRollover.jpg", _
-                                    GrhPath & "BotonEscucharRadioAoClick.jpg", Me)
                                     
     Call cBotonSoporte.Initialize(imgSoporte, GrhPath & "BotonSoporte.jpg", _
                                     GrhPath & "BotonSoporteRollover.jpg", _

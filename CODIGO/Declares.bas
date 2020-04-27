@@ -73,7 +73,6 @@ Public InvObjArtesano(1 To MAX_LIST_ITEMS) As clsGraphicalInventory
 Public Const MAX_ITEMS_CRAFTEO As Byte = 4
 
 Public CustomKeys As clsCustomKeys
-Public CustomMessages As clsCustomMessages
 
 Public incomingData As clsByteQueue
 Public outgoingData As clsByteQueue
@@ -98,8 +97,6 @@ Public Const SND_DICE As String = "cupdice.Wav"
 
 ' Constantes de intervalo
 Public Enum eIntervalos
-    INT_MACRO_HECHIS = 2000
-    INT_MACRO_TRABAJO = 900
     INT_ATTACK = 1500
     INT_ARROWS = 1400
     INT_CAST_SPELL = 1400
@@ -110,8 +107,6 @@ Public Enum eIntervalos
     INT_SENTRPU = 2000
     INT_CHANGE_HEADING = 300
 End Enum
-
-Public MacroBltIndex As Integer
 
 Public Const NUMATRIBUTES As Byte = 5
 
@@ -255,14 +250,6 @@ Public Enum eClass
     Pirate = 12    'Pirata
 End Enum
 
-Public Enum eCiudad
-    cUllathorpe = 1
-    cNix = 2
-    cBanderbill = 3
-    cLindos = 4
-    cArghal = 5
-End Enum
-
 Enum eRaza
     Humano = 1
     Elfo = 2
@@ -382,7 +369,7 @@ Public Enum eGMCommands
     OnlineRoyalArmy         '/ONLINEREAL
     OnlineChaosLegion       '/ONLINECAOS
     GoNearby                '/IRCERCA
-    comment                 '/REM
+    Comment                 '/REM
     serverTime              '/HORA
     Where                   '/DONDE
     CreaturesInMap          '/NENE
@@ -428,8 +415,7 @@ Public Enum eGMCommands
     TeleportDestroy         '/DT
     RainToggle              '/LLUVIA
     SetCharDescription      '/SETDESC
-    ForceMP3ToMap          '/FORCEMP3MAP
-    ForceMIDIToMap          '/FORCEMIDIMAP
+    ForceMUSICToMap          '/FORCEMUSICMAP
     ForceWAVEToMap          '/FORCEWAVMAP
     RoyalArmyMessage        '/REALMSG
     ChaosLegionMessage      '/CAOSMSG
@@ -456,8 +442,7 @@ Public Enum eGMCommands
     DestroyItems            '/DEST
     ChaosLegionKick         '/NOCAOS
     RoyalArmyKick           '/NOREAL
-    ForceMP3All             '/FORCEMP3
-    ForceMIDIAll            '/FORCEMIDI
+    ForceMUSICAll            '/FORCEMUSIC
     ForceWAVEAll            '/FORCEWAV
     RemovePunishment        '/BORRARPENA
     TileBlockedToggle       '/BLOQ
@@ -576,7 +561,7 @@ End Enum
 
 'Inventario
 Type Inventory
-    ObjIndex As Integer
+    objindex As Integer
     name As String
     GrhIndex As Long
     Amount As Long
@@ -590,7 +575,7 @@ Type Inventory
 End Type
 
 Type NpCinV
-    ObjIndex As Integer
+    objindex As Integer
     name As String
     GrhIndex As Long
     Amount As Integer
@@ -631,7 +616,7 @@ End Type
 
 Type tItemsConstruibles
     name As String
-    ObjIndex As Integer
+    objindex As Integer
     GrhIndex As Long
     LinH As Integer
     LinP As Integer
@@ -645,14 +630,14 @@ End Type
 
 Type tItemCrafteo
     name As String
-    ObjIndex As Integer
+    objindex As Integer
     GrhIndex As Long
     Amount As Integer
 End Type
 
 Type tItemArtesano
     name As String
-    ObjIndex As Integer
+    objindex As Integer
     GrhIndex As Long
     
     ItemsCrafteo() As tItemCrafteo
@@ -716,7 +701,6 @@ Public UserInvisible As Boolean
 Public UserNavegando As Boolean
 Public UserEquitando As Boolean
 Public UserEvento As Boolean
-Public UserHogar As eCiudad
 
 Public UserFuerza As Byte
 Public UserAgilidad As Byte

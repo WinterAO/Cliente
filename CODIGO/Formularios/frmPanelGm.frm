@@ -1376,7 +1376,7 @@ Private Sub cmdCAOSMSG_Click()
     '/CAOSMSG
     Dim tStr As String
     
-    tStr = InputBox(JsonLanguage.Item("MENSAJE_INPUT_MSJ").Item("TEXTO"), "Mensaje por consola LegionOscura")
+    tStr = InputBox(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"), "Mensaje por consola LegionOscura")
     If LenB(tStr) <> 0 Then _
         Call WriteChaosLegionMessage(tStr)
 End Sub
@@ -1427,7 +1427,7 @@ Private Sub cmdCIUMSG_Click()
     '/CIUMSG
     Dim tStr As String
     
-    tStr = InputBox(JsonLanguage.Item("MENSAJE_INPUT_MSJ").Item("TEXTO"), "Mensaje por consola Ciudadanos")
+    tStr = InputBox(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"), "Mensaje por consola Ciudadanos")
     If LenB(tStr) <> 0 Then _
         Call WriteCitizenMessage(tStr)
 End Sub
@@ -1781,7 +1781,7 @@ Private Sub cmdREALMSG_Click()
     '/REALMSG
     Dim tStr As String
     
-    tStr = InputBox(JsonLanguage.Item("MENSAJE_INPUT_MSJ").Item("TEXTO"), "Mensaje por consola ArmadaReal")
+    tStr = InputBox(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"), "Mensaje por consola ArmadaReal")
     If LenB(tStr) <> 0 Then _
         Call WriteRoyalArmyMessage(tStr)
 End Sub
@@ -1900,7 +1900,7 @@ Private Sub cmdTALKAS_Click()
     '/TALKAS
     Dim tStr As String
     
-    tStr = InputBox(JsonLanguage.Item("MENSAJE_INPUT_MSJ").Item("TEXTO"), "Hablar por NPC")
+    tStr = InputBox(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"), "Hablar por NPC")
     If LenB(tStr) <> 0 Then _
         Call WriteTalkAsNPC(tStr)
 End Sub

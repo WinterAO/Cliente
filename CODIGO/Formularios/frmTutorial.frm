@@ -270,7 +270,7 @@ Private Sub LoadTutorial()
     Dim sLine As String
     
     ' Obtenemos el lenguage en ingles o castellano mediante la variable global del modLenguage
-    TutorialPath = Game.path(Extras) & "Tutorial_" & Language & ".dat"
+    TutorialPath = Game.path(Lenguajes) & "Tutorial_" & Language & ".dat"
     NumPages = Val(GetVar(TutorialPath, "INIT", "NumPags"))
     
     If NumPages > 0 Then

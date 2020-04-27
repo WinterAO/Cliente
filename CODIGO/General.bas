@@ -39,6 +39,9 @@ Public bLluvia() As Byte ' Array para determinar si
 
 Private lFrameTimer As Long
 
+Private m_Jpeg             As clsJpeg
+Private m_FileName         As String
+
 Private keysMovementPressedQueue As clsArrayList
 
 Public Function RandomNumber(ByVal LowerBound As Long, ByVal UpperBound As Long) As Long
@@ -368,130 +371,18 @@ Sub SwitchMap(ByVal Map As Integer)
     'Disenado y creado por Juan Martin Sotuyo Dodero (Maraxus) (juansotuyo@hotmail.com)
     '**********************************************************************************
     
-    '**********************************************************************************
-    'Formato de mapas optimizado para reducir el espacio que ocupan.
-    'Nueva carga de mapas desde la memoria (clsByteBuffer)
-    '[ https://www.gs-zone.org/temas/carga-de-mapas-desde-la-memoria-cliente.91444/ ]
-    '**********************************************************************************
-
-    Dim Y        As Long
-    Dim X        As Long
-    
-    Dim ByFlags  As Byte
-    Dim handle   As Integer
-    Dim fileBuff As clsByteBuffer
-   
-    Dim dData()  As Byte
-    Dim dLen     As Long
-   
-    Set fileBuff = New clsByteBuffer
-    
     'Limpieza adicional del mapa. PARCHE: Solucion a bug de clones. [Gracias Yhunja]
     'EDIT: cambio el rango de valores en x y para solucionar otro bug con respecto al cambio de mapas
     Call Char_CleanAll
     
-    'Erase particle effects
+    'Borramos las particulas activas en el mapa.
     Call Particle_Group_Remove_All
     
-    dLen = FileLen(Game.path(Mapas) & "Mapa" & Map & ".map")
-    ReDim dData(dLen - 1)
-    
-    handle = FreeFile()
-    
-    Open Game.path(Mapas) & "Mapa" & Map & ".map" For Binary As handle
-        Get handle, , dData
-    Close handle
-     
-    fileBuff.initializeReader dData
-    
-    mapInfo.MapVersion = fileBuff.getInteger
-   
-    With MiCabecera
-        .Desc = fileBuff.getString(Len(.Desc))
-        .CRC = fileBuff.getLong
-        .MagicWord = fileBuff.getLong
-    End With
-    
-    fileBuff.getDouble
-   
-    'Load arrays
-    For Y = YMinMapSize To YMaxMapSize
-        For X = XMinMapSize To XMaxMapSize
-            ByFlags = fileBuff.getByte()
-
-            With MapData(X, Y)
-                
-                'Layer 1
-                .Blocked = (ByFlags And 1)
-                .Graphic(1).GrhIndex = fileBuff.getLong()
-                Call InitGrh(.Graphic(1), .Graphic(1).GrhIndex)
-           
-                'Layer 2 used?
-                If ByFlags And 2 Then
-                    .Graphic(2).GrhIndex = fileBuff.getLong()
-                    Call InitGrh(.Graphic(2), .Graphic(2).GrhIndex)
-                Else
-                    .Graphic(2).GrhIndex = 0
-                End If
-               
-                'Layer 3 used?
-                If ByFlags And 4 Then
-                    .Graphic(3).GrhIndex = fileBuff.getLong()
-                    Call InitGrh(.Graphic(3), .Graphic(3).GrhIndex)
-                Else
-                    .Graphic(3).GrhIndex = 0
-                End If
-               
-                'Layer 4 used?
-                If ByFlags And 8 Then
-                    .Graphic(4).GrhIndex = fileBuff.getLong()
-                    Call InitGrh(.Graphic(4), .Graphic(4).GrhIndex)
-                Else
-                    .Graphic(4).GrhIndex = 0
-                End If
-           
-                'Trigger used?
-                If ByFlags And 16 Then
-                    .Trigger = fileBuff.getInteger()
-                Else
-                    .Trigger = 0
-                End If
-                
-                If ByFlags And 32 Then
-                    Call General_Particle_Create(CLng(fileBuff.getInteger()), X, Y)
-                Else
-                    .Particle_Group_Index = 0
-                End If
-                
-                'Erase NPCs
-                If .CharIndex > 0 Then
-                    .CharIndex = 0
-                End If
-           
-                'Erase OBJs
-                If .ObjGrh.GrhIndex > 0 Then
-                    .ObjGrh.GrhIndex = 0
-                End If
-            
-                'Erase Lights
-                Call Engine_D3DColor_To_RGB_List(.Engine_Light(), Estado_Actual) 'Standelf, Light & Meteo Engine
-            
-            End With
-        Next X
-    Next Y
-    
-    Call LightRemoveAll
-
     'Borramos las particulas de lluvia
     Call mDx8_Particulas.RemoveWeatherParticles(eWeather.Rain)
     
-    'Limpiamos el buffer
-    Set fileBuff = Nothing
-    
-    With mapInfo
-        .name = vbNullString
-        .Music = vbNullString
-    End With
+    'Cargamos el mapa.
+    Call Carga.CargarMapa(Map)
     
     'Dibujamos el Mini-Mapa
     If FileExist(Game.path(Graficos) & "MiniMapa\" & Map & ".bmp", vbArchive) Then
@@ -501,12 +392,9 @@ Sub SwitchMap(ByVal Map As Integer)
         frmMain.RecTxt.Width = frmMain.RecTxt.Width + 100
     End If
     
-    CurMap = Map
-    
     Call Init_Ambient(Map)
     
-    'Carga las particulas especificas del mapa.
-    Call Load_Map_Particles(Map)
+    CurMap = Map
     
     'Resetear el mensaje en render con el nombre del mapa.
     renderText = nameMap
@@ -659,9 +547,6 @@ Sub Main()
     
     lFrameTimer = GetTickCount
     
-    ' Load the form for screenshots
-    Call Load(frmScreenshots)
-        
     Do While prgRun
 
         'Solo dibujamos si la ventana no esta minimizada
@@ -702,18 +587,30 @@ Private Sub LoadInitialConfig()
 '15/03/2011: ZaMa - Initialize classes lazy way.
 '30/10/2019: Recox - Initialize Mouse icons
 '***************************************************
-    ' Mouse Pointer and Mouse Icon (Loaded before opening any form with buttons in it)
-    Set picMouseIcon = LoadPicture(Game.path(Graficos) & "MouseIcons\Baston.ico")
+    
+    'Cargamos los graficos de mouse guardados
+    ClientSetup.MouseGeneral = Val(GetVar(Game.path(INIT) & "Config.ini", "PARAMETERS", "MOUSEGENERAL"))
+    ClientSetup.MouseBaston = Val(GetVar(Game.path(INIT) & "Config.ini", "PARAMETERS", "MOUSEBASTON"))
+    
+    'Si es 0 cargamos el por defecto
+    If ClientSetup.MouseBaston > 0 Then
+        ' Mouse Pointer and Mouse Icon (Loaded before opening any form with buttons in it)
+        Set picMouseIcon = LoadPicture(Game.path(Graficos) & "MouseIcons\Baston" & ClientSetup.MouseBaston & ".ico")
+    End If
 
     ' Mouse Icon to use in the rest of the game this one is animated
     ' We load it in frmMain but for some reason is loaded in the rest of the game
     ' Better for us :)
     Dim CursorAniDir As String
     Dim Cursor As Long
-    CursorAniDir = Game.path(Graficos) & "MouseIcons\General.ani"
-    hSwapCursor = SetClassLong(frmMain.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
-    hSwapCursor = SetClassLong(frmMain.MainViewPic.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
-    hSwapCursor = SetClassLong(frmMain.hlst.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
+    'Si es 0 cargamos el por defecto
+    If ClientSetup.MouseGeneral > 0 Then
+    Debug.Print "asdasd"
+        CursorAniDir = Game.path(Graficos) & "MouseIcons\General" & ClientSetup.MouseGeneral & ".ani"
+        hSwapCursor = SetClassLong(frmMain.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
+        hSwapCursor = SetClassLong(frmMain.MainViewPic.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
+        hSwapCursor = SetClassLong(frmMain.hlst.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
+    End If
    
     frmCargando.Show
     frmCargando.Refresh
@@ -733,7 +630,6 @@ Private Sub LoadInitialConfig()
     Set Audio = New clsAudio
     Set Inventario = New clsGraphicalInventory
     Set CustomKeys = New clsCustomKeys
-    Set CustomMessages = New clsCustomMessages
     Set incomingData = New clsByteQueue
     Set outgoingData = New clsByteQueue
     Set MainTimer = New clsTimer
@@ -771,7 +667,7 @@ Private Sub LoadInitialConfig()
     Audio.SoundVolume = ClientSetup.SoundVolume
 
     'Iniciamos cancion principal del juego turururuuuuuu
-    Call Audio.PlayBackgroundMusic("1", MusicTypes.Mp3)
+    Call Audio.PlayBackgroundMusic("1", MusicTypes.MP3)
     
     Call AddtoRichTextBox(frmCargando.status, _
                             "   " & JsonLanguage.item("HECHO").item("TEXTO"), _
@@ -888,11 +784,6 @@ Private Sub LoadTimerIntervals()
         Call .SetInterval(TimersIndex.Arrows, eIntervalos.INT_ARROWS)
         Call .SetInterval(TimersIndex.CastAttack, eIntervalos.INT_CAST_ATTACK)
         Call .SetInterval(TimersIndex.ChangeHeading, eIntervalos.INT_CHANGE_HEADING)
-        
-        With frmMain.macrotrabajo
-            .Interval = eIntervalos.INT_MACRO_TRABAJO
-            .Enabled = False
-        End With
     
         'Init timers
         Call .Start(TimersIndex.Attack)
@@ -909,11 +800,11 @@ Private Sub LoadTimerIntervals()
 
 End Sub
 
-Sub WriteVar(ByVal File As String, ByVal Main As String, ByVal Var As String, ByVal Value As String)
+Sub WriteVar(ByVal File As String, ByVal Main As String, ByVal Var As String, ByVal value As String)
 '*****************************************************************
 'Writes a var to a text file
 '*****************************************************************
-    writeprivateprofilestring Main, Var, Value, File
+    writeprivateprofilestring Main, Var, value, File
 End Sub
 
 Function GetVar(ByVal File As String, ByVal Main As String, ByVal Var As String) As String
@@ -938,7 +829,7 @@ End Function
 Public Function CheckMailString(ByVal sString As String) As Boolean
 On Error GoTo errHnd
     Dim lPos  As Long
-    Dim lX    As Long
+    Dim Lx    As Long
     Dim iAsc  As Integer
     Dim Len_sString As Long
     
@@ -953,13 +844,13 @@ On Error GoTo errHnd
         Len_sString = Len(sString) - 1
         
         '3er test: Recorre todos los caracteres y los valida
-        For lX = 0 To Len_sString
-            If Not (lX = (lPos - 1)) Then   'No chequeamos la '@'
-                iAsc = Asc(mid$(sString, (lX + 1), 1))
+        For Lx = 0 To Len_sString
+            If Not (Lx = (lPos - 1)) Then   'No chequeamos la '@'
+                iAsc = Asc(mid$(sString, (Lx + 1), 1))
                 If Not CMSValidateChar_(iAsc) Then _
                     Exit Function
             End If
-        Next lX
+        Next Lx
         
         'Finale
         CheckMailString = True
@@ -996,15 +887,15 @@ Public Sub LeerLineaComandos()
 '
 '*************************************************
     
-    Dim i As Long, T() As String, Upper_t As Long, Lower_t As Long
+    Dim i As Long, t() As String, Upper_t As Long, Lower_t As Long
     
     'Parseo los comandos
-    T = Split(Command, " ")
-    Lower_t = LBound(T)
-    Upper_t = UBound(T)
+    t = Split(Command, " ")
+    Lower_t = LBound(t)
+    Upper_t = UBound(t)
     
     For i = Lower_t To Upper_t
-        Select Case UCase$(T(i))
+        Select Case UCase$(t(i))
             Case "/NORES" 'no cambiar la resolucion
                 NoRes = True
         End Select
@@ -1016,13 +907,8 @@ Private Sub InicializarNombres()
 '**************************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modify Date: 11/27/2005
-'Inicializa los nombres de razas, ciudades, clases, skills, atributos, etc.
+'Inicializa los nombres de razas, clases, skills, atributos, etc.
 '**************************************************************
-    Ciudades(eCiudad.cUllathorpe) = "Ullathorpe"
-    Ciudades(eCiudad.cNix) = "Nix"
-    Ciudades(eCiudad.cBanderbill) = "Banderbill"
-    Ciudades(eCiudad.cLindos) = "Lindos"
-    Ciudades(eCiudad.cArghal) = "Arghal"
     
     ListaRazas(eRaza.Humano) = JsonLanguage.item("RAZAS").item("HUMANO")
     ListaRazas(eRaza.Elfo) = JsonLanguage.item("RAZAS").item("ELFO")
@@ -1117,7 +1003,6 @@ Public Sub CloseClient()
     Call Engine_DirectX8_End
 
     'Destruimos los objetos publicos creados
-    Set CustomMessages = Nothing
     Set CustomKeys = Nothing
     Set SurfaceDB = Nothing
     Set Dialogos = Nothing
@@ -1185,7 +1070,7 @@ Public Sub checkText(ByVal Text As String)
     Dim Nivel As Integer
 
     If Right$(Text, Len(JsonLanguage.item("MENSAJE_FRAGSHOOTER_TE_HA_MATADO").item("TEXTO"))) = JsonLanguage.item("MENSAJE_FRAGSHOOTER_TE_HA_MATADO").item("TEXTO") Then
-        Call ScreenCapture(True)
+        Call Client_Screenshot(frmMain.hDC, 1024, 768)
         Exit Sub
     End If
 
@@ -1197,7 +1082,7 @@ Public Sub checkText(ByVal Text As String)
     If EsperandoLevel Then
         If Right$(Text, Len(JsonLanguage.item("MENSAJE_FRAGSHOOTER_PUNTOS_DE_EXPERIENCIA").item("TEXTO"))) = JsonLanguage.item("MENSAJE_FRAGSHOOTER_PUNTOS_DE_EXPERIENCIA").item("TEXTO") Then
             If CInt(mid$(Text, Len(JsonLanguage.item("MENSAJE_FRAGSHOOTER_HAS_GANADO").item("TEXTO")), (Len(Text) - (Len(JsonLanguage.item("MENSAJE_FRAGSHOOTER_HAS_GANADO").item("TEXTO")))))) / 2 > ClientSetup.byMurderedLevel Then
-                Call ScreenCapture(True)
+                Call Client_Screenshot(frmMain.hDC, 1024, 768)
             End If
         End If
     End If
@@ -1279,7 +1164,6 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
 
     ' Disable timers
     frmMain.Second.Enabled = False
-    frmMain.macrotrabajo.Enabled = False
     Connected = False
     Call frmMain.hlst.Clear ' Ponemos esto aca para limpiar la lista de hechizos al desconectarse.
     
@@ -1344,7 +1228,6 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     UserClase = 0
     UserSexo = 0
     UserRaza = 0
-    UserHogar = 0
     UserEmail = vbNullString
     SkillPoints = 0
     Alocados = 0
@@ -1366,7 +1249,7 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     Inventario.ClearAllSlots
 
     ' Connection screen mp3
-    Call Audio.PlayBackgroundMusic("2", MusicTypes.Mp3)
+    Call Audio.PlayBackgroundMusic("2", MusicTypes.MP3)
 
 End Sub
 
@@ -1489,3 +1372,52 @@ Public Function GetCountryCode(CurrentIp As String) As String
     End If
 
 End Function
+
+Public Sub Client_Screenshot(ByVal hDC As Long, ByVal Width As Long, ByVal Height As Long)
+'*******************************
+'Autor: ???
+'Fecha: ???
+'*******************************
+
+On Error GoTo ErrorHandler
+
+    Dim i As Long
+    Dim Index As Long
+    i = 1
+    
+    Set m_Jpeg = New clsJpeg
+    
+    '80 Quality
+    m_Jpeg.Quality = 100
+    
+    'Sample the cImage by hDC
+    m_Jpeg.SampleHDC hDC, Width, Height
+    
+    m_FileName = App.path & "\Fotos\AODrag_Foto"
+    
+    If Dir(App.path & "\Fotos", vbDirectory) = vbNullString Then
+        MkDir (App.path & "\Fotos")
+    End If
+    
+    Do While Dir(m_FileName & Trim(str(i)) & ".jpg") <> vbNullString
+        i = i + 1
+        DoEvents
+    Loop
+    
+    Index = i
+    
+    m_Jpeg.Comment = "Character: " & UserName & " - " & Format(Date, "dd/mm/yyyy") & " - " & Format(Time, "hh:mm AM/PM")
+    
+    'Save the JPG file
+    m_Jpeg.SaveFile m_FileName & Trim(str(Index)) & ".jpg"
+    
+    Call AddtoRichTextBox(frmMain.RecTxt, "¡Captura realizada con exito! Se guardo en " & m_FileName & Trim(str(Index)) & ".jpg", 204, 193, 155, 0, 1)
+    
+    Set m_Jpeg = Nothing
+    
+    Exit Sub
+
+ErrorHandler:
+    Call AddtoRichTextBox(frmMain.RecTxt, "¡Error en la captura!", 204, 193, 155, 0, 1)
+
+End Sub

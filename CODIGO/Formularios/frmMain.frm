@@ -208,11 +208,6 @@ Begin VB.Form frmMain
       Visible         =   0   'False
       Width           =   10695
    End
-   Begin VB.Timer macrotrabajo 
-      Enabled         =   0   'False
-      Left            =   9720
-      Top             =   2880
-   End
    Begin VB.TextBox SendCMSTXT 
       Appearance      =   0  'Flat
       BackColor       =   &H00202020&
@@ -261,7 +256,6 @@ Begin VB.Form frmMain
       _ExtentY        =   2937
       _Version        =   393217
       BackColor       =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -299,12 +293,6 @@ Begin VB.Form frmMain
       TabIndex        =   30
       Top             =   2325
       Width           =   11040
-      Begin VB.Timer trainingMacro 
-         Enabled         =   0   'False
-         Interval        =   3200
-         Left            =   10200
-         Top             =   600
-      End
    End
    Begin WinterAO.uAOButton btnMapa 
       Height          =   255
@@ -1112,7 +1100,6 @@ Private FirstTimeClanChat  As Boolean
 
 'Usado para controlar que no se dispare el binding de la tecla CTRL cuando se usa CTRL+Tecla.
 Dim CtrlMaskOn             As Boolean
-Dim SkinSeleccionado       As String
 
 Private Const NEWBIE_USER_GOLD_COLOR As Long = vbCyan
 Private Const USER_GOLD_COLOR As Long = vbYellow
@@ -1138,7 +1125,7 @@ Private Sub Form_Activate()
 End Sub
 
 Private Sub Form_Load()
-    SkinSeleccionado = GetVar(Game.path(INIT) & "Config.ini", "Parameters", "SkinSelected")
+    ClientSetup.SkinSeleccionado = GetVar(Game.path(INIT) & "Config.ini", "Parameters", "SkinSelected")
     
     If Not ResolucionCambiada Then
         ' Handles Form movement (drag and drop).
@@ -1195,7 +1182,7 @@ Private Sub LoadButtons()
 
     Set LastButtonPressed = New clsGraphicalButton
 
-    Set picSkillStar = LoadPicture(Game.path(Skins) & SkinSeleccionado & "\BotonAsignarSkills.bmp")
+    Set picSkillStar = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\BotonAsignarSkills.bmp")
 
     If SkillPoints > 0 Then imgAsignarSkill.Picture = picSkillStar
     
@@ -1315,14 +1302,6 @@ Public Sub ControlSM(ByVal Index As Byte, ByVal Mostrar As Boolean)
                 picSM(Index).ToolTipText = JsonLanguage.item("MENSAJE_SEGURO_DESACTIVADO").item("TEXTO").item(2)
             End If
             
-        Case eSMType.mWork
-            
-            If Mostrar Then
-                picSM(Index).ToolTipText = JsonLanguage.item("MENSAJE_MACRO_ACTIVADO").item("TEXTO")
-            Else
-                picSM(Index).ToolTipText = JsonLanguage.item("MENSAJE_MACRO_DESACTIVADO").item("TEXTO")
-            End If
-            
     End Select
 
     SMStatus(Index) = Mostrar
@@ -1337,46 +1316,6 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
     '18/11/2010: Amraphen - Agregue el handle correspondiente para las nuevas configuraciones de teclas (CTRL+0..9).
     '***************************************************
     If (Not SendTxt.Visible) And (Not SendCMSTXT.Visible) Then
-    
-        'Verificamos si se esta presionando la tecla CTRL.
-        If Shift = 2 Then
-            
-            If KeyCode >= vbKey0 And KeyCode <= vbKey9 Then
-                If KeyCode = vbKey0 Then
-                    'Si es CTRL+0 muestro la ventana de configuracion de teclas.
-                    Call frmCustomKeys.Show(vbModal, Me)
-                    
-                ElseIf KeyCode >= vbKey1 And KeyCode <= vbKey9 Then
-
-                    'Si es CTRL+1..9 cambio la configuracion.
-                    If KeyCode - vbKey0 = CustomKeys.CurrentConfig Then Exit Sub
-                    
-                    CustomKeys.CurrentConfig = KeyCode - vbKey0
-                    
-                    Dim sMsg As String
-                    sMsg = JsonLanguage.item("CUSTOMKEYS_CONFIG_CARGADA").item("TEXTO")
-                        
-                    If CustomKeys.CurrentConfig = 0 Then
-                        sMsg = Replace$(sMsg, "VAR_CONFIG_ELEGIDA", JsonLanguage.item("PREDETERMINADA").item("TEXTO"))
-                    Else
-                        sMsg = Replace$(sMsg, "VAR_CONFIG_ELEGIDA", JsonLanguage.item("PERSONALIZADA").item("TEXTO"))
-                        sMsg = Replace$(sMsg, "VAR_CONFIG_CUSTOM_NUMERO", CStr(CustomKeys.CurrentConfig))
-                    End If
-
-                    Call ShowConsoleMsg(sMsg, JsonLanguage.item("CUSTOMKEYS_CONFIG_CARGADA").item("COLOR").item(1), _
-                                              JsonLanguage.item("CUSTOMKEYS_CONFIG_CARGADA").item("COLOR").item(2), _
-                                              JsonLanguage.item("CUSTOMKEYS_CONFIG_CARGADA").item("COLOR").item(3), _
-                                        True)
-                                        
-                End If
-                
-                CtrlMaskOn = True
-                
-                Exit Sub
-                
-            End If
-            
-        End If
         
         If KeyCode = vbKeyControl Then
 
@@ -1397,9 +1336,6 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                     
                 Case CustomKeys.BindedKey(eKeyType.mKeyToggleSound)
                     Audio.SoundActivated = Not Audio.SoundActivated
-                    
-                Case CustomKeys.BindedKey(eKeyType.mKeyToggleFxs)
-                    Audio.SoundEffectsActivated = Not Audio.SoundEffectsActivated
                 
                 Case CustomKeys.BindedKey(eKeyType.mKeyGetObject)
                     Call AgarrarItem
@@ -1447,9 +1383,6 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                     Call TirarItem
                 
                 Case CustomKeys.BindedKey(eKeyType.mKeyUseObject)
-
-                    If trainingMacro.Enabled Then Call DesactivarMacroHechizos
-                    If macrotrabajo.Enabled Then Call DesactivarMacroTrabajo
                         
                     If MainTimer.Check(TimersIndex.UseItemWithU) Then
                         Call UsarItem
@@ -1469,29 +1402,6 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                     Call WriteResuscitationToggle
                     
             End Select
-        Else
-            
-            'Evito que se muestren los mensajes personalizados cuando se cambie una configuracion de teclas.
-            If Shift = 2 Then Exit Sub
-            
-            Select Case KeyCode
-            
-                    'Custom messages!
-                Case vbKey0 To vbKey9
-                    Dim CustomMessage As String
-                    
-                    CustomMessage = CustomMessages.Message((KeyCode - 39) Mod 10)
-
-                    If LenB(CustomMessage) <> 0 Then
-
-                        ' No se pueden mandar mensajes personalizados de clan o privado!
-                        If UCase$(Left$(CustomMessage, 5)) <> "/CMSG" And Left$(CustomMessage, 1) <> "\" Then
-                            
-                            Call ParseUserCommand(CustomMessage)
-                        End If
-                    End If
-                    
-            End Select
             
         End If
         
@@ -1509,60 +1419,13 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
             End If
         
         Case CustomKeys.BindedKey(eKeyType.mKeyTakeScreenShot)
-            Call ScreenCapture
+            Call Mod_General.Client_Screenshot(frmMain.hDC, 1024, 768)
                 
         Case CustomKeys.BindedKey(eKeyType.mKeyShowOptions)
             Call frmOpciones.Show(vbModeless, frmMain)
-        
-        Case CustomKeys.BindedKey(eKeyType.mKeyMeditate)
-
-            If UserMinMAN = UserMaxMAN Then Exit Sub
             
-            If UserEstado = 1 Then
-
-                With FontTypes(FontTypeNames.FONTTYPE_INFO)
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
-                End With
-                Exit Sub
-            End If
-            
-            Call WriteMeditate
-        
-        Case CustomKeys.BindedKey(eKeyType.mKeyCastSpellMacro)
-
-            If UserEstado = 1 Then
-
-                With FontTypes(FontTypeNames.FONTTYPE_INFO)
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
-                End With
-                Exit Sub
-            End If
-            
-            If trainingMacro.Enabled Then
-                DesactivarMacroHechizos
-            Else
-                ActivarMacroHechizos
-            End If
-
-        Case CustomKeys.BindedKey(eKeyType.mKeyWorkMacro)
-
-            If UserEstado = 1 Then
-
-                With FontTypes(FontTypeNames.FONTTYPE_INFO)
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
-                End With
-                Exit Sub
-            End If
-            
-            If macrotrabajo.Enabled Then
-                Call DesactivarMacroTrabajo
-            Else
-                Call ActivarMacroTrabajo
-            End If
-        
         Case CustomKeys.BindedKey(eKeyType.mKeyExitGame)
 
-            If frmMain.macrotrabajo.Enabled Then Call DesactivarMacroTrabajo
             Call WriteQuit
             
         Case CustomKeys.BindedKey(eKeyType.mKeyAttack)
@@ -1576,9 +1439,6 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
 
                 If Not MainTimer.Check(TimersIndex.Attack) Or UserDescansar Or UserMeditar Then Exit Sub
             End If
-            
-            If trainingMacro.Enabled Then Call DesactivarMacroHechizos
-            If macrotrabajo.Enabled Then Call DesactivarMacroTrabajo
             
             If frmCustomKeys.Visible Then Exit Sub 'Chequeo si esta visible la ventana de configuracion de teclas.
             
@@ -1803,44 +1663,6 @@ Private Sub lblWeapon_Click()
                           False, False, True)
 End Sub
 
-Private Sub macrotrabajo_Timer()
-
-    If Inventario.SelectedItem = 0 Then
-        Call DesactivarMacroTrabajo
-        Exit Sub
-    End If
-    
-    'Macros are disabled if not using Argentum!
-    'If Not Application.IsAppActive() Then  'Implemento lo propuesto por GD, se puede usar macro aun que se este en otra ventana
-    '    Call DesactivarMacroTrabajo
-    '    Exit Sub
-    'End If
-    
-    If UsingSkill = eSkill.Pesca Or UsingSkill = eSkill.Talar Or UsingSkill = eSkill.Mineria Or UsingSkill = FundirMetal Or (UsingSkill = eSkill.Herreria And Not MirandoHerreria) Then
-        Call WriteWorkLeftClick(TX, TY, UsingSkill)
-        UsingSkill = 0
-    End If
-    
-    'If Inventario.OBJType(Inventario.SelectedItem) = eObjType.otWeapon Then
-    If Not MirandoCarpinteria Then Call UsarItem
-End Sub
-
-Public Sub ActivarMacroTrabajo()
-    macrotrabajo.Interval = INT_MACRO_TRABAJO
-    macrotrabajo.Enabled = True
-    Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_MACRO_ACTIVADO").item("TEXTO"), 0, 200, 200, False, True, True)
-    Call ControlSM(eSMType.mWork, True)
-End Sub
-
-Public Sub DesactivarMacroTrabajo()
-    macrotrabajo.Enabled = False
-    MacroBltIndex = 0
-    UsingSkill = 0
-    MousePointer = vbDefault
-    Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_MACRO_DESACTIVADO").item("TEXTO"), 0, 200, 200, False, True, True)
-    Call ControlSM(eSMType.mWork, False)
-End Sub
-
 Private Sub mnuEquipar_Click()
     Call EquiparItem
 End Sub
@@ -1888,37 +1710,6 @@ Private Sub picSM_DblClick(Index As Integer)
         Case eSMType.sSafemode
             Call WriteSafeToggle
         
-        Case eSMType.mWork
-
-            If UserEstado = 1 Then
-
-                With FontTypes(FontTypeNames.FONTTYPE_INFO)
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
-                End With
-                Exit Sub
-            End If
-
-            If macrotrabajo.Enabled Then
-                Call DesactivarMacroTrabajo
-            Else
-                Call ActivarMacroTrabajo
-            End If
-        
-        Case eSMType.mSpells
-
-            If UserEstado = 1 Then
-
-                With FontTypes(FontTypeNames.FONTTYPE_INFO)
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
-                End With
-                Exit Sub
-            End If
-        
-            If trainingMacro.Enabled Then
-                Call DesactivarMacroHechizos
-            Else
-                Call ActivarMacroHechizos
-            End If
     End Select
 End Sub
 
@@ -1948,53 +1739,7 @@ Private Sub SendTxt_KeyDown(KeyCode As Integer, Shift As Integer)
         SendTxt.ForeColor = &HE0E0E0
     End If
     
-    ' Control + Shift
-    If Shift = 3 Then
-        On Error GoTo errhandler
-        
-        ' Only allow numeric keys
-        If KeyCode >= vbKey0 And KeyCode <= vbKey9 Then
-            
-            ' Get Msg Number
-            Dim NroMsg As Integer
-            NroMsg = KeyCode - vbKey0 - 1
-            
-            ' Pressed "0", so Msg Number is 9
-            If NroMsg = -1 Then NroMsg = 9
-            
-            'Como es KeyDown, si mantenes _
-             apretado el mensaje llena la consola
-
-            If CustomMessages.Message(NroMsg) = SendTxt.Text Then
-                Exit Sub
-            End If
-            
-            CustomMessages.Message(NroMsg) = SendTxt.Text
-            
-            Dim MENSAJE_PERSONALIZADO As String
-                MENSAJE_PERSONALIZADO = JsonLanguage.item("MENSAJE_PERSONALIZADO").item("TEXTO")
-                MENSAJE_PERSONALIZADO = Replace$(MENSAJE_PERSONALIZADO, "VAR_MENSAJE", SendTxt.Text)
-                MENSAJE_PERSONALIZADO = Replace$(MENSAJE_PERSONALIZADO, "VAR_MENSAJE_NUMERO", NroMsg + 1)
-            
-            With FontTypes(FontTypeNames.FONTTYPE_INFO)
-                Call ShowConsoleMsg(MENSAJE_PERSONALIZADO, .Red, .Green, .Blue, .bold, .italic)
-            End With
-            
-        End If
-        
-    End If
-    
-    Exit Sub
-    
 errhandler:
-
-    'Did detected an invalid message??
-    If Err.number = CustomMessages.InvalidMessageErrCode Then
-
-        With FontTypes(FontTypeNames.FONTTYPE_INFO)
-            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_CUSTOM_INVALIDO").item("TEXTO"), .Red, .Green, .Blue, .bold, .italic)
-        End With
-    End If
     
 End Sub
 
@@ -2009,8 +1754,8 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         SendTxt.Visible = False
         
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
         Else
             hlst.SetFocus
         End If
@@ -2206,9 +1951,6 @@ Private Sub MainViewPic_Click()
                 If UsingSkill = 0 Then
                     Call WriteLeftClick(TX, TY)
                 Else
-
-                    If trainingMacro.Enabled Then Call DesactivarMacroHechizos
-                    If macrotrabajo.Enabled Then Call DesactivarMacroTrabajo
                     
                     If Not MainTimer.Check(TimersIndex.Arrows, False) Then 'Check if arrows interval has finished.
                         frmMain.MousePointer = vbDefault
@@ -2367,10 +2109,10 @@ End Sub
 Private Sub btnInventario_Click()
     Call Audio.PlayWave(SND_CLICK)
 
-    'InvEqu.Picture = LoadPicture(Game.path(Skins) & SkinSeleccionado & "\Centroinventario.jpg")
+    'InvEqu.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\Centroinventario.jpg")
 
     ' Activo controles de inventario
-    picInv.Visible = True
+    PicInv.Visible = True
 
     ' Desactivo controles de hechizo
     hlst.Visible = False
@@ -2389,7 +2131,7 @@ Private Sub btnHechizos_Click()
     
     Call Audio.PlayWave(SND_CLICK)
 
-    'InvEqu.Picture = LoadPicture(Game.path(Skins) & SkinSeleccionado & "\Centrohechizos.jpg")
+    'InvEqu.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\Centrohechizos.jpg")
     
     ' Activo controles de hechizos
     hlst.Visible = True
@@ -2400,7 +2142,7 @@ Private Sub btnHechizos_Click()
     cmdMoverHechi(1).Visible = True
     
     ' Desactivo controles de inventario
-    picInv.Visible = False
+    PicInv.Visible = False
 
 End Sub
 
@@ -2411,9 +2153,6 @@ Private Sub picInv_DblClick()
     If Inventario.SelectedItem = 0 Then Exit Sub
     If MirandoCarpinteria Or MirandoHerreria Then Exit Sub
     If Not MainTimer.Check(TimersIndex.UseItemWithDblClick) Then Exit Sub
-    
-    If trainingMacro.Enabled Then Call DesactivarMacroHechizos
-    If macrotrabajo.Enabled Then Call DesactivarMacroTrabajo
     
     Select Case Inventario.OBJType(Inventario.SelectedItem)
         
@@ -2463,8 +2202,8 @@ Private Sub RecTxt_Change()
            (Not frmCantidad.Visible) And _
            (Not MirandoParty) Then
 
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
                         
         ElseIf hlst.Visible Then
             hlst.SetFocus
@@ -2477,8 +2216,8 @@ End Sub
 
 Private Sub RecTxt_KeyDown(KeyCode As Integer, Shift As Integer)
 
-    If picInv.Visible Then
-        picInv.SetFocus
+    If PicInv.Visible Then
+        PicInv.SetFocus
     Else
         hlst.SetFocus
     End If
@@ -2543,8 +2282,8 @@ Private Sub SendCMSTXT_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         Me.SendCMSTXT.Visible = False
         
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
         Else
             hlst.SetFocus
         End If
@@ -2679,15 +2418,15 @@ Private Sub Client_Connect()
             Call Login
         
         Case E_MODO.CrearCuenta
-            Call Audio.PlayBackgroundMusic("7", MusicTypes.Mp3)
+            Call Audio.PlayBackgroundMusic("7", MusicTypes.MP3)
             frmCrearCuenta.Show
 
         Case E_MODO.Dados
-            Call Audio.PlayBackgroundMusic("7", MusicTypes.Mp3)
+            Call Audio.PlayBackgroundMusic("7", MusicTypes.MP3)
             frmCrearPersonaje.Show
             
         Case E_MODO.CambiarContrasena
-            Call Audio.PlayBackgroundMusic("7", MusicTypes.Mp3)
+            Call Audio.PlayBackgroundMusic("7", MusicTypes.MP3)
             frmRecuperarCuenta.Show
         
     End Select
@@ -2696,13 +2435,13 @@ End Sub
 
 Private Sub Client_DataArrival(ByVal bytesTotal As Long)
     Dim RD     As String
-    Dim data() As Byte
+    Dim Data() As Byte
     
     Client.GetData RD, vbByte, bytesTotal
-    data = StrConv(RD, vbFromUnicode)
+    Data = StrConv(RD, vbFromUnicode)
     
     'Set data in the buffer
-    Call incomingData.WriteBlock(data)
+    Call incomingData.WriteBlock(Data)
     
     'Send buffer to Handle data
     Call HandleIncomingData
@@ -2817,25 +2556,6 @@ Public Sub ActualizarMiniMapa()
     Me.MiniMapa.Refresh
 End Sub
 
-Public Sub ActivarMacroHechizos()
-
-    If Not hlst.Visible Then
-        Call AddtoRichTextBox(frmMain.RecTxt, "Debes tener seleccionado el hechizo para activar el auto-lanzar", 0, 200, 200, False, True, True)
-        Exit Sub
-    End If
-    
-    trainingMacro.Interval = INT_MACRO_HECHIS
-    trainingMacro.Enabled = True
-    Call AddtoRichTextBox(frmMain.RecTxt, "Auto lanzar hechizos activado", 0, 200, 200, False, True, True)
-    Call ControlSM(eSMType.mSpells, True)
-End Sub
-
-Public Sub DesactivarMacroHechizos()
-    trainingMacro.Enabled = False
-    Call AddtoRichTextBox(frmMain.RecTxt, "Auto lanzar hechizos desactivado", 0, 150, 150, False, True, True)
-    Call ControlSM(eSMType.mSpells, False)
-End Sub
-
 Private Sub timerPasarSegundo_Timer()
 
     If UserInvisible And UserInvisibleSegundosRestantes > 0 Then
@@ -2853,47 +2573,17 @@ Private Sub timerPasarSegundo_Timer()
     If UserInvisibleSegundosRestantes <= 0 And UserParalizadoSegundosRestantes <= 0 And UserEquitandoSegundosRestantes <= 0 Then timerPasarSegundo.Enabled = False
 End Sub
 
-Private Sub trainingMacro_Timer()
-
-    If Not hlst.Visible Then
-        DesactivarMacroHechizos
-        Exit Sub
-    End If
-    
-    'Macros are disabled if focus is not on Argentum!
-    If Not Application.IsAppActive() Then
-        DesactivarMacroHechizos
-        Exit Sub
-    End If
-    
-    If Comerciando Then Exit Sub
-    
-    If hlst.List(hlst.ListIndex) <> "(None)" And MainTimer.Check(TimersIndex.CastSpell, False) Then
-        Call WriteCastSpell(hlst.ListIndex + 1)
-        Call WriteWork(eSkill.Magia)
-    End If
-    
-    Call ConvertCPtoTP(MouseX, MouseY, TX, TY)
-    
-    If UsingSkill = Magia And Not MainTimer.Check(TimersIndex.CastSpell) Then Exit Sub
-    
-    If UsingSkill = Proyectiles And Not MainTimer.Check(TimersIndex.Attack) Then Exit Sub
-    
-    Call WriteWorkLeftClick(TX, TY, UsingSkill)
-    UsingSkill = 0
-End Sub
-
 Public Sub UpdateProgressExperienceLevelBar(ByVal UserExp As Long)
     If UserLvl = STAT_MAXELV Then
         frmMain.lblPorcLvl.Caption = "[N/A]"
 
         'Si no tiene mas niveles que subir ponemos la barra al maximo.
         frmMain.uAOProgressExperienceLevel.max = 100
-        frmMain.uAOProgressExperienceLevel.Value = 100
+        frmMain.uAOProgressExperienceLevel.value = 100
     Else
         frmMain.lblPorcLvl.Caption = "[" & Round(CDbl(UserExp) * CDbl(100) / CDbl(UserPasarNivel), 2) & "%]"
         frmMain.uAOProgressExperienceLevel.max = UserPasarNivel
-        frmMain.uAOProgressExperienceLevel.Value = UserExp
+        frmMain.uAOProgressExperienceLevel.value = UserExp
     End If
 End Sub
 

@@ -88,88 +88,87 @@ Private Enum ServerPacketID
     ObjectCreate = 35            ' HO
     ObjectDelete = 36            ' BO
     BlockPosition = 37           ' BQ
-    PlayMp3 = 38
-    PlayMIDI = 39                ' TM
-    PlayWave = 40                ' TW
-    guildList = 41               ' GL
-    AreaChanged = 42             ' CA
-    PauseToggle = 43             ' BKW
-    RainToggle = 44              ' LLU
-    CreateFX = 45                ' CFX
-    UpdateUserStats = 46         ' EST
-    ChangeInventorySlot = 47     ' CSI
-    ChangeBankSlot = 48          ' SBO
-    ChangeSpellSlot = 49         ' SHS
-    Atributes = 50               ' ATR
-    BlacksmithWeapons = 51       ' LAH
-    BlacksmithArmors = 52        ' LAR
-    InitCarpenting = 53          ' OBR
-    RestOK = 54                  ' DOK
-    ErrorMsg = 55                ' ERR
-    Blind = 56                   ' CEGU
-    Dumb = 57                    ' DUMB
-    ShowSignal = 58              ' MCAR
-    ChangeNPCInventorySlot = 59  ' NPCI
-    UpdateHungerAndThirst = 60   ' EHYS
-    Fame = 61                    ' FAMA
-    MiniStats = 62               ' MEST
-    LevelUp = 63                 ' SUNI
-    AddForumMsg = 64             ' FMSG
-    ShowForumForm = 65           ' MFOR
-    SetInvisible = 66            ' NOVER
-    DiceRoll = 67                ' DADOS
-    MeditateToggle = 68          ' MEDOK
-    BlindNoMore = 69             ' NSEGUE
-    DumbNoMore = 70              ' NESTUP
-    SendSkills = 71              ' SKILLS
-    TrainerCreatureList = 72     ' LSTCRI
-    guildNews = 73               ' GUILDNE
-    OfferDetails = 74            ' PEACEDE & ALLIEDE
-    AlianceProposalsList = 75    ' ALLIEPR
-    PeaceProposalsList = 76      ' PEACEPR
-    CharacterInfo = 77           ' CHRINFO
-    GuildLeaderInfo = 78         ' LEADERI
-    GuildMemberInfo = 79
-    GuildDetails = 80            ' CLANDET
-    ShowGuildFundationForm = 81  ' SHOWFUN
-    ParalizeOK = 82              ' PARADOK
-    ShowUserRequest = 83         ' PETICIO
-    ChangeUserTradeSlot = 84     ' COMUSUINV
-    SendNight = 85               ' NOC
-    Pong = 86
-    UpdateTagAndStatus = 87
+    PlayMUSIC                 ' TM
+    PlayWave                ' TW
+    guildList                ' GL
+    AreaChanged              ' CA
+    PauseToggle              ' BKW
+    RainToggle              ' LLU
+    CreateFX                 ' CFX
+    UpdateUserStats          ' EST
+    ChangeInventorySlot      ' CSI
+    ChangeBankSlot           ' SBO
+    ChangeSpellSlot          ' SHS
+    Atributes              ' ATR
+    BlacksmithWeapons        ' LAH
+    BlacksmithArmors        ' LAR
+    InitCarpenting         ' OBR
+    RestOK                   ' DOK
+    ErrorMsg                 ' ERR
+    Blind                    ' CEGU
+    Dumb                    ' DUMB
+    ShowSignal              ' MCAR
+    ChangeNPCInventorySlot   ' NPCI
+    UpdateHungerAndThirst    ' EHYS
+    Fame                     ' FAMA
+    MiniStats                ' MEST
+    LevelUp                  ' SUNI
+    AddForumMsg              ' FMSG
+    ShowForumForm            ' MFOR
+    SetInvisible             ' NOVER
+    DiceRoll                 ' DADOS
+    MeditateToggle           ' MEDOK
+    BlindNoMore              ' NSEGUE
+    DumbNoMore               ' NESTUP
+    SendSkills               ' SKILLS
+    TrainerCreatureList      ' LSTCRI
+    guildNews               ' GUILDNE
+    OfferDetails             ' PEACEDE & ALLIEDE
+    AlianceProposalsList    ' ALLIEPR
+    PeaceProposalsList       ' PEACEPR
+    CharacterInfo            ' CHRINFO
+    GuildLeaderInfo         ' LEADERI
+    GuildMemberInfo
+    GuildDetails             ' CLANDET
+    ShowGuildFundationForm   ' SHOWFUN
+    ParalizeOK               ' PARADOK
+    ShowUserRequest         ' PETICIO
+    ChangeUserTradeSlot      ' COMUSUINV
+    SendNight                ' NOC
+    Pong
+    UpdateTagAndStatus
     
     'GM =  messages
-    SpawnList = 88               ' SPL
-    ShowSOSForm = 89             ' MSOS
-    ShowMOTDEditionForm = 90     ' ZMOTD
-    ShowGMPanelForm = 91         ' ABPANEL
-    UserNameList = 92            ' LISTUSU
-    ShowDenounces = 93
-    RecordList = 94
-    RecordDetails = 95
+    SpawnList                ' SPL
+    ShowSOSForm              ' MSOS
+    ShowMOTDEditionForm      ' ZMOTD
+    ShowGMPanelForm          ' ABPANEL
+    UserNameList           ' LISTUSU
+    ShowDenounces
+    RecordList
+    RecordDetails
     
-    ShowGuildAlign = 96
-    ShowPartyForm = 97
-    UpdateStrenghtAndDexterity = 98
-    UpdateStrenght = 99
-    UpdateDexterity = 100
-    AddSlots = 101
-    MultiMessage = 102
-    StopWorking = 103
-    CancelOfferItem = 104
-    PalabrasMagicas = 105
-    PlayAttackAnim = 106
-    FXtoMap = 107
-    AccountLogged = 108         'CHOTS | Accounts
-    SearchList = 109
-    QuestDetails = 110
-    QuestListSend = 111
-    CreateDamage = 112          ' CDMG
-    UserInEvent = 113
-    renderMsg = 114
-    DeletedChar = 115
-    EquitandoToggle = 116
+    ShowGuildAlign
+    ShowPartyForm
+    UpdateStrenghtAndDexterity
+    UpdateStrenght
+    UpdateDexterity
+    AddSlots
+    MultiMessage
+    StopWorking
+    CancelOfferItem
+    PalabrasMagicas
+    PlayAttackAnim
+    FXtoMap
+    AccountLogged          'CHOTS | Accounts
+    SearchList
+    QuestDetails
+    QuestListSend
+    CreateDamage           ' CDMG
+    UserInEvent
+    renderMsg
+    DeletedChar
+    EquitandoToggle
     InitCraftman
     EnviarListDeAmigos
 End Enum
@@ -666,12 +665,9 @@ On Error Resume Next
         
         Case ServerPacketID.BlockPosition           ' BQ
             Call HandleBlockPosition
-
-        Case ServerPacketID.PlayMp3
-            Call HandlePlayMP3
         
-        Case ServerPacketID.PlayMIDI                ' TM
-            Call HandlePlayMIDI
+        Case ServerPacketID.PlayMUSIC                ' TM
+            Call HandlePlayMUSIC
         
         Case ServerPacketID.PlayWave                ' TW
             Call HandlePlayWave
@@ -1273,12 +1269,12 @@ Public Sub HandleMultiMessage()
 
                 Dim KilledUser As Integer
 
-                Dim Exp        As Long
+                Dim EXP        As Long
                 
                 Dim MensajeExp As String
             
                 KilledUser = .ReadInteger
-                Exp = .ReadLong
+                EXP = .ReadLong
             
                 Call ShowConsoleMsg( _
                     JsonLanguage.item("MENSAJE_HAS_MATADO_A").item("TEXTO") & charlist(KilledUser).Nombre & MENSAJE_22, _
@@ -1289,7 +1285,7 @@ Public Sub HandleMultiMessage()
                 
                 ' Para mejor lectura
                 MensajeExp = JsonLanguage.item("MENSAJE_HAS_GANADO_EXP").item("TEXTO") 'String original
-                MensajeExp = Replace$(MensajeExp, "VAR_EXP_GANADA", Exp) 'Parte a reemplazar
+                MensajeExp = Replace$(MensajeExp, "VAR_EXP_GANADA", EXP) 'Parte a reemplazar
                 
                 Call ShowConsoleMsg(MensajeExp, _
                                     JsonLanguage.item("MENSAJE_HAS_GANADO_EXP").item("COLOR").item(1), _
@@ -1299,7 +1295,7 @@ Public Sub HandleMultiMessage()
             
                 'Sacamos un screenshot si esta activado el FragShooter:
                 If ClientSetup.bKill And ClientSetup.bActive Then
-                    If Exp \ 2 > ClientSetup.byMurderedLevel Then
+                    If EXP \ 2 > ClientSetup.byMurderedLevel Then
                         FragShooterNickname = charlist(KilledUser).Nombre
                         FragShooterKilledSomeone = True
                     
@@ -1636,9 +1632,9 @@ Private Sub HandleCommerceInit()
 
     'Fill user inventory
     For i = 1 To MAX_INVENTORY_SLOTS
-        If Inventario.ObjIndex(i) <> 0 Then
+        If Inventario.objindex(i) <> 0 Then
             With Inventario
-                Call InvComUsu.SetItem(i, .ObjIndex(i), _
+                Call InvComUsu.SetItem(i, .objindex(i), _
                 .Amount(i), .Equipped(i), .GrhIndex(i), _
                 .OBJType(i), .MaxHit(i), .MinHit(i), .MaxDef(i), .MinDef(i), _
                 .Valor(i), .ItemName(i))
@@ -1648,9 +1644,9 @@ Private Sub HandleCommerceInit()
     
     ' Fill Npc inventory
     For i = 1 To MAX_NPC_INVENTORY_SLOTS
-        If NPCInventory(i).ObjIndex <> 0 Then
+        If NPCInventory(i).objindex <> 0 Then
             With NPCInventory(i)
-                Call InvComNpc.SetItem(i, .ObjIndex, _
+                Call InvComNpc.SetItem(i, .objindex, _
                 .Amount, 0, .GrhIndex, _
                 .OBJType, .MaxHit, .MinHit, .MaxDef, .MinDef, _
                 .Valor, .name)
@@ -1685,11 +1681,11 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
-            Call InvBanco(1).SetItem(i, .ObjIndex(i), _
+            Call InvBanco(1).SetItem(i, .objindex(i), _
                 .Amount(i), .Equipped(i), .GrhIndex(i), _
                 .OBJType(i), .MaxHit(i), .MinHit(i), .MaxDef(i), .MinDef(i), _
                 .Valor(i), .ItemName(i))
@@ -1698,7 +1694,7 @@ Private Sub HandleBankInit()
     
     For i = 1 To MAX_BANCOINVENTORY_SLOTS
         With UserBancoInventory(i)
-            Call InvBanco(0).SetItem(i, .ObjIndex, _
+            Call InvBanco(0).SetItem(i, .objindex, _
                 .Amount, .Equipped, .GrhIndex, _
                 .OBJType, .MaxHit, .MinHit, .MaxDef, .MinDef, _
                 .Valor, .name)
@@ -1749,9 +1745,9 @@ Private Sub HandleUserCommerceInit()
 
     'Fill user inventory
     For i = 1 To MAX_INVENTORY_SLOTS
-        If Inventario.ObjIndex(i) <> 0 Then
+        If Inventario.objindex(i) <> 0 Then
             With Inventario
-                Call InvComUsu.SetItem(i, .ObjIndex(i), _
+                Call InvComUsu.SetItem(i, .objindex(i), _
                 .Amount(i), .Equipped(i), .GrhIndex(i), _
                 .OBJType(i), .MaxHit(i), .MinHit(i), .MaxDef(i), .MinDef(i), _
                 .Valor(i), .ItemName(i))
@@ -1917,7 +1913,6 @@ Private Sub HandleUpdateHP()
     'Is the user alive??
     If UserMinHP = 0 Then
         UserEstado = 1
-        If frmMain.macrotrabajo Then Call frmMain.DesactivarMacroTrabajo
     
         UserEquitando = 0
         'Reseteo el Speed
@@ -2080,7 +2075,7 @@ Private Sub HandleChangeMap()
 '
 '***************************************************
     If incomingData.Length < 5 Then
-        Err.Raise incomingData.NotEnoughDataErrCode
+        Call Err.Raise(incomingData.NotEnoughDataErrCode)
         Exit Sub
     End If
     
@@ -2094,19 +2089,25 @@ Private Sub HandleChangeMap()
     'For now we just drop it
     Call incomingData.ReadInteger
     
-    If FileExist(Game.path(Mapas) & "Mapa" & UserMap & ".map", vbNormal) Then
+    If FileExist(Game.path(Mapas) & "Mapa" & UserMap & ".csm", vbNormal) Then
+        
         Call SwitchMap(UserMap)
-        If bRain And bLluvia(UserMap) = 0 Then
-                Call Audio.StopWave(RainBufferIndex)
-                RainBufferIndex = 0
-                frmMain.IsPlaying = PlayLoop.plNone
+        
+        If bRain And MapDat.zone = "DUNGEON" Then
+            Call Audio.StopWave(RainBufferIndex)
+            RainBufferIndex = 0
+            frmMain.IsPlaying = PlayLoop.plNone
         End If
+        
     Else
+    
         'no encontramos el mapa en el hd
-        MsgBox JsonLanguage.item("ERROR_MAPAS").item("TEXTO")
+        Call MsgBox(JsonLanguage.item("ERROR_MAPAS").item("TEXTO"))
         
         Call CloseClient
+        
     End If
+    
 End Sub
 
 ''
@@ -2921,55 +2922,29 @@ Private Sub HandleBlockPosition()
 End Sub
 
 ''
-' Handles the PlayMP3 message.
+' Handles the PlayMUSIC message.
 
-Private Sub HandlePlayMP3()
-'***************************************************
-'Author: Lucas Recoaro (Recox)
-'Last Modification: 06/01/20
-'Utilizamos PlayBackgroundMusic para el uso de MP3, simplifique la funcion (Recox)
-'***************************************************
-    If incomingData.Length < 5 Then
-        Err.Raise incomingData.NotEnoughDataErrCode
-        Exit Sub
-    End If
-    
-    Dim currentMp3 As Integer
-    Dim Loops As Integer
-    
-    'Remove packet ID
-    Call incomingData.ReadByte
-    
-    currentMp3 = incomingData.ReadInteger()
-    Loops = incomingData.ReadInteger()
-    
-    Call Audio.PlayBackgroundMusic(CStr(currentMp3), MusicTypes.Mp3)
-End Sub
-
-''
-' Handles the PlayMIDI message.
-
-Private Sub HandlePlayMIDI()
+Private Sub HandlePlayMUSIC()
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 06/01/20
-'Utilizamos PlayBackgroundMusic para el uso de  MIDI, simplifique la funcion (Recox)
+'Utilizamos PlayBackgroundMusic para el uso de  MUSIC, simplifique la funcion (Recox)
 '***************************************************
     If incomingData.Length < 5 Then
         Err.Raise incomingData.NotEnoughDataErrCode
         Exit Sub
     End If
     
-    Dim currentMidi As Integer
+    Dim currentMusic As Integer
     Dim Loops As Integer
     
     'Remove packet ID
     Call incomingData.ReadByte
     
-    currentMidi = incomingData.ReadInteger()
+    currentMusic = incomingData.ReadInteger()
     Loops = incomingData.ReadInteger()
     
-    Call Audio.PlayBackgroundMusic(CStr(currentMidi), MusicTypes.Midi, Loops)
+    Call Audio.PlayBackgroundMusic(CStr(currentMusic), MusicTypes.MP3, Loops)
 End Sub
 
 ''
@@ -3227,7 +3202,6 @@ Private Sub HandleUpdateUserStats()
     
     If UserMinHP = 0 Then
         UserEstado = 1
-        If frmMain.macrotrabajo Then Call frmMain.DesactivarMacroTrabajo
     Else
         UserEstado = 0
     End If
@@ -3258,7 +3232,7 @@ On Error GoTo errhandler
     Call Buffer.ReadByte
     
     Dim slot As Byte
-    Dim ObjIndex As Integer
+    Dim objindex As Integer
     Dim name As String
     Dim Amount As Integer
     Dim Equipped As Boolean
@@ -3268,10 +3242,10 @@ On Error GoTo errhandler
     Dim MinHit As Integer
     Dim MaxDef As Integer
     Dim MinDef As Integer
-    Dim Value As Single
+    Dim value As Single
     
     slot = Buffer.ReadByte()
-    ObjIndex = Buffer.ReadInteger()
+    objindex = Buffer.ReadInteger()
     name = Buffer.ReadASCIIString()
     Amount = Buffer.ReadInteger()
     Equipped = Buffer.ReadBoolean()
@@ -3281,7 +3255,7 @@ On Error GoTo errhandler
     MinHit = Buffer.ReadInteger()
     MaxDef = Buffer.ReadInteger()
     MinDef = Buffer.ReadInteger()
-    Value = Buffer.ReadSingle()
+    value = Buffer.ReadSingle()
     
     If Equipped Then
         Select Case OBJType
@@ -3315,14 +3289,14 @@ On Error GoTo errhandler
         End Select
     End If
     
-    Call Inventario.SetItem(slot, ObjIndex, Amount, Equipped, GrhIndex, OBJType, MaxHit, MinHit, MaxDef, MinDef, Value, name)
+    Call Inventario.SetItem(slot, objindex, Amount, Equipped, GrhIndex, OBJType, MaxHit, MinHit, MaxDef, MinDef, value, name)
 
     If frmComerciar.Visible Then
-        Call InvComUsu.SetItem(slot, ObjIndex, Amount, Equipped, GrhIndex, OBJType, MaxHit, MinHit, MaxDef, MinDef, Value, name)
+        Call InvComUsu.SetItem(slot, objindex, Amount, Equipped, GrhIndex, OBJType, MaxHit, MinHit, MaxDef, MinDef, value, name)
     End If
 
     If frmBancoObj.Visible Then
-        Call InvBanco(1).SetItem(slot, ObjIndex, Amount, Equipped, GrhIndex, OBJType, MaxHit, MinHit, MaxDef, MinDef, Value, name)
+        Call InvBanco(1).SetItem(slot, objindex, Amount, Equipped, GrhIndex, OBJType, MaxHit, MinHit, MaxDef, MinDef, value, name)
         frmBancoObj.NoPuedeMover = False
     End If
     
@@ -3368,8 +3342,6 @@ Private Sub HandleStopWorking()
     With FontTypes(FontTypeNames.FONTTYPE_INFO)
         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_WORK_FINISHED"), .Red, .Green, .Blue, .bold, .italic)
     End With
-    If frmMain.trainingMacro.Enabled Then Call frmMain.DesactivarMacroHechizos
-    If frmMain.macrotrabajo.Enabled Then Call frmMain.DesactivarMacroTrabajo
 End Sub
 
 ' Handles the CancelOfferItem message.
@@ -3393,7 +3365,7 @@ Private Sub HandleCancelOfferItem()
         ' No tiene sentido que se quiten 0 unidades
         If Amount <> 0 Then
             ' Actualizo el inventario general
-            Call frmComerciarUsu.UpdateInvCom(.ObjIndex(slot), Amount)
+            Call frmComerciarUsu.UpdateInvCom(.objindex(slot), Amount)
             
             ' Borro el item
             Call .SetItem(slot, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "")
@@ -3436,7 +3408,7 @@ On Error GoTo errhandler
     slot = Buffer.ReadByte()
     
     With UserBancoInventory(slot)
-        .ObjIndex = Buffer.ReadInteger()
+        .objindex = Buffer.ReadInteger()
         .name = Buffer.ReadASCIIString()
         .Amount = Buffer.ReadInteger()
         .GrhIndex = Buffer.ReadLong()
@@ -3448,7 +3420,7 @@ On Error GoTo errhandler
         .Valor = Buffer.ReadLong()
         
         If frmBancoObj.Visible Then
-            Call InvBanco(0).SetItem(slot, .ObjIndex, .Amount, 0, .GrhIndex, .OBJType, .MaxHit, .MinHit, .MaxDef, .MinDef, .Valor, .name)
+            Call InvBanco(0).SetItem(slot, .objindex, .Amount, 0, .GrhIndex, .OBJType, .MaxHit, .MinHit, .MaxDef, .MinDef, .Valor, .name)
         End If
     End With
     
@@ -3590,7 +3562,7 @@ On Error GoTo errhandler
     
     Dim Count As Integer
     Dim i As Long
-    Dim J As Long
+    Dim j As Long
     Dim k As Long
     
     Count = Buffer.ReadInteger()
@@ -3605,7 +3577,7 @@ On Error GoTo errhandler
             .LinH = Buffer.ReadInteger()        'The iron needed
             .LinP = Buffer.ReadInteger()        'The silver needed
             .LinO = Buffer.ReadInteger()        'The gold needed
-            .ObjIndex = Buffer.ReadInteger()
+            .objindex = Buffer.ReadInteger()
             .Upgrade = Buffer.ReadInteger()
         End With
     Next i
@@ -3614,13 +3586,8 @@ On Error GoTo errhandler
     'En otras palabras, a partir de ahora podes usar "Exit Sub" sin romper nada.
     Call incomingData.CopyBuffer(Buffer)
     
-    If frmMain.macrotrabajo.Enabled And (MacroBltIndex > 0) Then
-        Call WriteCraftBlacksmith(MacroBltIndex)
-        Exit Sub
-    Else
-        Call frmHerrero.Show(vbModeless, frmMain)
-        MirandoHerreria = True
-    End If
+    Call frmHerrero.Show(vbModeless, frmMain)
+    MirandoHerreria = True
     
     For i = 1 To MAX_LIST_ITEMS
         Set InvLingosHerreria(i) = New clsGraphicalInventory
@@ -3641,19 +3608,19 @@ On Error GoTo errhandler
         With ArmasHerrero(i)
             If .Upgrade Then
                 For k = 1 To Count
-                    If .Upgrade = ArmasHerrero(k).ObjIndex Then
-                        J = J + 1
+                    If .Upgrade = ArmasHerrero(k).objindex Then
+                        j = j + 1
                 
-                        ReDim Preserve HerreroMejorar(J) As tItemsConstruibles
+                        ReDim Preserve HerreroMejorar(j) As tItemsConstruibles
                         
-                        HerreroMejorar(J).name = .name
-                        HerreroMejorar(J).GrhIndex = .GrhIndex
-                        HerreroMejorar(J).ObjIndex = .ObjIndex
-                        HerreroMejorar(J).UpgradeName = ArmasHerrero(k).name
-                        HerreroMejorar(J).UpgradeGrhIndex = ArmasHerrero(k).GrhIndex
-                        HerreroMejorar(J).LinH = ArmasHerrero(k).LinH - .LinH * 0.85
-                        HerreroMejorar(J).LinP = ArmasHerrero(k).LinP - .LinP * 0.85
-                        HerreroMejorar(J).LinO = ArmasHerrero(k).LinO - .LinO * 0.85
+                        HerreroMejorar(j).name = .name
+                        HerreroMejorar(j).GrhIndex = .GrhIndex
+                        HerreroMejorar(j).objindex = .objindex
+                        HerreroMejorar(j).UpgradeName = ArmasHerrero(k).name
+                        HerreroMejorar(j).UpgradeGrhIndex = ArmasHerrero(k).GrhIndex
+                        HerreroMejorar(j).LinH = ArmasHerrero(k).LinH - .LinH * 0.85
+                        HerreroMejorar(j).LinP = ArmasHerrero(k).LinP - .LinP * 0.85
+                        HerreroMejorar(j).LinO = ArmasHerrero(k).LinO - .LinO * 0.85
                         
                         Exit For
                     End If
@@ -3698,7 +3665,7 @@ On Error GoTo errhandler
     
     Dim Count As Integer
     Dim i As Long
-    Dim J As Long
+    Dim j As Long
     Dim k As Long
     
     Count = Buffer.ReadInteger()
@@ -3712,7 +3679,7 @@ On Error GoTo errhandler
             .LinH = Buffer.ReadInteger()        'The iron needed
             .LinP = Buffer.ReadInteger()        'The silver needed
             .LinO = Buffer.ReadInteger()        'The gold needed
-            .ObjIndex = Buffer.ReadInteger()
+            .objindex = Buffer.ReadInteger()
             .Upgrade = Buffer.ReadInteger()
         End With
     Next i
@@ -3721,33 +3688,28 @@ On Error GoTo errhandler
     'En otras palabras, a partir de ahora podes usar "Exit Sub" sin romper nada.
     Call incomingData.CopyBuffer(Buffer)
     
-    If frmMain.macrotrabajo.Enabled And (MacroBltIndex > 0) Then
-        Call WriteCraftBlacksmith(MacroBltIndex)
-                Exit Sub
-    Else
-        Call frmHerrero.Show(vbModeless, frmMain)
-        MirandoHerreria = True
-    End If
+    Call frmHerrero.Show(vbModeless, frmMain)
+    MirandoHerreria = True
     
-    J = UBound(HerreroMejorar)
+    j = UBound(HerreroMejorar)
     
     For i = 1 To Count
         With ArmadurasHerrero(i)
             If .Upgrade Then
                 For k = 1 To Count
-                    If .Upgrade = ArmadurasHerrero(k).ObjIndex Then
-                        J = J + 1
+                    If .Upgrade = ArmadurasHerrero(k).objindex Then
+                        j = j + 1
                 
-                        ReDim Preserve HerreroMejorar(J) As tItemsConstruibles
+                        ReDim Preserve HerreroMejorar(j) As tItemsConstruibles
                         
-                        HerreroMejorar(J).name = .name
-                        HerreroMejorar(J).GrhIndex = .GrhIndex
-                        HerreroMejorar(J).ObjIndex = .ObjIndex
-                        HerreroMejorar(J).UpgradeName = ArmadurasHerrero(k).name
-                        HerreroMejorar(J).UpgradeGrhIndex = ArmadurasHerrero(k).GrhIndex
-                        HerreroMejorar(J).LinH = ArmadurasHerrero(k).LinH - .LinH * 0.85
-                        HerreroMejorar(J).LinP = ArmadurasHerrero(k).LinP - .LinP * 0.85
-                        HerreroMejorar(J).LinO = ArmadurasHerrero(k).LinO - .LinO * 0.85
+                        HerreroMejorar(j).name = .name
+                        HerreroMejorar(j).GrhIndex = .GrhIndex
+                        HerreroMejorar(j).objindex = .objindex
+                        HerreroMejorar(j).UpgradeName = ArmadurasHerrero(k).name
+                        HerreroMejorar(j).UpgradeGrhIndex = ArmadurasHerrero(k).GrhIndex
+                        HerreroMejorar(j).LinH = ArmadurasHerrero(k).LinH - .LinH * 0.85
+                        HerreroMejorar(j).LinP = ArmadurasHerrero(k).LinP - .LinP * 0.85
+                        HerreroMejorar(j).LinO = ArmadurasHerrero(k).LinO - .LinO * 0.85
                         
                         Exit For
                     End If
@@ -3793,7 +3755,7 @@ On Error GoTo errhandler
     
     Dim Count As Integer
     Dim i As Long
-    Dim J As Long
+    Dim j As Long
     Dim k As Long
     
     Count = Buffer.ReadInteger()
@@ -3807,7 +3769,7 @@ On Error GoTo errhandler
             .GrhIndex = Buffer.ReadLong()
             .Madera = Buffer.ReadInteger()          'The wood needed
             .MaderaElfica = Buffer.ReadInteger()    'The elfic wood needed
-            .ObjIndex = Buffer.ReadInteger()
+            .objindex = Buffer.ReadInteger()
             .Upgrade = Buffer.ReadInteger()
         End With
     Next i
@@ -3816,13 +3778,8 @@ On Error GoTo errhandler
     'En otras palabras, a partir de ahora podes usar "Exit Sub" sin romper nada.
     Call incomingData.CopyBuffer(Buffer)
     
-    If frmMain.macrotrabajo.Enabled And (MacroBltIndex > 0) Then
-        Call WriteCraftCarpenter(MacroBltIndex)
-        Exit Sub
-    Else
-        Call frmCarpinteria.Show(vbModeless, frmMain)
-        MirandoCarpinteria = True
-    End If
+    Call frmCarpinteria.Show(vbModeless, frmMain)
+    MirandoCarpinteria = True
     
     For i = 1 To MAX_LIST_ITEMS
         Set InvMaderasCarpinteria(i) = New clsGraphicalInventory
@@ -3843,18 +3800,18 @@ On Error GoTo errhandler
         With ObjCarpintero(i)
             If .Upgrade Then
                 For k = 1 To Count
-                    If .Upgrade = ObjCarpintero(k).ObjIndex Then
-                        J = J + 1
+                    If .Upgrade = ObjCarpintero(k).objindex Then
+                        j = j + 1
                 
-                        ReDim Preserve CarpinteroMejorar(J) As tItemsConstruibles
+                        ReDim Preserve CarpinteroMejorar(j) As tItemsConstruibles
                         
-                        CarpinteroMejorar(J).name = .name
-                        CarpinteroMejorar(J).GrhIndex = .GrhIndex
-                        CarpinteroMejorar(J).ObjIndex = .ObjIndex
-                        CarpinteroMejorar(J).UpgradeName = ObjCarpintero(k).name
-                        CarpinteroMejorar(J).UpgradeGrhIndex = ObjCarpintero(k).GrhIndex
-                        CarpinteroMejorar(J).Madera = ObjCarpintero(k).Madera - .Madera * 0.85
-                        CarpinteroMejorar(J).MaderaElfica = ObjCarpintero(k).MaderaElfica - .MaderaElfica * 0.85
+                        CarpinteroMejorar(j).name = .name
+                        CarpinteroMejorar(j).GrhIndex = .GrhIndex
+                        CarpinteroMejorar(j).objindex = .objindex
+                        CarpinteroMejorar(j).UpgradeName = ObjCarpintero(k).name
+                        CarpinteroMejorar(j).UpgradeGrhIndex = ObjCarpintero(k).GrhIndex
+                        CarpinteroMejorar(j).Madera = ObjCarpintero(k).Madera - .Madera * 0.85
+                        CarpinteroMejorar(j).MaderaElfica = ObjCarpintero(k).MaderaElfica - .MaderaElfica * 0.85
                         
                         Exit For
                     End If
@@ -3898,7 +3855,7 @@ On Error GoTo errhandler
     Dim CountObjs As Integer
     Dim CountCrafteo As Integer
     Dim i As Long
-    Dim J As Long
+    Dim j As Long
     Dim k As Long
 
     frmArtesano.ArtesaniaCosto = Buffer.ReadLong()
@@ -3911,17 +3868,17 @@ On Error GoTo errhandler
         With ObjArtesano(i)
             .name = Buffer.ReadASCIIString()
             .GrhIndex = Buffer.ReadLong()
-            .ObjIndex = Buffer.ReadInteger()
+            .objindex = Buffer.ReadInteger()
             
             CountCrafteo = Buffer.ReadByte()
             ReDim .ItemsCrafteo(CountCrafteo) As tItemCrafteo
             
-            For J = 1 To CountCrafteo
-                .ItemsCrafteo(J).name = Buffer.ReadASCIIString()
-                .ItemsCrafteo(J).GrhIndex = Buffer.ReadLong()
-                .ItemsCrafteo(J).ObjIndex = Buffer.ReadInteger()
-                .ItemsCrafteo(J).Amount = Buffer.ReadInteger()
-            Next J
+            For j = 1 To CountCrafteo
+                .ItemsCrafteo(j).name = Buffer.ReadASCIIString()
+                .ItemsCrafteo(j).GrhIndex = Buffer.ReadLong()
+                .ItemsCrafteo(j).objindex = Buffer.ReadInteger()
+                .ItemsCrafteo(j).Amount = Buffer.ReadInteger()
+            Next j
         End With
     Next i
 
@@ -4117,7 +4074,7 @@ On Error GoTo errhandler
         .Amount = Buffer.ReadInteger()
         .Valor = Buffer.ReadSingle()
         .GrhIndex = Buffer.ReadLong()
-        .ObjIndex = Buffer.ReadInteger()
+        .objindex = Buffer.ReadInteger()
         .OBJType = Buffer.ReadByte()
         .MaxHit = Buffer.ReadInteger()
         .MinHit = Buffer.ReadInteger()
@@ -4125,7 +4082,7 @@ On Error GoTo errhandler
         .MinDef = Buffer.ReadInteger()
     
         If frmComerciar.Visible Then
-            Call InvComNpc.SetItem(slot, .ObjIndex, .Amount, 0, .GrhIndex, .OBJType, .MaxHit, .MinHit, .MaxDef, .MinDef, .Valor, .name)
+            Call InvComNpc.SetItem(slot, .objindex, .Amount, 0, .GrhIndex, .OBJType, .MaxHit, .MinHit, .MaxDef, .MinDef, .Valor, .name)
         End If
     End With
         
@@ -5767,8 +5724,6 @@ Public Sub WriteLoginNewChar()
         Call .WriteByte(UserSexo)
         Call .WriteByte(UserClase)
         Call .WriteInteger(UserHead)
-        
-        Call .WriteByte(UserHogar)
     End With
 End Sub
 
@@ -8037,7 +7992,7 @@ Public Sub WriteComment(ByVal Message As String)
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.comment)
+        Call .WriteByte(eGMCommands.Comment)
         
         Call .WriteASCIIString(Message)
     End With
@@ -8951,46 +8906,23 @@ Public Sub WriteSetCharDescription(ByVal Desc As String)
 End Sub
 
 ''
-' Writes the "ForceMP3ToMap" message to the outgoing data buffer.
-'
-' @param    Mp3Id The ID of the midi file to play.
-' @param    map The map in which to play the given midi.
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WriteForceMP3ToMap(ByVal Mp3Id As Byte, ByVal Map As Integer)
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'Writes the "ForceMIDIToMap" message to the outgoing data buffer
-'***************************************************
-    With outgoingData
-        Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ForceMP3ToMap)
-        
-        Call .WriteByte(Mp3Id)
-        
-        Call .WriteInteger(Map)
-    End With
-End Sub
-
-''
 ' Writes the "ForceMIDIToMap" message to the outgoing data buffer.
 '
 ' @param    midiID The ID of the midi file to play.
 ' @param    map The map in which to play the given midi.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteForceMIDIToMap(ByVal midiID As Byte, ByVal Map As Integer)
+Public Sub WriteForceMUSICToMap(ByVal musicID As Byte, ByVal Map As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
-'Writes the "ForceMIDIToMap" message to the outgoing data buffer
+'Writes the "ForceMUSICToMap" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ForceMIDIToMap)
+        Call .WriteByte(eGMCommands.ForceMUSICToMap)
         
-        Call .WriteByte(midiID)
+        Call .WriteByte(musicID)
         
         Call .WriteInteger(Map)
     End With
@@ -9503,32 +9435,12 @@ Public Sub WriteRoyalArmyKick(ByVal UserName As String)
 End Sub
 
 ''
-' Writes the "ForceMP3All" message to the outgoing data buffer.
-'
-' @param    Mp3Id The id of the midi file to play.
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WriteForceMP3All(ByVal Mp3Id As Byte)
-'***************************************************
-'Author: Lucas Recoaro (Recox)
-'Last Modification: 05/17/06
-'Writes the "ForceMP3All" message to the outgoing data buffer
-'***************************************************
-    With outgoingData
-        Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ForceMP3All)
-        
-        Call .WriteByte(Mp3Id)
-    End With
-End Sub
-
-''
 ' Writes the "ForceMIDIAll" message to the outgoing data buffer.
 '
 ' @param    midiID The id of the midi file to play.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteForceMIDIAll(ByVal midiID As Byte)
+Public Sub WriteForceMUSICAll(ByVal musicID As Byte)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -9536,9 +9448,9 @@ Public Sub WriteForceMIDIAll(ByVal midiID As Byte)
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ForceMIDIAll)
+        Call .WriteByte(eGMCommands.ForceMUSICAll)
         
-        Call .WriteByte(midiID)
+        Call .WriteByte(musicID)
     End With
 End Sub
 
