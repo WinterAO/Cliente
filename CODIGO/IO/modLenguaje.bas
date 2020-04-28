@@ -68,7 +68,7 @@ Public Sub SetLanguageApplication()
             Language = "english"
         End If
 
-        Call WriteVar(App.path & "\INIT\Config.ini", "Parameters", "Language", Language)
+        Call WriteVar(Game.path(INIT) & "Config.ini", "Parameters", "Language", Language)
         'Language = LCase$(ObtainOperativeSystemLanguage(LOCALE_SENGLANGUAGE))
     End If
     
