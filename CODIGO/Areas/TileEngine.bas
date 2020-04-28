@@ -196,12 +196,15 @@ Public Type Char
     ParticleIndex As Integer
     Particle_Count As Long
     Particle_Group() As Long
+    
+    NoShadow As Byte 'No emite sombra
 End Type
 
 'Info de un objeto
 Public Type obj
     objindex As Integer
     Amount As Integer
+    Shadow As Byte
 End Type
 
 'Tipo de las celdas del mapa
@@ -284,7 +287,6 @@ Private MouseTileY As Byte
 
 
 
-
 '?????????Graficos???????????
 Public GrhData() As GrhData 'Guarda todos los grh
 Public BodyData() As BodyData
@@ -302,7 +304,6 @@ Public mapInfo As mapInfo ' Info acerca del mapa en uso
 
 Public Normal_RGBList(3) As Long
 Public Color_Shadow(3) As Long
-Public Color_Arbol(3) As Long
 Public Color_Paralisis As Long
 Public Color_Invisibilidad As Long
 Public Color_Montura As Long
@@ -760,6 +761,9 @@ Sub RenderScreen(ByVal tilex As Integer, _
                 
                     'Object Layer **********************************
                     If .ObjGrh.GrhIndex <> 0 Then
+                        If .OBJInfo.Shadow = 1 Then _
+                            Call Draw_Grh(.ObjGrh, PixelOffsetXTemp + 5, PixelOffsetYTemp + -9, 1, Color_Shadow(), 0, False, 187, 1, 1.2)
+                           
                         Call Draw_Grh(.ObjGrh, PixelOffsetXTemp, PixelOffsetYTemp, 1, .Engine_Light(), 1)
                     End If
                     '***********************************************
@@ -773,20 +777,7 @@ Sub RenderScreen(ByVal tilex As Integer, _
                     'Layer 3 *****************************************
                     If .Graphic(3).GrhIndex <> 0 Then
                     
-                        If .Graphic(3).GrhIndex = 735 Or .Graphic(3).GrhIndex >= 6994 And .Graphic(3).GrhIndex <= 7002 Then
-                            
-                            ' Transparencia de Arboles
-                            If Abs(UserPos.X - X) < 3 And (Abs(UserPos.Y - Y)) < 8 And (Abs(UserPos.Y) < Y) Then
-                                Call Draw_Grh(.Graphic(3), PixelOffsetXTemp, PixelOffsetYTemp, 1, Color_Arbol(), 1)
-                            Else 'NORMAL
-                                Call Draw_Grh(.Graphic(3), PixelOffsetXTemp, PixelOffsetYTemp, 1, .Engine_Light(), 1)
-                            End If
-                            
-                        Else 'NORMAL
-                        
-                            Call Draw_Grh(.Graphic(3), PixelOffsetXTemp, PixelOffsetYTemp, 1, .Engine_Light(), 1)
-                            
-                        End If
+                        Call Draw_Grh(.Graphic(3), PixelOffsetXTemp, PixelOffsetYTemp, 1, .Engine_Light(), 1)
                         
                     End If
                     '************************************************
@@ -1429,6 +1420,9 @@ Private Sub RenderSombras(ByVal CharIndex As Integer, ByVal PixelOffsetX As Inte
 '****************************************************
    
     With charlist(CharIndex)
+        
+        'Si no emite sombra salimos
+        If .NoShadow Then Exit Sub
         
         'Shadow Body & Shadow Head
         

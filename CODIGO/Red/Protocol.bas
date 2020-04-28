@@ -2642,6 +2642,8 @@ On Error GoTo errhandler
         Else
             .priv = 0
         End If
+        
+        .NoShadow = Buffer.ReadByte()
     End With
     
     Call Char_Make(CharIndex, Body, Head, Heading, X, Y, weapon, shield, helmet)
@@ -2850,12 +2852,14 @@ Private Sub HandleObjectCreate()
     Dim X        As Byte
     Dim Y        As Byte
     Dim GrhIndex As Long
+    Dim Shadow   As Byte
     
     X = incomingData.ReadByte()
     Y = incomingData.ReadByte()
     GrhIndex = incomingData.ReadLong()
+    Shadow = incomingData.ReadByte()
         
-    Call Map_CreateObject(X, Y, GrhIndex)
+    Call Map_CreateObject(X, Y, GrhIndex, Shadow)
 End Sub
 
 ''

@@ -256,7 +256,6 @@ Begin VB.Form frmMain
       _ExtentY        =   2937
       _Version        =   393217
       BackColor       =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -1406,55 +1405,55 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
             
         End If
         
-    End If
     
-    Select Case KeyCode
-
-        Case CustomKeys.BindedKey(eKeyType.mKeyTalkWithGuild)
-
-            If SendTxt.Visible Then Exit Sub
-            
-            If (Not Comerciando) And (Not MirandoAsignarSkills) And (Not frmMSG.Visible) And (Not MirandoForo) And (Not frmEstadisticas.Visible) And (Not frmCantidad.Visible) Then
-                SendCMSTXT.Visible = True
-                SendCMSTXT.SetFocus
-            End If
-        
-        Case CustomKeys.BindedKey(eKeyType.mKeyTakeScreenShot)
-            Call Mod_General.Client_Screenshot(frmMain.hDC, 1024, 768)
+        Select Case KeyCode
+    
+            Case CustomKeys.BindedKey(eKeyType.mKeyTalkWithGuild)
+    
+                If SendTxt.Visible Then Exit Sub
                 
-        Case CustomKeys.BindedKey(eKeyType.mKeyShowOptions)
-            Call frmOpciones.Show(vbModeless, frmMain)
+                If (Not Comerciando) And (Not MirandoAsignarSkills) And (Not frmMSG.Visible) And (Not MirandoForo) And (Not frmEstadisticas.Visible) And (Not frmCantidad.Visible) Then
+                    SendCMSTXT.Visible = True
+                    SendCMSTXT.SetFocus
+                End If
             
-        Case CustomKeys.BindedKey(eKeyType.mKeyExitGame)
-
-            Call WriteQuit
-            
-        Case CustomKeys.BindedKey(eKeyType.mKeyAttack)
-
-            If Shift <> 0 Then Exit Sub
-            
-            If Not MainTimer.Check(TimersIndex.Arrows, False) Then Exit Sub 'Check if arrows interval has finished.
-            If Not MainTimer.Check(TimersIndex.CastSpell, False) Then 'Check if spells interval has finished.
-                If Not MainTimer.Check(TimersIndex.CastAttack) Then Exit Sub 'Corto intervalo Golpe-Hechizo
-            Else
-
-                If Not MainTimer.Check(TimersIndex.Attack) Or UserDescansar Or UserMeditar Then Exit Sub
-            End If
-            
-            If frmCustomKeys.Visible Then Exit Sub 'Chequeo si esta visible la ventana de configuracion de teclas.
-            
-            Call WriteAttack
-            
-        Case CustomKeys.BindedKey(eKeyType.mKeyTalk)
-
-            If SendCMSTXT.Visible Then Exit Sub
-            
-            If (Not Comerciando) And (Not MirandoAsignarSkills) And (Not frmMSG.Visible) And (Not MirandoForo) And (Not frmEstadisticas.Visible) And (Not frmCantidad.Visible) Then
-                SendTxt.Visible = True
-                SendTxt.SetFocus
-            End If
-            
-    End Select
+            Case CustomKeys.BindedKey(eKeyType.mKeyTakeScreenShot)
+                Call Mod_General.Client_Screenshot(frmMain.hDC, 1024, 768)
+                    
+            Case CustomKeys.BindedKey(eKeyType.mKeyShowOptions)
+                Call frmOpciones.Show(vbModeless, frmMain)
+                
+            Case CustomKeys.BindedKey(eKeyType.mKeyExitGame)
+    
+                Call WriteQuit
+                
+            Case CustomKeys.BindedKey(eKeyType.mKeyAttack)
+    
+                If Shift <> 0 Then Exit Sub
+                
+                If Not MainTimer.Check(TimersIndex.Arrows, False) Then Exit Sub 'Check if arrows interval has finished.
+                If Not MainTimer.Check(TimersIndex.CastSpell, False) Then 'Check if spells interval has finished.
+                    If Not MainTimer.Check(TimersIndex.CastAttack) Then Exit Sub 'Corto intervalo Golpe-Hechizo
+                Else
+    
+                    If Not MainTimer.Check(TimersIndex.Attack) Or UserDescansar Or UserMeditar Then Exit Sub
+                End If
+                
+                If frmCustomKeys.Visible Then Exit Sub 'Chequeo si esta visible la ventana de configuracion de teclas.
+                
+                Call WriteAttack
+                
+            Case CustomKeys.BindedKey(eKeyType.mKeyTalk)
+    
+                If SendCMSTXT.Visible Then Exit Sub
+                
+                If (Not Comerciando) And (Not MirandoAsignarSkills) And (Not frmMSG.Visible) And (Not MirandoForo) And (Not frmEstadisticas.Visible) And (Not frmCantidad.Visible) Then
+                    SendTxt.Visible = True
+                    SendTxt.SetFocus
+                End If
+                
+        End Select
+     End If
 End Sub
 
 Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -1755,8 +1754,8 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         SendTxt.Visible = False
         
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
         Else
             hlst.SetFocus
         End If
@@ -2113,7 +2112,7 @@ Private Sub btnInventario_Click()
     'InvEqu.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\Centroinventario.jpg")
 
     ' Activo controles de inventario
-    PicInv.Visible = True
+    picInv.Visible = True
 
     ' Desactivo controles de hechizo
     hlst.Visible = False
@@ -2143,7 +2142,7 @@ Private Sub btnHechizos_Click()
     cmdMoverHechi(1).Visible = True
     
     ' Desactivo controles de inventario
-    PicInv.Visible = False
+    picInv.Visible = False
 
 End Sub
 
@@ -2203,8 +2202,8 @@ Private Sub RecTxt_Change()
            (Not frmCantidad.Visible) And _
            (Not MirandoParty) Then
 
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
                         
         ElseIf hlst.Visible Then
             hlst.SetFocus
@@ -2217,8 +2216,8 @@ End Sub
 
 Private Sub RecTxt_KeyDown(KeyCode As Integer, Shift As Integer)
 
-    If PicInv.Visible Then
-        PicInv.SetFocus
+    If picInv.Visible Then
+        picInv.SetFocus
     Else
         hlst.SetFocus
     End If
@@ -2283,8 +2282,8 @@ Private Sub SendCMSTXT_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         Me.SendCMSTXT.Visible = False
         
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
         Else
             hlst.SetFocus
         End If
