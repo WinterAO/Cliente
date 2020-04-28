@@ -20,7 +20,6 @@ Public Enum ePath
     Skins
     Sounds
     Musica
-    MusicaMp3
     Mapas
     Lenguajes
     Fonts
@@ -36,7 +35,7 @@ Public Type tSetupMods
     TonalidadPJ As Boolean
     UsarSombras As Boolean
     ParticleEngine As Boolean
-    vSync As Boolean
+    
     LimiteFPS As Boolean
     bNoRes      As Boolean
     
@@ -110,13 +109,10 @@ Public Function path(ByVal PathType As ePath) As String
             path = App.path & "\Recursos\Mapas\"
             
         Case ePath.Musica
-            path = App.path & "\Recursos\AUDIO\MIDI\"
-
-        Case ePath.MusicaMp3
-            path = App.path & "\Recursos\AUDIO\MP3\"
+            path = App.path & "\Recursos\MP3\"
             
         Case ePath.Sounds
-            path = App.path & "\Recursos\AUDIO\WAV\"
+            path = App.path & "\Recursos\WAV\"
     
     End Select
 
@@ -139,8 +135,8 @@ Public Sub LeerConfiguracion()
         .PartyMembers = CBool(Lector.GetValue("VIDEO", "PARTY_MEMBERS"))
         .TonalidadPJ = CBool(Lector.GetValue("VIDEO", "TONALIDAD_PJ"))
         .UsarSombras = CBool(Lector.GetValue("VIDEO", "SOMBRAS"))
-        .ParticleEngine = CBool(Lector.GetValue("VIDEO", "PARTICLE_ENGINE"))
-        .vSync = CBool(Lector.GetValue("VIDEO", "VSYNC"))
+        .ParticleEngine = CBool(Lector.GetValue("VIDEO", "LIMITARFPS"))
+        .LimiteFPS = CBool(Lector.GetValue("VIDEO", "LIMITARFPS"))
         
         ' AUDIO
         .bMusic = CBool(Lector.GetValue("AUDIO", "MUSIC"))
@@ -172,7 +168,7 @@ Public Sub LeerConfiguracion()
         Debug.Print "TonalidadPJ: " & .TonalidadPJ
         Debug.Print "UsarSombras: " & .UsarSombras
         Debug.Print "ParticleEngine: " & .ParticleEngine
-        Debug.Print "vSync: " & .vSync
+        Debug.Print "LimitarFPS: " & .LimiteFPS
         Debug.Print "bMusic: " & .bMusic
         Debug.Print "bSound: " & .bSound
         Debug.Print "bSoundEffects: " & .bSoundEffects
@@ -213,8 +209,8 @@ Public Sub GuardarConfiguracion()
         Call Lector.ChangeValue("VIDEO", "PARTY_MEMBERS", IIf(.PartyMembers, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "TONALIDAD_PJ", IIf(.TonalidadPJ, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "SOMBRAS", IIf(.UsarSombras, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "PARTICLE_ENGINE", IIf(.ParticleEngine, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "VSYNC", IIf(.vSync, "True", "False"))
+        Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ParticleEngine, "True", "False"))
+        Call Lector.ChangeValue("VIDEO", "LimitarFPS", IIf(.LimiteFPS, "True", "False"))
         
         ' AUDIO
         Call Lector.ChangeValue("AUDIO", "MUSIC", IIf(Audio.MusicActivated, "True", "False"))

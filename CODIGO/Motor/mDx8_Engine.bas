@@ -84,7 +84,7 @@ Public Function Engine_DirectX8_Init() As Boolean
         ' D3DSWAPEFFECT_DISCARD:
         '   Means that every time the render is presented, the backbuffer
         '   image is destroyed, so everything must be rendered again.
-        .SwapEffect = IIf((ClientSetup.vSync) = True, D3DSWAPEFFECT_COPY_VSYNC, D3DSWAPEFFECT_DISCARD)
+        .SwapEffect = D3DSWAPEFFECT_DISCARD
         
         .BackBufferFormat = DispMode.Format
         .BackBufferWidth = ScreenWidth
@@ -407,7 +407,7 @@ Public Function SetARGB_Alpha(rgb_list() As Long, Alpha As Byte) As Long()
 
 End Function
 
-Private Function Engine_Collision_Between(ByVal Value As Single, ByVal Bound1 As Single, ByVal Bound2 As Single) As Byte
+Private Function Engine_Collision_Between(ByVal value As Single, ByVal Bound1 As Single, ByVal Bound2 As Single) As Byte
 '*****************************************************************
 'Find if a value is between two other values (used for line collision)
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_Collision_Between
@@ -415,12 +415,12 @@ Private Function Engine_Collision_Between(ByVal Value As Single, ByVal Bound1 As
 
     'Checks if a value lies between two bounds
     If Bound1 > Bound2 Then
-        If Value >= Bound2 Then
-            If Value <= Bound1 Then Engine_Collision_Between = 1
+        If value >= Bound2 Then
+            If value <= Bound1 Then Engine_Collision_Between = 1
         End If
     Else
-        If Value >= Bound1 Then
-            If Value <= Bound2 Then Engine_Collision_Between = 1
+        If value >= Bound1 Then
+            If value <= Bound2 Then Engine_Collision_Between = 1
         End If
     End If
     
@@ -624,15 +624,21 @@ End Function
 
 Public Sub Engine_Update_FPS()
     '***************************************************
-    'Author: Standelf
-    'Last Modification: 09/09/2019
-    'Calculate FPS
+    'Author: ???
+    'Last Modification: ????
+    'Calculate $ Limitate (if active) FPS.
     '***************************************************
 
-    If FPSLastCheck + 1000 < GetTickCount Then
+    If ClientSetup.LimiteFPS Then
+        While (GetTickCount - FPSLastCheck) \ 10 < FramesPerSecCounter
+            Call Sleep(5)
+        Wend
+    End If
+
+    If FPSLastCheck + 1000 < timeGetTime Then
         FPS = FramesPerSecCounter
         FramesPerSecCounter = 1
-        FPSLastCheck = GetTickCount
+        FPSLastCheck = timeGetTime
     Else
         FramesPerSecCounter = FramesPerSecCounter + 1
 
