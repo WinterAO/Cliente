@@ -1,6 +1,6 @@
 # Auto-CRLF setting.
 * text eol=crlf
-/INIT/sinfo.dat eol=lf
+/RECURSOS/INIT/Config.ini eol=lf
 /GRAFICOS/Fonts/font1.dat eol=lf
 /GRAFICOS/Fonts/font2.dat eol=lf
 /GRAFICOS/Fonts/font3.dat eol=lf
