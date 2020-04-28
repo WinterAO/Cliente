@@ -34,9 +34,6 @@ Attribute VB_Name = "Mod_General"
 Option Explicit
 Public bFogata As Boolean
 
-Public bLluvia() As Byte ' Array para determinar si
-'debemos mostrar la animacion de la lluvia
-
 Private lFrameTimer As Long
 
 Private m_Jpeg             As clsJpeg
@@ -738,7 +735,6 @@ Private Sub LoadInitialConfig()
                             True, False, True, rtfCenter)
                             
     Call CargarTips
-    Call CargarArrayLluvia
     Call CargarAnimArmas
     Call CargarAnimEscudos
     Call CargarColores
