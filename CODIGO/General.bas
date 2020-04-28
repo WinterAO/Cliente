@@ -657,7 +657,7 @@ Private Sub LoadInitialConfig()
                             True, False, True, rtfCenter)
                             
     'Inicializamos el sonido
-    Call Audio.Initialize(DirectX, frmMain.hWnd, Game.path(Sounds), Game.path(Musica), Game.path(MusicaMp3))
+    Call Audio.Initialize(DirectX, frmMain.hWnd, Game.path(Sounds), Game.path(Musica), Game.path(Musica))
 
     'Enable / Disable audio
     Audio.MusicActivated = ClientSetup.bMusic

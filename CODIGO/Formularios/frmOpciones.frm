@@ -6,7 +6,7 @@ Begin VB.Form frmOpciones
    ClientHeight    =   7185
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   7410
+   ClientWidth     =   9390
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    BeginProperty Font 
@@ -25,7 +25,7 @@ Begin VB.Form frmOpciones
    Picture         =   "frmOpciones.frx":0152
    ScaleHeight     =   479
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   494
+   ScaleWidth      =   626
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
    Begin VB.Frame FraSkins 
@@ -39,11 +39,21 @@ Begin VB.Form frmOpciones
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   2895
-      Left            =   4920
-      TabIndex        =   5
-      Top             =   840
+      Height          =   3615
+      Left            =   5040
+      TabIndex        =   4
+      Top             =   3120
       Width           =   2415
+      Begin VB.ComboBox cmdLenguajesComboBox 
+         BackColor       =   &H00FFFFFF&
+         ForeColor       =   &H00000000&
+         Height          =   315
+         Left            =   240
+         Style           =   2  'Dropdown List
+         TabIndex        =   11
+         Top             =   2880
+         Width           =   1815
+      End
       Begin VB.ComboBox cmdSkinsComboBox 
          BackColor       =   &H00FFFFFF&
          ForeColor       =   &H00000000&
@@ -52,7 +62,7 @@ Begin VB.Form frmOpciones
          Left            =   240
          List            =   "frmOpciones.frx":281E5
          Style           =   2  'Dropdown List
-         TabIndex        =   10
+         TabIndex        =   9
          Top             =   720
          Width           =   1815
       End
@@ -62,7 +72,7 @@ Begin VB.Form frmOpciones
          Left            =   240
          List            =   "frmOpciones.frx":28203
          Style           =   2  'Dropdown List
-         TabIndex        =   9
+         TabIndex        =   8
          Top             =   2160
          Width           =   1815
       End
@@ -72,9 +82,19 @@ Begin VB.Form frmOpciones
          Left            =   240
          List            =   "frmOpciones.frx":28286
          Style           =   2  'Dropdown List
-         TabIndex        =   7
+         TabIndex        =   6
          Top             =   1440
          Width           =   1815
+      End
+      Begin VB.Label lblLenguaje 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Lenguaje"
+         Height          =   195
+         Left            =   240
+         TabIndex        =   12
+         Top             =   2640
+         Width           =   660
       End
       Begin VB.Label lblSkinDe 
          AutoSize        =   -1  'True
@@ -82,7 +102,7 @@ Begin VB.Form frmOpciones
          Caption         =   "Skin de Interfaces"
          Height          =   195
          Left            =   240
-         TabIndex        =   11
+         TabIndex        =   10
          Top             =   480
          Width           =   1305
       End
@@ -92,7 +112,7 @@ Begin VB.Form frmOpciones
          Caption         =   "Mouse Grafico de Hechizos"
          Height          =   195
          Left            =   240
-         TabIndex        =   8
+         TabIndex        =   7
          Top             =   1920
          Width           =   1920
       End
@@ -102,20 +122,10 @@ Begin VB.Form frmOpciones
          Caption         =   "Mouse Grafico General"
          Height          =   195
          Left            =   240
-         TabIndex        =   6
+         TabIndex        =   5
          Top             =   1200
          Width           =   1620
       End
-   End
-   Begin VB.ComboBox cmdLenguajesComboBox 
-      BackColor       =   &H00004080&
-      ForeColor       =   &H80000018&
-      Height          =   315
-      Left            =   3000
-      TabIndex        =   4
-      Text            =   "Lenguaje"
-      Top             =   4680
-      Width           =   1575
    End
    Begin VB.TextBox txtCantMensajes 
       Alignment       =   2  'Center
@@ -188,6 +198,22 @@ Begin VB.Form frmOpciones
       LargeChange     =   10
       Max             =   100
       TickStyle       =   3
+   End
+   Begin VB.Image chkLimitarFPS 
+      Height          =   225
+      Left            =   4920
+      Top             =   120
+      Width           =   210
+   End
+   Begin VB.Label lblLimitarFPS 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Limitar FPS"
+      Height          =   195
+      Left            =   5280
+      TabIndex        =   13
+      Top             =   120
+      Width           =   780
    End
    Begin VB.Image imgChkDesactivarFragShooter 
       Height          =   225
@@ -351,6 +377,22 @@ Private bSoundEffectsActivated As Boolean
 
 Private loading As Boolean
 
+Private Sub chkLimitarFPS_Click()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 28/04/2020
+'20/04/2020: Lorwik - Seteamos el Limite de FPS
+'***************************************************
+    ClientSetup.LimiteFPS = Not ClientSetup.LimiteFPS
+    
+    If ClientSetup.LimiteFPS Then
+        chkLimitarFPS.Picture = picCheckBox
+    Else
+        Set chkLimitarFPS.Picture = Nothing
+    End If
+
+End Sub
+
 Private Sub cmdLenguajesComboBox_Click()
 '***************************************************
 'Author: Recox
@@ -493,7 +535,7 @@ Private Sub imgChkMusica_Click()
         If Not Audio.MusicActivated Then  'Prevent the music from reloading
             Audio.MusicActivated = True
             Slider1(0).Enabled = True
-            Slider1(0).Value = Audio.MusicVolume
+            Slider1(0).value = Audio.MusicVolume
         End If
         
         imgChkMusica.Picture = picCheckBox
@@ -533,7 +575,7 @@ Private Sub imgChkSonidos_Click()
     Else
         Audio.SoundActivated = True
         Slider1(1).Enabled = True
-        Slider1(1).Value = Audio.SoundVolume
+        Slider1(1).value = Audio.SoundVolume
         
         imgChkSonidos.Picture = picCheckBox
     End If
@@ -674,14 +716,14 @@ Private Sub LoadUserConfig()
     ' Load music config
     bMusicActivated = Audio.MusicActivated
     Slider1(0).Enabled = bMusicActivated
-    Slider1(0).Value = Audio.MusicVolume
+    Slider1(0).value = Audio.MusicVolume
     
     If bMusicActivated Then imgChkMusica.Picture = picCheckBox
     
     ' Load Sound config
     bSoundActivated = Audio.SoundActivated
     Slider1(1).Enabled = bSoundActivated
-    Slider1(1).Value = Audio.SoundVolume
+    Slider1(1).value = Audio.SoundVolume
     
     If bSoundActivated Then imgChkSonidos.Picture = picCheckBox
     
@@ -708,22 +750,24 @@ Private Sub LoadUserConfig()
     If Not ClientSetup.bActive Then imgChkDesactivarFragShooter.Picture = picCheckBox
     
     txtLevel = ClientSetup.byMurderedLevel
+    
+    If ClientSetup.LimiteFPS Then chkLimitarFPS.Picture = picCheckBox
 End Sub
 
 Private Sub Slider1_Change(Index As Integer)
     Select Case Index
         Case 0
-            Audio.MusicVolume = Slider1(0).Value
+            Audio.MusicVolume = Slider1(0).value
         Case 1
-            Audio.SoundVolume = Slider1(1).Value
+            Audio.SoundVolume = Slider1(1).value
     End Select
 End Sub
 
 Private Sub Slider1_Scroll(Index As Integer)
     Select Case Index
         Case 0
-            Audio.MusicVolume = Slider1(0).Value
+            Audio.MusicVolume = Slider1(0).value
         Case 1
-            Audio.SoundVolume = Slider1(1).Value
+            Audio.SoundVolume = Slider1(1).value
     End Select
 End Sub
