@@ -399,7 +399,7 @@ Private Sub cmdLenguajesComboBox_Click()
 'Last Modification: 01/04/2019
 '10/11/2019: Recox - Seteamos el lenguaje del juego
 '***************************************************
-    Call WriteVar(App.path & "\INIT\Config.ini", "Parameters", "Language", cmdLenguajesComboBox.Text)
+    Call WriteVar(Game.path(INIT) & "Config.ini", "Parameters", "Language", cmdLenguajesComboBox.Text)
     MsgBox ("Debe reiniciar el juego aplicar el cambio de idioma. Idioma Seleccionado: " & cmdLenguajesComboBox.Text)
 End Sub
 
