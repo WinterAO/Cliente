@@ -174,6 +174,7 @@ Public Type Char
     
     Criminal As Byte
     Atacable As Byte
+    WorldBoss As Boolean
     
     Nombre As String
     Clan As String
@@ -961,6 +962,7 @@ Sub RenderHUD()
 
         ' Calculamos los FPS y los mostramos
         Call Engine_Update_FPS
+        If ClientSetup.FPSShow = True Then Call DrawText(700, 5, "FPS: " & Mod_TileEngine.FPS, -1, True)
         
         If ClientSetup.HUD Then
             If Not lblHelm = "0/0" And Not lblHelm = "" Then
@@ -1632,11 +1634,14 @@ Private Sub RenderName(ByVal CharIndex As Long, _
             If .muerto Then
                 Color = D3DColorARGB(255, 220, 220, 255)
             Else
-
-                If .Criminal Then
-                    Color = ColoresPJ(50)
+                If .WorldBoss = True Then
+                    Color = ColoresPJ(8)
                 Else
-                    Color = ColoresPJ(49)
+                    If .Criminal Then
+                        Color = ColoresPJ(50)
+                    Else
+                        Color = ColoresPJ(49)
+                    End If
                 End If
             End If
         Else

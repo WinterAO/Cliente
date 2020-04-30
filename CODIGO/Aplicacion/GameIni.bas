@@ -38,6 +38,7 @@ Public Type tSetupMods
     HUD As Boolean
     LimiteFPS As Boolean
     bNoRes      As Boolean
+    FPSShow      As Boolean
     
     ' AUDIO
     bMusic    As Boolean

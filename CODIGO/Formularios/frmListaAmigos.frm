@@ -182,7 +182,6 @@ Private Sub BorrarAmigo_Click()
     
 End Sub
 
-
 Private Sub btnSalir_Click()
     Unload Me
 End Sub

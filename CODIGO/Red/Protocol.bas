@@ -2618,6 +2618,8 @@ On Error GoTo errhandler
             .Criminal = 0
         End If
         
+        If NickColor = 8 Then .WorldBoss = True
+        
         .Atacable = (NickColor And eNickColor.ieAtacable) <> 0
         
         privs = Buffer.ReadByte()

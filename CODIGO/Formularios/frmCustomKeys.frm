@@ -30,6 +30,26 @@ Begin VB.Form frmCustomKeys
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   225
+      Index           =   24
+      Left            =   6240
+      TabIndex        =   25
+      Top             =   1920
+      Width           =   1620
+   End
+   Begin VB.TextBox Text1 
+      BackColor       =   &H00000000&
+      BorderStyle     =   0  'None
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   225
       Index           =   6
       Left            =   6270
       TabIndex        =   17
@@ -482,17 +502,25 @@ Begin VB.Form frmCustomKeys
       TabIndex        =   23
       Top             =   6720
       Width           =   2655
-      _extentx        =   4683
-      _extenty        =   661
-      tx              =   ""
-      enab            =   -1  'True
-      fcol            =   16777215
-      ocol            =   16777215
-      pice            =   "frmCustomKeys.frx":0000
-      picf            =   "frmCustomKeys.frx":001C
-      pich            =   "frmCustomKeys.frx":0038
-      picv            =   "frmCustomKeys.frx":0054
-      font            =   "frmCustomKeys.frx":0070
+      _ExtentX        =   4683
+      _ExtentY        =   661
+      TX              =   ""
+      ENAB            =   -1  'True
+      FCOL            =   16777215
+      OCOL            =   16777215
+      PICE            =   "frmCustomKeys.frx":0000
+      PICF            =   "frmCustomKeys.frx":001C
+      PICH            =   "frmCustomKeys.frx":0038
+      PICV            =   "frmCustomKeys.frx":0054
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin WinterAO.uAOButton imgGuardar 
       Height          =   375
@@ -500,17 +528,34 @@ Begin VB.Form frmCustomKeys
       TabIndex        =   24
       Top             =   6720
       Width           =   2655
-      _extentx        =   4683
-      _extenty        =   661
-      tx              =   ""
-      enab            =   -1  'True
-      fcol            =   16777215
-      ocol            =   16777215
-      pice            =   "frmCustomKeys.frx":0094
-      picf            =   "frmCustomKeys.frx":00B0
-      pich            =   "frmCustomKeys.frx":00CC
-      picv            =   "frmCustomKeys.frx":00E8
-      font            =   "frmCustomKeys.frx":0104
+      _ExtentX        =   4683
+      _ExtentY        =   661
+      TX              =   ""
+      ENAB            =   -1  'True
+      FCOL            =   16777215
+      OCOL            =   16777215
+      PICE            =   "frmCustomKeys.frx":0070
+      PICF            =   "frmCustomKeys.frx":008C
+      PICH            =   "frmCustomKeys.frx":00A8
+      PICV            =   "frmCustomKeys.frx":00C4
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+   End
+   Begin VB.Label lblMostrarFPS 
+      AutoSize        =   -1  'True
+      Caption         =   "Mostrar FPS"
+      Height          =   195
+      Left            =   4560
+      TabIndex        =   26
+      Top             =   1920
+      Width           =   1575
    End
 End
 Attribute VB_Name = "frmCustomKeys"

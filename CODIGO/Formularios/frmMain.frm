@@ -43,7 +43,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOProgress uAOProgressExperienceLevel 
       Height          =   255
       Left            =   12240
-      TabIndex        =   36
+      TabIndex        =   35
       ToolTipText     =   "Experiencia necesaria para pasar de nivel"
       Top             =   1500
       Width           =   2415
@@ -71,7 +71,7 @@ Begin VB.Form frmMain
       MousePointer    =   99  'Custom
       ScaleHeight     =   450
       ScaleWidth      =   420
-      TabIndex        =   17
+      TabIndex        =   16
       Top             =   10965
       Width           =   420
    End
@@ -84,7 +84,7 @@ Begin VB.Form frmMain
       ScaleHeight     =   100
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   100
-      TabIndex        =   33
+      TabIndex        =   32
       TabStop         =   0   'False
       Top             =   420
       Width           =   1500
@@ -120,7 +120,7 @@ Begin VB.Form frmMain
       MousePointer    =   99  'Custom
       ScaleHeight     =   450
       ScaleWidth      =   420
-      TabIndex        =   25
+      TabIndex        =   24
       Top             =   10965
       Width           =   420
    End
@@ -136,7 +136,7 @@ Begin VB.Form frmMain
       MousePointer    =   99  'Custom
       ScaleHeight     =   450
       ScaleWidth      =   420
-      TabIndex        =   20
+      TabIndex        =   19
       Top             =   10965
       Width           =   420
    End
@@ -153,7 +153,7 @@ Begin VB.Form frmMain
       ScaleHeight     =   30
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   28
-      TabIndex        =   19
+      TabIndex        =   18
       Top             =   10965
       Width           =   420
    End
@@ -256,6 +256,7 @@ Begin VB.Form frmMain
       _ExtentY        =   2937
       _Version        =   393217
       BackColor       =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -290,14 +291,14 @@ Begin VB.Form frmMain
       ScaleHeight     =   608
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   736
-      TabIndex        =   26
+      TabIndex        =   25
       Top             =   2325
       Width           =   11040
    End
    Begin WinterAO.uAOButton btnMapa 
       Height          =   255
       Left            =   11880
-      TabIndex        =   24
+      TabIndex        =   23
       TabStop         =   0   'False
       Top             =   8520
       Width           =   1455
@@ -324,7 +325,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnGrupo 
       Height          =   255
       Left            =   11880
-      TabIndex        =   27
+      TabIndex        =   26
       TabStop         =   0   'False
       Top             =   8880
       Width           =   1455
@@ -351,7 +352,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnOpciones 
       Height          =   255
       Left            =   13440
-      TabIndex        =   28
+      TabIndex        =   27
       TabStop         =   0   'False
       Top             =   9240
       Width           =   1455
@@ -378,7 +379,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnEstadisticas 
       Height          =   255
       Left            =   11880
-      TabIndex        =   29
+      TabIndex        =   28
       TabStop         =   0   'False
       Top             =   9240
       Width           =   1455
@@ -405,7 +406,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnClanes 
       Height          =   255
       Left            =   11880
-      TabIndex        =   30
+      TabIndex        =   29
       TabStop         =   0   'False
       Top             =   9600
       Width           =   1455
@@ -432,7 +433,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnInventario 
       Height          =   495
       Left            =   11880
-      TabIndex        =   31
+      TabIndex        =   30
       TabStop         =   0   'False
       Top             =   1920
       Width           =   1455
@@ -459,7 +460,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnHechizos 
       Height          =   495
       Left            =   13440
-      TabIndex        =   32
+      TabIndex        =   31
       TabStop         =   0   'False
       Top             =   1920
       Width           =   1335
@@ -486,7 +487,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnLanzar 
       Height          =   495
       Left            =   11880
-      TabIndex        =   18
+      TabIndex        =   17
       TabStop         =   0   'False
       Top             =   5640
       Visible         =   0   'False
@@ -514,7 +515,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnInfo 
       Height          =   495
       Left            =   13680
-      TabIndex        =   34
+      TabIndex        =   33
       TabStop         =   0   'False
       Top             =   5640
       Visible         =   0   'False
@@ -542,7 +543,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnRetos 
       Height          =   255
       Left            =   13440
-      TabIndex        =   39
+      TabIndex        =   38
       TabStop         =   0   'False
       Top             =   8880
       Width           =   1455
@@ -569,7 +570,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnAmigos 
       Height          =   255
       Left            =   13440
-      TabIndex        =   40
+      TabIndex        =   39
       TabStop         =   0   'False
       Top             =   8520
       Width           =   1455
@@ -609,7 +610,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFF00&
       Height          =   225
       Left            =   13800
-      TabIndex        =   38
+      TabIndex        =   37
       Top             =   1275
       Width           =   555
    End
@@ -620,7 +621,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000014&
       Height          =   255
       Left            =   4920
-      TabIndex        =   35
+      TabIndex        =   34
       Top             =   2040
       Width           =   6255
    End
@@ -636,7 +637,7 @@ Begin VB.Form frmMain
       Height          =   255
       Left            =   13800
       MousePointer    =   99  'Custom
-      TabIndex        =   23
+      TabIndex        =   22
       Top             =   6960
       Width           =   255
    End
@@ -645,7 +646,7 @@ Begin VB.Form frmMain
       Height          =   255
       Left            =   14460
       MousePointer    =   99  'Custom
-      TabIndex        =   22
+      TabIndex        =   21
       Top             =   0
       Width           =   375
    End
@@ -654,20 +655,9 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   14880
       MousePointer    =   99  'Custom
-      TabIndex        =   21
+      TabIndex        =   20
       Top             =   -120
       Width           =   375
-   End
-   Begin VB.Label lblFPS 
-      Alignment       =   2  'Center
-      BackStyle       =   0  'Transparent
-      Caption         =   "101"
-      ForeColor       =   &H80000018&
-      Height          =   180
-      Left            =   6465
-      TabIndex        =   16
-      Top             =   30
-      Width           =   795
    End
    Begin VB.Image cmdMoverHechi 
       Height          =   240
@@ -721,7 +711,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFC0C0&
       Height          =   255
       Left            =   12000
-      TabIndex        =   37
+      TabIndex        =   36
       Top             =   330
       Width           =   2985
    End
@@ -1256,6 +1246,9 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                     
                 Case CustomKeys.BindedKey(eKeyType.mKeyToggleSound)
                     Audio.SoundActivated = Not Audio.SoundActivated
+                    
+                Case CustomKeys.BindedKey(eKeyType.mKeyToggleFPS)
+                    ClientSetup.FPSShow = Not ClientSetup.FPSShow
                 
                 Case CustomKeys.BindedKey(eKeyType.mKeyGetObject)
                     Call AgarrarItem
@@ -1641,8 +1634,8 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         SendTxt.Visible = False
         
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
         Else
             hlst.SetFocus
         End If
@@ -1999,7 +1992,7 @@ Private Sub btnInventario_Click()
     'InvEqu.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\Centroinventario.jpg")
 
     ' Activo controles de inventario
-    picInv.Visible = True
+    PicInv.Visible = True
 
     ' Desactivo controles de hechizo
     hlst.Visible = False
@@ -2029,7 +2022,7 @@ Private Sub btnHechizos_Click()
     cmdMoverHechi(1).Visible = True
     
     ' Desactivo controles de inventario
-    picInv.Visible = False
+    PicInv.Visible = False
 
 End Sub
 
@@ -2089,8 +2082,8 @@ Private Sub RecTxt_Change()
            (Not frmCantidad.Visible) And _
            (Not MirandoParty) Then
 
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
                         
         ElseIf hlst.Visible Then
             hlst.SetFocus
@@ -2103,8 +2096,8 @@ End Sub
 
 Private Sub RecTxt_KeyDown(KeyCode As Integer, Shift As Integer)
 
-    If picInv.Visible Then
-        picInv.SetFocus
+    If PicInv.Visible Then
+        PicInv.SetFocus
     Else
         hlst.SetFocus
     End If
@@ -2169,8 +2162,8 @@ Private Sub SendCMSTXT_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         Me.SendCMSTXT.Visible = False
         
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
         Else
             hlst.SetFocus
         End If
