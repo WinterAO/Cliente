@@ -1668,6 +1668,50 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 
             Case "/MIMETIZAR"
                 Call WriteImitate
+                
+            Case "/EDITGEMS"
+                If notNullArguments And CantidadArgumentos >= 2 Then
+                    If Not IsNumeric(ArgumentosAll(0)) And IsNumeric(ArgumentosAll(1)) Then
+                        Call WriteEditGems(ArgumentosAll(0), ArgumentosAll(1), 0)
+                    Else
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
+                    End If
+                Else
+                    'Avisar que falta el parametro
+                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
+                End If
+                
+            Case "/SUMARGEMS"
+                If notNullArguments And CantidadArgumentos >= 2 Then
+                    If Not IsNumeric(ArgumentosAll(0)) And IsNumeric(ArgumentosAll(1)) Then
+                        Call WriteEditGems(ArgumentosAll(0), ArgumentosAll(1), 1)
+                    Else
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
+                    End If
+                Else
+                    'Avisar que falta el parametro
+                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
+                End If
+                
+            Case "/RESTARGEMS"
+                If notNullArguments And CantidadArgumentos >= 2 Then
+                    If Not IsNumeric(ArgumentosAll(0)) And IsNumeric(ArgumentosAll(1)) Then
+                        Call WriteEditGems(ArgumentosAll(0), ArgumentosAll(1), 2)
+                    Else
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
+                    End If
+                Else
+                    'Avisar que falta el parametro
+                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
+                End If
+                
+            Case "/CONSULTARGEMS"
+                If notNullArguments Then
+                    Call WriteConsultarGems(ArgumentosRaw)
+                Else
+                    'Avisar que falta el parametro
+                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /CONSULTARGEMS NICKNAME.")
+                End If
             
             Case Else
                 Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_COMANDO_INCORRECTO").item("TEXTO"))

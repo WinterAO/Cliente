@@ -43,7 +43,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOProgress uAOProgressExperienceLevel 
       Height          =   255
       Left            =   12240
-      TabIndex        =   40
+      TabIndex        =   36
       ToolTipText     =   "Experiencia necesaria para pasar de nivel"
       Top             =   1500
       Width           =   2415
@@ -71,7 +71,7 @@ Begin VB.Form frmMain
       MousePointer    =   99  'Custom
       ScaleHeight     =   450
       ScaleWidth      =   420
-      TabIndex        =   21
+      TabIndex        =   17
       Top             =   10965
       Width           =   420
    End
@@ -84,7 +84,7 @@ Begin VB.Form frmMain
       ScaleHeight     =   100
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   100
-      TabIndex        =   37
+      TabIndex        =   33
       TabStop         =   0   'False
       Top             =   420
       Width           =   1500
@@ -120,7 +120,7 @@ Begin VB.Form frmMain
       MousePointer    =   99  'Custom
       ScaleHeight     =   450
       ScaleWidth      =   420
-      TabIndex        =   29
+      TabIndex        =   25
       Top             =   10965
       Width           =   420
    End
@@ -136,7 +136,7 @@ Begin VB.Form frmMain
       MousePointer    =   99  'Custom
       ScaleHeight     =   450
       ScaleWidth      =   420
-      TabIndex        =   24
+      TabIndex        =   20
       Top             =   10965
       Width           =   420
    End
@@ -153,7 +153,7 @@ Begin VB.Form frmMain
       ScaleHeight     =   30
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   28
-      TabIndex        =   23
+      TabIndex        =   19
       Top             =   10965
       Width           =   420
    End
@@ -179,7 +179,7 @@ Begin VB.Form frmMain
       ScaleHeight     =   225
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   160
-      TabIndex        =   16
+      TabIndex        =   12
       Top             =   2550
       Width           =   2400
    End
@@ -275,7 +275,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   2790
       Left            =   12012
-      TabIndex        =   17
+      TabIndex        =   13
       TabStop         =   0   'False
       Top             =   2550
       Visible         =   0   'False
@@ -290,14 +290,14 @@ Begin VB.Form frmMain
       ScaleHeight     =   608
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   736
-      TabIndex        =   30
+      TabIndex        =   26
       Top             =   2325
       Width           =   11040
    End
    Begin WinterAO.uAOButton btnMapa 
       Height          =   255
       Left            =   11880
-      TabIndex        =   28
+      TabIndex        =   24
       TabStop         =   0   'False
       Top             =   8520
       Width           =   1455
@@ -324,7 +324,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnGrupo 
       Height          =   255
       Left            =   11880
-      TabIndex        =   31
+      TabIndex        =   27
       TabStop         =   0   'False
       Top             =   8880
       Width           =   1455
@@ -351,7 +351,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnOpciones 
       Height          =   255
       Left            =   13440
-      TabIndex        =   32
+      TabIndex        =   28
       TabStop         =   0   'False
       Top             =   9240
       Width           =   1455
@@ -378,7 +378,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnEstadisticas 
       Height          =   255
       Left            =   11880
-      TabIndex        =   33
+      TabIndex        =   29
       TabStop         =   0   'False
       Top             =   9240
       Width           =   1455
@@ -405,7 +405,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnClanes 
       Height          =   255
       Left            =   11880
-      TabIndex        =   34
+      TabIndex        =   30
       TabStop         =   0   'False
       Top             =   9600
       Width           =   1455
@@ -432,7 +432,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnInventario 
       Height          =   495
       Left            =   11880
-      TabIndex        =   35
+      TabIndex        =   31
       TabStop         =   0   'False
       Top             =   1920
       Width           =   1455
@@ -459,7 +459,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnHechizos 
       Height          =   495
       Left            =   13440
-      TabIndex        =   36
+      TabIndex        =   32
       TabStop         =   0   'False
       Top             =   1920
       Width           =   1335
@@ -486,7 +486,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnLanzar 
       Height          =   495
       Left            =   11880
-      TabIndex        =   22
+      TabIndex        =   18
       TabStop         =   0   'False
       Top             =   5640
       Visible         =   0   'False
@@ -514,7 +514,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnInfo 
       Height          =   495
       Left            =   13680
-      TabIndex        =   38
+      TabIndex        =   34
       TabStop         =   0   'False
       Top             =   5640
       Visible         =   0   'False
@@ -542,7 +542,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnRetos 
       Height          =   255
       Left            =   13440
-      TabIndex        =   43
+      TabIndex        =   39
       TabStop         =   0   'False
       Top             =   8880
       Width           =   1455
@@ -569,7 +569,7 @@ Begin VB.Form frmMain
    Begin WinterAO.uAOButton btnAmigos 
       Height          =   255
       Left            =   13440
-      TabIndex        =   44
+      TabIndex        =   40
       TabStop         =   0   'False
       Top             =   8520
       Width           =   1455
@@ -609,7 +609,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFF00&
       Height          =   225
       Left            =   13800
-      TabIndex        =   42
+      TabIndex        =   38
       Top             =   1275
       Width           =   555
    End
@@ -620,7 +620,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000014&
       Height          =   255
       Left            =   4920
-      TabIndex        =   39
+      TabIndex        =   35
       Top             =   2040
       Width           =   6255
    End
@@ -636,7 +636,7 @@ Begin VB.Form frmMain
       Height          =   255
       Left            =   13800
       MousePointer    =   99  'Custom
-      TabIndex        =   27
+      TabIndex        =   23
       Top             =   6960
       Width           =   255
    End
@@ -645,7 +645,7 @@ Begin VB.Form frmMain
       Height          =   255
       Left            =   14460
       MousePointer    =   99  'Custom
-      TabIndex        =   26
+      TabIndex        =   22
       Top             =   0
       Width           =   375
    End
@@ -654,7 +654,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   14880
       MousePointer    =   99  'Custom
-      TabIndex        =   25
+      TabIndex        =   21
       Top             =   -120
       Width           =   375
    End
@@ -665,7 +665,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000018&
       Height          =   180
       Left            =   6465
-      TabIndex        =   20
+      TabIndex        =   16
       Top             =   30
       Width           =   795
    End
@@ -721,7 +721,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFC0C0&
       Height          =   255
       Left            =   12000
-      TabIndex        =   41
+      TabIndex        =   37
       Top             =   330
       Width           =   2985
    End
@@ -741,7 +741,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   225
       Left            =   13080
-      TabIndex        =   19
+      TabIndex        =   15
       Top             =   1245
       Width           =   270
    End
@@ -751,7 +751,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000018&
       Height          =   225
       Left            =   12480
-      TabIndex        =   18
+      TabIndex        =   14
       Top             =   1245
       Width           =   465
    End
@@ -762,7 +762,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H0080FFFF&
       Height          =   210
       Left            =   14160
-      TabIndex        =   15
+      TabIndex        =   11
       Top             =   7020
       Width           =   90
    End
@@ -773,7 +773,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H0000FFFF&
       Height          =   210
       Left            =   12855
-      TabIndex        =   9
+      TabIndex        =   5
       Top             =   6930
       Width           =   210
    End
@@ -784,7 +784,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H0000FFFF&
       Height          =   210
       Left            =   12240
-      TabIndex        =   8
+      TabIndex        =   4
       Top             =   6930
       Width           =   210
    End
@@ -804,89 +804,9 @@ Begin VB.Form frmMain
       ForeColor       =   &H0000FFFF&
       Height          =   255
       Left            =   11790
-      TabIndex        =   7
+      TabIndex        =   3
       Top             =   11160
       Width           =   1455
-   End
-   Begin VB.Label lblWeapon 
-      Alignment       =   2  'Center
-      BackStyle       =   0  'Transparent
-      Caption         =   "000/000"
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H000000FF&
-      Height          =   255
-      Left            =   13920
-      TabIndex        =   6
-      Top             =   10605
-      Width           =   975
-   End
-   Begin VB.Label lblShielder 
-      Alignment       =   2  'Center
-      BackStyle       =   0  'Transparent
-      Caption         =   "00/00"
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFF80&
-      Height          =   255
-      Left            =   13920
-      TabIndex        =   5
-      Top             =   10155
-      Width           =   975
-   End
-   Begin VB.Label lblHelm 
-      Alignment       =   2  'Center
-      BackStyle       =   0  'Transparent
-      Caption         =   "00/00"
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H000080FF&
-      Height          =   255
-      Left            =   12360
-      TabIndex        =   4
-      Top             =   10605
-      Width           =   975
-   End
-   Begin VB.Label lblArmor 
-      Alignment       =   2  'Center
-      BackStyle       =   0  'Transparent
-      Caption         =   "00/00"
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H008080FF&
-      Height          =   255
-      Left            =   12360
-      TabIndex        =   3
-      Top             =   10155
-      Width           =   975
    End
    Begin VB.Image imgScroll 
       Height          =   240
@@ -910,7 +830,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000018&
       Height          =   180
       Left            =   13560
-      TabIndex        =   11
+      TabIndex        =   7
       Top             =   7740
       Width           =   1335
    End
@@ -922,7 +842,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000018&
       Height          =   180
       Left            =   12000
-      TabIndex        =   10
+      TabIndex        =   6
       Top             =   7560
       Width           =   1215
    End
@@ -934,7 +854,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000018&
       Height          =   180
       Left            =   13560
-      TabIndex        =   12
+      TabIndex        =   8
       Top             =   8190
       Width           =   1335
    End
@@ -946,7 +866,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000018&
       Height          =   180
       Left            =   12000
-      TabIndex        =   13
+      TabIndex        =   9
       Top             =   7890
       Width           =   1215
    End
@@ -958,7 +878,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000018&
       Height          =   180
       Left            =   12000
-      TabIndex        =   14
+      TabIndex        =   10
       Top             =   8205
       Width           =   1215
    End
@@ -1562,14 +1482,6 @@ Private Sub lblScroll_Click(Index As Integer)
     Inventario.ScrollInventory (Index = 0)
 End Sub
 
-Private Sub lblArmor_Click()
-    Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_ARMOR_LABEL").item("TEXTO"), _
-                                          JsonLanguage.item("MENSAJE_ARMOR_LABEL").item("COLOR").item(1), _
-                                          JsonLanguage.item("MENSAJE_ARMOR_LABEL").item("COLOR").item(2), _
-                                          JsonLanguage.item("MENSAJE_ARMOR_LABEL").item("COLOR").item(3), _
-                          False, False, True)
-End Sub
-
 Private Sub lblCerrar_Click()
     Call Audio.PlayWave(SND_CLICK)
     frmCerrar.Show vbModal, Me
@@ -1602,14 +1514,6 @@ Private Sub lblHambre_Click()
                           False, False, True)
 End Sub
 
-Private Sub lblHelm_Click()
-    Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_HELM_LABEL").item("TEXTO"), _
-                                          JsonLanguage.item("MENSAJE_HELM_LABEL").item("COLOR").item(1), _
-                                          JsonLanguage.item("MENSAJE_HELM_LABEL").item("COLOR").item(2), _
-                                          JsonLanguage.item("MENSAJE_HELM_LABEL").item("COLOR").item(3), _
-                          False, False, True)
-End Sub
-
 Private Sub lblMana_Click()
     Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_MANA_LABEL").item("TEXTO"), _
                                           JsonLanguage.item("MENSAJE_MANA_LABEL").item("COLOR").item(1), _
@@ -1623,14 +1527,6 @@ Private Sub lblSed_Click()
                                           JsonLanguage.item("MENSAJE_SED_LABEL").item("COLOR").item(1), _
                                           JsonLanguage.item("MENSAJE_SED_LABEL").item("COLOR").item(2), _
                                           JsonLanguage.item("MENSAJE_SED_LABEL").item("COLOR").item(3), _
-                          False, False, True)
-End Sub
-
-Private Sub lblShielder_Click()
-    Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_SHIELDER_LABEL").item("TEXTO"), _
-                                          JsonLanguage.item("MENSAJE_SHIELDER_LABEL").item("COLOR").item(1), _
-                                          JsonLanguage.item("MENSAJE_SHIELDER_LABEL").item("COLOR").item(2), _
-                                          JsonLanguage.item("MENSAJE_SHIELDER_LABEL").item("COLOR").item(3), _
                           False, False, True)
 End Sub
 
@@ -1652,15 +1548,6 @@ End Sub
 
 Private Sub lblMinimizar_Click()
     Me.WindowState = 1
-End Sub
-
-
-Private Sub lblWeapon_Click()
-    Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_WEAPON_LABEL").item("TEXTO"), _
-                                          JsonLanguage.item("MENSAJE_WEAPON_LABEL").item("COLOR").item(1), _
-                                          JsonLanguage.item("MENSAJE_WEAPON_LABEL").item("COLOR").item(2), _
-                                          JsonLanguage.item("MENSAJE_WEAPON_LABEL").item("COLOR").item(3), _
-                          False, False, True)
 End Sub
 
 Private Sub mnuEquipar_Click()

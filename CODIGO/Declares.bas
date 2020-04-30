@@ -32,6 +32,11 @@ Attribute VB_Name = "Mod_Declaraciones"
 
 Option Explicit
 
+Public lblWeapon As String
+Public lblArmor As String
+Public lblShielder As String
+Public lblHelm As String
+
 Public Inet As clsInet
 
 'Recuperar Cuenta mediante la API
@@ -512,6 +517,8 @@ Public Enum eGMCommands
     SearchNpc               '/BUSCAR
     SearchObj               '/BUSCAR
     LimpiarMundo            '/LIMPIARMUNDO
+    EditGems                '/EDITGEMS
+    ConsultarGems           '/CONSULTARGEMS
 End Enum
 
 '

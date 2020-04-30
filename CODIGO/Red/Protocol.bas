@@ -3264,31 +3264,31 @@ On Error GoTo errhandler
     If Equipped Then
         Select Case OBJType
             Case eObjType.otWeapon
-                frmMain.lblWeapon = MinHit & "/" & MaxHit
+                lblWeapon = MinHit & "/" & MaxHit
                 UserWeaponEqpSlot = slot
             Case eObjType.otArmadura
-                frmMain.lblArmor = MinDef & "/" & MaxDef
+                lblArmor = MinDef & "/" & MaxDef
                 UserArmourEqpSlot = slot
             Case eObjType.otescudo
-                frmMain.lblShielder = MinDef & "/" & MaxDef
+                lblShielder = MinDef & "/" & MaxDef
                 UserHelmEqpSlot = slot
             Case eObjType.otcasco
-                frmMain.lblHelm = MinDef & "/" & MaxDef
+                lblHelm = MinDef & "/" & MaxDef
                 UserShieldEqpSlot = slot
         End Select
     Else
         Select Case slot
             Case UserWeaponEqpSlot
-                frmMain.lblWeapon = "0/0"
+                lblWeapon = "0/0"
                 UserWeaponEqpSlot = 0
             Case UserArmourEqpSlot
-                frmMain.lblArmor = "0/0"
+                lblArmor = "0/0"
                 UserArmourEqpSlot = 0
             Case UserHelmEqpSlot
-                frmMain.lblShielder = "0/0"
+                lblShielder = "0/0"
                 UserHelmEqpSlot = 0
             Case UserShieldEqpSlot
-                frmMain.lblHelm = "0/0"
+                lblHelm = "0/0"
                 UserShieldEqpSlot = 0
         End Select
     End If
@@ -11379,6 +11379,44 @@ Public Sub WriteLimpiarMundo()
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.LimpiarMundo)
     End With
+End Sub
+
+''
+' Writes the "EditGems" message to the outgoing data buffer.
+'
+
+Public Sub WriteEditGems(ByVal UserName As String, ByVal CantGems As Long, ByVal Opcion As Byte)
+'***************************************************
+'Author: Lorwik
+'Last Modification: 30/04/2020
+'Edita las gemas del usuario
+'***************************************************
+    
+    With outgoingData
+        Call .WriteByte(ClientPacketID.GMCommands)
+        Call .WriteByte(eGMCommands.EditGems)
+        Call .WriteASCIIString(UserName)
+        Call .WriteLong(CantGems)
+        Call .WriteByte(Opcion)
+    End With
+End Sub
+
+''
+' Writes the "ConsultarGems" message to the outgoing data buffer.
+'
+Public Sub WriteConsultarGems(ByVal UserName As String)
+'***************************************************
+'Author: Lorwik
+'Last Modification: 30/04/2020
+'Consulta las gemas del usuario
+'***************************************************
+    
+    With outgoingData
+        Call .WriteByte(ClientPacketID.GMCommands)
+        Call .WriteByte(eGMCommands.ConsultarGems)
+        Call .WriteASCIIString(UserName)
+    End With
+    
 End Sub
     
 ' Handles the EquitandoToggle message.

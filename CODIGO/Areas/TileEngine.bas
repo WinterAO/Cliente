@@ -934,6 +934,58 @@ RenderScreen_Err:
     
 End Sub
 
+Sub RenderHUD()
+'****************************************
+'Autor: Lorwik
+'Fecha: 29/04/2020
+'Descripción: Renderizamos información relevante al juego en el screen
+'****************************************
+
+        If Dialogos.NeedRender Then Call Dialogos.Render ' GSZAO
+        Call DibujarCartel
+        If DialogosClanes.Activo Then Call DialogosClanes.Draw ' GSZAO
+
+        '*********Tiempo restante para que termine el invi o el paralizar*********
+        If UserParalizado And UserParalizadoSegundosRestantes > 0 Then
+            Call DrawText(1, 25, UserParalizadoSegundosRestantes & " segundos restantes de Paralisis", Color_Paralisis)
+        End If
+
+        If UserInvisible And UserInvisibleSegundosRestantes > 0 Then
+            Call DrawText(1, 13, UserInvisibleSegundosRestantes & " segundos restantes de Invisibilidad", Color_Invisibilidad)
+        End If
+        
+        If Not UserEquitando And UserEquitandoSegundosRestantes > 0 Then
+            Call DrawText(1, 37, UserEquitandoSegundosRestantes & " segundos restantes para volver a montarte", Color_Montura)
+        End If
+        '*************************************************************************
+
+        ' Calculamos los FPS y los mostramos
+        Call Engine_Update_FPS
+        
+        If ClientSetup.HUD Then
+            If Not lblHelm = "0/0" And Not lblHelm = "" Then
+                Call Draw_GrhIndex(30792, 20, 450, 1, Normal_RGBList(), 0, False)
+                Call DrawText(50, 457, lblHelm, -1, True)
+            End If
+            
+            If Not lblArmor = "0/0" And Not lblArmor = "" Then
+                Call Draw_GrhIndex(30793, 20, 490, 1, Normal_RGBList(), 0, False)
+                Call DrawText(50, 497, lblArmor, -1, True)
+            End If
+            
+            If Not lblShielder = "0/0" And Not lblShielder = "" Then
+                Call Draw_GrhIndex(30794, 20, 530, 1, Normal_RGBList(), 0, False)
+                Call DrawText(50, 537, lblShielder, -1, True)
+            End If
+            
+            If Not lblWeapon = "0/0" And Not lblWeapon = "" Then
+                Call Draw_GrhIndex(30795, 20, 570, 1, Normal_RGBList(), 0, False)
+                Call DrawText(50, 573, lblWeapon, -1, True)
+            End If
+        End If
+        
+End Sub
+
 Public Function RenderSounds()
 '**************************************************************
 'Author: Juan Martin Sotuyo Dodero
@@ -1094,27 +1146,8 @@ Sub ShowNextFrame(ByVal DisplayFormTop As Integer, _
         Else
             Call RenderScreen(UserPos.X - AddtoUserPos.X, UserPos.Y - AddtoUserPos.Y, OffsetCounterX, OffsetCounterY)
         End If
-
-        If Dialogos.NeedRender Then Call Dialogos.Render ' GSZAO
-        Call DibujarCartel
-        If DialogosClanes.Activo Then Call DialogosClanes.Draw ' GSZAO
-
-        '*********Tiempo restante para que termine el invi o el paralizar*********
-        If UserParalizado And UserParalizadoSegundosRestantes > 0 Then
-            Call DrawText(1, 25, UserParalizadoSegundosRestantes & " segundos restantes de Paralisis", Color_Paralisis)
-        End If
-
-        If UserInvisible And UserInvisibleSegundosRestantes > 0 Then
-            Call DrawText(1, 13, UserInvisibleSegundosRestantes & " segundos restantes de Invisibilidad", Color_Invisibilidad)
-        End If
         
-        If Not UserEquitando And UserEquitandoSegundosRestantes > 0 Then
-            Call DrawText(1, 37, UserEquitandoSegundosRestantes & " segundos restantes para volver a montarte", Color_Montura)
-        End If
-        '*************************************************************************
-
-        ' Calculamos los FPS y los mostramos
-        Call Engine_Update_FPS
+        Call RenderHUD
 
         'Get timing info
         timerElapsedTime = GetElapsedTime()

@@ -242,7 +242,7 @@ Sub SetConnected()
     Call frmMain.ControlSM(eSMType.mWork, False)
     Call frmMain.ControlSM(eSMType.mSpells, False)
     Call frmMain.ControlSM(eSMType.sSafemode, False)
-    
+
     FPSFLAG = True
 
 End Sub
@@ -1228,6 +1228,11 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     SkillPoints = 0
     Alocados = 0
     UserEquitando = 0
+    
+    lblHelm = "0/0"
+    lblWeapon = "0/0"
+    lblArmor = "0/0"
+    lblShielder = "0/0"
 
     Call SetSpeedUsuario
 

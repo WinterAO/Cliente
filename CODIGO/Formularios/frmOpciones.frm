@@ -199,6 +199,22 @@ Begin VB.Form frmOpciones
       Max             =   100
       TickStyle       =   3
    End
+   Begin VB.Label lblDesactivarHUD 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Desactivar HUD"
+      Height          =   195
+      Left            =   5280
+      TabIndex        =   14
+      Top             =   480
+      Width           =   1140
+   End
+   Begin VB.Image chkHud 
+      Height          =   225
+      Left            =   4920
+      Top             =   480
+      Width           =   210
+   End
    Begin VB.Image chkLimitarFPS 
       Height          =   225
       Left            =   4920
@@ -376,6 +392,21 @@ Private bSoundActivated As Boolean
 Private bSoundEffectsActivated As Boolean
 
 Private loading As Boolean
+
+Private Sub chkHud_Click()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 30/04/2020
+'30/04/2020: Lorwik - Desactivamos el HUD
+'***************************************************
+    ClientSetup.LimiteFPS = Not ClientSetup.LimiteFPS
+    
+    If ClientSetup.LimiteFPS Then
+        chkLimitarFPS.Picture = picCheckBox
+    Else
+        Set chkLimitarFPS.Picture = Nothing
+    End If
+End Sub
 
 Private Sub chkLimitarFPS_Click()
 '***************************************************
@@ -752,6 +783,7 @@ Private Sub LoadUserConfig()
     txtLevel = ClientSetup.byMurderedLevel
     
     If ClientSetup.LimiteFPS Then chkLimitarFPS.Picture = picCheckBox
+    If ClientSetup.HUD Then chkHud.Picture = picCheckBox
 End Sub
 
 Private Sub Slider1_Change(Index As Integer)

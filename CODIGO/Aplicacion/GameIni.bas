@@ -35,7 +35,7 @@ Public Type tSetupMods
     TonalidadPJ As Boolean
     UsarSombras As Boolean
     ParticleEngine As Boolean
-    
+    HUD As Boolean
     LimiteFPS As Boolean
     bNoRes      As Boolean
     
@@ -137,6 +137,7 @@ Public Sub LeerConfiguracion()
         .UsarSombras = CBool(Lector.GetValue("VIDEO", "SOMBRAS"))
         .ParticleEngine = CBool(Lector.GetValue("VIDEO", "LIMITARFPS"))
         .LimiteFPS = CBool(Lector.GetValue("VIDEO", "LIMITARFPS"))
+        .HUD = CBool(Lector.GetValue("VIDEO", "HUD"))
         
         ' AUDIO
         .bMusic = CBool(Lector.GetValue("AUDIO", "MUSIC"))
@@ -211,6 +212,7 @@ Public Sub GuardarConfiguracion()
         Call Lector.ChangeValue("VIDEO", "SOMBRAS", IIf(.UsarSombras, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ParticleEngine, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "LimitarFPS", IIf(.LimiteFPS, "True", "False"))
+        Call Lector.ChangeValue("VIDEO", "HUD", IIf(.HUD, "True", "False"))
         
         ' AUDIO
         Call Lector.ChangeValue("AUDIO", "MUSIC", IIf(Audio.MusicActivated, "True", "False"))

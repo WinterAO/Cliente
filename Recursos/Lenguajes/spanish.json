@@ -1645,39 +1645,7 @@
             237
         ]
     },
-    "MENSAJE_WEAPON_LABEL": {
-        "TEXTO": "AYUDA: Indica el poder maximo y minimo de el arma. Por ejemplo un arma con poder 8/12 significa que podes hacer herir entre 8 y 12 de vida",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
-    "MENSAJE_HELM_LABEL": {
-        "TEXTO": "AYUDA: Indica la resistencia maxima y minima del casco/gorro. Por ejemplo un sombrero con resistencia 10/15 significa que puede bloquear en cada golpe entre 10 y 15 de vida",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
-    "MENSAJE_SHIELDER_LABEL": {
-        "TEXTO": "AYUDA: Indica la resistencia maxima y minima del escudo. Por ejemplo un escudo con resistencia 5/20 significa que puede bloquear en cada golpe entre 5 y 20 de vida",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
-    "MENSAJE_ARMOR_LABEL": {
-        "TEXTO": "AYUDA: Indica la resistencia maxima y minima de la vestimenta. Por ejemplo una armadura con resistencia 2/8 significa que puede bloquear en cada golpe entre 2 y 8 de vida",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
-    "MENSAJE_STRG_LABEL": {
+	"MENSAJE_STRG_LABEL": {
         "TEXTO": "AYUDA: Indicador del nivel de Fuerza de tu personaje que tiene tu personaje. Podes subirlos mediante hechizos o Pociones Verdes.",
         "COLOR": [
             255,

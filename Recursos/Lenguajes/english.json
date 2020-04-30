@@ -1645,38 +1645,6 @@
             237
         ]
     },
-    "MENSAJE_WEAPON_LABEL": {
-        "TEXTO": "HELP: Indicates the maximum and minimum power of the weapon. For example a weapon with 8/12 power means that you can hurt between 8 and 12 of life",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
-    "MENSAJE_HELM_LABEL": {
-        "TEXTO": "HELP: Indicates the maximum and minimum resistance of the helmet / hat. For example a hat with 10/15 resistance means that it can block in every stroke between 10 and 15 of life",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
-    "MENSAJE_SHIELDER_LABEL": {
-        "TEXTO": "HELP: Indicates the maximum and minimum resistance of the shield. For example a shield with resistance 5/20 means that it can block in each blow between 5 and 20 of life",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
-    "MENSAJE_ARMOR_LABEL": {
-        "TEXTO": "HELP: Indicates the maximum and minimum resistance of the clothing. For example, armor with resistance 2/8 means that it can block in each blow between 2 and 8 of life",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
     "MENSAJE_STRG_LABEL": {
         "TEXTO": "HELP: Indicator of the strength level of your character that your character has. You can raise them by spells or Green Potions.",
         "COLOR": [
