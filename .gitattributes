@@ -27,7 +27,7 @@
 *.ao -text
 *.ocx -text
 *.OCX -text
-*.map -text
+*.csm -text
 *.exe -text
 /GRAFICOS/Fonts/font1.dat -text
 /GRAFICOS/Fonts/font2.dat -text
