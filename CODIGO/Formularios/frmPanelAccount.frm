@@ -748,7 +748,6 @@ Private Sub picChar_Click(Index As Integer)
             lblCharData(0) = JsonLanguage.item("NOMBRE").item("TEXTO") & ": " & .Nombre
             lblCharData(1) = JsonLanguage.item("CLASE").item("TEXTO") & ": " & ListaClases(.Class)
             lblCharData(2) = JsonLanguage.item("RAZA").item("TEXTO") & ": " & ListaRazas(.Race)
-            lblCharData(3) = JsonLanguage.item("NIVEL").item("TEXTO") & ": " & .Level
             lblCharData(4) = JsonLanguage.item("ORO").item("TEXTO") & ": " & .Gold
             lblCharData(5) = JsonLanguage.item("MAPA").item("TEXTO") & ": " & .Map
         Else

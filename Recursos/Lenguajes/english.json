@@ -784,9 +784,6 @@
     "RAZA": {
         "TEXTO": "Race"
     },
-    "NIVEL": {
-        "TEXTO": "Level"
-    },
     "ORO": {
         "TEXTO": "Gold"
     },
@@ -1169,12 +1166,6 @@
     },
     "LBL_LANZAR": {
         "TEXTO": "Shoot"
-    },
-    "LBL_INVENTARIO": {
-        "TEXTO": "Inventory"
-    },
-    "LBL_HECHIZOS": {
-        "TEXTO": "Spells"
     },
     "LBL_MAPA": {
         "TEXTO": "Map"

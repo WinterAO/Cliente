@@ -260,13 +260,13 @@ Public Property Get Amount(ByVal slot As Byte) As Long
     End If
 End Property
 
-Public Property Get ObjIndex(ByVal slot As Byte) As Integer
+Public Property Get objindex(ByVal slot As Byte) As Integer
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modify Date: 27/07/04
 'Retrieves the selected item's object index
 '***************************************************
-    ObjIndex = Inventory(slot).ObjIndex
+    objindex = Inventory(slot).objindex
 End Property
 
 Public Property Get OBJType(ByVal slot As Byte) As Integer
@@ -362,7 +362,7 @@ Public Sub SetItem(ByVal slot As Byte, ByVal eOBJIndex As Integer, ByVal eAmount
         .MaxHit = eMaxHit
         .MinHit = eMinHit
         .name = eName
-        .ObjIndex = eOBJIndex
+        .objindex = eOBJIndex
         .OBJType = eObjType
         .Valor = eValor
     End With
@@ -493,11 +493,11 @@ Public Sub DrawInventory()
 
         Call Engine_EndScene(DestRect, InventoryWindow.hWnd)
 
-        Call DrawBuffer.LoadPictureBlt(InventoryWindow.hdc)
+        Call DrawBuffer.LoadPictureBlt(InventoryWindow.hDC)
 
         InventoryWindow.AutoRedraw = True
 
-        Call DrawBuffer.PaintPicture(InventoryWindow.hdc, 0, 0, InventoryWindow.Width, InventoryWindow.Height, 0, 0, vbSrcCopy)
+        Call DrawBuffer.PaintPicture(InventoryWindow.hDC, 0, 0, InventoryWindow.Width, InventoryWindow.Height, 0, 0, vbSrcCopy)
 
         InventoryWindow.Picture = InventoryWindow.Image
 

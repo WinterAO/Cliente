@@ -1745,7 +1745,7 @@ Sub Draw_GrhIndex(ByVal GrhIndex As Long, ByVal X As Integer, ByVal Y As Integer
                 Y = Y - Int(.TileHeight * TilePixelHeight) + TilePixelHeight
             End If
         End If
-
+        
         'Draw
         Call Device_Textured_Render(X, Y, .pixelWidth, .pixelHeight, .sX, .sY, .FileNum, Color_List())
     End With

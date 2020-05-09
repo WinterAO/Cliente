@@ -1826,8 +1826,8 @@ Private Sub tAnimacion_Timer()
 
     Call Engine_BeginScene
 
-        Call Draw_GrhIndex(GrhData(currentGrh).Frames(Frame), CenterX, CenterY, 1, Normal_RGBList())
-        Call Draw_GrhIndex(HeadData(UserHead).Head(Dir).GrhIndex, CenterX, CenterY + BodyData(UserBody).HeadOffset.Y, 1, Normal_RGBList())
+    Call Draw_GrhIndex(GrhData(currentGrh).Frames(Frame), CenterX, CenterY, 1, Normal_RGBList())
+    Call Draw_GrhIndex(HeadData(UserHead).Head(Dir).GrhIndex, CenterX, CenterY + BodyData(UserBody).HeadOffset.Y, 1, Normal_RGBList())
 
     Call Engine_EndScene(DR, picTemp.hWnd)
 

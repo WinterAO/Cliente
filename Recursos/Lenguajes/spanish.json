@@ -784,9 +784,6 @@
     "RAZA": {
         "TEXTO": "Raza"
     },
-    "NIVEL": {
-        "TEXTO": "Nivel"
-    },
     "ORO": {
         "TEXTO": "Oro"
     },
@@ -1169,12 +1166,6 @@
     },
     "LBL_LANZAR": {
         "TEXTO": "Lanzar"
-    },
-    "LBL_INVENTARIO": {
-        "TEXTO": "Inventario"
-    },
-    "LBL_HECHIZOS": {
-        "TEXTO": "Hechizos"
     },
     "LBL_MAPA": {
         "TEXTO": "Mapa"

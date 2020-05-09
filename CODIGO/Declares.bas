@@ -955,11 +955,7 @@ Public Enum eSMType
     mWork
 End Enum
 
-Public Const SM_CANT As Byte = 4
-Public SMStatus(SM_CANT) As Boolean
-
 'Hardcoded grhs and items
-Public Const GRH_INI_SM As Long = 1
 
 Public Const ORO_INDEX As Long = 12
 Public Const ORO_GRH As Long = 511

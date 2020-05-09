@@ -986,16 +986,16 @@ Public Sub HandleMultiMessage()
                     True, False, True)
         
             Case eMessages.SafeModeOn
-                Call frmMain.ControlSM(eSMType.sSafemode, True)
+                'Call frmMain.ControlSM(eSMType.sSafemode, True)
         
             Case eMessages.SafeModeOff
-                Call frmMain.ControlSM(eSMType.sSafemode, False)
+                'Call frmMain.ControlSM(eSMType.sSafemode, False)
         
             Case eMessages.ResuscitationSafeOff
-                Call frmMain.ControlSM(eSMType.sResucitation, False)
+                'Call frmMain.ControlSM(eSMType.sResucitation, False)
          
             Case eMessages.ResuscitationSafeOn
-                Call frmMain.ControlSM(eSMType.sResucitation, True)
+                'Call frmMain.ControlSM(eSMType.sResucitation, True)
         
             Case eMessages.NobilityLost
                 Call AddtoRichTextBox(frmMain.RecTxt, _
@@ -1681,7 +1681,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -4128,8 +4128,8 @@ Private Sub HandleUpdateHungerAndThirst()
     UserMinAGU = incomingData.ReadByte()
     UserMaxHAM = incomingData.ReadByte()
     UserMinHAM = incomingData.ReadByte()
-    frmMain.lblHambre = UserMinHAM & "/" & UserMaxHAM
-    frmMain.lblSed = UserMinAGU & "/" & UserMaxAGU
+    frmMain.lblHambre = UserMinHAM & "%"
+    frmMain.lblSed = UserMinAGU & "%"
 
     Dim bWidth As Byte
     
