@@ -141,17 +141,25 @@ Begin VB.Form frmConnect
          TabStop         =   0   'False
          Top             =   5520
          Width           =   1335
-         _extentx        =   2355
-         _extenty        =   661
-         tx              =   "Teclas"
-         enab            =   -1  'True
-         fcol            =   7314354
-         ocol            =   16777215
-         pice            =   "frmConnect.frx":000C
-         picf            =   "frmConnect.frx":0A38
-         pich            =   "frmConnect.frx":16FC
-         picv            =   "frmConnect.frx":2690
-         font            =   "frmConnect.frx":3594
+         _ExtentX        =   2355
+         _ExtentY        =   661
+         TX              =   "Teclas"
+         ENAB            =   -1  'True
+         FCOL            =   7314354
+         OCOL            =   16777215
+         PICE            =   "frmConnect.frx":000C
+         PICF            =   "frmConnect.frx":0A36
+         PICH            =   "frmConnect.frx":16F8
+         PICV            =   "frmConnect.frx":268A
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Calibri"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
       End
       Begin WinterAO.uAOButton btnConectarse 
          Height          =   375
@@ -160,17 +168,25 @@ Begin VB.Form frmConnect
          TabStop         =   0   'False
          Top             =   5520
          Width           =   1335
-         _extentx        =   2355
-         _extenty        =   661
-         tx              =   "Conectarse"
-         enab            =   -1  'True
-         fcol            =   7314354
-         ocol            =   16777215
-         pice            =   "frmConnect.frx":35BC
-         picf            =   "frmConnect.frx":3FE8
-         pich            =   "frmConnect.frx":4CAC
-         picv            =   "frmConnect.frx":5C40
-         font            =   "frmConnect.frx":6B44
+         _ExtentX        =   2355
+         _ExtentY        =   661
+         TX              =   "Conectarse"
+         ENAB            =   -1  'True
+         FCOL            =   7314354
+         OCOL            =   16777215
+         PICE            =   "frmConnect.frx":358C
+         PICF            =   "frmConnect.frx":3FB6
+         PICH            =   "frmConnect.frx":4C78
+         PICV            =   "frmConnect.frx":5C0A
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Calibri"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
       End
       Begin WinterAO.uAOCheckbox chkRecordar 
          Height          =   345
@@ -179,11 +195,11 @@ Begin VB.Form frmConnect
          TabStop         =   0   'False
          Top             =   6240
          Width           =   345
-         _extentx        =   609
-         _extenty        =   609
-         chck            =   0   'False
-         enab            =   -1  'True
-         picc            =   "frmConnect.frx":6B6C
+         _ExtentX        =   609
+         _ExtentY        =   609
+         CHCK            =   0   'False
+         ENAB            =   -1  'True
+         PICC            =   "frmConnect.frx":6B0C
       End
       Begin WinterAO.uAOButton btnSalir 
          Height          =   375
@@ -192,17 +208,25 @@ Begin VB.Form frmConnect
          TabStop         =   0   'False
          Top             =   10920
          Width           =   1335
-         _extentx        =   2355
-         _extenty        =   661
-         tx              =   "Salir"
-         enab            =   -1  'True
-         fcol            =   7314354
-         ocol            =   16777215
-         pice            =   "frmConnect.frx":7C54
-         picf            =   "frmConnect.frx":8680
-         pich            =   "frmConnect.frx":9344
-         picv            =   "frmConnect.frx":A2D8
-         font            =   "frmConnect.frx":B1DC
+         _ExtentX        =   2355
+         _ExtentY        =   661
+         TX              =   "Salir"
+         ENAB            =   -1  'True
+         FCOL            =   7314354
+         OCOL            =   16777215
+         PICE            =   "frmConnect.frx":7BF2
+         PICF            =   "frmConnect.frx":861C
+         PICH            =   "frmConnect.frx":92DE
+         PICV            =   "frmConnect.frx":A270
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Calibri"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
       End
       Begin WinterAO.uAOButton btnRecuperar 
          Height          =   375
@@ -211,17 +235,25 @@ Begin VB.Form frmConnect
          TabStop         =   0   'False
          Top             =   10920
          Width           =   1335
-         _extentx        =   2355
-         _extenty        =   661
-         tx              =   "Recuperar Pass"
-         enab            =   -1  'True
-         fcol            =   7314354
-         ocol            =   16777215
-         pice            =   "frmConnect.frx":B204
-         picf            =   "frmConnect.frx":BC30
-         pich            =   "frmConnect.frx":C8F4
-         picv            =   "frmConnect.frx":D888
-         font            =   "frmConnect.frx":E78C
+         _ExtentX        =   2355
+         _ExtentY        =   661
+         TX              =   "Recuperar Pass"
+         ENAB            =   -1  'True
+         FCOL            =   7314354
+         OCOL            =   16777215
+         PICE            =   "frmConnect.frx":B172
+         PICF            =   "frmConnect.frx":BB9C
+         PICH            =   "frmConnect.frx":C85E
+         PICV            =   "frmConnect.frx":D7F0
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Calibri"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
       End
    End
    Begin VB.Label version 

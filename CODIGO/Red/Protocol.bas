@@ -11490,7 +11490,7 @@ Private Sub HandleEnviarListDeAmigos()
 
     slot = Buffer.ReadByte()
     
-    With frmAmigos.ListAmigos
+    With frmMain.ListAmigos
     
         If slot <= .ListCount Then
             .List(slot - 1) = Buffer.ReadASCIIString()

@@ -1161,9 +1161,6 @@
     "LBL_TECLAS": {
         "TEXTO": "Keyboard"
     },
-    "LBL_LANZAR": {
-        "TEXTO": "Shoot"
-    },
     "LBL_MAPA": {
         "TEXTO": "Map"
     },
@@ -1176,17 +1173,11 @@
     "LBL_CLANES": {
         "TEXTO": "Guilds"
     },
-    "LBL_AMIGOS": {
-        "TEXTO": "Friends"
-    },
     "LBL_RETOS": {
         "TEXTO": "Challenges"
     },
     "LBL_OPCIONES": {
         "TEXTO": "Options"
-    },
-    "LBL_INFO": {
-        "TEXTO": "Info"
     },
     "FRM_CREARCUENTA_SALIR": {
         "TEXTO": "Quit"
@@ -1680,18 +1671,6 @@
     },
     "FRMPANELACCOUNT_BTN_CONECTAR": {
         "TEXTO": "Enter"
-    },
-    "FRM_LISTAAMIGOS_TITLE": {
-        "TEXTO": "Here you can see your friends list, as well as add or remove users from the list."
-    },
-    "FRM_LISTAAMIGOS_AGREGAR": {
-        "TEXTO": "Add Friend"
-    },
-    "FRM_LISTAAMIGOS_BORRAR": {
-        "TEXTO": "Del Friend"
-    },
-    "FRM_LISTAAMIGOS_SALIR": {
-        "TEXTO": "Close"
     },
     "FRM_LISTAAMIGOS_PARAMETRO": {
         "TEXTO": "Missing parameters."

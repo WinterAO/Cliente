@@ -1158,9 +1158,6 @@
     "LBL_TECLAS": {
         "TEXTO": "Teclas"
     },
-    "LBL_LANZAR": {
-        "TEXTO": "Lanzar"
-    },
     "LBL_MAPA": {
         "TEXTO": "Mapa"
     },
@@ -1173,17 +1170,11 @@
     "LBL_CLANES": {
         "TEXTO": "Clanes"
     },
-    "LBL_AMIGOS": {
-        "TEXTO": "Amigos"
-    },
     "LBL_RETOS": {
         "TEXTO": "Retos"
     },
     "LBL_OPCIONES": {
         "TEXTO": "Opciones"
-    },
-    "LBL_INFO": {
-        "TEXTO": "Info"
     },
     "FRM_CREARCUENTA_SALIR": {
         "TEXTO": "Salir"
@@ -1677,18 +1668,6 @@
     },
     "FRMPANELACCOUNT_BTN_CONECTAR": {
         "TEXTO": "Entrar"
-    },
-    "FRM_LISTAAMIGOS_TITLE": {
-        "TEXTO": "Aqui puedes ver tu lista de amigos, asi como agregar o eliminar usuarios de la lista."
-    },
-    "FRM_LISTAAMIGOS_AGREGAR": {
-        "TEXTO": "Agregar Amigo"
-    },
-    "FRM_LISTAAMIGOS_BORRAR": {
-        "TEXTO": "Borrar Amigo"
-    },
-    "FRM_LISTAAMIGOS_SALIR": {
-        "TEXTO": "Cerrar"
     },
     "FRM_LISTAAMIGOS_PARAMETRO": {
         "TEXTO": "Faltan parametros."
