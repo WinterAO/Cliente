@@ -3,10 +3,10 @@ Begin VB.Form frmConnect
    BackColor       =   &H00E0E0E0&
    BorderStyle     =   0  'None
    Caption         =   "Argentum Online Libre"
-   ClientHeight    =   9000
+   ClientHeight    =   11520
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   12000
+   ClientWidth     =   15360
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    FillColor       =   &H00000040&
@@ -25,251 +25,204 @@ Begin VB.Form frmConnect
    MaxButton       =   0   'False
    MinButton       =   0   'False
    PaletteMode     =   1  'UseZOrder
-   Picture         =   "frmConnect.frx":000C
-   ScaleHeight     =   600
+   ScaleHeight     =   768
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   800
+   ScaleWidth      =   1024
    StartUpPosition =   2  'CenterScreen
    Visible         =   0   'False
-   Begin WinterAO.uAOButton btnSalir 
-      Height          =   375
-      Left            =   9960
-      TabIndex        =   7
-      TabStop         =   0   'False
-      Top             =   8400
-      Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   661
-      TX              =   "Salir"
-      ENAB            =   -1  'True
-      FCOL            =   7314354
-      OCOL            =   16777215
-      PICE            =   "frmConnect.frx":1DC21
-      PICF            =   "frmConnect.frx":1E64B
-      PICH            =   "frmConnect.frx":1F30D
-      PICV            =   "frmConnect.frx":2029F
-      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Calibri"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-   End
-   Begin WinterAO.uAOButton btnRecuperar 
-      Height          =   375
-      Left            =   2160
-      TabIndex        =   6
-      TabStop         =   0   'False
-      Top             =   8400
-      Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   661
-      TX              =   "Recuperar Pass"
-      ENAB            =   -1  'True
-      FCOL            =   7314354
-      OCOL            =   16777215
-      PICE            =   "frmConnect.frx":211A1
-      PICF            =   "frmConnect.frx":21BCB
-      PICH            =   "frmConnect.frx":2288D
-      PICV            =   "frmConnect.frx":2381F
-      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Calibri"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-   End
-   Begin WinterAO.uAOButton btnCrearCuenta 
-      Height          =   375
-      Left            =   600
-      TabIndex        =   5
-      TabStop         =   0   'False
-      Top             =   8400
-      Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   661
-      TX              =   "Crear Cuenta"
-      ENAB            =   -1  'True
-      FCOL            =   7314354
-      OCOL            =   16777215
-      PICE            =   "frmConnect.frx":24721
-      PICF            =   "frmConnect.frx":2514B
-      PICH            =   "frmConnect.frx":25E0D
-      PICV            =   "frmConnect.frx":26D9F
-      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Calibri"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-   End
-   Begin WinterAO.uAOButton btnTeclas 
-      Height          =   375
-      Left            =   6120
-      TabIndex        =   10
-      TabStop         =   0   'False
-      Top             =   3960
-      Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   661
-      TX              =   "Teclas"
-      ENAB            =   -1  'True
-      FCOL            =   7314354
-      OCOL            =   16777215
-      PICE            =   "frmConnect.frx":27CA1
-      PICF            =   "frmConnect.frx":286CB
-      PICH            =   "frmConnect.frx":2938D
-      PICV            =   "frmConnect.frx":2A31F
-      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Calibri"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-   End
-   Begin WinterAO.uAOButton btnConectarse 
-      Height          =   375
-      Left            =   4800
-      TabIndex        =   8
-      TabStop         =   0   'False
-      Top             =   3960
-      Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   661
-      TX              =   "Conectarse"
-      ENAB            =   -1  'True
-      FCOL            =   7314354
-      OCOL            =   16777215
-      PICE            =   "frmConnect.frx":2B221
-      PICF            =   "frmConnect.frx":2BC4B
-      PICH            =   "frmConnect.frx":2C90D
-      PICV            =   "frmConnect.frx":2D89F
-      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Calibri"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-   End
-   Begin WinterAO.uAOCheckbox chkRecordar 
-      Height          =   345
-      Left            =   5280
-      TabIndex        =   9
-      TabStop         =   0   'False
-      Top             =   4680
-      Width           =   345
-      _ExtentX        =   609
-      _ExtentY        =   609
-      CHCK            =   0   'False
-      ENAB            =   -1  'True
-      PICC            =   "frmConnect.frx":2E7A1
-   End
-   Begin VB.TextBox txtPasswd 
-      BackColor       =   &H00000000&
+   Begin VB.PictureBox renderer 
+      BackColor       =   &H00808080&
       BorderStyle     =   0  'None
       BeginProperty Font 
-         Name            =   "MS Sans Serif"
+         Name            =   "Tahoma"
          Size            =   8.25
          Charset         =   0
-         Weight          =   700
+         Weight          =   400
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   225
-      IMEMode         =   3  'DISABLE
-      Left            =   4920
-      PasswordChar    =   "*"
+      Height          =   11520
+      Left            =   0
+      ScaleHeight     =   768
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   1024
       TabIndex        =   1
-      Top             =   3720
-      Width           =   2460
-   End
-   Begin VB.TextBox txtNombre 
-      BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   225
-      Left            =   4905
-      TabIndex        =   0
-      Top             =   3210
-      Width           =   2460
-   End
-   Begin VB.TextBox IPTxt 
-      Alignment       =   2  'Center
-      Appearance      =   0  'Flat
-      BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H0000FF00&
-      Height          =   195
-      Left            =   5760
-      TabIndex        =   4
-      Text            =   "localhost"
-      Top             =   2760
-      Width           =   1575
-   End
-   Begin VB.TextBox PortTxt 
-      Alignment       =   2  'Center
-      Appearance      =   0  'Flat
-      BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H0000FF00&
-      Height          =   195
-      Left            =   4890
-      TabIndex        =   3
-      Text            =   "7666"
-      Top             =   2760
-      Width           =   825
-   End
-   Begin VB.Image imgServArgentina 
-      Height          =   795
-      Left            =   360
-      MousePointer    =   99  'Custom
-      Top             =   9240
-      Visible         =   0   'False
-      Width           =   2595
+      Top             =   0
+      Width           =   15360
+      Begin VB.TextBox PortTxt 
+         Alignment       =   2  'Center
+         Appearance      =   0  'Flat
+         BackColor       =   &H00000000&
+         BorderStyle     =   0  'None
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H0000FF00&
+         Height          =   195
+         Left            =   6210
+         TabIndex        =   8
+         Text            =   "7666"
+         Top             =   4320
+         Width           =   825
+      End
+      Begin VB.TextBox IPTxt 
+         Alignment       =   2  'Center
+         Appearance      =   0  'Flat
+         BackColor       =   &H00000000&
+         BorderStyle     =   0  'None
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H0000FF00&
+         Height          =   195
+         Left            =   7080
+         TabIndex        =   7
+         Text            =   "localhost"
+         Top             =   4320
+         Width           =   1575
+      End
+      Begin VB.TextBox txtNombre 
+         BackColor       =   &H00000000&
+         BorderStyle     =   0  'None
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   225
+         Left            =   6225
+         TabIndex        =   6
+         Top             =   4770
+         Width           =   2460
+      End
+      Begin VB.TextBox txtPasswd 
+         BackColor       =   &H00000000&
+         BorderStyle     =   0  'None
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   225
+         IMEMode         =   3  'DISABLE
+         Left            =   6240
+         PasswordChar    =   "*"
+         TabIndex        =   5
+         Top             =   5280
+         Width           =   2460
+      End
+      Begin WinterAO.uAOButton btnTeclas 
+         Height          =   375
+         Left            =   7440
+         TabIndex        =   2
+         TabStop         =   0   'False
+         Top             =   5520
+         Width           =   1335
+         _extentx        =   2355
+         _extenty        =   661
+         tx              =   "Teclas"
+         enab            =   -1  'True
+         fcol            =   7314354
+         ocol            =   16777215
+         pice            =   "frmConnect.frx":000C
+         picf            =   "frmConnect.frx":0A38
+         pich            =   "frmConnect.frx":16FC
+         picv            =   "frmConnect.frx":2690
+         font            =   "frmConnect.frx":3594
+      End
+      Begin WinterAO.uAOButton btnConectarse 
+         Height          =   375
+         Left            =   6120
+         TabIndex        =   3
+         TabStop         =   0   'False
+         Top             =   5520
+         Width           =   1335
+         _extentx        =   2355
+         _extenty        =   661
+         tx              =   "Conectarse"
+         enab            =   -1  'True
+         fcol            =   7314354
+         ocol            =   16777215
+         pice            =   "frmConnect.frx":35BC
+         picf            =   "frmConnect.frx":3FE8
+         pich            =   "frmConnect.frx":4CAC
+         picv            =   "frmConnect.frx":5C40
+         font            =   "frmConnect.frx":6B44
+      End
+      Begin WinterAO.uAOCheckbox chkRecordar 
+         Height          =   345
+         Left            =   6360
+         TabIndex        =   4
+         TabStop         =   0   'False
+         Top             =   6240
+         Width           =   345
+         _extentx        =   609
+         _extenty        =   609
+         chck            =   0   'False
+         enab            =   -1  'True
+         picc            =   "frmConnect.frx":6B6C
+      End
+      Begin WinterAO.uAOButton btnSalir 
+         Height          =   375
+         Left            =   8880
+         TabIndex        =   9
+         TabStop         =   0   'False
+         Top             =   10920
+         Width           =   1335
+         _extentx        =   2355
+         _extenty        =   661
+         tx              =   "Salir"
+         enab            =   -1  'True
+         fcol            =   7314354
+         ocol            =   16777215
+         pice            =   "frmConnect.frx":7C54
+         picf            =   "frmConnect.frx":8680
+         pich            =   "frmConnect.frx":9344
+         picv            =   "frmConnect.frx":A2D8
+         font            =   "frmConnect.frx":B1DC
+      End
+      Begin WinterAO.uAOButton btnRecuperar 
+         Height          =   375
+         Left            =   6240
+         TabIndex        =   10
+         TabStop         =   0   'False
+         Top             =   10920
+         Width           =   1335
+         _extentx        =   2355
+         _extenty        =   661
+         tx              =   "Recuperar Pass"
+         enab            =   -1  'True
+         fcol            =   7314354
+         ocol            =   16777215
+         pice            =   "frmConnect.frx":B204
+         picf            =   "frmConnect.frx":BC30
+         pich            =   "frmConnect.frx":C8F4
+         picv            =   "frmConnect.frx":D888
+         font            =   "frmConnect.frx":E78C
+      End
    End
    Begin VB.Label version 
       AutoSize        =   -1  'True
@@ -286,28 +239,10 @@ Begin VB.Form frmConnect
       EndProperty
       ForeColor       =   &H000000FF&
       Height          =   195
-      Left            =   240
-      TabIndex        =   2
-      Top             =   240
+      Left            =   16080
+      TabIndex        =   0
+      Top             =   2520
       Width           =   555
-   End
-   Begin VB.Label lblRecordarme 
-      BackStyle       =   0  'Transparent
-      Caption         =   "Recordarme"
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   12
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   375
-      Left            =   5760
-      TabIndex        =   11
-      Top             =   4800
-      Width           =   2055
    End
 End
 Attribute VB_Name = "frmConnect"
@@ -427,11 +362,6 @@ Private Sub Form_Load()
     EngineRun = False
     '[END]
 
-    version.Caption = GetVersionOfTheGame()
-
-    'Solo hay 2 imagenes de cargando, cambiar 2 por el numero maximo si se quiere cambiar
-    Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaConectar" & RandomNumber(1, 2) & ".jpg")
-    
     Call LoadTextsForm
         '    Call LoadAOCustomControlsPictures(Me)
     'Todo: Poner la carga de botones como en el frmCambiaMotd.frm para mantener coherencia con el resto de la aplicacion
@@ -441,17 +371,12 @@ End Sub
 
 Private Sub LoadTextsForm()
     btnConectarse.Caption = JsonLanguage.item("BTN_CONECTARSE").item("TEXTO")
-    btnCrearCuenta.Caption = JsonLanguage.item("BTN_CREAR_CUENTA").item("TEXTO")
     btnRecuperar.Caption = JsonLanguage.item("BTN_RECUPERAR").item("TEXTO")
-    lblRecordarme.Caption = JsonLanguage.item("LBL_RECORDARME").item("TEXTO")
+    'lblRecordarme.Caption = JsonLanguage.item("LBL_RECORDARME").item("TEXTO")
     btnSalir.Caption = JsonLanguage.item("BTN_SALIR").item("TEXTO")
     btnTeclas.Caption = JsonLanguage.item("LBL_TECLAS").item("TEXTO")
 End Sub
 
 Private Sub txtPasswd_KeyPress(KeyAscii As Integer)
     If KeyAscii = vbKeyReturn Then btnConectarse_Click
-End Sub
-
-Private Sub btnCrearCuenta_Click()
-    Call Protocol.Connect(E_MODO.CrearCuenta)
 End Sub

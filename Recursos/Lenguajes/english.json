@@ -1146,9 +1146,6 @@
     "BTN_CONECTARSE": {
         "TEXTO": "Connect"
     },
-    "BTN_CREAR_CUENTA": {
-        "TEXTO": "Create Account"
-    },
     "BTN_RECUPERAR": {
         "TEXTO": "Change Pass"
     },

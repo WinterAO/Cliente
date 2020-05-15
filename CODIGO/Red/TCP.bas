@@ -46,9 +46,6 @@ Sub Login()
         
         Case E_MODO.CrearNuevoPj
             Call WriteLoginNewChar
-            
-        Case E_MODO.CrearCuenta
-            Call WriteLoginNewAccount
         
         Case E_MODO.CambiarContrasena
             Call WriteCambiarContrasena

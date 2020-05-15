@@ -56,8 +56,8 @@ Private EndTime As Long
 Public Function Engine_DirectX8_Init() As Boolean
     
     'Establecemos cual va a ser el tamano del render.
-    ScreenWidth = frmMain.MainViewPic.ScaleWidth
-    ScreenHeight = frmMain.MainViewPic.ScaleHeight
+    ScreenWidth = frmConnect.renderer.ScaleWidth
+    ScreenHeight = frmConnect.renderer.ScaleHeight
     
     ' The D3DDISPLAYMODE type structure that holds
     ' the information about your current display adapter.
@@ -230,8 +230,8 @@ Public Sub Engine_DirectX8_Aditional_Init()
     Engine_BaseSpeed = 0.018
     
     With MainScreenRect
-        .Bottom = ScreenHeight
-        .Right = ScreenWidth
+        .Bottom = frmMain.MainViewPic.ScaleHeight
+        .Right = frmMain.MainViewPic.ScaleWidth
     End With
     
     ' Seteamos algunos colores por adelantado y unica vez.

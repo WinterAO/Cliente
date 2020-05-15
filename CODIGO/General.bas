@@ -490,6 +490,7 @@ Sub Main()
     Call modCompression.GenerateContra(vbNullString, 0) ' 0 = Graficos.AO
     
     Call CargarHechizos
+    Call CargarConnectMaps
 
     ' Map Sounds
     Set Sonidos = New clsSoundMapas
@@ -520,7 +521,7 @@ Sub Main()
     ' Load constants, classes, flags, graphics..
     Call LoadInitialConfig
   
-    frmConnect.Visible = True
+    Call MostrarConnect
     
     'Inicializacion de variables globales
     prgRun = True
@@ -549,7 +550,14 @@ Sub Main()
             Call RenderSounds
             
             Call CheckKeys
+            
+        ElseIf frmConnect.Visible = True Then
+        
+            'Renderizado del Conectar
+            Call RenderConnect
+            
         End If
+        
         'FPS Counter - mostramos las FPS
         If GetTickCount - lFrameTimer >= 1000 Then
             
@@ -1388,7 +1396,7 @@ On Error GoTo ErrorHandler
     'Sample the cImage by hDC
     m_Jpeg.SampleHDC hDC, Width, Height
     
-    m_FileName = App.path & "\Fotos\AODrag_Foto"
+    m_FileName = App.path & "\Fotos\WinterAO_Foto"
     
     If Dir(App.path & "\Fotos", vbDirectory) = vbNullString Then
         MkDir (App.path & "\Fotos")

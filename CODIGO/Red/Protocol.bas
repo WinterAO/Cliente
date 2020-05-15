@@ -304,23 +304,22 @@ Private Enum ClientPacketID
     Consultation = 128
     moveItem = 129
     LoginExistingAccount = 130
-    LoginNewAccount = 131
-    CentinelReport = 132            '/CENTINELA
-    Ecvc = 133
-    Acvc = 134
-    IrCvc = 135
-    DragAndDropHechizos = 136       'HECHIZOS
-    Quest = 137                     '/QUEST
-    QuestAccept = 138
-    QuestListRequest = 139
-    QuestDetailsRequest = 140
-    QuestAbandon = 141
-    CambiarContrasena = 142
-    FightSend = 143
-    FightAccept = 144
-    CloseGuild = 145                '/CERRARCLAN
-    Discord = 146                   '/DISCORD
-    DeleteChar = 147
+    CentinelReport                  '/CENTINELA
+    Ecvc
+    Acvc
+    IrCvc
+    DragAndDropHechizos             'HECHIZOS
+    Quest                           '/QUEST
+    QuestAccept
+    QuestListRequest
+    QuestDetailsRequest
+    QuestAbandon
+    CambiarContrasena
+    FightSend
+    FightAccept
+    CloseGuild                      '/CERRARCLAN
+    Discord                         '/DISCORD
+    DeleteChar
     CraftsmanCreate
     AddAmigos
     DelAmigos
@@ -1681,7 +1680,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -5663,26 +5662,6 @@ Public Sub WriteLoginExistingChar()
         Call .WriteASCIIString(UserName)
         
         Call .WriteASCIIString(AccountHash)
-        
-        Call .WriteByte(App.Major)
-        Call .WriteByte(App.Minor)
-        Call .WriteByte(App.Revision)
-    End With
-End Sub
-
-Public Sub WriteLoginNewAccount()
-'***************************************************
-'Author: Juan Andres Dalmasso (CHOTS)
-'Last Modification: 12/10/2018
-'CHOTS: Accounts
-'Writes the "LoginNewAccount" message to the outgoing data buffer
-'***************************************************
-    With outgoingData
-        Call .WriteByte(ClientPacketID.LoginNewAccount)
-        
-        Call .WriteASCIIString(AccountName)
-        
-        Call .WriteASCIIString(AccountPassword)
         
         Call .WriteByte(App.Major)
         Call .WriteByte(App.Minor)

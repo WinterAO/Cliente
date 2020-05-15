@@ -764,8 +764,7 @@ Public Enum E_MODO
     Normal = 1
     CrearNuevoPj = 2
     Dados = 3
-    CrearCuenta = 4
-    CambiarContrasena = 5
+    CambiarContrasena = 4
 End Enum
 
 Public EstadoLogin As E_MODO
