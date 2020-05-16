@@ -12,9 +12,32 @@ End Enum
 
 Public Pantalla As EPantalla
 
+Public Sub MostrarConnect()
+'******************************
+'Autor: Lorwik
+'Fecha: 13/05/2020
+'llama al frmConnect con el mapa, de lo contrario no funcionaria correctamente.
+'******************************
+
+    'Seteamos el modo login
+    Pantalla = PConnect
+    
+    frmConnect.Visible = True
+    
+    'Sorteamos el mapa a mostrar
+    'Nota el mapa 1 es para el crear pj
+    SelectConnectMap = RandomNumber(2, NumConnectMap)
+    Call SwitchMap(MapaConnect(SelectConnectMap).Map)
+End Sub
+
 Sub RenderConnect()
-    Dim X As Long
-    Dim Y As Long
+'******************************
+'Autor: Lorwik
+'Fecha: 15/05/2020
+'Renderiza el screen del conectar
+'******************************
+    Dim x As Long
+    Dim y As Long
     
     Dim PixelOffsetXTemp As Integer 'For centering grhs
     Dim PixelOffsetYTemp As Integer 'For centering grhs
@@ -30,27 +53,27 @@ Sub RenderConnect()
     
     Call Engine_BeginScene
      
-    For X = 1 To 32
-        For Y = 1 To 24
-            PixelOffsetXTemp = (X - 1) * 32
-            PixelOffsetYTemp = (Y - 1) * 32
+    For x = 1 To 32
+        For y = 1 To 24
+            PixelOffsetXTemp = (x - 1) * 32
+            PixelOffsetYTemp = (y - 1) * 32
             
-            With MapData(X + MapaConnect(SelectConnectMap).X, Y + MapaConnect(SelectConnectMap).Y)
+            With MapData(x + MapaConnect(SelectConnectMap).x, y + MapaConnect(SelectConnectMap).y)
                 'Capa 1
                 Call Draw_Grh(.Graphic(1), PixelOffsetXTemp, PixelOffsetYTemp, 1, .Engine_Light(), 1)
                 
                 'Capa 2
                 Call Draw_Grh(.Graphic(2), PixelOffsetXTemp, PixelOffsetYTemp, 1, .Engine_Light(), 1)
             End With
-        Next Y
-    Next X
+        Next y
+    Next x
         
     'Capa 3
-    For X = 1 To 32
-        For Y = 1 To 24
-            PixelOffsetXTemp = (X - 1) * 32
-            PixelOffsetYTemp = (Y - 1) * 32
-            With MapData(X + MapaConnect(SelectConnectMap).X, Y + MapaConnect(SelectConnectMap).Y)
+    For x = 1 To 32
+        For y = 1 To 24
+            PixelOffsetXTemp = (x - 1) * 32
+            PixelOffsetYTemp = (y - 1) * 32
+            With MapData(x + MapaConnect(SelectConnectMap).x, y + MapaConnect(SelectConnectMap).y)
             
                 'Objectos
                 If .ObjGrh.GrhIndex <> 0 Then _
@@ -63,26 +86,26 @@ Sub RenderConnect()
                 If .Particle_Group_Index Then
                     
                     'Solo las renderizamos si estan cerca del area de vision.
-                    If EstaDentroDelArea(X, Y) Then
+                    If EstaDentroDelArea(x, y) Then
                         Call mDx8_Particulas.Particle_Group_Render(.Particle_Group_Index, PixelOffsetXTemp + 16, PixelOffsetXTemp + 16)
                     End If
                         
                 End If
             End With
-        Next Y
-    Next X
+        Next y
+    Next x
     
-    For X = 1 To 32
-        For Y = 1 To 24
-            PixelOffsetXTemp = (X - 1) * 32
-            PixelOffsetYTemp = (Y - 1) * 32
+    For x = 1 To 32
+        For y = 1 To 24
+            PixelOffsetXTemp = (x - 1) * 32
+            PixelOffsetYTemp = (y - 1) * 32
             
-            With MapData(X + MapaConnect(SelectConnectMap).X, Y + MapaConnect(SelectConnectMap).Y)
+            With MapData(x + MapaConnect(SelectConnectMap).x, y + MapaConnect(SelectConnectMap).y)
                 'Capa 4
                 Call Draw_Grh(.Graphic(4), PixelOffsetXTemp, PixelOffsetYTemp, 1, .Engine_Light(), 1)
             End With
-        Next Y
-    Next X
+        Next y
+    Next x
     
     'Renderizamos la interfaz
     Call RenderConnectGUI
@@ -116,21 +139,19 @@ Private Sub RenderConnectGUI()
     Call DrawText(10, 750, "WinterAO " & GetVersionOfTheGame() & " Resurrection", Color_Paralisis)
 End Sub
 
-Public Sub MostrarConnect()
+Public Sub ClickEvent(ByVal TX As Long, ByVal TY As Long)
 '******************************
 'Autor: Lorwik
 'Fecha: 13/05/2020
-'llama al frmConnect con el mapa, de lo contrario no funcionaria correctamente.
+'Eventos al realizar clicks en la GUI
 '******************************
-
-    'Seteamos el modo login
-    Pantalla = PConnect
+    Dim x As Integer
+    Dim y As Integer
     
-    frmConnect.Visible = True
+    Debug.Print TX & " " & TY
     
-    'Sorteamos el mapa a mostrar
-    'Nota el mapa 1 es para el crear pj
-    SelectConnectMap = RandomNumber(2, NumConnectMap)
-    Call SwitchMap(MapaConnect(SelectConnectMap).Map)
+    If (TX >= 100 And TX <= 200) And (TY >= 100 And TY <= 200) Then
+            MsgBox "Hola Mundo"
+        End If
+    
 End Sub
-

@@ -334,6 +334,9 @@ Private Lector As clsIniManager
 
 Private Const AES_PASSWD As String = "tumamaentanga"
 
+Public MouseX              As Long
+Public MouseY              As Long
+
 Private Sub btnConectarse_Click()
     'update user info
     AccountName = txtNombre.Text
@@ -388,7 +391,6 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-
 Private Sub Form_Load()
     '[CODE 002]:MatuX
     EngineRun = False
@@ -407,6 +409,30 @@ Private Sub LoadTextsForm()
     'lblRecordarme.Caption = JsonLanguage.item("LBL_RECORDARME").item("TEXTO")
     btnSalir.Caption = JsonLanguage.item("BTN_SALIR").item("TEXTO")
     btnTeclas.Caption = JsonLanguage.item("LBL_TECLAS").item("TEXTO")
+End Sub
+
+Private Sub renderer_Click()
+    Call ModCnt.ClickEvent(MouseX, MouseY)
+End Sub
+
+Private Sub Renderer_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    MouseX = x - renderer.Left
+    MouseY = y - renderer.Top
+    
+    'Trim to fit screen
+    If MouseX < 0 Then
+        MouseX = 0
+    ElseIf MouseX > renderer.Width Then
+        MouseX = renderer.Width
+    End If
+    
+    'Trim to fit screen
+    If MouseY < 0 Then
+        MouseY = 0
+    ElseIf MouseY > renderer.Height Then
+        MouseY = renderer.Height
+    End If
+    
 End Sub
 
 Private Sub txtPasswd_KeyPress(KeyAscii As Integer)

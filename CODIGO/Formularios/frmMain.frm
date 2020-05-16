@@ -1275,14 +1275,14 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
      End If
 End Sub
 
-Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     MouseBoton = Button
     MouseShift = Shift
 End Sub
 
-Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    clicX = X
-    clicY = Y
+Private Sub Form_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+    clicX = x
+    clicY = y
 End Sub
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
@@ -1297,14 +1297,6 @@ Private Sub Form_Unload(Cancel As Integer)
 
     Call DisableURLDetect
     
-End Sub
-
-Private Sub GldLbl_Click()
-    Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_GOLD_LABEL").item("TEXTO"), _
-                                          JsonLanguage.item("MENSAJE_GOLD_LABEL").item("COLOR").item(1), _
-                                          JsonLanguage.item("MENSAJE_GOLD_LABEL").item("COLOR").item(2), _
-                                          JsonLanguage.item("MENSAJE_GOLD_LABEL").item("COLOR").item(3), _
-                          False, False, True)
 End Sub
 
 Private Sub imgAsignarSkill_Click()
@@ -1372,8 +1364,8 @@ End Sub
 
 Private Sub InvEqu_MouseMove(Button As Integer, _
                              Shift As Integer, _
-                             X As Single, _
-                             Y As Single)
+                             x As Single, _
+                             y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 
@@ -1386,60 +1378,9 @@ Private Sub lblCerrar_Click()
     frmCerrar.Show vbModal, Me
 End Sub
 
-Private Sub lblDext_Click()
-    Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_DEXT_LABEL").item("TEXTO"), _
-                                          JsonLanguage.item("MENSAJE_DEXT_LABEL").item("COLOR").item(1), _
-                                          JsonLanguage.item("MENSAJE_DEXT_LABEL").item("COLOR").item(2), _
-                                          JsonLanguage.item("MENSAJE_DEXT_LABEL").item("COLOR").item(3), _
-                          False, False, True)
-End Sub
-
-Private Sub lblEnergia_Click()
-    Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_ENERGIA_LABEL").item("TEXTO"), _
-                                          JsonLanguage.item("MENSAJE_ENERGIA_LABEL").item("COLOR").item(1), _
-                                          JsonLanguage.item("MENSAJE_ENERGIA_LABEL").item("COLOR").item(2), _
-                                          JsonLanguage.item("MENSAJE_ENERGIA_LABEL").item("COLOR").item(3), _
-                          False, False, True)
-End Sub
-
-Private Sub lblHambre_Click()
-    Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_HAMBRE_LABEL").item("TEXTO"), _
-                                          JsonLanguage.item("MENSAJE_HAMBRE_LABEL").item("COLOR").item(1), _
-                                          JsonLanguage.item("MENSAJE_HAMBRE_LABEL").item("COLOR").item(2), _
-                                          JsonLanguage.item("MENSAJE_HAMBRE_LABEL").item("COLOR").item(3), _
-                          False, False, True)
-End Sub
-
 Private Sub lblMana_Click()
-    Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_MANA_LABEL").item("TEXTO"), _
-                                          JsonLanguage.item("MENSAJE_MANA_LABEL").item("COLOR").item(1), _
-                                          JsonLanguage.item("MENSAJE_MANA_LABEL").item("COLOR").item(2), _
-                                          JsonLanguage.item("MENSAJE_MANA_LABEL").item("COLOR").item(3), _
-                          False, False, True)
-End Sub
 
-Private Sub lblSed_Click()
-    Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_SED_LABEL").item("TEXTO"), _
-                                          JsonLanguage.item("MENSAJE_SED_LABEL").item("COLOR").item(1), _
-                                          JsonLanguage.item("MENSAJE_SED_LABEL").item("COLOR").item(2), _
-                                          JsonLanguage.item("MENSAJE_SED_LABEL").item("COLOR").item(3), _
-                          False, False, True)
-End Sub
-
-Private Sub lblStrg_Click()
-    Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_STRG_LABEL").item("TEXTO"), _
-                                          JsonLanguage.item("MENSAJE_STRG_LABEL").item("COLOR").item(1), _
-                                          JsonLanguage.item("MENSAJE_STRG_LABEL").item("COLOR").item(2), _
-                                          JsonLanguage.item("MENSAJE_STRG_LABEL").item("COLOR").item(3), _
-                          False, False, True)
-End Sub
-
-Private Sub lblVida_Click()
-    Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_VIDA_LABEL").item("TEXTO"), _
-                                          JsonLanguage.item("MENSAJE_VIDA_LABEL").item("COLOR").item(1), _
-                                          JsonLanguage.item("MENSAJE_VIDA_LABEL").item("COLOR").item(2), _
-                                          JsonLanguage.item("MENSAJE_VIDA_LABEL").item("COLOR").item(3), _
-                          False, False, True)
+   Call ParseUserCommand("/MEDITAR")
 End Sub
 
 Private Sub lblMinimizar_Click()
@@ -1498,8 +1439,8 @@ End Sub
 
 Private Sub RecTxt_MouseMove(Button As Integer, _
                              Shift As Integer, _
-                             X As Single, _
-                             Y As Single)
+                             x As Single, _
+                             y As Single)
     StartCheckingLinks
 End Sub
 
@@ -1641,8 +1582,8 @@ End Sub
 
 Private Sub btnLanzar_MouseMove(Button As Integer, _
                                 Shift As Integer, _
-                                X As Single, _
-                                Y As Single)
+                                x As Single, _
+                                y As Single)
     UsaMacro = False
     CnTd = 0
 End Sub
@@ -1698,26 +1639,26 @@ End Sub
 
 Private Sub MainViewPic_MouseDown(Button As Integer, _
                                   Shift As Integer, _
-                                  X As Single, _
-                                  Y As Single)
+                                  x As Single, _
+                                  y As Single)
     MouseBoton = Button
     MouseShift = Shift
 End Sub
 
 Private Sub MainViewPic_MouseMove(Button As Integer, _
                                   Shift As Integer, _
-                                  X As Single, _
-                                  Y As Single)
-    MouseX = X
-    MouseY = Y
+                                  x As Single, _
+                                  y As Single)
+    MouseX = x
+    MouseY = y
 End Sub
 
 Private Sub MainViewPic_MouseUp(Button As Integer, _
                                 Shift As Integer, _
-                                X As Single, _
-                                Y As Single)
-    clicX = X
-    clicY = Y
+                                x As Single, _
+                                y As Single)
+    clicX = x
+    clicY = y
 End Sub
 
 Private Sub MainViewPic_DblClick()
@@ -1735,7 +1676,6 @@ End Sub
 Private Sub SendTxt_Click()
     SendTxt.Tag = 0 ' GSZAO
 End Sub
-
 
 Private Sub MainViewPic_Click()
 
@@ -1875,9 +1815,9 @@ Private Sub Form_DblClick()
     End If
 End Sub
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    MouseX = X - MainViewPic.Left
-    MouseY = Y - MainViewPic.Top
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    MouseX = x - MainViewPic.Left
+    MouseY = y - MainViewPic.Top
     
     'Trim to fit screen
     If MouseX < 0 Then
@@ -1954,7 +1894,7 @@ Private Sub picInv_DblClick()
     
 End Sub
 
-Private Sub picInv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub picInv_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
     Call Audio.PlayWave(SND_CLICK)
 End Sub
 
@@ -2302,11 +2242,11 @@ End Sub
     '***************************************************
 Private Sub Minimapa_MouseDown(Button As Integer, _
                                Shift As Integer, _
-                               X As Single, _
-                               Y As Single)
+                               x As Single, _
+                               y As Single)
 
     If Button = vbRightButton Then
-        Call WriteWarpChar("YO", UserMap, CByte(X - 1), CByte(Y - 1))
+        Call WriteWarpChar("YO", UserMap, CByte(x - 1), CByte(y - 1))
         Call ActualizarMiniMapa
     End If
 End Sub
@@ -2321,10 +2261,10 @@ Public Sub ActualizarMiniMapa()
     'Ajustadas las coordenadas para centrarlo (WyroX)
     'Ajuste de coordenadas y tamaño del visor (ReyarB)
     '***************************************************
-    Me.UserM.Left = UserPos.X - 2
-    Me.UserM.Top = UserPos.Y - 2
-    Me.UserAreaMinimap.Left = UserPos.X - 13
-    Me.UserAreaMinimap.Top = UserPos.Y - 11
+    Me.UserM.Left = UserPos.x - 2
+    Me.UserM.Top = UserPos.y - 2
+    Me.UserAreaMinimap.Left = UserPos.x - 13
+    Me.UserAreaMinimap.Top = UserPos.y - 11
     Me.MiniMapa.Refresh
 End Sub
 

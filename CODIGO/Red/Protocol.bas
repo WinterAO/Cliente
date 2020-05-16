@@ -171,6 +171,7 @@ Private Enum ServerPacketID
     EquitandoToggle
     InitCraftman
     EnviarListDeAmigos
+    Proyectil
 End Enum
 
 Private Enum ClientPacketID
@@ -908,6 +909,9 @@ On Error Resume Next
         
         Case ServerPacketID.EnviarListDeAmigos
             Call HandleEnviarListDeAmigos
+            
+        Case ServerPacketID.Proyectil
+            Call HandleProyectil
 
         Case Else
             'ERROR : Abort!
@@ -1680,7 +1684,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -11515,4 +11519,19 @@ errhandler:
 
     If Error <> 0 Then Call Err.Raise(Error)
     
+End Sub
+
+Private Sub HandleProyectil()
+    'Remove packet id
+    Call incomingData.ReadByte
+        
+    Dim CharSending      As Integer
+    Dim CharRecieved     As Integer
+    Dim GrhIndex         As Integer
+        
+    CharSending = incomingData.ReadInteger()
+    CharRecieved = incomingData.ReadInteger()
+    GrhIndex = incomingData.ReadInteger()
+    
+    Engine_Projectile_Create CharSending, CharRecieved, GrhIndex, 0
 End Sub
