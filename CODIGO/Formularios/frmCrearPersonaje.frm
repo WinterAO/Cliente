@@ -11,6 +11,7 @@ Begin VB.Form frmCrearPersonaje
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
+   Picture         =   "frmCrearPersonaje.frx":0000
    ScaleHeight     =   600
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   799
@@ -26,7 +27,7 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   64
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   39
-      TabIndex        =   31
+      TabIndex        =   25
       Top             =   6360
       Visible         =   0   'False
       Width           =   615
@@ -42,7 +43,7 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   65
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   41
-      TabIndex        =   30
+      TabIndex        =   24
       Top             =   6360
       Width           =   615
    End
@@ -140,7 +141,7 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   24
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   24
-      TabIndex        =   21
+      TabIndex        =   16
       Top             =   5880
       Visible         =   0   'False
       Width           =   360
@@ -157,7 +158,7 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   24
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   24
-      TabIndex        =   22
+      TabIndex        =   17
       Top             =   5880
       Visible         =   0   'False
       Width           =   360
@@ -174,7 +175,7 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   24
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   24
-      TabIndex        =   23
+      TabIndex        =   18
       Top             =   5880
       Visible         =   0   'False
       Width           =   360
@@ -191,7 +192,7 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   24
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   24
-      TabIndex        =   24
+      TabIndex        =   19
       Top             =   5880
       Visible         =   0   'False
       Width           =   360
@@ -208,7 +209,7 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   24
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   24
-      TabIndex        =   20
+      TabIndex        =   15
       Top             =   5880
       Visible         =   0   'False
       Width           =   360
@@ -216,7 +217,7 @@ Begin VB.Form frmCrearPersonaje
    Begin WinterAO.uAOButton imgVolver 
       Height          =   495
       Left            =   1200
-      TabIndex        =   28
+      TabIndex        =   22
       Top             =   8160
       Width           =   1455
       _ExtentX        =   2566
@@ -225,10 +226,10 @@ Begin VB.Form frmCrearPersonaje
       ENAB            =   -1  'True
       FCOL            =   16777215
       OCOL            =   16777215
-      PICE            =   "frmCrearPersonaje.frx":0000
-      PICF            =   "frmCrearPersonaje.frx":001C
-      PICH            =   "frmCrearPersonaje.frx":0038
-      PICV            =   "frmCrearPersonaje.frx":0054
+      PICE            =   "frmCrearPersonaje.frx":4B1B8
+      PICF            =   "frmCrearPersonaje.frx":4B1D4
+      PICH            =   "frmCrearPersonaje.frx":4B1F0
+      PICV            =   "frmCrearPersonaje.frx":4B20C
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Arial"
          Size            =   9.75
@@ -242,7 +243,7 @@ Begin VB.Form frmCrearPersonaje
    Begin WinterAO.uAOButton imgCrear 
       Height          =   495
       Left            =   9120
-      TabIndex        =   29
+      TabIndex        =   23
       Top             =   8160
       Width           =   2535
       _ExtentX        =   4471
@@ -251,10 +252,10 @@ Begin VB.Form frmCrearPersonaje
       ENAB            =   -1  'True
       FCOL            =   16777215
       OCOL            =   16777215
-      PICE            =   "frmCrearPersonaje.frx":0070
-      PICF            =   "frmCrearPersonaje.frx":008C
-      PICH            =   "frmCrearPersonaje.frx":00A8
-      PICV            =   "frmCrearPersonaje.frx":00C4
+      PICE            =   "frmCrearPersonaje.frx":4B228
+      PICF            =   "frmCrearPersonaje.frx":4B244
+      PICH            =   "frmCrearPersonaje.frx":4B260
+      PICV            =   "frmCrearPersonaje.frx":4B27C
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Arial"
          Size            =   9.75
@@ -265,31 +266,87 @@ Begin VB.Form frmCrearPersonaje
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgDados 
-      Height          =   975
-      Left            =   1320
-      TabIndex        =   26
-      Top             =   3000
-      Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   1720
-      TX              =   ""
-      ENAB            =   -1  'True
-      FCOL            =   16777215
-      OCOL            =   16777215
-      PICE            =   "frmCrearPersonaje.frx":00E0
-      PICF            =   "frmCrearPersonaje.frx":00FC
-      PICH            =   "frmCrearPersonaje.frx":0118
-      PICV            =   "frmCrearPersonaje.frx":0134
-      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Arial"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
+   Begin VB.Label Total 
+      Alignment       =   2  'Center
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "40"
+      ForeColor       =   &H00FFFFFF&
+      Height          =   195
+      Left            =   5400
+      TabIndex        =   42
+      Top             =   4920
+      Width           =   195
+   End
+   Begin VB.Image Menos 
+      Height          =   135
+      Index           =   1
+      Left            =   4200
+      Top             =   3480
+      Width           =   255
+   End
+   Begin VB.Image Menos 
+      Height          =   135
+      Index           =   2
+      Left            =   4200
+      Top             =   3840
+      Width           =   255
+   End
+   Begin VB.Image Menos 
+      Height          =   135
+      Index           =   3
+      Left            =   4200
+      Top             =   4110
+      Width           =   255
+   End
+   Begin VB.Image Menos 
+      Height          =   135
+      Index           =   5
+      Left            =   4200
+      Top             =   4950
+      Width           =   255
+   End
+   Begin VB.Image Menos 
+      Height          =   165
+      Index           =   4
+      Left            =   4200
+      Top             =   4530
+      Width           =   255
+   End
+   Begin VB.Image Mas 
+      Height          =   135
+      Index           =   1
+      Left            =   4755
+      Top             =   3480
+      Width           =   135
+   End
+   Begin VB.Image Mas 
+      Height          =   135
+      Index           =   2
+      Left            =   4755
+      Top             =   3840
+      Width           =   135
+   End
+   Begin VB.Image Mas 
+      Height          =   135
+      Index           =   3
+      Left            =   4755
+      Top             =   4140
+      Width           =   135
+   End
+   Begin VB.Image Mas 
+      Height          =   135
+      Index           =   5
+      Left            =   4755
+      Top             =   4950
+      Width           =   135
+   End
+   Begin VB.Image Mas 
+      Height          =   135
+      Index           =   4
+      Left            =   4755
+      Top             =   4560
+      Width           =   135
    End
    Begin VB.Label imgEspecialidad 
       BackStyle       =   0  'Transparent
@@ -306,7 +363,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   47
+      TabIndex        =   41
       Top             =   7440
       Width           =   1335
    End
@@ -325,7 +382,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   46
+      TabIndex        =   40
       Top             =   7125
       Width           =   735
    End
@@ -344,7 +401,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   45
+      TabIndex        =   39
       Top             =   6825
       Width           =   735
    End
@@ -363,7 +420,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   44
+      TabIndex        =   38
       Top             =   6525
       Width           =   735
    End
@@ -382,7 +439,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   43
+      TabIndex        =   37
       Top             =   6225
       Width           =   735
    End
@@ -401,7 +458,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   42
+      TabIndex        =   36
       Top             =   5925
       Width           =   735
    End
@@ -420,17 +477,17 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   41
+      TabIndex        =   35
       Top             =   5625
       Width           =   735
    End
    Begin VB.Label imgConstitucion 
       BackStyle       =   0  'Transparent
-      Caption         =   "Carisma"
+      Caption         =   "Constitucion"
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   40
+      TabIndex        =   34
       Top             =   4800
       Width           =   855
    End
@@ -449,7 +506,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   6075
-      TabIndex        =   39
+      TabIndex        =   33
       Top             =   4350
       Width           =   1095
    End
@@ -468,7 +525,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   6075
-      TabIndex        =   38
+      TabIndex        =   32
       Top             =   3840
       Width           =   855
    End
@@ -487,7 +544,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   6075
-      TabIndex        =   37
+      TabIndex        =   31
       Top             =   3300
       Width           =   855
    End
@@ -497,7 +554,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   36
+      TabIndex        =   30
       Top             =   4440
       Width           =   855
    End
@@ -508,7 +565,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   35
+      TabIndex        =   29
       Top             =   4080
       Width           =   855
    End
@@ -518,7 +575,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   34
+      TabIndex        =   28
       Top             =   3720
       Width           =   735
    End
@@ -528,7 +585,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   255
       Left            =   3300
-      TabIndex        =   33
+      TabIndex        =   27
       Top             =   3360
       Width           =   735
    End
@@ -547,7 +604,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H8000000B&
       Height          =   375
       Left            =   3600
-      TabIndex        =   32
+      TabIndex        =   26
       Top             =   2760
       Width           =   1455
    End
@@ -566,7 +623,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H80000018&
       Height          =   615
       Left            =   3525
-      TabIndex        =   27
+      TabIndex        =   21
       Top             =   1200
       Width           =   4815
    End
@@ -576,216 +633,6 @@ Begin VB.Form frmCrearPersonaje
       MousePointer    =   99  'Custom
       Top             =   4680
       Width           =   900
-   End
-   Begin VB.Image imgArcoStar 
-      Height          =   195
-      Index           =   5
-      Left            =   5400
-      Top             =   7110
-      Width           =   225
-   End
-   Begin VB.Image imgArcoStar 
-      Height          =   195
-      Index           =   4
-      Left            =   5175
-      Top             =   7110
-      Width           =   225
-   End
-   Begin VB.Image imgArcoStar 
-      Height          =   195
-      Index           =   3
-      Left            =   4950
-      Top             =   7110
-      Width           =   225
-   End
-   Begin VB.Image imgArcoStar 
-      Height          =   195
-      Index           =   2
-      Left            =   4725
-      Top             =   7110
-      Width           =   225
-   End
-   Begin VB.Image imgArcoStar 
-      Height          =   195
-      Index           =   1
-      Left            =   4500
-      Top             =   7110
-      Width           =   225
-   End
-   Begin VB.Image imgArmasStar 
-      Height          =   195
-      Index           =   5
-      Left            =   5400
-      Top             =   6825
-      Width           =   225
-   End
-   Begin VB.Image imgArmasStar 
-      Height          =   195
-      Index           =   4
-      Left            =   5175
-      Top             =   6825
-      Width           =   225
-   End
-   Begin VB.Image imgArmasStar 
-      Height          =   195
-      Index           =   3
-      Left            =   4950
-      Top             =   6825
-      Width           =   225
-   End
-   Begin VB.Image imgArmasStar 
-      Height          =   195
-      Index           =   2
-      Left            =   4725
-      Top             =   6825
-      Width           =   225
-   End
-   Begin VB.Image imgEscudosStar 
-      Height          =   195
-      Index           =   5
-      Left            =   5400
-      Top             =   6540
-      Width           =   225
-   End
-   Begin VB.Image imgEscudosStar 
-      Height          =   195
-      Index           =   4
-      Left            =   5175
-      Top             =   6540
-      Width           =   225
-   End
-   Begin VB.Image imgEscudosStar 
-      Height          =   195
-      Index           =   3
-      Left            =   4950
-      Top             =   6540
-      Width           =   225
-   End
-   Begin VB.Image imgEscudosStar 
-      Height          =   195
-      Index           =   2
-      Left            =   4725
-      Top             =   6540
-      Width           =   225
-   End
-   Begin VB.Image imgVidaStar 
-      Height          =   195
-      Index           =   5
-      Left            =   5400
-      Top             =   6255
-      Width           =   225
-   End
-   Begin VB.Image imgVidaStar 
-      Height          =   195
-      Index           =   4
-      Left            =   5175
-      Top             =   6255
-      Width           =   225
-   End
-   Begin VB.Image imgVidaStar 
-      Height          =   195
-      Index           =   3
-      Left            =   4950
-      Top             =   6255
-      Width           =   225
-   End
-   Begin VB.Image imgVidaStar 
-      Height          =   195
-      Index           =   2
-      Left            =   4725
-      Top             =   6255
-      Width           =   225
-   End
-   Begin VB.Image imgMagiaStar 
-      Height          =   195
-      Index           =   5
-      Left            =   5400
-      Top             =   5970
-      Width           =   225
-   End
-   Begin VB.Image imgMagiaStar 
-      Height          =   195
-      Index           =   4
-      Left            =   5175
-      Top             =   5970
-      Width           =   225
-   End
-   Begin VB.Image imgMagiaStar 
-      Height          =   195
-      Index           =   3
-      Left            =   4950
-      Top             =   5970
-      Width           =   225
-   End
-   Begin VB.Image imgMagiaStar 
-      Height          =   195
-      Index           =   2
-      Left            =   4725
-      Top             =   5970
-      Width           =   225
-   End
-   Begin VB.Image imgArmasStar 
-      Height          =   195
-      Index           =   1
-      Left            =   4500
-      Top             =   6825
-      Width           =   225
-   End
-   Begin VB.Image imgEscudosStar 
-      Height          =   195
-      Index           =   1
-      Left            =   4500
-      Top             =   6540
-      Width           =   225
-   End
-   Begin VB.Image imgVidaStar 
-      Height          =   195
-      Index           =   1
-      Left            =   4500
-      Top             =   6255
-      Width           =   225
-   End
-   Begin VB.Image imgMagiaStar 
-      Height          =   195
-      Index           =   1
-      Left            =   4500
-      Top             =   5970
-      Width           =   225
-   End
-   Begin VB.Image imgEvasionStar 
-      Height          =   195
-      Index           =   5
-      Left            =   5400
-      Top             =   5685
-      Width           =   225
-   End
-   Begin VB.Image imgEvasionStar 
-      Height          =   195
-      Index           =   4
-      Left            =   5175
-      Top             =   5685
-      Width           =   225
-   End
-   Begin VB.Image imgEvasionStar 
-      Height          =   195
-      Index           =   3
-      Left            =   4950
-      Top             =   5685
-      Width           =   225
-   End
-   Begin VB.Image imgEvasionStar 
-      Height          =   195
-      Index           =   2
-      Left            =   4725
-      Top             =   5685
-      Width           =   225
-   End
-   Begin VB.Image imgEvasionStar 
-      Height          =   195
-      Index           =   1
-      Left            =   4500
-      Top             =   5685
-      Width           =   225
    End
    Begin VB.Label lblEspecialidad 
       BackStyle       =   0  'Transparent
@@ -802,7 +649,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H00FFFFFF&
       Height          =   1215
       Left            =   4440
-      TabIndex        =   25
+      TabIndex        =   20
       Top             =   7395
       Width           =   1815
    End
@@ -845,106 +692,6 @@ Begin VB.Form frmCrearPersonaje
       X2              =   479
       Y1              =   392
       Y2              =   416
-   End
-   Begin VB.Label lblAtributoFinal 
-      BackStyle       =   0  'Transparent
-      Caption         =   "18"
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   195
-      Index           =   5
-      Left            =   5445
-      TabIndex        =   19
-      Top             =   4830
-      Width           =   225
-   End
-   Begin VB.Label lblAtributoFinal 
-      BackStyle       =   0  'Transparent
-      Caption         =   "18"
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   195
-      Index           =   4
-      Left            =   5445
-      TabIndex        =   18
-      Top             =   4470
-      Width           =   225
-   End
-   Begin VB.Label lblAtributoFinal 
-      BackStyle       =   0  'Transparent
-      Caption         =   "18"
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   195
-      Index           =   3
-      Left            =   5445
-      TabIndex        =   17
-      Top             =   4125
-      Width           =   225
-   End
-   Begin VB.Label lblAtributoFinal 
-      BackStyle       =   0  'Transparent
-      Caption         =   "18"
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   195
-      Index           =   2
-      Left            =   5445
-      TabIndex        =   16
-      Top             =   3780
-      Width           =   225
-   End
-   Begin VB.Label lblAtributoFinal 
-      BackStyle       =   0  'Transparent
-      Caption         =   "18"
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   195
-      Index           =   1
-      Left            =   5445
-      TabIndex        =   15
-      Top             =   3450
-      Width           =   225
    End
    Begin VB.Label lblModRaza 
       Alignment       =   1  'Right Justify
@@ -1069,12 +816,6 @@ Begin VB.Form frmCrearPersonaje
       Top             =   1800
       Width           =   1935
    End
-   Begin VB.Image imgF 
-      Height          =   270
-      Left            =   5415
-      Top             =   3075
-      Width           =   270
-   End
    Begin VB.Image imgM 
       Height          =   270
       Left            =   4950
@@ -1091,7 +832,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   225
       Index           =   0
       Left            =   6960
-      Picture         =   "frmCrearPersonaje.frx":0150
+      Picture         =   "frmCrearPersonaje.frx":4B298
       Top             =   7320
       Visible         =   0   'False
       Width           =   240
@@ -1100,7 +841,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   225
       Index           =   1
       Left            =   7560
-      Picture         =   "frmCrearPersonaje.frx":0462
+      Picture         =   "frmCrearPersonaje.frx":4B5AA
       Top             =   7320
       Visible         =   0   'False
       Width           =   240
@@ -1109,7 +850,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   225
       Index           =   1
       Left            =   8460
-      Picture         =   "frmCrearPersonaje.frx":0774
+      Picture         =   "frmCrearPersonaje.frx":4B8BC
       Top             =   5925
       Visible         =   0   'False
       Width           =   240
@@ -1118,7 +859,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   225
       Index           =   0
       Left            =   6075
-      Picture         =   "frmCrearPersonaje.frx":0A86
+      Picture         =   "frmCrearPersonaje.frx":4BBCE
       Top             =   5925
       Visible         =   0   'False
       Width           =   240
@@ -1141,7 +882,7 @@ Begin VB.Form frmCrearPersonaje
    Begin VB.Label lblAtributos 
       Alignment       =   1  'Right Justify
       BackStyle       =   0  'Transparent
-      Caption         =   "18"
+      Caption         =   "6"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   8.25
@@ -1162,7 +903,7 @@ Begin VB.Form frmCrearPersonaje
    Begin VB.Label lblAtributos 
       Alignment       =   1  'Right Justify
       BackStyle       =   0  'Transparent
-      Caption         =   "18"
+      Caption         =   "6"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   8.25
@@ -1183,7 +924,7 @@ Begin VB.Form frmCrearPersonaje
    Begin VB.Label lblAtributos 
       Alignment       =   1  'Right Justify
       BackStyle       =   0  'Transparent
-      Caption         =   "18"
+      Caption         =   "6"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   8.25
@@ -1204,7 +945,7 @@ Begin VB.Form frmCrearPersonaje
    Begin VB.Label lblAtributos 
       Alignment       =   1  'Right Justify
       BackStyle       =   0  'Transparent
-      Caption         =   "18"
+      Caption         =   "6"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   8.25
@@ -1225,7 +966,7 @@ Begin VB.Form frmCrearPersonaje
    Begin VB.Label lblAtributos 
       Alignment       =   1  'Right Justify
       BackStyle       =   0  'Transparent
-      Caption         =   "18"
+      Caption         =   "6"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   8.25
@@ -1282,10 +1023,6 @@ Attribute VB_Exposed = False
 'Pablo Ignacio Marquez
 
 Option Explicit
-
-Private picFullStar As Picture
-Private picHalfStar As Picture
-Private picGlowStar As Picture
 
 Private Enum eHelp
     iePasswd
@@ -1370,7 +1107,6 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub LoadTextsForm()
-    imgDados.Caption = JsonLanguage.item("FRM_CREARPERSONAJE_TIRAR_DADOS").item("TEXTO")
     imgCrear.Caption = JsonLanguage.item("FRM_CREARPERSONAJE_CREAR").item("TEXTO")
     imgVolver.Caption = JsonLanguage.item("FRM_CREARPERSONAJE_VOLVER").item("TEXTO")
     imgEspecialidad.Caption = JsonLanguage.item("FRM_CREARPERSONAJE_ESPECIALIDAD").item("TEXTO")
@@ -1408,10 +1144,6 @@ End Sub
 Private Sub IniciarGraficos()
     Dim GrhPath As String
     GrhPath = Game.path(Interfaces)
-
-    Set picFullStar = LoadPicture(GrhPath & "EstrellaSimple.jpg")
-    Set picHalfStar = LoadPicture(GrhPath & "EstrellaMitad.jpg")
-    Set picGlowStar = LoadPicture(GrhPath & "EstrellaBrillante.jpg")
 End Sub
 
 Private Sub CargarCombos()
@@ -1466,14 +1198,20 @@ Function CheckData() As Boolean
 
     'Toqueteado x Salvito
     Dim i As Integer
-
+    Dim Suma As Byte
     For i = 1 To NUMATRIBUTOS
-
-        If Val(lblAtributos(i).Caption) = 0 Then
+        If Val(lblAtributos(i).Caption) > 18 Then
             MsgBox JsonLanguage.item("VALIDACION_ATRIBUTOS").item("TEXTO")
             Exit Function
         End If
+        
+        Suma = Suma + lblAtributos(i).Caption
     Next i
+    
+    If Suma <> 70 Then
+        MsgBox JsonLanguage.item("VALIDACION_ATRIBUTOS").item("TEXTO")
+        Exit Function
+    End If
     
     If LenB(UserName) > 30 Then
         MsgBox JsonLanguage.item("VALIDACION_BAD_NOMBRE_PJ").item("TEXTO").item(1)
@@ -1483,11 +1221,6 @@ Function CheckData() As Boolean
     CheckData = True
 
 End Function
-
-Private Sub TirarDados()
-    Call WriteThrowDices
-    Call FlushBuffer
-End Sub
 
 Private Sub DirPJ_Click(Index As Integer)
 
@@ -1503,7 +1236,7 @@ Private Sub DirPJ_Click(Index As Integer)
     Call UpdateHeadSelection
 End Sub
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     ClearLabel
 End Sub
 
@@ -1583,153 +1316,148 @@ Private Sub ImgCrear_Click()
 
 End Sub
 
-Private Sub imgDados_Click()
-    Call Audio.PlayWave(SND_DICE)
-    Call TirarDados
-End Sub
-
 Private Sub imgEspecialidad_MouseMove(Button As Integer, _
                                       Shift As Integer, _
-                                      X As Single, _
-                                      Y As Single)
+                                      x As Single, _
+                                      y As Single)
     lblHelp.Caption = vHelp(eHelp.ieEspecialidad)
 End Sub
 
 Private Sub imgNombre_MouseMove(Button As Integer, _
                                 Shift As Integer, _
-                                X As Single, _
-                                Y As Single)
+                                x As Single, _
+                                y As Single)
     lblHelp.Caption = vHelp(eHelp.ieNombre)
 End Sub
 
 Private Sub imgAtributos_MouseMove(Button As Integer, _
                                    Shift As Integer, _
-                                   X As Single, _
-                                   Y As Single)
+                                   x As Single, _
+                                   y As Single)
     lblHelp.Caption = vHelp(eHelp.ieAtributos)
 End Sub
 
-Private Sub imgD_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub imgD_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     lblHelp.Caption = vHelp(eHelp.ieD)
 End Sub
 
-Private Sub imgM_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub imgM_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     lblHelp.Caption = vHelp(eHelp.ieM)
 End Sub
 
-Private Sub imgF_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub imgF_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     lblHelp.Caption = vHelp(eHelp.ieF)
 End Sub
 
 Private Sub imgFuerza_MouseMove(Button As Integer, _
                                 Shift As Integer, _
-                                X As Single, _
-                                Y As Single)
+                                x As Single, _
+                                y As Single)
     lblHelp.Caption = vHelp(eHelp.ieFuerza)
 End Sub
 
 Private Sub imgAgilidad_MouseMove(Button As Integer, _
                                   Shift As Integer, _
-                                  X As Single, _
-                                  Y As Single)
+                                  x As Single, _
+                                  y As Single)
     lblHelp.Caption = vHelp(eHelp.ieAgilidad)
 End Sub
 
 Private Sub imgInteligencia_MouseMove(Button As Integer, _
                                       Shift As Integer, _
-                                      X As Single, _
-                                      Y As Single)
+                                      x As Single, _
+                                      y As Single)
     lblHelp.Caption = vHelp(eHelp.ieInteligencia)
 End Sub
 
 Private Sub imgCarisma_MouseMove(Button As Integer, _
                                  Shift As Integer, _
-                                 X As Single, _
-                                 Y As Single)
+                                 x As Single, _
+                                 y As Single)
     lblHelp.Caption = vHelp(eHelp.ieCarisma)
 End Sub
 
 Private Sub imgConstitucion_MouseMove(Button As Integer, _
                                       Shift As Integer, _
-                                      X As Single, _
-                                      Y As Single)
+                                      x As Single, _
+                                      y As Single)
     lblHelp.Caption = vHelp(eHelp.ieConstitucion)
 End Sub
 
 Private Sub imgArcos_MouseMove(Button As Integer, _
                                Shift As Integer, _
-                               X As Single, _
-                               Y As Single)
+                               x As Single, _
+                               y As Single)
     lblHelp.Caption = vHelp(eHelp.ieArcos)
 End Sub
 
 Private Sub imgArmas_MouseMove(Button As Integer, _
                                Shift As Integer, _
-                               X As Single, _
-                               Y As Single)
+                               x As Single, _
+                               y As Single)
     lblHelp.Caption = vHelp(eHelp.ieArmas)
 End Sub
 
 Private Sub imgEscudos_MouseMove(Button As Integer, _
                                  Shift As Integer, _
-                                 X As Single, _
-                                 Y As Single)
+                                 x As Single, _
+                                 y As Single)
     lblHelp.Caption = vHelp(eHelp.ieEscudos)
 End Sub
 
 Private Sub imgEvasion_MouseMove(Button As Integer, _
                                  Shift As Integer, _
-                                 X As Single, _
-                                 Y As Single)
+                                 x As Single, _
+                                 y As Single)
     lblHelp.Caption = vHelp(eHelp.ieEvasion)
 End Sub
 
 Private Sub imgMagia_MouseMove(Button As Integer, _
                                Shift As Integer, _
-                               X As Single, _
-                               Y As Single)
+                               x As Single, _
+                               y As Single)
     lblHelp.Caption = vHelp(eHelp.ieMagia)
 End Sub
 
 Private Sub imgVida_MouseMove(Button As Integer, _
                               Shift As Integer, _
-                              X As Single, _
-                              Y As Single)
+                              x As Single, _
+                              y As Single)
     lblHelp.Caption = vHelp(eHelp.ieVida)
 End Sub
 
 Private Sub imgDados_MouseMove(Button As Integer, _
                                Shift As Integer, _
-                               X As Single, _
-                               Y As Single)
+                               x As Single, _
+                               y As Single)
     lblHelp.Caption = vHelp(eHelp.ieTirarDados)
 End Sub
 
 Private Sub imgPuebloOrigen_MouseMove(Button As Integer, _
                                       Shift As Integer, _
-                                      X As Single, _
-                                      Y As Single)
+                                      x As Single, _
+                                      y As Single)
     lblHelp.Caption = vHelp(eHelp.iePuebloOrigen)
 End Sub
 
 Private Sub imgRaza_MouseMove(Button As Integer, _
                               Shift As Integer, _
-                              X As Single, _
-                              Y As Single)
+                              x As Single, _
+                              y As Single)
     lblHelp.Caption = vHelp(eHelp.ieRaza)
 End Sub
 
 Private Sub imgClase_MouseMove(Button As Integer, _
                                Shift As Integer, _
-                               X As Single, _
-                               Y As Single)
+                               x As Single, _
+                               y As Single)
     lblHelp.Caption = vHelp(eHelp.ieClase)
 End Sub
 
 Private Sub imgGenero_MouseMove(Button As Integer, _
                                 Shift As Integer, _
-                                X As Single, _
-                                Y As Single)
+                                x As Single, _
+                                y As Single)
     lblHelp.Caption = vHelp(eHelp.ieGenero)
 End Sub
 
@@ -1757,7 +1485,7 @@ Private Sub lstProfesion_Click()
     
     UserClase = lstProfesion.ListIndex + 1
     
-    Call UpdateStats
+    Call UpdateRazaMod
     Call UpdateEspecialidad(UserClase)
 End Sub
 
@@ -1769,7 +1497,7 @@ Private Sub lstRaza_Click()
     UserRaza = lstRaza.ListIndex + 1
     Call DarCuerpoYCabeza
     
-    Call UpdateStats
+    Call UpdateRazaMod
 End Sub
 
 Private Sub picHead_Click(Index As Integer)
@@ -1827,7 +1555,7 @@ Private Sub tAnimacion_Timer()
     Call Engine_BeginScene
 
     Call Draw_GrhIndex(GrhData(currentGrh).Frames(Frame), CenterX, CenterY, 1, Normal_RGBList())
-    Call Draw_GrhIndex(HeadData(UserHead).Head(Dir).GrhIndex, CenterX, CenterY + BodyData(UserBody).HeadOffset.Y, 1, Normal_RGBList())
+    Call Draw_GrhIndex(HeadData(UserHead).Head(Dir).GrhIndex, CenterX, CenterY + BodyData(UserBody).HeadOffset.y, 1, Normal_RGBList())
 
     Call Engine_EndScene(DR, picTemp.hWnd)
 
@@ -1851,8 +1579,8 @@ End Sub
 
 Private Sub txtConfirmPasswd_MouseMove(Button As Integer, _
                                        Shift As Integer, _
-                                       X As Single, _
-                                       Y As Single)
+                                       x As Single, _
+                                       y As Single)
     lblHelp.Caption = vHelp(eHelp.ieConfirmPasswd)
 End Sub
 
@@ -2151,24 +1879,19 @@ End Sub
 
 Private Sub txtNombre_MouseMove(Button As Integer, _
                                 Shift As Integer, _
-                                X As Single, _
-                                Y As Single)
+                                x As Single, _
+                                y As Single)
     lblHelp.Caption = vHelp(eHelp.ieNombre)
 End Sub
 
 Private Sub txtPasswd_MouseMove(Button As Integer, _
                                 Shift As Integer, _
-                                X As Single, _
-                                Y As Single)
+                                x As Single, _
+                                y As Single)
     lblHelp.Caption = vHelp(eHelp.iePasswd)
 End Sub
 
-Public Sub UpdateStats()
-    Call UpdateRazaMod
-    Call UpdateStars
-End Sub
-
-Private Sub UpdateRazaMod()
+Public Sub UpdateRazaMod()
     Dim SelRaza As Integer
     Dim i       As Integer
     
@@ -2185,105 +1908,6 @@ Private Sub UpdateRazaMod()
         End With
     End If
     
-    ' Atributo total
-    For i = 1 To NUMATRIBUTES
-        lblAtributoFinal(i).Caption = Val(lblAtributos(i).Caption) + Val(lblModRaza(i))
-    Next i
-    
-End Sub
-
-Private Sub UpdateStars()
-    Dim NumStars As Double
-    
-    If UserClase = 0 Then Exit Sub
-    
-    ' Estrellas de evasion
-    NumStars = (2.454 + 0.073 * Val(lblAtributoFinal(eAtributos.Agilidad).Caption)) * ModClase(UserClase).Evasion
-    Call SetStars(imgEvasionStar, NumStars * 2)
-    
-    ' Estrellas de magia
-    NumStars = ModClase(UserClase).Magia * Val(lblAtributoFinal(eAtributos.Inteligencia).Caption) * 0.085
-    Call SetStars(imgMagiaStar, NumStars * 2)
-    
-    ' Estrellas de vida
-    NumStars = 0.24 + (Val(lblAtributoFinal(eAtributos.Constitucion).Caption) * 0.5 - ModClase(UserClase).Vida) * 0.475
-    Call SetStars(imgVidaStar, NumStars * 2)
-    
-    ' Estrellas de escudo
-    NumStars = 4 * ModClase(UserClase).Escudo
-    Call SetStars(imgEscudosStar, NumStars * 2)
-    
-    ' Estrellas de armas
-    NumStars = (0.509 + 0.01185 * Val(lblAtributoFinal(eAtributos.Fuerza).Caption)) * ModClase(UserClase).Hit * ModClase(UserClase).DanoArmas + 0.119 * ModClase(UserClase).AtaqueArmas * Val(lblAtributoFinal(eAtributos.Agilidad).Caption)
-    Call SetStars(imgArmasStar, NumStars * 2)
-    
-    ' Estrellas de arcos
-    NumStars = (0.4915 + 0.01265 * Val(lblAtributoFinal(eAtributos.Fuerza).Caption)) * ModClase(UserClase).DanoProyectiles * ModClase(UserClase).Hit + 0.119 * ModClase(UserClase).AtaqueProyectiles * Val(lblAtributoFinal(eAtributos.Agilidad).Caption)
-    Call SetStars(imgArcoStar, NumStars * 2)
-    
-End Sub
-
-Private Sub SetStars(ByRef ImgContainer As Object, ByVal NumStars As Integer)
-    Dim FullStars   As Integer
-    Dim HasHalfStar As Boolean
-    Dim Index       As Integer
-    Dim Counter     As Integer
-
-    If NumStars > 0 Then
-        
-        If NumStars > 10 Then NumStars = 10
-        
-        FullStars = Int(NumStars / 2)
-        
-        ' Tienen brillo extra si estan todas
-        If FullStars = 5 Then
-
-            For Index = 1 To FullStars
-                ImgContainer(Index).Picture = picGlowStar
-            Next Index
-
-        Else
-
-            ' Numero impar? Entonces hay que poner "media estrella"
-            If (NumStars Mod 2) > 0 Then HasHalfStar = True
-            
-            ' Muestro las estrellas enteras
-            If FullStars > 0 Then
-
-                For Index = 1 To FullStars
-                    ImgContainer(Index).Picture = picFullStar
-                Next Index
-                
-                Counter = FullStars
-            End If
-            
-            ' Muestro la mitad de la estrella (si tiene)
-            If HasHalfStar Then
-                Counter = Counter + 1
-                
-                ImgContainer(Counter).Picture = picHalfStar
-            End If
-            
-            ' Si estan completos los espacios, no borro nada
-            If Counter <> 5 Then
-                
-                ' Limpio las que queden vacias
-                For Index = Counter + 1 To 5
-                    Set ImgContainer(Index).Picture = Nothing
-                Next Index
-
-            End If
-            
-        End If
-    Else
-
-        ' Limpio todo
-        For Index = 1 To 5
-            Set ImgContainer(Index).Picture = Nothing
-        Next Index
-
-    End If
-
 End Sub
 
 Private Sub LoadCharInfo()
@@ -2334,4 +1958,25 @@ Private Sub LoadCharInfo()
         
     Next i
 
+End Sub
+
+Private Sub Mas_Click(Index As Integer)
+    Call Audio.PlayWave(SND_CLICK)
+    
+    If lblAtributos(Index).Caption < 18 And Total.Caption > 0 Then
+        lblAtributos(Index).Caption = lblAtributos(Index).Caption + 1
+        Total.Caption = Total.Caption - 1
+    End If
+    
+End Sub
+
+Private Sub Menos_Click(Index As Integer)
+    Call Audio.PlayWave(SND_CLICK)
+    
+    If Total.Caption = "40" Then Exit Sub
+    If lblAtributos(Index).Caption > 6 Then
+        lblAtributos(Index).Caption = lblAtributos(Index).Caption - 1
+        Total.Caption = Total.Caption + 1
+    End If
+    
 End Sub
