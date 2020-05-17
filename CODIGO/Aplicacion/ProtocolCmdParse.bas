@@ -540,7 +540,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
             '
             
             Case "/BUSCAR"
-                frmBuscar.Show vbModeless, frmMain
+                Call WriteGMPanel(1)
             
             Case "/LIMPIARMUNDO"
                 Call WriteLimpiarMundo
@@ -674,7 +674,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteInvisible
                 
             Case "/PANELGM"
-                Call WriteGMPanel
+                Call WriteGMPanel(0)
                 
             Case "/TRABAJANDO"
                 Call WriteWorking
@@ -735,9 +735,6 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                         
                         Case "SKILLS"
                             tmpInt = eEditOptions.eo_Skills
-                        
-                        Case "SKILLSLIBRES"
-                            tmpInt = eEditOptions.eo_SkillPointsLeft
                         
                         Case "CLASE"
                             tmpInt = eEditOptions.eo_Class

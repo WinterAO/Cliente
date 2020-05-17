@@ -112,7 +112,6 @@ Private Enum ServerPacketID
     UpdateHungerAndThirst        ' EHYS
     Fame                         ' FAMA
     MiniStats                    ' MEST
-    LevelUp                      ' SUNI
     AddForumMsg                  ' FMSG
     ShowForumForm                ' MFOR
     SetInvisible                 ' NOVER
@@ -211,7 +210,6 @@ Private Enum ClientPacketID
     sadasdA
     EquipItem                       'EQUI
     ChangeHeading                   'CHEA
-    ModifySkills                    'SKSE
     Train                           'ENTR
     CommerceBuy                     'COMP
     BankExtractItem                 'RETI
@@ -738,9 +736,6 @@ On Error Resume Next
         
         Case ServerPacketID.MiniStats               ' MEST
             Call HandleMiniStats
-        
-        Case ServerPacketID.LevelUp                 ' SUNI
-            Call HandleLevelUp
         
         Case ServerPacketID.AddForumMsg             ' FMSG
             Call HandleAddForumMessage
@@ -1679,7 +1674,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -1831,14 +1826,7 @@ Private Sub HandleUpdateSta()
     
     frmMain.lblEnergia = UserMinSTA & "/" & UserMaxSTA
     
-    Dim bWidth As Byte
-    
-    bWidth = (((UserMinSTA / 100) / (UserMaxSTA / 100)) * 83)
-    
-    frmMain.shpEnergia.Width = 83 - bWidth
-    frmMain.shpEnergia.Left = 797 + (83 - frmMain.shpEnergia.Width)
-    
-    frmMain.shpEnergia.Visible = (bWidth <> 83)
+    frmMain.shpEnergia.Width = (((UserMinSTA / 100) / (UserMaxSTA / 100)) * 83)
     
 End Sub
 
@@ -1865,15 +1853,9 @@ Private Sub HandleUpdateMana()
     
     frmMain.lblMana = UserMinMAN & "/" & UserMaxMAN
     
-    Dim bWidth As Byte
-    
     If UserMaxMAN > 0 Then _
-        bWidth = (((UserMinMAN / 100) / (UserMaxMAN / 100)) * 90)
+        frmMain.shpMana.Width = (((UserMinMAN / 100) / (UserMaxMAN / 100)) * 92)
         
-    frmMain.shpMana.Width = 90 - bWidth
-    frmMain.shpMana.Left = 902 + (90 - frmMain.shpMana.Width)
-    
-    frmMain.shpMana.Visible = (bWidth <> 90)
 End Sub
 
 ''
@@ -1898,15 +1880,8 @@ Private Sub HandleUpdateHP()
     UserMinHP = incomingData.ReadInteger()
     
     frmMain.lblVida = UserMinHP & "/" & UserMaxHP
-    
-    Dim bWidth As Byte
-    
-    bWidth = (((UserMinHP / 100) / (UserMaxHP / 100)) * 90)
-    
-    frmMain.shpVida.Width = 90 - bWidth
-    frmMain.shpVida.Left = 902 + (90 - frmMain.shpVida.Width)
-    
-    frmMain.shpVida.Visible = (bWidth <> 90)
+
+    frmMain.shpVida.Width = (((UserMinHP / 100) / (UserMaxHP / 100)) * 92)
     
     'Is the user alive??
     If UserMinHP = 0 Then
@@ -2014,10 +1989,13 @@ Private Sub HandleUpdateStrenghtAndDexterity()
     'Get data and update form
     UserFuerza = incomingData.ReadByte
     UserAgilidad = incomingData.ReadByte
+    
     frmMain.lblStrg.Caption = UserFuerza
     frmMain.lblDext.Caption = UserAgilidad
-    frmMain.lblStrg.ForeColor = getStrenghtColor()
-    frmMain.lblDext.ForeColor = getDexterityColor()
+    
+    frmMain.ShpFuerza.Width = ((UserAgilidad / 25) * 92)
+    frmMain.ShpAgilidad.Width = ((UserFuerza / 25) * 92)
+    
 End Sub
 
 ' Handles the UpdateStrenghtAndDexterity message.
@@ -2039,7 +2017,8 @@ Private Sub HandleUpdateStrenght()
     'Get data and update form
     UserFuerza = incomingData.ReadByte
     frmMain.lblStrg.Caption = UserFuerza
-    frmMain.lblStrg.ForeColor = getStrenghtColor()
+    
+    frmMain.ShpFuerza.Width = ((UserAgilidad / 25) * 92)
 End Sub
 
 ' Handles the UpdateStrenghtAndDexterity message.
@@ -2060,8 +2039,8 @@ Private Sub HandleUpdateDexterity()
     
     'Get data and update form
     UserAgilidad = incomingData.ReadByte
-    frmMain.lblDext.Caption = UserAgilidad
-    frmMain.lblDext.ForeColor = getDexterityColor()
+   
+    frmMain.ShpAgilidad.Width = ((UserFuerza / 25) * 92)
 End Sub
 
 ''
@@ -3176,32 +3155,16 @@ Private Sub HandleUpdateUserStats()
     frmMain.lblVida = UserMinHP & "/" & UserMaxHP
     frmMain.lblEnergia = UserMinSTA & "/" & UserMaxSTA
     
-    Dim bWidth As Byte
-    
     '***************************
     If UserMaxMAN > 0 Then _
-        bWidth = (((UserMinMAN / 100) / (UserMaxMAN / 100)) * 90)
-        
-    frmMain.shpMana.Width = 90 - bWidth
-    frmMain.shpMana.Left = 902 + (90 - frmMain.shpMana.Width)
-    
-    frmMain.shpMana.Visible = (bWidth <> 90)
+    frmMain.shpMana.Width = (((UserMinMAN / 100) / (UserMaxMAN / 100)) * 92)
     '***************************
     
-    bWidth = (((UserMinHP / 100) / (UserMaxHP / 100)) * 90)
-    
-    frmMain.shpVida.Width = 90 - bWidth
-    frmMain.shpVida.Left = 902 + (90 - frmMain.shpVida.Width)
-    
-    frmMain.shpVida.Visible = (bWidth <> 90)
+    frmMain.shpVida.Width = (((UserMinHP / 100) / (UserMaxHP / 100)) * 92)
+
     '***************************
     
-    bWidth = (((UserMinSTA / 100) / (UserMaxSTA / 100)) * 83)
-    
-    frmMain.shpEnergia.Width = 83 - bWidth
-    frmMain.shpEnergia.Left = 797 + (83 - frmMain.shpEnergia.Width)
-    
-    frmMain.shpEnergia.Visible = (bWidth <> 83)
+    frmMain.shpEnergia.Visible = (((UserMinSTA / 100) / (UserMaxSTA / 100)) * 92)
     '***************************
     
     If UserMinHP = 0 Then
@@ -4128,23 +4091,11 @@ Private Sub HandleUpdateHungerAndThirst()
     UserMinHAM = incomingData.ReadByte()
     frmMain.lblHambre = UserMinHAM & "%"
     frmMain.lblSed = UserMinAGU & "%"
-
-    Dim bWidth As Byte
     
-    bWidth = (((UserMinHAM / 100) / (UserMaxHAM / 100)) * 83)
-    
-    frmMain.shpHambre.Width = 83 - bWidth
-    frmMain.shpHambre.Left = 797 + (83 - frmMain.shpHambre.Width)
-    
-    frmMain.shpHambre.Visible = (bWidth <> 83)
+    frmMain.shpHambre.Height = (((UserMinHAM / 100) / (UserMaxHAM / 100)) * 20)
     '*********************************
     
-    bWidth = (((UserMinAGU / 100) / (UserMaxAGU / 100)) * 83)
-    
-    frmMain.shpSed.Width = 83 - bWidth
-    frmMain.shpSed.Left = 797 + (83 - frmMain.shpSed.Width)
-    
-    frmMain.shpSed.Visible = (bWidth <> 83)
+    frmMain.shpSed.Visible = (((UserMinAGU / 100) / (UserMaxAGU / 100)) * 20)
     
 End Sub
 
@@ -4203,28 +4154,6 @@ Private Sub HandleMiniStats()
         .Clase = ListaClases(incomingData.ReadByte())
         .PenaCarcel = incomingData.ReadLong()
     End With
-End Sub
-
-''
-' Handles the LevelUp message.
-
-Private Sub HandleLevelUp()
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'
-'***************************************************
-    If incomingData.Length < 3 Then
-        Err.Raise incomingData.NotEnoughDataErrCode
-        Exit Sub
-    End If
-    
-    'Remove packet ID
-    Call incomingData.ReadByte
-    
-    SkillPoints = SkillPoints + incomingData.ReadInteger()
-    
-    Call frmMain.LightSkillStar(True)
 End Sub
 
 ''
@@ -5345,10 +5274,17 @@ Private Sub HandleShowGMPanelForm()
 'Last Modification: 05/17/06
 '
 '***************************************************
+    Dim id As Byte
+    
     'Remove packet ID
     Call incomingData.ReadByte
+    id = incomingData.ReadByte
     
-    frmPanelGm.Show vbModeless, frmMain
+    If id = 0 Then
+        frmPanelGm.Show vbModeless, frmMain
+    ElseIf id = 1 Then
+        frmBuscar.Show vbModeless, frmMain
+    End If
 End Sub
 
 ''
@@ -6307,29 +6243,6 @@ Public Sub WriteChangeHeading(ByVal Heading As E_Heading)
         Call .WriteByte(Heading)
     End With
     
-End Sub
-
-''
-' Writes the "ModifySkills" message to the outgoing data buffer.
-'
-' @param    skillEdt a-based array containing for each skill the number of points to add to it.
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WriteModifySkills(ByRef skillEdt() As Byte)
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'Writes the "ModifySkills" message to the outgoing data buffer
-'***************************************************
-    Dim i As Long
-    
-    With outgoingData
-        Call .WriteByte(ClientPacketID.ModifySkills)
-        
-        For i = 1 To NUMSKILLS
-            Call .WriteByte(skillEdt(i))
-        Next i
-    End With
 End Sub
 
 ''
@@ -8137,14 +8050,17 @@ End Sub
 '
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteGMPanel()
+Public Sub WriteGMPanel(ByVal id As Byte)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
 'Writes the "GMPanel" message to the outgoing data buffer
 '***************************************************
-    Call outgoingData.WriteByte(ClientPacketID.GMCommands)
-    Call outgoingData.WriteByte(eGMCommands.GMPanel)
+    With outgoingData
+        Call .WriteByte(ClientPacketID.GMCommands)
+        Call .WriteByte(eGMCommands.GMPanel)
+        Call .WriteByte(id)
+    End With
 End Sub
 
 ''

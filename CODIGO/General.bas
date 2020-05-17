@@ -334,7 +334,7 @@ Private Sub CheckKeys()
             End If
            
             ' We haven't moved - Update 3D sounds!
-            Call Audio.MoveListener(UserPos.X, UserPos.Y)
+            Call Audio.MoveListener(UserPos.x, UserPos.y)
         Else
             Dim kp As Boolean
             kp = (GetKeyState(CustomKeys.BindedKey(eKeyType.mKeyUp)) < 0) Or GetKeyState(CustomKeys.BindedKey(eKeyType.mKeyRight)) < 0 Or GetKeyState(CustomKeys.BindedKey(eKeyType.mKeyDown)) < 0 Or GetKeyState(CustomKeys.BindedKey(eKeyType.mKeyLeft)) < 0
@@ -343,7 +343,7 @@ Private Sub CheckKeys()
                 Call RandomMove
             Else
                 ' We haven't moved - Update 3D sounds!
-                Call Audio.MoveListener(UserPos.X, UserPos.Y)
+                Call Audio.MoveListener(UserPos.x, UserPos.y)
             End If
 
             Call Char_UserPos
@@ -379,9 +379,6 @@ Sub SwitchMap(ByVal Map As Integer)
     'Dibujamos el Mini-Mapa
     If FileExist(Game.path(Graficos) & "MiniMapa\" & Map & ".bmp", vbArchive) Then
         frmMain.MiniMapa.Picture = LoadPicture(Game.path(Graficos) & "MiniMapa\" & Map & ".bmp")
-    Else
-        frmMain.MiniMapa.Visible = False
-        frmMain.RecTxt.Width = frmMain.RecTxt.Width + 100
     End If
     
     Call Init_Ambient(Map)
@@ -602,9 +599,9 @@ Private Sub LoadInitialConfig()
     ' Better for us :)
     Dim CursorAniDir As String
     Dim Cursor As Long
+    
     'Si es 0 cargamos el por defecto
     If ClientSetup.MouseGeneral > 0 Then
-    Debug.Print "asdasd"
         CursorAniDir = Game.path(Graficos) & "MouseIcons\General" & ClientSetup.MouseGeneral & ".ani"
         hSwapCursor = SetClassLong(frmMain.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
         hSwapCursor = SetClassLong(frmMain.MainViewPic.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
@@ -865,11 +862,11 @@ Private Function CMSValidateChar_(ByVal iAsc As Integer) As Boolean
 End Function
 
 'TODO : como todo lo relativo a mapas, no tiene nada que hacer aca....
-Function HayAgua(ByVal X As Integer, ByVal Y As Integer) As Boolean
-    HayAgua = ((MapData(X, Y).Graphic(1).GrhIndex >= 1505 And MapData(X, Y).Graphic(1).GrhIndex <= 1520) Or _
-            (MapData(X, Y).Graphic(1).GrhIndex >= 5665 And MapData(X, Y).Graphic(1).GrhIndex <= 5680) Or _
-            (MapData(X, Y).Graphic(1).GrhIndex >= 13547 And MapData(X, Y).Graphic(1).GrhIndex <= 13562)) And _
-                MapData(X, Y).Graphic(2).GrhIndex = 0
+Function HayAgua(ByVal x As Integer, ByVal y As Integer) As Boolean
+    HayAgua = ((MapData(x, y).Graphic(1).GrhIndex >= 1505 And MapData(x, y).Graphic(1).GrhIndex <= 1520) Or _
+            (MapData(x, y).Graphic(1).GrhIndex >= 5665 And MapData(x, y).Graphic(1).GrhIndex <= 5680) Or _
+            (MapData(x, y).Graphic(1).GrhIndex >= 13547 And MapData(x, y).Graphic(1).GrhIndex <= 13562)) And _
+                MapData(x, y).Graphic(2).GrhIndex = 0
                 
 End Function
 
@@ -1089,21 +1086,6 @@ Public Sub checkText(ByVal Text As String)
     
 End Sub
 
-Public Function getStrenghtColor() As Long
-    
-    Dim m As Long
-        m = 255 / MAXATRIBUTOS
-        
-    getStrenghtColor = RGB(255 - (m * UserFuerza), (m * UserFuerza), 0)
-    
-End Function
-    
-Public Function getDexterityColor() As Long
-    Dim m As Long
-    m = 255 / MAXATRIBUTOS
-    getDexterityColor = RGB(255, m * UserAgilidad, 0)
-End Function
-
 Public Function getCharIndexByName(ByVal name As String) As Integer
     
     Dim i As Long
@@ -1227,7 +1209,7 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     UserSexo = 0
     UserRaza = 0
     UserEmail = vbNullString
-    SkillPoints = 0
+    UserELO = 0
     Alocados = 0
     UserEquitando = 0
     

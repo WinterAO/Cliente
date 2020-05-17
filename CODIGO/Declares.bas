@@ -102,14 +102,14 @@ Public Const SND_DICE As String = "cupdice.Wav"
 
 ' Constantes de intervalo
 Public Enum eIntervalos
-    INT_ATTACK = 1500
-    INT_ARROWS = 1400
-    INT_CAST_SPELL = 1400
-    INT_CAST_ATTACK = 1000
+    INT_ATTACK = 1400        'Atacar
+    INT_ARROWS = 900        'Flechas
+    INT_CAST_SPELL = 500    'Hechizos
+    INT_CAST_ATTACK = 600   'Combo
     INT_WORK = 700
-    INT_USEITEMU = 450
-    INT_USEITEMDCK = 125
-    INT_SENTRPU = 2000
+    INT_USEITEMU = 250      'Usar Item
+    INT_USEITEMDCK = 250    'Usar Item dobleclick
+    INT_SENTRPU = 2000      'Manda L
     INT_CHANGE_HEADING = 300
 End Enum
 
@@ -697,6 +697,7 @@ Public UserPort As Integer
 Public UserEstado As Byte '0 = Vivo & 1 = Muerto
 Public UserPasarNivel As Long
 Public UserExp As Long
+Public UserELO As Long
 Public UserReputacion As tReputacion
 Public UserEstadisticas As tEstadisticasUsu
 Public UserDescansar As Boolean
@@ -750,7 +751,6 @@ Public Ciudades(1 To NUMCIUDADES) As String
 Public ListaRazas(1 To NUMRAZAS) As String
 Public ListaClases(1 To NUMCLASES) As String
 
-Public SkillPoints As Integer
 Public Alocados As Integer
 Public flags() As Integer
 
@@ -788,22 +788,21 @@ End Enum
 
 Public Enum eEditOptions
     eo_Gold = 1
-    eo_Experience = 2
-    eo_Body = 3
-    eo_Head = 4
-    eo_CiticensKilled = 5
-    eo_CriminalsKilled = 6
-    eo_Level = 7
-    eo_Class = 8
-    eo_Skills = 9
-    eo_SkillPointsLeft = 10
-    eo_Nobleza = 11
-    eo_Asesino = 12
-    eo_Sex = 13
-    eo_Raza = 14
-    eo_addGold = 15
-    eo_Vida = 16
-    eo_Poss = 17
+    eo_Experience
+    eo_Body
+    eo_Head
+    eo_CiticensKilled
+    eo_CriminalsKilled
+    eo_Level
+    eo_Class
+    eo_Skills
+    eo_Nobleza
+    eo_Asesino
+    eo_Sex
+    eo_Raza
+    eo_addGold
+    eo_Vida
+    eo_Poss
 End Enum
 
 ''
