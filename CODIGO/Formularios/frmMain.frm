@@ -205,7 +205,6 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -409,6 +408,33 @@ Begin VB.Form frmMain
             PICF            =   "frmMain.frx":58C95
             PICH            =   "frmMain.frx":58CB1
             PICV            =   "frmMain.frx":58CCD
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Arial"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+         End
+         Begin WinterAO.uAOButton btnQuest 
+            Height          =   255
+            Left            =   120
+            TabIndex        =   33
+            TabStop         =   0   'False
+            Top             =   1560
+            Width           =   1335
+            _ExtentX        =   2355
+            _ExtentY        =   450
+            TX              =   ""
+            ENAB            =   -1  'True
+            FCOL            =   16777215
+            OCOL            =   16777215
+            PICE            =   "frmMain.frx":58CE9
+            PICF            =   "frmMain.frx":58D05
+            PICH            =   "frmMain.frx":58D21
+            PICV            =   "frmMain.frx":58D3D
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -704,7 +730,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   0
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":58CE9
+      MouseIcon       =   "frmMain.frx":58D59
       MousePointer    =   99  'Custom
       Top             =   2925
       Visible         =   0   'False
@@ -714,7 +740,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   1
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":58E3B
+      MouseIcon       =   "frmMain.frx":58EAB
       MousePointer    =   99  'Custom
       Top             =   2580
       Visible         =   0   'False
@@ -817,7 +843,7 @@ Begin VB.Form frmMain
    Begin VB.Image InvEqu 
       Height          =   4530
       Left            =   11400
-      Picture         =   "frmMain.frx":58F8D
+      Picture         =   "frmMain.frx":58FFD
       Top             =   1920
       Width           =   3645
    End
@@ -961,6 +987,10 @@ Private Sub btnMenu_Click()
     fMenu.Visible = Not fMenu.Visible
 End Sub
 
+Private Sub btnQuest_Click()
+    Call WriteQuestListRequest
+End Sub
+
 Private Sub btnSolapa_Click(Index As Integer)
 Call Audio.PlayWave(SND_CLICK)
 
@@ -973,7 +1003,7 @@ Call Audio.PlayWave(SND_CLICK)
             btnSolapa(2).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
             
             ' Activo controles de inventario
-            PicInv.Visible = True
+            picInv.Visible = True
         
             ' Desactivo controles de hechizo y amigos
             hlst.Visible = False
@@ -1007,7 +1037,7 @@ Call Audio.PlayWave(SND_CLICK)
             cmdMoverHechi(1).Visible = True
             
             ' Desactivo controles de inventario y amigos
-            PicInv.Visible = False
+            picInv.Visible = False
             
             ListAmigos.Visible = False
             AgregarAmigo.Visible = False
@@ -1024,7 +1054,7 @@ Call Audio.PlayWave(SND_CLICK)
             BorrarAmigo.Visible = True
             
             ' Desactivo controles de inventario y hechizos
-            PicInv.Visible = False
+            picInv.Visible = False
             
             hlst.Visible = False
             btnInfo.Visible = False
@@ -1493,8 +1523,8 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         SendTxt.Visible = False
         
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
         ElseIf hlst.Visible Then
             hlst.SetFocus
         Else
@@ -1940,8 +1970,8 @@ Private Sub RecTxt_Change()
            (Not frmCantidad.Visible) And _
            (Not MirandoParty) Then
 
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
                         
         ElseIf hlst.Visible Then
             hlst.SetFocus
@@ -1954,8 +1984,8 @@ End Sub
 
 Private Sub RecTxt_KeyDown(KeyCode As Integer, Shift As Integer)
 
-    If PicInv.Visible Then
-        PicInv.SetFocus
+    If picInv.Visible Then
+        picInv.SetFocus
     Else
         hlst.SetFocus
     End If
@@ -2020,8 +2050,8 @@ Private Sub SendCMSTXT_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         Me.SendCMSTXT.Visible = False
         
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
         Else
             hlst.SetFocus
         End If

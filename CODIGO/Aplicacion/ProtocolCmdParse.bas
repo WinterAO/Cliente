@@ -1628,9 +1628,6 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 
             Case "/QUEST"
                 Call WriteQuest
- 
-            Case "/INFOQUEST"
-                Call WriteQuestListRequest
                 
             Case "/SETINIVAR"
                 If CantidadArgumentos = 3 Then
