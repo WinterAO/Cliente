@@ -1674,7 +1674,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -11389,6 +11389,16 @@ errhandler:
 End Sub
 
 Private Sub HandleProyectil()
+'**************************
+'Autor: Lorwik
+'Fecha: 18/05/2020
+'**************************
+
+    If incomingData.Length < 7 Then
+        Err.Raise incomingData.NotEnoughDataErrCode
+        Exit Sub
+    End If
+    
     'Remove packet id
     Call incomingData.ReadByte
         
