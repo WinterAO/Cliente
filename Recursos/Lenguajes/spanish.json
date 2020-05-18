@@ -1658,5 +1658,8 @@
     },
     "FRM_QUESTINFO_DESC": {
         "TEXTO": "Informacion de misiones:"
+    },
+	"MENSAJE_NO_AMIGOS": {
+        "TEXTO": "Selecciona a un amigo..."
     }
 }

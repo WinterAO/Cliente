@@ -235,15 +235,16 @@ Begin VB.Form frmMain
    Begin VB.PictureBox MainViewPic 
       BackColor       =   &H00000000&
       BorderStyle     =   0  'None
+      ForeColor       =   &H00000000&
       Height          =   9120
-      Left            =   240
+      Left            =   150
       MousePointer    =   99  'Custom
       ScaleHeight     =   608
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   720
+      ScaleWidth      =   736
       TabIndex        =   12
       Top             =   2280
-      Width           =   10800
+      Width           =   11040
       Begin VB.Frame fMenu 
          Appearance      =   0  'Flat
          BackColor       =   &H00000000&
@@ -418,6 +419,12 @@ Begin VB.Form frmMain
             EndProperty
          End
       End
+   End
+   Begin VB.Image MensajeAmigo 
+      Height          =   360
+      Left            =   12810
+      Top             =   5625
+      Width           =   375
    End
    Begin VB.Label lblDext 
       Alignment       =   2  'Center
@@ -809,6 +816,7 @@ Begin VB.Form frmMain
    Begin VB.Image InvEqu 
       Height          =   4530
       Left            =   11400
+      Picture         =   "frmMain.frx":58F8D
       Top             =   1920
       Width           =   3645
    End
@@ -917,8 +925,6 @@ Private clicY              As Long
 Public IsPlaying           As Byte
 
 Private clsFormulario      As clsFormMovementManager
-
-Private cBotonAsignarSkill As clsGraphicalButton
 
 Public LastButtonPressed   As clsGraphicalButton
 
@@ -1095,8 +1101,6 @@ End Sub
 
 Private Sub LoadButtons()
     Dim i As Integer
-
-    Set cBotonAsignarSkill = New clsGraphicalButton
 
     Set LastButtonPressed = New clsGraphicalButton
     
@@ -1383,6 +1387,18 @@ End Sub
 
 Private Sub lblMinimizar_Click()
     Me.WindowState = 1
+End Sub
+
+Private Sub MensajeAmigo_Click()
+    If ListAmigos.List(ListAmigos.ListIndex) = "" Then
+        With FontTypes(FontTypeNames.FONTTYPE_INFO)
+            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_NO_AMIGOS").item("TEXTO"), .Red, .Green, .Blue, .bold, .italic)
+        End With
+        Exit Sub
+    End If
+    
+    SendTxt.Visible = True
+    SendTxt.Text = ("\" & ListAmigos.List(ListAmigos.ListIndex) & " ")
 End Sub
 
 Private Sub mnuEquipar_Click()
