@@ -199,7 +199,7 @@ Private Enum ClientPacketID
     Drop                            'TI
     CastSpell                       'LH
     LeftClick                       'LC
-    DoubleClick                     'RC
+    AccionClick                     'RC
     Work                            'UK
     UseSpellMacro                   'UMH
     UseItem                         'USA
@@ -1674,7 +1674,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -5997,20 +5997,20 @@ Public Sub WriteLeftClick(ByVal x As Byte, ByVal y As Byte)
 End Sub
 
 ''
-' Writes the "DoubleClick" message to the outgoing data buffer.
+' Writes the "AccionClick" message to the outgoing data buffer.
 '
 ' @param    x Tile coord in the x-axis in which the user clicked.
 ' @param    y Tile coord in the y-axis in which the user clicked.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteDoubleClick(ByVal x As Byte, ByVal y As Byte)
+Public Sub WriteAccionClick(ByVal x As Byte, ByVal y As Byte)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
-'Writes the "DoubleClick" message to the outgoing data buffer
+'Writes the "AccionClick" message to the outgoing data buffer
 '***************************************************
     With outgoingData
-        Call .WriteByte(ClientPacketID.DoubleClick)
+        Call .WriteByte(ClientPacketID.AccionClick)
         
         Call .WriteByte(x)
         Call .WriteByte(y)

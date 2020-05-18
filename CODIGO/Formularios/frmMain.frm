@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "richtx32.ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
 Begin VB.Form frmMain 
    Appearance      =   0  'Flat
    BackColor       =   &H80000005&
@@ -205,6 +205,7 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -1658,6 +1659,14 @@ Private Sub MainViewPic_MouseDown(Button As Integer, _
                                   y As Single)
     MouseBoton = Button
     MouseShift = Shift
+    
+    '¿Hizo click derecho?
+    If Button = 2 Then
+        If Not MirandoForo And Not Comerciando Then 'frmComerciar.Visible And Not frmBancoObj.Visible Then
+            Call WriteAccionClick(TX, TY)
+        End If
+    End If
+    
 End Sub
 
 Private Sub MainViewPic_MouseMove(Button As Integer, _
@@ -1684,12 +1693,9 @@ Private Sub MainViewPic_DblClick()
     '12/28/2007: ByVal - Chequea que la ventana de comercio y boveda no este abierta al hacer doble clic a un comerciante, sobrecarga la lista de items.
     '**************************************************************
     If Not MirandoForo And Not Comerciando Then 'frmComerciar.Visible And Not frmBancoObj.Visible Then
-        Call WriteDoubleClick(TX, TY)
+        Call WriteAccionClick(TX, TY)
     End If
-End Sub
-
-Private Sub SendTxt_Click()
-    SendTxt.Tag = 0 ' GSZAO
+    
 End Sub
 
 Private Sub MainViewPic_Click()
@@ -1826,9 +1832,10 @@ Private Sub Form_DblClick()
     '12/28/2007: ByVal - Chequea que la ventana de comercio y boveda no este abierta al hacer doble clic a un comerciante, sobrecarga la lista de items.
     '**************************************************************
     If Not MirandoForo And Not Comerciando Then 'frmComerciar.Visible And Not frmBancoObj.Visible Then
-        Call WriteDoubleClick(TX, TY)
+        Call WriteAccionClick(TX, TY)
     End If
 End Sub
+
 
 Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     MouseX = x - MainViewPic.Left
