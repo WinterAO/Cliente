@@ -12,11 +12,53 @@ Begin VB.Form frmEstadisticas
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
+   Picture         =   "FrmEstadisticas.frx":000C
    ScaleHeight     =   445
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   465
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
+   Begin VB.Label lblEquitacion 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Equitacion"
+      ForeColor       =   &H00FFFFFF&
+      Height          =   195
+      Left            =   3120
+      TabIndex        =   38
+      Top             =   6120
+      Width           =   750
+   End
+   Begin VB.Label Skills 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "000"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   195
+      Index           =   21
+      Left            =   4200
+      TabIndex        =   37
+      Top             =   6075
+      Width           =   315
+   End
+   Begin VB.Shape shpSkillsBar 
+      BorderStyle     =   0  'Transparent
+      FillStyle       =   0  'Solid
+      Height          =   120
+      Index           =   21
+      Left            =   5460
+      Top             =   6120
+      Width           =   1095
+   End
    Begin VB.Image imgCerrar 
       Height          =   360
       Left            =   105
@@ -1099,7 +1141,7 @@ Private Sub LoadButtons()
 
 End Sub
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 
@@ -1111,7 +1153,7 @@ Private Sub imgCerrar_Click()
     Unload Me
 End Sub
 
-Private Sub imgCerrar_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub imgCerrar_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If imgCerrar.Tag = 1 Then
         imgCerrar.Picture = LoadPicture(Game.path(Interfaces) & "BotonCerrarApretadoEstadisticas.jpg")
         imgCerrar.Tag = 0

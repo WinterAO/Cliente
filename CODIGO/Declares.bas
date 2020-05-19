@@ -284,6 +284,7 @@ Public Enum eSkill
     Proyectiles = 18
     Wrestling = 19
     Navegacion = 20
+    Equitacion = 21
 End Enum
 
 Public Enum eAtributos
@@ -734,7 +735,7 @@ Public UserRaza As eRaza
 Public UserEmail As String
 
 Public Const NUMCIUDADES As Byte = 5
-Public Const NUMSKILLS As Byte = 20
+Public Const NUMSKILLS As Byte = 21
 Public Const NUMATRIBUTOS As Byte = 5
 Public Const NUMCLASES As Byte = 12
 Public Const NUMRAZAS As Byte = 5
