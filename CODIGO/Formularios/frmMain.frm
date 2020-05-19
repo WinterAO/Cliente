@@ -150,7 +150,7 @@ Begin VB.Form frmMain
       MultiLine       =   -1  'True
       TabIndex        =   2
       TabStop         =   0   'False
-      Text            =   "frmMain.frx":58966
+      Text            =   "frmMain.frx":56A8C
       ToolTipText     =   "Chat"
       Top             =   2400
       Visible         =   0   'False
@@ -175,7 +175,7 @@ Begin VB.Form frmMain
       MultiLine       =   -1  'True
       TabIndex        =   1
       TabStop         =   0   'False
-      Text            =   "frmMain.frx":58996
+      Text            =   "frmMain.frx":56ABC
       ToolTipText     =   "Chat"
       Top             =   10800
       Visible         =   0   'False
@@ -205,11 +205,12 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
       Appearance      =   0
-      TextRTF         =   $"frmMain.frx":589CC
+      TextRTF         =   $"frmMain.frx":56AF2
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Tahoma"
          Size            =   8.25
@@ -269,10 +270,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":58A49
-            PICF            =   "frmMain.frx":58A65
-            PICH            =   "frmMain.frx":58A81
-            PICV            =   "frmMain.frx":58A9D
+            PICE            =   "frmMain.frx":56B6F
+            PICF            =   "frmMain.frx":56B8B
+            PICH            =   "frmMain.frx":56BA7
+            PICV            =   "frmMain.frx":56BC3
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -296,10 +297,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":58AB9
-            PICF            =   "frmMain.frx":58AD5
-            PICH            =   "frmMain.frx":58AF1
-            PICV            =   "frmMain.frx":58B0D
+            PICE            =   "frmMain.frx":56BDF
+            PICF            =   "frmMain.frx":56BFB
+            PICH            =   "frmMain.frx":56C17
+            PICV            =   "frmMain.frx":56C33
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -323,10 +324,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":58B29
-            PICF            =   "frmMain.frx":58B45
-            PICH            =   "frmMain.frx":58B61
-            PICV            =   "frmMain.frx":58B7D
+            PICE            =   "frmMain.frx":56C4F
+            PICF            =   "frmMain.frx":56C6B
+            PICH            =   "frmMain.frx":56C87
+            PICV            =   "frmMain.frx":56CA3
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -350,10 +351,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":58B99
-            PICF            =   "frmMain.frx":58BB5
-            PICH            =   "frmMain.frx":58BD1
-            PICV            =   "frmMain.frx":58BED
+            PICE            =   "frmMain.frx":56CBF
+            PICF            =   "frmMain.frx":56CDB
+            PICH            =   "frmMain.frx":56CF7
+            PICV            =   "frmMain.frx":56D13
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -377,10 +378,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":58C09
-            PICF            =   "frmMain.frx":58C25
-            PICH            =   "frmMain.frx":58C41
-            PICV            =   "frmMain.frx":58C5D
+            PICE            =   "frmMain.frx":56D2F
+            PICF            =   "frmMain.frx":56D4B
+            PICH            =   "frmMain.frx":56D67
+            PICV            =   "frmMain.frx":56D83
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -404,10 +405,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":58C79
-            PICF            =   "frmMain.frx":58C95
-            PICH            =   "frmMain.frx":58CB1
-            PICV            =   "frmMain.frx":58CCD
+            PICE            =   "frmMain.frx":56D9F
+            PICF            =   "frmMain.frx":56DBB
+            PICH            =   "frmMain.frx":56DD7
+            PICV            =   "frmMain.frx":56DF3
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -431,10 +432,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":58CE9
-            PICF            =   "frmMain.frx":58D05
-            PICH            =   "frmMain.frx":58D21
-            PICV            =   "frmMain.frx":58D3D
+            PICE            =   "frmMain.frx":56E0F
+            PICF            =   "frmMain.frx":56E2B
+            PICH            =   "frmMain.frx":56E47
+            PICV            =   "frmMain.frx":56E63
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -581,15 +582,15 @@ Begin VB.Form frmMain
    End
    Begin VB.Image btnInfo 
       Height          =   495
-      Left            =   13500
+      Left            =   13575
       Top             =   5940
       Width           =   1095
    End
    Begin VB.Image btnLanzar 
-      Height          =   495
-      Left            =   11880
+      Height          =   540
+      Left            =   11700
       Top             =   5940
-      Width           =   1095
+      Width           =   1710
    End
    Begin VB.Label lblHambre 
       Alignment       =   2  'Center
@@ -692,13 +693,6 @@ Begin VB.Form frmMain
       Top             =   2010
       Width           =   1575
    End
-   Begin VB.Image imgAsignarSkill 
-      Height          =   405
-      Left            =   11400
-      MousePointer    =   99  'Custom
-      Top             =   1320
-      Width           =   405
-   End
    Begin VB.Label lblDropGold 
       BackStyle       =   0  'Transparent
       Height          =   255
@@ -730,7 +724,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   0
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":58D59
+      MouseIcon       =   "frmMain.frx":56E7F
       MousePointer    =   99  'Custom
       Top             =   2925
       Visible         =   0   'False
@@ -740,7 +734,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   1
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":58EAB
+      MouseIcon       =   "frmMain.frx":56FD1
       MousePointer    =   99  'Custom
       Top             =   2580
       Visible         =   0   'False
@@ -843,7 +837,7 @@ Begin VB.Form frmMain
    Begin VB.Image InvEqu 
       Height          =   4530
       Left            =   11400
-      Picture         =   "frmMain.frx":58FFD
+      Picture         =   "frmMain.frx":57123
       Top             =   1920
       Width           =   3645
    End
@@ -1135,7 +1129,6 @@ Private Sub LoadButtons()
 
     Set LastButtonPressed = New clsGraphicalButton
     
-    imgAsignarSkill.MouseIcon = picMouseIcon
     lblDropGold.MouseIcon = picMouseIcon
     lblCerrar.MouseIcon = picMouseIcon
     lblMinimizar.MouseIcon = picMouseIcon

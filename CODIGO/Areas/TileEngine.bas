@@ -915,7 +915,7 @@ Sub RenderScreen(ByVal tilex As Integer, _
     End If
     
     If colorRender <> 240 Then
-        Call DrawText(272, 50, renderText, render_msg(0), True, 2)
+        Call DrawText(372, 100, renderText, render_msg(0), True, 2)
     End If
     
     '   Set Offsets
