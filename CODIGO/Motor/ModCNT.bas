@@ -24,35 +24,35 @@ Public Sub InicializarPosicionesPJ()
 'Descripcion: Inicia las posiciones donde se van a mostrar los PJ
 '********************************************
 
-    PJPos(1).x = 468
-    PJPos(1).y = 462
+    PJPos(1).X = 468
+    PJPos(1).Y = 462
     
-    PJPos(2).x = 340
-    PJPos(2).y = 456
+    PJPos(2).X = 340
+    PJPos(2).Y = 456
     
-    PJPos(3).x = 570
-    PJPos(3).y = 453
+    PJPos(3).X = 570
+    PJPos(3).Y = 453
     
-    PJPos(4).x = 243
-    PJPos(4).y = 378
+    PJPos(4).X = 243
+    PJPos(4).Y = 378
     
-    PJPos(5).x = 664
-    PJPos(5).y = 408
+    PJPos(5).X = 664
+    PJPos(5).Y = 408
     
-    PJPos(6).x = 223
-    PJPos(6).y = 450
+    PJPos(6).X = 223
+    PJPos(6).Y = 450
     
-    PJPos(7).x = 300
-    PJPos(7).y = 286
+    PJPos(7).X = 300
+    PJPos(7).Y = 286
     
-    PJPos(8).x = 608
-    PJPos(8).y = 286
+    PJPos(8).X = 608
+    PJPos(8).Y = 286
     
-    PJPos(9).x = 747
-    PJPos(9).y = 550
+    PJPos(9).X = 747
+    PJPos(9).Y = 550
     
-    PJPos(10).x = 637
-    PJPos(10).y = 627
+    PJPos(10).X = 637
+    PJPos(10).Y = 627
     
 End Sub
 
@@ -114,8 +114,8 @@ Sub RenderConnect()
 'Fecha: 15/05/2020
 'Renderiza el screen del conectar
 '******************************
-    Dim x As Long
-    Dim y As Long
+    Dim X As Long
+    Dim Y As Long
     
     Dim PixelOffsetXTemp As Integer 'For centering grhs
     Dim PixelOffsetYTemp As Integer 'For centering grhs
@@ -131,27 +131,27 @@ Sub RenderConnect()
     
     Call Engine_BeginScene
      
-    For x = 1 To 32
-        For y = 1 To 24
-            PixelOffsetXTemp = (x - 1) * 32
-            PixelOffsetYTemp = (y - 1) * 32
+    For X = 1 To 32
+        For Y = 1 To 24
+            PixelOffsetXTemp = (X - 1) * 32
+            PixelOffsetYTemp = (Y - 1) * 32
             
-            With MapData(x + MapaConnect(SelectConnectMap).x, y + MapaConnect(SelectConnectMap).y)
+            With MapData(X + MapaConnect(SelectConnectMap).X, Y + MapaConnect(SelectConnectMap).Y)
                 'Capa 1
                 Call Draw_Grh(.Graphic(1), PixelOffsetXTemp, PixelOffsetYTemp, 1, .Engine_Light(), 1)
                 
                 'Capa 2
                 Call Draw_Grh(.Graphic(2), PixelOffsetXTemp, PixelOffsetYTemp, 1, .Engine_Light(), 1)
             End With
-        Next y
-    Next x
+        Next Y
+    Next X
         
     'Capa 3
-    For x = 1 To 32
-        For y = 1 To 24
-            PixelOffsetXTemp = (x - 1) * 32
-            PixelOffsetYTemp = (y - 1) * 32
-            With MapData(x + MapaConnect(SelectConnectMap).x, y + MapaConnect(SelectConnectMap).y)
+    For X = 1 To 32
+        For Y = 1 To 24
+            PixelOffsetXTemp = (X - 1) * 32
+            PixelOffsetYTemp = (Y - 1) * 32
+            With MapData(X + MapaConnect(SelectConnectMap).X, Y + MapaConnect(SelectConnectMap).Y)
             
                 'Objectos
                 If .ObjGrh.GrhIndex <> 0 Then _
@@ -167,26 +167,26 @@ Sub RenderConnect()
                 If .Particle_Group_Index Then
                     
                     'Solo las renderizamos si estan cerca del area de vision.
-                    If EstaDentroDelArea(x, y) Then
+                    If EstaDentroDelArea(X, Y) Then
                         Call mDx8_Particulas.Particle_Group_Render(.Particle_Group_Index, PixelOffsetXTemp + 16, PixelOffsetYTemp + 16)
                     End If
                         
                 End If
             End With
-        Next y
-    Next x
+        Next Y
+    Next X
     
-    For x = 1 To 32
-        For y = 1 To 24
-            PixelOffsetXTemp = (x - 1) * 32
-            PixelOffsetYTemp = (y - 1) * 32
+    For X = 1 To 32
+        For Y = 1 To 24
+            PixelOffsetXTemp = (X - 1) * 32
+            PixelOffsetYTemp = (Y - 1) * 32
             
-            With MapData(x + MapaConnect(SelectConnectMap).x, y + MapaConnect(SelectConnectMap).y)
+            With MapData(X + MapaConnect(SelectConnectMap).X, Y + MapaConnect(SelectConnectMap).Y)
                 'Capa 4
                 Call Draw_Grh(.Graphic(4), PixelOffsetXTemp, PixelOffsetYTemp, 1, .Engine_Light(), 1)
             End With
-        Next y
-    Next x
+        Next Y
+    Next X
     
     'Renderizamos la interfaz
     Call RenderConnectGUI
@@ -229,6 +229,11 @@ Private Sub RenderConnectGUI()
     'Logo
     Call Draw_GrhIndex(31480, 1, 1, 0, Normal_RGBList(), 0, False)
     
+    ' Calculamos los FPS y los mostramos
+    Call Engine_Update_FPS
+    'If ClientSetup.FPSShow = True Then
+    Call DrawText(980, 5, "FPS: " & Mod_TileEngine.FPS, -1, True)
+    
     Call DrawText(10, 750, "WinterAO " & GetVersionOfTheGame() & " Resurrection", Color_Paralisis)
 End Sub
 
@@ -238,35 +243,35 @@ Private Sub RenderPJ()
 'Fecha: 15/05/2020
 'Dibuja los Personajes
 '******************************
-    Dim Index As Byte
+    Static Index As Byte
     
     Select Case Pantalla
         Case 1 'Cuenta
-            For Index = 1 To NumberOfCharacters
+            'For Index = 1 To NumberOfCharacters
                 With cPJ(Index)
     
                     If .Body <> 0 Then
             
-                        Call Draw_Grh(BodyData(.Body).Walk(3), PJPos(Index).x, PJPos(Index).y, 1, Normal_RGBList(), 0)
+                        Call Draw_Grh(BodyData(.Body).Walk(3), PJPos(Index).X, PJPos(Index).Y, 1, Normal_RGBList(), 0)
             
                         If .Head <> 0 Then
-                            Call Draw_Grh(HeadData(.Head).Head(3), PJPos(Index).x + BodyData(.Body).HeadOffset.x, PJPos(Index).y + BodyData(.Body).HeadOffset.y, 1, Normal_RGBList(), 0)
+                            Call Draw_Grh(HeadData(.Head).Head(3), PJPos(Index).X + BodyData(.Body).HeadOffset.X, PJPos(Index).Y + BodyData(.Body).HeadOffset.Y, 1, Normal_RGBList(), 0)
                         End If
             
                         If .helmet <> 0 Then
-                            Call Draw_Grh(CascoAnimData(.helmet).Head(3), PJPos(Index).x + BodyData(.Body).HeadOffset.x, PJPos(Index).y + BodyData(.Body).HeadOffset.y + OFFSET_HEAD, 1, Normal_RGBList(), 0)
+                            Call Draw_Grh(CascoAnimData(.helmet).Head(3), PJPos(Index).X + BodyData(.Body).HeadOffset.X, PJPos(Index).Y + BodyData(.Body).HeadOffset.Y + OFFSET_HEAD, 1, Normal_RGBList(), 0)
                         End If
             
                         If .weapon <> 0 Then
-                            Call Draw_Grh(WeaponAnimData(.weapon).WeaponWalk(3), PJPos(Index).x, PJPos(Index).y, 1, Normal_RGBList(), 0)
+                            Call Draw_Grh(WeaponAnimData(.weapon).WeaponWalk(3), PJPos(Index).X, PJPos(Index).Y, 1, Normal_RGBList(), 0)
                         End If
             
                         If .shield <> 0 Then
-                            Call Draw_Grh(ShieldAnimData(.shield).ShieldWalk(3), PJPos(Index).x, PJPos(Index).y, 1, Normal_RGBList(), 0)
+                            Call Draw_Grh(ShieldAnimData(.shield).ShieldWalk(3), PJPos(Index).X, PJPos(Index).Y, 1, Normal_RGBList(), 0)
                         End If
                         
                         'Nombre
-                        Call DrawText(PJPos(Index).x + 16, PJPos(Index).y + 30, .Nombre, -1, True)
+                        Call DrawText(PJPos(Index).X + 16, PJPos(Index).Y + 30, .Nombre, -1, True)
                         
                         'Nombre de la cuenta
                         Call DrawText(500, 15, AccountName, -1, True, 2)
@@ -274,9 +279,12 @@ Private Sub RenderPJ()
                     End If
                 
                 End With
-            Next Index
+            'Next Index
             
     End Select
+    
+    Index = Index + 1
+    If Index > NumberOfCharacters Then Index = 1
 End Sub
 
 Public Sub DobleClickEvent(ByVal TX As Long, ByVal TY As Long)
@@ -295,7 +303,7 @@ Public Sub DobleClickEvent(ByVal TX As Long, ByVal TY As Long)
             'Con doble click conectamos al PJ
             For i = 1 To NumberOfCharacters
                 With cPJ(i)
-                    If (TX >= PJPos(i).x And TX <= PJPos(i).x + 20) And (TY >= PJPos(i).y And TY <= PJPos(i).y - OFFSET_HEAD) Then
+                    If (TX >= PJPos(i).X And TX <= PJPos(i).X + 20) And (TY >= PJPos(i).Y And TY <= PJPos(i).Y - OFFSET_HEAD) Then
     
                         If LenB(.Nombre) <> 0 Then
                             UserName = .Nombre
@@ -325,7 +333,7 @@ Public Sub ClickEvent(ByVal TX As Long, ByVal TY As Long)
             'Seleccionamos un PJ
             For i = 1 To NumberOfCharacters
                 With cPJ(i)
-                    If (TX >= PJPos(i).x And TX <= PJPos(i).x + 20) And (TY >= PJPos(i).y And TY <= PJPos(i).y - OFFSET_HEAD) Then
+                    If (TX >= PJPos(i).X And TX <= PJPos(i).X + 20) And (TY >= PJPos(i).Y And TY <= PJPos(i).Y - OFFSET_HEAD) Then
     
                         If LenB(.Nombre) <> 0 Then
                             'El PJ seleccionado queda guardado
