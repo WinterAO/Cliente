@@ -5558,7 +5558,6 @@ Public Sub WriteLoginNewChar()
         Call .WriteByte(ClientPacketID.LoginNewChar)
         
         Call .WriteASCIIString(UserName)
-        Call .WriteASCIIString(AccountHash)
         
         Call .WriteByte(App.Major)
         Call .WriteByte(App.Minor)
