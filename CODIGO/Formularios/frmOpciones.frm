@@ -684,7 +684,6 @@ Private Sub LoadLenguajesInComboBox()
 
 End Sub
 
-
 Private Sub LoadButtons()
     Dim GrhPath As String
     

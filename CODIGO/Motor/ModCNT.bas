@@ -13,6 +13,8 @@ End Enum
 'Indica la posicion donde se va a renderizar los PJ
 Private PJPos(1 To 10) As WorldPos
 
+Public PJAccSelected As Byte
+
 Public Pantalla As EPantalla
 
 Public Sub InicializarPosicionesPJ()
@@ -277,11 +279,11 @@ Private Sub RenderPJ()
     End Select
 End Sub
 
-Public Sub ClickEvent(ByVal TX As Long, ByVal TY As Long)
+Public Sub DobleClickEvent(ByVal TX As Long, ByVal TY As Long)
 '******************************
 'Autor: Lorwik
 'Fecha: 13/05/2020
-'Eventos al realizar clicks en la GUI
+'Eventos al realizar doble click en la GUI
 '******************************
     Dim i As Integer
     
@@ -290,14 +292,45 @@ Public Sub ClickEvent(ByVal TX As Long, ByVal TY As Long)
     Select Case Pantalla
         Case 1 'Cuenta
 
-            'Conectar a PJ
+            'Con doble click conectamos al PJ
             For i = 1 To NumberOfCharacters
                 With cPJ(i)
                     If (TX >= PJPos(i).x And TX <= PJPos(i).x + 20) And (TY >= PJPos(i).y And TY <= PJPos(i).y - OFFSET_HEAD) Then
     
                         If LenB(.Nombre) <> 0 Then
                             UserName = .Nombre
-                            Call WriteLoginExistingChar(i)
+                            Call WriteLoginExistingChar
+                        End If
+                    End If
+                End With
+            Next i
+
+    End Select
+    
+End Sub
+
+Public Sub ClickEvent(ByVal TX As Long, ByVal TY As Long)
+'******************************
+'Autor: Lorwik
+'Fecha: 13/05/2020
+'Eventos al realizar click en la GUI
+'******************************
+    Dim i As Integer
+    
+    Dim Index As Byte
+    
+    Select Case Pantalla
+        Case 1 'Cuenta
+
+            'Seleccionamos un PJ
+            For i = 1 To NumberOfCharacters
+                With cPJ(i)
+                    If (TX >= PJPos(i).x And TX <= PJPos(i).x + 20) And (TY >= PJPos(i).y And TY <= PJPos(i).y - OFFSET_HEAD) Then
+    
+                        If LenB(.Nombre) <> 0 Then
+                            'El PJ seleccionado queda guardado
+                            UserName = .Nombre
+                            PJAccSelected = i
                         End If
                     End If
                 End With
@@ -305,6 +338,17 @@ Public Sub ClickEvent(ByVal TX As Long, ByVal TY As Long)
             
             'Crear Nuevo PJ
             If (TX >= 850 And TX <= 950) And (TY >= 500 And TY <= 550) Then Call CrearNuevoPJ
+            
+            'Borrar PJ
+            If (TX >= 850 And TX <= 950) And (TY >= 570 And TY <= 620) Then
+                If PJAccSelected < 1 Then
+                    Call MostrarMensaje(JsonLanguage.item("ERROR_PERSONAJE_NO_SELECCIONADO").item("TEXTO"))
+                    Exit Sub
+                End If
+                    
+                frmBorrarPJ.Show
+            
+            End If
 
             'Salir cuenta
             If (TX >= 30 And TX <= 180) And (TY >= 670 And TY <= 720) Then

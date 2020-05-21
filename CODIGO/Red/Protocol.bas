@@ -5513,8 +5513,8 @@ Public Sub WriteDeleteChar()
     With outgoingData
         Call .WriteByte(ClientPacketID.DeleteChar)
         
-        Call .WriteASCIIString(UserName)
-        Call .WriteASCIIString(AccountHash)
+        Call .WriteByte(PJAccSelected)
+
     End With
 End Sub
 
@@ -5523,7 +5523,7 @@ End Sub
 '
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteLoginExistingChar(ByVal SelectedID As Byte)
+Public Sub WriteLoginExistingChar()
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 12/10/2018
@@ -5533,7 +5533,7 @@ Public Sub WriteLoginExistingChar(ByVal SelectedID As Byte)
     With outgoingData
         Call .WriteByte(ClientPacketID.LoginExistingChar)
         
-        Call .WriteByte(SelectedID)
+        Call .WriteByte(PJAccSelected)
         
         Call .WriteByte(App.Major)
         Call .WriteByte(App.Minor)

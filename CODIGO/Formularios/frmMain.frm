@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "richtx32.ocx"
 Begin VB.Form frmMain 
    Appearance      =   0  'Flat
    BackColor       =   &H80000005&
@@ -205,6 +205,7 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -996,7 +997,7 @@ Call Audio.PlayWave(SND_CLICK)
             btnSolapa(2).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
             
             ' Activo controles de inventario
-            picInv.Visible = True
+            PicInv.Visible = True
         
             ' Desactivo controles de hechizo y amigos
             hlst.Visible = False
@@ -1030,7 +1031,7 @@ Call Audio.PlayWave(SND_CLICK)
             cmdMoverHechi(1).Visible = True
             
             ' Desactivo controles de inventario y amigos
-            picInv.Visible = False
+            PicInv.Visible = False
             
             ListAmigos.Visible = False
             AgregarAmigo.Visible = False
@@ -1047,7 +1048,7 @@ Call Audio.PlayWave(SND_CLICK)
             BorrarAmigo.Visible = True
             
             ' Desactivo controles de inventario y hechizos
-            picInv.Visible = False
+            PicInv.Visible = False
             
             hlst.Visible = False
             btnInfo.Visible = False
@@ -1515,8 +1516,8 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         SendTxt.Visible = False
         
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
         ElseIf hlst.Visible Then
             hlst.SetFocus
         Else
@@ -1962,8 +1963,8 @@ Private Sub RecTxt_Change()
            (Not frmCantidad.Visible) And _
            (Not MirandoParty) Then
 
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
                         
         ElseIf hlst.Visible Then
             hlst.SetFocus
@@ -1976,8 +1977,8 @@ End Sub
 
 Private Sub RecTxt_KeyDown(KeyCode As Integer, Shift As Integer)
 
-    If picInv.Visible Then
-        picInv.SetFocus
+    If PicInv.Visible Then
+        PicInv.SetFocus
     Else
         hlst.SetFocus
     End If
@@ -2042,8 +2043,8 @@ Private Sub SendCMSTXT_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         Me.SendCMSTXT.Visible = False
         
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
         Else
             hlst.SetFocus
         End If

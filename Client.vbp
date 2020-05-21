@@ -112,6 +112,7 @@ Form=CODIGO\Formularios\frmCarpinteria.frm
 Form=CODIGO\Formularios\frmArtesano.frm
 Class=clsJpeg; CODIGO\Aplicacion\clsJpeg.cls
 Module=ModCnt; CODIGO\Motor\ModCNT.bas
+Form=CODIGO\Formularios\frmBorrarPJ.frm
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""

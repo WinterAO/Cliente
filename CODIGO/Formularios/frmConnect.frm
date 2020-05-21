@@ -407,8 +407,12 @@ Private Sub LoadTextsForm()
     btnTeclas.Caption = JsonLanguage.item("LBL_TECLAS").item("TEXTO")
 End Sub
 
-Private Sub renderer_Click()
+Private Sub Renderer_Click()
     Call ModCnt.ClickEvent(MouseX, MouseY)
+End Sub
+
+Private Sub Renderer_DblClick()
+    Call ModCnt.DobleClickEvent(MouseX, MouseY)
 End Sub
 
 Private Sub Renderer_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
