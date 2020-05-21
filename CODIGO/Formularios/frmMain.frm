@@ -205,7 +205,6 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -2163,7 +2162,7 @@ Private Sub SonidosMapas_Timer()
 End Sub
  
 ''''''''''''''''''''''''''''''''''''''
-'     WINDOWS API                            '
+'     WINDOWS API                    '
 ''''''''''''''''''''''''''''''''''''''
 Private Sub Client_Connect()
     
@@ -2175,16 +2174,13 @@ Private Sub Client_Connect()
     
     Select Case EstadoLogin
 
-        Case E_MODO.CrearNuevoPj, E_MODO.Normal
+        Case E_MODO.CrearNuevoPJ, E_MODO.Normal
             Call Login
 
         Case E_MODO.Dados
             Call Audio.PlayBackgroundMusic("7", MusicTypes.MP3)
             frmCrearPersonaje.Show
-            
-        Case E_MODO.CambiarContrasena
-            Call Audio.PlayBackgroundMusic("7", MusicTypes.MP3)
-            frmRecuperarCuenta.Show
+            'Call MostrarCreacion
         
     End Select
  
@@ -2209,7 +2205,9 @@ Private Sub Client_CloseSck()
     
     Debug.Print "Cerrando la conexion via API de Windows..."
 
+    If frmMain.Visible = True Then frmMain.Visible = False
     Call ResetAllInfo
+    Call MostrarConnect(True)
 End Sub
 
 Private Sub Client_Error(ByVal number As Integer, _

@@ -39,10 +39,6 @@ Public lblHelm As String
 
 Public Inet As clsInet
 
-'Recuperar Cuenta mediante la API
-Public AccountMailToRecover As String
-Public AccountNewPassword As String
-
 ' Desvanecimiento en Techos
 Public ColorTecho As Byte
 Public temp_rgb(3) As Long
@@ -99,6 +95,7 @@ Public Const SND_PASOS1 As String = "23.Wav"
 Public Const SND_PASOS2 As String = "24.Wav"
 Public Const SND_NAVEGANDO As String = "50.wav"
 Public Const SND_DICE As String = "cupdice.Wav"
+Public Const SND_MSG As String = "530.wav"
 
 ' Constantes de intervalo
 Public Enum eIntervalos
@@ -468,8 +465,6 @@ Public Enum eGMCommands
     ResetFactions           '/RAJAR
     RemoveCharFromGuild     '/RAJARCLAN
     RequestCharMail         '/LASTEMAIL
-    AlterPassword           '/APASS
-    AlterMail               '/AEMAIL
     AlterName               '/ANAME
     DoBackUp                '/DOBACKUP
     ShowGuildMessages       '/SHOWCMSG
@@ -763,9 +758,8 @@ Public EsPartyLeader As Boolean
 
 Public Enum E_MODO
     Normal = 1
-    CrearNuevoPj = 2
+    CrearNuevoPJ = 2
     Dados = 3
-    CambiarContrasena = 4
 End Enum
 
 Public EstadoLogin As E_MODO

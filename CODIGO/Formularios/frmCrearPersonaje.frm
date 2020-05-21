@@ -1171,28 +1171,28 @@ End Sub
 Function CheckData() As Boolean
     
     If LenB(txtNombre.Text) = 0 Then
-        MsgBox JsonLanguage.item("VALIDACION_NOMBRE_PJ").item("TEXTO")
+        Call MostrarMensaje(JsonLanguage.item("VALIDACION_NOMBRE_PJ").item("TEXTO"))
         txtNombre.SetFocus
         Exit Function
     End If
 
     If UserRaza = 0 Then
-        MsgBox JsonLanguage.item("VALIDACION_RAZA").item("TEXTO")
+        Call MostrarMensaje(JsonLanguage.item("VALIDACION_RAZA").item("TEXTO"))
         Exit Function
     End If
     
     If UserSexo = 0 Then
-        MsgBox JsonLanguage.item("VALIDACION_SEXO").item("TEXTO")
+        Call MostrarMensaje(JsonLanguage.item("VALIDACION_SEXO").item("TEXTO"))
         Exit Function
     End If
     
     If UserClase = 0 Then
-        MsgBox JsonLanguage.item("VALIDACION_CLASE").item("TEXTO")
+        Call MostrarMensaje(JsonLanguage.item("VALIDACION_CLASE").item("TEXTO"))
         Exit Function
     End If
 
     If Len(AccountHash) = 0 Then
-        MsgBox JsonLanguage.item("VALIDACION_HASH").item("TEXTO")
+        Call MostrarMensaje(JsonLanguage.item("VALIDACION_HASH").item("TEXTO"))
         Exit Function
     End If
 
@@ -1201,7 +1201,7 @@ Function CheckData() As Boolean
     Dim Suma As Byte
     For i = 1 To NUMATRIBUTOS
         If Val(lblAtributos(i).Caption) > 18 Then
-            MsgBox JsonLanguage.item("VALIDACION_ATRIBUTOS").item("TEXTO")
+            Call MostrarMensaje(JsonLanguage.item("VALIDACION_ATRIBUTOS").item("TEXTO"))
             Exit Function
         End If
         
@@ -1209,12 +1209,12 @@ Function CheckData() As Boolean
     Next i
     
     If Suma <> 70 Then
-        MsgBox JsonLanguage.item("VALIDACION_ATRIBUTOS").item("TEXTO")
+        Call MostrarMensaje(JsonLanguage.item("VALIDACION_ATRIBUTOS").item("TEXTO"))
         Exit Function
     End If
     
     If LenB(UserName) > 30 Then
-        MsgBox JsonLanguage.item("VALIDACION_BAD_NOMBRE_PJ").item("TEXTO").item(1)
+        Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_NOMBRE_PJ").item("TEXTO").item(1))
         Exit Function
     End If
     
@@ -1284,7 +1284,7 @@ Private Sub ImgCrear_Click()
             
     If Right$(UserName, 1) = " " Then
         UserName = RTrim$(UserName)
-        MsgBox JsonLanguage.item("VALIDACION_BAD_NOMBRE_PJ").item("TEXTO").item(2)
+       Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_NOMBRE_PJ").item("TEXTO").item(2))
 
     End If
     
@@ -1298,13 +1298,13 @@ Private Sub ImgCrear_Click()
     
     If Not CheckData Then Exit Sub
     
-    EstadoLogin = E_MODO.CrearNuevoPj
+    EstadoLogin = E_MODO.CrearNuevoPJ
     
     'Clear spell list
     frmMain.hlst.Clear
         
     If Not frmMain.Client.State = sckConnected Then
-        MsgBox JsonLanguage.item("ERROR_CONN_LOST").item("TEXTO")
+        Call MostrarMensaje(JsonLanguage.item("ERROR_CONN_LOST").item("TEXTO"))
         Unload Me
     Else
         Me.imgCrear.Enabled = False

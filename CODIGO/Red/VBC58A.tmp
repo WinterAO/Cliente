@@ -277,6 +277,7 @@ Private Enum ClientPacketID
     ChangeDescription               '/DESC
     GuildVote                       '/VOTO
     Punishments                     '/PENAS
+    ChangePassword                  '/CONTRASENA
     Gamble                          '/APOSTAR
     InquiryVote                     '/ENCUESTA ( with parameters )
     LeaveFaction                    '/RETIRAR ( with no arguments )
@@ -310,6 +311,7 @@ Private Enum ClientPacketID
     QuestListRequest
     QuestDetailsRequest
     QuestAbandon
+    CambiarContrasena
     FightSend
     FightAccept
     CloseGuild                      '/CERRARCLAN
@@ -1440,7 +1442,7 @@ Private Sub HandleDeletedChar()
     MsgBox ("El personaje se ha borrado correctamente. Por favor vuelve a iniciar sesion para ver el cambio")
 
     'Close connection
-    'Call CloseConnectionAndResetAllInfo
+    Call CloseConnectionAndResetAllInfo
 End Sub
 
 
@@ -1542,10 +1544,20 @@ Private Sub HandleDisconnect()
     
     'Remove packet ID
     Call incomingData.ReadByte
+        
+    'Close and go to frmPanelAccount
+    Call CloseConnectionAndResetAllInfo
+    
+End Sub
 
+Private Sub CloseConnectionAndResetAllInfo()
+    
     Call ResetAllInfo(False)
-    frmMain.Visible = False
-    Call MostrarCuenta(True)
+    
+    If CheckUserData() Then
+        frmMain.Visible = False
+        Call Protocol.Connect(E_MODO.Normal)
+    End If
     
 End Sub
 
@@ -2465,7 +2477,8 @@ On Error GoTo errhandler
     'Remove packet ID
     Call Buffer.ReadByte
     
-    Call MostrarMensaje(Buffer.ReadASCIIString())
+    frmMensaje.msg.Caption = Buffer.ReadASCIIString()
+    frmMensaje.Show
     
     'If we got here then packet is complete, copy data back to original queue
     Call incomingData.CopyBuffer(Buffer)
@@ -3475,7 +3488,20 @@ Private Sub HandleAtributes()
         UserAtributos(i) = incomingData.ReadByte()
     Next i
     
-    LlegaronAtrib = True
+    'Show them in character creation
+    If EstadoLogin = E_MODO.Dados Then
+        With frmCrearPersonaje
+            If .Visible Then
+                For i = 1 To NUMATRIBUTES
+                    .lblAtributos(i).Caption = UserAtributos(i)
+                Next i
+                
+                .UpdateRazaMod
+            End If
+        End With
+    Else
+        LlegaronAtrib = True
+    End If
 End Sub
 
 ''
@@ -3892,7 +3918,7 @@ On Error GoTo errhandler
     'Remove packet ID
     Call Buffer.ReadByte
     
-    Call MostrarMensaje(Buffer.ReadASCIIString())
+    Call MsgBox(Buffer.ReadASCIIString())
     
     If frmConnect.Visible And (Not frmCrearPersonaje.Visible) Then
         frmMain.Client.CloseSck
@@ -5523,7 +5549,7 @@ End Sub
 '
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteLoginExistingChar(ByVal SelectedID As Byte)
+Public Sub WriteLoginExistingChar()
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 12/10/2018
@@ -5533,7 +5559,9 @@ Public Sub WriteLoginExistingChar(ByVal SelectedID As Byte)
     With outgoingData
         Call .WriteByte(ClientPacketID.LoginExistingChar)
         
-        Call .WriteByte(SelectedID)
+        Call .WriteASCIIString(UserName)
+        
+        Call .WriteASCIIString(AccountHash)
         
         Call .WriteByte(App.Major)
         Call .WriteByte(App.Minor)
@@ -7438,6 +7466,27 @@ Public Sub WritePunishments(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.Punishments)
         
         Call .WriteASCIIString(UserName)
+    End With
+End Sub
+
+''
+' Writes the "ChangePassword" message to the outgoing data buffer.
+'
+' @param    oldPass Previous password.
+' @param    newPass New password.
+' @remarks  The data is not actually sent until the buffer is properly flushed.
+
+Public Sub WriteChangePassword(ByRef oldPass As String, ByRef newPass As String)
+'***************************************************
+'Author: Juan Martin Sotuyo Dodero (Maraxus)
+'Last Modification: 10/10/07
+'Last Modified By: Rapsodius
+'Writes the "ChangePassword" message to the outgoing data buffer
+'***************************************************
+    With outgoingData
+        Call .WriteByte(ClientPacketID.ChangePassword)
+        Call .WriteASCIIString(oldPass)
+        Call .WriteASCIIString(newPass)
     End With
 End Sub
 
@@ -9618,6 +9667,50 @@ Public Sub WriteRequestCharMail(ByVal UserName As String)
 End Sub
 
 ''
+' Writes the "AlterPassword" message to the outgoing data buffer.
+'
+' @param    username The name of the user whose mail is requested.
+' @param    copyFrom The name of the user from which to copy the password.
+' @remarks  The data is not actually sent until the buffer is properly flushed.
+
+Public Sub WriteAlterPassword(ByVal UserName As String, ByVal CopyFrom As String)
+'***************************************************
+'Author: Juan Martin Sotuyo Dodero (Maraxus)
+'Last Modification: 05/17/06
+'Writes the "AlterPassword" message to the outgoing data buffer
+'***************************************************
+    With outgoingData
+        Call .WriteByte(ClientPacketID.GMCommands)
+        Call .WriteByte(eGMCommands.AlterPassword)
+        
+        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CopyFrom)
+    End With
+End Sub
+
+''
+' Writes the "AlterMail" message to the outgoing data buffer.
+'
+' @param    username The name of the user whose mail is requested.
+' @param    newMail The new email of the player.
+' @remarks  The data is not actually sent until the buffer is properly flushed.
+
+Public Sub WriteAlterMail(ByVal UserName As String, ByVal newMail As String)
+'***************************************************
+'Author: Juan Martin Sotuyo Dodero (Maraxus)
+'Last Modification: 05/17/06
+'Writes the "AlterMail" message to the outgoing data buffer
+'***************************************************
+    With outgoingData
+        Call .WriteByte(ClientPacketID.GMCommands)
+        Call .WriteByte(eGMCommands.AlterMail)
+        
+        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(newMail)
+    End With
+End Sub
+
+''
 ' Writes the "AlterName" message to the outgoing data buffer.
 '
 ' @param    username The name of the user whose mail is requested.
@@ -10705,8 +10798,7 @@ Private Sub HandleAccountLogged()
     AccountHash = Buffer.ReadASCIIString
     NumberOfCharacters = Buffer.ReadByte
 
-    'Cambiamos al modo cuenta
-    Call ModCnt.MostrarCuenta(Not frmConnect.Visible)
+    frmPanelAccount.Show '
 
     If NumberOfCharacters > 0 Then
     
@@ -10743,6 +10835,8 @@ Private Sub HandleAccountLogged()
 
                 .GameMaster = Buffer.ReadBoolean
             End With
+            
+            Call mDx8_Dibujado.DrawPJ(LoopC)
             
         Next LoopC
         
@@ -11072,6 +11166,20 @@ Private Sub HandleCreateDamage()
  
 End Sub
 
+Public Sub WriteCambiarContrasena()
+    
+    With outgoingData
+    
+        'Mando el ID del paquete
+        Call .WriteByte(ClientPacketID.CambiarContrasena)
+        
+        'Mando los datos de la cuenta a modificar.
+        Call .WriteASCIIString(AccountMailToRecover)
+        Call .WriteASCIIString(AccountNewPassword)
+    
+    End With
+
+End Sub
 Private Sub HandleUserInEvent()
     Call incomingData.ReadByte
     

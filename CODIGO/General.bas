@@ -226,9 +226,8 @@ Sub SetConnected()
     Connected = True
 
     'Unload the connect form
-    Unload frmCrearPersonaje
+    'Unload frmCrearPersonaje
     Unload frmConnect
-    Unload frmPanelAccount
     
     'Vaciamos la cola de movimiento
     keysMovementPressedQueue.Clear
@@ -488,6 +487,7 @@ Sub Main()
     
     Call CargarHechizos
     Call CargarConnectMaps
+    Call ModCnt.InicializarPosicionesPJ
 
     ' Map Sounds
     Set Sonidos = New clsSoundMapas
@@ -518,7 +518,7 @@ Sub Main()
     ' Load constants, classes, flags, graphics..
     Call LoadInitialConfig
   
-    Call MostrarConnect
+    Call MostrarConnect(True)
     
     'Inicializacion de variables globales
     prgRun = True
@@ -1148,12 +1148,11 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     Call frmMain.hlst.Clear ' Ponemos esto aca para limpiar la lista de hechizos al desconectarse.
     
     If UnloadForms Then
-        'Unload all forms except frmMain, frmConnect and frmCrearPersonaje
+        'Unload all forms except frmMain, frmConnect
         Dim frm As Form
         For Each frm In Forms
             If frm.name <> frmMain.name And _
-               frm.name <> frmConnect.name And _
-               frm.name <> frmCrearPersonaje.name Then
+               frm.name <> frmConnect.name Then
                 
                 Call Unload(frm)
             End If
@@ -1236,6 +1235,42 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     ' Connection screen mp3
     Call Audio.PlayBackgroundMusic("2", MusicTypes.MP3)
 
+End Sub
+
+Public Sub ResetAllInfoAccounts()
+'**************************************
+'Autor: Lorwik
+'Fecha: 21/05/2020
+'Descripcion: Borra los datos almacenados de una cuenta
+'**************************************
+
+    If NumberOfCharacters > 0 Then
+    
+        Dim LoopC As Long
+        
+        For LoopC = 1 To NumberOfCharacters
+        
+            With cPJ(LoopC)
+                .Nombre = vbNullString
+                .Body = 0
+                .Head = 0
+                .weapon = 0
+                .shield = 0
+                .helmet = 0
+                .Class = 0
+                .Race = 0
+                .Map = 0
+                .Level = 0
+                .Gold = 0
+                .Criminal = False
+                .Dead = False
+
+                .GameMaster = False
+            End With
+            
+        Next LoopC
+        
+    End If
 End Sub
 
 Public Function DevolverNombreHechizo(ByVal Index As Byte) As String
@@ -1406,3 +1441,17 @@ ErrorHandler:
     Call AddtoRichTextBox(frmMain.RecTxt, "¡Error en la captura!", 204, 193, 155, 0, 1)
 
 End Sub
+
+Public Sub MostrarMensaje(ByVal Mensaje As String)
+'****************************************
+'Autor: Lorwik
+'Fecha: 20/05/2020
+'Descripción: Llama al frmMensaje para mostrar un cartel de mensaje
+'****************************************
+    Call Audio.PlayWave(SND_MSG)
+    
+    frmMensaje.msg.Caption = Mensaje
+    frmMensaje.Show
+
+End Sub
+

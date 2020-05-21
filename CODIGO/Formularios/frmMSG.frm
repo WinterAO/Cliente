@@ -162,7 +162,7 @@ Private Sub LoadButtons()
                                     GrhPath & "BotonCerrarClickShowSos.jpg", Me)
 End Sub
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 
@@ -176,14 +176,14 @@ Private Sub list1_Click()
     ind = Val(ReadField(2, List1.List(List1.ListIndex), Asc("-")))
 End Sub
 
-Private Sub List1_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub List1_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     If Button = vbRightButton Then
         PopupMenu menU_usuario
     End If
 
 End Sub
 
-Private Sub List1_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub List1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 

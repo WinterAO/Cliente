@@ -422,10 +422,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                     'Avisar que falta el parametro
                     Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /penas NICKNAME.")
                 End If
-                
-            Case "/CONTRASENA"
-                Call frmNewPassword.Show(vbModal, frmMain)
-            
+
             Case "/APOSTAR"
                 If UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
@@ -1396,34 +1393,6 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Else
                     'Avisar que falta el parametro
                     Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /lastemail NICKNAME.")
-                End If
-                
-            Case "/APASS"
-                If notNullArguments Then
-                    tmpArr = Split(ArgumentosRaw, "@", 2)
-                    If UBound(tmpArr) = 1 Then
-                        Call WriteAlterPassword(tmpArr(0), tmpArr(1))
-                    Else
-                        'Faltan los parametros con el formato propio
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /apass PJSINPASS@PJCONPASS.")
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /apass PJSINPASS@PJCONPASS.")
-                End If
-                
-            Case "/AEMAIL"
-                If notNullArguments Then
-                    tmpArr = AEMAILSplit(ArgumentosRaw)
-                    If LenB(tmpArr(0)) = 0 Then
-                        'Faltan los parametros con el formato propio
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /aemail NICKNAME-NUEVOMAIL.")
-                    Else
-                        Call WriteAlterMail(tmpArr(0), tmpArr(1))
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /aemail NICKNAME-NUEVOMAIL.")
                 End If
                 
             Case "/ANAME"

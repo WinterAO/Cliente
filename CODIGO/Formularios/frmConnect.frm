@@ -360,10 +360,6 @@ Private Sub btnConectarse_Click()
     End If
 End Sub
 
-Private Sub btnRecuperar_Click()
-    Call Protocol.Connect(E_MODO.CambiarContrasena)
-End Sub
-
 Private Sub btnSalir_Click()
     Call CloseClient
 End Sub

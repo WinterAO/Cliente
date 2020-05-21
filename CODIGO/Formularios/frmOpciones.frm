@@ -309,12 +309,6 @@ Begin VB.Form frmOpciones
       Top             =   5880
       Width           =   2010
    End
-   Begin VB.Image imgCambiarPasswd 
-      Height          =   285
-      Left            =   2520
-      Top             =   5520
-      Width           =   2010
-   End
    Begin VB.Image imgMapa 
       Height          =   285
       Left            =   360
@@ -377,7 +371,6 @@ Private clsFormulario As clsFormMovementManager
 
 Private cBotonConfigTeclas As clsGraphicalButton
 Private cBotonMapa As clsGraphicalButton
-Private cBotonCambiarPasswd As clsGraphicalButton
 Private cBotonManual As clsGraphicalButton
 Private cBotonSoporte As clsGraphicalButton
 Private cBotonTutorial As clsGraphicalButton
@@ -464,12 +457,8 @@ Private Sub ComMouseHechizos_Click()
     MsgBox ("Debe reiniciar el juego aplicar el cambio de mouse. Mouse Seleccionado: " & ComMouseHechizos.Text)
 End Sub
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     LastButtonPressed.ToggleToNormal
-End Sub
-
-Private Sub imgCambiarPasswd_Click()
-    Call frmNewPassword.Show(vbModal, Me)
 End Sub
 
 Private Sub imgChkAlMorir_Click()
@@ -703,7 +692,6 @@ Private Sub LoadButtons()
 
     Set cBotonConfigTeclas = New clsGraphicalButton
     Set cBotonMapa = New clsGraphicalButton
-    Set cBotonCambiarPasswd = New clsGraphicalButton
     Set cBotonManual = New clsGraphicalButton
     Set cBotonSoporte = New clsGraphicalButton
     Set cBotonTutorial = New clsGraphicalButton
@@ -718,10 +706,6 @@ Private Sub LoadButtons()
     Call cBotonMapa.Initialize(imgMapa, GrhPath & "BotonMapaAo.jpg", _
                                     GrhPath & "BotonMapaAoRollover.jpg", _
                                     GrhPath & "BotonMapaAoClick.jpg", Me)
-                                    
-    Call cBotonCambiarPasswd.Initialize(imgCambiarPasswd, GrhPath & "BotonCambiarContrasenia.jpg", _
-                                    GrhPath & "BotonCambiarContraseniaRollover.jpg", _
-                                    GrhPath & "BotonCambiarContraseniaClick.jpg", Me)
                                     
     Call cBotonManual.Initialize(imgManual, GrhPath & "BotonManualAo.jpg", _
                                     GrhPath & "BotonManualAoRollover.jpg", _
