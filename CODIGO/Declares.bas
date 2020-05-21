@@ -32,11 +32,12 @@ Attribute VB_Name = "Mod_Declaraciones"
 
 Option Explicit
 
-Public Inet As clsInet
+Public lblWeapon As String
+Public lblArmor As String
+Public lblShielder As String
+Public lblHelm As String
 
-'Recuperar Cuenta mediante la API
-Public AccountMailToRecover As String
-Public AccountNewPassword As String
+Public Inet As clsInet
 
 ' Desvanecimiento en Techos
 Public ColorTecho As Byte
@@ -94,17 +95,18 @@ Public Const SND_PASOS1 As String = "23.Wav"
 Public Const SND_PASOS2 As String = "24.Wav"
 Public Const SND_NAVEGANDO As String = "50.wav"
 Public Const SND_DICE As String = "cupdice.Wav"
+Public Const SND_MSG As String = "530.wav"
 
 ' Constantes de intervalo
 Public Enum eIntervalos
-    INT_ATTACK = 1500
-    INT_ARROWS = 1400
-    INT_CAST_SPELL = 1400
-    INT_CAST_ATTACK = 1000
+    INT_ATTACK = 1400        'Atacar
+    INT_ARROWS = 900        'Flechas
+    INT_CAST_SPELL = 500    'Hechizos
+    INT_CAST_ATTACK = 600   'Combo
     INT_WORK = 700
-    INT_USEITEMU = 450
-    INT_USEITEMDCK = 125
-    INT_SENTRPU = 2000
+    INT_USEITEMU = 250      'Usar Item
+    INT_USEITEMDCK = 250    'Usar Item dobleclick
+    INT_SENTRPU = 2000      'Manda L
     INT_CHANGE_HEADING = 300
 End Enum
 
@@ -279,6 +281,7 @@ Public Enum eSkill
     Proyectiles = 18
     Wrestling = 19
     Navegacion = 20
+    Equitacion = 21
 End Enum
 
 Public Enum eAtributos
@@ -462,8 +465,6 @@ Public Enum eGMCommands
     ResetFactions           '/RAJAR
     RemoveCharFromGuild     '/RAJARCLAN
     RequestCharMail         '/LASTEMAIL
-    AlterPassword           '/APASS
-    AlterMail               '/AEMAIL
     AlterName               '/ANAME
     DoBackUp                '/DOBACKUP
     ShowGuildMessages       '/SHOWCMSG
@@ -512,6 +513,8 @@ Public Enum eGMCommands
     SearchNpc               '/BUSCAR
     SearchObj               '/BUSCAR
     LimpiarMundo            '/LIMPIARMUNDO
+    EditGems                '/EDITGEMS
+    ConsultarGems           '/CONSULTARGEMS
 End Enum
 
 '
@@ -690,6 +693,7 @@ Public UserPort As Integer
 Public UserEstado As Byte '0 = Vivo & 1 = Muerto
 Public UserPasarNivel As Long
 Public UserExp As Long
+Public UserELO As Long
 Public UserReputacion As tReputacion
 Public UserEstadisticas As tEstadisticasUsu
 Public UserDescansar As Boolean
@@ -726,7 +730,7 @@ Public UserRaza As eRaza
 Public UserEmail As String
 
 Public Const NUMCIUDADES As Byte = 5
-Public Const NUMSKILLS As Byte = 20
+Public Const NUMSKILLS As Byte = 21
 Public Const NUMATRIBUTOS As Byte = 5
 Public Const NUMCLASES As Byte = 12
 Public Const NUMRAZAS As Byte = 5
@@ -743,7 +747,6 @@ Public Ciudades(1 To NUMCIUDADES) As String
 Public ListaRazas(1 To NUMRAZAS) As String
 Public ListaClases(1 To NUMCLASES) As String
 
-Public SkillPoints As Integer
 Public Alocados As Integer
 Public flags() As Integer
 
@@ -755,10 +758,8 @@ Public EsPartyLeader As Boolean
 
 Public Enum E_MODO
     Normal = 1
-    CrearNuevoPj = 2
+    CrearNuevoPJ = 2
     Dados = 3
-    CrearCuenta = 4
-    CambiarContrasena = 5
 End Enum
 
 Public EstadoLogin As E_MODO
@@ -782,22 +783,21 @@ End Enum
 
 Public Enum eEditOptions
     eo_Gold = 1
-    eo_Experience = 2
-    eo_Body = 3
-    eo_Head = 4
-    eo_CiticensKilled = 5
-    eo_CriminalsKilled = 6
-    eo_Level = 7
-    eo_Class = 8
-    eo_Skills = 9
-    eo_SkillPointsLeft = 10
-    eo_Nobleza = 11
-    eo_Asesino = 12
-    eo_Sex = 13
-    eo_Raza = 14
-    eo_addGold = 15
-    eo_Vida = 16
-    eo_Poss = 17
+    eo_Experience
+    eo_Body
+    eo_Head
+    eo_CiticensKilled
+    eo_CriminalsKilled
+    eo_Level
+    eo_Class
+    eo_Skills
+    eo_Nobleza
+    eo_Asesino
+    eo_Sex
+    eo_Raza
+    eo_addGold
+    eo_Vida
+    eo_Poss
 End Enum
 
 ''
@@ -948,11 +948,7 @@ Public Enum eSMType
     mWork
 End Enum
 
-Public Const SM_CANT As Byte = 4
-Public SMStatus(SM_CANT) As Boolean
-
 'Hardcoded grhs and items
-Public Const GRH_INI_SM As Long = 1
 
 Public Const ORO_INDEX As Long = 12
 Public Const ORO_GRH As Long = 511

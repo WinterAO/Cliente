@@ -15,11 +15,11 @@ Begin VB.Form frmMensaje
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
    Begin VB.Image imgCerrar 
-      Height          =   375
-      Left            =   720
+      Height          =   525
+      Left            =   1080
       Tag             =   "1"
-      Top             =   2685
-      Width           =   2655
+      Top             =   2640
+      Width           =   1695
    End
    Begin VB.Label msg 
       BackStyle       =   0  'Transparent
@@ -36,7 +36,7 @@ Begin VB.Form frmMensaje
       Height          =   2055
       Left            =   240
       TabIndex        =   0
-      Top             =   480
+      Top             =   360
       Width           =   3495
       WordWrap        =   -1  'True
    End
@@ -98,38 +98,41 @@ Private Sub Form_Load()
     ' TODO: Traducir los textos de las imagenes via labels en visual basic, para que en el futuro si se quiere se pueda traducir a mas idiomas
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
     ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
-    If Language = "spanish" Then
-      Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaMsj_spanish.jpg")
-    Else
-      Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaMsj_english.jpg")
-    End If
+    Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaMsj.jpg")
     
     Call LoadButtons
 End Sub
 
 Private Sub LoadButtons()
-    Dim GrhPath As String
+    Dim boton As String
     
-    GrhPath = Game.path(Interfaces)
+   ' GrhPath = Game.path(Interfaces)
 
     Set cBotonCerrar = New clsGraphicalButton
     
     Set LastButtonPressed = New clsGraphicalButton
     
     
-    Call cBotonCerrar.Initialize(imgCerrar, GrhPath & "BotonCerrarMsj.jpg", _
-                                    GrhPath & "BotonCerrarRolloverMsj.jpg", _
-                                    GrhPath & "BotonCerrarClickMsj.jpg", Me)
+    If Language = "spanish" Then
+        boton = "btnaceptar.jpg"
+    Else
+        boton = "btnaccept.jpg"
+    End If
+    
+    Call cBotonCerrar.Initialize(imgCerrar, Game.path(Interfaces) & boton, _
+                                     Game.path(Interfaces) & "BotonCerrarRolloverMsj.jpg", _
+                                     Game.path(Interfaces) & "BotonCerrarClickMsj.jpg", Me)
 End Sub
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 
 Private Sub imgCerrar_Click()
+    msg.Caption = "" 'Limpiamos el caption
     Unload Me
 End Sub
 
-Private Sub msg_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub msg_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub

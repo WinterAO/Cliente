@@ -5,10 +5,10 @@ Public LastProjectile As Integer    'Last projectile index used
 
 'Projectile information
 Public Type Projectile
-    X As Single
-    Y As Single
-    tX As Single
-    tY As Single
+    x As Single
+    y As Single
+    TX As Single
+    TY As Single
     RotateSpeed As Byte
     Rotate As Single
     Grh As Grh
@@ -45,17 +45,18 @@ Dim ProjectileIndex As Integer
     Loop While ProjectileList(ProjectileIndex).Grh.GrhIndex > 0
     
     'Figure out the initial rotation value
-    ProjectileList(ProjectileIndex).Rotate = Engine_GetAngle(charlist(AttackerIndex).Pos.X, charlist(AttackerIndex).Pos.Y, charlist(TargetIndex).Pos.X, charlist(TargetIndex).Pos.Y)
-        ProjectileList(ProjectileIndex).OffsetX = 0
-        ProjectileList(ProjectileIndex).OffsetY = 0
+    ProjectileList(ProjectileIndex).Rotate = Engine_GetAngle(charlist(AttackerIndex).Pos.x, charlist(AttackerIndex).Pos.y, charlist(TargetIndex).Pos.x, charlist(TargetIndex).Pos.y)
+    If ProjectileList(ProjectileIndex).Rotate > 224 Then ProjectileList(ProjectileIndex).Rotate = ProjectileList(ProjectileIndex).Rotate - 350
+    ProjectileList(ProjectileIndex).OffsetX = 0
+    ProjectileList(ProjectileIndex).OffsetY = 0
         
     'Fill in the values
-    ProjectileList(ProjectileIndex).tX = (charlist(TargetIndex).Pos.X + IIf(Fallo = True, RandomNumber(-2, 2), 0)) * 32
-    ProjectileList(ProjectileIndex).tY = (charlist(TargetIndex).Pos.Y + IIf(Fallo = True, RandomNumber(-2, 0), 0)) * 32
+    ProjectileList(ProjectileIndex).TX = (charlist(TargetIndex).Pos.x + IIf(Fallo = True, RandomNumber(-2, 2), 0)) * 32
+    ProjectileList(ProjectileIndex).TY = (charlist(TargetIndex).Pos.y + IIf(Fallo = True, RandomNumber(-2, 0), 0)) * 32
     ProjectileList(ProjectileIndex).RotateSpeed = Rotation
 
-    If charlist(AttackerIndex).Pos.X <= 17 Then
-        Select Case charlist(AttackerIndex).Pos.X
+    If charlist(AttackerIndex).Pos.x <= 17 Then
+        Select Case charlist(AttackerIndex).Pos.x
             Case 9
                 ProjectileList(ProjectileIndex).OffsetX = 288
             Case 10
@@ -76,8 +77,8 @@ Dim ProjectileIndex As Integer
                 ProjectileList(ProjectileIndex).OffsetX = 38
         End Select
     End If
-    If charlist(AttackerIndex).Pos.Y <= 15 Then
-        Select Case charlist(AttackerIndex).Pos.Y
+    If charlist(AttackerIndex).Pos.y <= 15 Then
+        Select Case charlist(AttackerIndex).Pos.y
             Case 8
                 ProjectileList(ProjectileIndex).OffsetY = 258
             Case 9
@@ -97,8 +98,8 @@ Dim ProjectileIndex As Integer
         End Select
     End If
     
-    ProjectileList(ProjectileIndex).X = charlist(AttackerIndex).Pos.X * 32
-    ProjectileList(ProjectileIndex).Y = charlist(AttackerIndex).Pos.Y * 32
+    ProjectileList(ProjectileIndex).x = charlist(AttackerIndex).Pos.x * 32
+    ProjectileList(ProjectileIndex).y = charlist(AttackerIndex).Pos.y * 32
     
     InitGrh ProjectileList(ProjectileIndex).Grh, GrhIndex
     
@@ -112,10 +113,10 @@ Public Sub Engine_Projectile_Erase(ByVal ProjectileIndex As Integer)
     'Clear the selected index
     ProjectileList(ProjectileIndex).Grh.FrameCounter = 0
     ProjectileList(ProjectileIndex).Grh.GrhIndex = 0
-    ProjectileList(ProjectileIndex).X = 0
-    ProjectileList(ProjectileIndex).Y = 0
-    ProjectileList(ProjectileIndex).tX = 0
-    ProjectileList(ProjectileIndex).tY = 0
+    ProjectileList(ProjectileIndex).x = 0
+    ProjectileList(ProjectileIndex).y = 0
+    ProjectileList(ProjectileIndex).TX = 0
+    ProjectileList(ProjectileIndex).TY = 0
     ProjectileList(ProjectileIndex).Rotate = 0
     ProjectileList(ProjectileIndex).RotateSpeed = 0
  

@@ -35,9 +35,10 @@ Public Type tSetupMods
     TonalidadPJ As Boolean
     UsarSombras As Boolean
     ParticleEngine As Boolean
-    
+    HUD As Boolean
     LimiteFPS As Boolean
     bNoRes      As Boolean
+    FPSShow      As Boolean
     
     ' AUDIO
     bMusic    As Boolean
@@ -128,15 +129,16 @@ Public Sub LeerConfiguracion()
     
     With ClientSetup
         ' VIDEO
-        .Aceleracion = Lector.GetValue("VIDEO", "RENDER_MODE")
-        .byMemory = Lector.GetValue("VIDEO", "DINAMIC_MEMORY")
-        .bNoRes = CBool(Lector.GetValue("VIDEO", "DISABLE_RESOLUTION_CHANGE"))
-        .ProyectileEngine = CBool(Lector.GetValue("VIDEO", "PROYECTILE_ENGINE"))
-        .PartyMembers = CBool(Lector.GetValue("VIDEO", "PARTY_MEMBERS"))
-        .TonalidadPJ = CBool(Lector.GetValue("VIDEO", "TONALIDAD_PJ"))
-        .UsarSombras = CBool(Lector.GetValue("VIDEO", "SOMBRAS"))
-        .ParticleEngine = CBool(Lector.GetValue("VIDEO", "LIMITARFPS"))
-        .LimiteFPS = CBool(Lector.GetValue("VIDEO", "LIMITARFPS"))
+        .Aceleracion = Lector.GetValue("VIDEO", "RenderMode")
+        .byMemory = Lector.GetValue("VIDEO", "DynamicMemory")
+        .bNoRes = CBool(Lector.GetValue("VIDEO", "DisableResolutionChange"))
+        .ProyectileEngine = CBool(Lector.GetValue("VIDEO", "ProjectileEngine"))
+        .PartyMembers = CBool(Lector.GetValue("VIDEO", "PartyMembers"))
+        .TonalidadPJ = CBool(Lector.GetValue("VIDEO", "TonalidadPJ"))
+        .UsarSombras = CBool(Lector.GetValue("VIDEO", "Sombras"))
+        .ParticleEngine = CBool(Lector.GetValue("VIDEO", "ParticleEngine"))
+        .LimiteFPS = CBool(Lector.GetValue("VIDEO", "LimitarFPS"))
+        .HUD = CBool(Lector.GetValue("VIDEO", "HUD"))
         
         ' AUDIO
         .bMusic = CBool(Lector.GetValue("AUDIO", "MUSIC"))
@@ -202,15 +204,16 @@ Public Sub GuardarConfiguracion()
     With ClientSetup
         
         ' VIDEO
-        Call Lector.ChangeValue("VIDEO", "RENDER_MODE", .Aceleracion)
-        Call Lector.ChangeValue("VIDEO", "DINAMIC_MEMORY", .byMemory)
-        Call Lector.ChangeValue("VIDEO", "DISABLE_RESOLUTION_CHANGE", IIf(.bNoRes, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "PROYECTILE_ENGINE", IIf(.ProyectileEngine, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "PARTY_MEMBERS", IIf(.PartyMembers, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "TONALIDAD_PJ", IIf(.TonalidadPJ, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "SOMBRAS", IIf(.UsarSombras, "True", "False"))
+        Call Lector.ChangeValue("VIDEO", "RenderMode", .Aceleracion)
+        Call Lector.ChangeValue("VIDEO", "DynamicMemory", .byMemory)
+        Call Lector.ChangeValue("VIDEO", "DisableResolutionChange", IIf(.bNoRes, "True", "False"))
+        Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ProyectileEngine, "True", "False"))
+        Call Lector.ChangeValue("VIDEO", "PartyMembers", IIf(.PartyMembers, "True", "False"))
+        Call Lector.ChangeValue("VIDEO", "TonalidadPJ", IIf(.TonalidadPJ, "True", "False"))
+        Call Lector.ChangeValue("VIDEO", "Sombras", IIf(.UsarSombras, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ParticleEngine, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "LimitarFPS", IIf(.LimiteFPS, "True", "False"))
+        Call Lector.ChangeValue("VIDEO", "HUD", IIf(.HUD, "True", "False"))
         
         ' AUDIO
         Call Lector.ChangeValue("AUDIO", "MUSIC", IIf(Audio.MusicActivated, "True", "False"))

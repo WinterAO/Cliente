@@ -41,8 +41,8 @@ Public ScreenHeight As Long
 Public MainScreenRect As RECT
 
 Public Type TLVERTEX
-    X As Single
-    Y As Single
+    x As Single
+    y As Single
     Z As Single
     rhw As Single
     Color As Long
@@ -56,8 +56,8 @@ Private EndTime As Long
 Public Function Engine_DirectX8_Init() As Boolean
     
     'Establecemos cual va a ser el tamano del render.
-    ScreenWidth = frmMain.MainViewPic.ScaleWidth
-    ScreenHeight = frmMain.MainViewPic.ScaleHeight
+    ScreenWidth = frmConnect.renderer.ScaleWidth
+    ScreenHeight = frmConnect.renderer.ScaleHeight
     
     ' The D3DDISPLAYMODE type structure that holds
     ' the information about your current display adapter.
@@ -230,14 +230,13 @@ Public Sub Engine_DirectX8_Aditional_Init()
     Engine_BaseSpeed = 0.018
     
     With MainScreenRect
-        .Bottom = ScreenHeight
-        .Right = ScreenWidth
+        .Bottom = frmMain.MainViewPic.ScaleHeight
+        .Right = frmMain.MainViewPic.ScaleWidth
     End With
     
     ' Seteamos algunos colores por adelantado y unica vez.
     Call Engine_Long_To_RGB_List(Normal_RGBList(), -1)
     Call Engine_Long_To_RGB_List(Color_Shadow(), D3DColorARGB(50, 0, 0, 0))
-    Call Engine_Long_To_RGB_List(Color_Arbol(), D3DColorARGB(100, 100, 100, 100))
     Color_Paralisis = D3DColorARGB(180, 230, 230, 250)
     Color_Invisibilidad = D3DColorARGB(180, 236, 136, 66)
     Color_Montura = D3DColorARGB(180, 15, 230, 40)
@@ -300,49 +299,49 @@ Dim Start_Time As Long
 
 End Function
 
-Public Function Engine_PixelPosX(ByVal X As Integer) As Integer
+Public Function Engine_PixelPosX(ByVal x As Integer) As Integer
 '*****************************************************************
 'Converts a tile position to a screen position
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_PixelPosX
 '*****************************************************************
 
-    Engine_PixelPosX = (X - 1) * 32
+    Engine_PixelPosX = (x - 1) * 32
     
 End Function
 
-Public Function Engine_PixelPosY(ByVal Y As Integer) As Integer
+Public Function Engine_PixelPosY(ByVal y As Integer) As Integer
 '*****************************************************************
 'Converts a tile position to a screen position
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_PixelPosY
 '*****************************************************************
 
-    Engine_PixelPosY = (Y - 1) * 32
+    Engine_PixelPosY = (y - 1) * 32
     
 End Function
 
-Public Function Engine_TPtoSPX(ByVal X As Byte) As Long
+Public Function Engine_TPtoSPX(ByVal x As Byte) As Long
 '************************************************************
 'Tile Position to Screen Position
 'Takes the tile position and returns the pixel location on the screen
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_TPtoSPX
 '************************************************************
 
-    Engine_TPtoSPX = Engine_PixelPosX(X - ((UserPos.X - HalfWindowTileWidth) - TileBufferSize)) + OffsetCounterX - 272 + ((10 - TileBufferSize) * 32)
+    Engine_TPtoSPX = Engine_PixelPosX(x - ((UserPos.x - HalfWindowTileWidth) - TileBufferSize)) + OffsetCounterX - 272 + ((10 - TileBufferSize) * 32)
     
 End Function
 
-Public Function Engine_TPtoSPY(ByVal Y As Byte) As Long
+Public Function Engine_TPtoSPY(ByVal y As Byte) As Long
 '************************************************************
 'Tile Position to Screen Position
 'Takes the tile position and returns the pixel location on the screen
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_TPtoSPY
 '************************************************************
 
-    Engine_TPtoSPY = Engine_PixelPosY(Y - ((UserPos.Y - HalfWindowTileHeight) - TileBufferSize)) + OffsetCounterY - 272 + ((10 - TileBufferSize) * 32)
+    Engine_TPtoSPY = Engine_PixelPosY(y - ((UserPos.y - HalfWindowTileHeight) - TileBufferSize)) + OffsetCounterY - 272 + ((10 - TileBufferSize) * 32)
     
 End Function
 
-Public Sub Engine_Draw_Box(ByVal X As Integer, ByVal Y As Integer, ByVal Width As Integer, ByVal Height As Integer, Color As Long)
+Public Sub Engine_Draw_Box(ByVal x As Integer, ByVal y As Integer, ByVal Width As Integer, ByVal Height As Integer, Color As Long)
 '***************************************************
 'Author: Ezequiel Juarez (Standelf)
 'Last Modification: 29/12/10
@@ -352,7 +351,7 @@ Public Sub Engine_Draw_Box(ByVal X As Integer, ByVal Y As Integer, ByVal Width A
     Call Engine_Long_To_RGB_List(temp_rgb(), Color)
 
     Call SpriteBatch.SetTexture(Nothing)
-    Call SpriteBatch.Draw(X, Y, Width, ByVal Height, temp_rgb())
+    Call SpriteBatch.Draw(x, y, Width, ByVal Height, temp_rgb())
     
 End Sub
 
@@ -649,72 +648,72 @@ End Sub
 Public Function Engine_GetAngle(ByVal CenterX As Integer, ByVal CenterY As Integer, ByVal TargetX As Integer, ByVal TargetY As Integer) As Single
 '************************************************************
 'Gets the angle between two points in a 2d plane
-'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_GetAngle
+'More info: http://www.vbgore.com/GameClient.TileEn ... e_GetAngle" class="postlink" rel="nofollow" onClick="window.open(this.href);return false;
 '************************************************************
 Dim SideA As Single
 Dim SideC As Single
-
+ 
     On Error GoTo ErrOut
-
+ 
     'Check for horizontal lines (90 or 270 degrees)
     If CenterY = TargetY Then
-
+ 
         'Check for going right (90 degrees)
         If CenterX < TargetX Then
             Engine_GetAngle = 90
-
+ 
             'Check for going left (270 degrees)
         Else
             Engine_GetAngle = 270
         End If
-
+ 
         'Exit the function
         Exit Function
-
+ 
     End If
-
+ 
     'Check for horizontal lines (360 or 180 degrees)
     If CenterX = TargetX Then
-
+ 
         'Check for going up (360 degrees)
         If CenterY > TargetY Then
             Engine_GetAngle = 360
-
+ 
             'Check for going down (180 degrees)
         Else
             Engine_GetAngle = 180
         End If
-
+ 
         'Exit the function
         Exit Function
-
+ 
     End If
-
+ 
     'Calculate Side C
     SideC = Sqr(Abs(TargetX - CenterX) ^ 2 + Abs(TargetY - CenterY) ^ 2)
-
+ 
     'Side B = CenterY
-
+ 
     'Calculate Side A
     SideA = Sqr(Abs(TargetX - CenterX) ^ 2 + TargetY ^ 2)
-
+ 
     'Calculate the angle
     Engine_GetAngle = (SideA ^ 2 - CenterY ^ 2 - SideC ^ 2) / (CenterY * SideC * -2)
     Engine_GetAngle = (Atn(-Engine_GetAngle / Sqr(-Engine_GetAngle * Engine_GetAngle + 1)) + 1.5708) * 57.29583
-
+ 
     'If the angle is >180, subtract from 360
     If TargetX < CenterX Then Engine_GetAngle = 360 - Engine_GetAngle
-
+ 
     'Exit function
-
+ 
 Exit Function
-
+ 
     'Check for error
 ErrOut:
-
+ 
     'Return a 0 saying there was an error
     Engine_GetAngle = 0
-
+ 
 Exit Function
-
+ 
 End Function

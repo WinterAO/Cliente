@@ -88,62 +88,60 @@ Private Enum ServerPacketID
     ObjectCreate = 35            ' HO
     ObjectDelete = 36            ' BO
     BlockPosition = 37           ' BQ
-    PlayMUSIC                 ' TM
-    PlayWave                ' TW
-    guildList                ' GL
-    AreaChanged              ' CA
-    PauseToggle              ' BKW
-    RainToggle              ' LLU
-    CreateFX                 ' CFX
-    UpdateUserStats          ' EST
-    ChangeInventorySlot      ' CSI
-    ChangeBankSlot           ' SBO
-    ChangeSpellSlot          ' SHS
-    Atributes              ' ATR
-    BlacksmithWeapons        ' LAH
-    BlacksmithArmors        ' LAR
-    InitCarpenting         ' OBR
-    RestOK                   ' DOK
-    ErrorMsg                 ' ERR
-    Blind                    ' CEGU
-    Dumb                    ' DUMB
-    ShowSignal              ' MCAR
-    ChangeNPCInventorySlot   ' NPCI
-    UpdateHungerAndThirst    ' EHYS
-    Fame                     ' FAMA
-    MiniStats                ' MEST
-    LevelUp                  ' SUNI
-    AddForumMsg              ' FMSG
-    ShowForumForm            ' MFOR
-    SetInvisible             ' NOVER
-    DiceRoll                 ' DADOS
-    MeditateToggle           ' MEDOK
-    BlindNoMore              ' NSEGUE
-    DumbNoMore               ' NESTUP
-    SendSkills               ' SKILLS
-    TrainerCreatureList      ' LSTCRI
-    guildNews               ' GUILDNE
-    OfferDetails             ' PEACEDE & ALLIEDE
-    AlianceProposalsList    ' ALLIEPR
-    PeaceProposalsList       ' PEACEPR
-    CharacterInfo            ' CHRINFO
-    GuildLeaderInfo         ' LEADERI
+    PlayMUSIC                    ' TM
+    PlayWave                     ' TW
+    guildList                    ' GL
+    AreaChanged                  ' CA
+    PauseToggle                  ' BKW
+    RainToggle                   ' LLU
+    CreateFX                     ' CFX
+    UpdateUserStats              ' EST
+    ChangeInventorySlot          ' CSI
+    ChangeBankSlot               ' SBO
+    ChangeSpellSlot              ' SHS
+    Atributes                    ' ATR
+    BlacksmithWeapons            ' LAH
+    BlacksmithArmors             ' LAR
+    InitCarpenting               ' OBR
+    RestOK                       ' DOK
+    ErrorMsg                     ' ERR
+    Blind                        ' CEGU
+    Dumb                         ' DUMB
+    ShowSignal                   ' MCAR
+    ChangeNPCInventorySlot       ' NPCI
+    UpdateHungerAndThirst        ' EHYS
+    Fame                         ' FAMA
+    MiniStats                    ' MEST
+    AddForumMsg                  ' FMSG
+    ShowForumForm                ' MFOR
+    SetInvisible                 ' NOVER
+    MeditateToggle               ' MEDOK
+    BlindNoMore                  ' NSEGUE
+    DumbNoMore                   ' NESTUP
+    SendSkills                   ' SKILLS
+    TrainerCreatureList          ' LSTCRI
+    guildNews                    ' GUILDNE
+    OfferDetails                 ' PEACEDE & ALLIEDE
+    AlianceProposalsList         ' ALLIEPR
+    PeaceProposalsList           ' PEACEPR
+    CharacterInfo                ' CHRINFO
+    GuildLeaderInfo              ' LEADERI
     GuildMemberInfo
-    GuildDetails             ' CLANDET
-    ShowGuildFundationForm   ' SHOWFUN
-    ParalizeOK               ' PARADOK
-    ShowUserRequest         ' PETICIO
-    ChangeUserTradeSlot      ' COMUSUINV
-    SendNight                ' NOC
+    GuildDetails                 ' CLANDET
+    ShowGuildFundationForm       ' SHOWFUN
+    ParalizeOK                   ' PARADOK
+    ShowUserRequest              ' PETICIO
+    ChangeUserTradeSlot          ' COMUSUINV
+    SendNight                    ' NOC
     Pong
     UpdateTagAndStatus
     
     'GM =  messages
-    SpawnList                ' SPL
-    ShowSOSForm              ' MSOS
-    ShowMOTDEditionForm      ' ZMOTD
-    ShowGMPanelForm          ' ABPANEL
-    UserNameList           ' LISTUSU
+    SpawnList                    ' SPL
+    ShowSOSForm                  ' MSOS
+    ShowMOTDEditionForm          ' ZMOTD
+    ShowGMPanelForm              ' ABPANEL
+    UserNameList                 ' LISTUSU
     ShowDenounces
     RecordList
     RecordDetails
@@ -160,167 +158,163 @@ Private Enum ServerPacketID
     PalabrasMagicas
     PlayAttackAnim
     FXtoMap
-    AccountLogged          'CHOTS | Accounts
+    AccountLogged                'CHOTS | Accounts
     SearchList
     QuestDetails
     QuestListSend
-    CreateDamage           ' CDMG
+    CreateDamage                 ' CDMG
     UserInEvent
     renderMsg
     DeletedChar
     EquitandoToggle
     InitCraftman
     EnviarListDeAmigos
+    Proyectil
 End Enum
 
 Private Enum ClientPacketID
     LoginExistingChar = 1           'OLOGIN
-    ThrowDices = 2                  'TIRDAD
-    LoginNewChar = 3                'NLOGIN
-    Talk = 4                        ';
-    Yell = 5                        '-
-    Whisper = 6                     '\
-    Walk = 7                        'M
-    RequestPositionUpdate = 8       'RPU
-    Attack = 9                      'AT
-    PickUp = 10                     'AG
-    SafeToggle = 11                 '/SEG & SEG  (SEG's behaviour has to be coded in the client)
-    ResuscitationSafeToggle = 12
-    RequestGuildLeaderInfo = 13     'GLINFO
-    RequestAtributes = 14           'ATR
-    RequestFame = 15                'FAMA
-    RequestSkills = 16              'ESKI
-    RequestMiniStats = 17           'FEST
-    CommerceEnd = 18                'FINCOM
-    UserCommerceEnd = 19            'FINCOMUSU
-    UserCommerceConfirm = 20
-    CommerceChat = 21
-    BankEnd = 22                    'FINBAN
-    UserCommerceOk = 23             'COMUSUOK
-    UserCommerceReject = 24         'COMUSUNO
-    Drop = 25                       'TI
-    CastSpell = 26                  'LH
-    LeftClick = 27                  'LC
-    DoubleClick = 28                'RC
-    Work = 29                       'UK
-    UseSpellMacro = 30              'UMH
-    UseItem = 31                    'USA
-    CraftBlacksmith = 32            'CNS
-    CraftCarpenter = 33             'CNC
-    WorkLeftClick = 34              'WLC
-    CreateNewGuild = 35             'CIG
-    sadasdA = 36
-    EquipItem = 37                  'EQUI
-    ChangeHeading = 38              'CHEA
-    ModifySkills = 39               'SKSE
-    Train = 40                      'ENTR
-    CommerceBuy = 41                'COMP
-    BankExtractItem = 42            'RETI
-    CommerceSell = 43               'VEND
-    BankDeposit = 44                'DEPO
-    ForumPost = 45                  'DEMSG
-    MoveSpell = 46                  'DESPHE
-    MoveBank = 47
-    ClanCodexUpdate = 48            'DESCOD
-    UserCommerceOffer = 49          'OFRECER
-    GuildAcceptPeace = 50           'ACEPPEAT
-    GuildRejectAlliance = 51        'RECPALIA
-    GuildRejectPeace = 52           'RECPPEAT
-    GuildAcceptAlliance = 53        'ACEPALIA
-    GuildOfferPeace = 54            'PEACEOFF
-    GuildOfferAlliance = 55         'ALLIEOFF
-    GuildAllianceDetails = 56       'ALLIEDET
-    GuildPeaceDetails = 57          'PEACEDET
-    GuildRequestJoinerInfo = 58     'ENVCOMEN
-    GuildAlliancePropList = 59      'ENVALPRO
-    GuildPeacePropList = 60         'ENVPROPP
-    GuildDeclareWar = 61            'DECGUERR
-    GuildNewWebsite = 62            'NEWWEBSI
-    GuildAcceptNewMember = 63       'ACEPTARI
-    GuildRejectNewMember = 64       'RECHAZAR
-    GuildKickMember = 65            'ECHARCLA
-    GuildUpdateNews = 66            'ACTGNEWS
-    GuildMemberInfo = 67            '1HRINFO<
-    GuildOpenElections = 68         'ABREELEC
-    GuildRequestMembership = 69     'SOLICITUD
-    GuildRequestDetails = 70        'CLANDETAILS
-    Online = 71                     '/ONLINE
-    Quit = 72                       '/SALIR
-    GuildLeave = 73                 '/SALIRCLAN
-    RequestAccountState = 74        '/BALANCE
-    PetStand = 75                   '/QUIETO
-    PetFollow = 76                  '/ACOMPANAR
-    ReleasePet = 77                 '/LIBERAR
-    TrainList = 78                  '/ENTRENAR
-    Rest = 79                       '/DESCANSAR
-    Meditate = 80                   '/MEDITAR
-    Resucitate = 81                 '/RESUCITAR
-    Heal = 82                       '/CURAR
-    Help = 83                       '/AYUDA
-    RequestStats = 84               '/EST
-    CommerceStart = 85              '/COMERCIAR
-    BankStart = 86                  '/BOVEDA
-    Enlist = 87                     '/ENLISTAR
-    Information = 88                '/INFORMACION
-    Reward = 89                     '/RECOMPENSA
-    RequestMOTD = 90                '/MOTD
-    UpTime = 91                     '/UPTIME
-    PartyLeave = 92                 '/SALIRPARTY
-    PartyCreate = 93                '/CREARPARTY
-    PartyJoin = 94                  '/PARTY
-    Inquiry = 95                    '/ENCUESTA ( with no params )
-    GuildMessage = 96               '/CMSG
-    PartyMessage = 97               '/PMSG
-    GuildOnline = 98                '/ONLINECLAN
-    PartyOnline = 99                '/ONLINEPARTY
-    CouncilMessage = 100            '/BMSG
-    RoleMasterRequest = 101         '/ROL
-    GMRequest = 102                 '/GM
-    bugReport = 103                 '/_BUG
-    ChangeDescription = 104         '/DESC
-    GuildVote = 105                 '/VOTO
-    Punishments = 106               '/PENAS
-    ChangePassword = 107            '/CONTRASENA
-    Gamble = 108                    '/APOSTAR
-    InquiryVote = 109               '/ENCUESTA ( with parameters )
-    LeaveFaction = 110              '/RETIRAR ( with no arguments )
-    BankExtractGold = 111           '/RETIRAR ( with arguments )
-    BankDepositGold = 112           '/DEPOSITAR
-    Denounce = 113                  '/DENUNCIAR
-    GuildFundate = 114              '/FUNDARCLAN
-    GuildFundation = 115
-    PartyKick = 116                 '/ECHARPARTY
-    PartySetLeader = 117            '/PARTYLIDER
-    PartyAcceptMember = 118         '/ACCEPTPARTY
-    Ping = 119                      '/PING
-    RequestPartyForm = 120
-    ItemUpgrade = 121
-    GMCommands = 122
-    InitCrafting = 123
-    Home = 124
-    ShowGuildNews = 125
-    ShareNpc = 126                  '/COMPARTIR
-    StopSharingNpc = 127
-    Consultation = 128
-    moveItem = 129
-    LoginExistingAccount = 130
-    LoginNewAccount = 131
-    CentinelReport = 132            '/CENTINELA
-    Ecvc = 133
-    Acvc = 134
-    IrCvc = 135
-    DragAndDropHechizos = 136       'HECHIZOS
-    Quest = 137                     '/QUEST
-    QuestAccept = 138
-    QuestListRequest = 139
-    QuestDetailsRequest = 140
-    QuestAbandon = 141
-    CambiarContrasena = 142
-    FightSend = 143
-    FightAccept = 144
-    CloseGuild = 145                '/CERRARCLAN
-    Discord = 146                   '/DISCORD
-    DeleteChar = 147
+    LoginNewChar                    'NLOGIN
+    Talk                            ';
+    Yell                            '-
+    Whisper                         '\
+    Walk                            'M
+    RequestPositionUpdate           'RPU
+    Attack                          'AT
+    PickUp                          'AG
+    SafeToggle                      '/SEG & SEG  (SEG's behaviour has to be coded in the client)
+    ResuscitationSafeToggle
+    RequestGuildLeaderInfo          'GLINFO
+    RequestAtributes                'ATR
+    RequestFame                     'FAMA
+    RequestSkills                   'ESKI
+    RequestMiniStats                'FEST
+    CommerceEnd                     'FINCOM
+    UserCommerceEnd                 'FINCOMUSU
+    UserCommerceConfirm
+    CommerceChat
+    BankEnd                         'FINBAN
+    UserCommerceOk                  'COMUSUOK
+    UserCommerceReject              'COMUSUNO
+    Drop                            'TI
+    CastSpell                       'LH
+    LeftClick                       'LC
+    AccionClick                     'RC
+    Work                            'UK
+    UseSpellMacro                   'UMH
+    UseItem                         'USA
+    CraftBlacksmith                 'CNS
+    CraftCarpenter                  'CNC
+    WorkLeftClick                   'WLC
+    CreateNewGuild                  'CIG
+    sadasdA
+    EquipItem                       'EQUI
+    ChangeHeading                   'CHEA
+    Train                           'ENTR
+    CommerceBuy                     'COMP
+    BankExtractItem                 'RETI
+    CommerceSell                    'VEND
+    BankDeposit                     'DEPO
+    ForumPost                       'DEMSG
+    MoveSpell                       'DESPHE
+    MoveBank
+    ClanCodexUpdate                 'DESCOD
+    UserCommerceOffer               'OFRECER
+    GuildAcceptPeace                'ACEPPEAT
+    GuildRejectAlliance             'RECPALIA
+    GuildRejectPeace                'RECPPEAT
+    GuildAcceptAlliance             'ACEPALIA
+    GuildOfferPeace                 'PEACEOFF
+    GuildOfferAlliance              'ALLIEOFF
+    GuildAllianceDetails            'ALLIEDET
+    GuildPeaceDetails               'PEACEDET
+    GuildRequestJoinerInfo          'ENVCOMEN
+    GuildAlliancePropList           'ENVALPRO
+    GuildPeacePropList              'ENVPROPP
+    GuildDeclareWar                 'DECGUERR
+    GuildNewWebsite                 'NEWWEBSI
+    GuildAcceptNewMember            'ACEPTARI
+    GuildRejectNewMember            'RECHAZAR
+    GuildKickMember                 'ECHARCLA
+    GuildUpdateNews                 'ACTGNEWS
+    GuildMemberInfo                 '1HRINFO<
+    GuildOpenElections              'ABREELEC
+    GuildRequestMembership          'SOLICITUD
+    GuildRequestDetails             'CLANDETAILS
+    Online                          '/ONLINE
+    Quit                            '/SALIR
+    GuildLeave                      '/SALIRCLAN
+    RequestAccountState             '/BALANCE
+    PetStand                        '/QUIETO
+    PetFollow                       '/ACOMPANAR
+    ReleasePet                      '/LIBERAR
+    TrainList                       '/ENTRENAR
+    Rest                            '/DESCANSAR
+    Meditate                        '/MEDITAR
+    Resucitate                      '/RESUCITAR
+    Heal                            '/CURAR
+    Help                            '/AYUDA
+    RequestStats                    '/EST
+    CommerceStart                   '/COMERCIAR
+    BankStart                       '/BOVEDA
+    Enlist                          '/ENLISTAR
+    Information                     '/INFORMACION
+    Reward                          '/RECOMPENSA
+    RequestMOTD                     '/MOTD
+    UpTime                          '/UPTIME
+    PartyLeave                      '/SALIRPARTY
+    PartyCreate                     '/CREARPARTY
+    PartyJoin                       '/PARTY
+    Inquiry                         '/ENCUESTA ( with no params )
+    GuildMessage                    '/CMSG
+    PartyMessage                    '/PMSG
+    GuildOnline                     '/ONLINECLAN
+    PartyOnline                     '/ONLINEPARTY
+    CouncilMessage                  '/BMSG
+    RoleMasterRequest               '/ROL
+    GMRequest                       '/GM
+    bugReport                       '/_BUG
+    ChangeDescription               '/DESC
+    GuildVote                       '/VOTO
+    Punishments                     '/PENAS
+    Gamble                          '/APOSTAR
+    InquiryVote                     '/ENCUESTA ( with parameters )
+    LeaveFaction                    '/RETIRAR ( with no arguments )
+    BankExtractGold                 '/RETIRAR ( with arguments )
+    BankDepositGold                 '/DEPOSITAR
+    Denounce                        '/DENUNCIAR
+    GuildFundate                    '/FUNDARCLAN
+    GuildFundation
+    PartyKick                       '/ECHARPARTY
+    PartySetLeader                  '/PARTYLIDER
+    PartyAcceptMember               '/ACCEPTPARTY
+    Ping                            '/PING
+    RequestPartyForm
+    ItemUpgrade
+    GMCommands
+    InitCrafting
+    Home
+    ShowGuildNews
+    ShareNpc                        '/COMPARTIR
+    StopSharingNpc
+    Consultation
+    moveItem
+    LoginExistingAccount
+    CentinelReport                  '/CENTINELA
+    Ecvc
+    Acvc
+    IrCvc
+    DragAndDropHechizos             'HECHIZOS
+    Quest                           '/QUEST
+    QuestAccept
+    QuestListRequest
+    QuestDetailsRequest
+    QuestAbandon
+    FightSend
+    FightAccept
+    CloseGuild                      '/CERRARCLAN
+    Discord                         '/DISCORD
+    DeleteChar
     CraftsmanCreate
     AddAmigos
     DelAmigos
@@ -741,9 +735,6 @@ On Error Resume Next
         Case ServerPacketID.MiniStats               ' MEST
             Call HandleMiniStats
         
-        Case ServerPacketID.LevelUp                 ' SUNI
-            Call HandleLevelUp
-        
         Case ServerPacketID.AddForumMsg             ' FMSG
             Call HandleAddForumMessage
         
@@ -752,9 +743,6 @@ On Error Resume Next
         
         Case ServerPacketID.SetInvisible            ' NOVER
             Call HandleSetInvisible
-        
-        Case ServerPacketID.DiceRoll                ' DADOS
-            Call HandleDiceRoll
         
         Case ServerPacketID.MeditateToggle          ' MEDOK
             Call HandleMeditateToggle
@@ -909,6 +897,9 @@ On Error Resume Next
         
         Case ServerPacketID.EnviarListDeAmigos
             Call HandleEnviarListDeAmigos
+            
+        Case ServerPacketID.Proyectil
+            Call HandleProyectil
 
         Case Else
             'ERROR : Abort!
@@ -986,16 +977,16 @@ Public Sub HandleMultiMessage()
                     True, False, True)
         
             Case eMessages.SafeModeOn
-                Call frmMain.ControlSM(eSMType.sSafemode, True)
+                'Call frmMain.ControlSM(eSMType.sSafemode, True)
         
             Case eMessages.SafeModeOff
-                Call frmMain.ControlSM(eSMType.sSafemode, False)
+                'Call frmMain.ControlSM(eSMType.sSafemode, False)
         
             Case eMessages.ResuscitationSafeOff
-                Call frmMain.ControlSM(eSMType.sResucitation, False)
+                'Call frmMain.ControlSM(eSMType.sResucitation, False)
          
             Case eMessages.ResuscitationSafeOn
-                Call frmMain.ControlSM(eSMType.sResucitation, True)
+                'Call frmMain.ControlSM(eSMType.sResucitation, True)
         
             Case eMessages.NobilityLost
                 Call AddtoRichTextBox(frmMain.RecTxt, _
@@ -1449,7 +1440,7 @@ Private Sub HandleDeletedChar()
     MsgBox ("El personaje se ha borrado correctamente. Por favor vuelve a iniciar sesion para ver el cambio")
 
     'Close connection
-    Call CloseConnectionAndResetAllInfo
+    'Call CloseConnectionAndResetAllInfo
 End Sub
 
 
@@ -1551,20 +1542,10 @@ Private Sub HandleDisconnect()
     
     'Remove packet ID
     Call incomingData.ReadByte
-        
-    'Close and go to frmPanelAccount
-    Call CloseConnectionAndResetAllInfo
-    
-End Sub
 
-Private Sub CloseConnectionAndResetAllInfo()
-    
     Call ResetAllInfo(False)
-    
-    If CheckUserData() Then
-        frmMain.Visible = False
-        Call Protocol.Connect(E_MODO.Normal)
-    End If
+    frmMain.Visible = False
+    Call MostrarCuenta(True)
     
 End Sub
 
@@ -1833,14 +1814,7 @@ Private Sub HandleUpdateSta()
     
     frmMain.lblEnergia = UserMinSTA & "/" & UserMaxSTA
     
-    Dim bWidth As Byte
-    
-    bWidth = (((UserMinSTA / 100) / (UserMaxSTA / 100)) * 83)
-    
-    frmMain.shpEnergia.Width = 83 - bWidth
-    frmMain.shpEnergia.Left = 797 + (83 - frmMain.shpEnergia.Width)
-    
-    frmMain.shpEnergia.Visible = (bWidth <> 83)
+    frmMain.shpEnergia.Width = (((UserMinSTA / 100) / (UserMaxSTA / 100)) * 83)
     
 End Sub
 
@@ -1867,15 +1841,9 @@ Private Sub HandleUpdateMana()
     
     frmMain.lblMana = UserMinMAN & "/" & UserMaxMAN
     
-    Dim bWidth As Byte
-    
     If UserMaxMAN > 0 Then _
-        bWidth = (((UserMinMAN / 100) / (UserMaxMAN / 100)) * 90)
+        frmMain.shpMana.Width = (((UserMinMAN / 100) / (UserMaxMAN / 100)) * 92)
         
-    frmMain.shpMana.Width = 90 - bWidth
-    frmMain.shpMana.Left = 902 + (90 - frmMain.shpMana.Width)
-    
-    frmMain.shpMana.Visible = (bWidth <> 90)
 End Sub
 
 ''
@@ -1900,15 +1868,8 @@ Private Sub HandleUpdateHP()
     UserMinHP = incomingData.ReadInteger()
     
     frmMain.lblVida = UserMinHP & "/" & UserMaxHP
-    
-    Dim bWidth As Byte
-    
-    bWidth = (((UserMinHP / 100) / (UserMaxHP / 100)) * 90)
-    
-    frmMain.shpVida.Width = 90 - bWidth
-    frmMain.shpVida.Left = 902 + (90 - frmMain.shpVida.Width)
-    
-    frmMain.shpVida.Visible = (bWidth <> 90)
+
+    frmMain.shpVida.Width = (((UserMinHP / 100) / (UserMaxHP / 100)) * 92)
     
     'Is the user alive??
     If UserMinHP = 0 Then
@@ -2016,10 +1977,13 @@ Private Sub HandleUpdateStrenghtAndDexterity()
     'Get data and update form
     UserFuerza = incomingData.ReadByte
     UserAgilidad = incomingData.ReadByte
+    
     frmMain.lblStrg.Caption = UserFuerza
     frmMain.lblDext.Caption = UserAgilidad
-    frmMain.lblStrg.ForeColor = getStrenghtColor()
-    frmMain.lblDext.ForeColor = getDexterityColor()
+    
+    frmMain.ShpFuerza.Width = ((UserAgilidad / 25) * 92)
+    frmMain.ShpAgilidad.Width = ((UserFuerza / 25) * 92)
+    
 End Sub
 
 ' Handles the UpdateStrenghtAndDexterity message.
@@ -2041,7 +2005,8 @@ Private Sub HandleUpdateStrenght()
     'Get data and update form
     UserFuerza = incomingData.ReadByte
     frmMain.lblStrg.Caption = UserFuerza
-    frmMain.lblStrg.ForeColor = getStrenghtColor()
+    
+    frmMain.ShpFuerza.Width = ((UserAgilidad / 25) * 92)
 End Sub
 
 ' Handles the UpdateStrenghtAndDexterity message.
@@ -2062,8 +2027,8 @@ Private Sub HandleUpdateDexterity()
     
     'Get data and update form
     UserAgilidad = incomingData.ReadByte
-    frmMain.lblDext.Caption = UserAgilidad
-    frmMain.lblDext.ForeColor = getDexterityColor()
+   
+    frmMain.ShpAgilidad.Width = ((UserFuerza / 25) * 92)
 End Sub
 
 ''
@@ -2500,8 +2465,7 @@ On Error GoTo errhandler
     'Remove packet ID
     Call Buffer.ReadByte
     
-    frmMensaje.msg.Caption = Buffer.ReadASCIIString()
-    frmMensaje.Show
+    Call MostrarMensaje(Buffer.ReadASCIIString())
     
     'If we got here then packet is complete, copy data back to original queue
     Call incomingData.CopyBuffer(Buffer)
@@ -2587,8 +2551,8 @@ On Error GoTo errhandler
     Dim Body As Integer
     Dim Head As Integer
     Dim Heading As E_Heading
-    Dim X As Byte
-    Dim Y As Byte
+    Dim x As Byte
+    Dim y As Byte
     Dim weapon As Integer
     Dim shield As Integer
     Dim helmet As Integer
@@ -2599,8 +2563,8 @@ On Error GoTo errhandler
     Body = Buffer.ReadInteger()
     Head = Buffer.ReadInteger()
     Heading = Buffer.ReadByte()
-    X = Buffer.ReadByte()
-    Y = Buffer.ReadByte()
+    x = Buffer.ReadByte()
+    y = Buffer.ReadByte()
     weapon = Buffer.ReadInteger()
     shield = Buffer.ReadInteger()
     helmet = Buffer.ReadInteger()
@@ -2617,6 +2581,8 @@ On Error GoTo errhandler
         Else
             .Criminal = 0
         End If
+        
+        If NickColor = 8 Then .WorldBoss = True
         
         .Atacable = (NickColor And eNickColor.ieAtacable) <> 0
         
@@ -2642,9 +2608,11 @@ On Error GoTo errhandler
         Else
             .priv = 0
         End If
+        
+        .NoShadow = Buffer.ReadByte()
     End With
     
-    Call Char_Make(CharIndex, Body, Head, Heading, X, Y, weapon, shield, helmet)
+    Call Char_Make(CharIndex, Body, Head, Heading, x, y, weapon, shield, helmet)
     
     'If we got here then packet is complete, copy data back to original queue
     Call incomingData.CopyBuffer(Buffer)
@@ -2723,12 +2691,12 @@ Private Sub HandleCharacterMove()
     Call incomingData.ReadByte
     
     Dim CharIndex As Integer
-    Dim X As Byte
-    Dim Y As Byte
+    Dim x As Byte
+    Dim y As Byte
     
     CharIndex = incomingData.ReadInteger()
-    X = incomingData.ReadByte()
-    Y = incomingData.ReadByte()
+    x = incomingData.ReadByte()
+    y = incomingData.ReadByte()
 
     With charlist(CharIndex)
         If .FxIndex >= 40 And .FxIndex <= 49 Then   'If it's meditating, we remove the FX
@@ -2743,7 +2711,7 @@ Private Sub HandleCharacterMove()
 
     End With
     
-    Call Char_MovebyPos(CharIndex, X, Y)
+    Call Char_MovebyPos(CharIndex, x, y)
 End Sub
 
 ''
@@ -2847,15 +2815,17 @@ Private Sub HandleObjectCreate()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    Dim X        As Byte
-    Dim Y        As Byte
+    Dim x        As Byte
+    Dim y        As Byte
     Dim GrhIndex As Long
+    Dim Shadow   As Byte
     
-    X = incomingData.ReadByte()
-    Y = incomingData.ReadByte()
+    x = incomingData.ReadByte()
+    y = incomingData.ReadByte()
     GrhIndex = incomingData.ReadLong()
+    Shadow = incomingData.ReadByte()
         
-    Call Map_CreateObject(X, Y, GrhIndex)
+    Call Map_CreateObject(x, y, GrhIndex, Shadow)
 End Sub
 
 ''
@@ -2875,17 +2845,17 @@ Private Sub HandleObjectDelete()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    Dim X   As Byte
-    Dim Y   As Byte
+    Dim x   As Byte
+    Dim y   As Byte
     Dim obj As Integer
 
-    X = incomingData.ReadByte()
-    Y = incomingData.ReadByte()
+    x = incomingData.ReadByte()
+    y = incomingData.ReadByte()
         
-    obj = Map_PosExitsObject(X, Y)
+    obj = Map_PosExitsObject(x, y)
         
     If (obj > 0) Then
-        Call Map_DestroyObject(X, Y)
+        Call Map_DestroyObject(x, y)
     End If
 End Sub
 
@@ -2906,18 +2876,18 @@ Private Sub HandleBlockPosition()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    Dim X As Byte
-    Dim Y As Byte
+    Dim x As Byte
+    Dim y As Byte
     Dim block As Boolean
     
-    X = incomingData.ReadByte()
-    Y = incomingData.ReadByte()
+    x = incomingData.ReadByte()
+    y = incomingData.ReadByte()
     block = incomingData.ReadBoolean()
     
     If block Then
-        Map_SetBlocked X, Y, 1
+        Map_SetBlocked x, y, 1
     Else
-        Map_SetBlocked X, Y, 0
+        Map_SetBlocked x, y, 0
     End If
 End Sub
 
@@ -3046,13 +3016,13 @@ Private Sub HandleAreaChanged()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    Dim X As Byte
-    Dim Y As Byte
+    Dim x As Byte
+    Dim y As Byte
     
-    X = incomingData.ReadByte()
-    Y = incomingData.ReadByte()
+    x = incomingData.ReadByte()
+    y = incomingData.ReadByte()
         
-    Call CambioDeArea(X, Y)
+    Call CambioDeArea(x, y)
 End Sub
 
 ''
@@ -3082,11 +3052,11 @@ Private Sub HandleRainToggle()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    If Not InMapBounds(UserPos.X, UserPos.Y) Then Exit Sub
+    If Not InMapBounds(UserPos.x, UserPos.y) Then Exit Sub
     
-    bTecho = (MapData(UserPos.X, UserPos.Y).Trigger = eTrigger.BAJOTECHO Or _
-        MapData(UserPos.X, UserPos.Y).Trigger = eTrigger.CASA Or _
-        MapData(UserPos.X, UserPos.Y).Trigger = eTrigger.ZONASEGURA)
+    bTecho = (MapData(UserPos.x, UserPos.y).Trigger = eTrigger.BAJOTECHO Or _
+        MapData(UserPos.x, UserPos.y).Trigger = eTrigger.CASA Or _
+        MapData(UserPos.x, UserPos.y).Trigger = eTrigger.ZONASEGURA)
 
     If bRain And MapDat.zone <> "DUNGEON" Then
         'Stop playing the rain sound
@@ -3172,32 +3142,16 @@ Private Sub HandleUpdateUserStats()
     frmMain.lblVida = UserMinHP & "/" & UserMaxHP
     frmMain.lblEnergia = UserMinSTA & "/" & UserMaxSTA
     
-    Dim bWidth As Byte
-    
     '***************************
     If UserMaxMAN > 0 Then _
-        bWidth = (((UserMinMAN / 100) / (UserMaxMAN / 100)) * 90)
-        
-    frmMain.shpMana.Width = 90 - bWidth
-    frmMain.shpMana.Left = 902 + (90 - frmMain.shpMana.Width)
-    
-    frmMain.shpMana.Visible = (bWidth <> 90)
+    frmMain.shpMana.Width = (((UserMinMAN / 100) / (UserMaxMAN / 100)) * 92)
     '***************************
     
-    bWidth = (((UserMinHP / 100) / (UserMaxHP / 100)) * 90)
-    
-    frmMain.shpVida.Width = 90 - bWidth
-    frmMain.shpVida.Left = 902 + (90 - frmMain.shpVida.Width)
-    
-    frmMain.shpVida.Visible = (bWidth <> 90)
+    frmMain.shpVida.Width = (((UserMinHP / 100) / (UserMaxHP / 100)) * 92)
+
     '***************************
     
-    bWidth = (((UserMinSTA / 100) / (UserMaxSTA / 100)) * 83)
-    
-    frmMain.shpEnergia.Width = 83 - bWidth
-    frmMain.shpEnergia.Left = 797 + (83 - frmMain.shpEnergia.Width)
-    
-    frmMain.shpEnergia.Visible = (bWidth <> 83)
+    frmMain.shpEnergia.Visible = (((UserMinSTA / 100) / (UserMaxSTA / 100)) * 92)
     '***************************
     
     If UserMinHP = 0 Then
@@ -3260,31 +3214,31 @@ On Error GoTo errhandler
     If Equipped Then
         Select Case OBJType
             Case eObjType.otWeapon
-                frmMain.lblWeapon = MinHit & "/" & MaxHit
+                lblWeapon = MinHit & "/" & MaxHit
                 UserWeaponEqpSlot = slot
             Case eObjType.otArmadura
-                frmMain.lblArmor = MinDef & "/" & MaxDef
+                lblArmor = MinDef & "/" & MaxDef
                 UserArmourEqpSlot = slot
             Case eObjType.otescudo
-                frmMain.lblShielder = MinDef & "/" & MaxDef
+                lblShielder = MinDef & "/" & MaxDef
                 UserHelmEqpSlot = slot
             Case eObjType.otcasco
-                frmMain.lblHelm = MinDef & "/" & MaxDef
+                lblHelm = MinDef & "/" & MaxDef
                 UserShieldEqpSlot = slot
         End Select
     Else
         Select Case slot
             Case UserWeaponEqpSlot
-                frmMain.lblWeapon = "0/0"
+                lblWeapon = "0/0"
                 UserWeaponEqpSlot = 0
             Case UserArmourEqpSlot
-                frmMain.lblArmor = "0/0"
+                lblArmor = "0/0"
                 UserArmourEqpSlot = 0
             Case UserHelmEqpSlot
-                frmMain.lblShielder = "0/0"
+                lblShielder = "0/0"
                 UserHelmEqpSlot = 0
             Case UserShieldEqpSlot
-                frmMain.lblHelm = "0/0"
+                lblHelm = "0/0"
                 UserShieldEqpSlot = 0
         End Select
     End If
@@ -3521,20 +3475,7 @@ Private Sub HandleAtributes()
         UserAtributos(i) = incomingData.ReadByte()
     Next i
     
-    'Show them in character creation
-    If EstadoLogin = E_MODO.Dados Then
-        With frmCrearPersonaje
-            If .Visible Then
-                For i = 1 To NUMATRIBUTES
-                    .lblAtributos(i).Caption = UserAtributos(i)
-                Next i
-                
-                .UpdateStats
-            End If
-        End With
-    Else
-        LlegaronAtrib = True
-    End If
+    LlegaronAtrib = True
 End Sub
 
 ''
@@ -3951,7 +3892,7 @@ On Error GoTo errhandler
     'Remove packet ID
     Call Buffer.ReadByte
     
-    Call MsgBox(Buffer.ReadASCIIString())
+    Call MostrarMensaje(Buffer.ReadASCIIString())
     
     If frmConnect.Visible And (Not frmCrearPersonaje.Visible) Then
         frmMain.Client.CloseSck
@@ -4122,25 +4063,13 @@ Private Sub HandleUpdateHungerAndThirst()
     UserMinAGU = incomingData.ReadByte()
     UserMaxHAM = incomingData.ReadByte()
     UserMinHAM = incomingData.ReadByte()
-    frmMain.lblHambre = UserMinHAM & "/" & UserMaxHAM
-    frmMain.lblSed = UserMinAGU & "/" & UserMaxAGU
-
-    Dim bWidth As Byte
+    frmMain.lblHambre = UserMinHAM & "%"
+    frmMain.lblSed = UserMinAGU & "%"
     
-    bWidth = (((UserMinHAM / 100) / (UserMaxHAM / 100)) * 83)
-    
-    frmMain.shpHambre.Width = 83 - bWidth
-    frmMain.shpHambre.Left = 797 + (83 - frmMain.shpHambre.Width)
-    
-    frmMain.shpHambre.Visible = (bWidth <> 83)
+    frmMain.shpHambre.Height = (((UserMinHAM / 100) / (UserMaxHAM / 100)) * 20)
     '*********************************
     
-    bWidth = (((UserMinAGU / 100) / (UserMaxAGU / 100)) * 83)
-    
-    frmMain.shpSed.Width = 83 - bWidth
-    frmMain.shpSed.Left = 797 + (83 - frmMain.shpSed.Width)
-    
-    frmMain.shpSed.Visible = (bWidth <> 83)
+    frmMain.shpSed.Visible = (((UserMinAGU / 100) / (UserMaxAGU / 100)) * 20)
     
 End Sub
 
@@ -4199,28 +4128,6 @@ Private Sub HandleMiniStats()
         .Clase = ListaClases(incomingData.ReadByte())
         .PenaCarcel = incomingData.ReadLong()
     End With
-End Sub
-
-''
-' Handles the LevelUp message.
-
-Private Sub HandleLevelUp()
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'
-'***************************************************
-    If incomingData.Length < 3 Then
-        Err.Raise incomingData.NotEnoughDataErrCode
-        Exit Sub
-    End If
-    
-    'Remove packet ID
-    Call incomingData.ReadByte
-    
-    SkillPoints = SkillPoints + incomingData.ReadInteger()
-    
-    Call frmMain.LightSkillStar(True)
 End Sub
 
 ''
@@ -4326,41 +4233,6 @@ Private Sub HandleSetInvisible()
     
     UserInvisibleSegundosRestantes = IIf(timeRemaining > 0, timeRemaining * 0.04, 0) 'Cantidad en segundos
     If UserInvisible And UserInvisibleSegundosRestantes > 0 Then frmMain.timerPasarSegundo.Enabled = True
-End Sub
-
-''
-' Handles the DiceRoll message.
-
-Private Sub HandleDiceRoll()
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'
-'***************************************************
-
-    If incomingData.Length < 6 Then
-        Err.Raise incomingData.NotEnoughDataErrCode
-        Exit Sub
-    End If
-    
-    'Remove packet ID
-    Call incomingData.ReadByte
-    
-    UserAtributos(eAtributos.Fuerza) = incomingData.ReadByte()
-    UserAtributos(eAtributos.Agilidad) = incomingData.ReadByte()
-    UserAtributos(eAtributos.Inteligencia) = incomingData.ReadByte()
-    UserAtributos(eAtributos.Carisma) = incomingData.ReadByte()
-    UserAtributos(eAtributos.Constitucion) = incomingData.ReadByte()
-         
-    With frmCrearPersonaje
-        .lblAtributos(eAtributos.Fuerza) = UserAtributos(eAtributos.Fuerza)
-        .lblAtributos(eAtributos.Agilidad) = UserAtributos(eAtributos.Agilidad)
-        .lblAtributos(eAtributos.Inteligencia) = UserAtributos(eAtributos.Inteligencia)
-        .lblAtributos(eAtributos.Carisma) = UserAtributos(eAtributos.Carisma)
-        .lblAtributos(eAtributos.Constitucion) = UserAtributos(eAtributos.Constitucion)
-        
-        .UpdateStats
-    End With
 End Sub
 
 ''
@@ -5376,10 +5248,17 @@ Private Sub HandleShowGMPanelForm()
 'Last Modification: 05/17/06
 '
 '***************************************************
+    Dim id As Byte
+    
     'Remove packet ID
     Call incomingData.ReadByte
+    id = incomingData.ReadByte
     
-    frmPanelGm.Show vbModeless, frmMain
+    If id = 0 Then
+        frmPanelGm.Show vbModeless, frmMain
+    ElseIf id = 1 Then
+        frmBuscar.Show vbModeless, frmMain
+    End If
 End Sub
 
 ''
@@ -5634,8 +5513,8 @@ Public Sub WriteDeleteChar()
     With outgoingData
         Call .WriteByte(ClientPacketID.DeleteChar)
         
-        Call .WriteASCIIString(UserName)
-        Call .WriteASCIIString(AccountHash)
+        Call .WriteByte(PJAccSelected)
+
     End With
 End Sub
 
@@ -5654,48 +5533,12 @@ Public Sub WriteLoginExistingChar()
     With outgoingData
         Call .WriteByte(ClientPacketID.LoginExistingChar)
         
-        Call .WriteASCIIString(UserName)
-        
-        Call .WriteASCIIString(AccountHash)
+        Call .WriteByte(PJAccSelected)
         
         Call .WriteByte(App.Major)
         Call .WriteByte(App.Minor)
         Call .WriteByte(App.Revision)
     End With
-End Sub
-
-Public Sub WriteLoginNewAccount()
-'***************************************************
-'Author: Juan Andres Dalmasso (CHOTS)
-'Last Modification: 12/10/2018
-'CHOTS: Accounts
-'Writes the "LoginNewAccount" message to the outgoing data buffer
-'***************************************************
-    With outgoingData
-        Call .WriteByte(ClientPacketID.LoginNewAccount)
-        
-        Call .WriteASCIIString(AccountName)
-        
-        Call .WriteASCIIString(AccountPassword)
-        
-        Call .WriteByte(App.Major)
-        Call .WriteByte(App.Minor)
-        Call .WriteByte(App.Revision)
-    End With
-End Sub
-
-''
-' Writes the "ThrowDices" message to the outgoing data buffer.
-'
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WriteThrowDices()
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'Writes the "ThrowDices" message to the outgoing data buffer
-'***************************************************
-    Call outgoingData.WriteByte(ClientPacketID.ThrowDices)
 End Sub
 
 ''
@@ -5709,6 +5552,7 @@ Public Sub WriteLoginNewChar()
 'Last Modification: 05/17/06
 'Writes the "LoginNewChar" message to the outgoing data buffer
 '***************************************************
+    Dim i As Integer
     
     With outgoingData
         Call .WriteByte(ClientPacketID.LoginNewChar)
@@ -5724,6 +5568,10 @@ Public Sub WriteLoginNewChar()
         Call .WriteByte(UserSexo)
         Call .WriteByte(UserClase)
         Call .WriteInteger(UserHead)
+
+        For i = 1 To NUMATRIBUTES
+            Call .WriteByte(UserAtributos(i))
+        Next i
     End With
 End Sub
 
@@ -6106,7 +5954,7 @@ End Sub
 ' @param    y Tile coord in the y-axis in which the user clicked.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteLeftClick(ByVal X As Byte, ByVal Y As Byte)
+Public Sub WriteLeftClick(ByVal x As Byte, ByVal y As Byte)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -6115,29 +5963,29 @@ Public Sub WriteLeftClick(ByVal X As Byte, ByVal Y As Byte)
     With outgoingData
         Call .WriteByte(ClientPacketID.LeftClick)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteByte(x)
+        Call .WriteByte(y)
     End With
 End Sub
 
 ''
-' Writes the "DoubleClick" message to the outgoing data buffer.
+' Writes the "AccionClick" message to the outgoing data buffer.
 '
 ' @param    x Tile coord in the x-axis in which the user clicked.
 ' @param    y Tile coord in the y-axis in which the user clicked.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteDoubleClick(ByVal X As Byte, ByVal Y As Byte)
+Public Sub WriteAccionClick(ByVal x As Byte, ByVal y As Byte)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
-'Writes the "DoubleClick" message to the outgoing data buffer
+'Writes the "AccionClick" message to the outgoing data buffer
 '***************************************************
     With outgoingData
-        Call .WriteByte(ClientPacketID.DoubleClick)
+        Call .WriteByte(ClientPacketID.AccionClick)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteByte(x)
+        Call .WriteByte(y)
     End With
 End Sub
 
@@ -6273,7 +6121,7 @@ End Sub
 ' @param    skill The skill which the user attempts to use.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteWorkLeftClick(ByVal X As Byte, ByVal Y As Byte, ByVal Skill As eSkill)
+Public Sub WriteWorkLeftClick(ByVal x As Byte, ByVal y As Byte, ByVal Skill As eSkill)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -6282,8 +6130,8 @@ Public Sub WriteWorkLeftClick(ByVal X As Byte, ByVal Y As Byte, ByVal Skill As e
     With outgoingData
         Call .WriteByte(ClientPacketID.WorkLeftClick)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteByte(x)
+        Call .WriteByte(y)
         
         Call .WriteByte(Skill)
     End With
@@ -6367,29 +6215,6 @@ Public Sub WriteChangeHeading(ByVal Heading As E_Heading)
         Call .WriteByte(Heading)
     End With
     
-End Sub
-
-''
-' Writes the "ModifySkills" message to the outgoing data buffer.
-'
-' @param    skillEdt a-based array containing for each skill the number of points to add to it.
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WriteModifySkills(ByRef skillEdt() As Byte)
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'Writes the "ModifySkills" message to the outgoing data buffer
-'***************************************************
-    Dim i As Long
-    
-    With outgoingData
-        Call .WriteByte(ClientPacketID.ModifySkills)
-        
-        For i = 1 To NUMSKILLS
-            Call .WriteByte(skillEdt(i))
-        Next i
-    End With
 End Sub
 
 ''
@@ -7617,27 +7442,6 @@ Public Sub WritePunishments(ByVal UserName As String)
 End Sub
 
 ''
-' Writes the "ChangePassword" message to the outgoing data buffer.
-'
-' @param    oldPass Previous password.
-' @param    newPass New password.
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WriteChangePassword(ByRef oldPass As String, ByRef newPass As String)
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 10/10/07
-'Last Modified By: Rapsodius
-'Writes the "ChangePassword" message to the outgoing data buffer
-'***************************************************
-    With outgoingData
-        Call .WriteByte(ClientPacketID.ChangePassword)
-        Call .WriteASCIIString(oldPass)
-        Call .WriteASCIIString(newPass)
-    End With
-End Sub
-
-''
 ' Writes the "Gamble" message to the outgoing data buffer.
 '
 ' @param    amount The amount to gamble.
@@ -8077,7 +7881,7 @@ End Sub
 ' @param    y The y position in the map to which to waro the character.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal X As Byte, ByVal Y As Byte)
+Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal x As Byte, ByVal y As Byte)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -8086,7 +7890,7 @@ Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal X
     
     'Para que te vas a tepear al mismo lugar? Te pinta spamear el FX del summon?
     'No mandemos paquetes al pedo.
-    If X = UserPos.X And Y = UserPos.Y Then Exit Sub
+    If x = UserPos.x And y = UserPos.y Then Exit Sub
     
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
@@ -8096,8 +7900,8 @@ Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal X
         
         Call .WriteInteger(Map)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteByte(x)
+        Call .WriteByte(y)
     End With
     
 End Sub
@@ -8197,14 +8001,17 @@ End Sub
 '
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteGMPanel()
+Public Sub WriteGMPanel(ByVal id As Byte)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
 'Writes the "GMPanel" message to the outgoing data buffer
 '***************************************************
-    Call outgoingData.WriteByte(ClientPacketID.GMCommands)
-    Call outgoingData.WriteByte(eGMCommands.GMPanel)
+    With outgoingData
+        Call .WriteByte(ClientPacketID.GMCommands)
+        Call .WriteByte(eGMCommands.GMPanel)
+        Call .WriteByte(id)
+    End With
 End Sub
 
 ''
@@ -8823,7 +8630,7 @@ End Sub
 ' @param    y The position in the y axis to which the teleport will lead.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteTeleportCreate(ByVal Map As Integer, ByVal X As Byte, ByVal Y As Byte, Optional ByVal Radio As Byte = 0)
+Public Sub WriteTeleportCreate(ByVal Map As Integer, ByVal x As Byte, ByVal y As Byte, Optional ByVal Radio As Byte = 0)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -8835,8 +8642,8 @@ Public Sub WriteTeleportCreate(ByVal Map As Integer, ByVal X As Byte, ByVal Y As
         
         Call .WriteInteger(Map)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteByte(x)
+        Call .WriteByte(y)
         
         Call .WriteByte(Radio)
     End With
@@ -8937,7 +8744,7 @@ End Sub
 ' @param    y       The position in the y axis in which to play the given wave.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteForceWAVEToMap(ByVal waveID As Byte, ByVal Map As Integer, ByVal X As Byte, ByVal Y As Byte)
+Public Sub WriteForceWAVEToMap(ByVal waveID As Byte, ByVal Map As Integer, ByVal x As Byte, ByVal y As Byte)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -8951,8 +8758,8 @@ Public Sub WriteForceWAVEToMap(ByVal waveID As Byte, ByVal Map As Integer, ByVal
         
         Call .WriteInteger(Map)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteByte(x)
+        Call .WriteByte(y)
     End With
 End Sub
 
@@ -9811,50 +9618,6 @@ Public Sub WriteRequestCharMail(ByVal UserName As String)
 End Sub
 
 ''
-' Writes the "AlterPassword" message to the outgoing data buffer.
-'
-' @param    username The name of the user whose mail is requested.
-' @param    copyFrom The name of the user from which to copy the password.
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WriteAlterPassword(ByVal UserName As String, ByVal CopyFrom As String)
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'Writes the "AlterPassword" message to the outgoing data buffer
-'***************************************************
-    With outgoingData
-        Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.AlterPassword)
-        
-        Call .WriteASCIIString(UserName)
-        Call .WriteASCIIString(CopyFrom)
-    End With
-End Sub
-
-''
-' Writes the "AlterMail" message to the outgoing data buffer.
-'
-' @param    username The name of the user whose mail is requested.
-' @param    newMail The new email of the player.
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WriteAlterMail(ByVal UserName As String, ByVal newMail As String)
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'Writes the "AlterMail" message to the outgoing data buffer
-'***************************************************
-    With outgoingData
-        Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.AlterMail)
-        
-        Call .WriteASCIIString(UserName)
-        Call .WriteASCIIString(newMail)
-    End With
-End Sub
-
-''
 ' Writes the "AlterName" message to the outgoing data buffer.
 '
 ' @param    username The name of the user whose mail is requested.
@@ -10495,7 +10258,7 @@ End Sub
 ' @param    Y           The y pos where the king is settled.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteCreatePretorianClan(ByVal Map As Integer, ByVal X As Byte, ByVal Y As Byte)
+Public Sub WriteCreatePretorianClan(ByVal Map As Integer, ByVal x As Byte, ByVal y As Byte)
 '***************************************************
 'Author: ZaMa
 'Last Modification: 29/10/2010
@@ -10505,8 +10268,8 @@ Public Sub WriteCreatePretorianClan(ByVal Map As Integer, ByVal X As Byte, ByVal
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.CreatePretorianClan)
         Call .WriteInteger(Map)
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteByte(x)
+        Call .WriteByte(y)
     End With
 End Sub
 
@@ -10896,18 +10659,18 @@ Private Sub HandleFXtoMap()
 
     End If
     
-    Dim X As Integer, Y As Integer, FxIndex As Integer, Loops As Integer
+    Dim x As Integer, y As Integer, FxIndex As Integer, Loops As Integer
     
     'Remove packet ID
     Call incomingData.ReadByte
     
     Loops = incomingData.ReadByte
-    X = incomingData.ReadInteger
-    Y = incomingData.ReadInteger
+    x = incomingData.ReadInteger
+    y = incomingData.ReadInteger
     FxIndex = incomingData.ReadInteger
 
     'Set the fx on the map
-    With MapData(X, Y) 'TODO: hay que hacer una funcion separada que haga esto
+    With MapData(x, y) 'TODO: hay que hacer una funcion separada que haga esto
         .FxIndex = FxIndex
     
         If .FxIndex > 0 Then
@@ -10942,7 +10705,8 @@ Private Sub HandleAccountLogged()
     AccountHash = Buffer.ReadASCIIString
     NumberOfCharacters = Buffer.ReadByte
 
-    frmPanelAccount.Show
+    'Cambiamos al modo cuenta
+    Call ModCnt.MostrarCuenta(Not frmConnect.Visible)
 
     If NumberOfCharacters > 0 Then
     
@@ -10979,8 +10743,6 @@ Private Sub HandleAccountLogged()
 
                 .GameMaster = Buffer.ReadBoolean
             End With
-            
-            Call mDx8_Dibujado.DrawPJ(LoopC)
             
         Next LoopC
         
@@ -11310,20 +11072,6 @@ Private Sub HandleCreateDamage()
  
 End Sub
 
-Public Sub WriteCambiarContrasena()
-    
-    With outgoingData
-    
-        'Mando el ID del paquete
-        Call .WriteByte(ClientPacketID.CambiarContrasena)
-        
-        'Mando los datos de la cuenta a modificar.
-        Call .WriteASCIIString(AccountMailToRecover)
-        Call .WriteASCIIString(AccountNewPassword)
-    
-    End With
-
-End Sub
 Private Sub HandleUserInEvent()
     Call incomingData.ReadByte
     
@@ -11375,6 +11123,44 @@ Public Sub WriteLimpiarMundo()
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.LimpiarMundo)
     End With
+End Sub
+
+''
+' Writes the "EditGems" message to the outgoing data buffer.
+'
+
+Public Sub WriteEditGems(ByVal UserName As String, ByVal CantGems As Long, ByVal Opcion As Byte)
+'***************************************************
+'Author: Lorwik
+'Last Modification: 30/04/2020
+'Edita las gemas del usuario
+'***************************************************
+    
+    With outgoingData
+        Call .WriteByte(ClientPacketID.GMCommands)
+        Call .WriteByte(eGMCommands.EditGems)
+        Call .WriteASCIIString(UserName)
+        Call .WriteLong(CantGems)
+        Call .WriteByte(Opcion)
+    End With
+End Sub
+
+''
+' Writes the "ConsultarGems" message to the outgoing data buffer.
+'
+Public Sub WriteConsultarGems(ByVal UserName As String)
+'***************************************************
+'Author: Lorwik
+'Last Modification: 30/04/2020
+'Consulta las gemas del usuario
+'***************************************************
+    
+    With outgoingData
+        Call .WriteByte(ClientPacketID.GMCommands)
+        Call .WriteByte(eGMCommands.ConsultarGems)
+        Call .WriteASCIIString(UserName)
+    End With
+    
 End Sub
     
 ' Handles the EquitandoToggle message.
@@ -11467,7 +11253,7 @@ Private Sub HandleEnviarListDeAmigos()
 
     slot = Buffer.ReadByte()
     
-    With frmAmigos.ListAmigos
+    With frmMain.ListAmigos
     
         If slot <= .ListCount Then
             .List(slot - 1) = Buffer.ReadASCIIString()
@@ -11492,4 +11278,29 @@ errhandler:
 
     If Error <> 0 Then Call Err.Raise(Error)
     
+End Sub
+
+Private Sub HandleProyectil()
+'**************************
+'Autor: Lorwik
+'Fecha: 18/05/2020
+'**************************
+
+    If incomingData.Length < 7 Then
+        Err.Raise incomingData.NotEnoughDataErrCode
+        Exit Sub
+    End If
+    
+    'Remove packet id
+    Call incomingData.ReadByte
+        
+    Dim CharSending      As Integer
+    Dim CharRecieved     As Integer
+    Dim GrhIndex         As Integer
+        
+    CharSending = incomingData.ReadInteger()
+    CharRecieved = incomingData.ReadInteger()
+    GrhIndex = incomingData.ReadInteger()
+    
+    Engine_Projectile_Create CharSending, CharRecieved, GrhIndex, 0
 End Sub

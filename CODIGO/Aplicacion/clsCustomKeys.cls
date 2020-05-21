@@ -50,7 +50,7 @@ Option Explicit
 
 ''
 'Number of Customizable Keys
-Private Const NUM_CUSTOM_KEYS As Byte = 23
+Private Const NUM_CUSTOM_KEYS As Byte = 24
 
 ''
 'Error Raised in case the key file doesn't exist
@@ -115,6 +115,7 @@ Public Enum eKeyType
     mKeyTakeScreenShot
     mKeyShowOptions
     mKeyExitGame
+    mKeyToggleFPS
 End Enum
 
 ''
@@ -378,6 +379,7 @@ Public Sub LoadDefaults(ByVal Clasica As Boolean)
     mappedKeys(eKeyType.mKeyTakeScreenShot) = KeyCodeConstants.vbKeySnapshot
     mappedKeys(eKeyType.mKeyShowOptions) = KeyCodeConstants.vbKeyI
     mappedKeys(eKeyType.mKeyExitGame) = KeyCodeConstants.vbKeyEscape
+    mappedKeys(eKeyType.mKeyToggleFPS) = KeyCodeConstants.vbKeyMultiply
     
 End Sub
 

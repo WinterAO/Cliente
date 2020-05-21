@@ -226,9 +226,8 @@ Sub SetConnected()
     Connected = True
 
     'Unload the connect form
-    Unload frmCrearPersonaje
+    'Unload frmCrearPersonaje
     Unload frmConnect
-    Unload frmPanelAccount
     
     'Vaciamos la cola de movimiento
     keysMovementPressedQueue.Clear
@@ -237,12 +236,7 @@ Sub SetConnected()
     
     'Load main form
     frmMain.Visible = True
-    
-    Call frmMain.ControlSM(eSMType.sResucitation, False)
-    Call frmMain.ControlSM(eSMType.mWork, False)
-    Call frmMain.ControlSM(eSMType.mSpells, False)
-    Call frmMain.ControlSM(eSMType.sSafemode, False)
-    
+
     FPSFLAG = True
 
 End Sub
@@ -339,7 +333,7 @@ Private Sub CheckKeys()
             End If
            
             ' We haven't moved - Update 3D sounds!
-            Call Audio.MoveListener(UserPos.X, UserPos.Y)
+            Call Audio.MoveListener(UserPos.x, UserPos.y)
         Else
             Dim kp As Boolean
             kp = (GetKeyState(CustomKeys.BindedKey(eKeyType.mKeyUp)) < 0) Or GetKeyState(CustomKeys.BindedKey(eKeyType.mKeyRight)) < 0 Or GetKeyState(CustomKeys.BindedKey(eKeyType.mKeyDown)) < 0 Or GetKeyState(CustomKeys.BindedKey(eKeyType.mKeyLeft)) < 0
@@ -348,7 +342,7 @@ Private Sub CheckKeys()
                 Call RandomMove
             Else
                 ' We haven't moved - Update 3D sounds!
-                Call Audio.MoveListener(UserPos.X, UserPos.Y)
+                Call Audio.MoveListener(UserPos.x, UserPos.y)
             End If
 
             Call Char_UserPos
@@ -384,9 +378,6 @@ Sub SwitchMap(ByVal Map As Integer)
     'Dibujamos el Mini-Mapa
     If FileExist(Game.path(Graficos) & "MiniMapa\" & Map & ".bmp", vbArchive) Then
         frmMain.MiniMapa.Picture = LoadPicture(Game.path(Graficos) & "MiniMapa\" & Map & ".bmp")
-    Else
-        frmMain.MiniMapa.Visible = False
-        frmMain.RecTxt.Width = frmMain.RecTxt.Width + 100
     End If
     
     Call Init_Ambient(Map)
@@ -495,6 +486,8 @@ Sub Main()
     Call modCompression.GenerateContra(vbNullString, 0) ' 0 = Graficos.AO
     
     Call CargarHechizos
+    Call CargarConnectMaps
+    Call ModCnt.InicializarPosicionesPJ
 
     ' Map Sounds
     Set Sonidos = New clsSoundMapas
@@ -525,7 +518,7 @@ Sub Main()
     ' Load constants, classes, flags, graphics..
     Call LoadInitialConfig
   
-    frmConnect.Visible = True
+    Call MostrarConnect(True)
     
     'Inicializacion de variables globales
     prgRun = True
@@ -554,10 +547,16 @@ Sub Main()
             Call RenderSounds
             
             Call CheckKeys
+            
+        ElseIf frmConnect.Visible = True Then
+        
+            'Renderizado del Conectar
+            Call RenderConnect
+            
         End If
+        
         'FPS Counter - mostramos las FPS
         If GetTickCount - lFrameTimer >= 1000 Then
-            If FPSFLAG Then frmMain.lblFPS.Caption = Mod_TileEngine.FPS
             
             lFrameTimer = GetTickCount
         End If
@@ -600,9 +599,9 @@ Private Sub LoadInitialConfig()
     ' Better for us :)
     Dim CursorAniDir As String
     Dim Cursor As Long
+    
     'Si es 0 cargamos el por defecto
     If ClientSetup.MouseGeneral > 0 Then
-    Debug.Print "asdasd"
         CursorAniDir = Game.path(Graficos) & "MouseIcons\General" & ClientSetup.MouseGeneral & ".ani"
         hSwapCursor = SetClassLong(frmMain.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
         hSwapCursor = SetClassLong(frmMain.MainViewPic.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
@@ -863,11 +862,11 @@ Private Function CMSValidateChar_(ByVal iAsc As Integer) As Boolean
 End Function
 
 'TODO : como todo lo relativo a mapas, no tiene nada que hacer aca....
-Function HayAgua(ByVal X As Integer, ByVal Y As Integer) As Boolean
-    HayAgua = ((MapData(X, Y).Graphic(1).GrhIndex >= 1505 And MapData(X, Y).Graphic(1).GrhIndex <= 1520) Or _
-            (MapData(X, Y).Graphic(1).GrhIndex >= 5665 And MapData(X, Y).Graphic(1).GrhIndex <= 5680) Or _
-            (MapData(X, Y).Graphic(1).GrhIndex >= 13547 And MapData(X, Y).Graphic(1).GrhIndex <= 13562)) And _
-                MapData(X, Y).Graphic(2).GrhIndex = 0
+Function HayAgua(ByVal x As Integer, ByVal y As Integer) As Boolean
+    HayAgua = ((MapData(x, y).Graphic(1).GrhIndex >= 1505 And MapData(x, y).Graphic(1).GrhIndex <= 1520) Or _
+            (MapData(x, y).Graphic(1).GrhIndex >= 5665 And MapData(x, y).Graphic(1).GrhIndex <= 5680) Or _
+            (MapData(x, y).Graphic(1).GrhIndex >= 13547 And MapData(x, y).Graphic(1).GrhIndex <= 13562)) And _
+                MapData(x, y).Graphic(2).GrhIndex = 0
                 
 End Function
 
@@ -1087,21 +1086,6 @@ Public Sub checkText(ByVal Text As String)
     
 End Sub
 
-Public Function getStrenghtColor() As Long
-    
-    Dim m As Long
-        m = 255 / MAXATRIBUTOS
-        
-    getStrenghtColor = RGB(255 - (m * UserFuerza), (m * UserFuerza), 0)
-    
-End Function
-    
-Public Function getDexterityColor() As Long
-    Dim m As Long
-    m = 255 / MAXATRIBUTOS
-    getDexterityColor = RGB(255, m * UserAgilidad, 0)
-End Function
-
 Public Function getCharIndexByName(ByVal name As String) As Integer
     
     Dim i As Long
@@ -1164,12 +1148,11 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     Call frmMain.hlst.Clear ' Ponemos esto aca para limpiar la lista de hechizos al desconectarse.
     
     If UnloadForms Then
-        'Unload all forms except frmMain, frmConnect and frmCrearPersonaje
+        'Unload all forms except frmMain, frmConnect
         Dim frm As Form
         For Each frm In Forms
             If frm.name <> frmMain.name And _
-               frm.name <> frmConnect.name And _
-               frm.name <> frmCrearPersonaje.name Then
+               frm.name <> frmConnect.name Then
                 
                 Call Unload(frm)
             End If
@@ -1225,9 +1208,14 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     UserSexo = 0
     UserRaza = 0
     UserEmail = vbNullString
-    SkillPoints = 0
+    UserELO = 0
     Alocados = 0
     UserEquitando = 0
+    
+    lblHelm = "0/0"
+    lblWeapon = "0/0"
+    lblArmor = "0/0"
+    lblShielder = "0/0"
 
     Call SetSpeedUsuario
 
@@ -1247,6 +1235,42 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     ' Connection screen mp3
     Call Audio.PlayBackgroundMusic("2", MusicTypes.MP3)
 
+End Sub
+
+Public Sub ResetAllInfoAccounts()
+'**************************************
+'Autor: Lorwik
+'Fecha: 21/05/2020
+'Descripcion: Borra los datos almacenados de una cuenta
+'**************************************
+
+    If NumberOfCharacters > 0 Then
+    
+        Dim LoopC As Long
+        
+        For LoopC = 1 To NumberOfCharacters
+        
+            With cPJ(LoopC)
+                .Nombre = vbNullString
+                .Body = 0
+                .Head = 0
+                .weapon = 0
+                .shield = 0
+                .helmet = 0
+                .Class = 0
+                .Race = 0
+                .Map = 0
+                .Level = 0
+                .Gold = 0
+                .Criminal = False
+                .Dead = False
+
+                .GameMaster = False
+            End With
+            
+        Next LoopC
+        
+    End If
 End Sub
 
 Public Function DevolverNombreHechizo(ByVal Index As Byte) As String
@@ -1389,7 +1413,7 @@ On Error GoTo ErrorHandler
     'Sample the cImage by hDC
     m_Jpeg.SampleHDC hDC, Width, Height
     
-    m_FileName = App.path & "\Fotos\AODrag_Foto"
+    m_FileName = App.path & "\Fotos\WinterAO_Foto"
     
     If Dir(App.path & "\Fotos", vbDirectory) = vbNullString Then
         MkDir (App.path & "\Fotos")
@@ -1417,3 +1441,17 @@ ErrorHandler:
     Call AddtoRichTextBox(frmMain.RecTxt, "¡Error en la captura!", 204, 193, 155, 0, 1)
 
 End Sub
+
+Public Sub MostrarMensaje(ByVal Mensaje As String)
+'****************************************
+'Autor: Lorwik
+'Fecha: 20/05/2020
+'Descripción: Llama al frmMensaje para mostrar un cartel de mensaje
+'****************************************
+    Call Audio.PlayWave(SND_MSG)
+    
+    frmMensaje.msg.Caption = Mensaje
+    frmMensaje.Show
+
+End Sub
+

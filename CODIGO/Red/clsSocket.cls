@@ -22,12 +22,12 @@ Private Declare Function api_GlobalLock Lib "kernel32" Alias "GlobalLock" (ByVal
 Private Declare Function api_GlobalUnlock Lib "kernel32" Alias "GlobalUnlock" (ByVal hMem As Long) As Long
 Private Declare Function api_htons Lib "ws2_32.dll" Alias "htons" (ByVal hostshort As Integer) As Integer
 Private Declare Function api_ntohs Lib "ws2_32.dll" Alias "ntohs" (ByVal netshort As Integer) As Integer
-Private Declare Function api_connect Lib "ws2_32.dll" Alias "connect" (ByVal s As Long, ByRef Name As sockaddr_in, ByVal namelen As Long) As Long
+Private Declare Function api_connect Lib "ws2_32.dll" Alias "connect" (ByVal s As Long, ByRef name As sockaddr_in, ByVal namelen As Long) As Long
 Private Declare Function api_gethostname Lib "ws2_32.dll" Alias "gethostname" (ByVal host_name As String, ByVal namelen As Long) As Long
 Private Declare Function api_gethostbyname Lib "ws2_32.dll" Alias "gethostbyname" (ByVal host_name As String) As Long
-Private Declare Function api_bind Lib "ws2_32.dll" Alias "bind" (ByVal s As Long, ByRef Name As sockaddr_in, ByVal namelen As Long) As Long
-Private Declare Function api_getsockname Lib "ws2_32.dll" Alias "getsockname" (ByVal s As Long, ByRef Name As sockaddr_in, ByRef namelen As Long) As Long
-Private Declare Function api_getpeername Lib "ws2_32.dll" Alias "getpeername" (ByVal s As Long, ByRef Name As sockaddr_in, ByRef namelen As Long) As Long
+Private Declare Function api_bind Lib "ws2_32.dll" Alias "bind" (ByVal s As Long, ByRef name As sockaddr_in, ByVal namelen As Long) As Long
+Private Declare Function api_getsockname Lib "ws2_32.dll" Alias "getsockname" (ByVal s As Long, ByRef name As sockaddr_in, ByRef namelen As Long) As Long
+Private Declare Function api_getpeername Lib "ws2_32.dll" Alias "getpeername" (ByVal s As Long, ByRef name As sockaddr_in, ByRef namelen As Long) As Long
 Private Declare Function api_inet_addr Lib "ws2_32.dll" Alias "inet_addr" (ByVal cp As String) As Long
 Private Declare Function api_send Lib "ws2_32.dll" Alias "send" (ByVal s As Long, ByRef buf As Any, ByVal buflen As Long, ByVal flags As Long) As Long
 Private Declare Function api_sendto Lib "ws2_32.dll" Alias "sendto" (ByVal s As Long, ByRef buf As Any, ByVal buflen As Long, ByVal flags As Long, ByRef toaddr As sockaddr_in, ByVal tolen As Long) As Long
@@ -369,7 +369,7 @@ Private Function SocketExists() As Boolean
             blnCancelDisplay = True
             RaiseEvent Error(lngErrorCode, GetErrorDescription(lngErrorCode), 0, "Socket.SocketExists", "", 0, blnCancelDisplay)
 
-            If blnCancelDisplay = False Then MsgBox GetErrorDescription(lngErrorCode), vbOKOnly, "Socket.SocketExists"
+            If blnCancelDisplay = False Then Call MostrarMensaje(GetErrorDescription(lngErrorCode))
         Else
  
             m_lngSocketHandle = lngResult
@@ -479,7 +479,7 @@ Private Sub PostResolution(ByVal lngAsynHandle As Long, ByVal lngErrorCode As Lo
 
         Dim lngRemoteHostAddress As Long
 
-        Dim count                As Integer
+        Dim Count                As Integer
 
         Dim strIpAddress         As String
     
@@ -494,8 +494,8 @@ Private Sub PostResolution(ByVal lngAsynHandle As Long, ByVal lngErrorCode As Lo
         'We turn the 32 bits long into a readable string.
         'Note: we don't need this string. I put this here just
         'in case you need it.
-        For count = 1 To 4
-            strIpAddress = strIpAddress & arrIpAddress(count) & "."
+        For Count = 1 To 4
+            strIpAddress = strIpAddress & arrIpAddress(Count) & "."
         Next
         
         strIpAddress = Left$(strIpAddress, Len(strIpAddress) - 1)
@@ -528,7 +528,7 @@ Private Sub PostSocket(ByVal lngEventID As Long, ByVal lngErrorCode As Long)
         blnCancelDisplay = True
         RaiseEvent Error(lngErrorCode, GetErrorDescription(lngErrorCode), 0, "Socket.PostSocket", "", 0, blnCancelDisplay)
 
-        If blnCancelDisplay = False Then MsgBox GetErrorDescription(lngErrorCode), vbOKOnly, "Socket.PostSocket"
+        If blnCancelDisplay = False Then Call MostrarMensaje(GetErrorDescription(lngErrorCode))
         Exit Sub
 
     End If
@@ -652,7 +652,7 @@ Private Sub PostSocket(ByVal lngEventID As Long, ByVal lngErrorCode As Long)
                 blnCancelDisplay = True
                 RaiseEvent Error(lngErrorCode, GetErrorDescription(lngErrorCode), 0, "Socket.PostSocket", "", 0, blnCancelDisplay)
 
-                If blnCancelDisplay = False Then MsgBox GetErrorDescription(lngErrorCode), vbOKOnly, "Socket.PostSocket"
+                If blnCancelDisplay = False Then Call MostrarMensaje(GetErrorDescription(lngErrorCode))
             Else
                 'We assign a temporal instance of Socket to
                 'handle this new socket until user accepts (or not)
@@ -727,7 +727,7 @@ Private Sub ConnectToIP(ByVal lngRemoteHostAddress As Long, ByVal lngErrorCode A
         blnCancelDisplay = True
         RaiseEvent Error(lngErrorCode, GetErrorDescription(lngErrorCode), 0, "Socket.ConnectToIP", "", 0, blnCancelDisplay)
 
-        If blnCancelDisplay = False Then MsgBox GetErrorDescription(lngErrorCode), vbOKOnly, "Socket.ConnectToIP"
+        If blnCancelDisplay = False Then Call MostrarMensaje(GetErrorDescription(lngErrorCode))
         Exit Sub
 
     End If
@@ -762,7 +762,7 @@ Private Sub ConnectToIP(ByVal lngRemoteHostAddress As Long, ByVal lngErrorCode A
                 blnCancelDisplay = True
                 RaiseEvent Error(lngErrorCode, GetErrorDescription(lngErrorCode), 0, "Socket.ConnectToIP", "", 0, blnCancelDisplay)
 
-                If blnCancelDisplay = False Then MsgBox GetErrorDescription(lngErrorCode), vbOKOnly, "Socket.ConnectToIP"
+                If blnCancelDisplay = False Then Call MostrarMensaje(GetErrorDescription(lngErrorCode))
 
             End If
 
@@ -971,7 +971,7 @@ Private Function GetLocalIP() As String
 
     Dim arrIpAddress(1 To 4) As Byte
 
-    Dim count                As Integer
+    Dim Count                As Integer
 
     Dim udtHostent           As HOSTENT
 
@@ -993,8 +993,8 @@ Private Function GetLocalIP() As String
         api_CopyMemory lngPtrToIP, ByVal udtHostent.hAddrList, 4
         api_CopyMemory arrIpAddress(1), ByVal lngPtrToIP, 4
    
-        For count = 1 To 4
-            strIpAddress = strIpAddress & arrIpAddress(count) & "."
+        For Count = 1 To 4
+            strIpAddress = strIpAddress & arrIpAddress(Count) & "."
         Next
    
         strIpAddress = Left$(strIpAddress, Len(strIpAddress) - 1)
@@ -1038,7 +1038,7 @@ Private Function ResolveIfHostname(ByVal Host As String) As Long
                 blnCancelDisplay = True
                 RaiseEvent Error(lngErrorCode, GetErrorDescription(lngErrorCode), 0, "Socket.ResolveIfHostname", "", 0, blnCancelDisplay)
 
-                If blnCancelDisplay = False Then MsgBox GetErrorDescription(lngErrorCode), vbOKOnly, "Socket.ResolveIfHostname"
+                If blnCancelDisplay = False Then Call MostrarMensaje(GetErrorDescription(lngErrorCode))
             Else
                 m_colWaitingResolutions.Add lngAsynHandle, "R" & lngAsynHandle
 
@@ -1078,7 +1078,7 @@ Private Function ResolveIfHostnameSync(ByVal Host As String, _
 
     Dim arrIpAddress(1 To 4) As Byte
 
-    Dim count                As Integer
+    Dim Count                As Integer
  
     lngAddress = api_inet_addr(Host)
  
@@ -1096,8 +1096,8 @@ Private Function ResolveIfHostnameSync(ByVal Host As String, _
             api_CopyMemory arrIpAddress(1), ByVal lngPtrToIP, 4
             api_CopyMemory lngAddress, ByVal lngPtrToIP, 4
         
-            For count = 1 To 4
-                strHostIP = strHostIP & arrIpAddress(count) & "."
+            For Count = 1 To 4
+                strHostIP = strHostIP & arrIpAddress(Count) & "."
             Next
         
             strHostIP = Left$(strHostIP, Len(strHostIP) - 1)
@@ -1136,7 +1136,7 @@ Private Function GetLocalPort(ByVal lngSocket As Long) As Long
 
 End Function
  
-Public Sub SendData(data As String)
+Public Sub SendData(Data As String)
  
     Dim arrData() As Byte 'We store the data here before send it
  
@@ -1156,13 +1156,13 @@ Public Sub SendData(data As String)
     End If
  
     'We need to convert data variant into a byte array
-    Select Case varType(data)
+    Select Case varType(Data)
 
         Case vbString
 
             Dim strData As String
 
-            strData = CStr(data)
+            strData = CStr(Data)
 
             If Len(strData) = 0 Then Exit Sub
             ReDim arrData(Len(strData) - 1)
@@ -1172,7 +1172,7 @@ Public Sub SendData(data As String)
 
             Dim strArray As String
 
-            strArray = StrConv(data, vbUnicode)
+            strArray = StrConv(Data, vbUnicode)
 
             If Len(strArray) = 0 Then Exit Sub
             arrData() = StrConv(strArray, vbFromUnicode)
@@ -1181,7 +1181,7 @@ Public Sub SendData(data As String)
 
             Dim blnData As Boolean
 
-            blnData = CBool(data)
+            blnData = CBool(Data)
             ReDim arrData(LenB(blnData) - 1)
             api_CopyMemory arrData(0), blnData, LenB(blnData)
 
@@ -1189,7 +1189,7 @@ Public Sub SendData(data As String)
 
             Dim bytData As Byte
 
-            bytData = CByte(data)
+            bytData = CByte(Data)
             ReDim arrData(LenB(bytData) - 1)
             api_CopyMemory arrData(0), bytData, LenB(bytData)
 
@@ -1197,7 +1197,7 @@ Public Sub SendData(data As String)
 
             Dim curData As Currency
 
-            curData = CCur(data)
+            curData = CCur(Data)
             ReDim arrData(LenB(curData) - 1)
             api_CopyMemory arrData(0), curData, LenB(curData)
 
@@ -1205,7 +1205,7 @@ Public Sub SendData(data As String)
 
             Dim datData As Date
 
-            datData = CDate(data)
+            datData = CDate(Data)
             ReDim arrData(LenB(datData) - 1)
             api_CopyMemory arrData(0), datData, LenB(datData)
 
@@ -1213,7 +1213,7 @@ Public Sub SendData(data As String)
 
             Dim dblData As Double
 
-            dblData = CDbl(data)
+            dblData = CDbl(Data)
             ReDim arrData(LenB(dblData) - 1)
             api_CopyMemory arrData(0), dblData, LenB(dblData)
 
@@ -1221,7 +1221,7 @@ Public Sub SendData(data As String)
 
             Dim intData As Integer
 
-            intData = CInt(data)
+            intData = CInt(Data)
             ReDim arrData(LenB(intData) - 1)
             api_CopyMemory arrData(0), intData, LenB(intData)
 
@@ -1229,7 +1229,7 @@ Public Sub SendData(data As String)
 
             Dim lngData As Long
 
-            lngData = CLng(data)
+            lngData = CLng(Data)
             ReDim arrData(LenB(lngData) - 1)
             api_CopyMemory arrData(0), lngData, LenB(lngData)
 
@@ -1237,7 +1237,7 @@ Public Sub SendData(data As String)
 
             Dim sngData As Single
 
-            sngData = CSng(data)
+            sngData = CSng(Data)
             ReDim arrData(LenB(sngData) - 1)
             api_CopyMemory arrData(0), sngData, LenB(sngData)
 
@@ -1335,7 +1335,7 @@ Private Sub SendBufferedDataUDP()
             blnCancelDisplay = True
             RaiseEvent Error(lngErrorCode, GetErrorDescription(lngErrorCode), 0, "Socket.SendBufferedDataUDP", "", 0, blnCancelDisplay)
 
-            If blnCancelDisplay = False Then MsgBox GetErrorDescription(lngErrorCode), vbOKOnly, "Socket.SendBufferedDataUDP"
+            If blnCancelDisplay = False Then Call MostrarMensaje(GetErrorDescription(lngErrorCode))
 
         End If
     
@@ -1384,7 +1384,7 @@ Private Sub SendBufferedDataTCP()
                 blnCancelDisplay = True
                 RaiseEvent Error(lngErrorCode, GetErrorDescription(lngErrorCode), 0, "Socket.SendBufferedData", "", 0, blnCancelDisplay)
 
-                If blnCancelDisplay = False Then MsgBox GetErrorDescription(lngErrorCode), vbOKOnly, "Socket.SendBufferedData"
+                If blnCancelDisplay = False Then Call MostrarMensaje(GetErrorDescription(lngErrorCode))
 
             End If
  
@@ -1497,7 +1497,7 @@ Private Sub ProcessOptions()
  
 End Sub
  
-Public Sub GetData(ByRef data As Variant, _
+Public Sub GetData(ByRef Data As Variant, _
                    Optional varType As Variant, _
                    Optional maxLen As Variant)
  
@@ -1542,11 +1542,11 @@ Public Sub GetData(ByRef data As Variant, _
  
     Dim lngBytesRecibidos As Long
  
-    lngBytesRecibidos = RecvData(data, False, varType, maxLen)
+    lngBytesRecibidos = RecvData(Data, False, varType, maxLen)
  
 End Sub
  
-Public Sub PeekData(ByRef data As Variant, _
+Public Sub PeekData(ByRef Data As Variant, _
                     Optional varType As Variant, _
                     Optional maxLen As Variant)
  
@@ -1591,7 +1591,7 @@ Public Sub PeekData(ByRef data As Variant, _
  
     Dim lngBytesRecibidos As Long
  
-    lngBytesRecibidos = RecvData(data, True, varType, maxLen)
+    lngBytesRecibidos = RecvData(Data, True, varType, maxLen)
  
 End Sub
  
@@ -1605,7 +1605,7 @@ End Sub
 'If a value of the blnPeek is FALSE, then this function returns number of
 'bytes received, and move data from the buffer into the data
 'argument. MOVE means that data will be removed from the buffer.
-Private Function RecvData(ByRef data As Variant, _
+Private Function RecvData(ByRef Data As Variant, _
                           ByVal blnPeek As Boolean, _
                           Optional varClass As Variant, _
                           Optional maxLen As Variant) As Long
@@ -1631,10 +1631,10 @@ Private Function RecvData(ByRef data As Variant, _
     blnClassMiss = IsMissing(varClass)
  
     'Select type of data
-    If varType(data) = vbEmpty Then
+    If varType(Data) = vbEmpty Then
         If blnClassMiss Then varClass = vbArray + vbByte
     Else
-        varClass = varType(data)
+        varClass = varType(Data)
 
     End If
  
@@ -1651,7 +1651,7 @@ Private Function RecvData(ByRef data As Variant, _
                 RecvData = 0
         
                 arrBuffer = StrConv("", vbFromUnicode)
-                data = arrBuffer
+                Data = arrBuffer
  
                 Exit Function
     
@@ -1669,7 +1669,7 @@ Private Function RecvData(ByRef data As Variant, _
                 RecvData = 0
         
                 arrBuffer = StrConv("", vbFromUnicode)
-                data = arrBuffer
+                Data = arrBuffer
             
                 If m_enmProtocol = sckUDPProtocol Then
                     EmptyBuffer
@@ -1702,10 +1702,10 @@ Private Function RecvData(ByRef data As Variant, _
             Dim strData As String
 
             strData = StrConv(arrBuffer(), vbUnicode)
-            data = strData
+            Data = strData
 
         Case vbArray + vbByte
-            data = arrBuffer
+            Data = arrBuffer
 
         Case vbBoolean
 
@@ -1715,7 +1715,7 @@ Private Function RecvData(ByRef data As Variant, _
             BuildArray LenB(blnData), blnPeek, lngErrorCode, arrBuffer
             RecvData = LenB(blnData)
             api_CopyMemory blnData, arrBuffer(0), LenB(blnData)
-            data = blnData
+            Data = blnData
 
         Case vbByte
 
@@ -1725,7 +1725,7 @@ Private Function RecvData(ByRef data As Variant, _
             BuildArray LenB(bytData), blnPeek, lngErrorCode, arrBuffer
             RecvData = LenB(bytData)
             api_CopyMemory bytData, arrBuffer(0), LenB(bytData)
-            data = bytData
+            Data = bytData
 
         Case vbCurrency
 
@@ -1735,7 +1735,7 @@ Private Function RecvData(ByRef data As Variant, _
             BuildArray LenB(curData), blnPeek, lngErrorCode, arrBuffer
             RecvData = LenB(curData)
             api_CopyMemory curData, arrBuffer(0), LenB(curData)
-            data = curData
+            Data = curData
 
         Case vbDate
 
@@ -1745,7 +1745,7 @@ Private Function RecvData(ByRef data As Variant, _
             BuildArray LenB(datData), blnPeek, lngErrorCode, arrBuffer
             RecvData = LenB(datData)
             api_CopyMemory datData, arrBuffer(0), LenB(datData)
-            data = datData
+            Data = datData
 
         Case vbDouble
 
@@ -1755,7 +1755,7 @@ Private Function RecvData(ByRef data As Variant, _
             BuildArray LenB(dblData), blnPeek, lngErrorCode, arrBuffer
             RecvData = LenB(dblData)
             api_CopyMemory dblData, arrBuffer(0), LenB(dblData)
-            data = dblData
+            Data = dblData
 
         Case vbInteger
 
@@ -1765,7 +1765,7 @@ Private Function RecvData(ByRef data As Variant, _
             BuildArray LenB(intData), blnPeek, lngErrorCode, arrBuffer
             RecvData = LenB(intData)
             api_CopyMemory intData, arrBuffer(0), LenB(intData)
-            data = intData
+            Data = intData
 
         Case vbLong
 
@@ -1775,7 +1775,7 @@ Private Function RecvData(ByRef data As Variant, _
             BuildArray LenB(lngData), blnPeek, lngErrorCode, arrBuffer
             RecvData = LenB(lngData)
             api_CopyMemory lngData, arrBuffer(0), LenB(lngData)
-            data = lngData
+            Data = lngData
 
         Case vbSingle
 
@@ -1785,7 +1785,7 @@ Private Function RecvData(ByRef data As Variant, _
             BuildArray LenB(sngData), blnPeek, lngErrorCode, arrBuffer
             RecvData = LenB(sngData)
             api_CopyMemory sngData, arrBuffer(0), LenB(sngData)
-            data = sngData
+            Data = sngData
 
         Case Else
             Exit Function
@@ -2054,9 +2054,9 @@ End Function
 'Empty winsock incoming buffer from an UDP socket.
 Private Sub EmptyBuffer()
 
-    Dim B As Byte
+    Dim b As Byte
 
-    api_recv m_lngSocketHandle, B, Len(B), 0&
+    api_recv m_lngSocketHandle, b, Len(b), 0&
 
 End Sub
  

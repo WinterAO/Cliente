@@ -21,7 +21,8 @@ Public Sub Map_RemoveOldUser()
       End With
 
 End Sub
-Public Sub Map_CreateObject(ByVal X As Byte, ByVal Y As Byte, ByVal GrhIndex As Long)
+
+Public Sub Map_CreateObject(ByVal X As Byte, ByVal Y As Byte, ByVal GrhIndex As Long, ByVal Shadow As Byte)
 
       'Dim objgrh As Integer
         
@@ -38,7 +39,7 @@ Public Sub Map_CreateObject(ByVal X As Byte, ByVal Y As Byte, ByVal GrhIndex As 
                   '      Call Map_DestroyObject(x, y)
                   'End If
 
-                  '.objgrh.GrhIndex = GrhIndex
+                  .OBJInfo.Shadow = Shadow
                   Call InitGrh(.ObjGrh, GrhIndex)
             End With
 
@@ -52,7 +53,7 @@ Public Sub Map_DestroyObject(ByVal X As Byte, ByVal Y As Byte)
 
             With MapData(X, Y)
                   '.objgrh.GrhIndex = 0
-                  .OBJInfo.objindex = 0
+                  .OBJInfo.ObjIndex = 0
                   .OBJInfo.Amount = 0
                   Call GrhUninitialize(.ObjGrh)
         

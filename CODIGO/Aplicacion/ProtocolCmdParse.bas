@@ -422,10 +422,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                     'Avisar que falta el parametro
                     Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /penas NICKNAME.")
                 End If
-                
-            Case "/CONTRASENA"
-                Call frmNewPassword.Show(vbModal, frmMain)
-            
+
             Case "/APOSTAR"
                 If UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
@@ -540,7 +537,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
             '
             
             Case "/BUSCAR"
-                frmBuscar.Show vbModeless, frmMain
+                Call WriteGMPanel(1)
             
             Case "/LIMPIARMUNDO"
                 Call WriteLimpiarMundo
@@ -674,7 +671,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteInvisible
                 
             Case "/PANELGM"
-                Call WriteGMPanel
+                Call WriteGMPanel(0)
                 
             Case "/TRABAJANDO"
                 Call WriteWorking
@@ -735,9 +732,6 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                         
                         Case "SKILLS"
                             tmpInt = eEditOptions.eo_Skills
-                        
-                        Case "SKILLSLIBRES"
-                            tmpInt = eEditOptions.eo_SkillPointsLeft
                         
                         Case "CLASE"
                             tmpInt = eEditOptions.eo_Class
@@ -1401,34 +1395,6 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                     Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /lastemail NICKNAME.")
                 End If
                 
-            Case "/APASS"
-                If notNullArguments Then
-                    tmpArr = Split(ArgumentosRaw, "@", 2)
-                    If UBound(tmpArr) = 1 Then
-                        Call WriteAlterPassword(tmpArr(0), tmpArr(1))
-                    Else
-                        'Faltan los parametros con el formato propio
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /apass PJSINPASS@PJCONPASS.")
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /apass PJSINPASS@PJCONPASS.")
-                End If
-                
-            Case "/AEMAIL"
-                If notNullArguments Then
-                    tmpArr = AEMAILSplit(ArgumentosRaw)
-                    If LenB(tmpArr(0)) = 0 Then
-                        'Faltan los parametros con el formato propio
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /aemail NICKNAME-NUEVOMAIL.")
-                    Else
-                        Call WriteAlterMail(tmpArr(0), tmpArr(1))
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /aemail NICKNAME-NUEVOMAIL.")
-                End If
-                
             Case "/ANAME"
                 If notNullArguments Then
                     tmpArr = Split(ArgumentosRaw, "@", 2)
@@ -1631,9 +1597,6 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 
             Case "/QUEST"
                 Call WriteQuest
- 
-            Case "/INFOQUEST"
-                Call WriteQuestListRequest
                 
             Case "/SETINIVAR"
                 If CantidadArgumentos = 3 Then
@@ -1668,6 +1631,50 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 
             Case "/MIMETIZAR"
                 Call WriteImitate
+                
+            Case "/EDITGEMS"
+                If notNullArguments And CantidadArgumentos >= 2 Then
+                    If Not IsNumeric(ArgumentosAll(0)) And IsNumeric(ArgumentosAll(1)) Then
+                        Call WriteEditGems(ArgumentosAll(0), ArgumentosAll(1), 0)
+                    Else
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
+                    End If
+                Else
+                    'Avisar que falta el parametro
+                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
+                End If
+                
+            Case "/SUMARGEMS"
+                If notNullArguments And CantidadArgumentos >= 2 Then
+                    If Not IsNumeric(ArgumentosAll(0)) And IsNumeric(ArgumentosAll(1)) Then
+                        Call WriteEditGems(ArgumentosAll(0), ArgumentosAll(1), 1)
+                    Else
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
+                    End If
+                Else
+                    'Avisar que falta el parametro
+                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
+                End If
+                
+            Case "/RESTARGEMS"
+                If notNullArguments And CantidadArgumentos >= 2 Then
+                    If Not IsNumeric(ArgumentosAll(0)) And IsNumeric(ArgumentosAll(1)) Then
+                        Call WriteEditGems(ArgumentosAll(0), ArgumentosAll(1), 2)
+                    Else
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
+                    End If
+                Else
+                    'Avisar que falta el parametro
+                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
+                End If
+                
+            Case "/CONSULTARGEMS"
+                If notNullArguments Then
+                    Call WriteConsultarGems(ArgumentosRaw)
+                Else
+                    'Avisar que falta el parametro
+                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /CONSULTARGEMS NICKNAME.")
+                End If
             
             Case Else
                 Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_COMANDO_INCORRECTO").item("TEXTO"))

@@ -784,9 +784,6 @@
     "RAZA": {
         "TEXTO": "Raza"
     },
-    "NIVEL": {
-        "TEXTO": "Nivel"
-    },
     "ORO": {
         "TEXTO": "Oro"
     },
@@ -1149,12 +1146,6 @@
     "BTN_CONECTARSE": {
         "TEXTO": "Conectarse"
     },
-    "BTN_CREAR_CUENTA": {
-        "TEXTO": "Crear Cuenta"
-    },
-    "BTN_CREAR_SERVER": {
-        "TEXTO": "Crear Server"
-    },
     "BTN_RECUPERAR": {
         "TEXTO": "Cambiar Pass"
     },
@@ -1166,15 +1157,6 @@
     },
     "LBL_TECLAS": {
         "TEXTO": "Teclas"
-    },
-    "LBL_LANZAR": {
-        "TEXTO": "Lanzar"
-    },
-    "LBL_INVENTARIO": {
-        "TEXTO": "Inventario"
-    },
-    "LBL_HECHIZOS": {
-        "TEXTO": "Hechizos"
     },
     "LBL_MAPA": {
         "TEXTO": "Mapa"
@@ -1188,17 +1170,11 @@
     "LBL_CLANES": {
         "TEXTO": "Clanes"
     },
-    "LBL_AMIGOS": {
-        "TEXTO": "Amigos"
-    },
     "LBL_RETOS": {
         "TEXTO": "Retos"
     },
     "LBL_OPCIONES": {
         "TEXTO": "Opciones"
-    },
-    "LBL_INFO": {
-        "TEXTO": "Info"
     },
     "FRM_CREARCUENTA_SALIR": {
         "TEXTO": "Salir"
@@ -1605,102 +1581,6 @@
     "FRM_KEYS_CONFIGURATION_BTN_ALTERNATIVE_KEYS": {
         "TEXTO": "Alternativa"
     },
-    "MENSAJE_ENERGIA_LABEL": {
-        "TEXTO": "AYUDA: Indicador de energia, necesitas energia para atacar a un usuario o npc, tambien es necesaria para trabajar. Si no tenes equipada una vestimenta, perderas energia mas rapido.",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
-    "MENSAJE_HAMBRE_LABEL": {
-        "TEXTO": "AYUDA: Indicador de hambre, para llenar esta barra debes consumir comida de cualquier tipo.",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
-    "MENSAJE_MANA_LABEL": {
-        "TEXTO": "AYUDA: Puntos de mana, necesarios para utilizar hechizos. Podes recuperarlos usando pociones azules, con el comando /MEDITAR o con un Sacerdote.",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
-    "MENSAJE_SED_LABEL": {
-        "TEXTO": "AYUDA: Indicador de Sed, indica el nivel de sed que tu personaje, para poder llenarlo debes de tomar alguna bebida como agua, vino, cerveza, etc.",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
-    "MENSAJE_VIDA_LABEL": {
-        "TEXTO": "AYUDA: Puntos de vida: Indica cuantos puntos de vida tiene el personaje, al llegar a 0 te mueres y todos tus objetos caeran al piso. Para llenar estar barra debes de tomar Pociones Rojas o asistir a un Sacerdote. Hay hechizos que pueden utilizar clases magicas que curan heridas.",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
-    "MENSAJE_WEAPON_LABEL": {
-        "TEXTO": "AYUDA: Indica el poder maximo y minimo de el arma. Por ejemplo un arma con poder 8/12 significa que podes hacer herir entre 8 y 12 de vida",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
-    "MENSAJE_HELM_LABEL": {
-        "TEXTO": "AYUDA: Indica la resistencia maxima y minima del casco/gorro. Por ejemplo un sombrero con resistencia 10/15 significa que puede bloquear en cada golpe entre 10 y 15 de vida",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
-    "MENSAJE_SHIELDER_LABEL": {
-        "TEXTO": "AYUDA: Indica la resistencia maxima y minima del escudo. Por ejemplo un escudo con resistencia 5/20 significa que puede bloquear en cada golpe entre 5 y 20 de vida",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
-    "MENSAJE_ARMOR_LABEL": {
-        "TEXTO": "AYUDA: Indica la resistencia maxima y minima de la vestimenta. Por ejemplo una armadura con resistencia 2/8 significa que puede bloquear en cada golpe entre 2 y 8 de vida",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
-    "MENSAJE_STRG_LABEL": {
-        "TEXTO": "AYUDA: Indicador del nivel de Fuerza de tu personaje que tiene tu personaje. Podes subirlos mediante hechizos o Pociones Verdes.",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
-    "MENSAJE_DEXT_LABEL": {
-        "TEXTO": "AYUDA: Indicador del nivel de Agilidad de tu personaje que tiene tu personaje. Podes subirlos mediante hechizos o Pociones Amarillas.",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
-    "MENSAJE_GOLD_LABEL": {
-        "TEXTO": "AYUDA: Cantidad de oro disponible en tu billetera, podes guardar lo que no necesites en el banco. Si no eres newbie y mueres en zona no segura, el oro se caera al igual que tus items. Podes llevar 10.000 de oro por nivel del personaje, asi que si tu personaje es nivel 25 podrá llevar 250.000 de oro (25 x 10.000) en billetera y NO se le caería nada al morir pero en cambio si tendría 251.200 por ej. sólo se le caería el sobrante (1200 de oro).",
-        "COLOR": [
-            255,
-            178,
-            237
-        ]
-    },
     "MENSAJE_MONTURA_SALIR": {
         "TEXTO": "No puedes caminar aqui con tu montura, bajate para poder entrar a un lugar con techo."
     },
@@ -1724,18 +1604,6 @@
     },
     "FRMPANELACCOUNT_BTN_CONECTAR": {
         "TEXTO": "Entrar"
-    },
-    "FRM_LISTAAMIGOS_TITLE": {
-        "TEXTO": "Aqui puedes ver tu lista de amigos, asi como agregar o eliminar usuarios de la lista."
-    },
-    "FRM_LISTAAMIGOS_AGREGAR": {
-        "TEXTO": "Agregar Amigo"
-    },
-    "FRM_LISTAAMIGOS_BORRAR": {
-        "TEXTO": "Borrar Amigo"
-    },
-    "FRM_LISTAAMIGOS_SALIR": {
-        "TEXTO": "Cerrar"
     },
     "FRM_LISTAAMIGOS_PARAMETRO": {
         "TEXTO": "Faltan parametros."
@@ -1790,5 +1658,8 @@
     },
     "FRM_QUESTINFO_DESC": {
         "TEXTO": "Informacion de misiones:"
+    },
+	"MENSAJE_NO_AMIGOS": {
+        "TEXTO": "Selecciona a un amigo..."
     }
 }

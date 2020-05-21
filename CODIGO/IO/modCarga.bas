@@ -99,6 +99,15 @@ Public MapDat As tMapDat
 'END - Load Map with .CSM format
 '********************************
 
+'Conectar renderizado
+Private Type tMapaConnect
+    Map As Byte
+    X As Byte
+    Y As Byte
+End Type
+Public MapaConnect() As tMapaConnect
+Public NumConnectMap As Byte 'Numero total de mapas cargados
+
 Private FileManager As clsIniManager
 
 ''
@@ -194,7 +203,7 @@ ErrorHandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Graficos.ind no existe. Por favor, reinstale el juego.", , "Argentum Online Libre")
+            Call MsgBox("El archivo Graficos.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
             Call CloseClient
         End If
         
@@ -241,7 +250,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Cabezas.ind no existe. Por favor, reinstale el juego.", , "Argentum Online Libre")
+            Call MsgBox("El archivo Cabezas.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
             Call CloseClient
         End If
         
@@ -289,7 +298,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Cascos.ind no existe. Por favor, reinstale el juego.", , "Argentum Online Libre")
+            Call MsgBox("El archivo Cascos.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
             Call CloseClient
         End If
         
@@ -339,7 +348,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Personajes.ind no existe. Por favor, reinstale el juego.", , "Argentum Online Libre")
+            Call MsgBox("El archivo Personajes.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
             Call CloseClient
         End If
         
@@ -375,7 +384,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Fxs.ini no existe. Por favor, reinstale el juego.", , "Argentum Online Libre")
+            Call MsgBox("El archivo Fxs.ini no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
             Call CloseClient
         End If
         
@@ -399,7 +408,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo" & "tips_" & Language & ".json no existe. Por favor, reinstale el juego.", , "Argentum Online Libre")
+            Call MsgBox("El archivo" & "tips_" & Language & ".json no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
             Call CloseClient
         End If
         
@@ -431,7 +440,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo armas.dat no existe. Por favor, reinstale el juego.", , "Argentum Online Libre")
+            Call MsgBox("El archivo armas.dat no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
             Call CloseClient
         End If
         
@@ -472,7 +481,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo colores.dat no existe. Por favor, reinstale el juego.", , "Argentum Online Libre")
+            Call MsgBox("El archivo colores.dat no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
             Call CloseClient
         End If
         
@@ -507,7 +516,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo escudos.dat no existe. Por favor, reinstale el juego.", , "Argentum Online Libre")
+            Call MsgBox("El archivo escudos.dat no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
             Call CloseClient
         End If
         
@@ -567,11 +576,11 @@ errorH:
         Select Case Err.number
             
             Case 9
-                Call MsgBox("Error cargando el archivo Hechizos.dat (Hechizo " & j & "). Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , "Argentum Online Libre")
+                Call MsgBox("Error cargando el archivo Hechizos.dat (Hechizo " & j & "). Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , "Winter AO Resurrection")
                 Call LogError(Err.number, Err.Description, "CargarHechizos")
             
             Case 53
-                Call MsgBox("El archivo Hechizos.dat no existe. Por favor, reinstale el juego.", , "Argentum Online Libre")
+                Call MsgBox("El archivo Hechizos.dat no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
         
         End Select
         
@@ -759,6 +768,55 @@ ErrorHandler:
     If Err.number <> 0 Then
         'Call LogError(Err.number, Err.Description, "modCarga.CargarMapa")
         Call MsgBox("err: " & Err.number, "desc: " & Err.Description)
+    End If
+
+End Sub
+
+Public Sub CargarConnectMaps()
+'********************************
+'Author: Lorwik
+'Last Modification: 13/05/2020
+'Cargamos los mapas del conectar renderizado
+'********************************
+On Error GoTo errorH
+    Dim i As Byte
+    
+    Set FileManager = New clsIniManager
+    Call FileManager.Initialize(Game.path(INIT) & "Maps.ini")
+    
+    NumConnectMap = Val(FileManager.GetValue("INIT", "NumMaps"))
+    
+    ReDim Preserve MapaConnect(NumConnectMap) As tMapaConnect
+    
+    For i = 1 To NumConnectMap
+    
+        MapaConnect(i).Map = Val(FileManager.GetValue("MAPA" & i, "Map"))
+        MapaConnect(i).X = Val(FileManager.GetValue("MAPA" & i, "X"))
+        MapaConnect(i).Y = Val(FileManager.GetValue("MAPA" & i, "Y"))
+        
+    Next i
+    
+    Set FileManager = Nothing
+    
+    Exit Sub
+ 
+errorH:
+
+    If Err.number <> 0 Then
+        
+        Select Case Err.number
+            
+            Case 9
+                Call MsgBox("Error cargando el archivo de Mapas. Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , "Winter AO Resurrection")
+                Call LogError(Err.number, Err.Description, "CargarHechizos")
+            
+            Case 53
+                Call MsgBox("El archivo de configuracion de Mapas no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+        
+        End Select
+        
+        Call CloseClient
+
     End If
 
 End Sub
