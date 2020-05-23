@@ -6,7 +6,7 @@ Begin VB.Form frmConnect
    ClientHeight    =   11520
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   15315
+   ClientWidth     =   19845
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    FillColor       =   &H00000040&
@@ -27,9 +27,95 @@ Begin VB.Form frmConnect
    PaletteMode     =   1  'UseZOrder
    ScaleHeight     =   768
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   1021
+   ScaleWidth      =   1323
    StartUpPosition =   2  'CenterScreen
    Visible         =   0   'False
+   Begin VB.TextBox PortTxt 
+      Alignment       =   2  'Center
+      Appearance      =   0  'Flat
+      BackColor       =   &H00000000&
+      BorderStyle     =   0  'None
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H0000FF00&
+      Height          =   195
+      Left            =   16590
+      TabIndex        =   9
+      Text            =   "7666"
+      Top             =   2160
+      Visible         =   0   'False
+      Width           =   825
+   End
+   Begin VB.TextBox IPTxt 
+      Alignment       =   2  'Center
+      Appearance      =   0  'Flat
+      BackColor       =   &H00000000&
+      BorderStyle     =   0  'None
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H0000FF00&
+      Height          =   195
+      Left            =   17460
+      TabIndex        =   8
+      Text            =   "localhost"
+      Top             =   2160
+      Visible         =   0   'False
+      Width           =   1575
+   End
+   Begin VB.TextBox txtNombre 
+      BackColor       =   &H00000000&
+      BorderStyle     =   0  'None
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   225
+      Left            =   16560
+      TabIndex        =   7
+      Top             =   2880
+      Width           =   2460
+   End
+   Begin VB.TextBox txtPasswd 
+      BackColor       =   &H00000000&
+      BorderStyle     =   0  'None
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   225
+      IMEMode         =   3  'DISABLE
+      Left            =   16560
+      PasswordChar    =   "*"
+      TabIndex        =   6
+      Top             =   3360
+      Width           =   2460
+   End
    Begin VB.PictureBox Renderer 
       BackColor       =   &H00404040&
       BorderStyle     =   0  'None
@@ -44,96 +130,13 @@ Begin VB.Form frmConnect
       TabStop         =   0   'False
       Top             =   0
       Width           =   15360
-      Begin VB.TextBox txtPasswd 
-         BackColor       =   &H00000000&
-         BorderStyle     =   0  'None
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00FFFFFF&
-         Height          =   225
-         IMEMode         =   3  'DISABLE
-         Left            =   6360
-         PasswordChar    =   "*"
-         TabIndex        =   4
-         Top             =   4800
-         Width           =   2460
-      End
-      Begin VB.TextBox txtNombre 
-         BackColor       =   &H00000000&
-         BorderStyle     =   0  'None
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00FFFFFF&
-         Height          =   225
-         Left            =   6345
-         TabIndex        =   3
-         Top             =   4290
-         Width           =   2460
-      End
-      Begin VB.TextBox IPTxt 
-         Alignment       =   2  'Center
-         Appearance      =   0  'Flat
-         BackColor       =   &H00000000&
-         BorderStyle     =   0  'None
-         BeginProperty Font 
-            Name            =   "Tahoma"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H0000FF00&
-         Height          =   195
-         Left            =   7200
-         TabIndex        =   2
-         Text            =   "localhost"
-         Top             =   3840
-         Width           =   1575
-      End
-      Begin VB.TextBox PortTxt 
-         Alignment       =   2  'Center
-         Appearance      =   0  'Flat
-         BackColor       =   &H00000000&
-         BorderStyle     =   0  'None
-         BeginProperty Font 
-            Name            =   "Tahoma"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H0000FF00&
-         Height          =   195
-         Left            =   6330
-         TabIndex        =   1
-         Text            =   "7666"
-         Top             =   3840
-         Width           =   825
-      End
       Begin WinterAO.uAOButton btnTeclas 
          Height          =   375
          Left            =   7560
-         TabIndex        =   5
+         TabIndex        =   1
          TabStop         =   0   'False
          Top             =   5040
+         Visible         =   0   'False
          Width           =   1335
          _ExtentX        =   2355
          _ExtentY        =   661
@@ -158,9 +161,10 @@ Begin VB.Form frmConnect
       Begin WinterAO.uAOButton btnConectarse 
          Height          =   375
          Left            =   6240
-         TabIndex        =   6
+         TabIndex        =   2
          TabStop         =   0   'False
          Top             =   5040
+         Visible         =   0   'False
          Width           =   1335
          _ExtentX        =   2355
          _ExtentY        =   661
@@ -185,9 +189,10 @@ Begin VB.Form frmConnect
       Begin WinterAO.uAOCheckbox chkRecordar 
          Height          =   345
          Left            =   6480
-         TabIndex        =   7
+         TabIndex        =   3
          TabStop         =   0   'False
          Top             =   5760
+         Visible         =   0   'False
          Width           =   345
          _ExtentX        =   609
          _ExtentY        =   609
@@ -198,9 +203,10 @@ Begin VB.Form frmConnect
       Begin WinterAO.uAOButton btnSalir 
          Height          =   375
          Left            =   8520
-         TabIndex        =   8
+         TabIndex        =   4
          TabStop         =   0   'False
          Top             =   10320
+         Visible         =   0   'False
          Width           =   1335
          _ExtentX        =   2355
          _ExtentY        =   661
@@ -225,9 +231,10 @@ Begin VB.Form frmConnect
       Begin WinterAO.uAOButton btnRecuperar 
          Height          =   375
          Left            =   5880
-         TabIndex        =   9
+         TabIndex        =   5
          TabStop         =   0   'False
          Top             =   10320
+         Visible         =   0   'False
          Width           =   1335
          _ExtentX        =   2355
          _ExtentY        =   661
@@ -367,7 +374,7 @@ Private Sub Form_Load()
     '[END]
 
     Call LoadTextsForm
-        '    Call LoadAOCustomControlsPictures(Me)
+    'Call LoadAOCustomControlsPictures(Me)
     'Todo: Poner la carga de botones como en el frmCambiaMotd.frm para mantener coherencia con el resto de la aplicacion
     'y poder borrar los frx de este archivo
 

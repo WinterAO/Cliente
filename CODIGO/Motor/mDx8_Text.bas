@@ -8,7 +8,7 @@ Private Type CharVA
     X As Integer
     Y As Integer
     W As Integer
-    H As Integer
+    h As Integer
     
     Tx1 As Single
     Tx2 As Single
@@ -115,7 +115,7 @@ Private Sub Engine_Render_Text(ByRef Batch As clsBatch, _
     Dim Count As Integer
     Dim ascii() As Byte
     Dim i As Long
-    Dim J As Long
+    Dim j As Long
     Dim yOffset As Single
     
     'Check if we have the device
@@ -174,28 +174,28 @@ Private Sub Engine_Render_Text(ByRef Batch As clsBatch, _
             ascii() = StrConv(tempstr(i), vbFromUnicode)
         
             'Loop through the characters
-            For J = 1 To Len(tempstr(i))
+            For j = 1 To Len(tempstr(i))
 
-                Call CopyMemory(TempVA, UseFont.HeaderInfo.CharVA(ascii(J - 1)), 24) 'this number represents the size of "CharVA" struct
+                Call CopyMemory(TempVA, UseFont.HeaderInfo.CharVA(ascii(j - 1)), 24) 'this number represents the size of "CharVA" struct
                 
                 TempVA.X = X + Count
                 TempVA.Y = Y + yOffset
                 
                 'Set the colors
-                If Es_Emoticon(ascii(J - 1)) Then ' GSZAO los colores no afectan a los emoticones!
+                If Es_Emoticon(ascii(j - 1)) Then ' GSZAO los colores no afectan a los emoticones!
                     
-                    If (ascii(J - 1) <> 157) Then
+                    If (ascii(j - 1) <> 157) Then
                         Count = Count + 5   ' Los emoticones tienen tamano propio (despues hay que cargarlos "correctamente" para evitar hacer esto)
                     End If
                     
                 End If
                 Call Batch.SetAlpha(False)
-                Call Batch.Draw(TempVA.X, TempVA.Y, TempVA.W, TempVA.H, Color, TempVA.Tx1, TempVA.Ty1, TempVA.Tx2, TempVA.Ty2)
+                Call Batch.Draw(TempVA.X, TempVA.Y, TempVA.W, TempVA.h, Color, TempVA.Tx1, TempVA.Ty1, TempVA.Tx2, TempVA.Ty2)
 
                 'Shift over the the position to render the next character
-                Count = Count + UseFont.HeaderInfo.CharWidth(ascii(J - 1))
+                Count = Count + UseFont.HeaderInfo.CharWidth(ascii(j - 1))
                 
-            Next J
+            Next j
             
         End If
     Next i
@@ -203,12 +203,12 @@ Private Sub Engine_Render_Text(ByRef Batch As clsBatch, _
 End Sub
 
 Public Function ARGBtoD3DCOLORVALUE(ByVal ARGB As Long, ByRef Color As D3DCOLORVALUE)
-Dim dest(3) As Byte
-CopyMemory dest(0), ARGB, 4
-Color.a = dest(3)
-Color.r = dest(2)
-Color.g = dest(1)
-Color.b = dest(0)
+    Dim dest(3) As Byte
+    CopyMemory dest(0), ARGB, 4
+    Color.a = dest(3)
+    Color.r = dest(2)
+    Color.g = dest(1)
+    Color.b = dest(0)
 End Function
 
 Public Function ARGB(ByVal r As Long, ByVal g As Long, ByVal b As Long, ByVal a As Long) As Long
@@ -252,6 +252,18 @@ Dim Len_text As Long
         Engine_GetTextWidth = Engine_GetTextWidth + UseFont.HeaderInfo.CharWidth(Asc(mid$(Text, i, 1)))
         
     Next i
+
+End Function
+
+Public Function Engine_AnchoTexto(ByVal Font As Byte, ByVal Text As String) As Integer
+'**************************************
+'Autor: Lorwik
+'Fecha: 22/05/2020
+'Descripcion: Devuelve la posicion de ocupa el texto
+'**************************************
+
+
+    Engine_AnchoTexto = Engine_GetTextWidth(cfonts(Font), Text)
 
 End Function
 
@@ -344,7 +356,7 @@ Sub Engine_Init_FontSettings()
                 .X = 0
                 .Y = 0
                 .W = cfonts(i).HeaderInfo.CellWidth
-                .H = cfonts(i).HeaderInfo.CellHeight
+                .h = cfonts(i).HeaderInfo.CellHeight
                 .Tx1 = u
                 .Ty1 = v
                 .Tx2 = u + cfonts(i).ColFactor

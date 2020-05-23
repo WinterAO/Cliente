@@ -14,6 +14,7 @@ End Enum
 Private PJPos(1 To 10) As WorldPos
 
 Public PJAccSelected As Byte
+Private TextSelected As Byte
 
 Public Pantalla As EPantalla
 
@@ -156,10 +157,7 @@ Sub RenderConnect()
                 'Objectos
                 If .ObjGrh.GrhIndex <> 0 Then _
                     Call Draw_Grh(.ObjGrh, PixelOffsetXTemp, PixelOffsetYTemp, 1, .Engine_Light(), 1)
-                    
-                'Personajes
-                Call RenderPJ
-                            
+                                
                 'Capa 3
                 Call Draw_Grh(.Graphic(3), PixelOffsetXTemp, PixelOffsetYTemp, 1, .Engine_Light(), 1)
                 
@@ -175,6 +173,9 @@ Sub RenderConnect()
             End With
         Next Y
     Next X
+    
+    'Personajes
+    Call RenderPJ
     
     For X = 1 To 32
         For Y = 1 To 24
@@ -192,10 +193,10 @@ Sub RenderConnect()
     Call RenderConnectGUI
      
     'Get timing info
-    timerElapsedTime = GetElapsedTime()
-    timerTicksPerFrame = timerElapsedTime * Engine_BaseSpeed
+    'timerElapsedTime = GetElapsedTime()
+    'timerTicksPerFrame = timerElapsedTime * Engine_BaseSpeed
         
-    Call Engine_EndScene(RE, frmConnect.renderer.hWnd)
+    Call Engine_EndScene(RE, frmConnect.Renderer.hWnd)
 End Sub
 
 Private Sub RenderConnectGUI()
@@ -207,8 +208,46 @@ Private Sub RenderConnectGUI()
     Select Case Pantalla
     
         Case 0 'Login (frmconnect)
-        
+            
+            'Menu Cabecera
+            Call Draw_GrhIndex(31487, 805, 400, 0, Normal_RGBList(), 0, False)
+                  
+            'Menu Cabecera
+            Call Draw_GrhIndex(31489, 805, 458, 0, Normal_RGBList(), 0, False)
+            
+            'Recuperar Cuenta
+            Call Draw_GrhIndex(31488, 805, 523, 0, Normal_RGBList(), 0, False)
+            
+            'Marco
+            Call Draw_GrhIndex(31481, 0, 0, 0, Normal_RGBList(), 0, False)
+    
+            'Logo
+            Call Draw_GrhIndex(31480, 1, -140, 0, Normal_RGBList(), 0, False)
+            
+            'Conectarse
+            Call Draw_GrhIndex(31490, 390, 435, 0, Normal_RGBList(), 0, False)
+            
+            'Conectarse
+            Call Draw_GrhIndex(31491, 530, 435, 0, Normal_RGBList(), 0, False)
+            
+            'Recordar
+            Call Draw_GrhIndex(31484, 390, 490, 0, Normal_RGBList(), 0, False)
+            
+            'User
+            Call DrawText(445, 372, frmConnect.txtNombre.Text, -1, False)
+            If TextSelected = 1 Then _
+                Call Draw_GrhIndex(25319, 446 + Engine_AnchoTexto(1, frmConnect.txtNombre.Text), 372, 0, Normal_RGBList(), 0, False)
+            
+            'Password
+            Call DrawText(445, 406, frmConnect.txtPasswd.Text, -1, False)
+            If TextSelected = 2 Then _
+                Call Draw_GrhIndex(25319, 446 + Engine_AnchoTexto(1, frmConnect.txtPasswd.Text), 406, 0, Normal_RGBList(), 0, False)
+            
         Case 1 'Cuenta
+        
+            'Marco
+            Call Draw_GrhIndex(31481, 0, 0, 0, Normal_RGBList(), 0, False)
+            
             'Crear PJ
             Call Engine_Draw_Box(850, 500, 150, 50, D3DColorARGB(150, 0, 0, 0))
             Call DrawText(930, 520, "Crear Personaje", -1, True)
@@ -222,19 +261,19 @@ Private Sub RenderConnectGUI()
             Call DrawText(100, 685, "Salir", -1, True)
             
         Case 2 'Crear PJ
+            'Marco
+            Call Draw_GrhIndex(31481, 0, 0, 0, Normal_RGBList(), 0, False)
     
     End Select
     
     '<------- Desde aqui lo que siempre se va a mostrar ------->
-    'Logo
-    Call Draw_GrhIndex(31480, 1, 1, 0, Normal_RGBList(), 0, False)
     
     ' Calculamos los FPS y los mostramos
     Call Engine_Update_FPS
     'If ClientSetup.FPSShow = True Then
-    Call DrawText(980, 5, "FPS: " & Mod_TileEngine.FPS, -1, True)
+    Call DrawText(970, 30, "FPS: " & Mod_TileEngine.FPS, -1, True)
     
-    Call DrawText(10, 750, "WinterAO " & GetVersionOfTheGame() & " Resurrection", Color_Paralisis)
+    Call DrawText(25, 730, "WinterAO " & GetVersionOfTheGame() & " Resurrection", Color_Paralisis)
 End Sub
 
 Private Sub RenderPJ()
@@ -243,11 +282,12 @@ Private Sub RenderPJ()
 'Fecha: 15/05/2020
 'Dibuja los Personajes
 '******************************
-    Static Index As Byte
+    Dim Index As Byte
     
     Select Case Pantalla
+    
         Case 1 'Cuenta
-            'For Index = 1 To NumberOfCharacters
+            For Index = 1 To NumberOfCharacters
                 With cPJ(Index)
     
                     If .Body <> 0 Then
@@ -279,12 +319,10 @@ Private Sub RenderPJ()
                     End If
                 
                 End With
-            'Next Index
+            Next Index
             
     End Select
-    
-    Index = Index + 1
-    If Index > NumberOfCharacters Then Index = 1
+
 End Sub
 
 Public Sub DobleClickEvent(ByVal TX As Long, ByVal TY As Long)
@@ -326,8 +364,20 @@ Public Sub ClickEvent(ByVal TX As Long, ByVal TY As Long)
     Dim i As Integer
     
     Dim Index As Byte
-    
+
     Select Case Pantalla
+        Case 0 'Conectar
+        
+            If (TX >= 443 And TX <= 605) And (TY >= 372 And TY <= 384) Then
+                frmConnect.txtNombre.SetFocus
+                TextSelected = 1
+            End If
+            
+            If (TX >= 443 And TX <= 605) And (TY >= 405 And TY <= 424) Then
+                frmConnect.txtPasswd.SetFocus
+                TextSelected = 2
+            End If
+        
         Case 1 'Cuenta
 
             'Seleccionamos un PJ
