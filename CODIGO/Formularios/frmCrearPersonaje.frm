@@ -84,7 +84,9 @@ Begin VB.Form frmCrearPersonaje
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   315
+      ItemData        =   "frmCrearPersonaje.frx":4B1B8
       Left            =   6060
+      List            =   "frmCrearPersonaje.frx":4B1BA
       Style           =   2  'Dropdown List
       TabIndex        =   3
       Top             =   4560
@@ -103,7 +105,9 @@ Begin VB.Form frmCrearPersonaje
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   315
+      ItemData        =   "frmCrearPersonaje.frx":4B1BC
       Left            =   6060
+      List            =   "frmCrearPersonaje.frx":4B1BE
       Style           =   2  'Dropdown List
       TabIndex        =   1
       Top             =   3495
@@ -226,10 +230,10 @@ Begin VB.Form frmCrearPersonaje
       ENAB            =   -1  'True
       FCOL            =   16777215
       OCOL            =   16777215
-      PICE            =   "frmCrearPersonaje.frx":4B1B8
-      PICF            =   "frmCrearPersonaje.frx":4B1D4
-      PICH            =   "frmCrearPersonaje.frx":4B1F0
-      PICV            =   "frmCrearPersonaje.frx":4B20C
+      PICE            =   "frmCrearPersonaje.frx":4B1C0
+      PICF            =   "frmCrearPersonaje.frx":4B1DC
+      PICH            =   "frmCrearPersonaje.frx":4B1F8
+      PICV            =   "frmCrearPersonaje.frx":4B214
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Arial"
          Size            =   9.75
@@ -252,10 +256,10 @@ Begin VB.Form frmCrearPersonaje
       ENAB            =   -1  'True
       FCOL            =   16777215
       OCOL            =   16777215
-      PICE            =   "frmCrearPersonaje.frx":4B228
-      PICF            =   "frmCrearPersonaje.frx":4B244
-      PICH            =   "frmCrearPersonaje.frx":4B260
-      PICV            =   "frmCrearPersonaje.frx":4B27C
+      PICE            =   "frmCrearPersonaje.frx":4B230
+      PICF            =   "frmCrearPersonaje.frx":4B24C
+      PICH            =   "frmCrearPersonaje.frx":4B268
+      PICV            =   "frmCrearPersonaje.frx":4B284
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Arial"
          Size            =   9.75
@@ -832,7 +836,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   225
       Index           =   0
       Left            =   6960
-      Picture         =   "frmCrearPersonaje.frx":4B298
+      Picture         =   "frmCrearPersonaje.frx":4B2A0
       Top             =   7320
       Visible         =   0   'False
       Width           =   240
@@ -841,7 +845,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   225
       Index           =   1
       Left            =   7560
-      Picture         =   "frmCrearPersonaje.frx":4B5AA
+      Picture         =   "frmCrearPersonaje.frx":4B5B2
       Top             =   7320
       Visible         =   0   'False
       Width           =   240
@@ -850,7 +854,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   225
       Index           =   1
       Left            =   8460
-      Picture         =   "frmCrearPersonaje.frx":4B8BC
+      Picture         =   "frmCrearPersonaje.frx":4B8C4
       Top             =   5925
       Visible         =   0   'False
       Width           =   240
@@ -859,7 +863,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   225
       Index           =   0
       Left            =   6075
-      Picture         =   "frmCrearPersonaje.frx":4BBCE
+      Picture         =   "frmCrearPersonaje.frx":4BBD6
       Top             =   5925
       Visible         =   0   'False
       Width           =   240
@@ -1063,20 +1067,7 @@ Private Type tModRaza
     Constitucion As Single
 End Type
 
-Private Type tModClase
-    Evasion As Double
-    AtaqueArmas As Double
-    AtaqueProyectiles As Double
-    DanoArmas As Double
-    DanoProyectiles As Double
-    Escudo As Double
-    Magia As Double
-    Vida As Double
-    Hit As Double
-End Type
-
 Private ModRaza()  As tModRaza
-Private ModClase() As tModClase
 
 Private NroRazas   As Integer
 Private NroClases  As Integer
@@ -1086,11 +1077,11 @@ Private Dir        As E_Heading
 Private Sub Form_Load()
     Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaCrearPersonaje.jpg")
 
-    Call LoadCharInfo
-    Call CargarEspecialidades
-    Call LoadTextsForm
-    Call LoadAOCustomControlsPictures(Me)
-    
+   ' Call LoadCharInfo
+    'Call CargarEspecialidades
+    'Call LoadTextsForm
+    'Call LoadAOCustomControlsPictures(Me)
+   '
     Call IniciarGraficos
     Call CargarCombos
     
@@ -1236,7 +1227,7 @@ Private Sub DirPJ_Click(Index As Integer)
     Call UpdateHeadSelection
 End Sub
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     ClearLabel
 End Sub
 
@@ -1276,188 +1267,148 @@ Private Sub UpdateHeadSelection()
     Call DrawHead(CheckCabeza(Head), 0)
 End Sub
 
-Private Sub ImgCrear_Click()
-
-    Dim i As Integer
-    
-    UserName = txtNombre.Text
-            
-    If Right$(UserName, 1) = " " Then
-        UserName = RTrim$(UserName)
-       Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_NOMBRE_PJ").item("TEXTO").item(2))
-
-    End If
-    
-    UserRaza = lstRaza.ListIndex + 1
-    UserSexo = lstGenero.ListIndex + 1
-    UserClase = lstProfesion.ListIndex + 1
-    
-    For i = 1 To NUMATRIBUTES
-        UserAtributos(i) = Val(lblAtributos(i).Caption)
-    Next i
-    
-    If Not CheckData Then Exit Sub
-    
-    EstadoLogin = E_MODO.CrearNuevoPJ
-    
-    'Clear spell list
-    frmMain.hlst.Clear
-        
-    If Not frmMain.Client.State = sckConnected Then
-        Call MostrarMensaje(JsonLanguage.item("ERROR_CONN_LOST").item("TEXTO"))
-        Unload Me
-    Else
-        Me.imgCrear.Enabled = False
-        Call Login
-        Me.imgCrear.Enabled = True
-    End If
-    
-    bShowTutorial = True
-
-End Sub
-
 Private Sub imgEspecialidad_MouseMove(Button As Integer, _
                                       Shift As Integer, _
-                                      x As Single, _
-                                      y As Single)
+                                      X As Single, _
+                                      Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieEspecialidad)
 End Sub
 
 Private Sub imgNombre_MouseMove(Button As Integer, _
                                 Shift As Integer, _
-                                x As Single, _
-                                y As Single)
+                                X As Single, _
+                                Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieNombre)
 End Sub
 
 Private Sub imgAtributos_MouseMove(Button As Integer, _
                                    Shift As Integer, _
-                                   x As Single, _
-                                   y As Single)
+                                   X As Single, _
+                                   Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieAtributos)
 End Sub
 
-Private Sub imgD_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub imgD_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieD)
 End Sub
 
-Private Sub imgM_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub imgM_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieM)
 End Sub
 
-Private Sub imgF_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub imgF_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieF)
 End Sub
 
 Private Sub imgFuerza_MouseMove(Button As Integer, _
                                 Shift As Integer, _
-                                x As Single, _
-                                y As Single)
+                                X As Single, _
+                                Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieFuerza)
 End Sub
 
 Private Sub imgAgilidad_MouseMove(Button As Integer, _
                                   Shift As Integer, _
-                                  x As Single, _
-                                  y As Single)
+                                  X As Single, _
+                                  Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieAgilidad)
 End Sub
 
 Private Sub imgInteligencia_MouseMove(Button As Integer, _
                                       Shift As Integer, _
-                                      x As Single, _
-                                      y As Single)
+                                      X As Single, _
+                                      Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieInteligencia)
 End Sub
 
 Private Sub imgCarisma_MouseMove(Button As Integer, _
                                  Shift As Integer, _
-                                 x As Single, _
-                                 y As Single)
+                                 X As Single, _
+                                 Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieCarisma)
 End Sub
 
 Private Sub imgConstitucion_MouseMove(Button As Integer, _
                                       Shift As Integer, _
-                                      x As Single, _
-                                      y As Single)
+                                      X As Single, _
+                                      Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieConstitucion)
 End Sub
 
 Private Sub imgArcos_MouseMove(Button As Integer, _
                                Shift As Integer, _
-                               x As Single, _
-                               y As Single)
+                               X As Single, _
+                               Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieArcos)
 End Sub
 
 Private Sub imgArmas_MouseMove(Button As Integer, _
                                Shift As Integer, _
-                               x As Single, _
-                               y As Single)
+                               X As Single, _
+                               Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieArmas)
 End Sub
 
 Private Sub imgEscudos_MouseMove(Button As Integer, _
                                  Shift As Integer, _
-                                 x As Single, _
-                                 y As Single)
+                                 X As Single, _
+                                 Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieEscudos)
 End Sub
 
 Private Sub imgEvasion_MouseMove(Button As Integer, _
                                  Shift As Integer, _
-                                 x As Single, _
-                                 y As Single)
+                                 X As Single, _
+                                 Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieEvasion)
 End Sub
 
 Private Sub imgMagia_MouseMove(Button As Integer, _
                                Shift As Integer, _
-                               x As Single, _
-                               y As Single)
+                               X As Single, _
+                               Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieMagia)
 End Sub
 
 Private Sub imgVida_MouseMove(Button As Integer, _
                               Shift As Integer, _
-                              x As Single, _
-                              y As Single)
+                              X As Single, _
+                              Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieVida)
 End Sub
 
 Private Sub imgDados_MouseMove(Button As Integer, _
                                Shift As Integer, _
-                               x As Single, _
-                               y As Single)
+                               X As Single, _
+                               Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieTirarDados)
 End Sub
 
 Private Sub imgPuebloOrigen_MouseMove(Button As Integer, _
                                       Shift As Integer, _
-                                      x As Single, _
-                                      y As Single)
+                                      X As Single, _
+                                      Y As Single)
     lblHelp.Caption = vHelp(eHelp.iePuebloOrigen)
 End Sub
 
 Private Sub imgRaza_MouseMove(Button As Integer, _
                               Shift As Integer, _
-                              x As Single, _
-                              y As Single)
+                              X As Single, _
+                              Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieRaza)
 End Sub
 
 Private Sub imgClase_MouseMove(Button As Integer, _
                                Shift As Integer, _
-                               x As Single, _
-                               y As Single)
+                               X As Single, _
+                               Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieClase)
 End Sub
 
 Private Sub imgGenero_MouseMove(Button As Integer, _
                                 Shift As Integer, _
-                                x As Single, _
-                                y As Single)
+                                X As Single, _
+                                Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieGenero)
 End Sub
 
@@ -1486,7 +1437,7 @@ Private Sub lstProfesion_Click()
     UserClase = lstProfesion.ListIndex + 1
     
     Call UpdateRazaMod
-    Call UpdateEspecialidad(UserClase)
+    Call UpdateEspecialidad(UserClase) '
 End Sub
 
 Private Sub UpdateEspecialidad(ByVal eClase As eClass)
@@ -1555,7 +1506,7 @@ Private Sub tAnimacion_Timer()
     Call Engine_BeginScene
 
     Call Draw_GrhIndex(GrhData(currentGrh).Frames(Frame), CenterX, CenterY, 1, Normal_RGBList())
-    Call Draw_GrhIndex(HeadData(UserHead).Head(Dir).GrhIndex, CenterX, CenterY + BodyData(UserBody).HeadOffset.y, 1, Normal_RGBList())
+    Call Draw_GrhIndex(HeadData(UserHead).Head(Dir).GrhIndex, CenterX, CenterY + BodyData(UserBody).HeadOffset.Y, 1, Normal_RGBList())
 
     Call Engine_EndScene(DR, picTemp.hWnd)
 
@@ -1579,8 +1530,8 @@ End Sub
 
 Private Sub txtConfirmPasswd_MouseMove(Button As Integer, _
                                        Shift As Integer, _
-                                       x As Single, _
-                                       y As Single)
+                                       X As Single, _
+                                       Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieConfirmPasswd)
 End Sub
 
@@ -1879,15 +1830,15 @@ End Sub
 
 Private Sub txtNombre_MouseMove(Button As Integer, _
                                 Shift As Integer, _
-                                x As Single, _
-                                y As Single)
+                                X As Single, _
+                                Y As Single)
     lblHelp.Caption = vHelp(eHelp.ieNombre)
 End Sub
 
 Private Sub txtPasswd_MouseMove(Button As Integer, _
                                 Shift As Integer, _
-                                x As Single, _
-                                y As Single)
+                                X As Single, _
+                                Y As Single)
     lblHelp.Caption = vHelp(eHelp.iePasswd)
 End Sub
 

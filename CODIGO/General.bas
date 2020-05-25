@@ -486,8 +486,9 @@ Sub Main()
     Call modCompression.GenerateContra(vbNullString, 0) ' 0 = Graficos.AO
     
     Call CargarHechizos
-    Call CargarConnectMaps
-    Call ModCnt.InicializarPosicionesPJ
+    
+    'Inicializamos el conectar renderizado
+    Call ModCnt.InicializarRndCNT
 
     ' Map Sounds
     Set Sonidos = New clsSoundMapas
