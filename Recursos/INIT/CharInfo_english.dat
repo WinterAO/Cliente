@@ -29,6 +29,11 @@ OrcAgilidad=-2
 OrcInteligencia=-5
 OrcCarisma=-2
 OrcConstitucion=3
+VampireFuerza=2
+VampireAgilidad=-1
+VampireInteligencia=1
+VampireCarisma=-1
+VampireConstitucion=1
 
 [MODEVASION]
 Warrior=1

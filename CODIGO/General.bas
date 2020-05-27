@@ -909,6 +909,7 @@ Private Sub InicializarNombres()
     ListaRazas(eRaza.Gnomo) = JsonLanguage.item("RAZAS").item("GNOMO")
     ListaRazas(eRaza.Enano) = JsonLanguage.item("RAZAS").item("ENANO")
     ListaRazas(eRaza.Orco) = JsonLanguage.item("RAZAS").item("ORCO")
+    ListaRazas(eRaza.Vampiro) = JsonLanguage.item("RAZAS").item("VAMPIRO")
 
     ListaClases(eClass.Mage) = JsonLanguage.item("CLASES").item("MAGO")
     ListaClases(eClass.Cleric) = JsonLanguage.item("CLASES").item("CLERIGO")

@@ -142,6 +142,10 @@ Public Enum eCabezas
     ORCO_H_ULTIMA_CABEZA = 544
     ORCO_H_CUERPO_DESNUDO = 631
     
+    VAMPIRO_H_PRIMER_CABEZA = 574
+    VAMPIRO_H_ULTIMA_CABEZA = 583
+    VAMPIRO_H_CUERPO_DESNUDO = 633
+    
     '<--MUJER-->
     
     HUMANO_M_PRIMER_CABEZA = 70
@@ -167,6 +171,10 @@ Public Enum eCabezas
     ORCO_M_PRIMER_CABEZA = 545
     ORCO_M_ULTIMA_CABEZA = 573
     ORCO_M_CUERPO_DESNUDO = 632
+    
+    VAMPIRO_M_PRIMER_CABEZA = 584
+    VAMPIRO_M_ULTIMA_CABEZA = 591
+    VAMPIRO_M_CUERPO_DESNUDO = 634
 End Enum
 
 Public ColoresPJ(0 To 50) As Long
@@ -269,6 +277,7 @@ Enum eRaza
     Gnomo = 4
     Enano = 5
     Orco = 6
+    Vampiro = 7
 End Enum
 
 Public Enum eSkill
@@ -744,7 +753,7 @@ Public Const NUMCIUDADES As Byte = 5
 Public Const NUMSKILLS As Byte = 21
 Public Const NUMATRIBUTOS As Byte = 5
 Public Const NUMCLASES As Byte = 12
-Public Const NUMRAZAS As Byte = 6
+Public Const NUMRAZAS As Byte = 7
 
 Public UserSkills(1 To NUMSKILLS) As Byte
 Public PorcentajeSkills(1 To NUMSKILLS) As Byte

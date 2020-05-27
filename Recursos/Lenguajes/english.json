@@ -805,7 +805,8 @@
         "ELFO_OSCURO": "Dark Elf",
         "GNOMO": "Gnome",
         "ENANO": "Dwarf",
-		"ORCO": "Orc"
+		"ORCO": "Orc",
+		"VAMPIRO": "Vampire"
     },
     "CLASES": {
         "MAGO": "Mage",

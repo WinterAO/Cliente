@@ -924,6 +924,10 @@ Private Sub DarCuerpoYCabeza()
                     UserHead = eCabezas.ORCO_H_PRIMER_CABEZA
                     UserBody = eCabezas.ORCO_H_CUERPO_DESNUDO
                     
+                Case eRaza.Vampiro
+                    UserHead = eCabezas.VAMPIRO_H_PRIMER_CABEZA
+                    UserBody = eCabezas.VAMPIRO_H_CUERPO_DESNUDO
+                    
                 Case Else
                     UserHead = 0
                     UserBody = 0
@@ -956,6 +960,10 @@ Private Sub DarCuerpoYCabeza()
                 Case eRaza.Orco
                     UserHead = eCabezas.ORCO_M_PRIMER_CABEZA
                     UserBody = eCabezas.ORCO_M_CUERPO_DESNUDO
+                    
+                Case eRaza.Vampiro
+                    UserHead = eCabezas.VAMPIRO_M_PRIMER_CABEZA
+                    UserBody = eCabezas.VAMPIRO_M_CUERPO_DESNUDO
                     
                 Case Else
                     UserHead = 0
@@ -1039,6 +1047,16 @@ On Error GoTo errhandler
                     Else
                         CheckCabeza = Head
                     End If
+                    
+                Case eRaza.Vampiro
+
+                    If Head > eCabezas.VAMPIRO_H_ULTIMA_CABEZA Then
+                        CheckCabeza = eCabezas.VAMPIRO_H_PRIMER_CABEZA + (Head - eCabezas.VAMPIRO_H_ULTIMA_CABEZA) - 1
+                    ElseIf Head < eCabezas.VAMPIRO_H_PRIMER_CABEZA Then
+                        CheckCabeza = eCabezas.VAMPIRO_H_ULTIMA_CABEZA - (eCabezas.VAMPIRO_H_PRIMER_CABEZA - Head) + 1
+                    Else
+                        CheckCabeza = Head
+                    End If
                 
                 Case Else
                     CheckCabeza = CheckCabeza(Head)
@@ -1105,6 +1123,16 @@ On Error GoTo errhandler
                         CheckCabeza = eCabezas.ORCO_M_PRIMER_CABEZA + (Head - eCabezas.ORCO_M_ULTIMA_CABEZA) - 1
                     ElseIf Head < eCabezas.ORCO_M_PRIMER_CABEZA Then
                         CheckCabeza = eCabezas.ORCO_M_ULTIMA_CABEZA - (eCabezas.ORCO_M_PRIMER_CABEZA - Head) + 1
+                    Else
+                        CheckCabeza = Head
+                    End If
+                    
+                Case eRaza.Vampiro
+
+                    If Head > eCabezas.VAMPIRO_M_ULTIMA_CABEZA Then
+                        CheckCabeza = eCabezas.VAMPIRO_M_PRIMER_CABEZA + (Head - eCabezas.VAMPIRO_M_ULTIMA_CABEZA) - 1
+                    ElseIf Head < eCabezas.VAMPIRO_M_PRIMER_CABEZA Then
+                        CheckCabeza = eCabezas.VAMPIRO_M_ULTIMA_CABEZA - (eCabezas.VAMPIRO_M_PRIMER_CABEZA - Head) + 1
                     Else
                         CheckCabeza = Head
                     End If
