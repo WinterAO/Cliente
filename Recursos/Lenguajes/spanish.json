@@ -804,7 +804,8 @@
         "ELFO": "Elfo",
         "ELFO_OSCURO": "Elfo Oscuro",
         "GNOMO": "Gnomo",
-        "ENANO": "Enano"
+        "ENANO": "Enano",
+		"ORCO": "Orco"
     },
     "CLASES": {
         "MAGO": "Mago",

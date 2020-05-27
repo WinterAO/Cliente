@@ -222,9 +222,6 @@ On Error GoTo errhandler:
     N = FreeFile()
     Open Game.path(INIT) & "Cabezas.ind" For Binary Access Read As #N
     
-    'cabecera
-    Get #N, , MiCabecera
-    
     'num de cabezas
     Get #N, , Numheads
     
@@ -240,6 +237,9 @@ On Error GoTo errhandler:
             Call InitGrh(HeadData(i).Head(2), Miscabezas(i).Head(2), 0)
             Call InitGrh(HeadData(i).Head(3), Miscabezas(i).Head(3), 0)
             Call InitGrh(HeadData(i).Head(4), Miscabezas(i).Head(4), 0)
+            
+            HeadData(i).Offset.X = Miscabezas(i).OffsetX
+            HeadData(i).Offset.Y = Miscabezas(i).OffsetY
         End If
     Next i
     

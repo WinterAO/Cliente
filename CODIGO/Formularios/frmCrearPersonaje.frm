@@ -1571,6 +1571,10 @@ Private Sub DarCuerpoYCabeza()
                     UserHead = eCabezas.GNOMO_H_PRIMER_CABEZA
                     UserBody = eCabezas.GNOMO_H_CUERPO_DESNUDO
                     
+                Case eRaza.Orco
+                    UserHead = eCabezas.ORCO_H_PRIMER_CABEZA
+                    UserBody = eCabezas.ORCO_H_CUERPO_DESNUDO
+                    
                 Case Else
                     UserHead = 0
                     UserBody = 0
@@ -1599,6 +1603,10 @@ Private Sub DarCuerpoYCabeza()
                 Case eRaza.Gnomo
                     UserHead = eCabezas.GNOMO_M_PRIMER_CABEZA
                     UserBody = eCabezas.GNOMO_M_CUERPO_DESNUDO
+                    
+                Case eRaza.Orco
+                    UserHead = eCabezas.ORCO_M_PRIMER_CABEZA
+                    UserBody = eCabezas.ORCO_M_CUERPO_DESNUDO
                     
                 Case Else
                     UserHead = 0
@@ -1645,143 +1653,6 @@ End Sub
 
 Private Function CheckCabeza(ByVal Head As Integer) As Integer
 
-On Error GoTo errhandler
-
-    Select Case UserSexo
-
-        Case eGenero.Hombre
-
-            Select Case UserRaza
-
-                Case eRaza.Humano
-
-                    If Head > eCabezas.HUMANO_H_ULTIMA_CABEZA Then
-                        CheckCabeza = eCabezas.HUMANO_H_PRIMER_CABEZA + (Head - eCabezas.HUMANO_H_ULTIMA_CABEZA) - 1
-                    ElseIf Head < eCabezas.HUMANO_H_PRIMER_CABEZA Then
-                        CheckCabeza = eCabezas.HUMANO_H_ULTIMA_CABEZA - (eCabezas.HUMANO_H_PRIMER_CABEZA - Head) + 1
-                    Else
-                        CheckCabeza = Head
-                    End If
-                
-                Case eRaza.Elfo
-
-                    If Head > eCabezas.ELFO_H_ULTIMA_CABEZA Then
-                        CheckCabeza = eCabezas.ELFO_H_PRIMER_CABEZA + (Head - eCabezas.ELFO_H_ULTIMA_CABEZA) - 1
-                    ElseIf Head < eCabezas.ELFO_H_PRIMER_CABEZA Then
-                        CheckCabeza = eCabezas.ELFO_H_ULTIMA_CABEZA - (eCabezas.ELFO_H_PRIMER_CABEZA - Head) + 1
-                    Else
-                        CheckCabeza = Head
-                    End If
-                
-                Case eRaza.ElfoOscuro
-
-                    If Head > eCabezas.DROW_H_ULTIMA_CABEZA Then
-                        CheckCabeza = eCabezas.DROW_H_PRIMER_CABEZA + (Head - eCabezas.DROW_H_ULTIMA_CABEZA) - 1
-                    ElseIf Head < eCabezas.DROW_H_PRIMER_CABEZA Then
-                        CheckCabeza = eCabezas.DROW_H_ULTIMA_CABEZA - (eCabezas.DROW_H_PRIMER_CABEZA - Head) + 1
-                    Else
-                        CheckCabeza = Head
-                    End If
-                
-                Case eRaza.Enano
-
-                    If Head > eCabezas.ENANO_H_ULTIMA_CABEZA Then
-                        CheckCabeza = eCabezas.ENANO_H_PRIMER_CABEZA + (Head - eCabezas.ENANO_H_ULTIMA_CABEZA) - 1
-                    ElseIf Head < eCabezas.ENANO_H_PRIMER_CABEZA Then
-                        CheckCabeza = eCabezas.ENANO_H_ULTIMA_CABEZA - (eCabezas.ENANO_H_PRIMER_CABEZA - Head) + 1
-                    Else
-                        CheckCabeza = Head
-                    End If
-                
-                Case eRaza.Gnomo
-
-                    If Head > eCabezas.GNOMO_H_ULTIMA_CABEZA Then
-                        CheckCabeza = eCabezas.GNOMO_H_PRIMER_CABEZA + (Head - eCabezas.GNOMO_H_ULTIMA_CABEZA) - 1
-                    ElseIf Head < eCabezas.GNOMO_H_PRIMER_CABEZA Then
-                        CheckCabeza = eCabezas.GNOMO_H_ULTIMA_CABEZA - (eCabezas.GNOMO_H_PRIMER_CABEZA - Head) + 1
-                    Else
-                        CheckCabeza = Head
-                    End If
-                
-                Case Else
-                    UserRaza = lstRaza.ListIndex + 1
-                    CheckCabeza = CheckCabeza(Head)
-                    
-            End Select
-        
-        Case eGenero.Mujer
-
-            Select Case UserRaza
-
-                Case eRaza.Humano
-
-                    If Head > eCabezas.HUMANO_M_ULTIMA_CABEZA Then
-                        CheckCabeza = eCabezas.HUMANO_M_PRIMER_CABEZA + (Head - eCabezas.HUMANO_M_ULTIMA_CABEZA) - 1
-                    ElseIf Head < eCabezas.HUMANO_M_PRIMER_CABEZA Then
-                        CheckCabeza = eCabezas.HUMANO_M_ULTIMA_CABEZA - (eCabezas.HUMANO_M_PRIMER_CABEZA - Head) + 1
-                    Else
-                        CheckCabeza = Head
-                    End If
-                
-                Case eRaza.Elfo
-
-                    If Head > eCabezas.ELFO_M_ULTIMA_CABEZA Then
-                        CheckCabeza = eCabezas.ELFO_M_PRIMER_CABEZA + (Head - eCabezas.ELFO_M_ULTIMA_CABEZA) - 1
-                    ElseIf Head < eCabezas.ELFO_M_PRIMER_CABEZA Then
-                        CheckCabeza = eCabezas.ELFO_M_ULTIMA_CABEZA - (eCabezas.ELFO_M_PRIMER_CABEZA - Head) + 1
-                    Else
-                        CheckCabeza = Head
-                    End If
-                
-                Case eRaza.ElfoOscuro
-
-                    If Head > eCabezas.DROW_M_ULTIMA_CABEZA Then
-                        CheckCabeza = eCabezas.DROW_M_PRIMER_CABEZA + (Head - eCabezas.DROW_M_ULTIMA_CABEZA) - 1
-                    ElseIf Head < eCabezas.DROW_M_PRIMER_CABEZA Then
-                        CheckCabeza = eCabezas.DROW_M_ULTIMA_CABEZA - (eCabezas.DROW_M_PRIMER_CABEZA - Head) + 1
-                    Else
-                        CheckCabeza = Head
-                    End If
-                
-                Case eRaza.Enano
-
-                    If Head > eCabezas.ENANO_M_ULTIMA_CABEZA Then
-                        CheckCabeza = eCabezas.ENANO_M_PRIMER_CABEZA + (Head - eCabezas.ENANO_M_ULTIMA_CABEZA) - 1
-                    ElseIf Head < eCabezas.ENANO_M_PRIMER_CABEZA Then
-                        CheckCabeza = eCabezas.ENANO_M_ULTIMA_CABEZA - (eCabezas.ENANO_M_PRIMER_CABEZA - Head) + 1
-                    Else
-                        CheckCabeza = Head
-                    End If
-                
-                Case eRaza.Gnomo
-
-                    If Head > eCabezas.GNOMO_M_ULTIMA_CABEZA Then
-                        CheckCabeza = eCabezas.GNOMO_M_PRIMER_CABEZA + (Head - eCabezas.GNOMO_M_ULTIMA_CABEZA) - 1
-                    ElseIf Head < eCabezas.GNOMO_M_PRIMER_CABEZA Then
-                        CheckCabeza = eCabezas.GNOMO_M_ULTIMA_CABEZA - (eCabezas.GNOMO_M_PRIMER_CABEZA - Head) + 1
-                    Else
-                        CheckCabeza = Head
-                    End If
-                
-                Case Else
-                    UserRaza = lstRaza.ListIndex + 1
-                    CheckCabeza = Head
-                    
-            End Select
-
-        Case Else
-            UserSexo = lstGenero.ListIndex + 1
-            CheckCabeza = Head
-            
-    End Select
-    
-errhandler:
-
-    If Err.number Then
-        Call LogError(Err.number, Err.Description, "frmCrearPersonaje.CheckCabeza")
-    End If
-    
-    Exit Function
     
 End Function
 

@@ -24,6 +24,11 @@ GnomeAgilidad=+3
 GnomeInteligencia=+4
 GnomeCarisma=+1
 GnomeConstitucion=0
+OrcFuerza=5
+OrcAgilidad=-2
+OrcInteligencia=-5
+OrcCarisma=-2
+OrcConstitucion=3
 
 [MODEVASION]
 Warrior=1

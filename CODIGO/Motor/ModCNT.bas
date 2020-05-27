@@ -473,11 +473,11 @@ Private Sub RenderPJ()
                         Call Draw_Grh(BodyData(.Body).Walk(3), PJPos(Index).X, PJPos(Index).Y, 1, Normal_RGBList(), 0)
             
                         If .Head <> 0 Then
-                            Call Draw_Grh(HeadData(.Head).Head(3), PJPos(Index).X + BodyData(.Body).HeadOffset.X, PJPos(Index).Y + BodyData(.Body).HeadOffset.Y, 1, Normal_RGBList(), 0)
+                            Call Draw_Grh(HeadData(.Head).Head(3), PJPos(Index).X + BodyData(.Body).HeadOffset.X, PJPos(Index).Y + HeadData(.Head).Offset.Y + BodyData(.Body).HeadOffset.Y, 1, Normal_RGBList(), 0)
                         End If
             
                         If .helmet <> 0 Then
-                            Call Draw_Grh(CascoAnimData(.helmet).Head(3), PJPos(Index).X + BodyData(.Body).HeadOffset.X, PJPos(Index).Y + BodyData(.Body).HeadOffset.Y + OFFSET_HEAD, 1, Normal_RGBList(), 0)
+                            Call Draw_Grh(CascoAnimData(.helmet).Head(3), PJPos(Index).X + BodyData(.Body).HeadOffset.X, PJPos(Index).Y + CascoAnimData(.helmet).Offset.Y + BodyData(.Body).HeadOffset.Y + OFFSET_HEAD, 1, Normal_RGBList(), 0)
                         End If
             
                         If .weapon <> 0 Then
@@ -505,7 +505,7 @@ Private Sub RenderPJ()
             Call Draw_Grh(BodyData(UserBody).Walk(3), 225, 560, 1, Normal_RGBList(), 0)
                 
             If UserHead <> 0 Then _
-                Call Draw_Grh(HeadData(UserHead).Head(3), 225 + BodyData(UserBody).HeadOffset.X, 560 + BodyData(UserBody).HeadOffset.Y, 1, Normal_RGBList(), 0)
+                Call Draw_Grh(HeadData(UserHead).Head(3), 225 + BodyData(UserBody).HeadOffset.X, 560 + HeadData(UserHead).Offset.Y + BodyData(UserBody).HeadOffset.Y, 1, Normal_RGBList(), 0)
                 
             'Nombre
             Call DrawText(225 + 16, 560 + 30, frmConnect.txtCrearPJNombre.Text, -1, True)
@@ -920,6 +920,10 @@ Private Sub DarCuerpoYCabeza()
                     UserHead = eCabezas.GNOMO_H_PRIMER_CABEZA
                     UserBody = eCabezas.GNOMO_H_CUERPO_DESNUDO
                     
+                Case eRaza.Orco
+                    UserHead = eCabezas.ORCO_H_PRIMER_CABEZA
+                    UserBody = eCabezas.ORCO_H_CUERPO_DESNUDO
+                    
                 Case Else
                     UserHead = 0
                     UserBody = 0
@@ -948,6 +952,10 @@ Private Sub DarCuerpoYCabeza()
                 Case eRaza.Gnomo
                     UserHead = eCabezas.GNOMO_M_PRIMER_CABEZA
                     UserBody = eCabezas.GNOMO_M_CUERPO_DESNUDO
+                    
+                Case eRaza.Orco
+                    UserHead = eCabezas.ORCO_M_PRIMER_CABEZA
+                    UserBody = eCabezas.ORCO_M_CUERPO_DESNUDO
                     
                 Case Else
                     UserHead = 0
@@ -1021,6 +1029,16 @@ On Error GoTo errhandler
                     Else
                         CheckCabeza = Head
                     End If
+                    
+                Case eRaza.Orco
+
+                    If Head > eCabezas.ORCO_H_ULTIMA_CABEZA Then
+                        CheckCabeza = eCabezas.ORCO_H_PRIMER_CABEZA + (Head - eCabezas.ORCO_H_ULTIMA_CABEZA) - 1
+                    ElseIf Head < eCabezas.ORCO_H_PRIMER_CABEZA Then
+                        CheckCabeza = eCabezas.ORCO_H_ULTIMA_CABEZA - (eCabezas.ORCO_H_PRIMER_CABEZA - Head) + 1
+                    Else
+                        CheckCabeza = Head
+                    End If
                 
                 Case Else
                     CheckCabeza = CheckCabeza(Head)
@@ -1077,6 +1095,16 @@ On Error GoTo errhandler
                         CheckCabeza = eCabezas.GNOMO_M_PRIMER_CABEZA + (Head - eCabezas.GNOMO_M_ULTIMA_CABEZA) - 1
                     ElseIf Head < eCabezas.GNOMO_M_PRIMER_CABEZA Then
                         CheckCabeza = eCabezas.GNOMO_M_ULTIMA_CABEZA - (eCabezas.GNOMO_M_PRIMER_CABEZA - Head) + 1
+                    Else
+                        CheckCabeza = Head
+                    End If
+                
+                Case eRaza.Orco
+
+                    If Head > eCabezas.ORCO_M_ULTIMA_CABEZA Then
+                        CheckCabeza = eCabezas.ORCO_M_PRIMER_CABEZA + (Head - eCabezas.ORCO_M_ULTIMA_CABEZA) - 1
+                    ElseIf Head < eCabezas.ORCO_M_PRIMER_CABEZA Then
+                        CheckCabeza = eCabezas.ORCO_M_ULTIMA_CABEZA - (eCabezas.ORCO_M_PRIMER_CABEZA - Head) + 1
                     Else
                         CheckCabeza = Head
                     End If
