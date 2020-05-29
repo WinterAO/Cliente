@@ -298,6 +298,9 @@ Private Sub RenderConnectGUI()
 'Fecha: 15/05/2020
 'Dibuja la interfaz
 '******************************
+    Dim asterisco As String
+    Dim i As Integer
+    
     Select Case Pantalla
     
         Case 0 'Login (frmconnect)
@@ -334,13 +337,21 @@ Private Sub RenderConnectGUI()
                     Call Draw_GrhIndex(25319, 446 + Engine_AnchoTexto(1, frmConnect.txtNombre.Text), 372, 0, Normal_RGBList(), 0, False)
                     
                 ElseIf TextSelected = 2 Then
-                    Call Draw_GrhIndex(25319, 446 + Engine_AnchoTexto(1, frmConnect.txtPasswd.Text), 406, 0, Normal_RGBList(), 0, False)
+                    Call Draw_GrhIndex(25319, 453 + Engine_AnchoTexto(1, frmConnect.txtPasswd.Text), 406, 0, Normal_RGBList(), 0, False)
                     
                 End If
             End If
             
+            If Len(frmConnect.txtPasswd.Text) > 0 Then
+                For i = 0 To Len(frmConnect.txtPasswd.Text)
+                    asterisco = asterisco + "*"
+                Next i
+            Else
+                asterisco = vbNullString
+            End If
+            
             'Password
-            Call DrawText(445, 406, frmConnect.txtPasswd.Text, -1, False)
+            Call DrawText(445, 406, asterisco, -1, False)
             
             'Salir
             Call Draw_GrhIndex(31503, 20, 650, 0, Normal_RGBList(), 0, False)
@@ -470,22 +481,20 @@ Private Sub RenderPJ()
     
                     If .Body <> 0 Then
             
-                        Call Draw_Grh(BodyData(.Body).Walk(3), PJPos(Index).X, PJPos(Index).Y, 1, Normal_RGBList(), 0)
+                        Call Draw_Grh(BodyData(.Body).Walk(1), PJPos(Index).X, PJPos(Index).Y, 1, Normal_RGBList(), 0)
             
-                        If .Head <> 0 Then
-                            Call Draw_Grh(HeadData(.Head).Head(3), PJPos(Index).X + BodyData(.Body).HeadOffset.X, PJPos(Index).Y + HeadData(.Head).Offset.Y + BodyData(.Body).HeadOffset.Y, 1, Normal_RGBList(), 0)
-                        End If
+                        If .Head <> 0 Then _
+                            Call DrawHead(.Head, PJPos(Index).X + BodyData(.Body).HeadOffset.X, PJPos(Index).Y + BodyData(.Body).HeadOffset.Y + OFFSET_HEAD, Normal_RGBList(), 1, True)
             
-                        If .helmet <> 0 Then
-                            Call Draw_Grh(CascoAnimData(.helmet).Head(3), PJPos(Index).X + BodyData(.Body).HeadOffset.X, PJPos(Index).Y + CascoAnimData(.helmet).Offset.Y + BodyData(.Body).HeadOffset.Y + OFFSET_HEAD, 1, Normal_RGBList(), 0)
-                        End If
+                        If .helmet <> 0 Then _
+                            Call DrawHead(.helmet, PJPos(Index).X + BodyData(.Body).HeadOffset.X, PJPos(Index).Y + BodyData(.Body).HeadOffset.Y + OFFSET_HEAD, Normal_RGBList(), 1, False)
             
                         If .weapon <> 0 Then
-                            Call Draw_Grh(WeaponAnimData(.weapon).WeaponWalk(3), PJPos(Index).X, PJPos(Index).Y, 1, Normal_RGBList(), 0)
+                            Call Draw_Grh(WeaponAnimData(.weapon).WeaponWalk(1), PJPos(Index).X, PJPos(Index).Y, 1, Normal_RGBList(), 0)
                         End If
             
                         If .shield <> 0 Then
-                            Call Draw_Grh(ShieldAnimData(.shield).ShieldWalk(3), PJPos(Index).X, PJPos(Index).Y, 1, Normal_RGBList(), 0)
+                            Call Draw_Grh(ShieldAnimData(.shield).ShieldWalk(1), PJPos(Index).X, PJPos(Index).Y, 1, Normal_RGBList(), 0)
                         End If
                         
                         'Nombre
@@ -502,10 +511,10 @@ Private Sub RenderPJ()
         Case 2 'Crear PJ
         
         If UserBody <> 0 Then
-            Call Draw_Grh(BodyData(UserBody).Walk(3), 225, 560, 1, Normal_RGBList(), 0)
+            Call Draw_Grh(BodyData(UserBody).Walk(1), 225, 560, 1, Normal_RGBList(), 0)
                 
             If UserHead <> 0 Then _
-                Call Draw_Grh(HeadData(UserHead).Head(3), 225 + BodyData(UserBody).HeadOffset.X, 560 + HeadData(UserHead).Offset.Y + BodyData(UserBody).HeadOffset.Y, 1, Normal_RGBList(), 0)
+                Call DrawHead(UserHead, 225 + BodyData(UserBody).HeadOffset.X, 527 + BodyData(UserBody).HeadOffset.Y, Normal_RGBList(), 1, True)
                 
             'Nombre
             Call DrawText(225 + 16, 560 + 30, frmConnect.txtCrearPJNombre.Text, -1, True)
@@ -752,13 +761,13 @@ Private Sub btnConectar()
     frmMain.hlst.Clear
 
     If frmConnect.chkRecordar.Checked = False Then
-        Call WriteVar(Game.path(INIT) & "Config.ini", "Login", "Remember", "False")
-        Call WriteVar(Game.path(INIT) & "Config.ini", "Login", "UserName", vbNullString)
-        Call WriteVar(Game.path(INIT) & "Config.ini", "Login", "Password", vbNullString)
+        Call WriteVar(Game.path(Init) & "Config.ini", "Login", "Remember", "False")
+        Call WriteVar(Game.path(Init) & "Config.ini", "Login", "UserName", vbNullString)
+        Call WriteVar(Game.path(Init) & "Config.ini", "Login", "Password", vbNullString)
     Else
-        Call WriteVar(Game.path(INIT) & "Config.ini", "Login", "Remember", "True")
-        Call WriteVar(Game.path(INIT) & "Config.ini", "Login", "UserName", AccountName)
-        Call WriteVar(Game.path(INIT) & "Config.ini", "Login", "Password", Cripto.AesEncryptString(AccountPassword, AES_PASSWD))
+        Call WriteVar(Game.path(Init) & "Config.ini", "Login", "Remember", "True")
+        Call WriteVar(Game.path(Init) & "Config.ini", "Login", "UserName", AccountName)
+        Call WriteVar(Game.path(Init) & "Config.ini", "Login", "Password", Cripto.AesEncryptString(AccountPassword, AES_PASSWD))
     End If
 
     If CheckUserData() = True Then
@@ -1192,7 +1201,7 @@ Private Sub LoadCharInfo()
 
     Dim Lector As clsIniManager
     Set Lector = New clsIniManager
-    Call Lector.Initialize(Game.path(INIT) & "CharInfo_" & Language & ".dat")
+    Call Lector.Initialize(Game.path(Init) & "CharInfo_" & Language & ".dat")
     
     'Modificadores de Raza
     For i = 1 To NUMRAZAS

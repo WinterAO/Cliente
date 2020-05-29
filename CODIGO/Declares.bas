@@ -138,12 +138,12 @@ Public Enum eCabezas
     GNOMO_H_ULTIMA_CABEZA = 416
     GNOMO_H_CUERPO_DESNUDO = 222
     
-    ORCO_H_PRIMER_CABEZA = 515
-    ORCO_H_ULTIMA_CABEZA = 544
+    ORCO_H_PRIMER_CABEZA = 501
+    ORCO_H_ULTIMA_CABEZA = 530
     ORCO_H_CUERPO_DESNUDO = 631
     
-    VAMPIRO_H_PRIMER_CABEZA = 574
-    VAMPIRO_H_ULTIMA_CABEZA = 583
+    VAMPIRO_H_PRIMER_CABEZA = 623
+    VAMPIRO_H_ULTIMA_CABEZA = 631
     VAMPIRO_H_CUERPO_DESNUDO = 633
     
     '<--MUJER-->
@@ -168,12 +168,12 @@ Public Enum eCabezas
     GNOMO_M_ULTIMA_CABEZA = 484
     GNOMO_M_CUERPO_DESNUDO = 260
     
-    ORCO_M_PRIMER_CABEZA = 545
-    ORCO_M_ULTIMA_CABEZA = 573
+    ORCO_M_PRIMER_CABEZA = 570
+    ORCO_M_ULTIMA_CABEZA = 599
     ORCO_M_CUERPO_DESNUDO = 632
     
-    VAMPIRO_M_PRIMER_CABEZA = 584
-    VAMPIRO_M_ULTIMA_CABEZA = 591
+    VAMPIRO_M_PRIMER_CABEZA = 632
+    VAMPIRO_M_ULTIMA_CABEZA = 640
     VAMPIRO_M_CUERPO_DESNUDO = 634
 End Enum
 
@@ -224,10 +224,10 @@ Public Tips() As String * 255
 'Direcciones
 Public Enum E_Heading
     nada = 0
-    NORTH = 1
-    EAST = 2
-    SOUTH = 3
-    WEST = 4
+    SOUTH = 1
+    NORTH = 2
+    WEST = 3
+    EAST = 4
 End Enum
 
 'Objetos
@@ -884,11 +884,15 @@ Public Const SW_SHOWNORMAL As Long = 1
 Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
 'Lista de cabezas
-Public Type tIndiceCabeza
-    Head(1 To 4) As Long
-    OffsetX As Integer
-    OffsetY As Integer
+Public Type tHead
+    Std As Byte
+    Texture As Integer
+    startX As Integer
+    startY As Integer
 End Type
+
+Public heads() As tHead
+Public Cascos() As tHead
 
 Public Type tIndiceCuerpo
     Body(1 To 4) As Long
