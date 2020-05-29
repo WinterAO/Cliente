@@ -722,7 +722,7 @@ Sub Char_MovebyHead(ByVal CharIndex As Integer, ByVal nHeading As E_Heading)
     End With
     
     If (UserEstado = 0) Then
-        Call DoPasosFx(CharIndex)
+   '     Call DoPasosFx(CharIndex)
     End If
 
     If CharIndex <> UserCharIndex Then

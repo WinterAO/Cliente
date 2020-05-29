@@ -317,7 +317,7 @@ Private Sub Form_Load()
 
     
     'Cargamos la interfase
-    Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaComercio.jpg")
+    Me.Picture = LoadPicture(Game.Path(Interfaces) & "VentanaComercio.jpg")
     
     Call LoadButtons
     Call LoadTextsForm
@@ -342,7 +342,7 @@ End Sub
 
 Private Sub LoadButtons()
     Dim GrhPath As String
-    GrhPath = Game.path(Interfaces)
+    GrhPath = Game.Path(Interfaces)
     
     'Lo dejamos solo para que no explote, habria que sacar estos LastButtonPressed
     Set LastButtonPressed = New clsGraphicalButton
@@ -408,7 +408,7 @@ Private Sub imgComprar_Click()
     
     If Not IsNumeric(cantidad.Text) Or cantidad.Text = 0 Then Exit Sub
     
-    Call Audio.PlayWave(SND_CLICK)
+    Call Sound.Sound_Play(SND_CLICK)
     
     LasActionBuy = True
     If UserGLD >= CalculateSellPrice(NPCInventory(InvComNpc.SelectedItem).Valor, Val(cantidad.Text)) Then
@@ -433,7 +433,7 @@ Private Sub imgVender_Click()
 
     If Not IsNumeric(cantidad.Text) Or cantidad.Text = 0 Then Exit Sub
     
-    Call Audio.PlayWave(SND_CLICK)
+    Call Sound.Sound_Play(SND_CLICK)
     
     LasActionBuy = False
 
