@@ -804,7 +804,9 @@
         "ELFO": "Elfo",
         "ELFO_OSCURO": "Elfo Oscuro",
         "GNOMO": "Gnomo",
-        "ENANO": "Enano"
+        "ENANO": "Enano",
+		"ORCO": "Orco",
+		"VAMPIRO": "Vampiro"
     },
     "CLASES": {
         "MAGO": "Mago",
@@ -1142,21 +1144,6 @@
     },
     "CUSTOMKEYS_TECLA_INVALIDA": {
         "TEXTO": "Hay una o mas teclas invalidas. Por favor verifique."
-    },
-    "BTN_CONECTARSE": {
-        "TEXTO": "Conectarse"
-    },
-    "BTN_RECUPERAR": {
-        "TEXTO": "Cambiar Pass"
-    },
-    "LBL_RECORDARME": {
-        "TEXTO": "Recordarme"
-    },
-    "BTN_SALIR": {
-        "TEXTO": "Salir"
-    },
-    "LBL_TECLAS": {
-        "TEXTO": "Teclas"
     },
     "LBL_MAPA": {
         "TEXTO": "Mapa"

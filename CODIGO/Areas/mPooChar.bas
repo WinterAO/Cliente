@@ -289,8 +289,8 @@ Public Sub Char_SetHead(ByVal CharIndex As Integer, ByVal HeadIndex As Integer)
     'Seteamos el CharHead
     '**************************************************************
  
-    If HeadIndex < LBound(HeadData()) Or HeadIndex > UBound(HeadData()) Then
-        charlist(CharIndex).Head = HeadData(0)
+    If HeadIndex < 1 Or HeadIndex > NumHeads Then
+        charlist(CharIndex).Head = 0
         charlist(CharIndex).iHead = 0
 
         Exit Sub
@@ -300,7 +300,7 @@ Public Sub Char_SetHead(ByVal CharIndex As Integer, ByVal HeadIndex As Integer)
     If Char_Check(CharIndex) Then
  
         With charlist(CharIndex)
-            .Head = HeadData(HeadIndex)
+            .Head = HeadIndex
             .iHead = HeadIndex
                                
             .muerto = (HeadIndex = eCabezas.CASPER_HEAD)
@@ -430,7 +430,7 @@ Public Sub Char_SetCasco(ByVal CharIndex As Integer, ByVal CascoIndex As Integer
     '
     '**************************************************************
  
-    If CascoIndex > UBound(CascoAnimData()) Or CascoIndex < LBound(CascoAnimData()) Then
+    If CascoIndex > 1 Or CascoIndex < NumCascos Then
 
         Exit Sub
 
@@ -440,7 +440,7 @@ Public Sub Char_SetCasco(ByVal CharIndex As Integer, ByVal CascoIndex As Integer
  
         With charlist(CharIndex)
                
-            .Casco = CascoAnimData(CascoIndex)
+            .Casco = CascoIndex
  
             Exit Sub
  
@@ -507,12 +507,12 @@ Public Sub Char_Make(ByVal CharIndex As Integer, _
         .iHead = Head
         .iBody = Body
                 
-        .Head = HeadData(Head)
+        .Head = Head
         .Body = BodyData(Body)
                 
         .Arma = WeaponAnimData(Arma)
         .Escudo = ShieldAnimData(Escudo)
-        .Casco = CascoAnimData(Casco)
+        .Casco = Casco
         
         .Heading = Heading
          

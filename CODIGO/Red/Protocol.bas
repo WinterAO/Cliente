@@ -356,7 +356,7 @@ Public Sub Connect(ByVal Modo As E_MODO)
     '*********************************************************************
         
     'Evitamos enviar multiples peticiones de conexion al servidor.
-    frmConnect.btnConectarse.Enabled = False
+    ModCnt.Conectando = False
         
     'Primero lo cerramos, para evitar errores.
     If frmMain.Client.State <> (sckClosed Or sckConnecting) Then
@@ -370,7 +370,7 @@ Public Sub Connect(ByVal Modo As E_MODO)
     Call frmMain.Client.Connect(CurServerIp, CurServerPort)
 
     'Vuelvo a activar el boton.
-    frmConnect.btnConectarse.Enabled = True
+    ModCnt.Conectando = True
 End Sub
 
 ''
@@ -2571,15 +2571,15 @@ On Error GoTo ErrHandler
     Dim privs As Integer
     Dim NickColor As Byte
     
-    CharIndex = buffer.ReadInteger()
-    Body = buffer.ReadInteger()
-    Head = buffer.ReadInteger()
-    Heading = buffer.ReadByte()
-    X = buffer.ReadByte()
-    Y = buffer.ReadByte()
-    weapon = buffer.ReadInteger()
-    shield = buffer.ReadInteger()
-    helmet = buffer.ReadInteger()
+    CharIndex = Buffer.ReadInteger()
+    Body = Buffer.ReadInteger()
+    Head = Buffer.ReadInteger()
+    Heading = Buffer.ReadByte()
+    X = Buffer.ReadByte()
+    Y = Buffer.ReadByte()
+    weapon = Buffer.ReadInteger()
+    shield = Buffer.ReadInteger()
+    helmet = Buffer.ReadInteger()
 
     With charlist(CharIndex)
         Call Char_SetFx(CharIndex, buffer.ReadInteger(), buffer.ReadInteger())
@@ -5552,6 +5552,10 @@ Public Sub WriteLoginExistingChar()
 'CHOTS: Accounts
 'Writes the "LoginExistingChar" message to the outgoing data buffer
 '***************************************************
+
+    'Evitamos enviar multiples peticiones de conexion al servidor.
+    ModCnt.Conectando = False
+    
     With outgoingData
         Call .WriteByte(ClientPacketID.LoginExistingChar)
         
@@ -5561,6 +5565,8 @@ Public Sub WriteLoginExistingChar()
         Call .WriteByte(App.Minor)
         Call .WriteByte(App.Revision)
     End With
+
+    ModCnt.Conectando = True
 End Sub
 
 ''

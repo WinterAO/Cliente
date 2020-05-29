@@ -110,6 +110,9 @@ Public NumConnectMap As Byte 'Numero total de mapas cargados
 
 Private FileManager As clsIniManager
 
+Public NumHeads As Integer
+Public NumCascos As Integer
+
 ''
 ' Loads grh data using the new file format.
 '
@@ -215,34 +218,22 @@ Public Sub CargarCabezas()
 On Error GoTo errhandler:
 
     Dim N As Integer
-    Dim i As Long
-    Dim Numheads As Integer
-    Dim Miscabezas() As tIndiceCabeza
+    Dim i As Integer
     
     N = FreeFile()
-    Open Game.path(INIT) & "Cabezas.ind" For Binary Access Read As #N
+    Open Game.path(Init) & "Head.ind" For Binary Access Read As #N
     
-    'cabecera
-    Get #N, , MiCabecera
-    
-    'num de cabezas
-    Get #N, , Numheads
-    
-    'Resize array
-    ReDim HeadData(0 To Numheads) As HeadData
-    ReDim Miscabezas(0 To Numheads) As tIndiceCabeza
-    
-    For i = 1 To Numheads
-        Get #N, , Miscabezas(i)
-        
-        If Miscabezas(i).Head(1) Then
-            Call InitGrh(HeadData(i).Head(1), Miscabezas(i).Head(1), 0)
-            Call InitGrh(HeadData(i).Head(2), Miscabezas(i).Head(2), 0)
-            Call InitGrh(HeadData(i).Head(3), Miscabezas(i).Head(3), 0)
-            Call InitGrh(HeadData(i).Head(4), Miscabezas(i).Head(4), 0)
-        End If
-    Next i
-    
+        Get #N, , NumHeads   'cantidad de cabezas
+
+        ReDim heads(0 To NumHeads) As tHead
+            
+        For i = 1 To NumHeads
+            Get #N, , heads(i).Std
+            Get #N, , heads(i).Texture
+            Get #N, , heads(i).startX
+            Get #N, , heads(i).startY
+        Next i
+
     Close #N
     
 errhandler:
@@ -250,7 +241,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Cabezas.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Head.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
             Call CloseClient
         End If
         
@@ -258,39 +249,27 @@ errhandler:
     
 End Sub
 
-Sub CargarCascos()
+Public Sub CargarCascos()
 On Error GoTo errhandler:
 
     Dim N As Integer
-    Dim i As Long
-    Dim NumCascos As Integer
-
-    Dim Miscabezas() As tIndiceCabeza
+    Dim i As Integer
     
     N = FreeFile()
-    Open Game.path(INIT) & "Cascos.ind" For Binary Access Read As #N
+    Open Game.path(Init) & "Helmet.ind" For Binary Access Read As #N
     
-    'cabecera
-    Get #N, , MiCabecera
-    
-    'num de cabezas
-    Get #N, , NumCascos
-    
-    'Resize array
-    ReDim CascoAnimData(0 To NumCascos) As HeadData
-    ReDim Miscabezas(0 To NumCascos) As tIndiceCabeza
-    
-    For i = 1 To NumCascos
-        Get #N, , Miscabezas(i)
-        
-        If Miscabezas(i).Head(1) Then
-            Call InitGrh(CascoAnimData(i).Head(1), Miscabezas(i).Head(1), 0)
-            Call InitGrh(CascoAnimData(i).Head(2), Miscabezas(i).Head(2), 0)
-            Call InitGrh(CascoAnimData(i).Head(3), Miscabezas(i).Head(3), 0)
-            Call InitGrh(CascoAnimData(i).Head(4), Miscabezas(i).Head(4), 0)
-        End If
-    Next i
-    
+        Get #N, , NumCascos   'cantidad de cascos
+             
+        ReDim Cascos(0 To NumCascos) As tHead
+             
+        For i = 1 To NumCascos
+            Get #N, , Cascos(i).Std
+            Get #N, , Cascos(i).Texture
+            Get #N, , Cascos(i).startX
+            Get #N, , Cascos(i).startY
+                
+        Next i
+         
     Close #N
     
 errhandler:
@@ -298,7 +277,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Cascos.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Helmet.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
             Call CloseClient
         End If
         
@@ -315,7 +294,7 @@ On Error GoTo errhandler:
     Dim MisCuerpos() As tIndiceCuerpo
     
     N = FreeFile()
-    Open Game.path(INIT) & "Personajes.ind" For Binary Access Read As #N
+    Open Game.path(Init) & "Personajes.ind" For Binary Access Read As #N
     
     'cabecera
     Get #N, , MiCabecera
@@ -362,7 +341,7 @@ On Error GoTo errhandler:
     Dim i As Long
     
     Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Game.path(INIT) & "Fxs.ini")
+    Call FileManager.Initialize(Game.path(Init) & "Fxs.ini")
     
     'Resize array
     ReDim FxData(0 To FileManager.GetValue("INIT", "NumFxs")) As tIndiceFx
@@ -399,7 +378,7 @@ Public Sub CargarTips()
 On Error GoTo errhandler:
     
     Dim TipFile As String
-        TipFile = FileToString(Game.path(INIT) & "tips_" & Language & ".json")
+        TipFile = FileToString(Game.path(Init) & "tips_" & Language & ".json")
     
     Set JsonTips = JSON.parse(TipFile)
 
@@ -421,16 +400,16 @@ On Error GoTo errhandler:
     Dim LoopC As Long
 
     Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Game.path(INIT) & "armas.dat")
+    Call FileManager.Initialize(Game.path(Init) & "armas.dat")
     
     NumWeaponAnims = Val(FileManager.GetValue("INIT", "NumArmas"))
     ReDim WeaponAnimData(1 To NumWeaponAnims) As WeaponAnimData
     
     For LoopC = 1 To NumWeaponAnims
-        Call InitGrh(WeaponAnimData(LoopC).WeaponWalk(1), Val(FileManager.GetValue("ARMA" & LoopC, "Dir1")), 0)
-        Call InitGrh(WeaponAnimData(LoopC).WeaponWalk(2), Val(FileManager.GetValue("ARMA" & LoopC, "Dir2")), 0)
-        Call InitGrh(WeaponAnimData(LoopC).WeaponWalk(3), Val(FileManager.GetValue("ARMA" & LoopC, "Dir3")), 0)
-        Call InitGrh(WeaponAnimData(LoopC).WeaponWalk(4), Val(FileManager.GetValue("ARMA" & LoopC, "Dir4")), 0)
+        Call InitGrh(WeaponAnimData(LoopC).WeaponWalk(1), Val(FileManager.GetValue("ARMA" & LoopC, "Dir3")), 0)
+        Call InitGrh(WeaponAnimData(LoopC).WeaponWalk(2), Val(FileManager.GetValue("ARMA" & LoopC, "Dir1")), 0)
+        Call InitGrh(WeaponAnimData(LoopC).WeaponWalk(3), Val(FileManager.GetValue("ARMA" & LoopC, "Dir4")), 0)
+        Call InitGrh(WeaponAnimData(LoopC).WeaponWalk(4), Val(FileManager.GetValue("ARMA" & LoopC, "Dir2")), 0)
     Next LoopC
     
     Set FileManager = Nothing
@@ -453,7 +432,7 @@ Public Sub CargarColores()
 On Error GoTo errhandler:
 
     Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Game.path(INIT) & "colores.dat")
+    Call FileManager.Initialize(Game.path(Init) & "colores.dat")
     
     Dim i As Long
     
@@ -496,17 +475,17 @@ On Error GoTo errhandler:
     Dim NumEscudosAnims As Integer
     
     Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Game.path(INIT) & "escudos.dat")
+    Call FileManager.Initialize(Game.path(Init) & "escudos.dat")
     
     NumEscudosAnims = Val(FileManager.GetValue("INIT", "NumEscudos"))
     
     ReDim ShieldAnimData(1 To NumEscudosAnims) As ShieldAnimData
     
     For LoopC = 1 To NumEscudosAnims
-        Call InitGrh(ShieldAnimData(LoopC).ShieldWalk(1), Val(FileManager.GetValue("ESC" & LoopC, "Dir1")), 0)
-        Call InitGrh(ShieldAnimData(LoopC).ShieldWalk(2), Val(FileManager.GetValue("ESC" & LoopC, "Dir2")), 0)
-        Call InitGrh(ShieldAnimData(LoopC).ShieldWalk(3), Val(FileManager.GetValue("ESC" & LoopC, "Dir3")), 0)
-        Call InitGrh(ShieldAnimData(LoopC).ShieldWalk(4), Val(FileManager.GetValue("ESC" & LoopC, "Dir4")), 0)
+        Call InitGrh(ShieldAnimData(LoopC).ShieldWalk(1), Val(FileManager.GetValue("ESC" & LoopC, "Dir3")), 0)
+        Call InitGrh(ShieldAnimData(LoopC).ShieldWalk(2), Val(FileManager.GetValue("ESC" & LoopC, "Dir1")), 0)
+        Call InitGrh(ShieldAnimData(LoopC).ShieldWalk(3), Val(FileManager.GetValue("ESC" & LoopC, "Dir4")), 0)
+        Call InitGrh(ShieldAnimData(LoopC).ShieldWalk(4), Val(FileManager.GetValue("ESC" & LoopC, "Dir2")), 0)
     Next LoopC
     
     Set FileManager = Nothing
@@ -535,7 +514,7 @@ On Error GoTo errorH
     Dim j As Long
     
     Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Game.path(INIT) & "Hechizos.dat")
+    Call FileManager.Initialize(Game.path(Init) & "Hechizos.dat")
 
     NumHechizos = Val(FileManager.GetValue("INIT", "NumHechizos"))
  
@@ -782,7 +761,7 @@ On Error GoTo errorH
     Dim i As Byte
     
     Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Game.path(INIT) & "Maps.ini")
+    Call FileManager.Initialize(Game.path(Init) & "Maps.ini")
     
     NumConnectMap = Val(FileManager.GetValue("INIT", "NumMaps"))
     

@@ -131,7 +131,7 @@ Function AsciiValidos(ByVal cad As String) As Boolean
     For i = 1 To Len_cad
         car = Asc(mid$(cad, i, 1))
         
-        If ((car < 97 Or car > 122) Or car = Asc("Âº")) And (car <> 255) And (car <> 32) Then
+        If ((car < 97 Or car > 122) Or car = Asc("Ã‚Âº")) And (car <> 255) And (car <> 32) Then
             Exit Function
         End If
     Next i
@@ -247,7 +247,7 @@ Sub RandomMove()
 'Last Modify Date: 06/03/2006
 ' 06/03/2006: AlejoLp - Ahora utiliza la funcion MoveTo
 '***************************************************
-    Call Map_MoveTo(RandomNumber(NORTH, WEST))
+    Call Map_MoveTo(RandomNumber(SOUTH, EAST))
 End Sub
 
 Private Sub AddMovementToKeysMovementPressedQueue()
@@ -461,7 +461,7 @@ On Error Resume Next
     
     Set Inet = New clsInet
     
-    URL = GetVar(Game.Path(Init) & "Config.ini", "Parameters", "IpApiEndpoint")
+    URL = GetVar(Game.path(Init) & "Config.ini", "Parameters", "IpApiEndpoint")
     Endpoint = URL & Ip & "/json/"
     
     Response = Inet.OpenRequest(Endpoint, "GET")
@@ -486,8 +486,9 @@ Sub Main()
     Call modCompression.GenerateContra(vbNullString, 0) ' 0 = Graficos.AO
     
     Call CargarHechizos
-    Call CargarConnectMaps
-    Call ModCnt.InicializarPosicionesPJ
+    
+    'Inicializamos el conectar renderizado
+    Call ModCnt.InicializarRndCNT
 
     ' Map Sounds
    
@@ -543,7 +544,6 @@ Sub Main()
         'Solo dibujamos si la ventana no esta minimizada
         If frmMain.WindowState <> 1 And frmMain.Visible Then
             Call ShowNextFrame(frmMain.Top, frmMain.Left, frmMain.MouseX, frmMain.MouseY)
-            
             'Play ambient sounds
     '        Call RenderSounds
             
@@ -574,7 +574,7 @@ Sub Main()
 End Sub
 
 Public Function GetVersionOfTheGame() As String
-    GetVersionOfTheGame = GetVar(Game.Path(Init) & "Config.ini", "Cliente", "VersionTagRelease")
+    GetVersionOfTheGame = GetVar(Game.path(Init) & "Config.ini", "Cliente", "VersionTagRelease")
 End Function
 
 Private Sub LoadInitialConfig()
@@ -586,8 +586,8 @@ Private Sub LoadInitialConfig()
 '***************************************************
     
     'Cargamos los graficos de mouse guardados
-    ClientSetup.MouseGeneral = Val(GetVar(Game.Path(Init) & "Config.ini", "PARAMETERS", "MOUSEGENERAL"))
-    ClientSetup.MouseBaston = Val(GetVar(Game.Path(Init) & "Config.ini", "PARAMETERS", "MOUSEBASTON"))
+    ClientSetup.MouseGeneral = Val(GetVar(Game.path(Init) & "Config.ini", "PARAMETERS", "MOUSEGENERAL"))
+    ClientSetup.MouseBaston = Val(GetVar(Game.path(Init) & "Config.ini", "PARAMETERS", "MOUSEBASTON"))
     
     'Si es 0 cargamos el por defecto
     If ClientSetup.MouseBaston > 0 Then
@@ -611,8 +611,6 @@ Private Sub LoadInitialConfig()
    
     frmCargando.Show
     frmCargando.Refresh
-
-    frmConnect.version = GetVersionOfTheGame()
     
     '#######
     ' CLASES
@@ -658,7 +656,7 @@ Private Sub LoadInitialConfig()
   If Sound.Initialize_Engine(frmMain.hWnd, Game.Path(sounds), Game.Path(musica), Game.Path(musica), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, False, ClientSetup.bInvertir) Then
         'frmCargando.picLoad.Width = 300
     Else
-        MsgBox "¡No se ha logrado iniciar el engine de DirectSound! Reinstale los últimos controladores de DirectX. No habrá soporte de audio en el juego.", vbCritical, "Advertencia"
+        MsgBox "Â¡No se ha logrado iniciar el engine de DirectSound! Reinstale los Ãºltimos controladores de DirectX. No habrÃ¡ soporte de audio en el juego.", vbCritical, "Advertencia"
       '  frmOpciones.Frame2.Enabled = False
     End If
 
@@ -924,6 +922,8 @@ Private Sub InicializarNombres()
     ListaRazas(eRaza.ElfoOscuro) = JsonLanguage.item("RAZAS").item("ELFO_OSCURO")
     ListaRazas(eRaza.Gnomo) = JsonLanguage.item("RAZAS").item("GNOMO")
     ListaRazas(eRaza.Enano) = JsonLanguage.item("RAZAS").item("ENANO")
+    ListaRazas(eRaza.Orco) = JsonLanguage.item("RAZAS").item("ORCO")
+    ListaRazas(eRaza.Vampiro) = JsonLanguage.item("RAZAS").item("VAMPIRO")
 
     ListaClases(eClass.Mage) = JsonLanguage.item("CLASES").item("MAGO")
     ListaClases(eClass.Cleric) = JsonLanguage.item("CLASES").item("CLERIGO")
@@ -1445,14 +1445,14 @@ On Error GoTo ErrorHandler
     'Save the JPG file
     m_Jpeg.SaveFile m_FileName & Trim(str(Index)) & ".jpg"
     
-    Call AddtoRichTextBox(frmMain.RecTxt, "¡Captura realizada con exito! Se guardo en " & m_FileName & Trim(str(Index)) & ".jpg", 204, 193, 155, 0, 1)
+    Call AddtoRichTextBox(frmMain.RecTxt, "Â¡Captura realizada con exito! Se guardo en " & m_FileName & Trim(str(Index)) & ".jpg", 204, 193, 155, 0, 1)
     
     Set m_Jpeg = Nothing
     
     Exit Sub
 
 ErrorHandler:
-    Call AddtoRichTextBox(frmMain.RecTxt, "¡Error en la captura!", 204, 193, 155, 0, 1)
+    Call AddtoRichTextBox(frmMain.RecTxt, "Â¡Error en la captura!", 204, 193, 155, 0, 1)
 
 End Sub
 
@@ -1460,7 +1460,7 @@ Public Sub MostrarMensaje(ByVal Mensaje As String)
 '****************************************
 'Autor: Lorwik
 'Fecha: 20/05/2020
-'Descripción: Llama al frmMensaje para mostrar un cartel de mensaje
+'DescripciÃ³n: Llama al frmMensaje para mostrar un cartel de mensaje
 '****************************************
    ' Call Audio.PlayWave(SND_MSG)
     
@@ -1470,7 +1470,7 @@ Public Sub MostrarMensaje(ByVal Mensaje As String)
 End Sub
 Public Function General_Distance_Get(ByVal X1 As Integer, ByVal Y1 As Integer, ByVal X2 As Integer, ByVal Y2 As Integer) As Integer
 '**************************************************************
-'Author: Augusto José Rando
+'Author: Augusto JosÃ© Rando
 'Co-AUthor: Lorwik
 'Last Modify Date: Unknown
 '

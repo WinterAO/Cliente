@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "richtx32.ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.ocx"
 Begin VB.Form frmMain 
    Appearance      =   0  'Flat
    BackColor       =   &H80000005&
@@ -229,7 +229,7 @@ Begin VB.Form frmMain
       BorderStyle     =   0  'None
       ForeColor       =   &H00000000&
       Height          =   9120
-      Left            =   150
+      Left            =   120
       MousePointer    =   99  'Custom
       ScaleHeight     =   608
       ScaleMode       =   3  'Pixel
@@ -1002,21 +1002,21 @@ Private Sub Form_Activate()
 End Sub
 
 Private Sub Form_Load()
-    ClientSetup.SkinSeleccionado = GetVar(Game.Path(Init) & "Config.ini", "Parameters", "SkinSelected")
+    ClientSetup.SkinSeleccionado = GetVar(Game.path(Init) & "Config.ini", "Parameters", "SkinSelected")
     
-    cmdMoverHechi(1).Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\btnarriba.jpg")
-    cmdMoverHechi(0).Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\btnabajo.jpg")
-    InvEqu.Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\Centroinventario.jpg")
-    btnSolapa(0).Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\invseleccionado.jpg")
-    btnSolapa(1).Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\hechnoseleccionado.jpg")
-    btnSolapa(2).Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
-    shpVida.Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\vidabar.jpg")
-    shpMana.Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\manabar.jpg")
-    shpEnergia.Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\energiabar.jpg")
-    shpHambre.Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\hambrebar.jpg")
-    shpSed.Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\aguabar.jpg")
-    ShpFuerza.Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\fuerzabar.jpg")
-    ShpAgilidad.Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\agilidadbar.jpg")
+    cmdMoverHechi(1).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\btnarriba.jpg")
+    cmdMoverHechi(0).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\btnabajo.jpg")
+    InvEqu.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\Centroinventario.jpg")
+    btnSolapa(0).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\invseleccionado.jpg")
+    btnSolapa(1).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\hechnoseleccionado.jpg")
+    btnSolapa(2).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
+    shpVida.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\vidabar.jpg")
+    shpMana.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\manabar.jpg")
+    shpEnergia.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\energiabar.jpg")
+    shpHambre.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\hambrebar.jpg")
+    shpSed.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\aguabar.jpg")
+    ShpFuerza.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\fuerzabar.jpg")
+    ShpAgilidad.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\agilidadbar.jpg")
     
     If Not ResolucionCambiada Then
         ' Handles Form movement (drag and drop).
@@ -1618,7 +1618,7 @@ Private Sub MainViewPic_MouseDown(Button As Integer, _
     MouseBoton = Button
     MouseShift = Shift
     
-    '�Hizo click derecho?
+    '¿Hizo click derecho?
     If Button = 2 Then
         If Not MirandoForo And Not Comerciando Then 'frmComerciar.Visible And Not frmBancoObj.Visible Then
             Call WriteAccionClick(TX, TY)
@@ -2238,7 +2238,7 @@ Public Sub ActualizarMiniMapa()
     'Integrado por Reyarb
     'Se agrego campo de vision del render (Recox)
     'Ajustadas las coordenadas para centrarlo (WyroX)
-    'Ajuste de coordenadas y tamaño del visor (ReyarB)
+    'Ajuste de coordenadas y tamaÃ±o del visor (ReyarB)
     '***************************************************
     Me.UserM.Left = UserPos.X - 2
     Me.UserM.Top = UserPos.Y - 2
@@ -2272,7 +2272,7 @@ Public Sub UpdateProgressExperienceLevelBar(ByVal UserExp As Long)
         frmMain.uAOProgressExperienceLevel.max = 100
         frmMain.uAOProgressExperienceLevel.value = 100
     Else
-        frmMain.lblPorcLvl.Caption = Round(CDbl(UserExp) * CDbl(100) / CDbl(UserPasarNivel), 2) & "%"
+        'frmMain.lblPorcLvl.Caption = Round(CDbl(UserExp) * CDbl(100) / CDbl(UserPasarNivel), 2) & "%"
         frmMain.uAOProgressExperienceLevel.max = UserPasarNivel
         frmMain.uAOProgressExperienceLevel.value = UserExp
     End If
