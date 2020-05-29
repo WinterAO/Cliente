@@ -442,7 +442,7 @@ Private Sub Form_Load()
     clsFormulario.Initialize Me
     
     Dim GrhPath As String
-    GrhPath = Game.path(Interfaces)
+    GrhPath = Game.Path(Interfaces)
     Set MinMayBack(0) = LoadPicture(GrhPath & "TecladoMinuscula.jpg")
     Set MinMayBack(1) = LoadPicture(GrhPath & "TecladoMayuscula.jpg")
     
@@ -456,7 +456,7 @@ End Sub
 Private Sub LoadButtons()
     Dim GrhPath As String
     
-    GrhPath = Game.path(Interfaces)
+    GrhPath = Game.Path(Interfaces)
 
     Set cBotonMin = New clsGraphicalButton
     Set cBotonMay = New clsGraphicalButton
@@ -483,13 +483,13 @@ Private Sub imgCerrar_Click()
 End Sub
 
 Private Sub imgEspacio_Click()
-    Call Audio.PlayWave(SND_CLICK)
+  '  Call Sound.Sound_Play(SND_CLICK)
     Me.txtPassword.Text = Me.txtPassword.Text & " "
     Me.txtPassword.SetFocus
 End Sub
 
 Private Sub imgKeyPad_Click(Index As Integer)
-    Call Audio.PlayWave(SND_CLICK)
+    Call Sound.Sound_Play(SND_CLICK)
     
     If Modo = MAYUSCULA Then
         Me.txtPassword.Text = Me.txtPassword.Text & mid$(MayIndex, Index + 1, 1)
@@ -507,7 +507,7 @@ End Sub
 Private Sub imgMay_Click()
     If Modo = MAYUSCULA Then Exit Sub
     
-    'Call Audio.PlayWave(SND_CLICK)
+    'Call Sound.Sound_Play(SND_CLICK)
     Me.Picture = MinMayBack(e_modo_keypad.MAYUSCULA)  'LoadPicture(Game.path(Interfaces) & "KeyPadMay.bmp")
     Modo = MAYUSCULA
     Me.txtPassword.SetFocus
@@ -516,7 +516,7 @@ End Sub
 Private Sub imgMin_Click()
     If Modo = MINUSCULA Then Exit Sub
     
-    'Call Audio.PlayWave(SND_CLICK)
+    'Call Sound.Sound_Play(SND_CLICK)
     Me.Picture = MinMayBack(e_modo_keypad.MINUSCULA) 'LoadPicture(Game.path(Interfaces) & "KeyPadMin.bmp")
     Modo = MINUSCULA
     Me.txtPassword.SetFocus

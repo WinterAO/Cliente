@@ -228,7 +228,7 @@ Public Function Char_Check(ByVal CharIndex As Integer) As Boolean
    
 End Function
  
-Public Sub Char_SetInvisible(ByVal CharIndex As Integer, ByVal Value As Boolean)
+Public Sub Char_SetInvisible(ByVal CharIndex As Integer, ByVal value As Boolean)
        
     '**************************************************************
     'Author: Aaron Perkins - Modified by Juan Martin Sotuyo Dodero
@@ -240,7 +240,7 @@ Public Sub Char_SetInvisible(ByVal CharIndex As Integer, ByVal Value As Boolean)
  
         With charlist(CharIndex)
  
-            .invisible = Value '// User invisible o no ?
+            .invisible = value '// User invisible o no ?
                         
             Exit Sub
  
@@ -722,7 +722,7 @@ Sub Char_MovebyHead(ByVal CharIndex As Integer, ByVal nHeading As E_Heading)
     End With
     
     If (UserEstado = 0) Then
-        Call DoPasosFx(CharIndex)
+   '     Call DoPasosFx(CharIndex)
     End If
 
     If CharIndex <> UserCharIndex Then

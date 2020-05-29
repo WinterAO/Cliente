@@ -143,7 +143,7 @@ Function CheckUserData() As Boolean
     
     'Validamos los datos del user
     
-    Dim LoopC As Long
+    Dim loopc As Long
     Dim CharAscii As Integer
     Dim Len_accountName As Long, Len_accountPassword As Long
 
@@ -154,13 +154,13 @@ Function CheckUserData() As Boolean
     
     Len_accountPassword = Len(AccountPassword)
     
-    For LoopC = 1 To Len_accountPassword
-        CharAscii = Asc(mid$(AccountPassword, LoopC, 1))
+    For loopc = 1 To Len_accountPassword
+        CharAscii = Asc(mid$(AccountPassword, loopc, 1))
         If Not LegalCharacter(CharAscii) Then
             MsgBox Replace$(JsonLanguage.item("VALIDACION_BAD_PASSWORD").item("TEXTO").item(2), "VAR_CHAR_INVALIDO", Chr$(CharAscii))
             Exit Function
         End If
-    Next LoopC
+    Next loopc
 
     If Len(AccountName) > 30 Then
         MsgBox JsonLanguage.item("VALIDACION_BAD_EMAIL").item("TEXTO").item(2)
@@ -169,13 +169,13 @@ Function CheckUserData() As Boolean
         
     Len_accountName = Len(AccountName)
     
-    For LoopC = 1 To Len_accountName
-        CharAscii = Asc(mid$(AccountName, LoopC, 1))
+    For loopc = 1 To Len_accountName
+        CharAscii = Asc(mid$(AccountName, loopc, 1))
         If Not LegalCharacter(CharAscii) Then
             MsgBox Replace$(JsonLanguage.item("VALIDACION_BAD_PASSWORD").item("TEXTO").item(4), "VAR_CHAR_INVALIDO", Chr$(CharAscii))
             Exit Function
         End If
-    Next LoopC
+    Next loopc
     
     CheckUserData = True
 End Function
@@ -333,7 +333,7 @@ Private Sub CheckKeys()
             End If
            
             ' We haven't moved - Update 3D sounds!
-            Call Audio.MoveListener(UserPos.x, UserPos.y)
+          '  Call Audio.MoveListener(UserPos.X, UserPos.Y)
         Else
             Dim kp As Boolean
             kp = (GetKeyState(CustomKeys.BindedKey(eKeyType.mKeyUp)) < 0) Or GetKeyState(CustomKeys.BindedKey(eKeyType.mKeyRight)) < 0 Or GetKeyState(CustomKeys.BindedKey(eKeyType.mKeyDown)) < 0 Or GetKeyState(CustomKeys.BindedKey(eKeyType.mKeyLeft)) < 0
@@ -342,7 +342,7 @@ Private Sub CheckKeys()
                 Call RandomMove
             Else
                 ' We haven't moved - Update 3D sounds!
-                Call Audio.MoveListener(UserPos.x, UserPos.y)
+             '   Call Audio.MoveListener(UserPos.X, UserPos.Y)
             End If
 
             Call Char_UserPos
@@ -376,8 +376,8 @@ Sub SwitchMap(ByVal Map As Integer)
     Call Carga.CargarMapa(Map)
     
     'Dibujamos el Mini-Mapa
-    If FileExist(Game.path(Graficos) & "MiniMapa\" & Map & ".bmp", vbArchive) Then
-        frmMain.MiniMapa.Picture = LoadPicture(Game.path(Graficos) & "MiniMapa\" & Map & ".bmp")
+    If FileExist(Game.Path(Graficos) & "MiniMapa\" & Map & ".bmp", vbArchive) Then
+        frmMain.MiniMapa.Picture = LoadPicture(Game.Path(Graficos) & "MiniMapa\" & Map & ".bmp")
     End If
     
     Call Init_Ambient(Map)
@@ -461,7 +461,7 @@ On Error Resume Next
     
     Set Inet = New clsInet
     
-    URL = GetVar(Game.path(INIT) & "Config.ini", "Parameters", "IpApiEndpoint")
+    URL = GetVar(Game.Path(Init) & "Config.ini", "Parameters", "IpApiEndpoint")
     Endpoint = URL & Ip & "/json/"
     
     Response = Inet.OpenRequest(Endpoint, "GET")
@@ -490,6 +490,7 @@ Sub Main()
     Call ModCnt.InicializarPosicionesPJ
 
     ' Map Sounds
+   
     Set Sonidos = New clsSoundMapas
     Call Sonidos.LoadSoundMapInfo
     
@@ -507,10 +508,10 @@ Sub Main()
     Call LeerLineaComandos
     
     'usaremos esto para ayudar en los parches
-    Call SaveSetting("ArgentumOnlineCliente", "Init", "Path", App.path & "\")
+    Call SaveSetting("ArgentumOnlineCliente", "Init", "Path", App.Path & "\")
     
-    ChDrive App.path
-    ChDir App.path
+    ChDrive App.Path
+    ChDir App.Path
 
     'Set resolution BEFORE the loading form is displayed, therefore it will be centered.
     Call Resolution.SetResolution(1024, 768)
@@ -544,7 +545,7 @@ Sub Main()
             Call ShowNextFrame(frmMain.Top, frmMain.Left, frmMain.MouseX, frmMain.MouseY)
             
             'Play ambient sounds
-            Call RenderSounds
+    '        Call RenderSounds
             
             Call CheckKeys
             
@@ -573,7 +574,7 @@ Sub Main()
 End Sub
 
 Public Function GetVersionOfTheGame() As String
-    GetVersionOfTheGame = GetVar(Game.path(INIT) & "Config.ini", "Cliente", "VersionTagRelease")
+    GetVersionOfTheGame = GetVar(Game.Path(Init) & "Config.ini", "Cliente", "VersionTagRelease")
 End Function
 
 Private Sub LoadInitialConfig()
@@ -585,13 +586,13 @@ Private Sub LoadInitialConfig()
 '***************************************************
     
     'Cargamos los graficos de mouse guardados
-    ClientSetup.MouseGeneral = Val(GetVar(Game.path(INIT) & "Config.ini", "PARAMETERS", "MOUSEGENERAL"))
-    ClientSetup.MouseBaston = Val(GetVar(Game.path(INIT) & "Config.ini", "PARAMETERS", "MOUSEBASTON"))
+    ClientSetup.MouseGeneral = Val(GetVar(Game.Path(Init) & "Config.ini", "PARAMETERS", "MOUSEGENERAL"))
+    ClientSetup.MouseBaston = Val(GetVar(Game.Path(Init) & "Config.ini", "PARAMETERS", "MOUSEBASTON"))
     
     'Si es 0 cargamos el por defecto
     If ClientSetup.MouseBaston > 0 Then
         ' Mouse Pointer and Mouse Icon (Loaded before opening any form with buttons in it)
-        Set picMouseIcon = LoadPicture(Game.path(Graficos) & "MouseIcons\Baston" & ClientSetup.MouseBaston & ".ico")
+        Set picMouseIcon = LoadPicture(Game.Path(Graficos) & "MouseIcons\Baston" & ClientSetup.MouseBaston & ".ico")
     End If
 
     ' Mouse Icon to use in the rest of the game this one is animated
@@ -602,7 +603,7 @@ Private Sub LoadInitialConfig()
     
     'Si es 0 cargamos el por defecto
     If ClientSetup.MouseGeneral > 0 Then
-        CursorAniDir = Game.path(Graficos) & "MouseIcons\General" & ClientSetup.MouseGeneral & ".ani"
+        CursorAniDir = Game.Path(Graficos) & "MouseIcons\General" & ClientSetup.MouseGeneral & ".ani"
         hSwapCursor = SetClassLong(frmMain.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
         hSwapCursor = SetClassLong(frmMain.MainViewPic.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
         hSwapCursor = SetClassLong(frmMain.hlst.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
@@ -623,7 +624,7 @@ Private Sub LoadInitialConfig()
                             True, False, True, rtfCenter)
                             
     Set Dialogos = New clsDialogs
-    Set Audio = New clsAudio
+     Set Sound = New clsSoundEngine
     Set Inventario = New clsGraphicalInventory
     Set CustomKeys = New clsCustomKeys
     Set incomingData = New clsByteQueue
@@ -653,17 +654,30 @@ Private Sub LoadInitialConfig()
                             True, False, True, rtfCenter)
                             
     'Inicializamos el sonido
-    Call Audio.Initialize(DirectX, frmMain.hWnd, Game.path(Sounds), Game.path(Musica), Game.path(Musica))
+   ' Call Audio.Initialize(DirectX, frmMain.hWnd, Game.path(Sounds), Game.path(Musica), Game.path(Musica))
+  If Sound.Initialize_Engine(frmMain.hWnd, Game.Path(sounds), Game.Path(musica), Game.Path(musica), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, False, ClientSetup.bInvertir) Then
+        'frmCargando.picLoad.Width = 300
+    Else
+        MsgBox "¡No se ha logrado iniciar el engine de DirectSound! Reinstale los últimos controladores de DirectX. No habrá soporte de audio en el juego.", vbCritical, "Advertencia"
+      '  frmOpciones.Frame2.Enabled = False
+    End If
 
+
+    If ClientSetup.bMusic <> CONST_DESHABILITADA Then
+        Sound.NextMusic = MUS_Inicio
+        Sound.Fading = 350
+        Sound.Sound_Render
+    End If
+    
     'Enable / Disable audio
-    Audio.MusicActivated = ClientSetup.bMusic
-    Audio.SoundActivated = ClientSetup.bSound
-    Audio.SoundEffectsActivated = ClientSetup.bSoundEffects
-    Audio.MusicVolume = ClientSetup.MusicVolume
-    Audio.SoundVolume = ClientSetup.SoundVolume
+  '  Audio.MusicActivated = ClientSetup.bMusic
+    'Audio.SoundActivated = ClientSetup.bSound
+    'Audio.SoundEffectsActivated = ClientSetup.bSoundEffects
+ '   Audio.MusicVolume = ClientSetup.MusicVolume
+   ' Audio.SoundVolume = ClientSetup.SoundVolume
 
     'Iniciamos cancion principal del juego turururuuuuuu
-    Call Audio.PlayBackgroundMusic("1", MusicTypes.MP3)
+   ' Call Audio.PlayBackgroundMusic("1", MusicTypes.MP3)
     
     Call AddtoRichTextBox(frmCargando.status, _
                             "   " & JsonLanguage.item("HECHO").item("TEXTO"), _
@@ -737,7 +751,7 @@ Private Sub LoadInitialConfig()
     Call CargarAnimArmas
     Call CargarAnimEscudos
     Call CargarColores
-    
+    Call CargarPasos
     Call AddtoRichTextBox(frmCargando.status, _
                             "   " & JsonLanguage.item("HECHO").item("TEXTO"), _
                             JsonLanguage.item("HECHO").item("COLOR").item(1), _
@@ -862,11 +876,11 @@ Private Function CMSValidateChar_(ByVal iAsc As Integer) As Boolean
 End Function
 
 'TODO : como todo lo relativo a mapas, no tiene nada que hacer aca....
-Function HayAgua(ByVal x As Integer, ByVal y As Integer) As Boolean
-    HayAgua = ((MapData(x, y).Graphic(1).GrhIndex >= 1505 And MapData(x, y).Graphic(1).GrhIndex <= 1520) Or _
-            (MapData(x, y).Graphic(1).GrhIndex >= 5665 And MapData(x, y).Graphic(1).GrhIndex <= 5680) Or _
-            (MapData(x, y).Graphic(1).GrhIndex >= 13547 And MapData(x, y).Graphic(1).GrhIndex <= 13562)) And _
-                MapData(x, y).Graphic(2).GrhIndex = 0
+Function HayAgua(ByVal X As Integer, ByVal Y As Integer) As Boolean
+    HayAgua = ((MapData(X, Y).Graphic(1).GrhIndex >= 1505 And MapData(X, Y).Graphic(1).GrhIndex <= 1520) Or _
+            (MapData(X, Y).Graphic(1).GrhIndex >= 5665 And MapData(X, Y).Graphic(1).GrhIndex <= 5680) Or _
+            (MapData(X, Y).Graphic(1).GrhIndex >= 13547 And MapData(X, Y).Graphic(1).GrhIndex <= 13562)) And _
+                MapData(X, Y).Graphic(2).GrhIndex = 0
                 
 End Function
 
@@ -1002,7 +1016,7 @@ Public Sub CloseClient()
     Set SurfaceDB = Nothing
     Set Dialogos = Nothing
     Set DialogosClanes = Nothing
-    Set Audio = Nothing
+   ' Set Audio = Nothing
     Set Inventario = Nothing
     Set MainTimer = Nothing
     Set incomingData = Nothing
@@ -1168,8 +1182,8 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     End If
     
     'Stop audio
-    Call Audio.StopWave
-    frmMain.IsPlaying = PlayLoop.plNone
+    'e
+  '  frmMain.IsPlaying = PlayLoop.plNone
     
     ' Reset flags
     pausa = False
@@ -1233,7 +1247,7 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     Inventario.ClearAllSlots
 
     ' Connection screen mp3
-    Call Audio.PlayBackgroundMusic("2", MusicTypes.MP3)
+   ' Call Audio.PlayBackgroundMusic("2", MusicTypes.MP3)
 
 End Sub
 
@@ -1246,11 +1260,11 @@ Public Sub ResetAllInfoAccounts()
 
     If NumberOfCharacters > 0 Then
     
-        Dim LoopC As Long
+        Dim loopc As Long
         
-        For LoopC = 1 To NumberOfCharacters
+        For loopc = 1 To NumberOfCharacters
         
-            With cPJ(LoopC)
+            With cPJ(loopc)
                 .Nombre = vbNullString
                 .Body = 0
                 .Head = 0
@@ -1268,7 +1282,7 @@ Public Sub ResetAllInfoAccounts()
                 .GameMaster = False
             End With
             
-        Next LoopC
+        Next loopc
         
     End If
 End Sub
@@ -1322,7 +1336,7 @@ Function ImgRequest(ByVal sFile As String) As String
             sFile = ImgRequest(sFile)
         Else
             Call MsgBox("ADVERTENCIA: El juego seguira funcionando sin alguna imagen!", vbInformation + vbOKOnly)
-            sFile = Game.path(Interfaces) & "blank.bmp"
+            sFile = Game.Path(Interfaces) & "blank.bmp"
         End If
         
     End If
@@ -1338,7 +1352,7 @@ Public Sub LoadAOCustomControlsPictures(ByRef tForm As Form)
     'Cargamos las imagenes de los uAOControls en los formularios.
     '***************************************************
     Dim DirButtons As String
-        DirButtons = Game.path(Graficos) & "\Botones\"
+        DirButtons = Game.Path(Graficos) & "\Botones\"
 
     Dim cControl As Control
 
@@ -1413,10 +1427,10 @@ On Error GoTo ErrorHandler
     'Sample the cImage by hDC
     m_Jpeg.SampleHDC hDC, Width, Height
     
-    m_FileName = App.path & "\Fotos\WinterAO_Foto"
+    m_FileName = App.Path & "\Fotos\WinterAO_Foto"
     
-    If Dir(App.path & "\Fotos", vbDirectory) = vbNullString Then
-        MkDir (App.path & "\Fotos")
+    If Dir(App.Path & "\Fotos", vbDirectory) = vbNullString Then
+        MkDir (App.Path & "\Fotos")
     End If
     
     Do While Dir(m_FileName & Trim(str(i)) & ".jpg") <> vbNullString
@@ -1448,10 +1462,61 @@ Public Sub MostrarMensaje(ByVal Mensaje As String)
 'Fecha: 20/05/2020
 'Descripción: Llama al frmMensaje para mostrar un cartel de mensaje
 '****************************************
-    Call Audio.PlayWave(SND_MSG)
+   ' Call Audio.PlayWave(SND_MSG)
     
     frmMensaje.msg.Caption = Mensaje
     frmMensaje.Show
 
 End Sub
+Public Function General_Distance_Get(ByVal X1 As Integer, ByVal Y1 As Integer, ByVal X2 As Integer, ByVal Y2 As Integer) As Integer
+'**************************************************************
+'Author: Augusto José Rando
+'Co-AUthor: Lorwik
+'Last Modify Date: Unknown
+'
+'**************************************************************
 
+General_Distance_Get = Abs(X1 - X2) + Abs(Y1 - Y2)
+
+End Function
+Public Sub CargarPasos()
+
+    ReDim Pasos(1 To NUM_PASOS) As tPaso
+
+    Pasos(CONST_BOSQUE).CantPasos = 2
+    ReDim Pasos(CONST_BOSQUE).Wav(1 To Pasos(CONST_BOSQUE).CantPasos) As Integer
+    Pasos(CONST_BOSQUE).Wav(1) = 201
+    Pasos(CONST_BOSQUE).Wav(2) = 202
+
+    Pasos(CONST_NIEVE).CantPasos = 2
+    ReDim Pasos(CONST_NIEVE).Wav(1 To Pasos(CONST_NIEVE).CantPasos) As Integer
+    Pasos(CONST_NIEVE).Wav(1) = 199
+    Pasos(CONST_NIEVE).Wav(2) = 200
+
+    Pasos(CONST_CABALLO).CantPasos = 2
+    ReDim Pasos(CONST_CABALLO).Wav(1 To Pasos(CONST_CABALLO).CantPasos) As Integer
+    Pasos(CONST_CABALLO).Wav(1) = 23
+    Pasos(CONST_CABALLO).Wav(2) = 24
+
+    Pasos(CONST_DUNGEON).CantPasos = 2
+    ReDim Pasos(CONST_DUNGEON).Wav(1 To Pasos(CONST_DUNGEON).CantPasos) As Integer
+    Pasos(CONST_DUNGEON).Wav(1) = 23
+    Pasos(CONST_DUNGEON).Wav(2) = 24
+
+    Pasos(CONST_DESIERTO).CantPasos = 2
+    ReDim Pasos(CONST_DESIERTO).Wav(1 To Pasos(CONST_DESIERTO).CantPasos) As Integer
+    Pasos(CONST_DESIERTO).Wav(1) = 197
+    Pasos(CONST_DESIERTO).Wav(2) = 198
+
+    Pasos(CONST_PISO).CantPasos = 2
+    ReDim Pasos(CONST_PISO).Wav(1 To Pasos(CONST_PISO).CantPasos) As Integer
+    Pasos(CONST_PISO).Wav(1) = 23
+    Pasos(CONST_PISO).Wav(2) = 24
+
+    Pasos(CONST_PESADO).CantPasos = 3
+    ReDim Pasos(CONST_PESADO).Wav(1 To Pasos(CONST_PESADO).CantPasos) As Integer
+    Pasos(CONST_PESADO).Wav(1) = 220
+    Pasos(CONST_PESADO).Wav(2) = 221
+    Pasos(CONST_PESADO).Wav(3) = 222
+
+End Sub

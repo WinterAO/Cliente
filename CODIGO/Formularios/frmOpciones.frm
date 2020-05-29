@@ -1,5 +1,4 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmOpciones 
    BackColor       =   &H8000000A&
    BorderStyle     =   0  'None
@@ -28,6 +27,54 @@ Begin VB.Form frmOpciones
    ScaleWidth      =   626
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
+   Begin VB.CheckBox Invertido 
+      Appearance      =   0  'Flat
+      BackColor       =   &H000000FF&
+      Caption         =   "Invertir los canales (L/R)"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   9
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000008&
+      Height          =   210
+      Left            =   435
+      MaskColor       =   &H00FFFFFF&
+      TabIndex        =   16
+      Top             =   1875
+      Width           =   3855
+   End
+   Begin VB.HScrollBar scrambient 
+      Height          =   225
+      Left            =   2040
+      Max             =   0
+      Min             =   -4000
+      TabIndex        =   15
+      Top             =   1575
+      Width           =   2295
+   End
+   Begin VB.HScrollBar scrmusica 
+      Height          =   225
+      Left            =   1440
+      Max             =   0
+      Min             =   -4000
+      TabIndex        =   14
+      Top             =   975
+      Width           =   2895
+   End
+   Begin VB.HScrollBar Scrvolume 
+      Height          =   225
+      Left            =   1440
+      Max             =   0
+      Min             =   -4000
+      TabIndex        =   13
+      Top             =   1275
+      Width           =   2895
+   End
    Begin VB.Frame FraSkins 
       Caption         =   "Skins"
       BeginProperty Font 
@@ -41,7 +88,7 @@ Begin VB.Form frmOpciones
       EndProperty
       Height          =   3615
       Left            =   5040
-      TabIndex        =   4
+      TabIndex        =   2
       Top             =   3120
       Width           =   2415
       Begin VB.ComboBox cmdLenguajesComboBox 
@@ -50,7 +97,7 @@ Begin VB.Form frmOpciones
          Height          =   315
          Left            =   240
          Style           =   2  'Dropdown List
-         TabIndex        =   11
+         TabIndex        =   9
          Top             =   2880
          Width           =   1815
       End
@@ -62,7 +109,7 @@ Begin VB.Form frmOpciones
          Left            =   240
          List            =   "frmOpciones.frx":281E5
          Style           =   2  'Dropdown List
-         TabIndex        =   9
+         TabIndex        =   7
          Top             =   720
          Width           =   1815
       End
@@ -72,7 +119,7 @@ Begin VB.Form frmOpciones
          Left            =   240
          List            =   "frmOpciones.frx":28203
          Style           =   2  'Dropdown List
-         TabIndex        =   8
+         TabIndex        =   6
          Top             =   2160
          Width           =   1815
       End
@@ -82,7 +129,7 @@ Begin VB.Form frmOpciones
          Left            =   240
          List            =   "frmOpciones.frx":28286
          Style           =   2  'Dropdown List
-         TabIndex        =   6
+         TabIndex        =   4
          Top             =   1440
          Width           =   1815
       End
@@ -92,7 +139,7 @@ Begin VB.Form frmOpciones
          Caption         =   "Lenguaje"
          Height          =   195
          Left            =   240
-         TabIndex        =   12
+         TabIndex        =   10
          Top             =   2640
          Width           =   660
       End
@@ -102,7 +149,7 @@ Begin VB.Form frmOpciones
          Caption         =   "Skin de Interfaces"
          Height          =   195
          Left            =   240
-         TabIndex        =   10
+         TabIndex        =   8
          Top             =   480
          Width           =   1305
       End
@@ -112,7 +159,7 @@ Begin VB.Form frmOpciones
          Caption         =   "Mouse Grafico de Hechizos"
          Height          =   195
          Left            =   240
-         TabIndex        =   7
+         TabIndex        =   5
          Top             =   1920
          Width           =   1920
       End
@@ -122,7 +169,7 @@ Begin VB.Form frmOpciones
          Caption         =   "Mouse Grafico General"
          Height          =   195
          Left            =   240
-         TabIndex        =   5
+         TabIndex        =   3
          Top             =   1200
          Width           =   1620
       End
@@ -144,7 +191,7 @@ Begin VB.Form frmOpciones
       Height          =   255
       Left            =   2340
       MaxLength       =   1
-      TabIndex        =   3
+      TabIndex        =   1
       Text            =   "5"
       Top             =   2415
       Width           =   255
@@ -165,39 +212,10 @@ Begin VB.Form frmOpciones
       Height          =   255
       Left            =   3480
       MaxLength       =   2
-      TabIndex        =   2
+      TabIndex        =   0
       Text            =   "40"
       Top             =   4110
       Width           =   255
-   End
-   Begin MSComctlLib.Slider Slider1 
-      Height          =   255
-      Index           =   0
-      Left            =   1380
-      TabIndex        =   0
-      Top             =   960
-      Width           =   3015
-      _ExtentX        =   5318
-      _ExtentY        =   450
-      _Version        =   393216
-      BorderStyle     =   1
-      Max             =   100
-      TickStyle       =   3
-   End
-   Begin MSComctlLib.Slider Slider1 
-      Height          =   255
-      Index           =   1
-      Left            =   1380
-      TabIndex        =   1
-      Top             =   1260
-      Width           =   3015
-      _ExtentX        =   5318
-      _ExtentY        =   450
-      _Version        =   393216
-      BorderStyle     =   1
-      LargeChange     =   10
-      Max             =   100
-      TickStyle       =   3
    End
    Begin VB.Label lblDesactivarHUD 
       AutoSize        =   -1  'True
@@ -205,7 +223,7 @@ Begin VB.Form frmOpciones
       Caption         =   "Desactivar HUD"
       Height          =   195
       Left            =   5280
-      TabIndex        =   14
+      TabIndex        =   12
       Top             =   480
       Width           =   1140
    End
@@ -227,7 +245,7 @@ Begin VB.Form frmOpciones
       Caption         =   "Limitar FPS"
       Height          =   195
       Left            =   5280
-      TabIndex        =   13
+      TabIndex        =   11
       Top             =   120
       Width           =   780
    End
@@ -423,7 +441,7 @@ Private Sub cmdLenguajesComboBox_Click()
 'Last Modification: 01/04/2019
 '10/11/2019: Recox - Seteamos el lenguaje del juego
 '***************************************************
-    Call WriteVar(Game.path(INIT) & "Config.ini", "Parameters", "Language", cmdLenguajesComboBox.Text)
+    Call WriteVar(Game.Path(Init) & "Config.ini", "Parameters", "Language", cmdLenguajesComboBox.Text)
     MsgBox ("Debe reiniciar el juego aplicar el cambio de idioma. Idioma Seleccionado: " & cmdLenguajesComboBox.Text)
 End Sub
 
@@ -433,7 +451,7 @@ Private Sub cmdSkinsComboBox_Click()
 'Last Modification: 01/04/2019
 '08/11/2019: Recox - Seteamos el skin
 '***************************************************
-    Call WriteVar(Game.path(INIT) & "Config.ini", "Parameters", "SkinSelected", cmdSkinsComboBox.Text)
+    Call WriteVar(Game.Path(Init) & "Config.ini", "Parameters", "SkinSelected", cmdSkinsComboBox.Text)
     MsgBox ("Debe reiniciar el juego aplicar el cambio de skin. Skin Seleccionado: " & cmdSkinsComboBox.Text)
 End Sub
 
@@ -443,7 +461,7 @@ Private Sub ComMouseGeneral_Click()
 'Last Modification: 26/04/2020
 '26/04/2020: Lorwik - Seteamos el mouse general
 '***************************************************
-    Call WriteVar(Game.path(INIT) & "Config.ini", "Parameters", "MOUSEGENERAL", ComMouseGeneral.ListIndex)
+    Call WriteVar(Game.Path(Init) & "Config.ini", "Parameters", "MOUSEGENERAL", ComMouseGeneral.ListIndex)
     MsgBox ("Debe reiniciar el juego aplicar el cambio de mouse. Mouse Seleccionado: " & ComMouseGeneral.Text)
 End Sub
 
@@ -453,12 +471,20 @@ Private Sub ComMouseHechizos_Click()
 'Last Modification: 26/04/2020
 '26/04/2020: Lorwik - Seteamos el mouse baston
 '***************************************************
-    Call WriteVar(Game.path(INIT) & "Config.ini", "Parameters", "MOUSEBASTON", ComMouseHechizos.ListIndex)
+    Call WriteVar(Game.Path(Init) & "Config.ini", "Parameters", "MOUSEBASTON", ComMouseHechizos.ListIndex)
     MsgBox ("Debe reiniciar el juego aplicar el cambio de mouse. Mouse Seleccionado: " & ComMouseHechizos.Text)
 End Sub
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     LastButtonPressed.ToggleToNormal
+End Sub
+
+Private Sub FraSkins_DragDrop(Source As Control, X As Single, Y As Single)
+
+End Sub
+
+Private Sub Image1_click()
+
 End Sub
 
 Private Sub imgChkAlMorir_Click()
@@ -491,6 +517,10 @@ Private Sub imgChkRequiredLvl_Click()
     End If
 End Sub
 
+Private Sub Invertido_Click()
+
+End Sub
+
 Private Sub txtCantMensajes_Change()
     txtCantMensajes.Text = Val(txtCantMensajes.Text)
     
@@ -518,11 +548,11 @@ Private Sub imgChkEfectosSonido_Click()
 
     If loading Then Exit Sub
     
-    Call Audio.PlayWave(SND_CLICK)
+    'Call Sound.Sound_Play(SND_CLICK)
         
     bSoundEffectsActivated = Not bSoundEffectsActivated
     
-    Audio.SoundEffectsActivated = bSoundEffectsActivated
+   ' sou = bSoundEffectsActivated
     
     If bSoundEffectsActivated Then
         imgChkEfectosSonido.Picture = picCheckBox
@@ -543,19 +573,20 @@ Private Sub imgChkMusica_Click()
 
     If loading Then Exit Sub
     
-    Call Audio.PlayWave(SND_CLICK)
+    Call Sound.Sound_Play(SND_CLICK)
     
     bMusicActivated = Not bMusicActivated
             
     If Not bMusicActivated Then
-        Audio.MusicActivated = False
+         Sound.Music_Stop
+                ClientSetup.bMusic = CONST_DESHABILITADA
         Slider1(0).Enabled = False
         Set imgChkMusica.Picture = Nothing
     Else
-        If Not Audio.MusicActivated Then  'Prevent the music from reloading
-            Audio.MusicActivated = True
-            Slider1(0).Enabled = True
-            Slider1(0).value = Audio.MusicVolume
+        If ClientSetup.bMusic = CONST_MP3 Then  'creo que va desabilitada, estoy muerto
+            ClientSetup.bMusic = CONST_MP3
+            scrmusica.Enabled = True
+           scrmusica.value = Sound.VolumenActual
         End If
         
         imgChkMusica.Picture = picCheckBox
@@ -581,14 +612,14 @@ Private Sub imgChkSonidos_Click()
 
     If loading Then Exit Sub
     
-    Call Audio.PlayWave(SND_CLICK)
+'    Call Sound.Sound_Play(SND_CLICK)
     
     bSoundActivated = Not bSoundActivated
     
     If Not bSoundActivated Then
         Audio.SoundActivated = False
-        RainBufferIndex = 0
-        frmMain.IsPlaying = PlayLoop.plNone
+      '  RainBufferIndex = 0
+      '  frmMain.IsPlaying = PlayLoop.plNone
         Slider1(1).Enabled = False
         
         Set imgChkSonidos.Picture = Nothing
@@ -603,14 +634,14 @@ End Sub
 
 Private Sub imgConfigTeclas_Click()
     If Not loading Then _
-        Call Audio.PlayWave(SND_CLICK)
+      '  Call Sound.Sound_Play(SND_CLICK)
     Call frmCustomKeys.Show(vbModal, Me)
 End Sub
 
 Private Sub imgManual_Click()
     If Not loading Then _
-        Call Audio.PlayWave(SND_CLICK)
-    Call ShellExecute(0, "Open", "http://wiki.argentumonline.org/", "", App.path, SW_SHOWNORMAL)
+     '   Call Sound.Sound_Play(SND_CLICK)
+    Call ShellExecute(0, "Open", "http://wiki.argentumonline.org/", "", App.Path, SW_SHOWNORMAL)
 End Sub
 
 Private Sub imgMapa_Click()
@@ -626,9 +657,9 @@ End Sub
 Private Sub imgSoporte_Click()
     
     If Not loading Then _
-        Call Audio.PlayWave(SND_CLICK)
+        'Call Sound.Sound_Play(SND_CLICK)
     
-    Call ShellExecute(0, "Open", "https://github.com/ao-libre/ao-cliente/issues", "", App.path, SW_SHOWNORMAL)
+    Call ShellExecute(0, "Open", "https://github.com/ao-libre/ao-cliente/issues", "", App.Path, SW_SHOWNORMAL)
 End Sub
 
 Private Sub imgTutorial_Click()
@@ -644,9 +675,9 @@ Private Sub Form_Load()
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
     ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
     If Language = "spanish" Then
-      Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaOpciones_spanish.jpg")
+      Me.Picture = LoadPicture(Game.Path(Interfaces) & "VentanaOpciones_spanish.jpg")
     Else
-      Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaOpciones_english.jpg")
+      Me.Picture = LoadPicture(Game.Path(Interfaces) & "VentanaOpciones_english.jpg")
     End If
 
     LoadButtons
@@ -660,7 +691,7 @@ End Sub
 
 Private Sub LoadSkinsInComboBox()
     Dim sFileName As String
-    sFileName = Dir$(Game.path(Graficos) & "\Skins\", vbDirectory)
+    sFileName = Dir$(Game.Path(Graficos) & "\Skins\", vbDirectory)
     
     Do While sFileName > vbNullString
         Call cmdSkinsComboBox.AddItem(sFileName)
@@ -674,7 +705,7 @@ End Sub
 
 Private Sub LoadLenguajesInComboBox()
     Dim sFileName As String
-    sFileName = Dir$(App.path & "\Lenguajes\", vbArchive)
+    sFileName = Dir$(App.Path & "\Lenguajes\", vbArchive)
     
     Do While sFileName > vbNullString
         sFileName = Replace(sFileName, ".json", vbNullString)
@@ -687,7 +718,7 @@ End Sub
 Private Sub LoadButtons()
     Dim GrhPath As String
     
-    GrhPath = Game.path(Interfaces)
+    GrhPath = Game.Path(Interfaces)
 
     Set cBotonConfigTeclas = New clsGraphicalButton
     Set cBotonMapa = New clsGraphicalButton
@@ -772,17 +803,17 @@ End Sub
 Private Sub Slider1_Change(Index As Integer)
     Select Case Index
         Case 0
-            Audio.MusicVolume = Slider1(0).value
+            'Audio.MusicVolume = Slider1(0).value
         Case 1
-            Audio.SoundVolume = Slider1(1).value
+         '   Audio.SoundVolume = Slider1(1).value
     End Select
 End Sub
 
 Private Sub Slider1_Scroll(Index As Integer)
     Select Case Index
         Case 0
-            Audio.MusicVolume = Slider1(0).value
+           ' Audio.MusicVolume = Slider1(0).value
         Case 1
-            Audio.SoundVolume = Slider1(1).value
+          '  Audio.SoundVolume = Slider1(1).value
     End Select
 End Sub

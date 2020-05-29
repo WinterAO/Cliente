@@ -51,10 +51,15 @@ Public Sonidos As clsSoundMapas
 '//Caminata fluida
 Public Movement_Speed As Single
 
+Public Enum E_SISTEMA_MUSICA
+    CONST_DESHABILITADA = 0
+    CONST_MIDI = 1
+    CONST_MP3 = 2
+End Enum
+
 'Objetos publicos
 Public DialogosClanes As clsGuildDlg
 Public Dialogos As clsDialogs
-Public Audio As clsAudio
 Public Inventario As clsGraphicalInventory
 Public InvBanco(1) As clsGraphicalInventory
 
@@ -72,12 +77,13 @@ Public InvMaderasCarpinteria(1 To MAX_LIST_ITEMS) As clsGraphicalInventory
 Public InvObjArtesano(1 To MAX_LIST_ITEMS) As clsGraphicalInventory
 
 Public Const MAX_ITEMS_CRAFTEO As Byte = 4
-
+Public Sound As clsSoundEngine
 Public CustomKeys As clsCustomKeys
 
 Public incomingData As clsByteQueue
 Public outgoingData As clsByteQueue
-
+'CopyMemory Kernel Function
+Public Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (hpvDest As Any, hpvSource As Any, ByVal cbCopy As Long)
 ''
 'The main timer of the game.
 Public MainTimer As clsTimer
@@ -89,17 +95,33 @@ Public Enum eSockError
    TIME_OUT = 24060
 End Enum
 
-'Sonidos
-Public Const SND_CLICK As String = "click.Wav"
-Public Const SND_PASOS1 As String = "23.Wav"
-Public Const SND_PASOS2 As String = "24.Wav"
-Public Const SND_NAVEGANDO As String = "50.wav"
-Public Const SND_DICE As String = "cupdice.Wav"
-Public Const SND_MSG As String = "530.wav"
+Public Enum TipoPaso
+    CONST_BOSQUE = 1
+    CONST_NIEVE = 2
+    CONST_CABALLO = 3
+    CONST_DUNGEON = 4
+    CONST_PISO = 5
+    CONST_DESIERTO = 6
+    CONST_PESADO = 7
+End Enum
 
+Public Type tPaso
+    CantPasos As Byte
+    Wav() As Integer
+End Type
+
+Public Const NUM_PASOS As Byte = 7
+Public Pasos() As tPaso
+
+'Sonidos
+Public Const SND_FUEGO As Integer = 79
+Public Const GRH_FOGATA As Integer = 1521
+Public Const MUS_Inicio As String = "6"
+Public Const MUS_CrearPersonaje As String = "7"
+Public Const MUS_VolverInicio As String = "53"
 ' Constantes de intervalo
 Public Enum eIntervalos
-    INT_ATTACK = 1400        'Atacar
+    INT_ATTACK = 1400        'Atacarp
     INT_ARROWS = 900        'Flechas
     INT_CAST_SPELL = 500    'Hechizos
     INT_CAST_ATTACK = 600   'Combo

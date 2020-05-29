@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
+Object = "{6B7E6392-850A-101B-AFC0-4210102A8DA7}#1.4#0"; "comctl32.Ocx"
 Begin VB.Form frmPanelGm 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Panel GM"
@@ -14,6 +14,24 @@ Begin VB.Form frmPanelGm
    ScaleHeight     =   8475
    ScaleWidth      =   4215
    StartUpPosition =   1  'CenterOwner
+   Begin ComctlLib.TabStrip TabStrip 
+      Height          =   2055
+      Left            =   0
+      TabIndex        =   110
+      Top             =   0
+      Width           =   4215
+      _ExtentX        =   7435
+      _ExtentY        =   3625
+      _Version        =   327682
+      BeginProperty Tabs {0713E432-850A-101B-AFC0-4210102A8DA7} 
+         NumTabs         =   1
+         BeginProperty Tab1 {0713F341-850A-101B-AFC0-4210102A8DA7} 
+            Caption         =   ""
+            Object.Tag             =   ""
+            ImageVarType    =   2
+         EndProperty
+      EndProperty
+   End
    Begin VB.Frame Frame 
       BorderStyle     =   0  'None
       Height          =   2415
@@ -27,7 +45,7 @@ Begin VB.Form frmPanelGm
          CausesValidation=   0   'False
          Height          =   315
          Left            =   2280
-         TabIndex        =   110
+         TabIndex        =   109
          Top             =   720
          Width           =   1095
       End
@@ -198,7 +216,7 @@ Begin VB.Form frmPanelGm
          CausesValidation=   0   'False
          Height          =   315
          Left            =   1320
-         TabIndex        =   87
+         TabIndex        =   86
          Top             =   1320
          Width           =   1095
       End
@@ -207,7 +225,7 @@ Begin VB.Form frmPanelGm
          CausesValidation=   0   'False
          Height          =   315
          Left            =   2040
-         TabIndex        =   86
+         TabIndex        =   85
          Top             =   6480
          Width           =   1815
       End
@@ -216,7 +234,7 @@ Begin VB.Form frmPanelGm
          CausesValidation=   0   'False
          Height          =   315
          Left            =   120
-         TabIndex        =   85
+         TabIndex        =   84
          Top             =   6480
          Width           =   1815
       End
@@ -225,7 +243,7 @@ Begin VB.Form frmPanelGm
          CausesValidation=   0   'False
          Height          =   675
          Left            =   2520
-         TabIndex        =   84
+         TabIndex        =   83
          Top             =   6960
          Width           =   1335
       End
@@ -234,7 +252,7 @@ Begin VB.Form frmPanelGm
          CausesValidation=   0   'False
          Height          =   315
          Left            =   120
-         TabIndex        =   83
+         TabIndex        =   82
          Top             =   7320
          Width           =   2295
       End
@@ -243,7 +261,7 @@ Begin VB.Form frmPanelGm
          CausesValidation=   0   'False
          Height          =   315
          Left            =   120
-         TabIndex        =   82
+         TabIndex        =   81
          Top             =   6960
          Width           =   2295
       End
@@ -631,14 +649,14 @@ Begin VB.Form frmPanelGm
       Height          =   7395
       Index           =   7
       Left            =   120
-      TabIndex        =   88
+      TabIndex        =   87
       Top             =   360
       Width           =   3975
       Begin VB.CommandButton cmdRefresh 
          Caption         =   "ACTUALIZAR"
          Height          =   495
          Left            =   2160
-         TabIndex        =   109
+         TabIndex        =   108
          Top             =   2100
          Width           =   1695
       End
@@ -648,7 +666,7 @@ Begin VB.Form frmPanelGm
          MaxLength       =   40
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
-         TabIndex        =   107
+         TabIndex        =   106
          Top             =   6120
          Width           =   3735
       End
@@ -665,14 +683,14 @@ Begin VB.Form frmPanelGm
          EndProperty
          Height          =   375
          Left            =   120
-         TabIndex        =   105
+         TabIndex        =   104
          Top             =   6960
          Width           =   3735
       End
       Begin VB.TextBox txtNuevoUsuario 
          Height          =   285
          Left            =   120
-         TabIndex        =   104
+         TabIndex        =   103
          Top             =   5580
          Width           =   3735
       End
@@ -689,7 +707,7 @@ Begin VB.Form frmPanelGm
          EndProperty
          Height          =   375
          Left            =   120
-         TabIndex        =   102
+         TabIndex        =   101
          Top             =   4800
          Width           =   3735
       End
@@ -699,7 +717,7 @@ Begin VB.Form frmPanelGm
          Locked          =   -1  'True
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
-         TabIndex        =   101
+         TabIndex        =   100
          Top             =   3780
          Width           =   3735
       End
@@ -710,7 +728,7 @@ Begin VB.Form frmPanelGm
          MaxLength       =   40
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
-         TabIndex        =   99
+         TabIndex        =   98
          Top             =   2880
          Width           =   3735
       End
@@ -718,7 +736,7 @@ Begin VB.Form frmPanelGm
          Height          =   315
          Left            =   2160
          Locked          =   -1  'True
-         TabIndex        =   97
+         TabIndex        =   96
          Top             =   1620
          Width           =   1695
       End
@@ -726,7 +744,7 @@ Begin VB.Form frmPanelGm
          Height          =   315
          Left            =   2160
          Locked          =   -1  'True
-         TabIndex        =   95
+         TabIndex        =   94
          Top             =   1080
          Width           =   1695
       End
@@ -734,14 +752,14 @@ Begin VB.Form frmPanelGm
          Height          =   315
          Left            =   2160
          Locked          =   -1  'True
-         TabIndex        =   93
+         TabIndex        =   92
          Top             =   540
          Width           =   1695
       End
       Begin VB.ListBox lstUsers 
          Height          =   2400
          Left            =   120
-         TabIndex        =   89
+         TabIndex        =   88
          Top             =   240
          Width           =   1695
       End
@@ -759,7 +777,7 @@ Begin VB.Form frmPanelGm
          EndProperty
          Height          =   195
          Left            =   2160
-         TabIndex        =   108
+         TabIndex        =   107
          Top             =   60
          Width           =   660
       End
@@ -776,7 +794,7 @@ Begin VB.Form frmPanelGm
          EndProperty
          Height          =   255
          Left            =   120
-         TabIndex        =   106
+         TabIndex        =   105
          Top             =   5880
          Width           =   1575
       End
@@ -799,7 +817,7 @@ Begin VB.Form frmPanelGm
          EndProperty
          Height          =   255
          Left            =   120
-         TabIndex        =   103
+         TabIndex        =   102
          Top             =   5340
          Width           =   1575
       End
@@ -816,7 +834,7 @@ Begin VB.Form frmPanelGm
          EndProperty
          Height          =   375
          Left            =   120
-         TabIndex        =   100
+         TabIndex        =   99
          Top             =   3600
          Width           =   1575
       End
@@ -833,7 +851,7 @@ Begin VB.Form frmPanelGm
          EndProperty
          Height          =   375
          Left            =   120
-         TabIndex        =   98
+         TabIndex        =   97
          Top             =   2700
          Width           =   1575
       End
@@ -850,7 +868,7 @@ Begin VB.Form frmPanelGm
          EndProperty
          Height          =   375
          Left            =   2160
-         TabIndex        =   96
+         TabIndex        =   95
          Top             =   1440
          Width           =   1575
       End
@@ -867,7 +885,7 @@ Begin VB.Form frmPanelGm
          EndProperty
          Height          =   375
          Left            =   2160
-         TabIndex        =   94
+         TabIndex        =   93
          Top             =   900
          Width           =   1575
       End
@@ -884,7 +902,7 @@ Begin VB.Form frmPanelGm
          EndProperty
          Height          =   255
          Left            =   2160
-         TabIndex        =   92
+         TabIndex        =   91
          Top             =   360
          Width           =   1095
       End
@@ -904,7 +922,7 @@ Begin VB.Form frmPanelGm
          ForeColor       =   &H00008000&
          Height          =   255
          Left            =   2880
-         TabIndex        =   91
+         TabIndex        =   90
          Top             =   60
          Width           =   735
       End
@@ -921,7 +939,7 @@ Begin VB.Form frmPanelGm
          EndProperty
          Height          =   255
          Left            =   120
-         TabIndex        =   90
+         TabIndex        =   89
          Top             =   0
          Width           =   1695
       End
@@ -1105,48 +1123,6 @@ Begin VB.Form frmPanelGm
          Top             =   120
          Width           =   1215
       End
-   End
-   Begin MSComctlLib.TabStrip TabStrip 
-      CausesValidation=   0   'False
-      Height          =   1935
-      Left            =   0
-      TabIndex        =   81
-      Top             =   0
-      Width           =   4215
-      _ExtentX        =   7435
-      _ExtentY        =   3413
-      _Version        =   393216
-      BeginProperty Tabs {1EFB6598-857C-11D1-B16A-00C0F0283628} 
-         NumTabs         =   7
-         BeginProperty Tab1 {1EFB659A-857C-11D1-B16A-00C0F0283628} 
-            Caption         =   "Message"
-            ImageVarType    =   2
-         EndProperty
-         BeginProperty Tab2 {1EFB659A-857C-11D1-B16A-00C0F0283628} 
-            Caption         =   "Info"
-            ImageVarType    =   2
-         EndProperty
-         BeginProperty Tab3 {1EFB659A-857C-11D1-B16A-00C0F0283628} 
-            Caption         =   "Player"
-            ImageVarType    =   2
-         EndProperty
-         BeginProperty Tab4 {1EFB659A-857C-11D1-B16A-00C0F0283628} 
-            Caption         =   "Me"
-            ImageVarType    =   2
-         EndProperty
-         BeginProperty Tab5 {1EFB659A-857C-11D1-B16A-00C0F0283628} 
-            Caption         =   "World"
-            ImageVarType    =   2
-         EndProperty
-         BeginProperty Tab6 {1EFB659A-857C-11D1-B16A-00C0F0283628} 
-            Caption         =   "Admin"
-            ImageVarType    =   2
-         EndProperty
-         BeginProperty Tab7 {1EFB659A-857C-11D1-B16A-00C0F0283628} 
-            Caption         =   "Seguimientos"
-            ImageVarType    =   2
-         EndProperty
-      EndProperty
    End
    Begin VB.Menu mnuSeguimientos 
       Caption         =   "Seguimientos"

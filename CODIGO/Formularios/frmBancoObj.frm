@@ -461,7 +461,7 @@ Private Sub Form_Load()
     clsFormulario.Initialize Me
 
     'Cargamos la interfase
-    Me.Picture = LoadPicture(Game.path(Interfaces) & "Boveda.jpg")
+    Me.Picture = LoadPicture(Game.Path(Interfaces) & "Boveda.jpg")
         
     Call LoadTextsForm
     Call LoadButtons
@@ -505,7 +505,7 @@ Private Sub LoadButtons()
 
     Dim GrhPath As String
     
-    GrhPath = Game.path(Interfaces)
+    GrhPath = Game.Path(Interfaces)
     'CmdMoverBov(1).Picture = LoadPicture(Game.path(Interfaces) & "FlechaSubirObjeto.jpg")
     'CmdMoverBov(0).Picture = LoadPicture(Game.path(Interfaces) & "FlechaBajarObjeto.jpg")
     
@@ -528,9 +528,9 @@ Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y A
     Call LastButtonPressed.ToggleToNormal
 End Sub
 
-Private Sub Image1_Click(Index As Integer)
+Private Sub Image1_click(Index As Integer)
     
-    Call Audio.PlayWave(SND_CLICK)
+   ' Call Sound.Sound_Play(SND_CLICK)
     
     If InvBanco(Index).SelectedItem = 0 Then Exit Sub
     
