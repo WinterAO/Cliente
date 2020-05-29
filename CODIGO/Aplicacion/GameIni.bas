@@ -14,12 +14,12 @@ Public Type tCabecera
 End Type
 
 Public Enum ePath
-    Init
+    INIT
     Graficos
     Interfaces
     Skins
-    sounds
-    musica
+    Sounds
+    Musica
     Mapas
     Lenguajes
     Fonts
@@ -41,14 +41,11 @@ Public Type tSetupMods
     FPSShow      As Boolean
     
     ' AUDIO
-    bMusic    As E_SISTEMA_MUSICA
-    bSound    As Byte
-    bAmbient As Long
-    Inverido As Byte
-    bSoundEffects As Byte
-    MusicVolume As Long
-    SoundVolume As Long
-    AmbientVol As Long
+    bMusic    As Boolean
+    bSound    As Boolean
+    bSoundEffects As Boolean
+    MusicVolume As Byte
+    SoundVolume As Byte
     
     ' GUILDS
     bGuildNews  As Boolean
@@ -87,36 +84,36 @@ Public Sub IniciarCabecera()
     
 End Sub
 
-Public Function Path(ByVal PathType As ePath) As String
+Public Function path(ByVal PathType As ePath) As String
 
     Select Case PathType
         
-        Case ePath.Init
-            Path = App.Path & "\Recursos\INIT\"
+        Case ePath.INIT
+            path = App.path & "\Recursos\INIT\"
         
         Case ePath.Graficos
-            Path = App.Path & "\Recursos\Graficos\"
+            path = App.path & "\Recursos\Graficos\"
         
         Case ePath.Skins
-            Path = App.Path & "\Recursos\Graficos\Skins\"
+            path = App.path & "\Recursos\Graficos\Skins\"
             
         Case ePath.Interfaces
-            Path = App.Path & "\Recursos\Graficos\Interfaces\"
+            path = App.path & "\Recursos\Graficos\Interfaces\"
             
         Case ePath.Fonts
-            Path = App.Path & "\Recursos\Graficos\Fonts\"
+            path = App.path & "\Recursos\Graficos\Fonts\"
             
         Case ePath.Lenguajes
-            Path = App.Path & "\Recursos\Lenguajes\"
+            path = App.path & "\Recursos\Lenguajes\"
             
         Case ePath.Mapas
-            Path = App.Path & "\Recursos\Mapas\"
+            path = App.path & "\Recursos\Mapas\"
             
-        Case ePath.musica
-            Path = App.Path & "\Recursos\MP3\"
+        Case ePath.Musica
+            path = App.path & "\Recursos\MP3\"
             
-        Case ePath.sounds
-            Path = App.Path & "\Recursos\WAV\"
+        Case ePath.Sounds
+            path = App.path & "\Recursos\WAV\"
     
     End Select
 
@@ -128,7 +125,7 @@ Public Sub LeerConfiguracion()
     Call IniciarCabecera
     
     Set Lector = New clsIniManager
-    Call Lector.Initialize(Game.Path(Init) & CLIENT_FILE)
+    Call Lector.Initialize(Game.path(INIT) & CLIENT_FILE)
     
     With ClientSetup
         ' VIDEO
@@ -144,13 +141,12 @@ Public Sub LeerConfiguracion()
         .HUD = CBool(Lector.GetValue("VIDEO", "HUD"))
         
         ' AUDIO
-        .bMusic = CByte(Lector.GetValue("AUDIO", "MUSIC"))
-        .bSound = CByte(Lector.GetValue("AUDIO", "SOUND"))
-        .bAmbient = CByte(Lector.GetValue("AUDIO", "AMBIENT"))
-        .AmbientVolume = CLng(Lector.GetValue("AUDIO", "AMBIENT"))
-        .MusicVolume = CLng(Lector.GetValue("AUDIO", "MUSIC_VOLUME"))
-        .SoundVolume = CLng(Lector.GetValue("AUDIO", "SOUND_VOLUME"))
-        .Invertido = CByte(Lector.GetValue("AUDIO", "INVERTIDO"))
+        .bMusic = CBool(Lector.GetValue("AUDIO", "MUSIC"))
+        .bSound = CBool(Lector.GetValue("AUDIO", "SOUND"))
+        .bSoundEffects = CBool(Lector.GetValue("AUDIO", "SOUND_EFFECTS"))
+        .MusicVolume = CByte(Lector.GetValue("AUDIO", "MUSIC_VOLUME"))
+        .SoundVolume = CByte(Lector.GetValue("AUDIO", "SOUND_VOLUME"))
+        
         ' GUILD
         .bGuildNews = CBool(Lector.GetValue("GUILD", "NEWS"))
         .bGldMsgConsole = CBool(Lector.GetValue("GUILD", "MESSAGES"))
@@ -203,7 +199,7 @@ Public Sub GuardarConfiguracion()
     On Local Error GoTo fileErr:
     
     Set Lector = New clsIniManager
-    Call Lector.Initialize(Game.Path(Init) & CLIENT_FILE)
+    Call Lector.Initialize(Game.path(INIT) & CLIENT_FILE)
 
     With ClientSetup
         
@@ -220,12 +216,11 @@ Public Sub GuardarConfiguracion()
         Call Lector.ChangeValue("VIDEO", "HUD", IIf(.HUD, "True", "False"))
         
         ' AUDIO
-        Call Lector.ChangeValue("AUDIO", "MUSIC", IIf(.bMusic))
-        Call Lector.ChangeValue("AUDIO", "SOUND", IIf(.bSound))
-       Call Lector.ChangeValue("AUDIO", "AMBIENT", IIf(.bAmbient))
-       Call Lector.ChangeValue("AUDIO", "MUSIC_VOLUME", Sound.AmbienteActual)
-        Call Lector.ChangeValue("AUDIO", "MUSIC_VOLUME", Sound.MusicActual)
-        Call Lector.ChangeValue("AUDIO", "SOUND_VOLUME", Sound.VolumenActual)
+        Call Lector.ChangeValue("AUDIO", "MUSIC", IIf(Audio.MusicActivated, "True", "False"))
+        Call Lector.ChangeValue("AUDIO", "SOUND", IIf(Audio.SoundActivated, "True", "False"))
+        Call Lector.ChangeValue("AUDIO", "SOUND_EFFECTS", IIf(Audio.SoundEffectsActivated, "True", "False"))
+        Call Lector.ChangeValue("AUDIO", "MUSIC_VOLUME", Audio.MusicVolume)
+        Call Lector.ChangeValue("AUDIO", "SOUND_VOLUME", Audio.SoundVolume)
         
         ' GUILD
         Call Lector.ChangeValue("GUILD", "NEWS", IIf(.bGuildNews, "True", "False"))
@@ -244,7 +239,7 @@ Public Sub GuardarConfiguracion()
         ' Call Lector.ChangeValue("OTHER", "MOSTRAR_TIPS", CBool(.MostrarTips))
     End With
     
-    Call Lector.DumpFile(Game.Path(Init) & CLIENT_FILE)
+    Call Lector.DumpFile(Game.path(INIT) & CLIENT_FILE)
 fileErr:
 
     If Err.number <> 0 Then

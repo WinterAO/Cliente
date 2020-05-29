@@ -58,11 +58,19 @@ Begin VB.Form frmMain
       ToolTipText     =   "Experiencia necesaria para pasar de nivel"
       Top             =   1080
       Width           =   3375
-      _extentx        =   5953
-      _extenty        =   318
-      backcolor       =   8421376
-      bordercolor     =   0
-      font            =   "frmMain.frx":56A8C
+      _ExtentX        =   5953
+      _ExtentY        =   318
+      BackColor       =   8421376
+      BorderColor     =   0
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin VB.PictureBox MiniMapa 
       AutoRedraw      =   -1  'True
@@ -142,7 +150,7 @@ Begin VB.Form frmMain
       MultiLine       =   -1  'True
       TabIndex        =   2
       TabStop         =   0   'False
-      Text            =   "frmMain.frx":56AB0
+      Text            =   "frmMain.frx":56A8C
       ToolTipText     =   "Chat"
       Top             =   2400
       Visible         =   0   'False
@@ -167,7 +175,7 @@ Begin VB.Form frmMain
       MultiLine       =   -1  'True
       TabIndex        =   1
       TabStop         =   0   'False
-      Text            =   "frmMain.frx":56AE0
+      Text            =   "frmMain.frx":56ABC
       ToolTipText     =   "Chat"
       Top             =   10800
       Visible         =   0   'False
@@ -201,7 +209,7 @@ Begin VB.Form frmMain
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
       Appearance      =   0
-      TextRTF         =   $"frmMain.frx":56B16
+      TextRTF         =   $"frmMain.frx":56AF2
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Tahoma"
          Size            =   8.25
@@ -255,17 +263,25 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   120
             Width           =   1335
-            _extentx        =   2355
-            _extenty        =   450
-            tx              =   ""
-            enab            =   -1
-            fcol            =   16777215
-            ocol            =   16777215
-            pice            =   "frmMain.frx":56B93
-            picf            =   "frmMain.frx":56BAF
-            pich            =   "frmMain.frx":56BCB
-            picv            =   "frmMain.frx":56BE7
-            font            =   "frmMain.frx":56C03
+            _ExtentX        =   2355
+            _ExtentY        =   450
+            TX              =   ""
+            ENAB            =   -1  'True
+            FCOL            =   16777215
+            OCOL            =   16777215
+            PICE            =   "frmMain.frx":56B6F
+            PICF            =   "frmMain.frx":56B8B
+            PICH            =   "frmMain.frx":56BA7
+            PICV            =   "frmMain.frx":56BC3
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Arial"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin WinterAO.uAOButton btnGrupo 
             Height          =   255
@@ -274,17 +290,25 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   480
             Width           =   1335
-            _extentx        =   2355
-            _extenty        =   450
-            tx              =   ""
-            enab            =   -1
-            fcol            =   16777215
-            ocol            =   16777215
-            pice            =   "frmMain.frx":56C27
-            picf            =   "frmMain.frx":56C43
-            pich            =   "frmMain.frx":56C5F
-            picv            =   "frmMain.frx":56C7B
-            font            =   "frmMain.frx":56C97
+            _ExtentX        =   2355
+            _ExtentY        =   450
+            TX              =   ""
+            ENAB            =   -1  'True
+            FCOL            =   16777215
+            OCOL            =   16777215
+            PICE            =   "frmMain.frx":56BDF
+            PICF            =   "frmMain.frx":56BFB
+            PICH            =   "frmMain.frx":56C17
+            PICV            =   "frmMain.frx":56C33
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Arial"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin WinterAO.uAOButton btnEstadisticas 
             Height          =   255
@@ -293,17 +317,25 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   840
             Width           =   1335
-            _extentx        =   2355
-            _extenty        =   450
-            tx              =   ""
-            enab            =   -1
-            fcol            =   16777215
-            ocol            =   16777215
-            pice            =   "frmMain.frx":56CBB
-            picf            =   "frmMain.frx":56CD7
-            pich            =   "frmMain.frx":56CF3
-            picv            =   "frmMain.frx":56D0F
-            font            =   "frmMain.frx":56D2B
+            _ExtentX        =   2355
+            _ExtentY        =   450
+            TX              =   ""
+            ENAB            =   -1  'True
+            FCOL            =   16777215
+            OCOL            =   16777215
+            PICE            =   "frmMain.frx":56C4F
+            PICF            =   "frmMain.frx":56C6B
+            PICH            =   "frmMain.frx":56C87
+            PICV            =   "frmMain.frx":56CA3
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Arial"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin WinterAO.uAOButton btnClanes 
             Height          =   255
@@ -312,17 +344,25 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   1200
             Width           =   1335
-            _extentx        =   2355
-            _extenty        =   450
-            tx              =   ""
-            enab            =   -1
-            fcol            =   16777215
-            ocol            =   16777215
-            pice            =   "frmMain.frx":56D4F
-            picf            =   "frmMain.frx":56D6B
-            pich            =   "frmMain.frx":56D87
-            picv            =   "frmMain.frx":56DA3
-            font            =   "frmMain.frx":56DBF
+            _ExtentX        =   2355
+            _ExtentY        =   450
+            TX              =   ""
+            ENAB            =   -1  'True
+            FCOL            =   16777215
+            OCOL            =   16777215
+            PICE            =   "frmMain.frx":56CBF
+            PICF            =   "frmMain.frx":56CDB
+            PICH            =   "frmMain.frx":56CF7
+            PICV            =   "frmMain.frx":56D13
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Arial"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin WinterAO.uAOButton btnRetos 
             Height          =   255
@@ -331,17 +371,25 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   1920
             Width           =   1335
-            _extentx        =   2355
-            _extenty        =   450
-            tx              =   ""
-            enab            =   -1
-            fcol            =   16777215
-            ocol            =   16777215
-            pice            =   "frmMain.frx":56DE3
-            picf            =   "frmMain.frx":56DFF
-            pich            =   "frmMain.frx":56E1B
-            picv            =   "frmMain.frx":56E37
-            font            =   "frmMain.frx":56E53
+            _ExtentX        =   2355
+            _ExtentY        =   450
+            TX              =   ""
+            ENAB            =   -1  'True
+            FCOL            =   16777215
+            OCOL            =   16777215
+            PICE            =   "frmMain.frx":56D2F
+            PICF            =   "frmMain.frx":56D4B
+            PICH            =   "frmMain.frx":56D67
+            PICV            =   "frmMain.frx":56D83
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Arial"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin WinterAO.uAOButton btnOpciones 
             Height          =   255
@@ -350,17 +398,25 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   2280
             Width           =   1335
-            _extentx        =   2355
-            _extenty        =   450
-            tx              =   ""
-            enab            =   -1
-            fcol            =   16777215
-            ocol            =   16777215
-            pice            =   "frmMain.frx":56E77
-            picf            =   "frmMain.frx":56E93
-            pich            =   "frmMain.frx":56EAF
-            picv            =   "frmMain.frx":56ECB
-            font            =   "frmMain.frx":56EE7
+            _ExtentX        =   2355
+            _ExtentY        =   450
+            TX              =   ""
+            ENAB            =   -1  'True
+            FCOL            =   16777215
+            OCOL            =   16777215
+            PICE            =   "frmMain.frx":56D9F
+            PICF            =   "frmMain.frx":56DBB
+            PICH            =   "frmMain.frx":56DD7
+            PICV            =   "frmMain.frx":56DF3
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Arial"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin WinterAO.uAOButton btnQuest 
             Height          =   255
@@ -369,17 +425,25 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   1560
             Width           =   1335
-            _extentx        =   2355
-            _extenty        =   450
-            tx              =   ""
-            enab            =   -1
-            fcol            =   16777215
-            ocol            =   16777215
-            pice            =   "frmMain.frx":56F0B
-            picf            =   "frmMain.frx":56F27
-            pich            =   "frmMain.frx":56F43
-            picv            =   "frmMain.frx":56F5F
-            font            =   "frmMain.frx":56F7B
+            _ExtentX        =   2355
+            _ExtentY        =   450
+            TX              =   ""
+            ENAB            =   -1  'True
+            FCOL            =   16777215
+            OCOL            =   16777215
+            PICE            =   "frmMain.frx":56E0F
+            PICF            =   "frmMain.frx":56E2B
+            PICH            =   "frmMain.frx":56E47
+            PICV            =   "frmMain.frx":56E63
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Arial"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
       End
    End
@@ -659,7 +723,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   0
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":56F9F
+      MouseIcon       =   "frmMain.frx":56E7F
       MousePointer    =   99  'Custom
       Top             =   2925
       Visible         =   0   'False
@@ -669,7 +733,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   1
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":570F1
+      MouseIcon       =   "frmMain.frx":56FD1
       MousePointer    =   99  'Custom
       Top             =   2580
       Visible         =   0   'False
@@ -772,7 +836,7 @@ Begin VB.Form frmMain
    Begin VB.Image InvEqu 
       Height          =   4530
       Left            =   11400
-      Picture         =   "frmMain.frx":57243
+      Picture         =   "frmMain.frx":57123
       Top             =   1920
       Width           =   3645
    End
@@ -921,15 +985,15 @@ Private Sub btnQuest_Click()
 End Sub
 
 Private Sub btnSolapa_Click(Index As Integer)
-Call Sound.Sound_Play(SND_CLICK)
+Call Audio.PlayWave(SND_CLICK)
 
     Select Case Index
     
         Case 0 'Inventario
-            InvEqu.Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\Centroinventario.jpg")
-            btnSolapa(0).Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\invseleccionado.jpg")
-            btnSolapa(1).Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\hechnoseleccionado.jpg")
-            btnSolapa(2).Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
+            InvEqu.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\Centroinventario.jpg")
+            btnSolapa(0).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\invseleccionado.jpg")
+            btnSolapa(1).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\hechnoseleccionado.jpg")
+            btnSolapa(2).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
             
             ' Activo controles de inventario
             PicInv.Visible = True
@@ -950,12 +1014,12 @@ Call Sound.Sound_Play(SND_CLICK)
             Call Inventario.DrawInventory
         
         Case 1 'Hechizos
-            InvEqu.Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\Centrohechizos.jpg")
-            btnSolapa(0).Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\invnoseleccionado.jpg")
-            btnSolapa(1).Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\hechseleccionado.jpg")
-            btnSolapa(2).Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
-            btnLanzar.Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\lanzar.jpg")
-            btnInfo.Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\info.jpg")
+            InvEqu.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\Centrohechizos.jpg")
+            btnSolapa(0).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\invnoseleccionado.jpg")
+            btnSolapa(1).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\hechseleccionado.jpg")
+            btnSolapa(2).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
+            btnLanzar.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\lanzar.jpg")
+            btnInfo.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\info.jpg")
             
             ' Activo controles de hechizos
             hlst.Visible = True
@@ -973,10 +1037,10 @@ Call Sound.Sound_Play(SND_CLICK)
             BorrarAmigo.Visible = False
     
         Case 2 'Amigos
-            InvEqu.Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\CentroAmigos.jpg")
-            btnSolapa(0).Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\invnoseleccionado.jpg")
-            btnSolapa(1).Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\hechnoseleccionado.jpg")
-            btnSolapa(2).Picture = LoadPicture(Game.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgseleccionado.jpg")
+            InvEqu.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\CentroAmigos.jpg")
+            btnSolapa(0).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\invnoseleccionado.jpg")
+            btnSolapa(1).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\hechnoseleccionado.jpg")
+            btnSolapa(2).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\amgseleccionado.jpg")
             
             ListAmigos.Visible = True
             AgregarAmigo.Visible = True
@@ -1131,10 +1195,10 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
             Select Case KeyCode
 
                 Case CustomKeys.BindedKey(eKeyType.mKeyToggleMusic)
-                    'Audio.MusicActivated = Not Audio.MusicActivated
+                    Audio.MusicActivated = Not Audio.MusicActivated
                     
                 Case CustomKeys.BindedKey(eKeyType.mKeyToggleSound)
-                '    Audio.SoundActivated = Not Audio.SoundActivated
+                    Audio.SoundActivated = Not Audio.SoundActivated
                     
                 Case CustomKeys.BindedKey(eKeyType.mKeyToggleFPS)
                     ClientSetup.FPSShow = Not ClientSetup.FPSShow
@@ -1335,7 +1399,7 @@ Private Sub lblScroll_Click(Index As Integer)
 End Sub
 
 Private Sub lblCerrar_Click()
-    Call Sound.Sound_Play(SND_CLICK)
+    Call Audio.PlayWave(SND_CLICK)
     frmCerrar.Show vbModal, Me
 End Sub
 
@@ -1436,7 +1500,7 @@ Private Sub SendTxt_KeyDown(KeyCode As Integer, Shift As Integer)
         SendTxt.ForeColor = &HE0E0E0
     End If
     
-ErrHandler:
+errhandler:
     
 End Sub
 
@@ -1618,7 +1682,7 @@ Private Sub MainViewPic_MouseDown(Button As Integer, _
     MouseBoton = Button
     MouseShift = Shift
     
-    '¿Hizo click derecho?
+    '�Hizo click derecho?
     If Button = 2 Then
         If Not MirandoForo And Not Comerciando Then 'frmComerciar.Visible And Not frmBancoObj.Visible Then
             Call WriteAccionClick(TX, TY)
@@ -1875,7 +1939,7 @@ Private Sub picInv_DblClick()
 End Sub
 
 Private Sub picInv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    Call Sound.Sound_Play(SND_CLICK)
+    Call Audio.PlayWave(SND_CLICK)
 End Sub
 
 Private Sub RecTxt_Change()
@@ -2149,7 +2213,7 @@ End Sub
 Private Sub Client_Error(ByVal number As Integer, _
                          Description As String, _
                          ByVal sCode As Long, _
-                         ByVal Source As String, _
+                         ByVal source As String, _
                          ByVal HelpFile As String, _
                          ByVal HelpContext As Long, _
                          CancelDisplay As Boolean)
@@ -2238,7 +2302,7 @@ Public Sub ActualizarMiniMapa()
     'Integrado por Reyarb
     'Se agrego campo de vision del render (Recox)
     'Ajustadas las coordenadas para centrarlo (WyroX)
-    'Ajuste de coordenadas y tamaÃ±o del visor (ReyarB)
+    'Ajuste de coordenadas y tamaño del visor (ReyarB)
     '***************************************************
     Me.UserM.Left = UserPos.X - 2
     Me.UserM.Top = UserPos.Y - 2
