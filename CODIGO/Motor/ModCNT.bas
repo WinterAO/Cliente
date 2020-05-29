@@ -71,7 +71,6 @@ Private lblTotal As Byte 'Total de puntos para asignar
 Private SexoSelect(1 To 2) As String 'Sexo seleccionado
 '**********************
 
-
 Public Sub InicializarRndCNT()
 '********************************************
 'Autor: Lorwik
