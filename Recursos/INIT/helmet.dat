@@ -1,0 +1,688 @@
+[INIT]
+NumCascos=193
+[Casco1]
+Std=2
+FileNum=1503
+[Casco3]
+Std=2
+FileNum=1504
+[Casco4]
+Std=2
+FileNum=8243
+[Casco5]
+Std=2
+FileNum=8246
+[Casco6]
+Std=2
+FileNum=8247
+[Casco7]
+Std=2
+FileNum=8248
+[Casco8]
+Std=2
+FileNum=8250
+[Casco9]
+Std=2
+FileNum=2011
+[Casco10]
+Std=2
+FileNum=2013
+[Casco11]
+Std=2
+FileNum=9709
+[Casco12]
+Std=2
+FileNum=9818
+[Casco13]
+Std=2
+FileNum=9831
+[Casco14]
+Std=2
+FileNum=9832
+[Casco15]
+Std=2
+FileNum=9833
+[Casco16]
+Std=2
+FileNum=9966
+[Casco17]
+Std=2
+FileNum=9967
+[Casco18]
+Std=2
+FileNum=9968
+[Casco19]
+Std=2
+FileNum=9969
+[Casco20]
+Std=2
+FileNum=9970
+[Casco21]
+Std=2
+FileNum=10086
+[Casco22]
+Std=2
+FileNum=10088
+[Casco23]
+Std=2
+FileNum=10153
+[Casco24]
+Std=2
+FileNum=10155
+[Casco25]
+Std=2
+FileNum=10159
+[Casco26]
+Std=2
+FileNum=10161
+[Casco27]
+Std=2
+FileNum=10163
+[Casco28]
+Std=2
+FileNum=10165
+[Casco29]
+Std=2
+FileNum=10167
+[Casco30]
+Std=2
+FileNum=10157
+[Casco31]
+Std=2
+FileNum=15051
+[Casco32]
+Std=2
+FileNum=15052
+[Casco33]
+Std=2
+FileNum=15101
+[Casco34]
+Std=2
+FileNum=15102
+[Casco35]
+Std=2
+FileNum=15103
+[Casco36]
+Std=2
+FileNum=15138
+[Casco37]
+Std=2
+FileNum=15186
+[Casco38]
+Std=2
+FileNum=15484
+[Casco39]
+Std=2
+FileNum=15486
+[Casco40] 'Lentes
+Std=2
+FileNum=2593
+[Casco41]
+Std=2
+FileNum=76
+[Casco42]
+Std=2
+FileNum=233
+[Casco43]
+Std=2
+FileNum=190
+[Casco44]
+Std=2
+FileNum=192
+[Casco45]
+Std=2
+FileNum=194
+[Casco46]
+Std=2
+FileNum=8246
+[Casco47] 'Tunica DMs gris cabeza
+Std=2
+FileNum=15583
+[Casco48] 'Tunica DMs blanca cabeza
+Std=2
+FileNum=15583
+OffSetX=27
+[Casco49] 'Tunica DMs gris oscura cabeza
+Std=2
+FileNum=15583
+OffSetX=54
+[Casco50]'Antifaz bandalico
+Std=2
+FileNum=15606
+[Casco51]'Gorro Natura
+Std=2
+FileNum=15612
+[Casco52]'Gorro de Pirata
+Std=2
+FileNum=129
+[Casco53]'Gorro de Brujo
+Std=2
+FileNum=239
+[Casco54]'Máscara de Calabaza
+Std=2
+FileNum=245
+[Casco55]'Celada Bárbara [SKIN]
+Std=2
+FileNum=10163
+OffSetX=27
+[Casco56]'Gorro de Hechicería Gris [SKIN]
+Std=2
+FileNum=9833
+OffSetX=27
+[Casco57]'Celada [SKIN]
+Std=2
+FileNum=1504
+OffSetX=27
+[Casco58]'Casco Dorado [SKIN]
+Std=2
+FileNum=8248
+OffSetX=27
+[Casco59]'Gorro Mágico RM +10 [SKIN]
+Std=2
+FileNum=9831
+OffSetX=27
+[Casco60]'Gorro Mágico RM +20 [SKIN]
+Std=2
+FileNum=9832
+OffSetX=27
+[Casco61]'Antifaz
+Std=2
+FileNum=1103
+[Casco62]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=27
+[Casco63]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=54
+[Casco64]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=81
+[Casco65]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=108
+[Casco66]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=135
+[Casco67]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=162
+[Casco68]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=189
+[Casco69]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=216
+[Casco70]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=243
+[Casco71]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=270
+[Casco72]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=297
+[Casco73]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=324
+[Casco74]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=351
+[Casco75]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=378
+[Casco76]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=405
+[Casco77]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=432
+[Casco78]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=459
+[Casco79]'Antifaz
+Std=2
+FileNum=1103
+OffSetY=160
+[Casco80]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=27
+OffSetY=160
+[Casco81]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=54
+OffSetY=160
+[Casco82]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=81
+OffSetY=160
+[Casco83]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=108
+OffSetY=160
+[Casco84]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=135
+OffSetY=160
+[Casco85]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=162
+OffSetY=160
+[Casco86]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=189
+OffSetY=160
+[Casco87]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=216
+OffSetY=160
+[Casco88]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=243
+OffSetY=160
+[Casco89]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=270
+OffSetY=160
+[Casco90]'Antifaz
+Std=2
+FileNum=1103
+OffSetX=297
+OffSetY=160
+[Casco91]'Gorro Navideño
+Std=2
+FileNum=287
+[Casco92]'Casco final cuerno (Faccionario)
+Std=2
+FileNum=386
+[Casco93]'Casco final (Faccionario)
+Std=2
+FileNum=386
+OffSetX=27
+[Casco94]'Lentes (SKIN)
+Std=2
+FileNum=2593
+OffSetX=27
+[Casco95]'Yelmo (movimiento)
+Std=2
+FileNum=1849
+[Casco96]'Casco Faccionario C
+Std=2
+FileNum=1850
+[Casco97]'Casco Faccionario B
+Std=2
+FileNum=1850
+OffSetX=27
+[Casco98]'Casco Faccionario A
+Std=2
+FileNum=1850
+OffSetX=54
+[Casco99]'Casco Faccionario ImpeA
+Std=2
+FileNum=1855
+[Casco100]'Casco Faccionario ImpeB
+Std=2
+FileNum=1855
+OffSetX=27
+[Casco101]'Casco Faccionario ImpeC
+Std=2
+FileNum=1855
+OffSetX=54
+[Casco102]'Casco faccionario Republicano C
+Std=2
+FileNum=1859
+[Casco103]'Casco faccionario Republicano B
+Std=2
+FileNum=1859
+OffSetX=27
+[Casco104]'Casco faccionario Republicano A
+Std=2
+FileNum=1859
+OffSetX=54
+[Casco105]'Gorro faccionario caos A
+Std=2
+FileNum=1863
+[Casco106]'Gorro faccionario caos b
+Std=2
+FileNum=1863
+OffSetX=27
+[Casco107]'Gorro faccionario caos c
+Std=2
+FileNum=1863
+OffSetX=54
+[Casco108]'Gorro faccionario Republicano A
+Std=2
+FileNum=1862
+[Casco109]'Gorro faccionario Republicano B
+Std=2
+FileNum=1862
+OffSetX=27
+[Casco110]'Gorro faccionario Republicano c
+Std=2
+FileNum=1862
+OffSetX=54
+[Casco111]'Gorro faccionario ImperialA
+Std=2
+FileNum=1864
+[Casco112]'Gorro faccionario ImperialB
+Std=2
+FileNum=1864
+OffSetX=27
+[Casco113]'Gorro faccionario ImperialC
+Std=2
+FileNum=1864
+OffSetX=54
+[Casco114]'Gorro Bardo
+Std=2
+FileNum=1254
+[Casco115]'Capucha Acechador Asesino
+Std=2
+FileNum=1256
+[Casco116]'Casco Clerigo
+Std=2
+FileNum=1260
+[Casco117]'Casco Guerrero
+Std=2
+FileNum=1265
+[Casco118]'Gorro Mago
+Std=2
+FileNum=1268
+[Casco119]'Mascara pikachu
+Std=2
+FileNum=808
+[Casco120]'Mascara Charmander
+Std=2
+FileNum=808
+OffSetX=27
+[Casco121]'Mascara bulbasur
+Std=2
+FileNum=808
+OffSetX=54
+[Casco122]'Mascara scuartur
+Std=2
+FileNum=808
+OffSetX=81
+[Casco123]'Mascara base
+Std=2
+FileNum=808
+OffSetX=108
+[Casco124]'Casco Paladin
+Std=2
+FileNum=1271
+[Casco125]'Casco Leoniano
+Std=2
+FileNum=1275
+[Casco126]'Casco Cazador
+Std=2
+FileNum=1278
+[Casco127]'Corona de nmphae Druida
+Std=2
+FileNum=1284
+[Casco128]'cornamenta de nmphae druida
+Std=2
+FileNum=1284
+OffSetX=27
+[Casco129]'Casco Gladia
+Std=2
+FileNum=1292
+[Casco130]'Casco Ladron
+Std=2
+FileNum=1298
+[Casco131]'Casco Mercenario
+Std=2
+FileNum=1300
+[Casco132]'Casco de nigromante
+Std=2
+FileNum=1320
+[Casco133]'Medallon 
+Std=2
+FileNum=1865
+[Casco134]
+Std=2
+FileNum=1105
+[Casco135]
+Std=2
+FileNum=1105
+OffSetX=27
+[Casco136]
+Std=2
+FileNum=1105
+OffSetX=54
+[Casco137]
+Std=2
+FileNum=1105
+OffSetX=81
+[Casco138]
+Std=2
+FileNum=1105
+OffSetX=108
+[Casco139]
+Std=2
+FileNum=1105
+OffSetX=135
+[Casco140]
+Std=2
+FileNum=1105
+OffSetX=162
+[Casco141]
+Std=2
+FileNum=1105
+OffSetX=189
+[Casco142]
+Std=2
+FileNum=1105
+OffSetX=216
+[Casco143]
+Std=2
+FileNum=1105
+OffSetX=243
+[Casco144]
+Std=2
+FileNum=1105
+OffSetX=270
+[Casco145]
+Std=2
+FileNum=1105
+OffSetX=297
+[Casco146]
+Std=2
+FileNum=1105
+OffSetX=324
+[Casco147]
+Std=2
+FileNum=1105
+OffSetX=351
+[Casco148]
+Std=2
+FileNum=1105
+OffSetX=378
+[Casco149]
+Std=2
+FileNum=1105
+OffSetX=405
+[Casco150]
+Std=2
+FileNum=1105
+OffSetX=432
+[Casco151]
+Std=2
+FileNum=1105
+OffSetX=459
+[Casco152]
+Std=2
+FileNum=1105
+OffSetX=486
+[Casco153]'Casco de dragon
+Std=2
+FileNum=425
+[Casco154]'gorro de navidad
+Std=2
+FileNum=426
+[Casco155]'Casco de campeon (skin)
+Std=2
+FileNum=1503
+OffSetX=27
+[Casco156]'casco berserker
+Std=2
+FileNum=1505
+[Head157]
+Std=2
+FileNum=1105
+OffSetY=160
+[Casco158]'Skin Yelmo
+Std=2
+FileNum=1860
+[Casco159]'Mascara diablo marketing
+Std=2
+FileNum=1109
+[Casco160]'Medallon rojo
+Std=2
+FileNum=1111
+[Casco161]'Medallon azul
+Std=2
+FileNum=1112
+[Casco162]'Medallon blanco
+Std=2
+FileNum=1113
+[Casco163]'Medallon amarillo
+Std=2
+FileNum=1114
+[Casco164]'Medallon verde
+Std=2
+FileNum=1115
+[Casco165]'medallon con alas
+Std=2
+FileNum=1905
+[Casco166]'Gorro natura Skin B
+Std=2
+FileNum=15612
+OffSetX=27
+[Casco167]'Gorro natura Skin C
+Std=2
+FileNum=15612
+OffSetX=54
+[Casco168]'Gorro natura Skin D
+Std=2
+FileNum=15612
+OffSetX=81
+[Casco169]'YELMO Skina
+Std=2
+FileNum=1849
+OffSetX=27
+[Casco170]'YELMO skinb
+Std=2
+FileNum=1849
+OffSetX=54
+[Casco171]'YELMO Alado Skin
+Std=2
+FileNum=10165
+OffSetX=27
+[Casco172]'Gorro Arcano Skin
+Std=2
+FileNum=15103
+OffSetX=27
+[Casco173]'Gorro Hechicería Skin A
+Std=2
+FileNum=9833
+OffSetX=27
+[Casco174]'Gorro Hechicería Skin B
+Std=2
+FileNum=9833
+OffSetX=54
+[Casco175]'Corona del terror Skin A
+Std=2
+FileNum=10086
+OffSetX=27
+[Casco176]'bunny head Skin
+Std=2
+FileNum=1511
+[Casco177]'cabeza papa noel
+Std=2
+FileNum=467
+[Casco178]'Gorro Skin roto navideño
+Std=2
+FileNum=472
+[Casco179]
+Std=2
+FileNum=10167
+OffSetX=27
+[Casco180]'Lentes (SKIN2)
+Std=2
+FileNum=2593
+OffSetX=54
+[Casco181]'Lentes (SKIN3)
+Std=2
+FileNum=2593
+OffSetX=81
+[Casco182]'Lentes (SKIN4)
+Std=2
+FileNum=2593
+OffSetX=108
+[Casco183]'Lentes (SKIN)(BRILLO)
+Std=2
+FileNum=2595
+[Casco184]'Lentes (SKIN1)(BRILLO)
+Std=2
+FileNum=2595
+OffSetX=27
+[Casco185]'Lentes (SKIN2)(BRILLO)
+Std=2
+FileNum=2595
+OffSetX=54
+[Casco186]'Lentes (SKIN3)(BRILLO)
+Std=2
+FileNum=2595
+OffSetX=81
+[Casco187]'Lentes (SKIN4)(BRILLO)
+Std=2
+FileNum=2595
+OffSetX=108
+[Casco188]'Corona de Plata
+Std=2
+FileNum=389
+[Casco189]'Corona de Plata (Skin 1) (Rosa)
+Std=2
+FileNum=389
+OffSetX=27
+[Casco190]'Corona de Plata (Skin 2) (Azul)
+Std=2
+FileNum=389
+OffSetX=54
+[Casco191]'Corona de Plata (Skin 3) (Amarillo)
+Std=2
+FileNum=389
+OffSetX=81
+[Casco192]'Gorro de Hechicería (Skin C) (Negro)
+Std=2
+FileNum=9833
+OffSetX=81
+[Casco193]'Lentes (SKIN5)
+Std=2
+FileNum=2593
+OffSetX=135

@@ -804,7 +804,9 @@
         "ELFO": "Elf",
         "ELFO_OSCURO": "Dark Elf",
         "GNOMO": "Gnome",
-        "ENANO": "Dwarf"
+        "ENANO": "Dwarf",
+		"ORCO": "Orc",
+		"VAMPIRO": "Vampire"
     },
     "CLASES": {
         "MAGO": "Mage",
@@ -1143,23 +1145,8 @@
     "CUSTOMKEYS_TECLA_INVALIDA": {
         "TEXTO": "There are one or more invalid keys, please check again."
     },
-    "BTN_CONECTARSE": {
-        "TEXTO": "Connect"
-    },
-    "BTN_RECUPERAR": {
-        "TEXTO": "Change Pass"
-    },
-    "LBL_RECORDARME": {
-        "TEXTO": "Remember Me"
-    },
     "LBL_FORO": {
         "TEXTO": "See Forum"
-    },
-    "BTN_SALIR": {
-        "TEXTO": "Exit"
-    },
-    "LBL_TECLAS": {
-        "TEXTO": "Keyboard"
     },
     "LBL_MAPA": {
         "TEXTO": "Map"

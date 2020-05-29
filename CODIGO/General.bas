@@ -247,7 +247,7 @@ Sub RandomMove()
 'Last Modify Date: 06/03/2006
 ' 06/03/2006: AlejoLp - Ahora utiliza la funcion MoveTo
 '***************************************************
-    Call Map_MoveTo(RandomNumber(NORTH, WEST))
+    Call Map_MoveTo(RandomNumber(SOUTH, EAST))
 End Sub
 
 Private Sub AddMovementToKeysMovementPressedQueue()
@@ -333,7 +333,7 @@ Private Sub CheckKeys()
             End If
            
             ' We haven't moved - Update 3D sounds!
-            Call Audio.MoveListener(UserPos.x, UserPos.y)
+            Call Audio.MoveListener(UserPos.X, UserPos.Y)
         Else
             Dim kp As Boolean
             kp = (GetKeyState(CustomKeys.BindedKey(eKeyType.mKeyUp)) < 0) Or GetKeyState(CustomKeys.BindedKey(eKeyType.mKeyRight)) < 0 Or GetKeyState(CustomKeys.BindedKey(eKeyType.mKeyDown)) < 0 Or GetKeyState(CustomKeys.BindedKey(eKeyType.mKeyLeft)) < 0
@@ -342,7 +342,7 @@ Private Sub CheckKeys()
                 Call RandomMove
             Else
                 ' We haven't moved - Update 3D sounds!
-                Call Audio.MoveListener(UserPos.x, UserPos.y)
+                Call Audio.MoveListener(UserPos.X, UserPos.Y)
             End If
 
             Call Char_UserPos
@@ -461,7 +461,7 @@ On Error Resume Next
     
     Set Inet = New clsInet
     
-    URL = GetVar(Game.path(INIT) & "Config.ini", "Parameters", "IpApiEndpoint")
+    URL = GetVar(Game.path(Init) & "Config.ini", "Parameters", "IpApiEndpoint")
     Endpoint = URL & Ip & "/json/"
     
     Response = Inet.OpenRequest(Endpoint, "GET")
@@ -486,8 +486,9 @@ Sub Main()
     Call modCompression.GenerateContra(vbNullString, 0) ' 0 = Graficos.AO
     
     Call CargarHechizos
-    Call CargarConnectMaps
-    Call ModCnt.InicializarPosicionesPJ
+    
+    'Inicializamos el conectar renderizado
+    Call ModCnt.InicializarRndCNT
 
     ' Map Sounds
     Set Sonidos = New clsSoundMapas
@@ -542,7 +543,6 @@ Sub Main()
         'Solo dibujamos si la ventana no esta minimizada
         If frmMain.WindowState <> 1 And frmMain.Visible Then
             Call ShowNextFrame(frmMain.Top, frmMain.Left, frmMain.MouseX, frmMain.MouseY)
-            
             'Play ambient sounds
             Call RenderSounds
             
@@ -573,7 +573,7 @@ Sub Main()
 End Sub
 
 Public Function GetVersionOfTheGame() As String
-    GetVersionOfTheGame = GetVar(Game.path(INIT) & "Config.ini", "Cliente", "VersionTagRelease")
+    GetVersionOfTheGame = GetVar(Game.path(Init) & "Config.ini", "Cliente", "VersionTagRelease")
 End Function
 
 Private Sub LoadInitialConfig()
@@ -585,8 +585,8 @@ Private Sub LoadInitialConfig()
 '***************************************************
     
     'Cargamos los graficos de mouse guardados
-    ClientSetup.MouseGeneral = Val(GetVar(Game.path(INIT) & "Config.ini", "PARAMETERS", "MOUSEGENERAL"))
-    ClientSetup.MouseBaston = Val(GetVar(Game.path(INIT) & "Config.ini", "PARAMETERS", "MOUSEBASTON"))
+    ClientSetup.MouseGeneral = Val(GetVar(Game.path(Init) & "Config.ini", "PARAMETERS", "MOUSEGENERAL"))
+    ClientSetup.MouseBaston = Val(GetVar(Game.path(Init) & "Config.ini", "PARAMETERS", "MOUSEBASTON"))
     
     'Si es 0 cargamos el por defecto
     If ClientSetup.MouseBaston > 0 Then
@@ -610,8 +610,6 @@ Private Sub LoadInitialConfig()
    
     frmCargando.Show
     frmCargando.Refresh
-
-    frmConnect.version = GetVersionOfTheGame()
     
     '#######
     ' CLASES
@@ -862,11 +860,11 @@ Private Function CMSValidateChar_(ByVal iAsc As Integer) As Boolean
 End Function
 
 'TODO : como todo lo relativo a mapas, no tiene nada que hacer aca....
-Function HayAgua(ByVal x As Integer, ByVal y As Integer) As Boolean
-    HayAgua = ((MapData(x, y).Graphic(1).GrhIndex >= 1505 And MapData(x, y).Graphic(1).GrhIndex <= 1520) Or _
-            (MapData(x, y).Graphic(1).GrhIndex >= 5665 And MapData(x, y).Graphic(1).GrhIndex <= 5680) Or _
-            (MapData(x, y).Graphic(1).GrhIndex >= 13547 And MapData(x, y).Graphic(1).GrhIndex <= 13562)) And _
-                MapData(x, y).Graphic(2).GrhIndex = 0
+Function HayAgua(ByVal X As Integer, ByVal Y As Integer) As Boolean
+    HayAgua = ((MapData(X, Y).Graphic(1).GrhIndex >= 1505 And MapData(X, Y).Graphic(1).GrhIndex <= 1520) Or _
+            (MapData(X, Y).Graphic(1).GrhIndex >= 5665 And MapData(X, Y).Graphic(1).GrhIndex <= 5680) Or _
+            (MapData(X, Y).Graphic(1).GrhIndex >= 13547 And MapData(X, Y).Graphic(1).GrhIndex <= 13562)) And _
+                MapData(X, Y).Graphic(2).GrhIndex = 0
                 
 End Function
 
@@ -910,6 +908,8 @@ Private Sub InicializarNombres()
     ListaRazas(eRaza.ElfoOscuro) = JsonLanguage.item("RAZAS").item("ELFO_OSCURO")
     ListaRazas(eRaza.Gnomo) = JsonLanguage.item("RAZAS").item("GNOMO")
     ListaRazas(eRaza.Enano) = JsonLanguage.item("RAZAS").item("ENANO")
+    ListaRazas(eRaza.Orco) = JsonLanguage.item("RAZAS").item("ORCO")
+    ListaRazas(eRaza.Vampiro) = JsonLanguage.item("RAZAS").item("VAMPIRO")
 
     ListaClases(eClass.Mage) = JsonLanguage.item("CLASES").item("MAGO")
     ListaClases(eClass.Cleric) = JsonLanguage.item("CLASES").item("CLERIGO")
