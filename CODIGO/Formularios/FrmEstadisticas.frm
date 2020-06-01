@@ -1118,9 +1118,9 @@ Private Sub Form_Load()
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
     ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
     If Language = "spanish" Then
-      Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaEstadisticas_spanish.jpg")
+      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaEstadisticas_spanish.jpg")
     Else
-      Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaEstadisticas_english.jpg")
+      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaEstadisticas_english.jpg")
     End If
     
     Call LoadButtons
@@ -1130,7 +1130,7 @@ Private Sub LoadButtons()
     
     Dim GrhPath As String
     
-    GrhPath = Game.path(Interfaces)
+    GrhPath = Carga.Path(Interfaces)
     
     Set cBotonCerrar = New clsGraphicalButton
     Set LastButtonPressed = New clsGraphicalButton
@@ -1141,7 +1141,7 @@ Private Sub LoadButtons()
 
 End Sub
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 
@@ -1153,9 +1153,9 @@ Private Sub imgCerrar_Click()
     Unload Me
 End Sub
 
-Private Sub imgCerrar_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub imgCerrar_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If imgCerrar.Tag = 1 Then
-        imgCerrar.Picture = LoadPicture(Game.path(Interfaces) & "BotonCerrarApretadoEstadisticas.jpg")
+        imgCerrar.Picture = LoadPicture(Carga.Path(Interfaces) & "BotonCerrarApretadoEstadisticas.jpg")
         imgCerrar.Tag = 0
     End If
 

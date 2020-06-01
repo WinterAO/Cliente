@@ -514,7 +514,7 @@ Private Sub Form_Load()
     
     Call LoadDefaultValues
     
-    Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaCarpinteriaItems.jpg")
+    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaCarpinteriaItems.jpg")
     
     Call LoadButtons
     
@@ -554,7 +554,7 @@ Private Sub LoadButtons()
     Dim GrhPath As String
     Dim Index   As Long
     
-    GrhPath = Game.path(Interfaces)
+    GrhPath = Carga.Path(Interfaces)
 
     Set Pestanias(ePestania.ieItems) = LoadPicture(GrhPath & "VentanaCarpinteriaItems.jpg")
     Set Pestanias(ePestania.ieMejorar) = LoadPicture(GrhPath & "VentanaCarpinteriaMejorar.jpg")

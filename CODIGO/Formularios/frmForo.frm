@@ -252,7 +252,7 @@ Private Sub imgDejarAnuncio_Click()
 End Sub
 
 Private Sub imgDejarMsg_Click()
-    If Not cBotonDejarMsg.isEnabled Then Exit Sub
+    If Not cBotonDejarMsg.IsEnabled Then Exit Sub
     
     Dim PostStyle As Byte
     
@@ -323,7 +323,7 @@ End Sub
 Private Sub LoadButtons()
 
     Dim GrhPath As String
-    GrhPath = Game.path(Interfaces)
+    GrhPath = Carga.Path(Interfaces)
     
     ' Load pictures
     Set FondosListaMsg(eForumType.ieGeneral) = LoadPicture(GrhPath & "ForoGeneral.jpg")
@@ -369,7 +369,7 @@ End Sub
 
 Private Sub imgTab_Click(Index As Integer)
 
-    Call Audio.PlayWave(SND_CLICK)
+    Call Sound.Sound_Play(SND_CLICK)
     
     If Index <> ForoActual Then
         ForoActual = Index
@@ -486,7 +486,7 @@ Private Sub UpdateList()
     With lstTitulos
         ' Sticky first
         For PostIndex = 1 To clsForos.GetNroSticky(ForoActual)
-            .AddItem "[" & UCase$(JsonLanguage.Item("ANUNCIO").Item("TEXTO")) & "] " & Foros(ForoActual).StickyTitle(PostIndex) & " (" & Foros(ForoActual).StickyAuthor(PostIndex) & ")"
+            .AddItem "[" & UCase$(JsonLanguage.item("ANUNCIO").item("TEXTO")) & "] " & Foros(ForoActual).StickyTitle(PostIndex) & " (" & Foros(ForoActual).StickyAuthor(PostIndex) & ")"
             .ItemData(.NewIndex) = STICKY_FORUM_OFFSET + PostIndex
         Next PostIndex
     

@@ -155,7 +155,7 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaTirarOro.jpg")
+    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaTirarOro.jpg")
     
     Call LoadTextsForm
     Call LoadAOCustomControlsPictures(Me)

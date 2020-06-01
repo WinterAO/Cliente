@@ -164,8 +164,8 @@ On Error GoTo Error
     clsFormulario.Initialize Me
         
     'Cargamos las imagenes de los mapas
-    Set picMaps(eMaps.ieGeneral) = LoadPicture(Game.path(Interfaces) & "mapa1.jpg")
-    Set picMaps(eMaps.ieDungeon) = LoadPicture(Game.path(Interfaces) & "mapa2.jpg")
+    Set picMaps(eMaps.ieGeneral) = LoadPicture(Carga.Path(Interfaces) & "mapa1.jpg")
+    Set picMaps(eMaps.ieDungeon) = LoadPicture(Carga.Path(Interfaces) & "mapa2.jpg")
     
     ' Imagen de fondo
     CurrentMap = eMaps.ieGeneral
@@ -177,7 +177,7 @@ On Error GoTo Error
     
     Exit Sub
 Error:
-    MsgBox Err.Description, vbInformation, JsonLanguage.Item("ERROR").Item("TEXTO") & ": " & Err.number
+    MsgBox Err.Description, vbInformation, JsonLanguage.item("ERROR").item("TEXTO") & ": " & Err.number
     Unload Me
 End Sub
 

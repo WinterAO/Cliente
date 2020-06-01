@@ -252,7 +252,7 @@ Public Sub LoadCustomKeys()
     'Inits keyboard config with default configurations
     Call LoadDefaults(True)
         
-    Open App.path & KEY_CONFIG_FILE For Binary Access Read Lock Read Write As FileNum
+    Open Carga.Path(Init) & KEY_CONFIG_FILE For Binary Access Read Lock Read Write As FileNum
     
     For i = 1 To NUM_CUSTOM_KEYS
         Get FileNum, , mappedKeys(i)
@@ -279,7 +279,7 @@ Public Sub SaveCustomKeys()
     Dim i As Long
     FileNum = FreeFile()
     
-    Open App.path & KEY_CONFIG_FILE For Binary Access Write As FileNum
+    Open Carga.Path(Init) & KEY_CONFIG_FILE For Binary Access Write As FileNum
     
     For i = 1 To NUM_CUSTOM_KEYS
         Put FileNum, , mappedKeys(i)

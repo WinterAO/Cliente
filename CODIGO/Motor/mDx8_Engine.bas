@@ -41,8 +41,8 @@ Public ScreenHeight As Long
 Public MainScreenRect As RECT
 
 Public Type TLVERTEX
-    x As Single
-    y As Single
+    X As Single
+    Y As Single
     Z As Single
     rhw As Single
     Color As Long
@@ -56,8 +56,8 @@ Private EndTime As Long
 Public Function Engine_DirectX8_Init() As Boolean
     
     'Establecemos cual va a ser el tamano del render.
-    ScreenWidth = frmConnect.renderer.ScaleWidth
-    ScreenHeight = frmConnect.renderer.ScaleHeight
+    ScreenWidth = frmConnect.Renderer.ScaleWidth
+    ScreenHeight = frmConnect.Renderer.ScaleHeight
     
     ' The D3DDISPLAYMODE type structure that holds
     ' the information about your current display adapter.
@@ -299,49 +299,49 @@ Dim Start_Time As Long
 
 End Function
 
-Public Function Engine_PixelPosX(ByVal x As Integer) As Integer
+Public Function Engine_PixelPosX(ByVal X As Integer) As Integer
 '*****************************************************************
 'Converts a tile position to a screen position
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_PixelPosX
 '*****************************************************************
 
-    Engine_PixelPosX = (x - 1) * 32
+    Engine_PixelPosX = (X - 1) * 32
     
 End Function
 
-Public Function Engine_PixelPosY(ByVal y As Integer) As Integer
+Public Function Engine_PixelPosY(ByVal Y As Integer) As Integer
 '*****************************************************************
 'Converts a tile position to a screen position
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_PixelPosY
 '*****************************************************************
 
-    Engine_PixelPosY = (y - 1) * 32
+    Engine_PixelPosY = (Y - 1) * 32
     
 End Function
 
-Public Function Engine_TPtoSPX(ByVal x As Byte) As Long
+Public Function Engine_TPtoSPX(ByVal X As Byte) As Long
 '************************************************************
 'Tile Position to Screen Position
 'Takes the tile position and returns the pixel location on the screen
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_TPtoSPX
 '************************************************************
 
-    Engine_TPtoSPX = Engine_PixelPosX(x - ((UserPos.x - HalfWindowTileWidth) - TileBufferSize)) + OffsetCounterX - 272 + ((10 - TileBufferSize) * 32)
+    Engine_TPtoSPX = Engine_PixelPosX(X - ((UserPos.X - HalfWindowTileWidth) - TileBufferSize)) + OffsetCounterX - 272 + ((10 - TileBufferSize) * 32)
     
 End Function
 
-Public Function Engine_TPtoSPY(ByVal y As Byte) As Long
+Public Function Engine_TPtoSPY(ByVal Y As Byte) As Long
 '************************************************************
 'Tile Position to Screen Position
 'Takes the tile position and returns the pixel location on the screen
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_TPtoSPY
 '************************************************************
 
-    Engine_TPtoSPY = Engine_PixelPosY(y - ((UserPos.y - HalfWindowTileHeight) - TileBufferSize)) + OffsetCounterY - 272 + ((10 - TileBufferSize) * 32)
+    Engine_TPtoSPY = Engine_PixelPosY(Y - ((UserPos.Y - HalfWindowTileHeight) - TileBufferSize)) + OffsetCounterY - 272 + ((10 - TileBufferSize) * 32)
     
 End Function
 
-Public Sub Engine_Draw_Box(ByVal x As Integer, ByVal y As Integer, ByVal Width As Integer, ByVal Height As Integer, Color As Long)
+Public Sub Engine_Draw_Box(ByVal X As Integer, ByVal Y As Integer, ByVal Width As Integer, ByVal Height As Integer, Color As Long)
 '***************************************************
 'Author: Ezequiel Juarez (Standelf)
 'Last Modification: 29/12/10
@@ -351,7 +351,7 @@ Public Sub Engine_Draw_Box(ByVal x As Integer, ByVal y As Integer, ByVal Width A
     Call Engine_Long_To_RGB_List(temp_rgb(), Color)
 
     Call SpriteBatch.SetTexture(Nothing)
-    Call SpriteBatch.Draw(x, y, Width, ByVal Height, temp_rgb())
+    Call SpriteBatch.Draw(X, Y, Width, ByVal Height, temp_rgb())
     
 End Sub
 
@@ -361,7 +361,7 @@ Public Sub Engine_D3DColor_To_RGB_List(rgb_list() As Long, Color As D3DCOLORVALU
 'Last Modification: 14/05/10
 'Blisse-AO | Set a D3DColorValue to a RGB List
 '***************************************************
-    rgb_list(0) = D3DColorARGB(Color.a, Color.r, Color.g, Color.b)
+    rgb_list(0) = D3DColorARGB(Color.A, Color.r, Color.g, Color.b)
     rgb_list(1) = rgb_list(0)
     rgb_list(2) = rgb_list(0)
     rgb_list(3) = rgb_list(0)
@@ -397,7 +397,7 @@ Public Function SetARGB_Alpha(rgb_list() As Long, Alpha As Byte) As Long()
     If Alpha < 0 Then Alpha = 0
     
     'seteamos el alpha
-    TempColor.a = Alpha
+    TempColor.A = Alpha
     
     'generamos el nuevo RGB_List
     Call Engine_D3DColor_To_RGB_List(tempARGB(), TempColor)
@@ -601,13 +601,13 @@ Public Sub Engine_ZoomNormal()
     
 End Sub
 
-Public Function ZoomOffset(ByVal Offset As Byte) As Single
+Public Function ZoomOffset(ByVal offset As Byte) As Single
 '**************************************************************
 'Author: Standelf
 'Last Modify Date: 30/01/2011
 '**************************************************************
 
-    ZoomOffset = IIf((Offset = 1), (ScreenHeight - MainScreenRect.Bottom) / 2, (ScreenWidth - MainScreenRect.Right) / 2)
+    ZoomOffset = IIf((offset = 1), (ScreenHeight - MainScreenRect.Bottom) / 2, (ScreenWidth - MainScreenRect.Right) / 2)
     
 End Function
 

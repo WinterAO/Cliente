@@ -1,5 +1,5 @@
 Attribute VB_Name = "ModCnt"
-'**************************************************************************************
+'********************************************************************************************
 'Autor: Lorwik
 'Fecha 20/05/2020
 'Descripcion: En este modulo vamos a renderizar todos los referente con
@@ -7,16 +7,16 @@ Attribute VB_Name = "ModCnt"
 '
 'NOTA: No esta programado de la forma mas eficiente, pero por el momento es funcional
 'en el futuro se deberia revisar y mejorar en todo lo posible.
-'**************************************************************************************
+'********************************************************************************************
 
 Option Explicit
 
 'Indica que mapa vamos a renderizar en el conectar
 Private SelectConnectMap As Byte
 
-'*********************
+'******************************
 'Modo de pantalla renderizado
-'*********************
+'******************************
 Enum EPantalla
     PConnect = 0
     PCuenta
@@ -163,7 +163,7 @@ Public Sub MostrarCuenta(Optional ByVal Mostrar As Boolean = False)
     'Ponemos el mapa de cuentas
     SelectConnectMap = 2
     Call SwitchMap(MapaConnect(SelectConnectMap).Map)
-    
+
 End Sub
 
 Public Sub MostrarCreacion(Optional ByVal Mostrar As Boolean = False)
@@ -204,7 +204,7 @@ Public Sub MostrarCreacion(Optional ByVal Mostrar As Boolean = False)
     'Ponemos el mapa de cuentas
     SelectConnectMap = 1
     Call SwitchMap(MapaConnect(SelectConnectMap).Map)
-    
+
 End Sub
 
 Sub RenderConnect()
@@ -545,6 +545,7 @@ Public Sub DobleClickEvent(ByVal TX As Long, ByVal TY As Long)
                             UserName = .Nombre
                             Call WriteLoginExistingChar
                         End If
+                        
                     End If
                 End With
             Next i
@@ -634,7 +635,15 @@ Debug.Print TX & " - " & TY
         
             'Volver
             If (TX >= 28 And TX <= 218) And (TY >= 656 And TY <= 714) Then
-                Call Audio.PlayBackgroundMusic("2", MusicTypes.MP3)
+                Call Sound.Sound_Play(SND_CLICK)
+
+                If ClientSetup.bMusic <> CONST_DESHABILITADA Then
+                    If ClientSetup.bMusic <> CONST_DESHABILITADA Then
+                        Sound.NextMusic = MUS_VolverInicio
+                        Sound.Fading = 200
+                    End If
+                End If
+                
                 Call MostrarCuenta
             End If
             
@@ -733,14 +742,20 @@ Private Sub CrearNuevoPJ()
 'Fecha: 20/05/2020
 'Descripcion: Boton de crear personaje
 '**************************************
-    Call Audio.PlayWave(SND_CLICK)
+    Call Sound.Sound_Play(SND_CLICK)
 
     If NumberOfCharacters > 9 Then
         Call MostrarMensaje(JsonLanguage.item("ERROR_DEMASIADOS_PJS").item("TEXTO"))
         Exit Sub
     End If
     
-    'frmCrearPersonaje.Show
+    If ClientSetup.bMusic <> CONST_DESHABILITADA Then
+        If ClientSetup.bMusic <> CONST_DESHABILITADA Then
+            Sound.NextMusic = MUS_CrearPersonaje
+            Sound.Fading = 500
+        End If
+    End If
+
     Call MostrarCreacion
 End Sub
 
@@ -750,7 +765,7 @@ Private Sub btnConectar()
 'Fecha: 23/05/2020
 'Descripcion: Boton de conectar cuenta
 '**************************************
-    Call Audio.PlayWave(SND_CLICK)
+    Call Sound.Sound_Play(SND_CLICK)
 
     'update user info
     AccountName = frmConnect.txtNombre.Text
@@ -760,13 +775,13 @@ Private Sub btnConectar()
     frmMain.hlst.Clear
 
     If frmConnect.chkRecordar.Checked = False Then
-        Call WriteVar(Game.path(Init) & "Config.ini", "Login", "Remember", "False")
-        Call WriteVar(Game.path(Init) & "Config.ini", "Login", "UserName", vbNullString)
-        Call WriteVar(Game.path(Init) & "Config.ini", "Login", "Password", vbNullString)
+        Call WriteVar(Carga.Path(Init) & "Config.ini", "Login", "Remember", "False")
+        Call WriteVar(Carga.Path(Init) & "Config.ini", "Login", "UserName", vbNullString)
+        Call WriteVar(Carga.Path(Init) & "Config.ini", "Login", "Password", vbNullString)
     Else
-        Call WriteVar(Game.path(Init) & "Config.ini", "Login", "Remember", "True")
-        Call WriteVar(Game.path(Init) & "Config.ini", "Login", "UserName", AccountName)
-        Call WriteVar(Game.path(Init) & "Config.ini", "Login", "Password", Cripto.AesEncryptString(AccountPassword, AES_PASSWD))
+        Call WriteVar(Carga.Path(Init) & "Config.ini", "Login", "Remember", "True")
+        Call WriteVar(Carga.Path(Init) & "Config.ini", "Login", "UserName", AccountName)
+        Call WriteVar(Carga.Path(Init) & "Config.ini", "Login", "Password", Cripto.AesEncryptString(AccountPassword, AES_PASSWD))
     End If
 
     If CheckUserData() = True Then
@@ -792,8 +807,8 @@ Private Sub btnGestion()
 'Fecha: 20/05/2020
 'Descripcion: Boton de gestion de cuentas
 '**************************************
-    Call Audio.PlayWave(SND_CLICK)
-    Call ShellExecute(0, "Open", "http://winterao.com.ar/", "", App.path, SW_SHOWNORMAL)
+    Call Sound.Sound_Play(SND_CLICK)
+    Call ShellExecute(0, "Open", "http://winterao.com.ar/", "", App.Path, SW_SHOWNORMAL)
     
 End Sub
 
@@ -804,7 +819,7 @@ Private Sub Mas_Click(ByVal Index As Integer)
 'Descripcion: Resta un atributo de la asignacion
 '**************************************
 
-    Call Audio.PlayWave(SND_CLICK)
+    Call Sound.Sound_Play(SND_CLICK)
     
     If lblAtributos(Index) < 18 And lblTotal > 0 Then
         lblAtributos(Index) = lblAtributos(Index) + 1
@@ -820,7 +835,7 @@ Private Sub Menos_Click(ByVal Index As Integer)
 'Descripcion: Suma un atributo de la asignacion
 '**************************************
 
-    Call Audio.PlayWave(SND_CLICK)
+    Call Sound.Sound_Play(SND_CLICK)
     
     If lblTotal = "40" Then Exit Sub
     If lblAtributos(Index) > 6 Then
@@ -1200,7 +1215,7 @@ Private Sub LoadCharInfo()
 
     Dim Lector As clsIniManager
     Set Lector = New clsIniManager
-    Call Lector.Initialize(Game.path(Init) & "CharInfo_" & Language & ".dat")
+    Call Lector.Initialize(Carga.Path(Init) & "CharInfo_" & Language & ".dat")
     
     'Modificadores de Raza
     For i = 1 To NUMRAZAS

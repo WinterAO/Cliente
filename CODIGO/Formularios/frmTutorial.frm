@@ -206,7 +206,7 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaTutorial.jpg")
+    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaTutorial.jpg")
 
     Call LoadTextForms
     Call LoadAOCustomControlsPictures(Me)
@@ -270,7 +270,7 @@ Private Sub LoadTutorial()
     Dim sLine As String
     
     ' Obtenemos el lenguage en ingles o castellano mediante la variable global del modLenguage
-    TutorialPath = Game.path(Lenguajes) & "Tutorial_" & Language & ".dat"
+    TutorialPath = Carga.Path(Lenguajes) & "Tutorial_" & Language & ".dat"
     NumPages = Val(GetVar(TutorialPath, "INIT", "NumPags"))
     
     If NumPages > 0 Then

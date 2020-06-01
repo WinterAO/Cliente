@@ -140,7 +140,7 @@ End Type
 'Lista de cabezas
 Public Type HeadData
     Head(E_Heading.SOUTH To E_Heading.EAST) As Grh
-    Offset As Position
+    offset As Position
 End Type
 
 'Lista de las animaciones de las armas
@@ -160,6 +160,7 @@ Public Type Char
     active As Byte
     Heading As E_Heading
     Pos As Position
+    moved As Boolean
     
     iHead As Integer
     iBody As Integer
@@ -223,6 +224,7 @@ Public Type MapBlock
     Blocked As Byte
     
     Trigger As Integer
+    
     Engine_Light(0 To 3) As Long 'Standelf, Light Engine.
     Particle_Group_Index As Long 'Particle Engine
     
@@ -236,6 +238,7 @@ Public Type mapInfo
     name As String
     StartPos As WorldPos
     MapVersion As Integer
+    Ambient As String
 End Type
 
 Public IniPath As String
@@ -484,21 +487,6 @@ Sub MoveCharbyHead(ByVal CharIndex As Integer, ByVal nHeading As E_Heading)
     End If
 End Sub
 
-Public Sub DoFogataFx()
-    Dim Location As Position
-    
-    If bFogata Then
-        bFogata = HayFogata(Location)
-        If Not bFogata Then
-            Call Audio.StopWave(FogataBufferIndex)
-            FogataBufferIndex = 0
-        End If
-    Else
-        bFogata = HayFogata(Location)
-        If bFogata And FogataBufferIndex = 0 Then FogataBufferIndex = Audio.PlayWave("fuego.wav", Location.X, Location.Y, LoopStyle.Enabled)
-    End If
-End Sub
-
 Public Function EstaPCarea(ByVal CharIndex As Integer) As Boolean
 '***************************************************
 'Author: Unknown
@@ -515,25 +503,6 @@ Public Function EstaPCarea(ByVal CharIndex As Integer) As Boolean
     End With
     
 End Function
-
-Sub DoPasosFx(ByVal CharIndex As Integer)
-    If Not UserNavegando Then
-        With charlist(CharIndex)
-            If Not .muerto And EstaPCarea(CharIndex) And (.priv = 0 Or .priv > 5) Then
-                .pie = Not .pie
-                
-                If .pie Then
-                    Call Audio.PlayWave(SND_PASOS1, .Pos.X, .Pos.Y)
-                Else
-                    Call Audio.PlayWave(SND_PASOS2, .Pos.X, .Pos.Y)
-                End If
-            End If
-        End With
-    Else
-' TODO : Actually we would have to check if the CharIndex char is in the water or not....
-        Call Audio.PlayWave(SND_NAVEGANDO, charlist(CharIndex).Pos.X, charlist(CharIndex).Pos.Y)
-    End If
-End Sub
 
 Private Function HayFogata(ByRef Location As Position) As Boolean
     Dim j As Long
@@ -558,16 +527,16 @@ Function NextOpenChar() As Integer
 '*****************************************************************
 'Finds next open char slot in CharList
 '*****************************************************************
-    Dim LoopC As Long
+    Dim loopc As Long
     Dim Dale As Boolean
     
-    LoopC = 1
-    Do While charlist(LoopC).active And Dale
-        LoopC = LoopC + 1
-        Dale = (LoopC <= UBound(charlist))
+    loopc = 1
+    Do While charlist(loopc).active And Dale
+        loopc = loopc + 1
+        Dale = (loopc <= UBound(charlist))
     Loop
     
-    NextOpenChar = LoopC
+    NextOpenChar = loopc
 End Function
 
 Function InMapBounds(ByVal X As Integer, ByVal Y As Integer) As Boolean
@@ -986,51 +955,63 @@ Sub RenderHUD()
         
 End Sub
 
-Public Function RenderSounds()
-'**************************************************************
-'Author: Juan Martin Sotuyo Dodero
-'Last Modify Date: 3/30/2008
-'Actualiza todos los sonidos del mapa.
-'**************************************************************
-    Dim Location As Position
+Sub DoPasosFx(ByVal CharIndex As Integer)
+Static TerrenoDePaso As TipoPaso
 
-    If bRain And MapDat.zone <> "DUNGEON" Then
-            If bTecho Then
-                If frmMain.IsPlaying <> PlayLoop.plLluviain Then
-                    If RainBufferIndex Then
-                        Call Audio.StopWave(RainBufferIndex)
+    With charlist(CharIndex)
+        If Not UserNavegando Then
+            If Not .muerto And EstaPCarea(CharIndex) And (.priv = 0 Or .priv > 5) Then
+                .pie = Not .pie
+             
+                    If Not Char_Big_Get(CharIndex) Then
+                        TerrenoDePaso = GetTerrenoDePaso(.Pos.X, .Pos.Y)
+                    Else
+                        TerrenoDePaso = CONST_PESADO
                     End If
 
-                    RainBufferIndex = Audio.PlayWave("lluviain.wav", 0, 0, LoopStyle.Enabled)
-                    frmMain.IsPlaying = PlayLoop.plLluviain
-                End If
-            Else
-                If frmMain.IsPlaying <> PlayLoop.plLluviaout Then
-                    If RainBufferIndex Then
-                        Call Audio.StopWave(RainBufferIndex)
+                    If .pie = 0 Then
+                        Call Sound.Sound_Play(Pasos(TerrenoDePaso).Wav(1), , Sound.Calculate_Volume(.Pos.X, .Pos.Y), Sound.Calculate_Pan(.Pos.X, .Pos.Y))
+                    Else
+                        Call Sound.Sound_Play(Pasos(TerrenoDePaso).Wav(2), , Sound.Calculate_Volume(.Pos.X, .Pos.Y), Sound.Calculate_Pan(.Pos.X, .Pos.Y))
                     End If
-
-                    RainBufferIndex = Audio.PlayWave("lluviaout.wav", 0, 0, LoopStyle.Enabled)
-                    frmMain.IsPlaying = PlayLoop.plLluviaout
-                End If
             End If
+        End If
+    End With
+End Sub
+
+Private Function GetTerrenoDePaso(ByVal X As Byte, ByVal Y As Byte) As TipoPaso
+    With MapData(X, Y).Graphic(1)
+        If .GrhIndex >= 6000 And .GrhIndex <= 6307 Then
+            GetTerrenoDePaso = CONST_BOSQUE
+            Exit Function
+        ElseIf .GrhIndex >= 7501 And .GrhIndex <= 7507 Or .GrhIndex >= 7508 And .GrhIndex <= 2508 Then
+            GetTerrenoDePaso = CONST_DUNGEON
+            Exit Function
+        ElseIf (.GrhIndex >= 30120 And .GrhIndex <= 30375) Then
+            GetTerrenoDePaso = CONST_NIEVE
+            Exit Function
+        Else
+            GetTerrenoDePaso = CONST_PISO
+        End If
+    End With
+End Function
+
+Public Function Char_Big_Get(ByVal CharIndex As Integer) As Boolean
+'*****************************************************************
+'Author: Augusto José Rando
+'*****************************************************************
+   On Error GoTo ErrorHandler
+
+
+   'Make sure it's a legal char_index
+    If Char_Check(CharIndex) Then
+        Char_Big_Get = (GrhData(charlist(CharIndex).Body.Walk(charlist(CharIndex).Heading).GrhIndex).TileWidth > 4)
     End If
 
-    If bFogata Then
-        bFogata = Map_CheckBonfire(Location)
+    Exit Function
 
-        If Not bFogata Then
-            Call Audio.StopWave(FogataBufferIndex)
-            FogataBufferIndex = 0
-        End If
+ErrorHandler:
 
-    Else
-        bFogata = Map_CheckBonfire(Location)
-
-        If bFogata And FogataBufferIndex = 0 Then
-            FogataBufferIndex = Audio.PlayWave("fuego.wav", Location.X, Location.Y, LoopStyle.Enabled)
-        End If
-    End If
 End Function
 
 Function HayUserAbajo(ByVal X As Integer, ByVal Y As Integer, ByVal GrhIndex As Long) As Boolean
@@ -1055,7 +1036,7 @@ Public Function InitTileEngine(ByVal setDisplayFormhWnd As Long, ByVal setTilePi
     WindowTileHeight = Round(frmMain.MainViewPic.Height / 32, 0)
     WindowTileWidth = Round(frmMain.MainViewPic.Width / 32, 0)
     
-    IniPath = Game.path(Init)
+    IniPath = Carga.Path(Init)
     HalfWindowTileHeight = WindowTileHeight \ 2
     HalfWindowTileWidth = WindowTileWidth \ 2
 
@@ -1302,20 +1283,20 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
                     End If
                     
                 Else
-                    ColorFinal(0) = MapData(.Pos.X, .Pos.Y).Engine_Light(0)
-                    ColorFinal(1) = MapData(.Pos.X, .Pos.Y).Engine_Light(1)
-                    ColorFinal(2) = MapData(.Pos.X, .Pos.Y).Engine_Light(2)
-                    ColorFinal(3) = MapData(.Pos.X, .Pos.Y).Engine_Light(3)
+                    ColorFinal(0) = MapData(.Pos.X, .Pos.Y).Engine_Light()(0)
+                    ColorFinal(1) = MapData(.Pos.X, .Pos.Y).Engine_Light()(1)
+                    ColorFinal(2) = MapData(.Pos.X, .Pos.Y).Engine_Light()(2)
+                    ColorFinal(3) = MapData(.Pos.X, .Pos.Y).Engine_Light()(3)
 
                 End If
 
                 RenderSpell = True
             
             Else
-                ColorFinal(0) = MapData(.Pos.X, .Pos.Y).Engine_Light(0)
-                ColorFinal(1) = MapData(.Pos.X, .Pos.Y).Engine_Light(1)
-                ColorFinal(2) = MapData(.Pos.X, .Pos.Y).Engine_Light(2)
-                ColorFinal(3) = MapData(.Pos.X, .Pos.Y).Engine_Light(3)
+                ColorFinal(0) = MapData(.Pos.X, .Pos.Y).Engine_Light()(0)
+                ColorFinal(1) = MapData(.Pos.X, .Pos.Y).Engine_Light()(1)
+                ColorFinal(2) = MapData(.Pos.X, .Pos.Y).Engine_Light()(2)
+                ColorFinal(3) = MapData(.Pos.X, .Pos.Y).Engine_Light()(3)
 
             End If
 
@@ -1913,3 +1894,53 @@ Public Sub renderMsgReset()
     nameMap = vbNullString
 
 End Sub
+
+Public Function Map_Item_Grh_In_Current_Area(ByVal grh_index As Long, ByRef x_pos As Integer, ByRef y_pos As Integer) As Boolean
+'***************************************
+'Autor: Lorwik
+'Fecha: ???
+'***************************************
+
+    On Error GoTo ErrorHandler
+
+    Dim map_x As Integer
+    Dim map_y As Integer
+    Dim X As Integer, Y As Integer
+
+    Call Char_Pos_Get(UserCharIndex, map_x, map_y)
+
+    If InMapBounds(map_x, map_y) Then
+        For Y = map_y - MinYBorder + 1 To map_y + MinYBorder - 1
+          For X = map_x - MinXBorder + 1 To map_x + MinXBorder - 1
+                If Y < 1 Then Y = 1
+                If X < 1 Then X = 1
+                If MapData(X, Y).ObjGrh.GrhIndex = grh_index Then
+                    x_pos = X
+                    y_pos = Y
+                    Map_Item_Grh_In_Current_Area = True
+                    Exit Function
+                End If
+          Next X
+        Next Y
+    End If
+
+    Exit Function
+
+ErrorHandler:
+    Map_Item_Grh_In_Current_Area = False
+
+End Function
+
+Public Function Char_Pos_Get(ByVal char_index As Integer, ByRef map_x As Integer, ByRef map_y As Integer) As Boolean
+'************************************
+'Autor: Lorwik
+'Fecha: ???
+'***********************************
+
+   'Make sure it's a legal char_index
+    If Char_Check(char_index) Then
+        map_x = charlist(char_index).Pos.X
+        map_y = charlist(char_index).Pos.Y
+        Char_Pos_Get = True
+    End If
+End Function

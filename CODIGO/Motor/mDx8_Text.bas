@@ -2,7 +2,7 @@ Attribute VB_Name = "mDx8_Text"
 Option Explicit
 
 Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" _
-    (Destination As Any, source As Any, ByVal Length As Long)
+    (Destination As Any, Source As Any, ByVal Length As Long)
     
 Private Type CharVA
     X As Integer
@@ -285,7 +285,7 @@ Sub Engine_Init_FontTextures()
         
         'Set the texture
         Set cfonts(i).Texture = DirectD3D8.CreateTextureFromFileEx(DirectDevice, _
-                                                                   Game.path(Fonts) & "font" & i & ".bmp", _
+                                                                   Carga.Path(Fonts) & "font" & i & ".bmp", _
                                                                    D3DX_DEFAULT, _
                                                                    D3DX_DEFAULT, _
                                                                    0, _
@@ -308,7 +308,7 @@ Sub Engine_Init_FontTextures()
 eDebug:
 
     If Err.number = "-2005529767" Then
-        MsgBox "Error en la textura de fuente utilizada " & Game.path(Graficos) & "Font.png.", vbCritical
+        MsgBox "Error en la textura de fuente utilizada " & Carga.Path(Graficos) & "Font.png.", vbCritical
         End
     End If
     
@@ -333,7 +333,7 @@ Sub Engine_Init_FontSettings()
     FileNum = FreeFile
     For i = 1 To UBound(cfonts)
         
-        Open Game.path(Fonts) & "\Font" & i & ".dat" For Binary As #FileNum
+        Open Carga.Path(Fonts) & "\Font" & i & ".dat" For Binary As #FileNum
             Get #FileNum, , cfonts(i).HeaderInfo
         Close #FileNum
         

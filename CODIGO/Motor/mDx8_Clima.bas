@@ -30,35 +30,35 @@ Public Sub Init_MeteoEngine()
         .A = 255
         .r = 255
         .g = 200
-        .B = 200
+        .b = 200
     End With
     
     With Estados(e_estados.MEDIODIA)
         .A = 255
         .r = 240
         .g = 250
-        .B = 210
+        .b = 210
     End With
     
     With Estados(e_estados.DIA)
         .A = 255
         .r = 255
         .g = 255
-        .B = 255
+        .b = 255
     End With
     
     With Estados(e_estados.ATARDECER)
         .A = 255
         .r = 150
         .g = 120
-        .B = 120
+        .b = 120
     End With
   
     With Estados(e_estados.NOCHE)
         .A = 255
         .r = 100
         .g = 100
-        .B = 100
+        .b = 100
     End With
     
     Estado_Actual_Date = 3
@@ -67,7 +67,7 @@ End Sub
 
 Public Sub Set_AmbientColor()
     Estado_Actual.A = 255
-    Estado_Actual.B = CurMapAmbient.OwnAmbientLight.B
+    Estado_Actual.b = CurMapAmbient.OwnAmbientLight.b
     Estado_Actual.g = CurMapAmbient.OwnAmbientLight.g
     Estado_Actual.r = CurMapAmbient.OwnAmbientLight.r
 End Sub
@@ -103,7 +103,7 @@ Public Sub Start_Rampage()
 'Init Rampage
 '***************************************************
     Dim X As Byte, Y As Byte, TempColor As D3DCOLORVALUE
-    TempColor.A = 255: TempColor.B = 255: TempColor.r = 255: TempColor.g = 255
+    TempColor.A = 255: TempColor.b = 255: TempColor.r = 255: TempColor.g = 255
     
         For X = XMinMapSize To XMaxMapSize
             For Y = YMinMapSize To YMaxMapSize

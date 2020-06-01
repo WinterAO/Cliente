@@ -395,13 +395,13 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaCambioMOTD.jpg")
+    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaCambioMOTD.jpg")
     
     Call LoadTextsForm
     Call LoadAOCustomControlsPictures(Me)
 
-    Set picNegrita = LoadPicture(Game.path(Interfaces) & "OpcionPrendidaN.jpg")
-    Set picCursiva = LoadPicture(Game.path(Interfaces) & "OpcionPrendidaC.jpg")
+    Set picNegrita = LoadPicture(Carga.Path(Interfaces) & "OpcionPrendidaN.jpg")
+    Set picCursiva = LoadPicture(Carga.Path(Interfaces) & "OpcionPrendidaC.jpg")
 End Sub
 
 Private Sub LoadTextsForm()
@@ -420,7 +420,7 @@ Private Sub LoadTextsForm()
 End Sub
 
 Private Sub imgAceptar_Click()
-    Dim T() As String
+    Dim t() As String
     Dim i As Long, N As Long, Pos As Long
     Dim Upper_t As Long, Lower_t As Long
     
@@ -428,16 +428,16 @@ Private Sub imgAceptar_Click()
         If Right$(txtMotd.Text, 2) = vbNewLine Then txtMotd.Text = Left$(txtMotd.Text, Len(txtMotd.Text) - 2)
     End If
     
-    T = Split(txtMotd.Text, vbNewLine)
-    Lower_t = LBound(T)
-    Upper_t = UBound(T)
+    t = Split(txtMotd.Text, vbNewLine)
+    Lower_t = LBound(t)
+    Upper_t = UBound(t)
     
     For i = Lower_t To Upper_t
         N = 0
-        Pos = InStr(1, T(i), "~")
-        Do While Pos > 0 And Pos < Len(T(i))
+        Pos = InStr(1, t(i), "~")
+        Do While Pos > 0 And Pos < Len(t(i))
             N = N + 1
-            Pos = InStr(Pos + 1, T(i), "~")
+            Pos = InStr(Pos + 1, t(i), "~")
         Loop
         If N <> 5 Then
             MsgBox "Error en el formato de la linea " & i + 1 & "."

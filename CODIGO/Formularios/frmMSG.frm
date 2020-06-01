@@ -139,9 +139,9 @@ Private Sub Form_Load()
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
     ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
     If Language = "spanish" Then
-      Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaShowSos_spanish.jpg")
+      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaShowSos_spanish.jpg")
     Else
-      Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaShowSos_english.jpg")
+      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaShowSos_english.jpg")
     End If
     
     Call LoadButtons
@@ -150,7 +150,7 @@ End Sub
 Private Sub LoadButtons()
     Dim GrhPath As String
     
-    GrhPath = Game.path(Interfaces)
+    GrhPath = Carga.Path(Interfaces)
 
     Set cBotonCerrar = New clsGraphicalButton
     
@@ -162,7 +162,7 @@ Private Sub LoadButtons()
                                     GrhPath & "BotonCerrarClickShowSos.jpg", Me)
 End Sub
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 
@@ -176,14 +176,14 @@ Private Sub list1_Click()
     ind = Val(ReadField(2, List1.List(List1.ListIndex), Asc("-")))
 End Sub
 
-Private Sub List1_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub List1_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = vbRightButton Then
         PopupMenu menU_usuario
     End If
 
 End Sub
 
-Private Sub List1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub List1_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 

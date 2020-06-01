@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "richtx32.ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.ocx"
 Begin VB.Form frmComerciarUsu 
    BorderStyle     =   0  'None
    ClientHeight    =   8850
@@ -184,6 +184,7 @@ Begin VB.Form frmComerciarUsu
       _ExtentY        =   2858
       _Version        =   393217
       BackColor       =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -539,16 +540,16 @@ Private Sub imgAgregar_Click()
                 Amount = InvOfferComUsu(0).Amount(OfferSlot) + Val(txtAgregar.Text)
                 
                 ' Actualizo los inventarios
-                If InvOfferComUsu(0).ObjIndex(OfferSlot) > 0 Then
+                If InvOfferComUsu(0).objindex(OfferSlot) > 0 Then
                     ' Si ya esta el item, solo actualizo su cantidad en el invenatario
                     Call InvOfferComUsu(0).ChangeSlotItemAmount(OfferSlot, Amount)
                 Else
                     InvSlot = .SelectedItem
                     ' Si no agrego todo
-                    Call InvOfferComUsu(0).SetItem(OfferSlot, .ObjIndex(InvSlot), _
+                    Call InvOfferComUsu(0).SetItem(OfferSlot, .objindex(InvSlot), _
                                                     Amount, 0, .GrhIndex(InvSlot), .OBJType(InvSlot), _
                                                     .MaxHit(InvSlot), .MinHit(InvSlot), .MaxDef(InvSlot), .MinDef(InvSlot), _
-                                                    .Valor(InvSlot), .ItemName(InvSlot))
+                                                    .valor(InvSlot), .ItemName(InvSlot))
                 End If
             End If
         End If
@@ -628,7 +629,7 @@ Private Sub imgQuitar_Click()
                 Call WriteUserCommerceOffer(0, Amount, .SelectedItem)
             
                 ' Actualizo el inventario general
-                Call UpdateInvCom(.ObjIndex(.SelectedItem), Abs(Amount))
+                Call UpdateInvCom(.objindex(.SelectedItem), Abs(Amount))
                  
                  ' Actualizo el inventario de oferta
                  If .Amount(.SelectedItem) + Amount = 0 Then
@@ -658,7 +659,7 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
 
-    Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaComercioUsuario.jpg")
+    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaComercioUsuario.jpg")
     
     Call LoadTextsForm
     Call LoadAOCustomControlsPictures(Me)
@@ -849,7 +850,7 @@ Private Function CheckAvailableSlot(ByVal InvSlot As Byte, ByVal Amount As Long)
 On Error GoTo Err
     ' Primero chequeo si puedo sumar esa cantidad en algun slot que ya tenga ese item
     For slot = 1 To INV_OFFER_SLOTS
-        If InvComUsu.ObjIndex(InvSlot) = InvOfferComUsu(0).ObjIndex(slot) Then
+        If InvComUsu.objindex(InvSlot) = InvOfferComUsu(0).objindex(slot) Then
             If InvOfferComUsu(0).Amount(slot) + Amount <= MAX_INVENTORY_OBJS Then
                 ' Puedo sumarlo aca
                 CheckAvailableSlot = slot
@@ -860,7 +861,7 @@ On Error GoTo Err
     
     ' No lo puedo sumar, me fijo si hay alguno vacio
     For slot = 1 To INV_OFFER_SLOTS
-        If InvOfferComUsu(0).ObjIndex(slot) = 0 Then
+        If InvOfferComUsu(0).objindex(slot) = 0 Then
             ' Esta vacio, lo dejo aca
             CheckAvailableSlot = slot
             Exit Function
@@ -871,7 +872,7 @@ Err:
     Debug.Print "Slot: " & slot
 End Function
 
-Public Sub UpdateInvCom(ByVal ObjIndex As Integer, ByVal Amount As Long)
+Public Sub UpdateInvCom(ByVal objindex As Integer, ByVal Amount As Long)
     Dim slot As Byte
     Dim RemainingAmount As Long
     Dim DifAmount As Long
@@ -880,7 +881,7 @@ Public Sub UpdateInvCom(ByVal ObjIndex As Integer, ByVal Amount As Long)
     
     For slot = 1 To MAX_INVENTORY_SLOTS
         
-        If InvComUsu.ObjIndex(slot) = ObjIndex Then
+        If InvComUsu.objindex(slot) = objindex Then
             DifAmount = Inventario.Amount(slot) - InvComUsu.Amount(slot)
             If DifAmount > 0 Then
                 If RemainingAmount > DifAmount Then

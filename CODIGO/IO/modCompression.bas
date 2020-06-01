@@ -1,1448 +1,949 @@
 Attribute VB_Name = "modCompression"
 Option Explicit
 
-Public Const PNG_SOURCE_FILE_EXT As String = ".png"
-Public Const BMP_SOURCE_FILE_EXT As String = ".bmp"
-Public Const GRH_RESOURCE_FILE As String = "Graphics.AO"
-Public Const GRH_PATCH_FILE As String = "Graficos.PATCH"
-Public Const MAPS_SOURCE_FILE_EXT As String = ".map"
-Public Const MAPS_RESOURCE_FILE As String = "Mapas.AO"
-Public Const MAPS_PATCH_FILE As String = "Mapas.PATCH"
+Public Windows_Temp_Dir As String 'Normalmente va en Declaraciones, lo pongo aqui para no mezclar.
 
-Public GrhDatContra() As Byte ' Contrasena
-Public GrhUsaContra As Boolean ' Usa Contrasena?
-
-Public MapsDatContra() As Byte ' Contrasena
-Public MapsUsaContra As Boolean  ' Usa Contrasena?
+Private Const Extension As String = ".WAO"
 
 'This structure will describe our binary file's
-'size, number and version of contained files
+'size and number of contained files
 Public Type FILEHEADER
-    lngNumFiles As Long                 'How many files are inside?
     lngFileSize As Long                 'How big is this file? (Used to check integrity)
-    lngFileVersion As Long              'The resource version (Used to patch)
+    intNumFiles As Integer              'How many files are inside?
 End Type
 
 'This structure will describe each file contained
 'in our binary file
 Public Type INFOHEADER
-    lngFileSize As Long             'How big is this chunk of stored data?
     lngFileStart As Long            'Where does the chunk start?
+    lngFileSize As Long             'How big is this chunk of stored data?
     strFileName As String * 16      'What's the name of the file this data came from?
     lngFileSizeUncompressed As Long 'How big is the file compressed
 End Type
 
-Private Enum PatchInstruction
-    Delete_File
-    Create_File
-    Modify_File
+Public Enum resource_file_type
+    Graphics
+    Particulas
+    Musica
+    Wav
+    Scripts
+    Patch
+    Interface
+    Map
+    Ambient
+    Fuentes
 End Enum
 
-Private Declare Function compress Lib "zlib.dll" (dest As Any, destlen As Any, src As Any, ByVal srclen As Long) As Long
-Private Declare Function uncompress Lib "zlib.dll" (dest As Any, destlen As Any, src As Any, ByVal srclen As Long) As Long
+Private Const OUTPUT_PATH As String = "\Output\"
 
-'BitMaps Strucures
-Public Type BITMAPFILEHEADER
-    bfType As Integer
-    bfSize As Long
-    bfReserved1 As Integer
-    bfReserved2 As Integer
-    bfOffBits As Long
-End Type
-
-Public Type BITMAPINFOHEADER
-    biSize As Long
-    biWidth As Long
-    biHeight As Long
-    biPlanes As Integer
-    biBitCount As Integer
-    biCompression As Long
-    biSizeImage As Long
-    biXPelsPerMeter As Long
-    biYPelsPerMeter As Long
-    biClrUsed As Long
-    biClrImportant As Long
-End Type
-
-Public Type RGBQUAD
-    rgbBlue As Byte
-    rgbGreen As Byte
-    rgbRed As Byte
-    rgbReserved As Byte
-End Type
-
-Public Type BITMAPINFO
-    bmiHeader As BITMAPINFOHEADER
-    bmiColors(255) As RGBQUAD
-End Type
-
+Private Declare Function Compress Lib "zlib.dll" Alias "compress" (dest As Any, destLen As Any, src As Any, ByVal srcLen As Long) As Long
+Private Declare Function UnCompress Lib "zlib.dll" Alias "uncompress" (dest As Any, destLen As Any, src As Any, ByVal srcLen As Long) As Long
 'To get free bytes in drive
 Private Declare Function GetDiskFreeSpace Lib "kernel32" Alias "GetDiskFreeSpaceExA" (ByVal lpRootPathName As String, FreeBytesToCaller As Currency, bytesTotal As Currency, FreeBytesTotal As Currency) As Long
 
-Public Sub GenerateContra(ByVal Contra As String, Optional Modo As Byte = 0)
-'***************************************************
-'Author: ^[GS]^
-'Last Modification: 17/06/2012 - ^[GS]^
-'
-'***************************************************
+Private Declare Function GetTempPath Lib "kernel32" Alias "GetTempPathA" (ByVal nBufferLength As Long, ByVal lpBuffer As String) As Long
+Private Const MAX_LENGTH = 512
 
-On Error Resume Next
+'Loading pictures from byte arrays
+Private Declare Function CreateStreamOnHGlobal Lib "ole32" (ByVal hGlobal As Long, ByVal fDeleteOnRelease As Long, ppstm As Any) As Long
+Private Declare Function OleLoadPicture Lib "olepro32" (pStream As Any, ByVal lSize As Long, ByVal fRunmode As Long, riid As Any, ppvObj As Any) As Long
+Private Declare Function CLSIDFromString Lib "ole32" (ByVal lpsz As Any, pclsid As Any) As Long
+Private Declare Function GlobalAlloc Lib "kernel32" (ByVal uFlags As Long, ByVal dwBytes As Long) As Long
+Private Declare Function GlobalLock Lib "kernel32" (ByVal hMem As Long) As Long
+Private Declare Function GlobalUnlock Lib "kernel32" (ByVal hMem As Long) As Long
+Private Declare Sub MoveMemory Lib "kernel32" Alias "RtlMoveMemory" (pDest As Any, pSource As Any, ByVal dwLength As Long)
 
-    Dim LoopC As Byte
-    Dim Upper_grhDatContra As Long, Upper_mapsDatContra As Long
-    
-    If Modo = 0 Then
-        Erase GrhDatContra
-    ElseIf Modo = 1 Then
-        Erase MapsDatContra
-    End If
-    
-    If LenB(Contra) <> 0 Then
-        If Modo = 0 Then
-            ReDim GrhDatContra(Len(Contra) - 1)
-            Upper_grhDatContra = UBound(GrhDatContra)
-            
-            For LoopC = 0 To Upper_grhDatContra
-                GrhDatContra(LoopC) = Asc(mid$(Contra, LoopC + 1, 1))
-            Next LoopC
-            GrhUsaContra = True
-        ElseIf Modo = 1 Then
-            ReDim MapsDatContra(Len(Contra) - 1)
-            Upper_mapsDatContra = UBound(MapsDatContra)
-            
-            For LoopC = 0 To Upper_mapsDatContra
-                MapsDatContra(LoopC) = Asc(mid$(Contra, LoopC + 1, 1))
-            Next LoopC
-            MapsUsaContra = True
-        End If
-    Else
-        If Modo = 0 Then
-            GrhUsaContra = False
-        ElseIf Modo = 1 Then
-            MapsUsaContra = False
-        End If
-    End If
-    
-End Sub
-
-Private Function General_Drive_Get_Free_Bytes(ByVal DriveName As String) As Currency
-'**************************************************************
-'Author: Juan Martin Sotuyo Dodero
-'Last Modify Date: 6/07/2004
-'
-'**************************************************************
-    Dim retval As Long
-    Dim FB As Currency
-    Dim BT As Currency
-    Dim FBT As Currency
-    
-    retval = GetDiskFreeSpace(Left$(DriveName, 2), FB, BT, FBT)
-    
-    General_Drive_Get_Free_Bytes = FB * 10000 'convert result to actual size in bytes
-End Function
-
-''
-' Sorts the info headers by their file name. Uses QuickSort.
-'
-' @param    InfoHead() The array of headers to be ordered.
-' @param    first The first index in the list.
-' @param    last The last index in the list.
-
-Private Sub Sort_Info_Headers(ByRef InfoHead() As INFOHEADER, ByVal first As Long, ByVal last As Long)
+Public Sub Compress_Data(ByRef Data() As Byte)
 '*****************************************************************
-'Author: Nicolas Matias Gonzalez (NIGO)
-'Last Modify Date: 08/20/2007
-'Sorts the info headers by their file name using QuickSort.
-'*****************************************************************
-    Dim aux As INFOHEADER
-    Dim Min As Long
-    Dim Max As Long
-    Dim comp As String
-    
-    Min = first
-    Max = last
-    
-    comp = InfoHead((Min + Max) \ 2).strFileName
-    
-    Do While Min <= Max
-        Do While InfoHead(Min).strFileName < comp And Min < last
-            Min = Min + 1
-        Loop
-        Do While InfoHead(Max).strFileName > comp And Max > first
-            Max = Max - 1
-        Loop
-        If Min <= Max Then
-            aux = InfoHead(Min)
-            InfoHead(Min) = InfoHead(Max)
-            InfoHead(Max) = aux
-            Min = Min + 1
-            Max = Max - 1
-        End If
-    Loop
-    
-    If first < Max Then Call Sort_Info_Headers(InfoHead, first, Max)
-    If Min < last Then Call Sort_Info_Headers(InfoHead, Min, last)
-End Sub
-
-''
-' Searches for the specified InfoHeader.
-'
-' @param    ResourceFile A handler to the data file.
-' @param    InfoHead The header searched.
-' @param    FirstHead The first head to look.
-' @param    LastHead The last head to look.
-' @param    FileHeaderSize The bytes size of a FileHeader.
-' @param    InfoHeaderSize The bytes size of a InfoHeader.
-'
-' @return   True if found.
-'
-' @remark   File must be already open.
-' @remark   InfoHead must have set its file name to perform the search.
-
-Private Function BinarySearch(ByRef ResourceFile As Integer, ByRef InfoHead As INFOHEADER, ByVal FirstHead As Long, ByVal LastHead As Long, ByVal FileHeaderSize As Long, ByVal InfoHeaderSize As Long) As Boolean
-'*****************************************************************
-'Author: Nicolas Matias Gonzalez (NIGO)
-'Last Modify Date: 08/21/2007
-'Searches for the specified InfoHeader
-'*****************************************************************
-    Dim ReadingHead As Long
-    Dim ReadInfoHead As INFOHEADER
-    
-    Do Until FirstHead > LastHead
-        ReadingHead = (FirstHead + LastHead) \ 2
-
-        Get ResourceFile, FileHeaderSize + InfoHeaderSize * (ReadingHead - 1) + 1, ReadInfoHead
-
-        If InfoHead.strFileName = ReadInfoHead.strFileName Then
-            InfoHead = ReadInfoHead
-            BinarySearch = True
-            Exit Function
-        Else
-            If InfoHead.strFileName < ReadInfoHead.strFileName Then
-                LastHead = ReadingHead - 1
-            Else
-                FirstHead = ReadingHead + 1
-            End If
-        End If
-    Loop
-End Function
-
-''
-' Retrieves the InfoHead of the specified graphic file.
-'
-' @param    ResourcePath The resource file folder.
-' @param    FileName The graphic file name.
-' @param    InfoHead The InfoHead where data is returned.
-'
-' @return   True if found.
-
-Private Function Get_InfoHeader(ByRef ResourcePath As String, ByRef FileName As String, ByRef InfoHead As INFOHEADER, Optional Modo As Byte = 0) As Boolean
-'*****************************************************************
-'Author: Nicolas Matias Gonzalez (NIGO)
-'Last Modify Date: 16/07/2012 - ^[GS]^
-'Retrieves the InfoHead of the specified graphic file
-'*****************************************************************
-    Dim ResourceFile As Integer
-    Dim ResourceFilePath As String
-    Dim FileHead As FILEHEADER
-    
-    Dim ERROR_LEER_ARCHIVO As String
-    
-On Local Error GoTo ErrHandler
-
-    If Modo = 0 Then
-        ResourceFilePath = ResourcePath & GRH_RESOURCE_FILE
-    ElseIf Modo = 1 Then
-        ResourceFilePath = ResourcePath & MAPS_RESOURCE_FILE
-    End If
-    
-    'Set InfoHeader we are looking for
-    InfoHead.strFileName = UCase$(FileName)
-   
-    'Open the binary file
-    ResourceFile = FreeFile()
-    Open ResourceFilePath For Binary Access Read Lock Write As ResourceFile
-        'Extract the FILEHEADER
-        Get ResourceFile, 1, FileHead
-        
-        'Check the file for validity
-        If LOF(ResourceFile) <> FileHead.lngFileSize Then
-            MsgBox JsonLanguage.Item("ERROR_ARCHIVO_CORRUPTO").Item("TEXTO") & ": " & ResourceFilePath, , JsonLanguage.Item("Error").Item("TEXTO")
-            Close ResourceFile
-            Exit Function
-        End If
-        
-        'Search for it!
-        If BinarySearch(ResourceFile, InfoHead, 1, FileHead.lngNumFiles, Len(FileHead), Len(InfoHead)) Then
-            Get_InfoHeader = True
-        End If
-        
-    Close ResourceFile
-Exit Function
-
-ErrHandler:
-    Close ResourceFile
-    
-    ERROR_LEER_ARCHIVO = JsonLanguage.Item("ERROR_LEER_ARCHIVO").Item("TEXTO")
-    ERROR_LEER_ARCHIVO = Replace$(ERROR_LEER_ARCHIVO, "VAR_ARCHIVO", ResourceFilePath)
-    ERROR_LEER_ARCHIVO = Replace$(ERROR_LEER_ARCHIVO, "VAR_ERROR", Err.number & " : " & Err.Description)
-    
-    Call MsgBox(ERROR_LEER_ARCHIVO)
-End Function
-
-''
-' Compresses binary data avoiding data loses.
-'
-' @param    data() The data array.
-
-Private Sub Compress_Data(ByRef data() As Byte, Optional Modo As Byte = 0)
-'*****************************************************************
-'Author: Juan Martin Dotuyo Dodero
-'Last Modify Date: 17/07/2012 - ^[GS]^
+'Author: Juan Martín Dotuyo Dodero
+'Last Modify Date: 10/13/2004
 'Compresses binary data avoiding data loses
 '*****************************************************************
     Dim Dimensions As Long
     Dim DimBuffer As Long
     Dim BufTemp() As Byte
-    Dim LoopC As Long
-    Dim Upper_grhDatContra As Long, Upper_mapsDatContra As Long
+    Dim BufTemp2() As Byte
+    Dim loopc As Long
     
-    Dimensions = UBound(data) + 1
+    'Get size of the uncompressed data
+    Dimensions = UBound(Data)
     
-    ' The worst case scenario, compressed info is 1.06 times the original - see zlib's doc for more info.
+    'Prepare a buffer 1.06 times as big as the original size
     DimBuffer = Dimensions * 1.06
-    
     ReDim BufTemp(DimBuffer)
     
-    Call compress(BufTemp(0), DimBuffer, data(0), Dimensions)
+    'Compress data using zlib
+    Compress BufTemp(0), DimBuffer, Data(0), Dimensions
     
-    Erase data
+    'Deallocate memory used by uncompressed data
+    Erase Data
     
-    ReDim data(DimBuffer - 1)
+    'Get rid of unused bytes in the compressed data buffer
     ReDim Preserve BufTemp(DimBuffer - 1)
     
-    data = BufTemp
+    'Copy the compressed data buffer to the original data array so it will return to caller
+    Data = BufTemp
     
+    'Deallocate memory used by the temp buffer
     Erase BufTemp
     
-    ' GSZAO - Seguridad
-    If Modo = 0 And GrhUsaContra = True Then
-        If UBound(GrhDatContra) <= UBound(data) And UBound(GrhDatContra) <> 0 Then
-            Upper_grhDatContra = UBound(GrhDatContra)
-            
-            For LoopC = 0 To Upper_grhDatContra
-                data(LoopC) = data(LoopC) Xor GrhDatContra(LoopC)
-            Next LoopC
-        End If
-    ElseIf Modo = 1 And MapsUsaContra = True Then
-        If UBound(MapsDatContra) <= UBound(data) And UBound(MapsDatContra) <> 0 Then
-            Upper_mapsDatContra = UBound(MapsDatContra)
-            
-            For LoopC = 0 To Upper_mapsDatContra
-                data(LoopC) = data(LoopC) Xor MapsDatContra(LoopC)
-            Next LoopC
-        End If
-    End If
-    ' GSZAO - Seguridad
-    
+    'Encrypt the first byte of the compressed data for extra security
+    Data(0) = Data(0) Xor 166
 End Sub
 
-''
-' Decompresses binary data.
-'
-' @param    data() The data array.
-' @param    OrigSize The original data size.
-
-Private Sub Decompress_Data(ByRef data() As Byte, ByVal OrigSize As Long, Optional Modo As Byte = 0)
-'*****************************************************************
-'Author: Juan Martin Dotuyo Dodero
-'Last Modify Date: 16/07/2012 - ^[GS]^
-'Decompresses binary data
-'*****************************************************************
+Public Sub Decompress_Data(ByRef Data() As Byte, ByVal OrigSize As Long)
     Dim BufTemp() As Byte
-    Dim LoopC As Integer
-    Dim Upper_grhDatContra As Long, Upper_mapsDatContra As Long
-    
+   
     ReDim BufTemp(OrigSize - 1)
-    
-    ' GSZAO - Seguridad
-    If Modo = 0 And GrhUsaContra = True Then
-        If UBound(GrhDatContra) <= UBound(data) And UBound(GrhDatContra) <> 0 Then
-            Upper_grhDatContra = UBound(GrhDatContra)
-            
-            For LoopC = 0 To Upper_grhDatContra
-                data(LoopC) = data(LoopC) Xor GrhDatContra(LoopC)
-            Next LoopC
-        End If
-    ElseIf Modo = 1 And MapsUsaContra = True Then
-        If UBound(MapsDatContra) <= UBound(data) And UBound(MapsDatContra) <> 0 Then
-            Upper_mapsDatContra = UBound(MapsDatContra)
-            
-            For LoopC = 0 To Upper_mapsDatContra
-                data(LoopC) = data(LoopC) Xor MapsDatContra(LoopC)
-            Next LoopC
-        End If
-    End If
-    ' GSZAO - Seguridad
-    
-    Call uncompress(BufTemp(0), OrigSize, data(0), UBound(data) + 1)
-    
-    ReDim data(OrigSize - 1)
-    
-    data = BufTemp
-    
+    Data(0) = Data(0) Xor 166
+    UnCompress BufTemp(0), OrigSize, Data(0), UBound(Data) + 1
+   
+    ReDim Data(OrigSize - 1)
+    Data = BufTemp
     Erase BufTemp
 End Sub
 
-''
-' Compresses all graphic files to a resource file.
-'
-' @param    SourcePath The graphic files folder.
-' @param    OutputPath The resource file folder.
-' @param    version The resource file version.
-' @param    PrgBar The control that shows the process state.
-'
-' @return   True if no error occurred.
-
-Public Function Compress_Files(ByRef SourcePath As String, ByRef OutputPath As String, ByVal version As Long, ByRef prgBar As ProgressBar, Optional Modo As Byte = 0) As Boolean
+Public Function Extract_Patch(ByVal resource_path As String, ByVal file_name As String) As Boolean
 '*****************************************************************
-'Author: Nicolas Matias Gonzalez (NIGO)
-'Last Modify Date: 14/09/2012 - ^[GS]^
-'Compresses all graphic files to a resource file
+'Author: Juan Martín Dotuyo Dodero
+'Last Modify Date: 10/13/2004
+'Comrpesses all files to a resource file
 '*****************************************************************
-    Dim SourceFileName As String
-    Dim OutputFilePath As String
-    Dim SourceFile As Long
-    Dim OutputFile As Long
+    Dim loopc As Long
+    Dim LoopC2 As Long
+    Dim LoopC3 As Long
+    Dim OutputFile As Integer
+    Dim UpdatedFile As Integer
+    Dim SourceFilePath As String
+    Dim SourceFile As Integer
     Dim SourceData() As Byte
+    Dim ResFileHead As FILEHEADER
+    Dim ResInfoHead() As INFOHEADER
+    Dim UpdatedInfoHead As INFOHEADER
     Dim FileHead As FILEHEADER
     Dim InfoHead() As INFOHEADER
-    Dim LoopC As Long
+    Dim RequiredSpace As Currency
+    Dim FileExtension As String
+    Dim DataOffset As Long
+    Dim OutputFilePath As String
     
-    Dim ERROR_EXT_NO_ENCONTRADA As String
+    'Done flags
+    Dim bmp_done As Boolean
+    Dim png_done As Boolean
+    Dim wav_done As Boolean
+    Dim Musica_done As Boolean
 
-On Local Error GoTo ErrHandler
-    If Modo = 0 Then
-        OutputFilePath = OutputPath & GRH_RESOURCE_FILE
-        'If GraficosPNG = False Then ' GSZAO
-            SourceFileName = Dir$(SourcePath & "*" & BMP_SOURCE_FILE_EXT, vbNormal)
-        'Else
-         '   SourceFileName = Dir$(SourcePath & "*" & PNG_SOURCE_FILE_EXT, vbNormal)
-        'End If
-    ElseIf Modo = 1 Then
-        OutputFilePath = OutputPath & MAPS_RESOURCE_FILE
-        SourceFileName = Dir$(SourcePath & "*" & MAPS_SOURCE_FILE_EXT, vbNormal)
-    End If
+    Dim ind_done As Boolean
+    Dim dat_done As Boolean
+    Dim ini_done As Boolean
     
-    ' Create list of all files to be compressed
-    While LenB(SourceFileName) <> 0
-        FileHead.lngNumFiles = FileHead.lngNumFiles + 1
-        
-        ReDim Preserve InfoHead(FileHead.lngNumFiles - 1)
-        InfoHead(FileHead.lngNumFiles - 1).strFileName = UCase$(SourceFileName)
-        
-        'Search new file
-        SourceFileName = Dir$()
-    Wend
+    Dim map_done As Boolean
+    Dim gif_done As Boolean
+    Dim wao_done As Boolean
+    Dim Ambient_done As Boolean
+    Dim Fuentes_done As Boolean
     
-    'If Mode = 0 And frmMain.cmdGrhPNG.Value = 1 Then ' Comprimimos tambien los Graficos .PNG
-        SourceFileName = Dir$(SourcePath & "*" & PNG_SOURCE_FILE_EXT, vbNormal)
-        ' Create list of all files to be compressed
-        While LenB(SourceFileName) <> 0
-            FileHead.lngNumFiles = FileHead.lngNumFiles + 1
-            
-            ReDim Preserve InfoHead(FileHead.lngNumFiles - 1)
-            InfoHead(FileHead.lngNumFiles - 1).strFileName = UCase$(SourceFileName)
-            
-            'Search new file
-            SourceFileName = Dir$()
-        Wend
+    '************************************************************************************************
+    'This is similar to Extract, but has some small differences to make sure what is being updated
+    '************************************************************************************************
+'Set up the error handler
+On Local Error GoTo errhandler
+    
+    'Open the binary file
+    SourceFile = FreeFile
+    SourceFilePath = file_name
+
+    Open SourceFilePath For Binary Access Read Lock Write As SourceFile
+    
+    'Extract the FILEHEADER
+    Get SourceFile, 1, FileHead
+        
+    'Check the file for validity
+    'If LOF(SourceFile) <> FileHead.lngFileSize Then
+    '    MsgBox "Resource file " & SourceFilePath & " seems to be corrupted.", , "Error"
+    '    Exit Function
     'End If
     
-    'If Mode = 1 And frmMain.cmdMiniMap.Value = 1 Then ' agregamos tambien los BMP junto a los mapas
-        SourceFileName = Dir$(SourcePath & "*" & BMP_SOURCE_FILE_EXT, vbNormal)  ' GSZAO
-        ' Create list of all files to be compressed
-        While LenB(SourceFileName) <> 0
-            FileHead.lngNumFiles = FileHead.lngNumFiles + 1
-            
-            ReDim Preserve InfoHead(FileHead.lngNumFiles - 1)
-            InfoHead(FileHead.lngNumFiles - 1).strFileName = UCase$(SourceFileName)
-            
-            'Search new file
-            SourceFileName = Dir$()
-        Wend
-    'End If
+    'Size the InfoHead array
+    ReDim InfoHead(FileHead.intNumFiles - 1)
     
-    If FileHead.lngNumFiles = 0 Then
-        'If GraficosPNG = False Then ' GSZAO
-            ERROR_EXT_NO_ENCONTRADA = JsonLanguage.Item("ERROR_EXT_NO_ENCONTRADA").Item("TEXTO")
-            ERROR_EXT_NO_ENCONTRADA = Replace$(ERROR_EXT_NO_ENCONTRADA, "VAR_EXT", BMP_SOURCE_FILE_EXT)
-            ERROR_EXT_NO_ENCONTRADA = Replace$(ERROR_EXT_NO_ENCONTRADA, "VAR_PATH", SourcePath)
-            
-            MsgBox ERROR_EXT_NO_ENCONTRADA, , JsonLanguage.Item("Error").Item("TEXTO")
-        'Else
-        '    MsgBox "No se encontraron archivos de extension " & PNG_SOURCE_FILE_EXT & " en " & SourcePath & ".", , JsonLanguage.Item("Error").Item("TEXTO")
-        'End If
+    'Extract the INFOHEADER
+    Get SourceFile, , InfoHead
+    
+    'Check if there is enough hard drive space to extract all files
+    For loopc = 0 To UBound(InfoHead)
+        RequiredSpace = RequiredSpace + InfoHead(loopc).lngFileSizeUncompressed
+    Next loopc
+    
+    If RequiredSpace >= General_Drive_Get_Free_Bytes(Left(App.Path, 3)) Then
+        Erase InfoHead
+        MsgBox "¡No hay espacio suficiente para extraer el archivo!", , "Error"
         Exit Function
     End If
     
-    If Not prgBar Is Nothing Then
-        prgBar.value = 0
-        prgBar.Max = FileHead.lngNumFiles + 1
-    End If
-    
-    'Destroy file if it previuosly existed
-    If LenB(Dir$(OutputFilePath, vbNormal)) <> 0 Then
-        Kill OutputFilePath
-    End If
-    
-    'Finish setting the FileHeader data
-    FileHead.lngFileVersion = version
-    FileHead.lngFileSize = Len(FileHead) + FileHead.lngNumFiles * Len(InfoHead(0))
-    
-    'Order the InfoHeads
-    Call Sort_Info_Headers(InfoHead(), 0, FileHead.lngNumFiles - 1)
-    
-    'Open a new file
-    OutputFile = FreeFile()
-    Open OutputFilePath For Binary Access Read Write As OutputFile
-        ' Move to the end of the headers, where the file data will actually start
-        Seek OutputFile, FileHead.lngFileSize + 1
+    'Extract all of the files from the binary file
+    For loopc = 0 To UBound(InfoHead())
+        'Check the extension of the file
+        Select Case LCase(Right(Trim(InfoHead(loopc).strFileName), 3))
+            '****************************************
+            Case Is = "bmp"
+                If bmp_done Then GoTo EndMainLoop
+                FileExtension = "bmp"
+                OutputFilePath = resource_path & "\Graphics" & Extension
+                bmp_done = True
+            '****************************************
+            Case Is = "png"
+                If bmp_done Then GoTo EndMainLoop
+                FileExtension = "png"
+                OutputFilePath = resource_path & "\Particles" & Extension
+                bmp_done = True
+            '****************************************
+            Case Is = "Musica"
+                If Musica_done Then GoTo EndMainLoop
+                FileExtension = "*"
+                OutputFilePath = resource_path & "\Musics" & Extension
+                Musica_done = True
+            '****************************************
+            Case Is = "wav"
+                If wav_done Then GoTo EndMainLoop
+                FileExtension = "wav"
+                OutputFilePath = resource_path & "\Sounds" & Extension
+                wav_done = True
+            '****************************************
+            'Scripts
+            Case Is = "ind"
+                If ind_done Then GoTo EndMainLoop
+                FileExtension = "ind"
+                OutputFilePath = resource_path & "\Scripts" & Extension
+                ind_done = True
+            Case Is = "dat"
+                If dat_done Then GoTo EndMainLoop
+                FileExtension = "dat"
+                OutputFilePath = resource_path & "\Scripts" & Extension
+                dat_done = True
+            Case Is = "ini"
+                If ini_done Then GoTo EndMainLoop
+                FileExtension = "ini"
+                OutputFilePath = resource_path & "\Scripts" & Extension
+                ini_done = True
+            Case Is = "wao"
+                If ini_done Then GoTo EndMainLoop
+                FileExtension = "ini"
+                OutputFilePath = resource_path & "\Scripts" & Extension
+                ini_done = True
+            '****************************************
+            'Graphics_INT
+            Case Is = "gif"
+                If ini_done Then GoTo EndMainLoop
+                FileExtension = "gif"
+                OutputFilePath = resource_path & "\Interface" & Extension
+                gif_done = True
+            '****************************************
+            'Maps
+            Case Is = "map"
+                If map_done Then GoTo EndMainLoop
+                FileExtension = "map"
+                OutputFilePath = resource_path & "\Maps" & Extension
+                map_done = True
+                
+            '****************************************
+            'Ambient
+            Case Is = "Ambient"
+                If Ambient_done Then GoTo EndMainLoop
+                FileExtension = "Ambient"
+                OutputFilePath = resource_path & "\Ambient" & Extension
+                Ambient_done = True
+                
+            Case Is = "Fuentes"
+                If Fuentes_done Then GoTo EndMainLoop
+                FileExtension = "Fuentest"
+                OutputFilePath = resource_path & "\Fuentes" & Extension
+                Fuentes_done = True
+        End Select
         
-        ' Process every file!
-        For LoopC = 0 To FileHead.lngNumFiles - 1
-              
-            SourceFile = FreeFile()
-            Open SourcePath & InfoHead(LoopC).strFileName For Binary Access Read Lock Write As SourceFile
+        OutputFile = FreeFile
+        Open OutputFilePath For Binary Access Read Write As OutputFile
+        
+        'Get file header
+        Get OutputFile, 1, ResFileHead
                 
-                'Find out how large the file is and resize the data array appropriately
-                InfoHead(LoopC).lngFileSizeUncompressed = LOF(SourceFile)
-                ReDim SourceData(LOF(SourceFile) - 1)
+        'Resize the Info Header array
+        ReDim ResInfoHead(ResFileHead.intNumFiles - 1)
+        
+        'Load the info header
+        Get OutputFile, , ResInfoHead
                 
-                'Get the data from the file
-                Get SourceFile, , SourceData
+        'Check how many of the files are new, and how many are replacements
+        For LoopC2 = loopc To UBound(InfoHead())
+            If LCase$(Right$(Trim$(InfoHead(LoopC2).strFileName), 3)) = FileExtension Then
+                'Look for same name in the resource file
+                For LoopC3 = 0 To UBound(ResInfoHead())
+                    If ResInfoHead(LoopC3).strFileName = InfoHead(LoopC2).strFileName Then
+                        Exit For
+                    End If
+                Next LoopC3
                 
-                'Compress it
-                Call Compress_Data(SourceData, Modo)
+                'Update the File Head
+                If LoopC3 > UBound(ResInfoHead()) Then
+                    'Update number of files and size
+                    ResFileHead.intNumFiles = ResFileHead.intNumFiles + 1
+                    ResFileHead.lngFileSize = ResFileHead.lngFileSize + Len(InfoHead(0)) + InfoHead(LoopC2).lngFileSize
+                Else
+                    'We substract the size of the old file and add the one of the new one
+                    ResFileHead.lngFileSize = ResFileHead.lngFileSize - ResInfoHead(LoopC3).lngFileSize + InfoHead(LoopC2).lngFileSize
+                End If
+            End If
+        Next LoopC2
+        
+        'Get the offset of the compressed data
+        DataOffset = CLng(ResFileHead.intNumFiles) * Len(ResInfoHead(0)) + Len(FileHead) + 1
                 
-                'Store it in the resource file
-                Put OutputFile, , SourceData
-                
-                With InfoHead(LoopC)
-                    'Set up the info headers
-                    .lngFileSize = UBound(SourceData) + 1
-                    .lngFileStart = FileHead.lngFileSize + 1
+        'Now we start saving the updated file
+        UpdatedFile = FreeFile
+        Open OutputFilePath & "2" For Binary Access Write Lock Read As UpdatedFile
+        
+        'Store the filehead
+        Put UpdatedFile, 1, ResFileHead
+        
+        'Start storing the Info Heads
+        LoopC2 = loopc
+        For LoopC3 = 0 To UBound(ResInfoHead())
+            Do While LoopC2 <= UBound(InfoHead())
+                If LCase$(ResInfoHead(LoopC3).strFileName) < LCase$(InfoHead(LoopC2).strFileName) Then Exit Do
+                If LCase$(Right$(Trim$(InfoHead(LoopC2).strFileName), 3)) = FileExtension Then
+                    'Copy the info head data
+                    UpdatedInfoHead = InfoHead(LoopC2)
                     
-                    'Update the file header
-                    FileHead.lngFileSize = FileHead.lngFileSize + .lngFileSize
-                End With
-                
-                Erase SourceData
+                    'Set the file start pos and update the offset
+                    UpdatedInfoHead.lngFileStart = DataOffset
+                    DataOffset = DataOffset + UpdatedInfoHead.lngFileSize
+                                        
+                    Put UpdatedFile, , UpdatedInfoHead
+                    
+                    DoEvents
+                    
+                End If
+                LoopC2 = LoopC2 + 1
+            Loop
             
-            Close SourceFile
+            'If the file was replaced in the patch, we skip it
+            If LoopC2 Then
+                If LCase$(ResInfoHead(LoopC3).strFileName) <= LCase$(InfoHead(LoopC2 - 1).strFileName) Then GoTo EndLoop
+            End If
+            
+            'Copy the info head data
+            UpdatedInfoHead = ResInfoHead(LoopC3)
+            
+            'Set the file start pos and update the offset
+            UpdatedInfoHead.lngFileStart = DataOffset
+            DataOffset = DataOffset + UpdatedInfoHead.lngFileSize
+                        
+            Put UpdatedFile, , UpdatedInfoHead
+EndLoop:
+        Next LoopC3
         
-            'Update progress bar
-            If Not prgBar Is Nothing Then prgBar.value = prgBar.value + 1
-            DoEvents
-        Next LoopC
+        'If there was any file in the patch that would go in the bottom of the list we put it now
+        For LoopC2 = LoopC2 To UBound(InfoHead())
+            If LCase$(Right$(Trim$(InfoHead(LoopC2).strFileName), 3)) = FileExtension Then
+                'Copy the info head data
+                UpdatedInfoHead = InfoHead(LoopC2)
+                
+                'Set the file start pos and update the offset
+                UpdatedInfoHead.lngFileStart = DataOffset
+                DataOffset = DataOffset + UpdatedInfoHead.lngFileSize
+                                
+                Put UpdatedFile, , UpdatedInfoHead
+            End If
+        Next LoopC2
         
-        'Store the headers in the file
-        Seek OutputFile, 1
-        Put OutputFile, , FileHead
-        Put OutputFile, , InfoHead
+        'Now we start adding the compressed data
+        LoopC2 = loopc
+        For LoopC3 = 0 To UBound(ResInfoHead())
+            Do While LoopC2 <= UBound(InfoHead())
+                If LCase$(ResInfoHead(LoopC3).strFileName) < LCase$(InfoHead(LoopC2).strFileName) Then Exit Do
+                If LCase$(Right$(Trim$(InfoHead(LoopC2).strFileName), 3)) = FileExtension Then
+                    'Get the compressed data
+                    ReDim SourceData(InfoHead(LoopC2).lngFileSize - 1)
+                    
+                    Get SourceFile, InfoHead(LoopC2).lngFileStart, SourceData
+                    
+                    Put UpdatedFile, , SourceData
+                End If
+                LoopC2 = LoopC2 + 1
+            Loop
+            
+            'If the file was replaced in the patch, we skip it
+            If LoopC2 Then
+                If LCase$(ResInfoHead(LoopC3).strFileName) <= LCase$(InfoHead(LoopC2 - 1).strFileName) Then GoTo EndLoop2
+            End If
+            
+            'Get the compressed data
+            ReDim SourceData(ResInfoHead(LoopC3).lngFileSize - 1)
+            
+            Get OutputFile, ResInfoHead(LoopC3).lngFileStart, SourceData
+            
+            Put UpdatedFile, , SourceData
+EndLoop2:
+        Next LoopC3
         
-    'Close the file
-    Close OutputFile
+        'If there was any file in the patch that would go in the bottom of the lsit we put it now
+        For LoopC2 = LoopC2 To UBound(InfoHead())
+            If LCase$(Right$(Trim$(InfoHead(LoopC2).strFileName), 3)) = FileExtension Then
+                'Get the compressed data
+                ReDim SourceData(InfoHead(LoopC2).lngFileSize - 1)
+                
+                Get SourceFile, InfoHead(LoopC2).lngFileStart, SourceData
+                
+                Put UpdatedFile, , SourceData
+            End If
+        Next LoopC2
+        
+        'We are done updating the file
+        Close UpdatedFile
+        
+        'Close and delete the old resource file
+        Close OutputFile
+        Kill OutputFilePath
+        
+        'Rename the new one
+        Name OutputFilePath & "2" As OutputFilePath
+        
+        'Deallocate the memory used by the data array
+        Erase SourceData
+EndMainLoop:
+    Next loopc
     
-    Erase InfoHead
-    Erase SourceData
-    
-    Compress_Files = True
-Exit Function
-
-ErrHandler:
-    Erase SourceData
-    Erase InfoHead
-    Close OutputFile
-    
-    Call MsgBox(Replace$(JsonLanguage.Item("ERROR_CREAR_BINARIO").Item("TEXTO"), "VAR_ERROR", Err.number & " : " & Err.Description), vbOKOnly, JsonLanguage.Item("Error").Item("TEXTO"))
-End Function
-
-''
-' Retrieves a byte array with the compressed data from the specified file.
-'
-' @param    ResourcePath The resource file folder.
-' @param    InfoHead The header specifiing the graphic file info.
-' @param    data() The byte array to return data.
-'
-' @return   True if no error occurred.
-'
-' @remark   InfoHead must not be encrypted.
-' @remark   Data is not desencrypted.
-
-Public Function Get_File_RawData(ByRef ResourcePath As String, ByRef InfoHead As INFOHEADER, ByRef data() As Byte, Optional Modo As Byte = 0) As Boolean
-'*****************************************************************
-'Author: Nicolas Matias Gonzalez (NIGO)
-'Last Modify Date: 16/07/2012 - ^[GS]^
-'Retrieves a byte array with the compressed data from the specified file
-'*****************************************************************
-    Dim ResourceFilePath As String
-    Dim ResourceFile As Integer
-    
-On Local Error GoTo ErrHandler
-    If Modo = 0 Then
-        ResourceFilePath = ResourcePath & GRH_RESOURCE_FILE
-    ElseIf Modo = 1 Then
-        ResourceFilePath = ResourcePath & MAPS_RESOURCE_FILE
-    End If
-    
-    'Size the Data array
-    ReDim data(InfoHead.lngFileSize - 1)
-    
-    'Open the binary file
-    ResourceFile = FreeFile
-    Open ResourceFilePath For Binary Access Read Lock Write As ResourceFile
-        'Get the data
-        Get ResourceFile, InfoHead.lngFileStart, data
     'Close the binary file
-    Close ResourceFile
+    Close SourceFile
     
-    Get_File_RawData = True
+    Erase InfoHead
+    Erase ResInfoHead
+    
+    Extract_Patch = True
 Exit Function
 
-ErrHandler:
-    Close ResourceFile
+errhandler:
+    Erase SourceData
+    Erase InfoHead
+
 End Function
 
-''
-' Extract the specific file from a resource file.
-'
-' @param    ResourcePath The resource file folder.
-' @param    InfoHead The header specifiing the graphic file info.
-' @param    data() The byte array to return data.
-'
-' @return   True if no error occurred.
-'
-' @remark   Data is desencrypted.
-
-Public Function Extract_File(ByRef ResourcePath As String, ByRef InfoHead As INFOHEADER, ByRef data() As Byte, Optional Modo As Byte = 0) As Boolean
+Public Function Extract_File(ByVal file_type As resource_file_type, ByVal resource_path As String, ByVal file_name As String, ByVal OutputFilePath As String, Optional ByVal UseOutputFolder As Boolean = False) As Boolean
 '*****************************************************************
-'Author: Nicolas Matias Gonzalez (NIGO)
-'Last Modify Date: 14/09/2012 - ^[GS]^
-'Extract the specific file from a resource file
-'*****************************************************************
-On Local Error GoTo ErrHandler
-    
-    If Get_File_RawData(ResourcePath, InfoHead, data, Modo) Then
-        'Decompress all data
-        'If InfoHead.lngFileSize < InfoHead.lngFileSizeUncompressed Then ' GSZAO
-            Call Decompress_Data(data, InfoHead.lngFileSizeUncompressed, Modo)
-        'End If
-        
-        Extract_File = True
-    End If
-Exit Function
-
-ErrHandler:
-    Call MsgBox(Replace$(JsonLanguage.Item("ERROR_DECODE_RECURSOS").Item("TEXTO"), "VAR_ERROR", Err.number & " : " & Err.Description), vbOKOnly, JsonLanguage.Item("Error").Item("TEXTO"))
-End Function
-
-''
-' Extracts all files from a resource file.
-'
-' @param    ResourcePath The resource file folder.
-' @param    OutputPath The folder where graphic files will be extracted.
-' @param    PrgBar The control that shows the process state.
-'
-' @return   True if no error occurred.
-
-Public Function Extract_Files(ByRef ResourcePath As String, ByRef OutputPath As String, ByRef prgBar As ProgressBar, Optional Modo As Byte = 0) As Boolean
-'*****************************************************************
-'Author: Nicolas Matias Gonzalez (NIGO)
-'Last Modify Date: 17/07/2012 - ^[GS]^
+'Author: Juan Martín Dotuyo Dodero
+'Last Modify Date: 10/13/2004
 'Extracts all files from a resource file
 '*****************************************************************
-    Dim LoopC As Long
-    Dim ResourceFile As Integer
-    Dim ResourceFilePath As String
-    Dim OutputFile As Integer
+    Dim loopc As Long
+    Dim SourceFilePath As String
     Dim SourceData() As Byte
-    Dim FileHead As FILEHEADER
-    Dim InfoHead() As INFOHEADER
-    Dim Upper_infoHead As Long
-    Dim RequiredSpace As Currency
-    
-On Local Error GoTo ErrHandler
-    If Modo = 0 Then
-        ResourceFilePath = ResourcePath & GRH_RESOURCE_FILE
-    ElseIf Modo = 1 Then
-        ResourceFilePath = ResourcePath & MAPS_RESOURCE_FILE
-    End If
-    
-    'Open the binary file
-    ResourceFile = FreeFile()
-    Open ResourceFilePath For Binary Access Read Lock Write As ResourceFile
-        'Extract the FILEHEADER
-        Get ResourceFile, 1, FileHead
-    
-        'Check the file for validity
-        If LOF(ResourceFile) <> FileHead.lngFileSize Then
-            Call MsgBox(JsonLanguage.Item("ERROR_ARCHIVO_CORRUPTO").Item("TEXTO") & ": " & ResourceFilePath, , JsonLanguage.Item("Error").Item("TEXTO"))
-            Close ResourceFile
-            Exit Function
-        End If
-        
-        'Size the InfoHead array
-        ReDim InfoHead(FileHead.lngNumFiles - 1)
-        
-        'Extract the INFOHEADER
-        Get ResourceFile, , InfoHead
-        
-        'Pre-Calculate info head's upperbound to improve performance
-        Upper_infoHead = UBound(InfoHead)
-        
-        'Check if there is enough hard drive space to extract all files
-        For LoopC = 0 To Upper_infoHead
-            
-            RequiredSpace = RequiredSpace + InfoHead(LoopC).lngFileSizeUncompressed
-        Next LoopC
-        
-        If RequiredSpace >= General_Drive_Get_Free_Bytes(Left$(App.path, 3)) Then
-            Erase InfoHead
-            Close ResourceFile
-            Call MsgBox(JsonLanguage.Item("ERROR_SIN_ESPACIO").Item("TEXTO"), , JsonLanguage.Item("Error").Item("TEXTO"))
-            Exit Function
-        End If
-    Close ResourceFile
-    
-    'Update progress bar
-    If Not prgBar Is Nothing Then
-        prgBar.value = 0
-        prgBar.Max = FileHead.lngNumFiles + 1
-    End If
-    
-    'Pre-Calculate info head's upperbound to improve performance
-    Upper_infoHead = UBound(InfoHead)
-    
-    'Extract all of the files from the binary file
-    For LoopC = 0 To Upper_infoHead
-        'Extract this file
-        If Extract_File(ResourcePath, InfoHead(LoopC), SourceData) Then
-            'Destroy file if it previuosly existed
-            If FileExist(OutputPath & InfoHead(LoopC).strFileName, vbNormal) Then
-                Call Kill(OutputPath & InfoHead(LoopC).strFileName)
+    Dim InfoHead As INFOHEADER
+    Dim Handle As Integer
+'Set up the error handler
+On Local Error GoTo errhandler
+
+    Select Case file_type
+        Case Graphics
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Graphics" & Extension
+            Else
+                SourceFilePath = resource_path & "\Graphics" & Extension
             End If
             
-            'Save it!
-            OutputFile = FreeFile()
-            Open OutputPath & InfoHead(LoopC).strFileName For Binary As OutputFile
-                Put OutputFile, , SourceData
-            Close OutputFile
+        Case Particulas
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Particles" & Extension
+            Else
+                SourceFilePath = resource_path & "\Particles" & Extension
+            End If
             
-            Erase SourceData
-        Else
-            Erase SourceData
-            Erase InfoHead
+        Case Musica
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Musics" & Extension
+            Else
+                SourceFilePath = resource_path & "\Musics" & Extension
+            End If
+        
+        Case Wav
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Sounds" & Extension
+            Else
+                SourceFilePath = resource_path & "\Sounds" & Extension
+            End If
+        
+        Case Scripts
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Scripts" & Extension
+            Else
+                SourceFilePath = resource_path & "\Scripts" & Extension
+            End If
+        
+        Case Interface
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Interface" & Extension
+            Else
+                SourceFilePath = resource_path & "\Interface" & Extension
+            End If
             
-            Call MsgBox(JsonLanguage.Item("ERROR_EXTRAER_ARCHIVO").Item("TEXTO") & ": " & InfoHead(LoopC).strFileName, vbOKOnly, JsonLanguage.Item("Error").Item("TEXTO"))
+        Case Map
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Maps" & Extension
+            Else
+                SourceFilePath = resource_path & "\Maps" & Extension
+            End If
+            
+        Case Ambient
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Ambient" & Extension
+            Else
+                SourceFilePath = resource_path & "\Ambient" & Extension
+            End If
+            
+        Case Fuentes
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "fuentes" & Extension
+            Else
+                SourceFilePath = resource_path & "\fuentes" & Extension
+            End If
+        Case Else
             Exit Function
-        End If
-            
-        'Update progress bar
-        If Not prgBar Is Nothing Then prgBar.value = prgBar.value + 1
-        DoEvents
-    Next LoopC
+    End Select
     
-    Erase InfoHead
-    Extract_Files = True
+    'Find the Info Head of the desired file
+    InfoHead = File_Find(SourceFilePath, file_name)
+    
+    If InfoHead.strFileName = "" Or InfoHead.lngFileSize = 0 Then Exit Function
+
+    'Open the binary file
+    Handle = FreeFile
+    Open SourceFilePath For Binary Access Read Lock Write As Handle
+    
+    'Check the file for validity
+    'If LOF(handle) <> InfoHead.lngFileSize Then
+    '    Close handle
+    '    MsgBox "Resource file " & SourceFilePath & " seems to be corrupted.", , "Error"
+    '    Exit Function
+    'End If
+    
+    'Make sure there is enough space in the HD
+    If InfoHead.lngFileSizeUncompressed > General_Drive_Get_Free_Bytes(Left$(App.Path, 3)) Then
+        Close Handle
+        MsgBox "There is not enough drive space to extract the compressed file.", , "Error"
+        Exit Function
+    End If
+    
+    'Extract file from the binary file
+    
+    'Resize the byte data array
+    ReDim SourceData(InfoHead.lngFileSize - 1)
+    
+    'Get the data
+    Get Handle, InfoHead.lngFileStart, SourceData
+    
+    'Decompress all data
+    Decompress_Data SourceData, InfoHead.lngFileSizeUncompressed
+    
+    'Close the binary file
+    Close Handle
+    
+    'Get a free handler
+    Handle = FreeFile
+    
+    Open OutputFilePath & InfoHead.strFileName For Binary As Handle
+    
+    Put Handle, 1, SourceData
+    
+    Close Handle
+    
+    Erase SourceData
+        
+    Extract_File = True
 Exit Function
 
-ErrHandler:
-    Close ResourceFile
+errhandler:
+    Close Handle
     Erase SourceData
-    Erase InfoHead
-    
-    Call MsgBox(Replace$(JsonLanguage.Item("ERROR_EXTRAER_BINARIO").Item("TEXTO"), "VAR_ERROR", Err.number & " : " & Err.Description), vbOKOnly, JsonLanguage.Item("Error").Item("TEXTO"))
+    'Display an error message if it didn't work
+    'MsgBox "Unable to decode binary file. Reason: " & Err.number & " : " & Err.Description, vbOKOnly, "Error"
 End Function
 
-''
-' Retrieves a byte array with the specified file data.
-'
-' @param    ResourcePath The resource file folder.
-' @param    FileName The graphic file name.
-' @param    data() The byte array to return data.
-'
-' @return   True if no error occurred.
-'
-' @remark   Data is desencrypted.
+Public Function Delete_File(ByVal file_path As String) As Boolean
+'*****************************************************************
+'Author: Juan Martín Dotuyo Dodero
+'Last Modify Date: 3/03/2005
+'Deletes a resource files
+'*****************************************************************
+    
+    On Error GoTo Error_Handler
+        
+    Kill file_path
+    
+    Delete_File = True
 
-Public Function Get_File_Data(ByRef ResourcePath As String, ByRef FileName As String, ByRef data() As Byte, Optional Modo As Byte = 0) As Boolean
-'*****************************************************************
-'Author: Nicolas Matias Gonzalez (NIGO)
-'Last Modify Date: 16/07/2012 - ^[GS]^
-'Retrieves a byte array with the specified file data
-'*****************************************************************
+    Exit Function
+    
+Error_Handler:
+    On Error Resume Next
+    
+    Dim Handle As Integer
+    Dim Data() As Byte
+
+    'We open the file to delete
+    Handle = FreeFile
+    Open file_path For Binary Access Write Lock Read As Handle
+    
+    'We replace all the bytes in it with 0s
+    ReDim Data(LOF(Handle) - 1)
+    Put Handle, 1, Data
+    
+    'We close the file
+    Close Handle
+    
+    'Now we delete it, knowing that if they retrieve it (some antivirus may create backup copies of deleted files), it will be useless
+    Kill file_path
+    
+    Delete_File = True
+    
+End Function
+Public Function Extract_File_Memory(ByVal file_type As resource_file_type, ByVal resource_path As String, ByVal file_name As String, ByRef SourceData() As Byte) As Boolean
+ '******************************************************************************************
+ 'Lorwik> Con este sub podemos descomprimir los recursos en la memoria en vez de en el disco
+ '******************************************************************************************
+ 
+    Dim loopc As Long
+    Dim SourceFilePath As String
     Dim InfoHead As INFOHEADER
-    
-    If Get_InfoHeader(ResourcePath, FileName, InfoHead, Modo) Then
-        'Extract!
-        Get_File_Data = Extract_File(ResourcePath, InfoHead, data, Modo)
-    Else
-        Get_File_Data = False
-        'Call MsgBox(JsonLanguage("ERROR_404").Item("TEXTO") & ": " & FileName)
-    End If
-End Function
-
-''
-' Retrieves image file data.
-'
-' @param    ResourcePath The resource file folder.
-' @param    FileName The graphic file name.
-' @param    bmpInfo The bitmap info structure.
-' @param    data() The byte array to return data.
-'
-' @return   True if no error occurred.
-
-Public Function Get_Image(ByRef ResourcePath As String, ByRef FileName As String, ByRef data() As Byte, Optional SoloBMP As Boolean = False) As Boolean
-'*****************************************************************
-'Author: Nicolas Matias Gonzalez (NIGO)
-'Last Modify Date: 09/10/2012 - ^[GS]^
-'Retrieves image file data
-'*****************************************************************
-    Dim InfoHead As INFOHEADER
-    Dim ExistFile As Boolean
-    
-    ExistFile = False
-    
-    If SoloBMP = True Then
-        If Get_InfoHeader(ResourcePath, FileName & ".BMP", InfoHead, 0) Then ' BMP?
-            FileName = FileName & ".BMP"
-            ExistFile = True
-        End If
-    Else
-        If Get_InfoHeader(ResourcePath, FileName & ".BMP", InfoHead, 0) Then ' BMP?
-            FileName = FileName & ".BMP"
-            ExistFile = True
-        ElseIf Get_InfoHeader(ResourcePath, FileName & ".PNG", InfoHead, 0) Then ' Existe PNG?
-            FileName = FileName & ".PNG" ' usamos el PNG
-            ExistFile = True
-        End If
-    End If
-    
-    If ExistFile = True Then
-        If Extract_File(ResourcePath, InfoHead, data, 0) Then Get_Image = True
-    Else
-        Call MsgBox(JsonLanguage("ERROR_404").Item("TEXTO") & ": " & FileName)
-    End If
-End Function
-
-''
-' Compare two byte arrays to detect any difference.
-'
-' @param    data1() Byte array.
-' @param    data2() Byte array.
-'
-' @return   True if are equals.
-
-Private Function Compare_Datas(ByRef data1() As Byte, ByRef data2() As Byte) As Boolean
-'*****************************************************************
-'Author: Nicolas Matias Gonzalez (NIGO)
-'Last Modify Date: 02/11/2007
-'Compare two byte arrays to detect any difference
-'*****************************************************************
-    Dim length As Long
-    Dim act As Long
-    
-    length = UBound(data1) + 1
-    
-    If (UBound(data2) + 1) = length Then
-        While act < length
-            If data1(act) Xor data2(act) Then Exit Function
+    Dim Handle As Integer
+   
+On Local Error GoTo errhandler
+   
+    Select Case file_type
+        Case Graphics
+                SourceFilePath = resource_path & "\Graphics" & Extension
+                
+        Case Particulas
+                SourceFilePath = resource_path & "\Particles" & Extension
             
-            act = act + 1
-        Wend
+        Case Musica
+                SourceFilePath = resource_path & "\Musics" & Extension
         
-        Compare_Datas = True
+        Case Wav
+                SourceFilePath = resource_path & "\Sounds" & Extension
+
+        Case Scripts
+                SourceFilePath = resource_path & "\Scripts" & Extension
+
+        Case Interface
+                SourceFilePath = resource_path & "\Interface" & Extension
+
+        Case Map
+                SourceFilePath = resource_path & "\Maps" & Extension
+
+        Case Ambient
+                SourceFilePath = resource_path & "\Ambient" & Extension
+                
+        Case Fuentes
+                SourceFilePath = resource_path & "\Fuentes" & Extension
+        Case Else
+            Exit Function
+    End Select
+   
+    InfoHead = File_Find(SourceFilePath, file_name)
+   
+    If InfoHead.strFileName = "" Or InfoHead.lngFileSize = 0 Then Exit Function
+ 
+    Handle = FreeFile
+    Open SourceFilePath For Binary Access Read Lock Write As Handle
+   
+    If InfoHead.lngFileSizeUncompressed > General_Drive_Get_Free_Bytes(Left$(App.Path, 3)) Then
+        Close Handle
+        MsgBox "There is not enough drive space to extract the compressed file.", , "Error"
+        Exit Function
     End If
+   
+   
+    ReDim SourceData(InfoHead.lngFileSize - 1)
+   
+    Get Handle, InfoHead.lngFileStart, SourceData
+        Decompress_Data SourceData, InfoHead.lngFileSizeUncompressed
+    Close Handle
+       
+    Extract_File_Memory = True
+Exit Function
+ 
+errhandler:
+    Close Handle
+    Erase SourceData
 End Function
 
-''
-' Retrieves the next InfoHeader.
-'
-' @param    ResourceFile A handler to the resource file.
-' @param    FileHead The reource file header.
-' @param    InfoHead The returned header.
-' @param    ReadFiles The number of headers that have already been read.
-'
-' @return   False if there are no more headers tu read.
-'
-' @remark   File must be already open.
-' @remark   Used to walk through the resource file info headers.
-' @remark   The number of read files will increase although there is nothing else to read.
-' @remark   InfoHead is encrypted.
-
-Private Function ReadNext_InfoHead(ByRef ResourceFile As Integer, ByRef FileHead As FILEHEADER, ByRef InfoHead As INFOHEADER, ByRef ReadFiles As Long) As Boolean
+Public Function Extract_File_Ex(ByVal file_type As resource_file_type, ByVal resource_path As String, ByVal file_name As String, ByRef bytArr() As Byte) As Boolean
 '*****************************************************************
-'Author: Nicolas Matias Gonzalez (NIGO)
-'Last Modify Date: 08/24/2007
-'Reads the next InfoHeader
+'Author: Juan Martín Dotuyo Dodero
+'Last Modify Date: 10/13/2004
+'Extracts all files from a resource file
 '*****************************************************************
-
-    If ReadFiles < FileHead.lngNumFiles Then
-        'Read header
-        Get ResourceFile, Len(FileHead) + Len(InfoHead) * ReadFiles + 1, InfoHead
-        
-        'Update
-        ReadNext_InfoHead = True
-    End If
-    
-    ReadFiles = ReadFiles + 1
-End Function
-
-''
-' Retrieves the next bitmap.
-'
-' @param    ResourcePath The resource file folder.
-' @param    ReadFiles The number of bitmaps that have already been read.
-' @param    bmpInfo The bitmap info structure.
-' @param    data() The byte array to return data.
-'
-' @return   False if there are no more bitmaps tu get.
-'
-' @remark   Used to walk through the resource file bitmaps.
-
-Public Function GetNext_Bitmap(ByRef ResourcePath As String, ByRef ReadFiles As Long, ByRef bmpInfo As BITMAPINFO, ByRef data() As Byte, ByRef fileIndex As Long) As Boolean
-'*****************************************************************
-'Author: Nicolas Matias Gonzalez (NIGO)
-'Last Modify Date: 09/10/2012 - ^[GS]^
-'Reads the next InfoHeader
-'*****************************************************************
-On Error Resume Next
-
-    Dim ResourceFile As Integer
-    Dim FileHead As FILEHEADER
+    Dim loopc As Long
+    Dim SourceFilePath As String
     Dim InfoHead As INFOHEADER
-    Dim FileName As String
-    
-    ResourceFile = FreeFile
-    Open ResourcePath & GRH_RESOURCE_FILE For Binary Access Read Lock Write As ResourceFile
-    Get ResourceFile, 1, FileHead
-    
-    If ReadNext_InfoHead(ResourceFile, FileHead, InfoHead, ReadFiles) Then
-        Call Get_Image(ResourcePath, InfoHead.strFileName, data())
-        FileName = Trim$(InfoHead.strFileName)
-        fileIndex = CLng(Left$(FileName, Len(FileName) - 4))
-        
-        GetNext_Bitmap = True
-    End If
-    
-    Close ResourceFile
-End Function
-
-''
-' Compares two resource versions and makes a patch file.
-'
-' @param    NewResourcePath The actual reource file folder.
-' @param    OldResourcePath The previous reource file folder.
-' @param    OutputPath The patchs file folder.
-' @param    PrgBar The control that shows the process state.
-'
-' @return   True if no error occurred.
-
-Public Function Make_Patch(ByRef NewResourcePath As String, ByRef OldResourcePath As String, ByRef OutputPath As String, ByRef prgBar As ProgressBar, Optional Modo As Byte = 0) As Boolean
-'*****************************************************************
-'Author: Nicolas Matias Gonzalez (NIGO)
-'Last Modify Date: 17/07/2012 - ^[GS]^
-'Compares two resource versions and make a patch file
-'*****************************************************************
-    Dim NewResourceFile As Integer
-    Dim NewResourceFilePath As String
-    Dim NewFileHead As FILEHEADER
-    Dim NewInfoHead As INFOHEADER
-    Dim NewReadFiles As Long
-    Dim NewReadNext As Boolean
-    
-    Dim OldResourceFile As Integer
-    Dim OldResourceFilePath As String
-    Dim OldFileHead As FILEHEADER
-    Dim OldInfoHead As INFOHEADER
-    Dim OldReadFiles As Long
-    Dim OldReadNext As Boolean
-    
-    Dim OutputFile As Integer
-    Dim OutputFilePath As String
-    Dim data() As Byte
-    Dim auxData() As Byte
-    Dim Instruction As Byte
+    Dim Handle As Integer
     
 'Set up the error handler
-On Local Error GoTo ErrHandler
+On Local Error GoTo errhandler
+    
+    Select Case file_type
+        Case Graphics
+                SourceFilePath = resource_path & "\Graphics" & Extension
+                
+        Case Particulas
+                SourceFilePath = resource_path & "\Particles" & Extension
+            
+        Case Musica
+                SourceFilePath = resource_path & "\Musics" & Extension
+        
+        Case Wav
+                SourceFilePath = resource_path & "\Sounds" & Extension
 
-    If Modo = 0 Then
-        NewResourceFilePath = NewResourcePath & GRH_RESOURCE_FILE
-        OldResourceFilePath = OldResourcePath & GRH_RESOURCE_FILE
-        OutputFilePath = OutputPath & GRH_PATCH_FILE
-    ElseIf Modo = 1 Then
-        NewResourceFilePath = NewResourcePath & MAPS_RESOURCE_FILE
-        OldResourceFilePath = OldResourcePath & MAPS_RESOURCE_FILE
-        OutputFilePath = OutputPath & MAPS_PATCH_FILE
+        Case Scripts
+                SourceFilePath = resource_path & "\Scripts" & Extension
+
+        Case Interface
+                SourceFilePath = resource_path & "\Interface" & Extension
+
+        Case Map
+                SourceFilePath = resource_path & "\Maps" & Extension
+
+        Case Ambient
+                SourceFilePath = resource_path & "\Ambient" & Extension
+                
+        Case Fuentes
+                SourceFilePath = resource_path & "\Fuentes" & Extension
+        Case Else
+            Exit Function
+    End Select
+    
+    'Find the Info Head of the desired file
+    InfoHead = File_Find(SourceFilePath, file_name)
+    
+    If InfoHead.strFileName = vbNullString Or InfoHead.lngFileSize = 0 Then Exit Function
+
+    'Open the binary file
+    Handle = FreeFile
+    Open SourceFilePath For Binary Access Read Lock Write As Handle
+        
+    'Make sure there is enough space in the HD
+    If InfoHead.lngFileSizeUncompressed > General_Drive_Get_Free_Bytes(Left$(App.Path, 3)) Then
+        Close Handle
+        MsgBox "¡Espacio insuficiente!", , "Error"
+        Exit Function
     End If
     
-    'Open the old binary file
-    OldResourceFile = FreeFile
-    Open OldResourceFilePath For Binary Access Read Lock Write As OldResourceFile
-        
-        'Get the old FileHeader
-        Get OldResourceFile, 1, OldFileHead
-        'Check the file for validity
-        If LOF(OldResourceFile) <> OldFileHead.lngFileSize Then
-            Call MsgBox(JsonLanguage.Item("ERROR_ARCHIVO_CORRUPTO").Item("TEXTO") & ": " & OldResourceFilePath, , JsonLanguage.Item("Error").Item("TEXTO"))
-            Close OldResourceFile
-            Exit Function
-        End If
-        
-        'Open the new binary file
-        NewResourceFile = FreeFile()
-        Open NewResourceFilePath For Binary Access Read Lock Write As NewResourceFile
-            
-            'Get the new FileHeader
-            Get NewResourceFile, 1, NewFileHead
-            'Check the file for validity
-            If LOF(NewResourceFile) <> NewFileHead.lngFileSize Then
-                Call MsgBox(JsonLanguage.Item("ERROR_ARCHIVO_CORRUPTO").Item("TEXTO") & ": " & NewResourceFilePath, , JsonLanguage.Item("Error").Item("TEXTO"))
-                Close NewResourceFile
-                Close OldResourceFile
-                Exit Function
-            End If
-            
-            'Destroy file if it previuosly existed
-            If LenB(Dir$(OutputFilePath, vbNormal)) <> 0 Then Kill OutputFilePath
-            
-            'Open the patch file
-            OutputFile = FreeFile()
-            Open OutputFilePath For Binary Access Read Write As OutputFile
-                
-                If Not prgBar Is Nothing Then
-                    prgBar.value = 0
-                    prgBar.Max = (OldFileHead.lngNumFiles + NewFileHead.lngNumFiles) + 1
-                End If
-                
-                'put previous file version (unencrypted)
-                Put OutputFile, , OldFileHead.lngFileVersion
-                
-                'Put the new file header
-                Put OutputFile, , NewFileHead
-                'Try to read old and new first files
-                If ReadNext_InfoHead(OldResourceFile, OldFileHead, OldInfoHead, OldReadFiles) _
-                  And ReadNext_InfoHead(NewResourceFile, NewFileHead, NewInfoHead, NewReadFiles) Then
-                    
-                    'Update
-                    prgBar.value = prgBar.value + 2
-                    
-                    Do 'Main loop
-                        'Comparisons are between encrypted names, for ordering issues
-                        If OldInfoHead.strFileName = NewInfoHead.strFileName Then
-
-                            'Get old file data
-                            Call Get_File_RawData(OldResourcePath, OldInfoHead, auxData, Modo)
-                            
-                            'Get new file data
-                            Call Get_File_RawData(NewResourcePath, NewInfoHead, data, Modo)
-                            
-                            If Not Compare_Datas(data, auxData) Then
-                                'File was modified
-                                Instruction = PatchInstruction.Modify_File
-                                Put OutputFile, , Instruction
-                                
-                                'Write header
-                                Put OutputFile, , NewInfoHead
-                                
-                                'Write data
-                                Put OutputFile, , data
-                            End If
-                            
-                            'Read next OldResource
-                            If Not ReadNext_InfoHead(OldResourceFile, OldFileHead, OldInfoHead, OldReadFiles) Then
-                                Exit Do
-                            End If
-                            
-                            'Read next NewResource
-                            If Not ReadNext_InfoHead(NewResourceFile, NewFileHead, NewInfoHead, NewReadFiles) Then
-                                'Reread last OldInfoHead
-                                OldReadFiles = OldReadFiles - 1
-                                Exit Do
-                            End If
-                            
-                            'Update
-                            If Not prgBar Is Nothing Then prgBar.value = prgBar.value + 2
-                        
-                        ElseIf OldInfoHead.strFileName < NewInfoHead.strFileName Then
-                            
-                            'File was deleted
-                            Instruction = PatchInstruction.Delete_File
-                            Put OutputFile, , Instruction
-                            Put OutputFile, , OldInfoHead
-                            
-                            'Read next OldResource
-                            If Not ReadNext_InfoHead(OldResourceFile, OldFileHead, OldInfoHead, OldReadFiles) Then
-                                'Reread last NewInfoHead
-                                NewReadFiles = NewReadFiles - 1
-                                Exit Do
-                            End If
-                            
-                            'Update
-                            If Not prgBar Is Nothing Then prgBar.value = prgBar.value + 1
-                        
-                        Else
-                            
-                            'New file
-                            Instruction = PatchInstruction.Create_File
-                            Put OutputFile, , Instruction
-                            Put OutputFile, , NewInfoHead
-                                     
-                            'Get file data
-                            Call Get_File_RawData(NewResourcePath, NewInfoHead, data, Modo)
-                            
-                            'Write data
-                            Put OutputFile, , data
-                            
-                            'Read next NewResource
-                            If Not ReadNext_InfoHead(NewResourceFile, NewFileHead, NewInfoHead, NewReadFiles) Then
-                                'Reread last OldInfoHead
-                                OldReadFiles = OldReadFiles - 1
-                                Exit Do
-                            End If
-                            
-                            'Update
-                            If Not prgBar Is Nothing Then prgBar.value = prgBar.value + 1
-                        End If
-                        
-                        DoEvents
-                    Loop
-                
-                Else
-                    'if at least one is empty
-                    OldReadFiles = 0
-                    NewReadFiles = 0
-                End If
-                
-                'Read everything?
-                While ReadNext_InfoHead(OldResourceFile, OldFileHead, OldInfoHead, OldReadFiles)
-                    'Delete file
-                    Instruction = PatchInstruction.Delete_File
-                    Put OutputFile, , Instruction
-                    Put OutputFile, , OldInfoHead
-                    
-                    'Update
-                    If Not prgBar Is Nothing Then prgBar.value = prgBar.value + 1
-                    DoEvents
-                Wend
-                
-                'Read everything?
-                While ReadNext_InfoHead(NewResourceFile, NewFileHead, NewInfoHead, NewReadFiles)
-                    'Create file
-                    Instruction = PatchInstruction.Create_File
-                    Put OutputFile, , Instruction
-                    Put OutputFile, , NewInfoHead
-                    
-                    'Get file data
-                    Call Get_File_RawData(NewResourcePath, NewInfoHead, data, Modo)
-                    'Write data
-                    Put OutputFile, , data
-                    
-                    'Update
-                    If Not prgBar Is Nothing Then prgBar.value = prgBar.value + 1
-                    DoEvents
-                Wend
-            
-            'Close the patch file
-            Close OutputFile
-        
-        'Close the new binary file
-        Close NewResourceFile
+    'Extract file from the binary file
     
-    'Close the old binary file
-    Close OldResourceFile
+    'Resize the byte data array
+    ReDim bytArr(InfoHead.lngFileSize - 1)
     
-    Make_Patch = True
+    'Get the data
+    Get Handle, InfoHead.lngFileStart, bytArr
+    
+    'Decompress all data
+    Decompress_Data bytArr, InfoHead.lngFileSizeUncompressed
+        
+    'Close the binary file
+    Close Handle
+            
+    Extract_File_Ex = True
 Exit Function
 
-ErrHandler:
-    Close OutputFile
-    Close NewResourceFile
-    Close OldResourceFile
+errhandler:
+    Close Handle
+    Erase bytArr
     
-    Call MsgBox(Replace$(JsonLanguage.Item("ERROR_CREAR_PARCHE").Item("TEXTO"), "VAR_ERROR", Err.number & " : " & Err.Description), vbOKOnly, JsonLanguage.Item("Error").Item("TEXTO"))
 End Function
 
-''
-' Follows patches instructions to update a resource file.
-'
-' @param    ResourcePath The reource file folder.
-' @param    PatchPath The patch file folder.
-' @param    PrgBar The control that shows the process state.
-'
-' @return   True if no error occurred.
-Public Function Apply_Patch(ByRef ResourcePath As String, ByRef PatchPath As String, ByRef prgBar As ProgressBar, Optional Modo As Byte = 0) As Boolean
-'*****************************************************************
-'Author: Nicolas Matias Gonzalez (NIGO)
-'Last Modify Date: 17/07/2012 - ^[GS]^
-'Follows patches instructions to update a resource file
-'*****************************************************************
-    Dim ResourceFile As Integer
-    Dim ResourceFilePath As String
-    Dim FileHead As FILEHEADER
-    Dim InfoHead As INFOHEADER
-    Dim ResourceReadFiles As Long
-    Dim EOResource As Boolean
-
-    Dim PatchFile As Integer
-    Dim PatchFilePath As String
-    Dim PatchFileHead As FILEHEADER
-    Dim PatchInfoHead As INFOHEADER
-    Dim Instruction As Byte
-    Dim OldResourceVersion As Long
-
-    Dim OutputFile As Integer
-    Dim OutputFilePath As String
-    Dim data() As Byte
-    Dim WrittenFiles As Long
-    Dim DataOutputPos As Long
-
-On Local Error GoTo ErrHandler
-
-    If Modo = 0 Then
-        ResourceFilePath = ResourcePath & GRH_RESOURCE_FILE
-        PatchFilePath = PatchPath & GRH_PATCH_FILE
-        OutputFilePath = ResourcePath & GRH_RESOURCE_FILE & "tmp"
-    ElseIf Modo = 1 Then
-        ResourceFilePath = ResourcePath & MAPS_RESOURCE_FILE
-        PatchFilePath = PatchPath & MAPS_PATCH_FILE
-        OutputFilePath = ResourcePath & MAPS_RESOURCE_FILE & "tmp"
-    End If
+Public Function File_Find(ByVal resource_file_path As String, ByVal file_name As String) As INFOHEADER
+'**************************************************************
+'Author: Juan Martín Sotuyo Dodero
+'Last Modify Date: 5/04/2005
+'Looks for a compressed file in a resource file. Uses binary search ;)
+'**************************************************************
+On Error GoTo errhandler
+    Dim max As Integer  'Max index
+    Dim min As Integer  'Min index
+    Dim mid As Integer  'Middle index
+    Dim file_handler As Integer
+    Dim file_head As FILEHEADER
+    Dim info_head As INFOHEADER
     
-    'Open the old binary file
-    ResourceFile = FreeFile()
-    Open ResourceFilePath For Binary Access Read Lock Write As ResourceFile
+    'Fill file name with spaces for compatibility
+    If Len(file_name) < Len(info_head.strFileName) Then _
+        file_name = file_name & Space$(Len(info_head.strFileName) - Len(file_name))
+    
+    'Open resource file
+    file_handler = FreeFile
+    Open resource_file_path For Binary Access Read Lock Write As file_handler
+    
+    'Get file head
+    Get file_handler, 1, file_head
+    
+    min = 1
+    max = file_head.intNumFiles
+    
+    Do While min <= max
+        mid = (min + max) / 2
         
-        'Read the old FileHeader
-        Get ResourceFile, , FileHead
-        'Check the file for validity
-        If LOF(ResourceFile) <> FileHead.lngFileSize Then
-            Call MsgBox(JsonLanguage.Item("ERROR_ARCHIVO_CORRUPTO").Item("TEXTO") & ": " & ResourceFilePath, , JsonLanguage.Item("Error").Item("TEXTO"))
-            Close ResourceFile
+        'Get the info header of the appropiate compressed file
+        Get file_handler, CLng(Len(file_head) + CLng(Len(info_head)) * CLng((mid - 1)) + 1), info_head
+                
+        If file_name < info_head.strFileName Then
+            If max = mid Then
+                max = max - 1
+            Else
+                max = mid
+            End If
+        ElseIf file_name > info_head.strFileName Then
+            If min = mid Then
+                min = min + 1
+            Else
+                min = mid
+            End If
+        Else
+            'Copy info head
+            File_Find = info_head
+            
+            'Close file and exit
+            Close file_handler
             Exit Function
         End If
-        
-        'Open the patch file
-        PatchFile = FreeFile()
-        Open PatchFilePath For Binary Access Read Lock Write As PatchFile
-            
-            'Get previous file version
-            Get PatchFile, , OldResourceVersion
-            
-            'Check the file version
-            If OldResourceVersion <> FileHead.lngFileVersion Then
-                Call MsgBox(JsonLanguage.Item("ERROR_VERSIONES_RECURSOS").Item("TEXTO"), , JsonLanguage.Item("Error").Item("TEXTO"))
-                Close ResourceFile
-                Close PatchFile
-                Exit Function
-            End If
-            
-            'Read the new FileHeader
-            Get PatchFile, , PatchFileHead
-            
-            'Destroy file if it previuosly existed
-            If FileExist(OutputFilePath, vbNormal) Then Call Kill(OutputFilePath)
-            
-            'Open the patch file
-            OutputFile = FreeFile()
-            Open OutputFilePath For Binary Access Read Write As OutputFile
-                
-                'Save the file header
-                Put OutputFile, , PatchFileHead
-  
-                If Not prgBar Is Nothing Then
-                    prgBar.value = 0
-                    prgBar.Max = PatchFileHead.lngNumFiles + 1
-                End If
-                
-                'Update
-                DataOutputPos = Len(FileHead) + Len(InfoHead) * PatchFileHead.lngNumFiles + 1
-                
-                'Process loop
-                While Loc(PatchFile) < LOF(PatchFile)
-                    
-                    'Get the instruction
-                    Get PatchFile, , Instruction
-                    'Get the InfoHead
-                    Get PatchFile, , PatchInfoHead
-                    
-                    Do
-                        EOResource = Not ReadNext_InfoHead(ResourceFile, FileHead, InfoHead, ResourceReadFiles)
-                        
-                        'Comparison is performed among encrypted names for ordering issues
-                        If Not EOResource And InfoHead.strFileName < PatchInfoHead.strFileName Then
-                            
-                            'GetData and update InfoHead
-                            Call Get_File_RawData(ResourcePath, InfoHead, data, Modo)
-                            InfoHead.lngFileStart = DataOutputPos
-                                           
-                            'Save file!
-                            Put OutputFile, Len(FileHead) + Len(InfoHead) * WrittenFiles + 1, InfoHead
-                            Put OutputFile, DataOutputPos, data
-                            
-                            'Update
-                            DataOutputPos = DataOutputPos + UBound(data) + 1
-                            WrittenFiles = WrittenFiles + 1
-                            If Not prgBar Is Nothing Then prgBar.value = WrittenFiles
-                        Else
-                            Exit Do
-                        End If
-                    Loop
-                    
-                    Select Case Instruction
-                        'Delete
-                        Case PatchInstruction.Delete_File
-                            If InfoHead.strFileName <> PatchInfoHead.strFileName Then
-                                Err.Description = JsonLanguage.Item("ERROR_VERSIONES_RECURSOS").Item("TEXTO")
-                                GoTo ErrHandler
-                            End If
-                        
-                        'Create
-                        Case PatchInstruction.Create_File
-                            If (InfoHead.strFileName > PatchInfoHead.strFileName) Or EOResource Then
-                                
-                                'Get file data
-                                ReDim data(PatchInfoHead.lngFileSize - 1)
-                                Get PatchFile, , data
-                                
-                                'Save it
-                                Put OutputFile, Len(FileHead) + Len(InfoHead) * WrittenFiles + 1, PatchInfoHead
-                                Put OutputFile, DataOutputPos, data
-                                
-                                'Reanalize last Resource InfoHead
-                                EOResource = False
-                                ResourceReadFiles = ResourceReadFiles - 1
-                                
-                                'Update
-                                DataOutputPos = DataOutputPos + UBound(data) + 1
-                                WrittenFiles = WrittenFiles + 1
-                                If Not prgBar Is Nothing Then prgBar.value = WrittenFiles
-                            Else
-                                Err.Description = JsonLanguage.Item("ERROR_VERSIONES_RECURSOS").Item("TEXTO")
-                                GoTo ErrHandler
-                            End If
-                        
-                        'Modify
-                        Case PatchInstruction.Modify_File
-                            If InfoHead.strFileName = PatchInfoHead.strFileName Then
-                            
-
-                                'Get file data
-                                ReDim data(PatchInfoHead.lngFileSize - 1)
-                                Get PatchFile, , data
-                                             
-                                'Save it
-                                Put OutputFile, Len(FileHead) + Len(InfoHead) * WrittenFiles + 1, PatchInfoHead
-                                Put OutputFile, DataOutputPos, data
-                                
-                                'Update
-                                DataOutputPos = DataOutputPos + UBound(data) + 1
-                                WrittenFiles = WrittenFiles + 1
-                                If Not prgBar Is Nothing Then prgBar.value = WrittenFiles
-                            Else
-                                Err.Description = JsonLanguage.Item("ERROR_VERSIONES_RECURSOS").Item("TEXTO")
-                                GoTo ErrHandler
-                            End If
-                    End Select
-                    
-                    DoEvents
-                Wend
-                
-                'Read everything?
-                While ReadNext_InfoHead(ResourceFile, FileHead, InfoHead, ResourceReadFiles)
-
-                    'GetData and update InfoHeader
-                    Call Get_File_RawData(ResourcePath, InfoHead, data, Modo)
-                    InfoHead.lngFileStart = DataOutputPos
-                    
-                    'Save file!
-                    Put OutputFile, Len(FileHead) + Len(InfoHead) * WrittenFiles + 1, InfoHead
-                    Put OutputFile, DataOutputPos, data
-                    
-                    'Update
-                    DataOutputPos = DataOutputPos + UBound(data) + 1
-                    WrittenFiles = WrittenFiles + 1
-                    If Not prgBar Is Nothing Then prgBar.value = WrittenFiles
-                    DoEvents
-                Wend
-            
-            'Close the patch file
-            Close OutputFile
-        
-        'Close the new binary file
-        Close PatchFile
+    Loop
     
-    'Close the old binary file
-    Close ResourceFile
+errhandler:
+    'Close file
+    Close file_handler
+    File_Find.strFileName = ""
+    File_Find.lngFileSize = 0
+End Function
+
+Public Function General_Get_Temp_Dir() As String
+'**************************************************************
+'Author: Augusto José Rando
+'Last Modify Date: 6/11/2005
+'Gets windows temporary directory
+'**************************************************************
+   Dim s As String
+   Dim c As Long
+   s = Space$(MAX_LENGTH)
+   c = GetTempPath(MAX_LENGTH, s)
+   If c > 0 Then
+       If c > Len(s) Then
+           s = Space$(c + 1)
+           c = GetTempPath(MAX_LENGTH, s)
+       End If
+   End If
+   General_Get_Temp_Dir = IIf(c > 0, Left$(s, c), "")
+End Function
+
+Public Sub General_Quick_Sort(ByRef SortArray As Variant, ByVal first As Long, ByVal last As Long)
+'**************************************************************
+'Author: juan Martín Sotuyo Dodero
+'Last Modify Date: 3/03/2005
+'Good old QuickSort algorithm :)
+'**************************************************************
+    Dim Low As Long, High As Long
+    Dim temp As Variant
+    Dim List_Separator As Variant
     
-    'Check integrity
-    If (PatchFileHead.lngNumFiles = WrittenFiles) Then
+    Low = first
+    High = last
+    List_Separator = SortArray((first + last) / 2)
+    Do While (Low <= High)
+        Do While SortArray(Low) < List_Separator
+            Low = Low + 1
+        Loop
+        Do While SortArray(High) > List_Separator
+            High = High - 1
+        Loop
+        If Low <= High Then
+            temp = SortArray(Low)
+            SortArray(Low) = SortArray(High)
+            SortArray(High) = temp
+            Low = Low + 1
+            High = High - 1
+        End If
+    Loop
+    If first < High Then General_Quick_Sort SortArray, first, High
+    If Low < last Then General_Quick_Sort SortArray, Low, last
+End Sub
 
-            'Replace File
-            Call Kill(ResourceFilePath)
-            Name OutputFilePath As ResourceFilePath
+Public Function General_Drive_Get_Free_Bytes(ByVal DriveName As String) As Currency
+'**************************************************************
+'Author: Juan Martín Sotuyo Dodero
+'Last Modify Date: 6/07/2004
+'
+'**************************************************************
+    Dim RetVal As Long
+    Dim FB As Currency
+    Dim BT As Currency
+    Dim FBT As Currency
+    
+    RetVal = GetDiskFreeSpace(Left(DriveName, 2), FB, BT, FBT)
+    
+    General_Drive_Get_Free_Bytes = FB * 10000 'convert result to actual size in bytes
+End Function
 
+'************************Extracion de recursos compacta***************************************
+
+Public Function Get_Extract(ByVal file_type As resource_file_type, ByVal file_name As String) As String
+    Extract_File file_type, App.Path & "\RECURSOS", LCase$(file_name), Windows_Temp_Dir, False
+    Get_Extract = Windows_Temp_Dir & LCase$(file_name)
+End Function
+
+Public Function General_Load_Picture_From_Resource(ByVal picture_file_name As String) As IPicture
+On Error GoTo ErrorHandler
+
+    Dim bytArr() As Byte
+    
+    If Extract_File_Memory(Interface, App.Path & "\Recursos\", picture_file_name, bytArr()) Then
+        Set General_Load_Picture_From_Resource = General_Load_Picture_From_BArray(bytArr())
     Else
-        Err.Description = JsonLanguage.Item("ERROR_LEER_PARCHE").Item("TEXTO")
-        GoTo ErrHandler
+        Set General_Load_Picture_From_Resource = Nothing
     End If
     
-    Apply_Patch = True
-Exit Function
+    Exit Function
 
-ErrHandler:
-    Close OutputFile
-    Close PatchFile
-    Close ResourceFile
-    'Destroy file if created
-    If FileExist(OutputFilePath, vbNormal) Then Call Kill(OutputFilePath)
-    
-    Call MsgBox(Replace$(JsonLanguage.Item("ERROR_CREAR_PARCHE").Item("TEXTO"), "VAR_ERROR", Err.number & " : " & Err.Description), vbOKOnly, JsonLanguage.Item("Error").Item("TEXTO"))
+ErrorHandler:
 End Function
 
-Private Function AlignScan(ByVal inWidth As Long, ByVal inDepth As Integer) As Long
-'*****************************************************************
-'Author: Unknown
-'Last Modify Date: Unknown
-'*****************************************************************
-    AlignScan = (((inWidth * inDepth) + &H1F) And Not &H1F&) \ &H8
-End Function
+Public Function General_Load_Picture_From_BArray(ByRef bytArr() As Byte) As IPicture
 
-''
-' Retrieves the version number of a given resource file.
-'
-' @param    ResourceFilePath The resource file complete path.
-'
-' @return   The version number of the given file.
+On Error GoTo ErrorHandler
 
-Public Function GetVersion(ByVal ResourceFilePath As String) As Long
-'*****************************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modify Date: 11/23/2008
-'
-'*****************************************************************
-    Dim ResourceFile As Integer
-    Dim FileHead As FILEHEADER
-    
-    ResourceFile = FreeFile()
-    Open ResourceFilePath For Binary Access Read Lock Write As ResourceFile
-        'Extract the FILEHEADER
-        Get ResourceFile, 1, FileHead
+    Dim LowerBound As Long
+    Dim ByteCount As Long
+    Dim hMem As Long
+    Dim lpMem As Long
+    Dim IID_IPicture(15) As Long
+    Dim istm As stdole.IUnknown
         
-    Close ResourceFile
+    LowerBound = LBound(bytArr)
+    ByteCount = (UBound(bytArr) - LowerBound) + 1
+    hMem = GlobalAlloc(&H2, ByteCount)
+    If hMem <> 0 Then
+        lpMem = GlobalLock(hMem)
+        If lpMem <> 0 Then
+            MoveMemory ByVal lpMem, bytArr(LowerBound), ByteCount
+            Call GlobalUnlock(hMem)
+            If CreateStreamOnHGlobal(hMem, 1, istm) = 0 Then
+                If CLSIDFromString(StrPtr("{7BF80980-BF32-101A-8BBB-00AA00300CAB}"), IID_IPicture(0)) = 0 Then
+                    Call OleLoadPicture(ByVal ObjPtr(istm), ByteCount, 0, IID_IPicture(0), General_Load_Picture_From_BArray)
+                End If
+            End If
+        End If
+    End If
     
-    GetVersion = FileHead.lngFileVersion
+    Exit Function
+
+ErrorHandler:
+
 End Function
 
+'*************************************************************************************************

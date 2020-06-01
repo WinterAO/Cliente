@@ -621,9 +621,9 @@ Private Sub Form_Load()
     ' TODO: Traducir los textos de las imagenes via labels en visual basic, para que en el futuro si se quiere se pueda traducir a mas idiomas
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
     If Language = "spanish" Then
-      Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaConfigurarTeclas_spanish.jpg")
+      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaConfigurarTeclas_spanish.jpg")
     Else
-      Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaConfigurarTeclas_english.jpg")
+      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaConfigurarTeclas_english.jpg")
     End If
     
     Call LoadTextsForm

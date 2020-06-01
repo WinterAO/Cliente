@@ -193,17 +193,17 @@ Private Sub Form_Load()
             ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
             ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
             If Language = "spanish" Then
-            Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaPartyLider_spanish.jpg")
+            Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaPartyLider_spanish.jpg")
             Else
-            Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaPartyLider_english.jpg")
+            Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaPartyLider_english.jpg")
             End If
 
 110         Me.Height = LEADER_FORM_HEIGHT
         Else
             If Language = "spanish" Then
-            Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaPartyMiembro_spanish.jpg")
+            Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaPartyMiembro_spanish.jpg")
             Else
-            Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaPartyMiembro_english.jpg")
+            Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaPartyMiembro_english.jpg")
             End If
 
 114         Me.Height = NORMAL_FORM_HEIGHT
@@ -227,7 +227,7 @@ End Sub
 Private Sub LoadButtons()
     Dim GrhPath As String
     
-    GrhPath = Game.path(Interfaces)
+    GrhPath = Carga.Path(Interfaces)
 
     Set cBotonAgregar = New clsGraphicalButton
     Set cBotonCerrar = New clsGraphicalButton
@@ -368,7 +368,7 @@ Private Sub SendTxt_Change()
 'Last Modify Date: 03/10/2009
 '**************************************************************
     If Len(SendTxt.Text) > 160 Then
-        sPartyChat = JsonLanguage.Item("MENSAJE_SOY_CHEATER").Item("TEXTO")
+        sPartyChat = JsonLanguage.item("MENSAJE_SOY_CHEATER").item("TEXTO")
     Else
         'Make sure only valid chars are inserted (with Shift + Insert they can paste illegal chars)
         Dim i As Long

@@ -492,7 +492,7 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaDetallesClan.jpg")
+    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaDetallesClan.jpg")
     
     Call LoadButtons
     
@@ -501,7 +501,7 @@ End Sub
 Private Sub LoadButtons()
     Dim GrhPath As String
     
-    GrhPath = Game.path(Interfaces)
+    GrhPath = Carga.Path(Interfaces)
 
     Set cBotonGuerra = New clsGraphicalButton
     Set cBotonAlianza = New clsGraphicalButton
@@ -556,13 +556,13 @@ End Sub
 
 Private Sub imgOfrecerAlianza_Click()
     frmCommet.Nombre = Nombre.Caption
-    frmCommet.T = TIPO.ALIANZA
+    frmCommet.t = tipo.ALIANZA
     Call frmCommet.Show(vbModal, frmGuildBrief)
 End Sub
 
 Private Sub imgOfrecerPaz_Click()
     frmCommet.Nombre = Nombre.Caption
-    frmCommet.T = TIPO.PAZ
+    frmCommet.t = tipo.PAZ
     Call frmCommet.Show(vbModal, frmGuildBrief)
 End Sub
 

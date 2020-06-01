@@ -291,9 +291,9 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Scroll.Value = 0
+    Scroll.value = 0
     
-    Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaArtesano.jpg")
+    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaArtesano.jpg")
     
     Call LoadButtons
     
@@ -313,7 +313,7 @@ Private Sub LoadButtons()
     Dim GrhPath As String
     Dim Index   As Long
 
-    GrhPath = Game.path(Interfaces)
+    GrhPath = Carga.Path(Interfaces)
 
     Set picRecuadroItem = LoadPicture(GrhPath & "RecuadroItemsArtesano.jpg")
     Set picRecuadroReqItems = LoadPicture(GrhPath & "RecuadroObjArtesano.jpg")
@@ -346,7 +346,7 @@ Private Sub Construir(ByVal Index As Integer)
 
     Dim ItemIndex As Integer
 
-    If Scroll.Visible = True Then ItemIndex = Scroll.Value
+    If Scroll.Visible = True Then ItemIndex = Scroll.value
     ItemIndex = ItemIndex + Index
 
     Call WriteCraftsmanCreate(ItemIndex)
@@ -376,7 +376,7 @@ Public Sub HideExtraControls(ByVal NumItems As Integer)
     
     If NumItems > MAX_LIST_ITEMS Then
         Scroll.Visible = True
-        Scroll.Max = NumItems - MAX_LIST_ITEMS
+        Scroll.max = NumItems - MAX_LIST_ITEMS
     Else
         Scroll.Visible = False
     End If
@@ -401,7 +401,7 @@ Public Sub RenderList(ByVal Inicio As Integer)
     On Error Resume Next
 
     Dim i        As Integer
-    Dim J        As Integer
+    Dim j        As Integer
     Dim NumItems As Integer
     
     NumItems = UBound(ObjArtesano)
@@ -415,12 +415,12 @@ Public Sub RenderList(ByVal Inicio As Integer)
             
                 ' Agrego el item
                 Call RenderItem(picItem(i), .GrhIndex)
-                picItem(i).ToolTipText = .Name
+                picItem(i).ToolTipText = .name
 
                 ' Items requeridos
-                For J = 1 To UBound(.ItemsCrafteo)
-                    Call InvObjArtesano(i).SetItem(J, .ItemsCrafteo(J).ObjIndex, .ItemsCrafteo(J).Amount, 0, .ItemsCrafteo(J).GrhIndex, 0, 0, 0, 0, 0, 0, .ItemsCrafteo(J).Name)
-                Next J
+                For j = 1 To UBound(.ItemsCrafteo)
+                    Call InvObjArtesano(i).SetItem(j, .ItemsCrafteo(j).objindex, .ItemsCrafteo(j).Amount, 0, .ItemsCrafteo(j).GrhIndex, 0, 0, 0, 0, 0, 0, .ItemsCrafteo(j).name)
+                Next j
                 
             End With
             
@@ -464,7 +464,7 @@ Private Sub imgConstruir3_Click()
 End Sub
 
 Private Sub Scroll_Change()
-    Call RenderList(Scroll.Value + 1)
+    Call RenderList(Scroll.value + 1)
 End Sub
 
 

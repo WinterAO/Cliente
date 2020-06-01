@@ -106,13 +106,13 @@ Option Explicit
 Private clsFormulario As clsFormMovementManager
 
 Private Sub cCancelQuit_Click()
-    Call Audio.PlayWave(SND_CLICK)
+    Call Sound.Sound_Play(SND_CLICK)
     Set clsFormulario = Nothing
     Unload Me
 End Sub
 
 Private Sub cRegresar_Click()
-    Call Audio.PlayWave(SND_CLICK)
+    Call Sound.Sound_Play(SND_CLICK)
     
     Set clsFormulario = Nothing
     
@@ -134,7 +134,7 @@ Private Sub cRegresar_Click()
 End Sub
 
 Private Sub cSalir_Click()
-    Call Audio.PlayWave(SND_CLICK)
+    Call Sound.Sound_Play(SND_CLICK)
     Set clsFormulario = Nothing
     Call CloseClient
 End Sub
@@ -151,7 +151,7 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     Call clsFormulario.Initialize(Me)
     
-    Me.Picture = LoadPicture(Game.path(Interfaces) & "frmCerrar.jpg")
+    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "frmCerrar.jpg")
     'Call LoadAOCustomControlsPictures(Me)
     'Todo: Poner la carga de botones como en el frmCambiaMotd.frm para mantener coherencia con el resto de la aplicacion
     'y poder borrar los frx de este archivo
