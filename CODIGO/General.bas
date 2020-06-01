@@ -297,7 +297,6 @@ Private Sub CheckKeys()
 
     'Si esta chateando, no mover el pj, tanto para chat de clanes y normal
     If frmMain.SendTxt.Visible Then Exit Sub
-    If frmMain.SendCMSTXT.Visible Then Exit Sub
 
     'Don't allow any these keys during movement..
     If UserMoving = 0 Then
@@ -734,7 +733,7 @@ Private Sub LoadInitialConfig()
                             True, False, False, rtfLeft)
     
     'Inicializamos el inventario grafico
-    Call Inventario.Initialize(DirectD3D8, frmMain.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call Inventario.Initialize(DirectD3D8, frmMain.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     'Set cKeys = New Collection
     Call AddtoRichTextBox(frmCargando.status, _

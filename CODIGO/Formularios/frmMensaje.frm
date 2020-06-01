@@ -40,6 +40,28 @@ Begin VB.Form frmMensaje
       Width           =   3495
       WordWrap        =   -1  'True
    End
+   Begin VB.Menu mnuMensaje 
+      Caption         =   "Mensaje"
+      Visible         =   0   'False
+      Begin VB.Menu mnuNormal 
+         Caption         =   "Normal"
+      End
+      Begin VB.Menu mnuGritar 
+         Caption         =   "Gritar"
+      End
+      Begin VB.Menu mnuPrivado 
+         Caption         =   "Privado"
+      End
+      Begin VB.Menu mnuClan 
+         Caption         =   "Clan"
+      End
+      Begin VB.Menu mnuGrupo 
+         Caption         =   "Grupo"
+      End
+      Begin VB.Menu mnuGlobal 
+         Caption         =   "Global"
+      End
+   End
 End
 Attribute VB_Name = "frmMensaje"
 Attribute VB_GlobalNameSpace = False
@@ -135,4 +157,130 @@ End Sub
 
 Private Sub msg_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     LastButtonPressed.ToggleToNormal
+End Sub
+
+Public Sub PopupMenuMensaje()
+    
+    Select Case SendingType
+        Case 1
+            mnuNormal.Checked = True
+            mnuGritar.Checked = False
+            mnuPrivado.Checked = False
+            mnuClan.Checked = False
+            mnuGrupo.Checked = False
+            mnuGlobal.Checked = False
+            
+        Case 2
+            mnuNormal.Checked = False
+            mnuGritar.Checked = True
+            mnuPrivado.Checked = False
+            mnuClan.Checked = False
+            mnuGrupo.Checked = False
+            mnuGlobal.Checked = False
+            
+        Case 3
+            mnuNormal.Checked = False
+            mnuGritar.Checked = False
+            mnuPrivado.Checked = True
+            mnuClan.Checked = False
+            mnuGrupo.Checked = False
+            mnuGlobal.Checked = False
+            
+        Case 4
+            mnuNormal.Checked = False
+            mnuGritar.Checked = False
+            mnuPrivado.Checked = False
+            mnuClan.Checked = True
+            mnuGrupo.Checked = False
+            mnuGlobal.Checked = False
+            
+        Case 5
+            mnuNormal.Checked = False
+            mnuGritar.Checked = False
+            mnuPrivado.Checked = False
+            mnuClan.Checked = False
+            mnuGrupo.Checked = True
+            mnuGlobal.Checked = False
+            
+        Case 6
+            mnuNormal.Checked = False
+            mnuGritar.Checked = False
+            mnuPrivado.Checked = False
+            mnuClan.Checked = False
+            mnuGrupo.Checked = False
+            mnuGlobal.Checked = True
+            
+    End Select
+    
+    PopupMenu mnuMensaje
+    
+End Sub
+
+'[Lorwik]
+'Moví este menú acá para que se pueda ver el caption del
+'frmMain sin que se tenga que ver el ControlBox
+
+Private Sub mnuNormal_Click()
+
+    SendingType = 1
+    If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+    
+    frmMain.lblChat.Caption = "1. Normal"
+    frmMain.lblChat.Refresh
+
+End Sub
+
+Private Sub mnuGritar_click()
+
+    SendingType = 2
+    If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+
+    frmMain.lblChat.Caption = "2. Gritar"
+    frmMain.lblChat.Refresh
+End Sub
+
+Private Sub mnuPrivado_click()
+
+    sndPrivateTo = InputBox("Nombre del destinatario:", vbNullString)
+    
+    If sndPrivateTo <> vbNullString Then
+        SendingType = 3
+        If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+    Else
+        MsgBox "¡Escribe un nombre."
+    End If
+    
+    frmMain.lblChat.Caption = "3. Privado"
+    frmMain.lblChat.Refresh
+
+End Sub
+
+Private Sub mnuClan_click()
+
+    SendingType = 4
+    If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+    
+    frmMain.lblChat.Caption = "4. Clan"
+    frmMain.lblChat.Refresh
+
+End Sub
+
+Private Sub mnuGrupo_click()
+
+    SendingType = 5
+    If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+    
+    frmMain.lblChat.Caption = "5. Grupo"
+    frmMain.lblChat.Refresh
+
+End Sub
+
+Private Sub mnuGlobal_Click()
+
+    SendingType = 6
+    If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+    
+    frmMain.lblChat.Caption = "6. Global"
+    frmMain.lblChat.Refresh
+
 End Sub

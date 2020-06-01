@@ -786,6 +786,8 @@ Public SkillsNames(1 To NUMSKILLS) As String
 
 Public UserAtributos(1 To NUMATRIBUTOS) As Byte
 Public AtributosNames(1 To NUMATRIBUTOS) As String
+Public SendingType As Byte
+Public sndPrivateTo As String
 
 Public Ciudades(1 To NUMCIUDADES) As String
 
