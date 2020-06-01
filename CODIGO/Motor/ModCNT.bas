@@ -137,6 +137,16 @@ Public Sub MostrarConnect(Optional ByVal Mostrar As Boolean = False)
     If frmConnect.txtPasswd.Visible = False Then frmConnect.txtPasswd.Visible = True
     If frmConnect.txtCrearPJNombre.Visible Then frmConnect.txtCrearPJNombre.Visible = False
     
+    If CBool(GetVar(Carga.Path(Init) & "Config.ini", "LOGIN", "Remember")) = True Then
+        frmConnect.txtNombre = GetVar(Carga.Path(Init) & "Config.ini", "LOGIN", "UserName")
+        frmConnect.txtPasswd = Cripto.AesDecryptString(GetVar(Carga.Path(Init) & "Config.ini", "LOGIN", "Password"), AES_PASSWD)
+        frmConnect.chkRecordar.Checked = True
+    End If
+    
+    frmConnect.txtNombre.SetFocus
+    frmConnect.txtNombre.SelStart = Len(frmConnect.txtNombre.Text)
+    TextSelected = 1
+    
     'Sorteamos el mapa a mostrar
     'Nota el mapa 1 es para el crear pj, el 2 para las cuentas
     SelectConnectMap = RandomNumber(3, NumConnectMap)
@@ -200,6 +210,7 @@ Public Sub MostrarCreacion(Optional ByVal Mostrar As Boolean = False)
     'Focus al nombre del PJ y lo reseteamos
     frmConnect.txtCrearPJNombre.SetFocus
     frmConnect.txtCrearPJNombre.Text = vbNullString
+    frmConnect.txtCrearPJNombre.SelStart = Len(frmConnect.txtCrearPJNombre.Text)
     
     'Ponemos el mapa de cuentas
     SelectConnectMap = 1
@@ -569,11 +580,13 @@ Debug.Print TX & " - " & TY
         
             If (TX >= 443 And TX <= 605) And (TY >= 372 And TY <= 384) Then
                 frmConnect.txtNombre.SetFocus
+                frmConnect.txtNombre.SelStart = Len(frmConnect.txtNombre.Text)
                 TextSelected = 1
             End If
             
             If (TX >= 443 And TX <= 605) And (TY >= 405 And TY <= 424) Then
                 frmConnect.txtPasswd.SetFocus
+                frmConnect.txtPasswd.SelStart = Len(frmConnect.txtPasswd.Text)
                 TextSelected = 2
             End If
             
@@ -722,8 +735,10 @@ Debug.Print TX & " - " & TY
                 If botonCrear = False Then Call btnCrear
                 
             'Nombre del PJ
-            If (TX >= 379 And TX <= 625) And (TY >= 659 And TY <= 689) Then _
+            If (TX >= 379 And TX <= 625) And (TY >= 659 And TY <= 689) Then
                 frmConnect.txtCrearPJNombre.SetFocus
+                frmConnect.txtCrearPJNombre.SelStart = Len(frmConnect.txtCrearPJNombre.Text)
+            End If
                 
             'Cabezas
             If (TX >= 192 And TX <= 228) And (TY >= 600 And TY <= 628) Then Call btnHeadPJ(1) 'Menos

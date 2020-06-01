@@ -181,16 +181,6 @@ Private Lector As clsIniManager
 Public MouseX              As Long
 Public MouseY              As Long
 
-Private Sub Form_Activate()
-
-    If CBool(GetVar(Carga.Path(Init) & "Config.ini", "LOGIN", "Remember")) = True Then
-        Me.txtNombre = GetVar(Carga.Path(Init) & "Config.ini", "LOGIN", "UserName")
-        Me.txtPasswd = Cripto.AesDecryptString(GetVar(Carga.Path(Init) & "Config.ini", "LOGIN", "Password"), AES_PASSWD)
-        Me.chkRecordar.Checked = True
-    End If
-
-End Sub
-
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 27 Then
         Call CloseClient
