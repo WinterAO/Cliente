@@ -813,9 +813,9 @@ Begin VB.Form frmMain
       BackStyle       =   0  'Transparent
       Caption         =   "000 X:00 Y: 00"
       BeginProperty Font 
-         Name            =   "Terminal"
-         Size            =   6
-         Charset         =   255
+         Name            =   "Tahoma"
+         Size            =   9
+         Charset         =   0
          Weight          =   700
          Underline       =   0   'False
          Italic          =   0   'False
@@ -825,7 +825,7 @@ Begin VB.Form frmMain
       Height          =   255
       Left            =   12480
       TabIndex        =   3
-      Top             =   11160
+      Top             =   11100
       Width           =   1455
    End
    Begin VB.Image InvEqu 
