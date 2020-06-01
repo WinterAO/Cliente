@@ -145,16 +145,16 @@ Begin VB.Form frmMain
       EndProperty
       ForeColor       =   &H00808080&
       Height          =   360
-      Left            =   360
+      Left            =   150
       MaxLength       =   160
       MultiLine       =   -1  'True
       TabIndex        =   2
       TabStop         =   0   'False
       Text            =   "frmMain.frx":56A8C
       ToolTipText     =   "Chat"
-      Top             =   2400
+      Top             =   1920
       Visible         =   0   'False
-      Width           =   10575
+      Width           =   9255
    End
    Begin VB.TextBox SendCMSTXT 
       Appearance      =   0  'Flat
