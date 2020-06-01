@@ -293,11 +293,11 @@ Private Sub cantidad_Change()
     If ClickNpcInv Then
         If InvComNpc.SelectedItem <> 0 Then
             'El precio, cuando nos venden algo, lo tenemos que redondear para arriba.
-            Label1(1).Caption = "$: " & CalculateSellPrice(NPCInventory(InvComNpc.SelectedItem).Valor, Val(cantidad.Text))  'No mostramos numeros reales
+            Label1(1).Caption = "$: " & CalculateSellPrice(NPCInventory(InvComNpc.SelectedItem).valor, Val(cantidad.Text))  'No mostramos numeros reales
         End If
     Else
         If InvComUsu.SelectedItem <> 0 Then
-            Label1(1).Caption = "$: " & CalculateBuyPrice(Inventario.Valor(InvComUsu.SelectedItem), Val(cantidad.Text))  'No mostramos numeros reales
+            Label1(1).Caption = "$: " & CalculateBuyPrice(Inventario.valor(InvComUsu.SelectedItem), Val(cantidad.Text))  'No mostramos numeros reales
         End If
     End If
 End Sub
@@ -317,7 +317,7 @@ Private Sub Form_Load()
 
     
     'Cargamos la interfase
-    Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaComercio.jpg")
+    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaComercio.jpg")
     
     Call LoadButtons
     Call LoadTextsForm
@@ -342,7 +342,7 @@ End Sub
 
 Private Sub LoadButtons()
     Dim GrhPath As String
-    GrhPath = Game.path(Interfaces)
+    GrhPath = Carga.Path(Interfaces)
     
     'Lo dejamos solo para que no explote, habria que sacar estos LastButtonPressed
     Set LastButtonPressed = New clsGraphicalButton
@@ -408,10 +408,10 @@ Private Sub imgComprar_Click()
     
     If Not IsNumeric(cantidad.Text) Or cantidad.Text = 0 Then Exit Sub
     
-    Call Audio.PlayWave(SND_CLICK)
+    Call Sound.Sound_Play(SND_CLICK)
     
     LasActionBuy = True
-    If UserGLD >= CalculateSellPrice(NPCInventory(InvComNpc.SelectedItem).Valor, Val(cantidad.Text)) Then
+    If UserGLD >= CalculateSellPrice(NPCInventory(InvComNpc.SelectedItem).valor, Val(cantidad.Text)) Then
         Call WriteCommerceBuy(InvComNpc.SelectedItem, Val(cantidad.Text))
     Else
         Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_SIN_ORO_SUFICIENTE").item("TEXTO"), 2, 51, 223, 1, 1)
@@ -433,7 +433,7 @@ Private Sub imgVender_Click()
 
     If Not IsNumeric(cantidad.Text) Or cantidad.Text = 0 Then Exit Sub
     
-    Call Audio.PlayWave(SND_CLICK)
+    Call Sound.Sound_Play(SND_CLICK)
     
     LasActionBuy = False
 
@@ -454,7 +454,7 @@ Private Sub picInvNpc_Click()
     InvComUsu.DeselectItem
     
     Label1(0).Caption = NPCInventory(ItemSlot).name
-    Label1(1).Caption = "$: " & CalculateSellPrice(NPCInventory(ItemSlot).Valor, Val(cantidad.Text)) 'No mostramos numeros reales
+    Label1(1).Caption = "$: " & CalculateSellPrice(NPCInventory(ItemSlot).valor, Val(cantidad.Text)) 'No mostramos numeros reales
     
     If NPCInventory(ItemSlot).Amount <> 0 Then
     
@@ -490,7 +490,7 @@ Private Sub picInvUser_Click()
     InvComNpc.DeselectItem
     
     Label1(0).Caption = Inventario.ItemName(ItemSlot)
-    Label1(1).Caption = "$: " & CalculateBuyPrice(Inventario.Valor(ItemSlot), Val(cantidad.Text)) 'No mostramos numeros reales
+    Label1(1).Caption = "$: " & CalculateBuyPrice(Inventario.valor(ItemSlot), Val(cantidad.Text)) 'No mostramos numeros reales
     
     If Inventario.Amount(ItemSlot) <> 0 Then
     

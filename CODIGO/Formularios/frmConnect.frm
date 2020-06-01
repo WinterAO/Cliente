@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmConnect 
    BackColor       =   &H00E0E0E0&
    BorderStyle     =   0  'None
-   Caption         =   "Argentum Online Libre"
+   Caption         =   "WinterAO Resurrection"
    ClientHeight    =   11520
    ClientLeft      =   0
    ClientTop       =   0
@@ -92,7 +92,7 @@ Begin VB.Form frmConnect
       Height          =   195
       Left            =   17460
       TabIndex        =   1
-      Text            =   "localhost"
+      Text            =   "192.168.1.10"
       Top             =   2160
       Visible         =   0   'False
       Width           =   1575
@@ -183,9 +183,9 @@ Public MouseY              As Long
 
 Private Sub Form_Activate()
 
-    If CBool(GetVar(Game.path(INIT) & "Config.ini", "LOGIN", "Remember")) = True Then
-        Me.txtNombre = GetVar(Game.path(INIT) & "Config.ini", "LOGIN", "UserName")
-        Me.txtPasswd = Cripto.AesDecryptString(GetVar(Game.path(INIT) & "Config.ini", "LOGIN", "Password"), AES_PASSWD)
+    If CBool(GetVar(Carga.Path(Init) & "Config.ini", "LOGIN", "Remember")) = True Then
+        Me.txtNombre = GetVar(Carga.Path(Init) & "Config.ini", "LOGIN", "UserName")
+        Me.txtPasswd = Cripto.AesDecryptString(GetVar(Carga.Path(Init) & "Config.ini", "LOGIN", "Password"), AES_PASSWD)
         Me.chkRecordar.Checked = True
     End If
 

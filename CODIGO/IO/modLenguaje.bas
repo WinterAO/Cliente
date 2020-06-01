@@ -34,15 +34,15 @@ Public Function ObtainOperativeSystemLanguage(ByVal lInfo As Long) As String
     ' Funcion que obtiene el idioma del sistema
     '*******************************************
 
-    Dim Buffer As String, ret As String
+    Dim buffer As String, ret As String
 
-    Buffer = String$(256, 0)
+    buffer = String$(256, 0)
             
-    ret = GetLocaleInfo(LOCALE_USER_DEFAULT, lInfo, Buffer, Len(Buffer))
+    ret = GetLocaleInfo(LOCALE_USER_DEFAULT, lInfo, buffer, Len(buffer))
     
     'Si Ret devuelve 0 es porque fallo la llamada al Api
     If ret > 0 Then
-        ObtainOperativeSystemLanguage = Left$(Buffer, ret - 1)
+        ObtainOperativeSystemLanguage = Left$(buffer, ret - 1)
     Else
         ObtainOperativeSystemLanguage = "No se pudo obtener el idioma del sistema."
 
@@ -57,7 +57,7 @@ Public Sub SetLanguageApplication()
 
     Dim LangFile As String
     
-    Language = GetVar(Game.path(INIT) & "Config.ini", "Parameters", "Language")
+    Language = GetVar(Carga.Path(Init) & "Config.ini", "Parameters", "Language")
     
     ' Si no se especifica el idioma en el archivo de configuracion, se le pregunta si quiere usar castellano
     ' y escribimos el archivo de configuracion con el idioma seleccionado
@@ -68,10 +68,10 @@ Public Sub SetLanguageApplication()
             Language = "english"
         End If
 
-        Call WriteVar(Game.path(INIT) & "Config.ini", "Parameters", "Language", Language)
+        Call WriteVar(Carga.Path(Init) & "Config.ini", "Parameters", "Language", Language)
         'Language = LCase$(ObtainOperativeSystemLanguage(LOCALE_SENGLANGUAGE))
     End If
     
-    LangFile = FileToString(Game.path(Lenguajes) & Language & ".json")
+    LangFile = FileToString(Carga.Path(Lenguajes) & Language & ".json")
     Set JsonLanguage = JSON.parse(LangFile)
 End Sub

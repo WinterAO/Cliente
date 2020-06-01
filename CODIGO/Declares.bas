@@ -46,7 +46,6 @@ Public renderText As String
 Public renderFont As Integer
 Public colorRender As Byte
 Public render_msg(3) As Long
-Public Sonidos As clsSoundMapas
 
 '//Caminata fluida
 Public Movement_Speed As Single
@@ -54,7 +53,7 @@ Public Movement_Speed As Single
 'Objetos publicos
 Public DialogosClanes As clsGuildDlg
 Public Dialogos As clsDialogs
-Public Audio As clsAudio
+Public Sound As clsSoundEngine
 Public Inventario As clsGraphicalInventory
 Public InvBanco(1) As clsGraphicalInventory
 
@@ -79,7 +78,7 @@ Public incomingData As clsByteQueue
 Public outgoingData As clsByteQueue
 
 ''
-'The main timer of the game.
+'The main timer of the Carga.
 Public MainTimer As clsTimer
 
 'Error code
@@ -89,13 +88,39 @@ Public Enum eSockError
    TIME_OUT = 24060
 End Enum
 
+'********************
+'Pasos
+'********************
+Public Enum TipoPaso
+    CONST_BOSQUE = 1
+    CONST_NIEVE = 2
+    CONST_CABALLO = 3
+    CONST_DUNGEON = 4
+    CONST_PISO = 5
+    CONST_DESIERTO = 6
+    CONST_PESADO = 7
+End Enum
+
+Public Type tPaso
+    CantPasos As Byte
+    Wav() As Integer
+End Type
+
+Public Const NUM_PASOS As Byte = 7
+Public Pasos() As tPaso
+'********************
+
 'Sonidos
-Public Const SND_CLICK As String = "click.Wav"
-Public Const SND_PASOS1 As String = "23.Wav"
-Public Const SND_PASOS2 As String = "24.Wav"
-Public Const SND_NAVEGANDO As String = "50.wav"
-Public Const SND_DICE As String = "cupdice.Wav"
-Public Const SND_MSG As String = "530.wav"
+Public Const SND_CLICK As String = 190
+Public Const SND_NAVEGANDO As String = 50
+Public Const SND_MSG As String = 84
+Public Const SND_FUEGO As Integer = 79
+Public Const GRH_FOGATA As Integer = 1521
+
+'Musicas
+Public Const MUS_Inicio As String = "1"
+Public Const MUS_VolverInicio As String = "2"
+Public Const MUS_CrearPersonaje As String = "3"
 
 ' Constantes de intervalo
 Public Enum eIntervalos
@@ -589,7 +614,7 @@ Type Inventory
     GrhIndex As Long
     Amount As Long
     Equipped As Byte
-    Valor As Single
+    valor As Single
     OBJType As Integer
     MaxDef As Integer
     MinDef As Integer 'Budi
@@ -602,7 +627,7 @@ Type NpCinV
     name As String
     GrhIndex As Long
     Amount As Integer
-    Valor As Single
+    valor As Single
     OBJType As Integer
     MaxDef As Integer
     MinDef As Integer
@@ -882,6 +907,9 @@ Public Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
 'Para ejecutar el browser y programas externos
 Public Const SW_SHOWNORMAL As Long = 1
 Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+
+'CopyMemory Kernel Function
+Public Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (hpvDest As Any, hpvSource As Any, ByVal cbCopy As Long)
 
 'Lista de cabezas
 Public Type tHead

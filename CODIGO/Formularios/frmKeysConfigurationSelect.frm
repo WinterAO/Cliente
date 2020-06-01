@@ -22,17 +22,25 @@ Begin VB.Form frmKeysConfigurationSelect
       TabIndex        =   0
       Top             =   7560
       Width           =   2055
-      _extentx        =   3625
-      _extenty        =   873
-      tx              =   ""
-      enab            =   -1  'True
-      fcol            =   16777215
-      ocol            =   16777215
-      pice            =   "frmKeysConfigurationSelect.frx":0000
-      picf            =   "frmKeysConfigurationSelect.frx":001C
-      pich            =   "frmKeysConfigurationSelect.frx":0038
-      picv            =   "frmKeysConfigurationSelect.frx":0054
-      font            =   "frmKeysConfigurationSelect.frx":0070
+      _ExtentX        =   3625
+      _ExtentY        =   873
+      TX              =   ""
+      ENAB            =   -1  'True
+      FCOL            =   16777215
+      OCOL            =   16777215
+      PICE            =   "frmKeysConfigurationSelect.frx":0000
+      PICF            =   "frmKeysConfigurationSelect.frx":001C
+      PICH            =   "frmKeysConfigurationSelect.frx":0038
+      PICV            =   "frmKeysConfigurationSelect.frx":0054
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin WinterAO.uAOButton btnAlternativeKeys 
       Height          =   495
@@ -40,17 +48,25 @@ Begin VB.Form frmKeysConfigurationSelect
       TabIndex        =   1
       Top             =   7560
       Width           =   2055
-      _extentx        =   3625
-      _extenty        =   873
-      tx              =   ""
-      enab            =   -1  'True
-      fcol            =   16777215
-      ocol            =   16777215
-      pice            =   "frmKeysConfigurationSelect.frx":0094
-      picf            =   "frmKeysConfigurationSelect.frx":00B0
-      pich            =   "frmKeysConfigurationSelect.frx":00CC
-      picv            =   "frmKeysConfigurationSelect.frx":00E8
-      font            =   "frmKeysConfigurationSelect.frx":0104
+      _ExtentX        =   3625
+      _ExtentY        =   873
+      TX              =   ""
+      ENAB            =   -1  'True
+      FCOL            =   16777215
+      OCOL            =   16777215
+      PICE            =   "frmKeysConfigurationSelect.frx":0070
+      PICF            =   "frmKeysConfigurationSelect.frx":008C
+      PICH            =   "frmKeysConfigurationSelect.frx":00A8
+      PICV            =   "frmKeysConfigurationSelect.frx":00C4
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin VB.Label lblAlternativeTitle 
       BackColor       =   &H00FFC0FF&
@@ -152,7 +168,7 @@ Begin VB.Form frmKeysConfigurationSelect
    Begin VB.Label lblTitle 
       Alignment       =   2  'Center
       BackStyle       =   0  'Transparent
-      Caption         =   $"frmKeysConfigurationSelect.frx":0128
+      Caption         =   $"frmKeysConfigurationSelect.frx":00E0
       BeginProperty Font 
          Name            =   "MS UI Gothic"
          Size            =   14.25
@@ -179,8 +195,8 @@ Attribute VB_Exposed = False
 Private Sub Form_Load()
    Call LoadTextsForm
    Call LoadAOCustomControlsPictures(Me)
-   imgAlternativeKeyboard.Picture = LoadPicture(Game.path(Interfaces) & "frmKeysConfigurationSelectAlternativeKeyboard.jpg")
-   imgNormalKeyboard.Picture = LoadPicture(Game.path(Interfaces) & "frmKeysConfigurationSelectNormalKeyboard.jpg")
+   imgAlternativeKeyboard.Picture = LoadPicture(Carga.Path(Interfaces) & "frmKeysConfigurationSelectAlternativeKeyboard.jpg")
+   imgNormalKeyboard.Picture = LoadPicture(Carga.Path(Interfaces) & "frmKeysConfigurationSelectNormalKeyboard.jpg")
 End Sub
 
 Private Sub LoadTextsForm()
@@ -206,6 +222,6 @@ Private Sub btnNormalKeys_Click()
 End Sub
 
 Private Sub SetFalseMostrarBindKeysSelection()
-   Call WriteVar(Game.path(INIT) & "Config.ini", "OTHER", "MOSTRAR_BIND_KEYS_SELECTION", "False")
+   Call WriteVar(Carga.Path(Init) & "Config.ini", "OTHER", "MOSTRAR_BIND_KEYS_SELECTION", "False")
 End Sub
 

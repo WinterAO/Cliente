@@ -161,9 +161,9 @@ Private Const MAX_PROPOSAL_LENGTH As Integer = 520
 
 Public Nombre As String
 
-Public T As TIPO
+Public t As tipo
 
-Public Enum TIPO
+Public Enum tipo
     ALIANZA = 1
     PAZ = 2
     RECHAZOPJ = 3
@@ -174,7 +174,7 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaCommet.jpg")
+    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaCommet.jpg")
     
     Call LoadTextsForm
     Call LoadAOCustomControlsPictures(Me)
@@ -185,14 +185,14 @@ Private Sub LoadTextsForm()
     imgCerrar.Caption = JsonLanguage.item("FRM_COMMET_CERRAR").item("TEXTO")
     
     ' Depende del tipo de form que abramos cargamos un diferente titulo
-    Select Case T
-        Case TIPO.ALIANZA
+    Select Case t
+        Case tipo.ALIANZA
             lblTitle.Caption = JsonLanguage.item("FRM_COMMET_ALIANZA").item("TEXTO")
             
-        Case TIPO.PAZ
+        Case tipo.PAZ
             lblTitle.Caption = JsonLanguage.item("FRM_COMMET_PAZ").item("TEXTO")
             
-        Case TIPO.RECHAZOPJ
+        Case tipo.RECHAZOPJ
             lblTitle.Caption = JsonLanguage.item("FRM_COMMET_RECHAZOPJ").item("TEXTO")
             
     End Select
@@ -205,7 +205,7 @@ End Sub
 Private Sub imgEnviar_Click()
 
     If LenB(Text1) = 0 Then
-        If T = PAZ Or T = ALIANZA Then
+        If t = PAZ Or t = ALIANZA Then
             MsgBox "Debes redactar un mensaje solicitando la paz o alianza al lider de " & Nombre
         Else
             MsgBox "Debes indicar el motivo por el cual rechazas la membresia de " & Nombre
@@ -214,13 +214,13 @@ Private Sub imgEnviar_Click()
         Exit Sub
     End If
     
-    If T = PAZ Then
+    If t = PAZ Then
         Call WriteGuildOfferPeace(Nombre, Replace(Text1, vbNewLine, "º"))
         
-    ElseIf T = ALIANZA Then
+    ElseIf t = ALIANZA Then
         Call WriteGuildOfferAlliance(Nombre, Replace(Text1, vbNewLine, "º"))
         
-    ElseIf T = RECHAZOPJ Then
+    ElseIf t = RECHAZOPJ Then
         Call WriteGuildRejectNewMember(Nombre, Replace(Replace(Text1.Text, ",", " "), vbNewLine, " "))
         'Sacamos el char de la lista de aspirantes
         Dim i As Long

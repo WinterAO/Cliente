@@ -1075,7 +1075,7 @@ Private currentGrh As Long
 Private Dir        As E_Heading
 
 Private Sub Form_Load()
-    Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaCrearPersonaje.jpg")
+    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaCrearPersonaje.jpg")
 
    ' Call LoadCharInfo
     'Call CargarEspecialidades
@@ -1134,7 +1134,7 @@ End Sub
 
 Private Sub IniciarGraficos()
     Dim GrhPath As String
-    GrhPath = Game.path(Interfaces)
+    GrhPath = Carga.Path(Interfaces)
 End Sub
 
 Private Sub CargarCombos()
@@ -1413,7 +1413,6 @@ Private Sub imgGenero_MouseMove(Button As Integer, _
 End Sub
 
 Private Sub imgVolver_Click()
-    Call Audio.PlayBackgroundMusic("2", MusicTypes.MP3)
     bShowTutorial = False
     
     Unload Me
@@ -1429,9 +1428,9 @@ Private Sub lstProfesion_Click()
 
     If lstProfesion.Text = "Trabajador" Or lstProfesion.Text = "Worker" Then
         'Agarramos un numero aleatorio del 0 al 6 por que hay 6 imagenes de trabajador
-        ImgProfesionDibujo.Picture = LoadPicture(Game.path(Interfaces) & lstProfesion.Text & (CInt(Rnd * 6)) & ".jpg")
+        ImgProfesionDibujo.Picture = LoadPicture(Carga.Path(Interfaces) & lstProfesion.Text & (CInt(Rnd * 6)) & ".jpg")
     Else
-        ImgProfesionDibujo.Picture = LoadPicture(Game.path(Interfaces) & lstProfesion.Text & ".jpg")
+        ImgProfesionDibujo.Picture = LoadPicture(Carga.Path(Interfaces) & lstProfesion.Text & ".jpg")
     End If
     
     UserClase = lstProfesion.ListIndex + 1
@@ -1637,7 +1636,7 @@ Private Sub LoadCharInfo()
 
     Dim Lector As clsIniManager
     Set Lector = New clsIniManager
-    Call Lector.Initialize(Game.path(INIT) & "CharInfo_" & Language & ".dat")
+    Call Lector.Initialize(Carga.Path(Init) & "CharInfo_" & Language & ".dat")
 
     'Modificadores de Clase
     For i = 1 To NroClases
@@ -1676,7 +1675,7 @@ Private Sub LoadCharInfo()
 End Sub
 
 Private Sub Mas_Click(Index As Integer)
-    Call Audio.PlayWave(SND_CLICK)
+    Call Sound.Sound_Play(SND_CLICK)
     
     If lblAtributos(Index).Caption < 18 And Total.Caption > 0 Then
         lblAtributos(Index).Caption = lblAtributos(Index).Caption + 1
@@ -1686,7 +1685,7 @@ Private Sub Mas_Click(Index As Integer)
 End Sub
 
 Private Sub Menos_Click(Index As Integer)
-    Call Audio.PlayWave(SND_CLICK)
+    Call Sound.Sound_Play(SND_CLICK)
     
     If Total.Caption = "40" Then Exit Sub
     If lblAtributos(Index).Caption > 6 Then

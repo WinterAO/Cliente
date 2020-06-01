@@ -387,13 +387,13 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     Call clsFormulario.Initialize(Me)
     
-    Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaRetos.jpg")
+    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaRetos.jpg")
     
     Call LoadTextsForm
     Call LoadAOCustomControlsPictures(Me)
 
-    Set picNegrita = LoadPicture(Game.path(Interfaces) & "OpcionPrendidaN.jpg")
-    Set picCursiva = LoadPicture(Game.path(Interfaces) & "OpcionPrendidaC.jpg")
+    Set picNegrita = LoadPicture(Carga.Path(Interfaces) & "OpcionPrendidaN.jpg")
+    Set picCursiva = LoadPicture(Carga.Path(Interfaces) & "OpcionPrendidaC.jpg")
 
 End Sub
 

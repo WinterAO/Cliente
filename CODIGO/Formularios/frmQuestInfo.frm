@@ -111,7 +111,7 @@ Option Explicit
 
 Private Sub Form_Load()
     
-    Me.Picture = LoadPicture(Game.path(Interfaces) & "VentanaQuest.jpg")
+    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaQuest.jpg")
     
     Call LoadTextsForm
     Call LoadAOCustomControlsPictures(Me)

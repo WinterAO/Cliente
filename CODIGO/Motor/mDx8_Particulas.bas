@@ -161,14 +161,14 @@ Public Enum eWeather
 End Enum
 
 Public Sub CargarParticulas()
-    Dim LoopC As Long
+    Dim loopc As Long
     Dim i As Long
     Dim GrhListing As String
     Dim TempSet As String
     Dim ColorSet As Long
     Dim Leer As New clsIniManager
 
-    Call Leer.Initialize(path(INIT) & "Particulas.ini")
+    Call Leer.Initialize(Path(Init) & "Particulas.ini")
 
     TotalStreams = Val(Leer.GetValue("INIT", "Total"))
     
@@ -176,42 +176,42 @@ Public Sub CargarParticulas()
     ReDim StreamData(1 To TotalStreams) As Stream
     
     'fill StreamData array with info from Particles.ini
-    For LoopC = 1 To TotalStreams
-        With StreamData(LoopC)
-            .name = Leer.GetValue(Val(LoopC), "Name")
-            .NumOfParticles = Leer.GetValue(Val(LoopC), "NumOfParticles")
-            .x1 = Leer.GetValue(Val(LoopC), "X1")
-            .y1 = Leer.GetValue(Val(LoopC), "Y1")
-            .x2 = Leer.GetValue(Val(LoopC), "X2")
-            .y2 = Leer.GetValue(Val(LoopC), "Y2")
-            .angle = Leer.GetValue(Val(LoopC), "Angle")
-            .vecx1 = Leer.GetValue(Val(LoopC), "VecX1")
-            .vecx2 = Leer.GetValue(Val(LoopC), "VecX2")
-            .vecy1 = Leer.GetValue(Val(LoopC), "VecY1")
-            .vecy2 = Leer.GetValue(Val(LoopC), "VecY2")
-            .life1 = Leer.GetValue(Val(LoopC), "Life1")
-            .life2 = Leer.GetValue(Val(LoopC), "Life2")
-            .friction = Leer.GetValue(Val(LoopC), "Friction")
-            .spin = Leer.GetValue(Val(LoopC), "Spin")
-            .spin_speedL = Leer.GetValue(Val(LoopC), "Spin_SpeedL")
-            .spin_speedH = Leer.GetValue(Val(LoopC), "Spin_SpeedH")
-            .alphaBlend = Leer.GetValue(Val(LoopC), "AlphaBlend")
-            .gravity = Leer.GetValue(Val(LoopC), "Gravity")
-            .grav_strength = Leer.GetValue(Val(LoopC), "Grav_Strength")
-            .bounce_strength = Leer.GetValue(Val(LoopC), "Bounce_Strength")
-            .XMove = Leer.GetValue(Val(LoopC), "XMove")
-            .YMove = Leer.GetValue(Val(LoopC), "YMove")
-            .move_x1 = Leer.GetValue(Val(LoopC), "move_x1")
-            .move_x2 = Leer.GetValue(Val(LoopC), "move_x2")
-            .move_y1 = Leer.GetValue(Val(LoopC), "move_y1")
-            .move_y2 = Leer.GetValue(Val(LoopC), "move_y2")
-            .life_counter = Leer.GetValue(Val(LoopC), "life_counter")
-            .speed = Val(Leer.GetValue(Val(LoopC), "Speed"))
+    For loopc = 1 To TotalStreams
+        With StreamData(loopc)
+            .name = Leer.GetValue(Val(loopc), "Name")
+            .NumOfParticles = Leer.GetValue(Val(loopc), "NumOfParticles")
+            .x1 = Leer.GetValue(Val(loopc), "X1")
+            .y1 = Leer.GetValue(Val(loopc), "Y1")
+            .x2 = Leer.GetValue(Val(loopc), "X2")
+            .y2 = Leer.GetValue(Val(loopc), "Y2")
+            .angle = Leer.GetValue(Val(loopc), "Angle")
+            .vecx1 = Leer.GetValue(Val(loopc), "VecX1")
+            .vecx2 = Leer.GetValue(Val(loopc), "VecX2")
+            .vecy1 = Leer.GetValue(Val(loopc), "VecY1")
+            .vecy2 = Leer.GetValue(Val(loopc), "VecY2")
+            .life1 = Leer.GetValue(Val(loopc), "Life1")
+            .life2 = Leer.GetValue(Val(loopc), "Life2")
+            .friction = Leer.GetValue(Val(loopc), "Friction")
+            .spin = Leer.GetValue(Val(loopc), "Spin")
+            .spin_speedL = Leer.GetValue(Val(loopc), "Spin_SpeedL")
+            .spin_speedH = Leer.GetValue(Val(loopc), "Spin_SpeedH")
+            .alphaBlend = Leer.GetValue(Val(loopc), "AlphaBlend")
+            .gravity = Leer.GetValue(Val(loopc), "Gravity")
+            .grav_strength = Leer.GetValue(Val(loopc), "Grav_Strength")
+            .bounce_strength = Leer.GetValue(Val(loopc), "Bounce_Strength")
+            .XMove = Leer.GetValue(Val(loopc), "XMove")
+            .YMove = Leer.GetValue(Val(loopc), "YMove")
+            .move_x1 = Leer.GetValue(Val(loopc), "move_x1")
+            .move_x2 = Leer.GetValue(Val(loopc), "move_x2")
+            .move_y1 = Leer.GetValue(Val(loopc), "move_y1")
+            .move_y2 = Leer.GetValue(Val(loopc), "move_y2")
+            .life_counter = Leer.GetValue(Val(loopc), "life_counter")
+            .speed = Val(Leer.GetValue(Val(loopc), "Speed"))
             
-            .NumGrhs = Leer.GetValue(Val(LoopC), "NumGrhs")
+            .NumGrhs = Leer.GetValue(Val(loopc), "NumGrhs")
             
             ReDim .grh_list(1 To .NumGrhs)
-            GrhListing = Leer.GetValue(Val(LoopC), "Grh_List")
+            GrhListing = Leer.GetValue(Val(loopc), "Grh_List")
             
             For i = 1 To .NumGrhs
                 .grh_list(i) = ReadField(i, GrhListing, Asc(","))
@@ -220,14 +220,14 @@ Public Sub CargarParticulas()
             .grh_list(i - 1) = .grh_list(i - 1)
             
             For ColorSet = 1 To 4
-                TempSet = Leer.GetValue(Val(LoopC), "ColorSet" & ColorSet)
+                TempSet = Leer.GetValue(Val(loopc), "ColorSet" & ColorSet)
                 .colortint(ColorSet - 1).r = ReadField(1, TempSet, Asc(","))
                 .colortint(ColorSet - 1).g = ReadField(2, TempSet, Asc(","))
                 .colortint(ColorSet - 1).b = ReadField(3, TempSet, Asc(","))
             Next ColorSet
 
         End With
-    Next LoopC
+    Next loopc
     
     Set Leer = Nothing
 
@@ -345,7 +345,7 @@ Public Sub Particle_Group_Render(ByVal Particle_Group_Index As Long, ByVal scree
 'Last Modify Date: 5/15/2003
 'Renders a particle stream at a paticular screen point
 '*****************************************************************
-    Dim LoopC As Long
+    Dim loopc As Long
     Dim temp_rgb(0 To 3) As Long
     Dim no_move As Boolean
     
@@ -374,10 +374,10 @@ Public Sub Particle_Group_Render(ByVal Particle_Group_Index As Long, ByVal scree
         End If
             
         'If it's still alive render all the particles inside
-        For LoopC = 1 To .Particle_Count
+        For loopc = 1 To .Particle_Count
                 
         'Render particle
-            Particle_Render .particle_stream(LoopC), _
+            Particle_Render .particle_stream(loopc), _
                         screen_x, screen_y, _
                         .grh_index_list(Round(RandomNumber(1, .grh_index_count), 0)), _
                         temp_rgb(), _
@@ -394,7 +394,7 @@ Public Sub Particle_Group_Render(ByVal Particle_Group_Index As Long, ByVal scree
                         .move_y1, .move_y2, _
                         .YMove, .spin_speedH, _
                         .spin
-        Next LoopC
+        Next loopc
                 
         If no_move = False Then
             'Update the group alive counter
@@ -493,26 +493,26 @@ Private Function Particle_Group_Next_Open() As Long
     '*****************************************************************
     On Error GoTo ErrorHandler:
 
-    Dim LoopC As Long
+    Dim loopc As Long
     
     If particle_group_last = 0 Then
         Particle_Group_Next_Open = 1
         Exit Function
     End If
     
-    LoopC = 1
+    loopc = 1
 
-    Do Until particle_group_list(LoopC).active = False
+    Do Until particle_group_list(loopc).active = False
 
-        If LoopC = particle_group_last Then
+        If loopc = particle_group_last Then
             Particle_Group_Next_Open = particle_group_last + 1
             Exit Function
         End If
 
-        LoopC = LoopC + 1
+        loopc = loopc + 1
     Loop
     
-    Particle_Group_Next_Open = LoopC
+    Particle_Group_Next_Open = loopc
     
     Exit Function
     
@@ -582,21 +582,21 @@ Private Function Particle_Group_Find(ByVal id As Long) As Long
     '*****************************************************************
     On Error GoTo ErrorHandler:
 
-    Dim LoopC As Long
-        LoopC = 1
+    Dim loopc As Long
+        loopc = 1
 
-    Do Until particle_group_list(LoopC).id = id
+    Do Until particle_group_list(loopc).id = id
 
-        If LoopC = particle_group_last Then
+        If loopc = particle_group_last Then
             Particle_Group_Find = 0
             Exit Function
         End If
 
-        LoopC = LoopC + 1
+        loopc = loopc + 1
         
     Loop
     
-    Particle_Group_Find = LoopC
+    Particle_Group_Find = loopc
     
     Exit Function
     
@@ -862,7 +862,7 @@ Private Function Char_Particle_Group_Next_Open(ByVal char_index As Integer) As I
     '*****************************************************************
     On Error GoTo ErrorHandler:
 
-    Dim LoopC As Long
+    Dim loopc As Long
     
     If charlist(char_index).Particle_Count = 0 Then
         Char_Particle_Group_Next_Open = charlist(char_index).Particle_Count + 1
@@ -872,11 +872,11 @@ Private Function Char_Particle_Group_Next_Open(ByVal char_index As Integer) As I
 
     End If
     
-    LoopC = 1
+    loopc = 1
 
-    Do Until charlist(char_index).Particle_Group(LoopC) = 0
+    Do Until charlist(char_index).Particle_Group(loopc) = 0
 
-        If LoopC = charlist(char_index).Particle_Count Then
+        If loopc = charlist(char_index).Particle_Count Then
             Char_Particle_Group_Next_Open = charlist(char_index).Particle_Count + 1
             charlist(char_index).Particle_Count = Char_Particle_Group_Next_Open
             ReDim Preserve charlist(char_index).Particle_Group(1 To Char_Particle_Group_Next_Open) As Long
@@ -884,10 +884,10 @@ Private Function Char_Particle_Group_Next_Open(ByVal char_index As Integer) As I
 
         End If
 
-        LoopC = LoopC + 1
+        loopc = loopc + 1
     Loop
     
-    Char_Particle_Group_Next_Open = LoopC
+    Char_Particle_Group_Next_Open = loopc
 
     Exit Function
 
@@ -1030,7 +1030,7 @@ Public Sub Engine_Weather_Update()
     'Sin embargo al cambiar de mapa o al entrar y salir de un techo la particula se vuelve a cargar
     'Este error NO pasa cuando esta lloviendo y recien abro el juego y entro, en ese caso la lluvia se ve bien (Recox)
 
-    If bRain And MapDat.zone <> "DUNGEON" And Not bTecho Then
+    If bRain And Not bTecho Then
         'Primero verificamos que las particulas de lluvia esten creadas en la coleccion de particulas
         'Si estan creadas las renderizamos, sino las creamos
         If RainParticle <= 0 Then
@@ -1091,3 +1091,4 @@ Public Sub Load_Map_Particles(ByVal Map As Integer)
     End Select
     
 End Sub
+

@@ -502,7 +502,7 @@ Private Sub CargarImagenes()
     Dim ImgPath As String
     Dim Index As Integer
     
-    ImgPath = Game.path(Interfaces)
+    ImgPath = Carga.Path(Interfaces)
 
     ' TODO: Traducir los textos de las imagenes via labels en visual basic, para que en el futuro si se quiere se pueda traducir a mas idiomas
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.

@@ -28,7 +28,7 @@ Attribute VB_Exposed = False
 '**************************************************************************
 
 ''
-' The MainTimer of the game.
+' The MainTimer of the Carga.
 ' Controls client´s intervals.
 '
 ' @author Nacho (Integer) integer-x@hotmail.com

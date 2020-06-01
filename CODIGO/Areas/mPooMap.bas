@@ -53,7 +53,7 @@ Public Sub Map_DestroyObject(ByVal X As Byte, ByVal Y As Byte)
 
             With MapData(X, Y)
                   '.objgrh.GrhIndex = 0
-                  .OBJInfo.ObjIndex = 0
+                  .OBJInfo.objindex = 0
                   .OBJInfo.Amount = 0
                   Call GrhUninitialize(.ObjGrh)
         
@@ -146,9 +146,6 @@ Sub Map_MoveTo(ByVal Direccion As E_Heading)
         End If
                 
       End If
-
-      ' Update 3D sounds!
-      Call Audio.MoveListener(UserPos.X, UserPos.Y)
   
       ' Esto es un parche por que por alguna razon si el pj esta meditando y nos movemos el juego explota por eso cambie
       ' Las validaciones en la linea 131 y agregue esto para arreglarlo (Recox)

@@ -187,11 +187,6 @@ Begin VB.Form frmMain
       Left            =   9120
       Top             =   2880
    End
-   Begin VB.Timer SonidosMapas 
-      Interval        =   20000
-      Left            =   8280
-      Top             =   2880
-   End
    Begin RichTextLib.RichTextBox RecTxt 
       Height          =   1665
       Left            =   240
@@ -205,6 +200,7 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -942,8 +938,6 @@ Public MouseShift          As Long
 Private clicX              As Long
 Private clicY              As Long
 
-Public IsPlaying           As Byte
-
 Private clsFormulario      As clsFormMovementManager
 
 Public LastButtonPressed   As clsGraphicalButton
@@ -985,15 +979,15 @@ Private Sub btnQuest_Click()
 End Sub
 
 Private Sub btnSolapa_Click(Index As Integer)
-Call Audio.PlayWave(SND_CLICK)
+Call Sound.Sound_Play(SND_CLICK)
 
     Select Case Index
     
         Case 0 'Inventario
-            InvEqu.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\Centroinventario.jpg")
-            btnSolapa(0).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\invseleccionado.jpg")
-            btnSolapa(1).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\hechnoseleccionado.jpg")
-            btnSolapa(2).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
+            InvEqu.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\Centroinventario.jpg")
+            btnSolapa(0).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\invseleccionado.jpg")
+            btnSolapa(1).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\hechnoseleccionado.jpg")
+            btnSolapa(2).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
             
             ' Activo controles de inventario
             PicInv.Visible = True
@@ -1014,12 +1008,12 @@ Call Audio.PlayWave(SND_CLICK)
             Call Inventario.DrawInventory
         
         Case 1 'Hechizos
-            InvEqu.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\Centrohechizos.jpg")
-            btnSolapa(0).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\invnoseleccionado.jpg")
-            btnSolapa(1).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\hechseleccionado.jpg")
-            btnSolapa(2).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
-            btnLanzar.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\lanzar.jpg")
-            btnInfo.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\info.jpg")
+            InvEqu.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\Centrohechizos.jpg")
+            btnSolapa(0).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\invnoseleccionado.jpg")
+            btnSolapa(1).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\hechseleccionado.jpg")
+            btnSolapa(2).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
+            btnLanzar.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\lanzar.jpg")
+            btnInfo.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\info.jpg")
             
             ' Activo controles de hechizos
             hlst.Visible = True
@@ -1037,10 +1031,10 @@ Call Audio.PlayWave(SND_CLICK)
             BorrarAmigo.Visible = False
     
         Case 2 'Amigos
-            InvEqu.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\CentroAmigos.jpg")
-            btnSolapa(0).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\invnoseleccionado.jpg")
-            btnSolapa(1).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\hechnoseleccionado.jpg")
-            btnSolapa(2).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\amgseleccionado.jpg")
+            InvEqu.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\CentroAmigos.jpg")
+            btnSolapa(0).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\invnoseleccionado.jpg")
+            btnSolapa(1).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\hechnoseleccionado.jpg")
+            btnSolapa(2).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgseleccionado.jpg")
             
             ListAmigos.Visible = True
             AgregarAmigo.Visible = True
@@ -1066,21 +1060,21 @@ Private Sub Form_Activate()
 End Sub
 
 Private Sub Form_Load()
-    ClientSetup.SkinSeleccionado = GetVar(Game.path(Init) & "Config.ini", "Parameters", "SkinSelected")
+    ClientSetup.SkinSeleccionado = GetVar(Carga.Path(Init) & "Config.ini", "Parameters", "SkinSelected")
     
-    cmdMoverHechi(1).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\btnarriba.jpg")
-    cmdMoverHechi(0).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\btnabajo.jpg")
-    InvEqu.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\Centroinventario.jpg")
-    btnSolapa(0).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\invseleccionado.jpg")
-    btnSolapa(1).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\hechnoseleccionado.jpg")
-    btnSolapa(2).Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
-    shpVida.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\vidabar.jpg")
-    shpMana.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\manabar.jpg")
-    shpEnergia.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\energiabar.jpg")
-    shpHambre.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\hambrebar.jpg")
-    shpSed.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\aguabar.jpg")
-    ShpFuerza.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\fuerzabar.jpg")
-    ShpAgilidad.Picture = LoadPicture(Game.path(Skins) & ClientSetup.SkinSeleccionado & "\agilidadbar.jpg")
+    cmdMoverHechi(1).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\btnarriba.jpg")
+    cmdMoverHechi(0).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\btnabajo.jpg")
+    InvEqu.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\Centroinventario.jpg")
+    btnSolapa(0).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\invseleccionado.jpg")
+    btnSolapa(1).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\hechnoseleccionado.jpg")
+    btnSolapa(2).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
+    shpVida.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\vidabar.jpg")
+    shpMana.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\manabar.jpg")
+    shpEnergia.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\energiabar.jpg")
+    shpHambre.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\hambrebar.jpg")
+    shpSed.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\aguabar.jpg")
+    ShpFuerza.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\fuerzabar.jpg")
+    ShpAgilidad.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\agilidadbar.jpg")
     
     If Not ResolucionCambiada Then
         ' Handles Form movement (drag and drop).
@@ -1195,10 +1189,15 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
             Select Case KeyCode
 
                 Case CustomKeys.BindedKey(eKeyType.mKeyToggleMusic)
-                    Audio.MusicActivated = Not Audio.MusicActivated
-                    
+                    If ClientSetup.bMusic = CONST_MP3 Then
+                        Sound.Music_Stop
+                        ClientSetup.bMusic = CONST_DESHABILITADA
+                    Else
+                        ClientSetup.bMusic = CONST_MP3
+                    End If
+                        
                 Case CustomKeys.BindedKey(eKeyType.mKeyToggleSound)
-                    Audio.SoundActivated = Not Audio.SoundActivated
+                    'Audio.SoundActivated = Not Audio.SoundActivated
                     
                 Case CustomKeys.BindedKey(eKeyType.mKeyToggleFPS)
                     ClientSetup.FPSShow = Not ClientSetup.FPSShow
@@ -1399,7 +1398,7 @@ Private Sub lblScroll_Click(Index As Integer)
 End Sub
 
 Private Sub lblCerrar_Click()
-    Call Audio.PlayWave(SND_CLICK)
+    Call Sound.Sound_Play(SND_CLICK)
     frmCerrar.Show vbModal, Me
 End Sub
 
@@ -1939,7 +1938,7 @@ Private Sub picInv_DblClick()
 End Sub
 
 Private Sub picInv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    Call Audio.PlayWave(SND_CLICK)
+    Call Sound.Sound_Play(SND_CLICK)
 End Sub
 
 Private Sub RecTxt_Change()
@@ -2156,10 +2155,6 @@ Public Sub CallbackMenuFashion(ByVal MenuId As Long, ByVal Sel As Long)
             End Select
     End Select
 End Sub
-
-Private Sub SonidosMapas_Timer()
-    Sonidos.ReproducirSonidosDeMapas
-End Sub
  
 ''''''''''''''''''''''''''''''''''''''
 '     WINDOWS API                    '
@@ -2178,9 +2173,7 @@ Private Sub Client_Connect()
             Call Login
 
         Case E_MODO.Dados
-            Call Audio.PlayBackgroundMusic("7", MusicTypes.MP3)
-            frmCrearPersonaje.Show
-            'Call MostrarCreacion
+            Call MostrarCreacion
         
     End Select
  
@@ -2213,7 +2206,7 @@ End Sub
 Private Sub Client_Error(ByVal number As Integer, _
                          Description As String, _
                          ByVal sCode As Long, _
-                         ByVal source As String, _
+                         ByVal Source As String, _
                          ByVal HelpFile As String, _
                          ByVal HelpContext As Long, _
                          CancelDisplay As Boolean)
@@ -2227,9 +2220,9 @@ Private Sub Client_Error(ByVal number As Integer, _
     If Client.State <> sckClosed Then Client.CloseSck
 
     If Not frmCrearPersonaje.Visible Then
-        frmConnect.Show
+        Call MostrarConnect
     Else
-        frmCrearPersonaje.MousePointer = 0
+        frmConnect.MousePointer = 0
     End If
  
 End Sub

@@ -118,13 +118,13 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Command1_Click()
-   If frmtip.Check1.Value = vbChecked Then
+   If frmtip.Check1.value = vbChecked Then
       ClientSetup.MostrarTips = True
    Else
       ClientSetup.MostrarTips = False
    End If
 
-   Call WriteVar(Game.path(INIT) & "Config.ini", "OTHER", "MOSTRAR_TIPS", CStr(ClientSetup.MostrarTips))
+   Call WriteVar(Carga.Path(Init) & "Config.ini", "OTHER", "MOSTRAR_TIPS", CStr(ClientSetup.MostrarTips))
    Unload Me
 
 End Sub
@@ -148,7 +148,7 @@ Private Sub Form_Load()
     Call CargarTip
     
     With Me
-        .Command1.Caption = JsonLanguage.Item("TIP").Item("TEXTO").Item(1)
-        .Check1.Caption = JsonLanguage.Item("TIP").Item("TEXTO").Item(2)
+        .Command1.Caption = JsonLanguage.item("TIP").item("TEXTO").item(1)
+        .Check1.Caption = JsonLanguage.item("TIP").item("TEXTO").item(2)
     End With
 End Sub

@@ -12,7 +12,7 @@ Public Type Aura
     
     Rotation As Byte '   Rotate or Not
     angle As Single '   Angle
-    Speed As Single '   Speed
+    speed As Single '   Speed
     TickCount As Long '   TickCount from Speed Controls
     
     Color(0 To 3) As Long '   Color
@@ -39,7 +39,7 @@ Public Sub Load_Auras()
 'Load Auras
 '***************************************************
     Dim i As Integer, AurasTotales As Integer, Leer As New clsIniManager
-    Leer.Initialize Game.path(INIT) & "auras.ini"
+    Leer.Initialize Carga.Path(Init) & "auras.ini"
 
     AurasTotales = Val(Leer.GetValue("Auras", "NumAuras"))
     
@@ -50,7 +50,7 @@ Public Sub Load_Auras()
                 
                 Auras(i).Rotation = Val(Leer.GetValue(i, "Rotate"))
                 Auras(i).angle = 0
-                Auras(i).Speed = Leer.GetValue(i, "Speed")
+                Auras(i).speed = Leer.GetValue(i, "Speed")
                 
                 Auras(i).OffsetX = Val(Leer.GetValue(i, "OffsetX"))
                 Auras(i).OffsetY = Val(Leer.GetValue(i, "OffsetY"))
@@ -94,7 +94,7 @@ Public Sub Set_Aura(ByVal CharIndex As Integer, slot As Byte, Aura As Byte)
             
         .angle = Auras(Aura).angle
         .Rotation = Auras(Aura).Rotation
-        .Speed = Auras(Aura).Speed
+        .speed = Auras(Aura).speed
         
         .OffsetX = Auras(Aura).OffsetX
         .OffsetY = Auras(Aura).OffsetY
@@ -141,7 +141,7 @@ Public Sub Update_Aura(ByVal CharIndex As Integer, slot As Byte)
     
     With charlist(CharIndex).Aura(slot)
         If GetTickCount - .TickCount > FPS Then
-            .angle = .angle + .Speed
+            .angle = .angle + .speed
             If .angle >= 360 Then .angle = 0
             .TickCount = GetTickCount
         End If
@@ -154,7 +154,7 @@ Public Sub Render_Auras(ByVal CharIndex As Integer, X As Integer, Y As Integer)
 'Last Modification: 26/05/10
 'Render the Auras from a Char
 '***************************************************
-On Error GoTo handle
+On Error GoTo Handle
     Dim i As Byte
         For i = 1 To 4
             With charlist(CharIndex).Aura(i)
@@ -164,7 +164,7 @@ On Error GoTo handle
                 End If
             End With
         Next i
-handle:
+Handle:
     Exit Sub
 End Sub
 

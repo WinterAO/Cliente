@@ -37,7 +37,7 @@ Public Function Create_Light_To_Map(ByVal map_x As Byte, _
             .r = Red
             .g = Green
             .b = Blue
-            .a = 255
+            .A = 255
         End With
         
         .range = range
@@ -132,19 +132,19 @@ Private Sub LightRender(ByVal light_index As Integer)
             If InMapBounds(Xa, Ya) Then
                 XCoord = Xa * 32
                 YCoord = Ya * 32
-                MapData(Xa, Ya).Engine_Light(1) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(1), LightColor, AmbientColor)
+                MapData(Xa, Ya).Engine_Light()(1) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light()(1), LightColor, AmbientColor)
  
                 XCoord = Xa * 32 + 32
                 YCoord = Ya * 32
-                MapData(Xa, Ya).Engine_Light(3) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(3), LightColor, AmbientColor)
+                MapData(Xa, Ya).Engine_Light()(3) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light()(3), LightColor, AmbientColor)
                        
                 XCoord = Xa * 32
                 YCoord = Ya * 32 + 32
-                MapData(Xa, Ya).Engine_Light(0) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(0), LightColor, AmbientColor)
+                MapData(Xa, Ya).Engine_Light()(0) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light()(0), LightColor, AmbientColor)
    
                 XCoord = Xa * 32 + 32
                 YCoord = Ya * 32 + 32
-                MapData(Xa, Ya).Engine_Light(2) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(2), LightColor, AmbientColor)
+                MapData(Xa, Ya).Engine_Light()(2) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light()(2), LightColor, AmbientColor)
                
             End If
         Next Xa
@@ -214,51 +214,51 @@ Private Sub LightRender(ByVal light_index As Integer)
     'Arrange corners
     'NE
     If InMapBounds(min_x, min_y) Then
-        MapData(min_x, min_y).Engine_Light(2) = Color(2)
+        MapData(min_x, min_y).Engine_Light()(2) = Color(2)
     End If
     'NW
     If InMapBounds(max_x, min_y) Then
-        MapData(max_x, min_y).Engine_Light(0) = Color(0)
+        MapData(max_x, min_y).Engine_Light()(0) = Color(0)
     End If
     'SW
     If InMapBounds(max_x, max_y) Then
-        MapData(max_x, max_y).Engine_Light(1) = Color(1)
+        MapData(max_x, max_y).Engine_Light()(1) = Color(1)
     End If
     'SE
     If InMapBounds(min_x, max_y) Then
-        MapData(min_x, max_y).Engine_Light(3) = Color(3)
+        MapData(min_x, max_y).Engine_Light()(3) = Color(3)
     End If
     
     'Arrange borders
     'Upper border
     For X = min_x + 1 To max_x - 1
         If InMapBounds(X, min_y) Then
-            MapData(X, min_y).Engine_Light(0) = Color(0)
-            MapData(X, min_y).Engine_Light(2) = Color(2)
+            MapData(X, min_y).Engine_Light()(0) = Color(0)
+            MapData(X, min_y).Engine_Light()(2) = Color(2)
         End If
     Next X
     
     'Lower border
     For X = min_x + 1 To max_x - 1
         If InMapBounds(X, max_y) Then
-            MapData(X, max_y).Engine_Light(1) = Color(1)
-            MapData(X, max_y).Engine_Light(3) = Color(3)
+            MapData(X, max_y).Engine_Light()(1) = Color(1)
+            MapData(X, max_y).Engine_Light()(3) = Color(3)
         End If
     Next X
     
     'Left border
     For Y = min_y + 1 To max_y - 1
         If InMapBounds(min_x, Y) Then
-            MapData(min_x, Y).Engine_Light(2) = Color(2)
-            MapData(min_x, Y).Engine_Light(3) = Color(3)
+            MapData(min_x, Y).Engine_Light()(2) = Color(2)
+            MapData(min_x, Y).Engine_Light()(3) = Color(3)
         End If
     Next Y
     
     'Right border
     For Y = min_y + 1 To max_y - 1
         If InMapBounds(max_x, Y) Then
-            MapData(max_x, Y).Engine_Light(0) = Color(0)
-            MapData(max_x, Y).Engine_Light(1) = Color(1)
+            MapData(max_x, Y).Engine_Light()(0) = Color(0)
+            MapData(max_x, Y).Engine_Light()(1) = Color(1)
         End If
     Next Y
     
@@ -266,10 +266,10 @@ Private Sub LightRender(ByVal light_index As Integer)
     For X = min_x + 1 To max_x - 1
         For Y = min_y + 1 To max_y - 1
             If InMapBounds(X, Y) Then
-                MapData(X, Y).Engine_Light(0) = Color(0)
-                MapData(X, Y).Engine_Light(1) = Color(1)
-                MapData(X, Y).Engine_Light(2) = Color(2)
-                MapData(X, Y).Engine_Light(3) = Color(3)
+                MapData(X, Y).Engine_Light()(0) = Color(0)
+                MapData(X, Y).Engine_Light()(1) = Color(1)
+                MapData(X, Y).Engine_Light()(2) = Color(2)
+                MapData(X, Y).Engine_Light()(3) = Color(3)
             End If
         Next Y
     Next X
@@ -291,7 +291,7 @@ Private Sub Delete_Light_To_Index(ByVal light_index As Integer)
     Dim Y As Integer
     Dim colorz As Long
 
-    colorz = D3DColorARGB(Estado_Actual.a, Estado_Actual.r, Estado_Actual.g, Estado_Actual.b)
+    colorz = D3DColorARGB(Estado_Actual.A, Estado_Actual.r, Estado_Actual.g, Estado_Actual.b)
     
     With Light_List(light_index)
     
@@ -306,51 +306,51 @@ Private Sub Delete_Light_To_Index(ByVal light_index As Integer)
     'Arrange corners
     'NE
     If InMapBounds(min_x, min_y) Then
-        MapData(min_x, min_y).Engine_Light(2) = colorz
+        MapData(min_x, min_y).Engine_Light()(2) = colorz
     End If
     'NW
     If InMapBounds(max_x, min_y) Then
-        MapData(max_x, min_y).Engine_Light(0) = colorz
+        MapData(max_x, min_y).Engine_Light()(0) = colorz
     End If
     'SW
     If InMapBounds(max_x, max_y) Then
-        MapData(max_x, max_y).Engine_Light(1) = colorz
+        MapData(max_x, max_y).Engine_Light()(1) = colorz
     End If
     'SE
     If InMapBounds(min_x, max_y) Then
-        MapData(min_x, max_y).Engine_Light(3) = colorz
+        MapData(min_x, max_y).Engine_Light()(3) = colorz
     End If
     
     'Arrange borders
     'Upper border
     For X = min_x + 1 To max_x - 1
         If InMapBounds(X, min_y) Then
-            MapData(X, min_y).Engine_Light(0) = colorz
-            MapData(X, min_y).Engine_Light(2) = colorz
+            MapData(X, min_y).Engine_Light()(0) = colorz
+            MapData(X, min_y).Engine_Light()(2) = colorz
         End If
     Next X
     
     'Lower border
     For X = min_x + 1 To max_x - 1
         If InMapBounds(X, max_y) Then
-            MapData(X, max_y).Engine_Light(1) = colorz
-            MapData(X, max_y).Engine_Light(3) = colorz
+            MapData(X, max_y).Engine_Light()(1) = colorz
+            MapData(X, max_y).Engine_Light()(3) = colorz
         End If
     Next X
     
     'Left border
     For Y = min_y + 1 To max_y - 1
         If InMapBounds(min_x, Y) Then
-            MapData(min_x, Y).Engine_Light(2) = colorz
-            MapData(min_x, Y).Engine_Light(3) = colorz
+            MapData(min_x, Y).Engine_Light()(2) = colorz
+            MapData(min_x, Y).Engine_Light()(3) = colorz
         End If
     Next Y
     
     'Right border
     For Y = min_y + 1 To max_y - 1
         If InMapBounds(max_x, Y) Then
-            MapData(max_x, Y).Engine_Light(0) = colorz
-            MapData(max_x, Y).Engine_Light(1) = colorz
+            MapData(max_x, Y).Engine_Light()(0) = colorz
+            MapData(max_x, Y).Engine_Light()(1) = colorz
         End If
     Next Y
     
@@ -358,10 +358,10 @@ Private Sub Delete_Light_To_Index(ByVal light_index As Integer)
     For X = min_x + 1 To max_x - 1
         For Y = min_y + 1 To max_y - 1
             If InMapBounds(X, Y) Then
-                MapData(X, Y).Engine_Light(0) = colorz
-                MapData(X, Y).Engine_Light(1) = colorz
-                MapData(X, Y).Engine_Light(2) = colorz
-                MapData(X, Y).Engine_Light(3) = colorz
+                MapData(X, Y).Engine_Light()(0) = colorz
+                MapData(X, Y).Engine_Light()(1) = colorz
+                MapData(X, Y).Engine_Light()(2) = colorz
+                MapData(X, Y).Engine_Light()(3) = colorz
             End If
         Next Y
     Next X
@@ -381,7 +381,7 @@ Public Sub DeInit_LightEngine()
 End Sub
 
 Public Function LightRenderAll() As Boolean
-    On Error GoTo handle
+    On Error GoTo Handle
 
     If Not ArrayInitialized(Not Light_List) Then Exit Function
     
@@ -393,14 +393,14 @@ Public Function LightRenderAll() As Boolean
     
     LightRenderAll = True
 
-handle:
+Handle:
     LightRenderAll = False
     Exit Function
 End Function
 
 Public Function LightRemoveAll() As Boolean
 
-    On Error GoTo handle
+    On Error GoTo Handle
     
     If Not ArrayInitialized(Not Light_List) Then Exit Function
     
@@ -412,7 +412,7 @@ Public Function LightRemoveAll() As Boolean
     
     LightRemoveAll = True
     
-handle:
+Handle:
     LightRemoveAll = False
     Exit Function
 
