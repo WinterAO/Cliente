@@ -3,7 +3,6 @@
 /GRAFICOS/Fonts/font1.dat eol=lf
 /GRAFICOS/Fonts/font2.dat eol=lf
 /GRAFICOS/Fonts/font3.dat eol=lf
-
 # Declare file types.
 # The - is a negation symbol, so  -text it means"not" text
 *.msv -text
@@ -25,7 +24,7 @@
 *.mp3 -text
 *.wav -text
 *.ao -text
-*.wao -text
+*.WAO filter=lfs diff=lfs merge=lfs -text
 *.ocx -text
 *.OCX -text
 *.csm -text
@@ -34,10 +33,11 @@
 /Recursos/GRAFICOS/Fonts/font1.dat -text
 /Recursos/GRAFICOS/Fonts/font2.dat -text
 /Recursos/GRAFICOS/Fonts/font3.dat -text
-
 # Declare encoding of all files for code.
 *.bas encoding=ansi
 *.cls encoding=ansi
 *.vbp encoding=ansi
 *.frm encoding=ansi
 *.json encoding=ansi
+/Recursos/*.WAO filter=lfs diff=lfs merge=lfs -text
+*.WAO filter=lfs diff=lfs merge=lfs -text
