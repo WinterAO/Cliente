@@ -1256,7 +1256,42 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
         
     
         Select Case KeyCode
+            Case CustomKeys.BindedKey(eKeyType.mKeyChatNormal)
+                SendingType = 1
+                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+                lblChat.Caption = "1.Normal"
+            
+            Case CustomKeys.BindedKey(eKeyType.mKeyChatGritar)
+                SendingType = 2
+                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+                lblChat.Caption = "2.Gritar"
+            
+            Case CustomKeys.BindedKey(eKeyType.mKeyChatPrivado)
+                sndPrivateTo = InputBox("Nombre del destinatario:", vbNullString)
     
+                If sndPrivateTo <> vbNullString Then
+                    SendingType = 3
+                    If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+                Else
+                    MsgBox "¡Escribe un nombre."
+                End If
+                lblChat.Caption = "3.Privado"
+            
+            Case CustomKeys.BindedKey(eKeyType.mKeyChatClan)
+                SendingType = 4
+                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+                lblChat.Caption = "4.Clan"
+            
+            Case CustomKeys.BindedKey(eKeyType.mKeyChatGrupo)
+                SendingType = 5
+                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+                lblChat.Caption = "5.Party"
+            
+            Case CustomKeys.BindedKey(eKeyType.mKeyChatGlobal)
+                SendingType = 6
+                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+                lblChat.Caption = "6.Global"
+            
             Case CustomKeys.BindedKey(eKeyType.mKeyTakeScreenShot)
                 Call Mod_General.Client_Screenshot(frmMain.hDC, 1024, 768)
                     

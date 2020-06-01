@@ -50,7 +50,7 @@ Option Explicit
 
 ''
 'Number of Customizable Keys
-Private Const NUM_CUSTOM_KEYS As Byte = 24
+Private Const NUM_CUSTOM_KEYS As Byte = 29
 
 ''
 'Error Raised in case the key file doesn't exist
@@ -86,11 +86,17 @@ Private mappedKeys(1 To NUM_CUSTOM_KEYS) As Integer
 '@param mKeyDropObject Key for dropping inventory objects
 '@param mKeyUseObject Key for using inventory objects
 '@param mKeyAttack Key for attacking other Users/NPCs
-'@param mKeyTalk Key for talking (to all)
-'@param mKeyTalkWithGuild Key for talking (only to guild members)
+'@param mKeyTalk Key for talking (to all))
 '@param mKeyTakeScreenShot Key for taking a snapshot of the screen
 '@param mKeyShowOptions Key for showing the "Options" form
 '@param mKeyExitGame Key for close the game
+'@param mKeyChatNormal Acceso rapido de chat normal
+'@param mKeyChatGritar Acceso rapido de chat gritar
+'@param mKeyChatPrivado Acceso rapido de chat privado
+'@param mKeyChatClan Acceso rapido de chat clan
+'@param mKeyChatGrupo Acceso rapido de chat grupo
+'@param mKeyChatGlobalAcceso rapido de chat global
+
 Public Enum eKeyType
     mKeyUp = 1
     mKeyDown
@@ -111,11 +117,16 @@ Public Enum eKeyType
     mKeyUseObject
     mKeyAttack
     mKeyTalk
-    mKeyTalkWithGuild
     mKeyTakeScreenShot
     mKeyShowOptions
     mKeyExitGame
     mKeyToggleFPS
+    mKeyChatNormal
+    mKeyChatGritar
+    mKeyChatPrivado
+    mKeyChatClan
+    mKeyChatGrupo
+    mKeyChatGlobal
 End Enum
 
 ''
@@ -137,6 +148,9 @@ Public Function ReadableName(ByVal KeyCode As Integer) As String
         
         Case KeyCodeConstants.vbKeyNumpad0 To KeyCodeConstants.vbKeyNumpad9
             ReadableName = KeyCode - KeyCodeConstants.vbKeyNumpad0 & " (teclado numerico)"
+            
+        Case KeyCodeConstants.vbKey0 To KeyCodeConstants.vbKey9
+            ReadableName = Chr$(KeyCode)
         
         Case KeyCodeConstants.vbKeyF1 To KeyCodeConstants.vbKeyF16
             ReadableName = "F" & (KeyCode - KeyCodeConstants.vbKeyF1 + 1)
@@ -375,11 +389,17 @@ Public Sub LoadDefaults(ByVal Clasica As Boolean)
     mappedKeys(eKeyType.mKeyHide) = KeyCodeConstants.vbKeyO
     mappedKeys(eKeyType.mKeyDropObject) = KeyCodeConstants.vbKeyT
     mappedKeys(eKeyType.mKeyTalk) = KeyCodeConstants.vbKeyReturn
-    mappedKeys(eKeyType.mKeyTalkWithGuild) = KeyCodeConstants.vbKeyDelete
     mappedKeys(eKeyType.mKeyTakeScreenShot) = KeyCodeConstants.vbKeySnapshot
     mappedKeys(eKeyType.mKeyShowOptions) = KeyCodeConstants.vbKeyI
     mappedKeys(eKeyType.mKeyExitGame) = KeyCodeConstants.vbKeyEscape
     mappedKeys(eKeyType.mKeyToggleFPS) = KeyCodeConstants.vbKeyMultiply
+    
+    mappedKeys(eKeyType.mKeyChatNormal) = KeyCodeConstants.vbKey1
+    mappedKeys(eKeyType.mKeyChatGritar) = KeyCodeConstants.vbKey2
+    mappedKeys(eKeyType.mKeyChatPrivado) = KeyCodeConstants.vbKey3
+    mappedKeys(eKeyType.mKeyChatClan) = KeyCodeConstants.vbKey4
+    mappedKeys(eKeyType.mKeyChatGrupo) = KeyCodeConstants.vbKey5
+    mappedKeys(eKeyType.mKeyChatGlobal) = KeyCodeConstants.vbKey6
     
 End Sub
 
