@@ -200,7 +200,6 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -603,7 +602,7 @@ Begin VB.Form frmMain
       EndProperty
       ForeColor       =   &H80000018&
       Height          =   165
-      Left            =   13590
+      Left            =   14175
       TabIndex        =   26
       Top             =   8550
       Width           =   465
@@ -852,7 +851,7 @@ Begin VB.Form frmMain
       EndProperty
       ForeColor       =   &H80000018&
       Height          =   165
-      Left            =   14175
+      Left            =   13590
       TabIndex        =   4
       Top             =   8550
       Width           =   465
