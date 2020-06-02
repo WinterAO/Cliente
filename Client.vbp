@@ -74,7 +74,6 @@ Module=mDx8_Projectile; CODIGO\Motor\mDx8_Projectile.bas
 Module=mDx8_Party; CODIGO\Motor\mDx8_Party.bas
 Module=mDx8_Luces; CODIGO\Motor\mDx8_Luces.bas
 Module=mDx8_Engine; CODIGO\Motor\mDx8_Engine.bas
-Module=mDx8_Auras; CODIGO\Motor\mDx8_Auras.bas
 Class=Particle; CODIGO\Motor\Particle.cls
 Module=mPooChar; CODIGO\Areas\mPooChar.bas
 Module=mPooMap; CODIGO\Areas\mPooMap.bas

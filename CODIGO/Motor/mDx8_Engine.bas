@@ -188,9 +188,6 @@ On Error Resume Next
     '   DeInit Lights
     Call DeInit_LightEngine
     
-    '   DeInit Auras
-    Call DeInit_Auras
-    
     '   Clean Particles
     Call Particle_Group_Remove_All
     
@@ -244,7 +241,6 @@ Public Sub Engine_DirectX8_Aditional_Init()
     ' Inicializamos otros sistemas.
     Call mDx8_Text.Engine_Init_FontTextures
     Call mDx8_Text.Engine_Init_FontSettings
-    Call mDx8_Auras.Load_Auras
     Call mDx8_Clima.Init_MeteoEngine
     Call mDx8_Dibujado.Damage_Initialize
     
@@ -361,7 +357,7 @@ Public Sub Engine_D3DColor_To_RGB_List(rgb_list() As Long, Color As D3DCOLORVALU
 'Last Modification: 14/05/10
 'Blisse-AO | Set a D3DColorValue to a RGB List
 '***************************************************
-    rgb_list(0) = D3DColorARGB(Color.A, Color.r, Color.g, Color.b)
+    rgb_list(0) = D3DColorARGB(Color.a, Color.r, Color.g, Color.b)
     rgb_list(1) = rgb_list(0)
     rgb_list(2) = rgb_list(0)
     rgb_list(3) = rgb_list(0)
@@ -397,7 +393,7 @@ Public Function SetARGB_Alpha(rgb_list() As Long, Alpha As Byte) As Long()
     If Alpha < 0 Then Alpha = 0
     
     'seteamos el alpha
-    TempColor.A = Alpha
+    TempColor.a = Alpha
     
     'generamos el nuevo RGB_List
     Call Engine_D3DColor_To_RGB_List(tempARGB(), TempColor)

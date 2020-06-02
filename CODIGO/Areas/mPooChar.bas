@@ -67,8 +67,7 @@ Private Sub Char_ResetInfo(ByVal CharIndex As Integer)
     '*****************************************************************
 
     With charlist(CharIndex)
-        
-        Call Delete_All_Auras(CharIndex)
+
         Call Char_Particle_Group_Remove_All(CharIndex)
             
         .active = 0

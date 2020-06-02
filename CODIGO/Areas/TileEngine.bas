@@ -194,8 +194,6 @@ Public Type Char
     priv As Byte
     attacking As Boolean
     
-    Aura(1 To 4) As Aura
-    
     ParticleIndex As Integer
     Particle_Count As Long
     Particle_Group() As Long
