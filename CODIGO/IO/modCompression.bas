@@ -3,7 +3,7 @@ Option Explicit
 
 Public Windows_Temp_Dir As String 'Normalmente va en Declaraciones, lo pongo aqui para no mezclar.
 
-Private Const Extension As String = ".WAO"
+Private Const extension As String = ".WAO"
 
 'This structure will describe our binary file's
 'size and number of contained files
@@ -128,7 +128,6 @@ Public Function Extract_Patch(ByVal resource_path As String, ByVal file_name As 
     Dim OutputFilePath As String
     
     'Done flags
-    Dim bmp_done As Boolean
     Dim png_done As Boolean
     Dim wav_done As Boolean
     Dim Musica_done As Boolean
@@ -186,64 +185,58 @@ On Local Error GoTo errhandler
         'Check the extension of the file
         Select Case LCase(Right(Trim(InfoHead(loopc).strFileName), 3))
             '****************************************
-            Case Is = "bmp"
-                If bmp_done Then GoTo EndMainLoop
-                FileExtension = "bmp"
-                OutputFilePath = resource_path & "\Graphics" & Extension
-                bmp_done = True
-            '****************************************
             Case Is = "png"
-                If bmp_done Then GoTo EndMainLoop
+                If png_done Then GoTo EndMainLoop
                 FileExtension = "png"
-                OutputFilePath = resource_path & "\Particles" & Extension
-                bmp_done = True
+                OutputFilePath = resource_path & "\Graphics" & extension
+                png_done = True
             '****************************************
             Case Is = "Musica"
                 If Musica_done Then GoTo EndMainLoop
                 FileExtension = "*"
-                OutputFilePath = resource_path & "\Musics" & Extension
+                OutputFilePath = resource_path & "\Musics" & extension
                 Musica_done = True
             '****************************************
             Case Is = "wav"
                 If wav_done Then GoTo EndMainLoop
                 FileExtension = "wav"
-                OutputFilePath = resource_path & "\Sounds" & Extension
+                OutputFilePath = resource_path & "\Sounds" & extension
                 wav_done = True
             '****************************************
             'Scripts
             Case Is = "ind"
                 If ind_done Then GoTo EndMainLoop
                 FileExtension = "ind"
-                OutputFilePath = resource_path & "\Scripts" & Extension
+                OutputFilePath = resource_path & "\Scripts" & extension
                 ind_done = True
             Case Is = "dat"
                 If dat_done Then GoTo EndMainLoop
                 FileExtension = "dat"
-                OutputFilePath = resource_path & "\Scripts" & Extension
+                OutputFilePath = resource_path & "\Scripts" & extension
                 dat_done = True
             Case Is = "ini"
                 If ini_done Then GoTo EndMainLoop
                 FileExtension = "ini"
-                OutputFilePath = resource_path & "\Scripts" & Extension
+                OutputFilePath = resource_path & "\Scripts" & extension
                 ini_done = True
             Case Is = "wao"
                 If ini_done Then GoTo EndMainLoop
                 FileExtension = "ini"
-                OutputFilePath = resource_path & "\Scripts" & Extension
+                OutputFilePath = resource_path & "\Scripts" & extension
                 ini_done = True
             '****************************************
             'Graphics_INT
             Case Is = "gif"
                 If ini_done Then GoTo EndMainLoop
                 FileExtension = "gif"
-                OutputFilePath = resource_path & "\Interface" & Extension
+                OutputFilePath = resource_path & "\Interface" & extension
                 gif_done = True
             '****************************************
             'Maps
             Case Is = "map"
                 If map_done Then GoTo EndMainLoop
                 FileExtension = "map"
-                OutputFilePath = resource_path & "\Maps" & Extension
+                OutputFilePath = resource_path & "\Maps" & extension
                 map_done = True
                 
             '****************************************
@@ -251,13 +244,13 @@ On Local Error GoTo errhandler
             Case Is = "Ambient"
                 If Ambient_done Then GoTo EndMainLoop
                 FileExtension = "Ambient"
-                OutputFilePath = resource_path & "\Ambient" & Extension
+                OutputFilePath = resource_path & "\Ambient" & extension
                 Ambient_done = True
                 
             Case Is = "Fuentes"
                 If Fuentes_done Then GoTo EndMainLoop
                 FileExtension = "Fuentest"
-                OutputFilePath = resource_path & "\Fuentes" & Extension
+                OutputFilePath = resource_path & "\Fuentes" & extension
                 Fuentes_done = True
         End Select
         
@@ -445,65 +438,65 @@ On Local Error GoTo errhandler
     Select Case file_type
         Case Graphics
             If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "Graphics" & Extension
+                SourceFilePath = resource_path & OUTPUT_PATH & "Graphics" & extension
             Else
-                SourceFilePath = resource_path & "\Graphics" & Extension
+                SourceFilePath = resource_path & "\Graphics" & extension
             End If
             
         Case Particulas
             If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "Particles" & Extension
+                SourceFilePath = resource_path & OUTPUT_PATH & "Particles" & extension
             Else
-                SourceFilePath = resource_path & "\Particles" & Extension
+                SourceFilePath = resource_path & "\Particles" & extension
             End If
             
         Case Musica
             If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "Musics" & Extension
+                SourceFilePath = resource_path & OUTPUT_PATH & "Musics" & extension
             Else
-                SourceFilePath = resource_path & "\Musics" & Extension
+                SourceFilePath = resource_path & "\Musics" & extension
             End If
         
         Case Wav
             If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "Sounds" & Extension
+                SourceFilePath = resource_path & OUTPUT_PATH & "Sounds" & extension
             Else
-                SourceFilePath = resource_path & "\Sounds" & Extension
+                SourceFilePath = resource_path & "\Sounds" & extension
             End If
         
         Case Scripts
             If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "Scripts" & Extension
+                SourceFilePath = resource_path & OUTPUT_PATH & "Scripts" & extension
             Else
-                SourceFilePath = resource_path & "\Scripts" & Extension
+                SourceFilePath = resource_path & "\Scripts" & extension
             End If
         
         Case Interface
             If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "Interface" & Extension
+                SourceFilePath = resource_path & OUTPUT_PATH & "Interface" & extension
             Else
-                SourceFilePath = resource_path & "\Interface" & Extension
+                SourceFilePath = resource_path & "\Interface" & extension
             End If
             
         Case Map
             If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "Maps" & Extension
+                SourceFilePath = resource_path & OUTPUT_PATH & "Maps" & extension
             Else
-                SourceFilePath = resource_path & "\Maps" & Extension
+                SourceFilePath = resource_path & "\Maps" & extension
             End If
             
         Case Ambient
             If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "Ambient" & Extension
+                SourceFilePath = resource_path & OUTPUT_PATH & "Ambient" & extension
             Else
-                SourceFilePath = resource_path & "\Ambient" & Extension
+                SourceFilePath = resource_path & "\Ambient" & extension
             End If
             
         Case Fuentes
             If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "fuentes" & Extension
+                SourceFilePath = resource_path & OUTPUT_PATH & "fuentes" & extension
             Else
-                SourceFilePath = resource_path & "\fuentes" & Extension
+                SourceFilePath = resource_path & "\fuentes" & extension
             End If
         Case Else
             Exit Function
@@ -574,7 +567,7 @@ Public Function Delete_File(ByVal file_path As String) As Boolean
 'Deletes a resource files
 '*****************************************************************
     
-    On Error GoTo Error_Handler
+    On Error GoTo ERROR_HANDLER
         
     Kill file_path
     
@@ -582,7 +575,7 @@ Public Function Delete_File(ByVal file_path As String) As Boolean
 
     Exit Function
     
-Error_Handler:
+ERROR_HANDLER:
     On Error Resume Next
     
     Dim Handle As Integer
@@ -619,31 +612,31 @@ On Local Error GoTo errhandler
    
     Select Case file_type
         Case Graphics
-                SourceFilePath = resource_path & "\Graphics" & Extension
+                SourceFilePath = resource_path & "\Graphics" & extension
                 
         Case Particulas
-                SourceFilePath = resource_path & "\Particles" & Extension
+                SourceFilePath = resource_path & "\Particles" & extension
             
         Case Musica
-                SourceFilePath = resource_path & "\Musics" & Extension
+                SourceFilePath = resource_path & "\Musics" & extension
         
         Case Wav
-                SourceFilePath = resource_path & "\Sounds" & Extension
+                SourceFilePath = resource_path & "\Sounds" & extension
 
         Case Scripts
-                SourceFilePath = resource_path & "\Scripts" & Extension
+                SourceFilePath = resource_path & "\Scripts" & extension
 
         Case Interface
-                SourceFilePath = resource_path & "\Interface" & Extension
+                SourceFilePath = resource_path & "\Interface" & extension
 
         Case Map
-                SourceFilePath = resource_path & "\Maps" & Extension
+                SourceFilePath = resource_path & "\Maps" & extension
 
         Case Ambient
-                SourceFilePath = resource_path & "\Ambient" & Extension
+                SourceFilePath = resource_path & "\Ambient" & extension
                 
         Case Fuentes
-                SourceFilePath = resource_path & "\Fuentes" & Extension
+                SourceFilePath = resource_path & "\Fuentes" & extension
         Case Else
             Exit Function
     End Select
@@ -692,31 +685,31 @@ On Local Error GoTo errhandler
     
     Select Case file_type
         Case Graphics
-                SourceFilePath = resource_path & "\Graphics" & Extension
+                SourceFilePath = resource_path & "\Graphics" & extension
                 
         Case Particulas
-                SourceFilePath = resource_path & "\Particles" & Extension
+                SourceFilePath = resource_path & "\Particles" & extension
             
         Case Musica
-                SourceFilePath = resource_path & "\Musics" & Extension
+                SourceFilePath = resource_path & "\Musics" & extension
         
         Case Wav
-                SourceFilePath = resource_path & "\Sounds" & Extension
+                SourceFilePath = resource_path & "\Sounds" & extension
 
         Case Scripts
-                SourceFilePath = resource_path & "\Scripts" & Extension
+                SourceFilePath = resource_path & "\Scripts" & extension
 
         Case Interface
-                SourceFilePath = resource_path & "\Interface" & Extension
+                SourceFilePath = resource_path & "\Interface" & extension
 
         Case Map
-                SourceFilePath = resource_path & "\Maps" & Extension
+                SourceFilePath = resource_path & "\Maps" & extension
 
         Case Ambient
-                SourceFilePath = resource_path & "\Ambient" & Extension
+                SourceFilePath = resource_path & "\Ambient" & extension
                 
         Case Fuentes
-                SourceFilePath = resource_path & "\Fuentes" & Extension
+                SourceFilePath = resource_path & "\Fuentes" & extension
         Case Else
             Exit Function
     End Select
@@ -842,7 +835,7 @@ Public Function General_Get_Temp_Dir() As String
    General_Get_Temp_Dir = IIf(c > 0, Left$(s, c), "")
 End Function
 
-Public Sub General_Quick_Sort(ByRef SortArray As Variant, ByVal first As Long, ByVal last As Long)
+Public Sub General_Quick_Sort(ByRef SortArray As Variant, ByVal First As Long, ByVal Last As Long)
 '**************************************************************
 'Author: juan Martín Sotuyo Dodero
 'Last Modify Date: 3/03/2005
@@ -852,9 +845,9 @@ Public Sub General_Quick_Sort(ByRef SortArray As Variant, ByVal first As Long, B
     Dim temp As Variant
     Dim List_Separator As Variant
     
-    Low = first
-    High = last
-    List_Separator = SortArray((first + last) / 2)
+    Low = First
+    High = Last
+    List_Separator = SortArray((First + Last) / 2)
     Do While (Low <= High)
         Do While SortArray(Low) < List_Separator
             Low = Low + 1
@@ -870,8 +863,8 @@ Public Sub General_Quick_Sort(ByRef SortArray As Variant, ByVal first As Long, B
             High = High - 1
         End If
     Loop
-    If first < High Then General_Quick_Sort SortArray, first, High
-    If Low < last Then General_Quick_Sort SortArray, Low, last
+    If First < High Then General_Quick_Sort SortArray, First, High
+    If Low < Last Then General_Quick_Sort SortArray, Low, Last
 End Sub
 
 Public Function General_Drive_Get_Free_Bytes(ByVal DriveName As String) As Currency

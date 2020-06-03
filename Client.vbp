@@ -131,7 +131,7 @@ VersionCompanyName="WinterAO"
 VersionLegalCopyright="Argentum idea Pablo Ignacio Marquez - Copyright 2003  -  Code pieces are copyright of their respective authors."
 VersionLegalTrademarks="http://www.WinterAO.com.ar"
 VersionProductName="WinterAO Resurrection"
-CondComp="Compression = 0 : ConMenuseConextuales = 0"
+CondComp="Desarrollo = 1 : ConMenuseConextuales = 0"
 CompilationType=0
 OptimizationType=0
 FavorPentiumPro(tm)=0

@@ -138,6 +138,7 @@ Private Function CrearGrafico(ByVal Archivo As Integer, _
     Dim texture_info As D3DXIMAGE_INFO
     Dim Index        As Integer
     Dim buffer()     As Byte
+    Dim InfoHead As INFOHEADER
     
     Index = Archivo Mod HASH_TABLE_SIZE
 
@@ -153,26 +154,24 @@ Private Function CrearGrafico(ByVal Archivo As Integer, _
             .FileName = Archivo
 
             'TODO: No usar variable de compilacion y acceder a esto desde el config.ini
-            #If Compression = 1 Then
+            #If Desarrollo = 0 Then
             
-                'Obtenemos el .bmp del archivo en Graphics.AO
-                Call modCompression.Get_Image(Carga.Path(Graficos), CStr(Archivo), buffer())
-                
-                'Seteamos la textura.
-                Set .Texture = DirectD3D.CreateTextureFromFileInMemoryEx(DirectDevice, buffer(0), UBound(buffer()) + 1, D3DX_DEFAULT, D3DX_DEFAULT, 0, 0, D3DFMT_A8R8G8B8, _
-                                                                         D3DPOOL_MANAGED, D3DX_FILTER_POINT, D3DX_FILTER_NONE, &HFF000000, texture_info, ByVal 0)
-                Erase buffer
+                InfoHead = File_Find(App.Path & "\Recursos\Graphics.WAO", CStr(.FileName) & ".png")
+            
+                If InfoHead.lngFileSize <> 0 Then
+                    Extract_File_Memory Graphics, App.Path & "\Recursos\", LCase$(CStr(.FileName) & ".png"), buffer()
+                    'Seteamos la textura.
+                    Set .Texture = DirectD3D.CreateTextureFromFileInMemoryEx(DirectDevice, buffer(0), UBound(buffer()) + 1, D3DX_DEFAULT, D3DX_DEFAULT, 0, 0, D3DFMT_A8R8G8B8, _
+                                                                             D3DPOOL_MANAGED, D3DX_FILTER_POINT, D3DX_FILTER_NONE, &HFF000000, texture_info, ByVal 0)
+                    Erase buffer
+                End If
                 
             #Else
                 
                 Dim Graphic As String
                     Graphic = Carga.Path(Graficos) & .FileName
                 
-                If FileExist(Graphic & ".bmp", vbNormal) Then
-                    Set .Texture = DirectD3D.CreateTextureFromFileEx(DirectDevice, Graphic & ".bmp", D3DX_DEFAULT, D3DX_DEFAULT, 0, 0, D3DFMT_A8R8G8B8, _
-                                                                     D3DPOOL_MANAGED, D3DX_FILTER_NONE, D3DX_FILTER_NONE, &HFF000000, texture_info, ByVal 0)
-                
-                ElseIf FileExist(Graphic & ".png", vbNormal) Then
+                If FileExist(Graphic & ".png", vbNormal) Then
                     Set .Texture = DirectD3D.CreateTextureFromFileEx(DirectDevice, Graphic & ".png", D3DX_DEFAULT, D3DX_DEFAULT, 0, 0, D3DFMT_A8R8G8B8, _
                                                                      D3DPOOL_MANAGED, D3DX_FILTER_NONE, D3DX_FILTER_NONE, &HFF000000, texture_info, ByVal 0)
                 

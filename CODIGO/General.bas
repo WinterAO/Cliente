@@ -296,7 +296,7 @@ Private Sub CheckKeys()
     If Traveling Then Exit Sub
 
     'Si esta chateando, no mover el pj, tanto para chat de clanes y normal
-    If frmMain.SendTxt.Visible Then Exit Sub
+    If frmMain.Sendtxt.Visible Then Exit Sub
 
     'Don't allow any these keys during movement..
     If UserMoving = 0 Then
@@ -482,13 +482,12 @@ Sub Main()
     'Inicializamos el conectar renderizado
     Call ModCnt.InicializarRndCNT
     
-    'Comento esto ya que nosotros si permitimos abrir mas de un cliente a la ves.
-    '#If Testeo = 0 Then
-    '    If Application.FindPreviousInstance Then
-    '        Call MsgBox(JsonLanguage.Item("OTRO_CLIENTE_ABIERTO").Item("TEXTO"), vbApplicationModal + vbInformation + vbOKOnly, "Error al ejecutar")
-    '        End
-    '    End If
-    '#End If
+    #If Desarrollo = 0 Then
+        If Application.FindPreviousInstance Then
+            Call MsgBox(JsonLanguage.item("OTRO_CLIENTE_ABIERTO").item("TEXTO"), vbApplicationModal + vbInformation + vbOKOnly, "Error al ejecutar")
+            End
+        End If
+    #End If
 
     'Read command line. Do it AFTER config file is loaded to prevent this from
     'canceling the effects of "/nores" option.
