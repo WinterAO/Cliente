@@ -114,6 +114,13 @@ Public Function Engine_DirectX8_Init() As Boolean
                                                       D3DWindow.hDeviceWindow, _
                                                       D3DCREATE_MIXED_VERTEXPROCESSING, _
                                                       D3DWindow)
+                                                      
+       Case 2 '   Software
+            Set DirectDevice = DirectD3D.CreateDevice(D3DADAPTER_DEFAULT, _
+                                                      D3DDEVTYPE_HAL, _
+                                                      D3DWindow.hDeviceWindow, _
+                                                      D3DCREATE_SOFTWARE_VERTEXPROCESSING, _
+                                                      D3DWindow)
 
         Case Else 'Si no hay opcion entramos en Hardware para asegurarnos que funcione el cliente.
             Set DirectDevice = DirectD3D.CreateDevice(D3DADAPTER_DEFAULT, _
