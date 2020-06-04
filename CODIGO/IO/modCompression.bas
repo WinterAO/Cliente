@@ -2,8 +2,11 @@ Attribute VB_Name = "modCompression"
 Option Explicit
 
 Public Windows_Temp_Dir As String 'Normalmente va en Declaraciones, lo pongo aqui para no mezclar.
+'Public Formato As String * 6
+Public Const Formato As String * 6 = ".WAO"
+Public Const PswPk As Long = 274504515
 
-Private Const extension As String = ".WAO"
+Public PkContra() As Byte
 
 'This structure will describe our binary file's
 'size and number of contained files
@@ -15,43 +18,63 @@ End Type
 'This structure will describe each file contained
 'in our binary file
 Public Type INFOHEADER
+    
     lngFileStart As Long            'Where does the chunk start?
     lngFileSize As Long             'How big is this chunk of stored data?
-    strFileName As String * 16      'What's the name of the file this data came from?
+    strFileName As String * 32      'What's the name of the file this data came from?
     lngFileSizeUncompressed As Long 'How big is the file compressed
 End Type
 
 Public Enum resource_file_type
     Graphics
-    Particulas
-    Musica
+    Ambient
+    Music
     Wav
     Scripts
     Patch
-    Interface
     Map
-    Ambient
+    Interface
     Fuentes
 End Enum
 
+Private Const GRAPHIC_PATH As String = "\GRAFICOS\"
+Private Const AMBIENT_PATH As String = "\Ambient\"
+Private Const Music_PATH As String = "\Music\"
+Private Const WAV_PATH As String = "\Wav\"
+Private Const MAP_PATH As String = "\Mapas\"
+Private Const INTERFACE_PATH As String = "\Interface\"
+Private Const FUENTES_PATH As String = "\Fuentes\"
+Private Const SCRIPT_PATH As String = "\Init\"
 Private Const OUTPUT_PATH As String = "\Output\"
+Private Declare Function GetDiskFreeSpace Lib "kernel32" Alias "GetDiskFreeSpaceExA" (ByVal lpRootPathName As String, FreeBytesToCaller As Currency, bytesTotal As Currency, FreeBytesTotal As Currency) As Long
+Private Declare Function GetTempPath Lib "kernel32" Alias "GetTempPathA" (ByVal nBufferLength As Long, ByVal lpBuffer As String) As Long
 
 Private Declare Function Compress Lib "zlib.dll" Alias "compress" (dest As Any, destLen As Any, src As Any, ByVal srcLen As Long) As Long
 Private Declare Function UnCompress Lib "zlib.dll" Alias "uncompress" (dest As Any, destLen As Any, src As Any, ByVal srcLen As Long) As Long
-'To get free bytes in drive
-Private Declare Function GetDiskFreeSpace Lib "kernel32" Alias "GetDiskFreeSpaceExA" (ByVal lpRootPathName As String, FreeBytesToCaller As Currency, bytesTotal As Currency, FreeBytesTotal As Currency) As Long
 
-Private Declare Function GetTempPath Lib "kernel32" Alias "GetTempPathA" (ByVal nBufferLength As Long, ByVal lpBuffer As String) As Long
-Private Const MAX_LENGTH = 512
+Public Sub GenerateContra()
+'***************************************************
+'Author: ^[GS]^
+'Last Modification: 17/06/2012 - ^[GS]^
+'
+'***************************************************
 
-'Loading pictures from byte arrays
-Private Declare Function CreateStreamOnHGlobal Lib "ole32" (ByVal hGlobal As Long, ByVal fDeleteOnRelease As Long, ppstm As Any) As Long
-Private Declare Function OleLoadPicture Lib "olepro32" (pStream As Any, ByVal lSize As Long, ByVal fRunmode As Long, riid As Any, ppvObj As Any) As Long
-Private Declare Function CLSIDFromString Lib "ole32" (ByVal lpsz As Any, pclsid As Any) As Long
-Private Declare Function GlobalAlloc Lib "kernel32" (ByVal uFlags As Long, ByVal dwBytes As Long) As Long
-Private Declare Function GlobalLock Lib "kernel32" (ByVal hMem As Long) As Long
-Private Declare Function GlobalUnlock Lib "kernel32" (ByVal hMem As Long) As Long
-Private Declare Sub MoveMemory Lib "kernel32" Alias "RtlMoveMemory" (pDest As Any, pSource As Any, ByVal dwLength As Long)
+'on error resume next
+    Dim Contra As String
+    Dim loopc As Byte
+    
+    Contra = "T5lTCWm2m1rR7#SMgq!cazNv"
+    
+    Erase PkContra
+    
+    If LenB(Contra) <> 0 Then
+        ReDim PkContra(Len(Contra) - 1)
+        For loopc = 0 To UBound(PkContra)
+            PkContra(loopc) = Asc(mid(Contra, loopc + 1, 1))
+        Next loopc
+    End If
+    
+End Sub
 
 Public Sub Compress_Data(ByRef Data() As Byte)
 '*****************************************************************
@@ -88,19 +111,231 @@ Public Sub Compress_Data(ByRef Data() As Byte)
     Erase BufTemp
     
     'Encrypt the first byte of the compressed data for extra security
-    Data(0) = Data(0) Xor 166
+    If UBound(PkContra) <= UBound(Data) And UBound(PkContra) <> 0 Then
+        For loopc = 0 To UBound(PkContra)
+            Data(loopc) = Data(loopc) Xor PkContra(loopc)
+        Next loopc
+    End If
 End Sub
 
 Public Sub Decompress_Data(ByRef Data() As Byte, ByVal OrigSize As Long)
+'*****************************************************************
+'Author: Juan Martín Dotuyo Dodero
+'Last Modify Date: 10/13/2004
+'Decompresses binary data
+'*****************************************************************
     Dim BufTemp() As Byte
-   
+    Dim loopc As Integer
+    
     ReDim BufTemp(OrigSize - 1)
-    Data(0) = Data(0) Xor 166
+    
+    'Des-encrypt the first byte of the compressed data
+    If UBound(PkContra) <= UBound(Data) And UBound(PkContra) <> 0 Then
+        For loopc = 0 To UBound(PkContra)
+            Data(loopc) = Data(loopc) Xor PkContra(loopc)
+        Next loopc
+    End If
+    
     UnCompress BufTemp(0), OrigSize, Data(0), UBound(Data) + 1
-   
+    
     ReDim Data(OrigSize - 1)
+    
     Data = BufTemp
+    
     Erase BufTemp
+End Sub
+
+Public Function General_Drive_Get_Free_Bytes(ByVal DriveName As String) As Currency
+'**************************************************************
+'Author: Juan Martín Sotuyo Dodero
+'Last Modify Date: 6/07/2004
+'
+'**************************************************************
+    Dim RetVal As Long
+    Dim FB As Currency
+    Dim BT As Currency
+    Dim FBT As Currency
+    
+    RetVal = GetDiskFreeSpace(Left(DriveName, 2), FB, BT, FBT)
+    
+    General_Drive_Get_Free_Bytes = FB * 10000 'convert result to actual size in bytes
+End Function
+
+Public Function General_Get_Temp_Dir() As String
+'**************************************************************
+'Author: Augusto José Rando
+'Last Modify Date: 6/11/2005
+'Gets windows temporary directory
+'**************************************************************
+ Const MAX_LENGTH = 512
+   Dim s As String
+   Dim c As Long
+   s = Space$(MAX_LENGTH)
+   c = GetTempPath(MAX_LENGTH, s)
+   If c > 0 Then
+       If c > Len(s) Then
+           s = Space$(c + 1)
+           c = GetTempPath(MAX_LENGTH, s)
+       End If
+   End If
+   General_Get_Temp_Dir = IIf(c > 0, Left$(s, c), "")
+End Function
+
+Public Sub Extract_All_Files(ByVal file_type As resource_file_type, ByVal resource_path As String, Optional ByVal UseOutputFolder As Boolean = False)
+'*****************************************************************
+'Author: Juan Martín Dotuyo Dodero
+'Last Modify Date: 10/13/2004
+'Extracts all files from a resource file
+'*****************************************************************
+    Dim loopc As Long
+    Dim SourceFilePath As String
+    Dim OutputFilePath As String
+    Dim SourceFile As Integer
+    Dim SourceData() As Byte
+    Dim FileHead As FILEHEADER
+    Dim InfoHead() As INFOHEADER
+    Dim Handle As Integer
+
+On Local Error GoTo errhandler
+    Select Case file_type
+        Case Graphics
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & "\Graficos" & Formato ' & OUTPUT2_PATH & "Graficos." & Formato
+            Else
+                SourceFilePath = resource_path & "\Graficos" & Formato
+            End If
+            OutputFilePath = App.Path & OUTPUT_PATH
+            
+        Case Ambient
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Ambient" & Formato
+            Else
+                SourceFilePath = resource_path & "\Ambient" & Formato
+            End If
+            OutputFilePath = App.Path & OUTPUT_PATH
+        
+        Case Music
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Music" & Formato
+            Else
+                SourceFilePath = resource_path & "\Music" & Formato
+            End If
+            OutputFilePath = App.Path & OUTPUT_PATH
+        
+        Case Wav
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Sounds" & Formato
+            Else
+                SourceFilePath = resource_path & "\Sounds" & Formato
+            End If
+            OutputFilePath = App.Path & OUTPUT_PATH
+            
+        Case Map
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Maps" & Formato
+            Else
+                SourceFilePath = resource_path & "\Maps" & Formato
+            End If
+            OutputFilePath = App.Path & OUTPUT_PATH
+        
+        Case Scripts
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Init" & Formato
+            Else
+                SourceFilePath = resource_path & "\Init" & Formato
+            End If
+            OutputFilePath = App.Path & OUTPUT_PATH
+        
+        Case Interface
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Interface" & Formato
+            Else
+                SourceFilePath = resource_path & "\Interface" & Formato
+            End If
+            OutputFilePath = App.Path & OUTPUT_PATH
+            
+        Case Fuentes
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Fuentes" & Formato
+            Else
+                SourceFilePath = resource_path & "\Fuentes" & Formato
+            End If
+            OutputFilePath = App.Path & OUTPUT_PATH
+        
+        Case Else
+            Exit Sub
+    End Select
+        
+    
+    'Open the binary file
+    SourceFile = FreeFile
+    Open SourceFilePath For Binary Access Read Lock Write As SourceFile
+    
+    'Extract the FILEHEADER
+    Get SourceFile, 1, FileHead
+
+    'If PasswordFile2 <> Password3 Then Exit Sub
+    FileHead.lngFileSize = FileHead.lngFileSize - (PswPk * 2)
+    
+    'Check the file for validity
+    If LOF(SourceFile) <> FileHead.lngFileSize Then ' - Pass1.lngFileSize - 1 Then
+        MsgBox "Resource file " & SourceFilePath & " seems to be corrupted.", , "Error"
+        Close SourceFile
+        Erase InfoHead
+        Exit Sub
+    End If
+    'Size the InfoHead array
+    ReDim InfoHead(FileHead.intNumFiles - 1)
+
+    'Extract the INFOHEADER
+    Get SourceFile, , InfoHead
+
+    'Extract all of the files from the binary file
+    For loopc = 0 To UBound(InfoHead)
+        
+        'Check if there is enough memory
+        If InfoHead(loopc).lngFileSizeUncompressed > General_Drive_Get_Free_Bytes(Left(App.Path, 3)) Then
+            MsgBox "No tienes suficiente espacio en el disco para seguir descomprimiendo archivos."
+            Exit Sub
+        End If
+        
+        'Resize the byte data array
+        ReDim SourceData(InfoHead(loopc).lngFileSize - 1)
+        
+        'Get the data
+        Get SourceFile, InfoHead(loopc).lngFileStart, SourceData
+        
+        'Decompress all data
+        Decompress_Data SourceData, InfoHead(loopc).lngFileSizeUncompressed
+        
+        'Get a free handler
+        Handle = FreeFile
+
+        'Create a new file and put in the data
+        Open OutputFilePath & InfoHead(loopc).strFileName For Binary As Handle
+        
+        Put Handle, , SourceData
+        
+        Close Handle
+        
+        Erase SourceData
+        
+        DoEvents
+    Next loopc
+    
+    'Close the binary file
+    Close SourceFile
+    
+    Erase InfoHead
+    MsgBox "Complete"
+Exit Sub
+
+errhandler:
+    Close SourceFile
+    Erase SourceData
+    Erase InfoHead
+    'Display an error message if it didn't work
+    MsgBox "Unable to decode binary file. Reason: " & Err.number & " : " & Err.Description, vbOKOnly, "Error"
 End Sub
 
 Public Function Extract_Patch(ByVal resource_path As String, ByVal file_name As String) As Boolean
@@ -130,17 +365,13 @@ Public Function Extract_Patch(ByVal resource_path As String, ByVal file_name As 
     'Done flags
     Dim png_done As Boolean
     Dim wav_done As Boolean
-    Dim Musica_done As Boolean
-
+    Dim mid_done As Boolean
+    Dim Music_done As Boolean
+    Dim exe_done As Boolean
+    Dim gui_done As Boolean
     Dim ind_done As Boolean
     Dim dat_done As Boolean
-    Dim ini_done As Boolean
-    
-    Dim map_done As Boolean
-    Dim gif_done As Boolean
-    Dim wao_done As Boolean
-    Dim Ambient_done As Boolean
-    Dim Fuentes_done As Boolean
+    Dim bmp_done As Boolean
     
     '************************************************************************************************
     'This is similar to Extract, but has some small differences to make sure what is being updated
@@ -151,7 +382,6 @@ On Local Error GoTo errhandler
     'Open the binary file
     SourceFile = FreeFile
     SourceFilePath = file_name
-
     Open SourceFilePath For Binary Access Read Lock Write As SourceFile
     
     'Extract the FILEHEADER
@@ -184,78 +414,45 @@ On Local Error GoTo errhandler
     For loopc = 0 To UBound(InfoHead())
         'Check the extension of the file
         Select Case LCase(Right(Trim(InfoHead(loopc).strFileName), 3))
-            '****************************************
             Case Is = "png"
                 If png_done Then GoTo EndMainLoop
                 FileExtension = "png"
-                OutputFilePath = resource_path & "\Graphics" & extension
+                OutputFilePath = resource_path & "\Graficos" & Formato
                 png_done = True
-            '****************************************
-            Case Is = "Musica"
-                If Musica_done Then GoTo EndMainLoop
-                FileExtension = "*"
-                OutputFilePath = resource_path & "\Musics" & extension
-                Musica_done = True
-            '****************************************
+            Case Is = "amb"
+                If mid_done Then GoTo EndMainLoop
+                FileExtension = "amb"
+                OutputFilePath = resource_path & "\Ambient" & Formato
+                mid_done = True
+            Case Is = "Music"
+                If Music_done Then GoTo EndMainLoop
+                FileExtension = "mp3"
+                OutputFilePath = resource_path & "\Music" & Formato
+                Music_done = True
             Case Is = "wav"
                 If wav_done Then GoTo EndMainLoop
                 FileExtension = "wav"
-                OutputFilePath = resource_path & "\Sounds" & extension
+                OutputFilePath = resource_path & "\Sounds" & Formato
                 wav_done = True
-            '****************************************
-            'Scripts
+            Case Is = "jpg"
+                If gui_done Then GoTo EndMainLoop
+                FileExtension = "jpg"
+                OutputFilePath = resource_path & "\Interface" & Formato
+                gui_done = True
             Case Is = "ind"
-                If ind_done Then GoTo EndMainLoop
-                FileExtension = "ind"
-                OutputFilePath = resource_path & "\Scripts" & extension
+                If bmp_done Then GoTo EndMainLoop
+                FileExtension = "bmp"
+                OutputFilePath = resource_path & "\Fuentes" & Formato
                 ind_done = True
-            Case Is = "dat"
-                If dat_done Then GoTo EndMainLoop
-                FileExtension = "dat"
-                OutputFilePath = resource_path & "\Scripts" & extension
-                dat_done = True
-            Case Is = "ini"
-                If ini_done Then GoTo EndMainLoop
-                FileExtension = "ini"
-                OutputFilePath = resource_path & "\Scripts" & extension
-                ini_done = True
-            Case Is = "wao"
-                If ini_done Then GoTo EndMainLoop
-                FileExtension = "ini"
-                OutputFilePath = resource_path & "\Scripts" & extension
-                ini_done = True
-            '****************************************
-            'Graphics_INT
-            Case Is = "gif"
-                If ini_done Then GoTo EndMainLoop
-                FileExtension = "gif"
-                OutputFilePath = resource_path & "\Interface" & extension
-                gif_done = True
-            '****************************************
-            'Maps
-            Case Is = "map"
-                If map_done Then GoTo EndMainLoop
-                FileExtension = "map"
-                OutputFilePath = resource_path & "\Maps" & extension
-                map_done = True
-                
-            '****************************************
-            'Ambient
-            Case Is = "Ambient"
-                If Ambient_done Then GoTo EndMainLoop
-                FileExtension = "Ambient"
-                OutputFilePath = resource_path & "\Ambient" & extension
-                Ambient_done = True
-                
-            Case Is = "Fuentes"
-                If Fuentes_done Then GoTo EndMainLoop
-                FileExtension = "Fuentest"
-                OutputFilePath = resource_path & "\Fuentes" & extension
-                Fuentes_done = True
+            Case Is = "bmp"
+                If bmp_done Then GoTo EndMainLoop
+                FileExtension = "bmp"
+                OutputFilePath = resource_path & "\Fuentes" & Formato
+                bmp_done = True
         End Select
         
         OutputFile = FreeFile
-        Open OutputFilePath For Binary Access Read Write As OutputFile
+        Open OutputFilePath For Binary Access Read Lock Write As OutputFile
         
         'Get file header
         Get OutputFile, 1, ResFileHead
@@ -421,6 +618,189 @@ errhandler:
 
 End Function
 
+Public Sub Compress_Files(ByVal file_type As resource_file_type, ByVal resource_path As String, ByVal dest_path As String)
+'*****************************************************************
+'Author: Juan Martín Dotuyo Dodero
+'Last Modify Date: 10/13/2004
+'Comrpesses all files to a resource file
+'*****************************************************************
+    Dim SourceFilePath As String
+    Dim SourceFileExtension As String
+    Dim OutputFilePath As String
+    Dim SourceFile As Long
+    Dim OutputFile As Long
+    Dim SourceFileName As String
+    Dim SourceData() As Byte
+    Dim FileHead As FILEHEADER
+    Dim InfoHead() As INFOHEADER
+    Dim FileNames() As String
+    Dim lngFileStart As Long
+    Dim loopc As Long
+    Dim tmplng As Long
+    
+'Set up the error handler
+On Local Error GoTo errhandler
+    Select Case file_type
+        Case Graphics
+            SourceFilePath = resource_path & GRAPHIC_PATH
+            SourceFileExtension = ".png"
+            OutputFilePath = dest_path & "Graficos" & Formato
+        
+        Case Ambient
+            SourceFilePath = resource_path & AMBIENT_PATH
+            SourceFileExtension = ".amb"
+            OutputFilePath = dest_path & "Ambient" & Formato
+        
+        Case Music
+            SourceFilePath = resource_path & Music_PATH
+            SourceFileExtension = ".mp3"
+            OutputFilePath = dest_path & "Music" & Formato
+        
+        Case Wav
+            SourceFilePath = resource_path & WAV_PATH
+            SourceFileExtension = ".wav"
+            OutputFilePath = dest_path & "Sounds" & Formato
+            
+        Case Map
+            SourceFilePath = resource_path & MAP_PATH
+            SourceFileExtension = ".csm"
+            OutputFilePath = dest_path & "Maps" & Formato
+            
+        Case Scripts
+            SourceFilePath = resource_path & SCRIPT_PATH
+            SourceFileExtension = ".*"
+            OutputFilePath = dest_path & "Init" & Formato
+            
+        Case Interface
+            SourceFilePath = resource_path & INTERFACE_PATH
+            SourceFileExtension = ".jpg"
+            OutputFilePath = dest_path & "Interface" & Formato
+            
+        Case Fuentes
+            SourceFilePath = resource_path & INTERFACE_PATH
+            SourceFileExtension = ".*"
+            OutputFilePath = dest_path & "Fuentes" & Formato
+    
+    End Select
+    
+    'Get first file in the directoy
+    SourceFileName = Dir$(SourceFilePath & "*" & SourceFileExtension, vbNormal)
+    
+    SourceFile = FreeFile
+    
+    'Get all other files i nthe directory
+    While SourceFileName <> ""
+        FileHead.intNumFiles = FileHead.intNumFiles + 1
+        
+        ReDim Preserve FileNames(FileHead.intNumFiles - 1)
+        FileNames(FileHead.intNumFiles - 1) = LCase(SourceFileName)
+        
+        'Search new file
+        SourceFileName = Dir$()
+    Wend
+    
+    'If we found none, be can't compress a thing, so we exit
+    If FileHead.intNumFiles = 0 Then
+        MsgBox "There are no files of extension " & SourceFileExtension & " in " & SourceFilePath & ".", , "Error"
+        Exit Sub
+    End If
+    
+    'Sort file names alphabetically (this will make patching much easier).
+    General_Quick_Sort FileNames(), 0, UBound(FileNames)
+    
+    'Resize InfoHead array
+    ReDim InfoHead(FileHead.intNumFiles - 1)
+        
+    'Destroy file if it previuosly existed
+    If Dir(OutputFilePath, vbNormal) <> "" Then
+        Kill OutputFilePath
+    End If
+    
+    'Open a new file
+    OutputFile = FreeFile
+    Open OutputFilePath For Binary Access Read Write As OutputFile
+    
+    For loopc = 0 To FileHead.intNumFiles - 1
+        'Find a free file number to use and open the file
+        
+        SourceFile = FreeFile
+        Open SourceFilePath & FileNames(loopc) For Binary Access Read Lock Write As SourceFile
+        
+        'Store file name
+        InfoHead(loopc).strFileName = FileNames(loopc)
+        
+        'Find out how large the file is and resize the data array appropriately
+        ReDim SourceData(LOF(SourceFile) - 1)
+        
+        'Store the value so we can decompress it later on
+        InfoHead(loopc).lngFileSizeUncompressed = LOF(SourceFile)
+        
+        'Get the data from the file
+        Get SourceFile, , SourceData
+        'If loopc = 0 Then SourceData = "115792!"
+        'Compress it
+        Compress_Data SourceData
+        'Save it to a temp file
+        Put OutputFile, , SourceData
+        
+        'Set up the file header
+        FileHead.lngFileSize = FileHead.lngFileSize + UBound(SourceData) + 1
+        
+        'Set up the info headers
+        InfoHead(loopc).lngFileSize = UBound(SourceData) + 1
+        
+        Erase SourceData
+        
+        'Close temp file
+        Close SourceFile
+        
+        DoEvents
+    Next loopc
+    
+    'Finish setting the FileHeader data
+    FileHead.lngFileSize = FileHead.lngFileSize + CLng(FileHead.intNumFiles) * Len(InfoHead(0)) + Len(FileHead)
+    
+    'Set InfoHead data
+    lngFileStart = Len(FileHead) + CLng(FileHead.intNumFiles) * Len(InfoHead(0)) + 1
+    For loopc = 0 To FileHead.intNumFiles - 1
+        InfoHead(loopc).lngFileStart = lngFileStart
+        lngFileStart = lngFileStart + InfoHead(loopc).lngFileSize
+    Next loopc
+        
+    '************ Write Data
+    FileHead.lngFileSize = FileHead.lngFileSize + (PswPk * 2)
+    
+    'InfoHead.lngFileSize = InfoHead.lngFileSize + 15
+    'Get all data stored so far
+    ReDim SourceData(LOF(OutputFile) - 1)
+    Seek OutputFile, 1
+    Get OutputFile, , SourceData
+    
+    Seek OutputFile, 1
+    
+    'Store the data in the file
+    
+    'Put OutputFile, , Pass1
+    Put OutputFile, , FileHead
+    Put OutputFile, , InfoHead
+    Put OutputFile, , SourceData
+    
+    'Close the file
+    Close OutputFile
+    
+    Erase InfoHead
+    Erase SourceData
+    
+    MsgBox "complete"
+Exit Sub
+
+errhandler:
+    Erase SourceData
+    Erase InfoHead
+    'Display an error message if it didn't work
+    MsgBox "Unable to create binary file. Reason: " & Err.number & " : " & Err.Description, vbOKOnly, "Error"
+End Sub
+
 Public Function Extract_File(ByVal file_type As resource_file_type, ByVal resource_path As String, ByVal file_name As String, ByVal OutputFilePath As String, Optional ByVal UseOutputFolder As Boolean = False) As Boolean
 '*****************************************************************
 'Author: Juan Martín Dotuyo Dodero
@@ -432,72 +812,60 @@ Public Function Extract_File(ByVal file_type As resource_file_type, ByVal resour
     Dim SourceData() As Byte
     Dim InfoHead As INFOHEADER
     Dim Handle As Integer
+    
 'Set up the error handler
 On Local Error GoTo errhandler
-
+    
     Select Case file_type
         Case Graphics
             If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "Graphics" & extension
+                SourceFilePath = resource_path & OUTPUT_PATH & "Graficos" & Formato
             Else
-                SourceFilePath = resource_path & "\Graphics" & extension
-            End If
-            
-        Case Particulas
-            If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "Particles" & extension
-            Else
-                SourceFilePath = resource_path & "\Particles" & extension
-            End If
-            
-        Case Musica
-            If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "Musics" & extension
-            Else
-                SourceFilePath = resource_path & "\Musics" & extension
-            End If
-        
-        Case Wav
-            If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "Sounds" & extension
-            Else
-                SourceFilePath = resource_path & "\Sounds" & extension
-            End If
-        
-        Case Scripts
-            If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "Scripts" & extension
-            Else
-                SourceFilePath = resource_path & "\Scripts" & extension
-            End If
-        
-        Case Interface
-            If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "Interface" & extension
-            Else
-                SourceFilePath = resource_path & "\Interface" & extension
-            End If
-            
-        Case Map
-            If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "Maps" & extension
-            Else
-                SourceFilePath = resource_path & "\Maps" & extension
+                SourceFilePath = resource_path & "\Graficos" & Formato
             End If
             
         Case Ambient
             If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "Ambient" & extension
+                SourceFilePath = resource_path & OUTPUT_PATH & "Ambient" & Formato
             Else
-                SourceFilePath = resource_path & "\Ambient" & extension
+                SourceFilePath = resource_path & "\Ambient" & Formato
+            End If
+        
+        Case Music
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Music" & Formato
+            Else
+                SourceFilePath = resource_path & "\Music" & Formato
+            End If
+        
+        Case Wav
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Sounds" & Formato
+            Else
+                SourceFilePath = resource_path & "\Sounds" & Formato
+            End If
+        
+        Case Scripts
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Init" & Formato
+            Else
+                SourceFilePath = resource_path & "\Init" & Formato
+            End If
+        
+        Case Interface
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Interface" & Formato
+            Else
+                SourceFilePath = resource_path & "\Interface" & Formato
             End If
             
         Case Fuentes
             If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "fuentes" & extension
+                SourceFilePath = resource_path & OUTPUT_PATH & "Fuentes" & Formato
             Else
-                SourceFilePath = resource_path & "\fuentes" & extension
+                SourceFilePath = resource_path & "\Fuentes" & Formato
             End If
+        
         Case Else
             Exit Function
     End Select
@@ -560,115 +928,6 @@ errhandler:
     'MsgBox "Unable to decode binary file. Reason: " & Err.number & " : " & Err.Description, vbOKOnly, "Error"
 End Function
 
-Public Function Delete_File(ByVal file_path As String) As Boolean
-'*****************************************************************
-'Author: Juan Martín Dotuyo Dodero
-'Last Modify Date: 3/03/2005
-'Deletes a resource files
-'*****************************************************************
-    
-    On Error GoTo ERROR_HANDLER
-        
-    Kill file_path
-    
-    Delete_File = True
-
-    Exit Function
-    
-ERROR_HANDLER:
-    On Error Resume Next
-    
-    Dim Handle As Integer
-    Dim Data() As Byte
-
-    'We open the file to delete
-    Handle = FreeFile
-    Open file_path For Binary Access Write Lock Read As Handle
-    
-    'We replace all the bytes in it with 0s
-    ReDim Data(LOF(Handle) - 1)
-    Put Handle, 1, Data
-    
-    'We close the file
-    Close Handle
-    
-    'Now we delete it, knowing that if they retrieve it (some antivirus may create backup copies of deleted files), it will be useless
-    Kill file_path
-    
-    Delete_File = True
-    
-End Function
-Public Function Extract_File_Memory(ByVal file_type As resource_file_type, ByVal resource_path As String, ByVal file_name As String, ByRef SourceData() As Byte) As Boolean
- '******************************************************************************************
- 'Lorwik> Con este sub podemos descomprimir los recursos en la memoria en vez de en el disco
- '******************************************************************************************
- 
-    Dim loopc As Long
-    Dim SourceFilePath As String
-    Dim InfoHead As INFOHEADER
-    Dim Handle As Integer
-   
-On Local Error GoTo errhandler
-   
-    Select Case file_type
-        Case Graphics
-                SourceFilePath = resource_path & "\Graphics" & extension
-                
-        Case Particulas
-                SourceFilePath = resource_path & "\Particles" & extension
-            
-        Case Musica
-                SourceFilePath = resource_path & "\Musics" & extension
-        
-        Case Wav
-                SourceFilePath = resource_path & "\Sounds" & extension
-
-        Case Scripts
-                SourceFilePath = resource_path & "\Scripts" & extension
-
-        Case Interface
-                SourceFilePath = resource_path & "\Interface" & extension
-
-        Case Map
-                SourceFilePath = resource_path & "\Maps" & extension
-
-        Case Ambient
-                SourceFilePath = resource_path & "\Ambient" & extension
-                
-        Case Fuentes
-                SourceFilePath = resource_path & "\Fuentes" & extension
-        Case Else
-            Exit Function
-    End Select
-   
-    InfoHead = File_Find(SourceFilePath, file_name)
-   
-    If InfoHead.strFileName = "" Or InfoHead.lngFileSize = 0 Then Exit Function
- 
-    Handle = FreeFile
-    Open SourceFilePath For Binary Access Read Lock Write As Handle
-   
-    If InfoHead.lngFileSizeUncompressed > General_Drive_Get_Free_Bytes(Left$(App.Path, 3)) Then
-        Close Handle
-        MsgBox "There is not enough drive space to extract the compressed file.", , "Error"
-        Exit Function
-    End If
-   
-   
-    ReDim SourceData(InfoHead.lngFileSize - 1)
-   
-    Get Handle, InfoHead.lngFileStart, SourceData
-        Decompress_Data SourceData, InfoHead.lngFileSizeUncompressed
-    Close Handle
-       
-    Extract_File_Memory = True
-Exit Function
- 
-errhandler:
-    Close Handle
-    Erase SourceData
-End Function
-
 Public Function Extract_File_Ex(ByVal file_type As resource_file_type, ByVal resource_path As String, ByVal file_name As String, ByRef bytArr() As Byte) As Boolean
 '*****************************************************************
 'Author: Juan Martín Dotuyo Dodero
@@ -685,31 +944,29 @@ On Local Error GoTo errhandler
     
     Select Case file_type
         Case Graphics
-                SourceFilePath = resource_path & "\Graphics" & extension
-                
-        Case Particulas
-                SourceFilePath = resource_path & "\Particles" & extension
+                SourceFilePath = resource_path & "\Graficos" & Formato
             
         Case Musica
-                SourceFilePath = resource_path & "\Musics" & extension
+                SourceFilePath = resource_path & "\Musics" & Formato
         
         Case Wav
-                SourceFilePath = resource_path & "\Sounds" & extension
+                SourceFilePath = resource_path & "\Sounds" & Formato
 
         Case Scripts
-                SourceFilePath = resource_path & "\Scripts" & extension
+                SourceFilePath = resource_path & "\Scripts" & Formato
 
         Case Interface
-                SourceFilePath = resource_path & "\Interface" & extension
+                SourceFilePath = resource_path & "\Interface" & Formato
 
         Case Map
-                SourceFilePath = resource_path & "\Maps" & extension
+                SourceFilePath = resource_path & "\Maps" & Formato
 
         Case Ambient
-                SourceFilePath = resource_path & "\Ambient" & extension
+                SourceFilePath = resource_path & "\Ambient" & Formato
                 
         Case Fuentes
-                SourceFilePath = resource_path & "\Fuentes" & extension
+                SourceFilePath = resource_path & "\Fuentes" & Formato
+                
         Case Else
             Exit Function
     End Select
@@ -753,98 +1010,299 @@ errhandler:
     
 End Function
 
-Public Function File_Find(ByVal resource_file_path As String, ByVal file_name As String) As INFOHEADER
-'**************************************************************
-'Author: Juan Martín Sotuyo Dodero
-'Last Modify Date: 5/04/2005
-'Looks for a compressed file in a resource file. Uses binary search ;)
-'**************************************************************
-On Error GoTo errhandler
-    Dim max As Integer  'Max index
-    Dim min As Integer  'Min index
-    Dim mid As Integer  'Middle index
-    Dim file_handler As Integer
-    Dim file_head As FILEHEADER
-    Dim info_head As INFOHEADER
-    
-    'Fill file name with spaces for compatibility
-    If Len(file_name) < Len(info_head.strFileName) Then _
-        file_name = file_name & Space$(Len(info_head.strFileName) - Len(file_name))
-    
-    'Open resource file
-    file_handler = FreeFile
-    Open resource_file_path For Binary Access Read Lock Write As file_handler
-    
-    'Get file head
-    Get file_handler, 1, file_head
-    
-    min = 1
-    max = file_head.intNumFiles
-    
-    Do While min <= max
-        mid = (min + max) / 2
-        
-        'Get the info header of the appropiate compressed file
-        Get file_handler, CLng(Len(file_head) + CLng(Len(info_head)) * CLng((mid - 1)) + 1), info_head
-                
-        If file_name < info_head.strFileName Then
-            If max = mid Then
-                max = max - 1
-            Else
-                max = mid
-            End If
-        ElseIf file_name > info_head.strFileName Then
-            If min = mid Then
-                min = min + 1
-            Else
-                min = mid
-            End If
-        Else
-            'Copy info head
-            File_Find = info_head
-            
-            'Close file and exit
-            Close file_handler
-            Exit Function
-        End If
-    Loop
-    
-errhandler:
-    'Close file
-    Close file_handler
-    File_Find.strFileName = ""
-    File_Find.lngFileSize = 0
-End Function
-
-Public Function General_Get_Temp_Dir() As String
-'**************************************************************
-'Author: Augusto José Rando
-'Last Modify Date: 6/11/2005
-'Gets windows temporary directory
-'**************************************************************
-   Dim s As String
-   Dim c As Long
-   s = Space$(MAX_LENGTH)
-   c = GetTempPath(MAX_LENGTH, s)
-   If c > 0 Then
-       If c > Len(s) Then
-           s = Space$(c + 1)
-           c = GetTempPath(MAX_LENGTH, s)
-       End If
-   End If
-   General_Get_Temp_Dir = IIf(c > 0, Left$(s, c), "")
-End Function
-
-Public Sub General_Quick_Sort(ByRef SortArray As Variant, ByVal First As Long, ByVal Last As Long)
-'**************************************************************
-'Author: juan Martín Sotuyo Dodero
+Public Sub Delete_File(ByVal file_path As String)
+'*****************************************************************
+'Author: Juan Martín Dotuyo Dodero
 'Last Modify Date: 3/03/2005
-'Good old QuickSort algorithm :)
-'**************************************************************
+'Deletes a resource files
+'*****************************************************************
+    Dim Handle As Integer
+    Dim Data() As Byte
+    
+    On Error GoTo ERROR_HANDLER
+    
+    'We open the file to delete
+    Handle = FreeFile
+    Open file_path For Binary Access Write Lock Read As Handle
+    
+    'We replace all the bytes in it with 0s
+    ReDim Data(LOF(Handle) - 1)
+    Put Handle, 1, Data
+    
+    'We close the file
+    Close Handle
+    
+    'Now we delete it, knowing that if they retrieve it (some antivirus may create backup copies of deleted files), it will be useless
+    Kill file_path
+    
+    Exit Sub
+    
+ERROR_HANDLER:
+    Kill file_path
+        
+End Sub
+Public Function General_File_Exists(ByVal file_path As String, ByVal file_type As VbFileAttribute) As Boolean
+'*****************************************************************
+'Author: Aaron Perkins
+'Last Modify Date: 10/07/2002
+'Checks to see if a file exists
+'*****************************************************************
+    If Dir(file_path, file_type) = "" Then
+        General_File_Exists = False
+    Else
+        General_File_Exists = True
+    End If
+End Function
+
+Public Sub Parchear(ByVal file_type As resource_file_type, ByVal resource_path As String, ByVal dest_path As String)
+'*****************************************************************
+'Author: Juan Martín Dotuyo Dodero
+'Last Modify Date: 10/13/2004
+'Comrpesses all files to a resource file
+'*****************************************************************
+    Dim SourceFilePath As String
+    Dim SourceFileExtension As String
+    Dim OutputFilePath As String
+    Dim SourceFile As Long
+    Dim OutputFile As Long
+    Dim SourceFileName As String
+    Dim SourceData() As Byte
+    Dim FileHead As FILEHEADER
+    Dim InfoHead() As INFOHEADER
+    Dim FileNames() As String
+    Dim lngFileStart As Long
+    Dim loopc As Long
+'Set up the error handler
+On Local Error GoTo errhandler
+    Select Case file_type
+        Case Graphics
+            SourceFilePath = resource_path & GRAPHIC_PATH
+            SourceFileExtension = ".png"
+            OutputFilePath = dest_path & "Graficos" & Formato
+        
+        Case Ambient
+            SourceFilePath = resource_path & AMBIENT_PATH
+            SourceFileExtension = ".amb"
+            OutputFilePath = dest_path & "Ambient" & Formato
+        
+        Case Music
+            SourceFilePath = resource_path & Music_PATH
+            SourceFileExtension = ".mp3"
+            OutputFilePath = dest_path & "Music" & Formato
+        
+        Case Wav
+            SourceFilePath = resource_path & WAV_PATH
+            SourceFileExtension = ".wav"
+            OutputFilePath = dest_path & "Sounds" & Formato
+                
+        Case Map
+            SourceFilePath = resource_path & MAP_PATH
+            SourceFileExtension = ".csm"
+            OutputFilePath = dest_path & "Maps" & Formato
+            
+        Case Scripts
+            SourceFilePath = resource_path & SCRIPT_PATH
+            SourceFileExtension = ".*"
+            OutputFilePath = dest_path & "Init" & Formato
+            
+        Case Interface
+            SourceFilePath = resource_path & INTERFACE_PATH
+            SourceFileExtension = ".jpg"
+            OutputFilePath = dest_path & "Interface" & Formato
+            
+        Case Fuentes
+            SourceFilePath = resource_path & FUENTES_PATH
+            SourceFileExtension = ".*"
+            OutputFilePath = dest_path & "Fuentes" & Formato
+    
+    End Select
+    
+    'Get first file in the directoy
+    SourceFileName = Dir$(SourceFilePath & "*" & SourceFileExtension, vbNormal)
+    
+    SourceFile = FreeFile
+    
+    'Get all other files i nthe directory
+    While SourceFileName <> ""
+        FileHead.intNumFiles = FileHead.intNumFiles + 1
+        
+        ReDim Preserve FileNames(FileHead.intNumFiles - 1)
+        FileNames(FileHead.intNumFiles - 1) = LCase(SourceFileName)
+        
+        'Search new file
+        SourceFileName = Dir$()
+    Wend
+    
+    'If we found none, be can't compress a thing, so we exit
+    If FileHead.intNumFiles = 0 Then
+        MsgBox "There are no files of extension " & SourceFileExtension & " in " & SourceFilePath & ".", , "Error"
+        Exit Sub
+    End If
+    
+    'Sort file names alphabetically (this will make patching much easier).
+    General_Quick_Sort FileNames(), 0, UBound(FileNames)
+    
+    'Resize InfoHead array
+    ReDim InfoHead(FileHead.intNumFiles - 1)
+        
+    'Destroy file if it previuosly existed
+    'If Dir(OutputFilePath, vbNormal) <> "" Then
+        'Kill OutputFilePath
+    'End If
+    
+    'Open a new file
+    OutputFile = FreeFile
+    Open OutputFilePath For Binary Access Read Write As OutputFile
+    
+    For loopc = 0 To FileHead.intNumFiles - 1
+        'Find a free file number to use and open the file
+        
+        SourceFile = FreeFile
+        Open SourceFilePath & FileNames(loopc) For Binary Access Read Lock Write As SourceFile
+        
+        'Store file name
+        InfoHead(loopc).strFileName = FileNames(loopc)
+        
+        'Find out how large the file is and resize the data array appropriately
+        ReDim SourceData(LOF(SourceFile) - 1)
+        
+        'Store the value so we can decompress it later on
+        InfoHead(loopc).lngFileSizeUncompressed = LOF(SourceFile)
+        
+        'Get the data from the file
+        Get SourceFile, , SourceData
+        'If loopc = 0 Then SourceData = "115792!"
+        'Compress it
+        Compress_Data SourceData
+        'Save it to a temp file
+        Put OutputFile, , SourceData
+        
+        'Set up the file header
+        FileHead.lngFileSize = FileHead.lngFileSize + UBound(SourceData) + 1
+        
+        'Set up the info headers
+        InfoHead(loopc).lngFileSize = UBound(SourceData) + 1
+        
+        Erase SourceData
+        
+        'Close temp file
+        Close SourceFile
+        
+        DoEvents
+    Next loopc
+    
+    'Finish setting the FileHeader data
+    FileHead.lngFileSize = FileHead.lngFileSize + CLng(FileHead.intNumFiles) * Len(InfoHead(0)) + Len(FileHead)
+    
+    'Set InfoHead data
+    lngFileStart = Len(FileHead) + CLng(FileHead.intNumFiles) * Len(InfoHead(0)) + 1
+    For loopc = 0 To FileHead.intNumFiles - 1
+        InfoHead(loopc).lngFileStart = lngFileStart
+        lngFileStart = lngFileStart + InfoHead(loopc).lngFileSize
+    Next loopc
+        
+    '************ Write Data
+    FileHead.lngFileSize = FileHead.lngFileSize + (PswPk * 2)
+    
+    'Get all data stored so far
+    ReDim SourceData(LOF(OutputFile) - 1)
+    Seek OutputFile, 1
+    Get OutputFile, , SourceData
+    
+    Seek OutputFile, 1
+    
+    'Store the data in the file
+    
+    'Put OutputFile, , Pass1
+    Put OutputFile, , FileHead
+    Put OutputFile, , InfoHead
+    Put OutputFile, , SourceData
+    
+    'Close the file
+    Close OutputFile
+    
+    Erase InfoHead
+    Erase SourceData
+Exit Sub
+
+errhandler:
+    Erase SourceData
+    Erase InfoHead
+    'Display an error message if it didn't work
+    MsgBox "Unable to create binary file. Reason: " & Err.number & " : " & Err.Description, vbOKOnly, "Error"
+End Sub
+
+Public Function Extract_File_Memory(ByVal file_type As resource_file_type, ByVal resource_path As String, ByVal file_name As String, ByRef SourceData() As Byte) As Boolean
+ 
+    ' Parra was here (;
+    Dim loopc As Long
+    Dim SourceFilePath As String
+    Dim InfoHead As INFOHEADER
+    Dim Handle As Integer
+   
+On Local Error GoTo errhandler
+   
+    Select Case file_type
+        Case Graphics
+                SourceFilePath = resource_path & "\Graficos" & Formato
+            
+        Case Musica
+                SourceFilePath = resource_path & "\Musics" & Formato
+        
+        Case Wav
+                SourceFilePath = resource_path & "\Sounds" & Formato
+
+        Case Scripts
+                SourceFilePath = resource_path & "\Scripts" & Formato
+
+        Case Interface
+                SourceFilePath = resource_path & "\Interface" & Formato
+
+        Case Map
+                SourceFilePath = resource_path & "\Maps" & Formato
+
+        Case Ambient
+                SourceFilePath = resource_path & "\Ambient" & Formato
+                
+        Case Fuentes
+                SourceFilePath = resource_path & "\Fuentes" & Formato
+                
+        Case Else
+            Exit Function
+    End Select
+   
+    InfoHead = File_Find(SourceFilePath, file_name)
+   
+    If InfoHead.strFileName = "" Or InfoHead.lngFileSize = 0 Then Exit Function
+ 
+    Handle = FreeFile
+    Open SourceFilePath For Binary Access Read Lock Write As Handle
+   
+    If InfoHead.lngFileSizeUncompressed > General_Drive_Get_Free_Bytes(Left$(App.Path, 3)) Then
+        Close Handle
+        MsgBox "There is not enough drive space to extract the compressed file.", , "Error"
+        Exit Function
+    End If
+   
+   
+    ReDim SourceData(InfoHead.lngFileSize - 1)
+   
+    Get Handle, InfoHead.lngFileStart, SourceData
+        Decompress_Data SourceData, InfoHead.lngFileSizeUncompressed
+    Close Handle
+       
+    Extract_File_Memory = True
+Exit Function
+ 
+errhandler:
+    Close Handle
+    Erase SourceData
+End Function
+Public Sub General_Quick_Sort(ByRef SortArray As Variant, ByVal First As Long, ByVal Last As Long)
     Dim Low As Long, High As Long
     Dim temp As Variant
     Dim List_Separator As Variant
-    
+   
     Low = First
     High = Last
     List_Separator = SortArray((First + Last) / 2)
@@ -866,77 +1324,65 @@ Public Sub General_Quick_Sort(ByRef SortArray As Variant, ByVal First As Long, B
     If First < High Then General_Quick_Sort SortArray, First, High
     If Low < Last Then General_Quick_Sort SortArray, Low, Last
 End Sub
-
-Public Function General_Drive_Get_Free_Bytes(ByVal DriveName As String) As Currency
-'**************************************************************
-'Author: Juan Martín Sotuyo Dodero
-'Last Modify Date: 6/07/2004
-'
-'**************************************************************
-    Dim RetVal As Long
-    Dim FB As Currency
-    Dim BT As Currency
-    Dim FBT As Currency
-    
-    RetVal = GetDiskFreeSpace(Left(DriveName, 2), FB, BT, FBT)
-    
-    General_Drive_Get_Free_Bytes = FB * 10000 'convert result to actual size in bytes
-End Function
-
-'************************Extracion de recursos compacta***************************************
-
 Public Function Get_Extract(ByVal file_type As resource_file_type, ByVal file_name As String) As String
-    Extract_File file_type, App.Path & "\RECURSOS", LCase$(file_name), Windows_Temp_Dir, False
-    Get_Extract = Windows_Temp_Dir & LCase$(file_name)
+    Extract_File file_type, App.Path & "\Graficos", LCase$(file_name), App.Path & "\amdInData\"
+    Get_Extract = App.Path & "\amdInData\" & LCase$(file_name)
+End Function
+Public Function Get_Interface(ByVal file_type As resource_file_type, ByVal file_name As String) As String
+    Extract_File file_type, App.Path & "\Interface", LCase$(file_name), App.Path & "\Interface\"
+    Get_Interface = App.Path & "\Interface\" & LCase$(file_name)
 End Function
 
-Public Function General_Load_Picture_From_Resource(ByVal picture_file_name As String) As IPicture
-On Error GoTo ErrorHandler
-
-    Dim bytArr() As Byte
-    
-    If Extract_File_Memory(Interface, App.Path & "\Recursos\", picture_file_name, bytArr()) Then
-        Set General_Load_Picture_From_Resource = General_Load_Picture_From_BArray(bytArr())
-    Else
-        Set General_Load_Picture_From_Resource = Nothing
-    End If
-    
-    Exit Function
-
-ErrorHandler:
-End Function
-
-Public Function General_Load_Picture_From_BArray(ByRef bytArr() As Byte) As IPicture
-
-On Error GoTo ErrorHandler
-
-    Dim LowerBound As Long
-    Dim ByteCount As Long
-    Dim hMem As Long
-    Dim lpMem As Long
-    Dim IID_IPicture(15) As Long
-    Dim istm As stdole.IUnknown
-        
-    LowerBound = LBound(bytArr)
-    ByteCount = (UBound(bytArr) - LowerBound) + 1
-    hMem = GlobalAlloc(&H2, ByteCount)
-    If hMem <> 0 Then
-        lpMem = GlobalLock(hMem)
-        If lpMem <> 0 Then
-            MoveMemory ByVal lpMem, bytArr(LowerBound), ByteCount
-            Call GlobalUnlock(hMem)
-            If CreateStreamOnHGlobal(hMem, 1, istm) = 0 Then
-                If CLSIDFromString(StrPtr("{7BF80980-BF32-101A-8BBB-00AA00300CAB}"), IID_IPicture(0)) = 0 Then
-                    Call OleLoadPicture(ByVal ObjPtr(istm), ByteCount, 0, IID_IPicture(0), General_Load_Picture_From_BArray)
-                End If
+Public Function File_Find(ByVal resource_file_path As String, ByVal file_name As String) As INFOHEADER
+ 
+On Error GoTo errhandler
+ 
+    Dim max As Integer
+    Dim min As Integer
+    Dim mid As Integer
+    Dim file_handler As Integer
+   
+    Dim file_head As FILEHEADER
+    Dim info_head As INFOHEADER
+   
+    If Len(file_name) < Len(info_head.strFileName) Then _
+        file_name = file_name & Space$(Len(info_head.strFileName) - Len(file_name))
+   
+    file_handler = FreeFile
+    Open resource_file_path For Binary Access Read Lock Write As file_handler
+   
+    Get file_handler, 1, file_head
+   
+    min = 1
+    max = file_head.intNumFiles
+   
+    Do While min <= max
+        mid = (min + max) / 2
+       
+        Get file_handler, CLng(Len(file_head) + CLng(Len(info_head)) * CLng((mid - 1)) + 1), info_head
+               
+        If file_name < info_head.strFileName Then
+            If max = mid Then
+                max = max - 1
+            Else
+                max = mid
             End If
+        ElseIf file_name > info_head.strFileName Then
+            If min = mid Then
+                min = min + 1
+            Else
+                min = mid
+            End If
+        Else
+            File_Find = info_head
+           
+            Close file_handler
+            Exit Function
         End If
-    End If
-    
-    Exit Function
-
-ErrorHandler:
-
+    Loop
+   
+errhandler:
+    Close file_handler
+    File_Find.strFileName = ""
+    File_Find.lngFileSize = 0
 End Function
-
-'*************************************************************************************************

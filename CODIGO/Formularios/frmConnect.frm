@@ -46,56 +46,10 @@ Begin VB.Form frmConnect
       Height          =   390
       Left            =   15840
       MaxLength       =   30
-      TabIndex        =   6
+      TabIndex        =   4
       Top             =   3960
       Visible         =   0   'False
       Width           =   255
-   End
-   Begin VB.TextBox PortTxt 
-      Alignment       =   2  'Center
-      Appearance      =   0  'Flat
-      BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H0000FF00&
-      Height          =   195
-      Left            =   16590
-      TabIndex        =   0
-      Text            =   "7666"
-      Top             =   2160
-      Visible         =   0   'False
-      Width           =   825
-   End
-   Begin VB.TextBox IPTxt 
-      Alignment       =   2  'Center
-      Appearance      =   0  'Flat
-      BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H0000FF00&
-      Height          =   195
-      Left            =   17460
-      TabIndex        =   1
-      Text            =   "192.168.1.10"
-      Top             =   2160
-      Visible         =   0   'False
-      Width           =   1575
    End
    Begin VB.TextBox txtNombre 
       BackColor       =   &H00000000&
@@ -113,7 +67,7 @@ Begin VB.Form frmConnect
       Height          =   225
       Left            =   15840
       MaxLength       =   23
-      TabIndex        =   2
+      TabIndex        =   0
       Top             =   2880
       Width           =   180
    End
@@ -135,7 +89,7 @@ Begin VB.Form frmConnect
       Left            =   15840
       MaxLength       =   23
       PasswordChar    =   "*"
-      TabIndex        =   3
+      TabIndex        =   1
       Top             =   3360
       Width           =   180
    End
@@ -149,14 +103,14 @@ Begin VB.Form frmConnect
       ScaleHeight     =   768
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   1024
-      TabIndex        =   4
+      TabIndex        =   2
       TabStop         =   0   'False
       Top             =   0
       Width           =   15360
       Begin WinterAO.uAOCheckbox chkRecordar 
          Height          =   345
          Left            =   6480
-         TabIndex        =   5
+         TabIndex        =   3
          TabStop         =   0   'False
          Top             =   5760
          Visible         =   0   'False

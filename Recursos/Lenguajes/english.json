@@ -982,7 +982,7 @@
     "VALIDACION_EMAIL": {
         "TEXTO": "Enter an e-mail."
     },
-    "VALIDACION_BAD_EMAIL": {
+    "VALIDACION_BAD_ACCOUNTNAME": {
         "TEXTO": [
             "E-mail address invalid.",
             "The email address must be less than 30 letters."

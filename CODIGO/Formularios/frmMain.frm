@@ -28,7 +28,7 @@ Begin VB.Form frmMain
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    PaletteMode     =   1  'UseZOrder
-   Picture         =   "frmMain.frx":7F6A
+   Picture         =   "frmMain.frx":1A041
    ScaleHeight     =   768
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   1024
@@ -178,7 +178,7 @@ Begin VB.Form frmMain
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
       Appearance      =   0
-      TextRTF         =   $"frmMain.frx":56A8C
+      TextRTF         =   $"frmMain.frx":6BAB2
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Tahoma"
          Size            =   8.25
@@ -238,10 +238,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":56B09
-            PICF            =   "frmMain.frx":56B25
-            PICH            =   "frmMain.frx":56B41
-            PICV            =   "frmMain.frx":56B5D
+            PICE            =   "frmMain.frx":6BB2F
+            PICF            =   "frmMain.frx":6BB4B
+            PICH            =   "frmMain.frx":6BB67
+            PICV            =   "frmMain.frx":6BB83
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -265,10 +265,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":56B79
-            PICF            =   "frmMain.frx":56B95
-            PICH            =   "frmMain.frx":56BB1
-            PICV            =   "frmMain.frx":56BCD
+            PICE            =   "frmMain.frx":6BB9F
+            PICF            =   "frmMain.frx":6BBBB
+            PICH            =   "frmMain.frx":6BBD7
+            PICV            =   "frmMain.frx":6BBF3
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -292,10 +292,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":56BE9
-            PICF            =   "frmMain.frx":56C05
-            PICH            =   "frmMain.frx":56C21
-            PICV            =   "frmMain.frx":56C3D
+            PICE            =   "frmMain.frx":6BC0F
+            PICF            =   "frmMain.frx":6BC2B
+            PICH            =   "frmMain.frx":6BC47
+            PICV            =   "frmMain.frx":6BC63
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -319,10 +319,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":56C59
-            PICF            =   "frmMain.frx":56C75
-            PICH            =   "frmMain.frx":56C91
-            PICV            =   "frmMain.frx":56CAD
+            PICE            =   "frmMain.frx":6BC7F
+            PICF            =   "frmMain.frx":6BC9B
+            PICH            =   "frmMain.frx":6BCB7
+            PICV            =   "frmMain.frx":6BCD3
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -346,10 +346,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":56CC9
-            PICF            =   "frmMain.frx":56CE5
-            PICH            =   "frmMain.frx":56D01
-            PICV            =   "frmMain.frx":56D1D
+            PICE            =   "frmMain.frx":6BCEF
+            PICF            =   "frmMain.frx":6BD0B
+            PICH            =   "frmMain.frx":6BD27
+            PICV            =   "frmMain.frx":6BD43
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -373,10 +373,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":56D39
-            PICF            =   "frmMain.frx":56D55
-            PICH            =   "frmMain.frx":56D71
-            PICV            =   "frmMain.frx":56D8D
+            PICE            =   "frmMain.frx":6BD5F
+            PICF            =   "frmMain.frx":6BD7B
+            PICH            =   "frmMain.frx":6BD97
+            PICV            =   "frmMain.frx":6BDB3
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -400,10 +400,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":56DA9
-            PICF            =   "frmMain.frx":56DC5
-            PICH            =   "frmMain.frx":56DE1
-            PICV            =   "frmMain.frx":56DFD
+            PICE            =   "frmMain.frx":6BDCF
+            PICF            =   "frmMain.frx":6BDEB
+            PICH            =   "frmMain.frx":6BE07
+            PICV            =   "frmMain.frx":6BE23
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -443,13 +443,13 @@ Begin VB.Form frmMain
       Height          =   210
       Left            =   13440
       TabIndex        =   30
-      Top             =   7890
+      Top             =   8145
       Width           =   1290
    End
    Begin VB.Image ShpAgilidad 
       Height          =   165
       Left            =   13410
-      Top             =   7905
+      Top             =   8160
       Width           =   1380
    End
    Begin VB.Label lblStrg 
@@ -461,25 +461,25 @@ Begin VB.Form frmMain
       Height          =   210
       Left            =   13440
       TabIndex        =   29
-      Top             =   7320
+      Top             =   7590
       Width           =   1290
    End
    Begin VB.Image ShpFuerza 
       Height          =   165
       Left            =   13425
-      Top             =   7350
+      Top             =   7605
       Width           =   1380
    End
    Begin VB.Image shpSed 
       Height          =   330
       Left            =   13755
-      Top             =   8190
+      Top             =   8430
       Width           =   120
    End
    Begin VB.Image shpHambre 
       Height          =   300
       Left            =   14100
-      Top             =   8160
+      Top             =   8430
       Width           =   465
    End
    Begin VB.Label lblEnergia 
@@ -492,13 +492,13 @@ Begin VB.Form frmMain
       Height          =   180
       Left            =   11760
       TabIndex        =   28
-      Top             =   8520
+      Top             =   8775
       Width           =   1335
    End
    Begin VB.Image shpEnergia 
       Height          =   165
       Left            =   11700
-      Top             =   8535
+      Top             =   8790
       Width           =   1380
    End
    Begin VB.Label lblMana 
@@ -511,13 +511,13 @@ Begin VB.Form frmMain
       Height          =   180
       Left            =   11760
       TabIndex        =   27
-      Top             =   7920
+      Top             =   8205
       Width           =   1335
    End
    Begin VB.Image shpMana 
       Height          =   165
       Left            =   11700
-      Top             =   7950
+      Top             =   8220
       Width           =   1380
    End
    Begin VB.Label lblVida 
@@ -530,21 +530,21 @@ Begin VB.Form frmMain
       Height          =   180
       Left            =   11760
       TabIndex        =   26
-      Top             =   7380
+      Top             =   7650
       Width           =   1335
    End
    Begin VB.Image shpVida 
       Height          =   165
       Left            =   11700
-      Top             =   7395
+      Top             =   7665
       Width           =   1380
    End
    Begin VB.Image btnSolapa 
-      Height          =   555
+      Height          =   585
       Index           =   2
-      Left            =   13800
+      Left            =   14400
       Top             =   1920
-      Width           =   1095
+      Width           =   495
    End
    Begin VB.Image BorrarAmigo 
       Height          =   300
@@ -590,7 +590,7 @@ Begin VB.Form frmMain
       Height          =   165
       Left            =   14175
       TabIndex        =   24
-      Top             =   8550
+      Top             =   8790
       Width           =   465
    End
    Begin VB.Label lblGems 
@@ -610,28 +610,28 @@ Begin VB.Form frmMain
       Height          =   165
       Left            =   13920
       TabIndex        =   23
-      Top             =   6660
+      Top             =   6750
       Width           =   105
    End
    Begin VB.Image btnMenu 
       Height          =   330
-      Left            =   12555
-      Top             =   9330
+      Left            =   11640
+      Top             =   9240
       Width           =   1410
    End
    Begin VB.Image btnSolapa 
-      Height          =   555
+      Height          =   600
       Index           =   1
-      Left            =   12720
+      Left            =   12975
       Top             =   1920
-      Width           =   1095
+      Width           =   1380
    End
    Begin VB.Image btnSolapa 
-      Height          =   555
+      Height          =   600
       Index           =   0
-      Left            =   11640
+      Left            =   11550
       Top             =   1920
-      Width           =   1095
+      Width           =   1380
    End
    Begin VB.Label lblPorcLvl 
       AutoSize        =   -1  'True
@@ -704,7 +704,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   0
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":56E19
+      MouseIcon       =   "frmMain.frx":6BE3F
       MousePointer    =   99  'Custom
       Top             =   2925
       Visible         =   0   'False
@@ -714,7 +714,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   1
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":56F6B
+      MouseIcon       =   "frmMain.frx":6BF91
       MousePointer    =   99  'Custom
       Top             =   2580
       Visible         =   0   'False
@@ -755,7 +755,7 @@ Begin VB.Form frmMain
       Width           =   3345
    End
    Begin VB.Label lblLvl 
-      AutoSize        =   -1  'True
+      Alignment       =   2  'Center
       BackStyle       =   0  'Transparent
       Caption         =   "50"
       BeginProperty Font 
@@ -791,11 +791,12 @@ Begin VB.Form frmMain
       Height          =   165
       Left            =   12120
       TabIndex        =   3
-      Top             =   6660
+      Top             =   6750
       Width           =   105
    End
    Begin VB.Label Coord 
       Alignment       =   2  'Center
+      AutoSize        =   -1  'True
       BackStyle       =   0  'Transparent
       Caption         =   "000 X:00 Y: 00"
       BeginProperty Font 
@@ -808,16 +809,16 @@ Begin VB.Form frmMain
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H0000FFFF&
-      Height          =   255
-      Left            =   12480
+      Height          =   210
+      Left            =   12510
       TabIndex        =   1
-      Top             =   11100
-      Width           =   1455
+      Top             =   11085
+      Width           =   1395
    End
    Begin VB.Image InvEqu 
       Height          =   4530
       Left            =   11400
-      Picture         =   "frmMain.frx":570BD
+      Picture         =   "frmMain.frx":6C0E3
       Top             =   1920
       Width           =   3645
    End
@@ -837,9 +838,9 @@ Begin VB.Form frmMain
       EndProperty
       ForeColor       =   &H80000018&
       Height          =   165
-      Left            =   13590
+      Left            =   13560
       TabIndex        =   2
-      Top             =   8550
+      Top             =   8790
       Width           =   465
    End
    Begin VB.Menu mnuObj 
@@ -1044,7 +1045,7 @@ Private Sub Form_Activate()
 End Sub
 
 Private Sub Form_Load()
-    ClientSetup.SkinSeleccionado = GetVar(Carga.Path(Init) & "Config.ini", "Parameters", "SkinSelected")
+    ClientSetup.SkinSeleccionado = GetVar(Carga.Path(Init) & CLIENT_FILE, "Parameters", "SkinSelected")
     
     cmdMoverHechi(1).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\btnarriba.jpg")
     cmdMoverHechi(0).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\btnabajo.jpg")
@@ -1381,11 +1382,6 @@ Private Sub btnEstadisticas_Click()
     LlegaronAtrib = False
     LlegaronSkills = False
     LlegoFama = False
-End Sub
-
-Private Sub fMenu_Click()
-    
-    Call WriteRequestPartyForm
 End Sub
 
 Private Sub btnMapa_Click()

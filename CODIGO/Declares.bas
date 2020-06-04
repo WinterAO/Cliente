@@ -720,7 +720,6 @@ Public UserMeditar As Boolean
 Public UserName As String
 Public AccountName As String
 Public AccountPassword As String
-Public AccountHash As String
 Public NumberOfCharacters As Byte
 Public UserMaxHP As Integer
 Public UserMinHP As Integer

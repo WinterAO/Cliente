@@ -222,6 +222,6 @@ Private Sub btnNormalKeys_Click()
 End Sub
 
 Private Sub SetFalseMostrarBindKeysSelection()
-   Call WriteVar(Carga.Path(Init) & "Config.ini", "OTHER", "MOSTRAR_BIND_KEYS_SELECTION", "False")
+   Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "OTHER", "MOSTRAR_BIND_KEYS_SELECTION", "False")
 End Sub
 

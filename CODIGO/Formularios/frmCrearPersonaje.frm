@@ -1182,7 +1182,8 @@ Function CheckData() As Boolean
         Exit Function
     End If
 
-    If Len(AccountHash) = 0 Then
+    '¿Estamos intentando crear sin tener AccountName?
+    If Len(AccountName) = 0 Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_HASH").item("TEXTO"))
         Exit Function
     End If
@@ -1636,7 +1637,7 @@ Private Sub LoadCharInfo()
 
     Dim Lector As clsIniManager
     Set Lector = New clsIniManager
-    Call Lector.Initialize(Carga.Path(Init) & "CharInfo_" & Language & ".dat")
+    Call Lector.Initialize(Carga.Path(Script) & "CharInfo_" & Language & ".dat")
 
     'Modificadores de Clase
     For i = 1 To NroClases

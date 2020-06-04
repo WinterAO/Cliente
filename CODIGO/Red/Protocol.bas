@@ -10700,7 +10700,6 @@ Private Sub HandleAccountLogged()
     Call buffer.ReadByte
 
     AccountName = buffer.ReadASCIIString
-    AccountHash = buffer.ReadASCIIString
     NumberOfCharacters = buffer.ReadByte
 
     'Cambiamos al modo cuenta

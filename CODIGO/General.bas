@@ -147,8 +147,8 @@ Function CheckUserData() As Boolean
     Dim CharAscii As Integer
     Dim Len_accountName As Long, Len_accountPassword As Long
 
-    If LenB(AccountPassword) = 0 Then
-        MsgBox JsonLanguage.item("VALIDACION_PASSWORD").item("TEXTO")
+    If LenB(AccountPassword) > 24 Or LenB(AccountPassword) = 0 Then
+        Call MostrarMensaje(JsonLanguage.item("VALIDACION_PASSWORD").item("TEXTO"))
         Exit Function
     End If
     
@@ -157,13 +157,18 @@ Function CheckUserData() As Boolean
     For loopc = 1 To Len_accountPassword
         CharAscii = Asc(mid$(AccountPassword, loopc, 1))
         If Not LegalCharacter(CharAscii) Then
-            MsgBox Replace$(JsonLanguage.item("VALIDACION_BAD_PASSWORD").item("TEXTO").item(2), "VAR_CHAR_INVALIDO", Chr$(CharAscii))
+            Call MostrarMensaje(Replace$(JsonLanguage.item("VALIDACION_BAD_PASSWORD").item("TEXTO").item(2), "VAR_CHAR_INVALIDO", Chr$(CharAscii)))
             Exit Function
         End If
     Next loopc
 
-    If Len(AccountName) > 30 Then
-        MsgBox JsonLanguage.item("VALIDACION_BAD_EMAIL").item("TEXTO").item(2)
+    If Not AsciiValidos(AccountName) Then
+        Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_ACCOUNTNAME").item("TEXTO").item(1))
+        Exit Function
+    End If
+
+    If Len(AccountName) > 24 Or LenB(AccountName) = 0 Then
+        Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_ACCOUNTNAME").item("TEXTO").item(2))
         Exit Function
     End If
         
@@ -172,7 +177,7 @@ Function CheckUserData() As Boolean
     For loopc = 1 To Len_accountName
         CharAscii = Asc(mid$(AccountName, loopc, 1))
         If Not LegalCharacter(CharAscii) Then
-            MsgBox Replace$(JsonLanguage.item("VALIDACION_BAD_PASSWORD").item("TEXTO").item(4), "VAR_CHAR_INVALIDO", Chr$(CharAscii))
+            Call MostrarMensaje(Replace$(JsonLanguage.item("VALIDACION_BAD_PASSWORD").item("TEXTO").item(4), "VAR_CHAR_INVALIDO", Chr$(CharAscii)))
             Exit Function
         End If
     Next loopc
@@ -296,7 +301,7 @@ Private Sub CheckKeys()
     If Traveling Then Exit Sub
 
     'Si esta chateando, no mover el pj, tanto para chat de clanes y normal
-    If frmMain.Sendtxt.Visible Then Exit Sub
+    If frmMain.SendTxt.Visible Then Exit Sub
 
     'Don't allow any these keys during movement..
     If UserMoving = 0 Then
@@ -455,7 +460,7 @@ On Error Resume Next
     
     Set Inet = New clsInet
     
-    URL = GetVar(Carga.Path(Init) & "Config.ini", "Parameters", "IpApiEndpoint")
+    URL = GetVar(Carga.Path(Init) & CLIENT_FILE, "Parameters", "IpApiEndpoint")
     Endpoint = URL & Ip & "/json/"
     
     Response = Inet.OpenRequest(Endpoint, "GET")
@@ -473,6 +478,8 @@ Sub Main()
     Static lastFlush As Long
     ' Detecta el idioma del sistema (TRUE) y carga las traducciones
     Call SetLanguageApplication
+    
+    Call GenerateContra
     
     'Load client configurations.
     Call Carga.LeerConfiguracion
@@ -498,7 +505,8 @@ Sub Main()
     
     ChDrive App.Path
     ChDir App.Path
-
+    Windows_Temp_Dir = General_Get_Temp_Dir
+    
     'Set resolution BEFORE the loading form is displayed, therefore it will be centered.
     Call Resolution.SetResolution(1024, 768)
 
@@ -559,7 +567,7 @@ Sub Main()
 End Sub
 
 Public Function GetVersionOfTheGame() As String
-    GetVersionOfTheGame = GetVar(Carga.Path(Init) & "Config.ini", "Cliente", "VersionTagRelease")
+    GetVersionOfTheGame = GetVar(Carga.Path(Init) & CLIENT_FILE, "Cliente", "VersionTagRelease")
 End Function
 
 Private Sub LoadInitialConfig()
@@ -571,8 +579,8 @@ Private Sub LoadInitialConfig()
 '***************************************************
     
     'Cargamos los graficos de mouse guardados
-    ClientSetup.MouseGeneral = Val(GetVar(Carga.Path(Init) & "Config.ini", "PARAMETERS", "MOUSEGENERAL"))
-    ClientSetup.MouseBaston = Val(GetVar(Carga.Path(Init) & "Config.ini", "PARAMETERS", "MOUSEBASTON"))
+    ClientSetup.MouseGeneral = Val(GetVar(Carga.Path(Init) & CLIENT_FILE, "PARAMETERS", "MOUSEGENERAL"))
+    ClientSetup.MouseBaston = Val(GetVar(Carga.Path(Init) & CLIENT_FILE, "PARAMETERS", "MOUSEBASTON"))
     
     'Si es 0 cargamos el por defecto
     If ClientSetup.MouseBaston > 0 Then
@@ -732,7 +740,7 @@ Private Sub LoadInitialConfig()
                             True, False, False, rtfLeft)
     
     'Inicializamos el inventario grafico
-    Call Inventario.Initialize(DirectD3D8, frmMain.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call Inventario.Initialize(DirectD3D8, frmMain.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     'Set cKeys = New Collection
     Call AddtoRichTextBox(frmCargando.status, _
@@ -1351,11 +1359,15 @@ Public Sub SetSpeedUsuario()
 End Sub
 
 Public Function CurServerIp() As String
-    CurServerIp = frmConnect.IPTxt
+    #If Desarrollo = 1 Then
+        CurServerIp = "127.0.0.1"
+    #Else
+        CurServerIp = "217.216.5.184"
+    #End If
 End Function
 
 Public Function CurServerPort() As Integer
-    CurServerPort = Val(frmConnect.PortTxt)
+    CurServerPort = "7666"
 End Function
 
 Public Function CheckIfIpIsNumeric(CurrentIp As String) As String

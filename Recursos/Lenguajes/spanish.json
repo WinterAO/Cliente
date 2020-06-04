@@ -982,10 +982,10 @@
     "VALIDACION_EMAIL": {
         "TEXTO": "Ingrese un correo electronico."
     },
-    "VALIDACION_BAD_EMAIL": {
+    "VALIDACION_BAD_ACCOUNTNAME": {
         "TEXTO": [
-            "Direccion de correo electronico invalida.",
-            "El correo electronico debe tener menos de 30 caracteres."
+            "El nombre de la cuenta es invalido.",
+            "El nombre de la cuenta no puede superar los 24 caracteres."
         ]
     },
     "VALIDACION_PASSWORD": {

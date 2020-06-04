@@ -577,7 +577,7 @@ Private Sub cmdLenguajesComboBox_Click()
 'Last Modification: 01/04/2019
 '10/11/2019: Recox - Seteamos el lenguaje del juego
 '***************************************************
-    Call WriteVar(Carga.Path(Init) & "Config.ini", "Parameters", "Language", cmdLenguajesComboBox.Text)
+    Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Parameters", "Language", cmdLenguajesComboBox.Text)
     MsgBox ("Debe reiniciar el juego aplicar el cambio de idioma. Idioma Seleccionado: " & cmdLenguajesComboBox.Text)
 End Sub
 
@@ -587,7 +587,7 @@ Private Sub cmdSkinsComboBox_Click()
 'Last Modification: 01/04/2019
 '08/11/2019: Recox - Seteamos el skin
 '***************************************************
-    Call WriteVar(Carga.Path(Init) & "Config.ini", "Parameters", "SkinSelected", cmdSkinsComboBox.Text)
+    Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Parameters", "SkinSelected", cmdSkinsComboBox.Text)
     MsgBox ("Debe reiniciar el juego aplicar el cambio de skin. Skin Seleccionado: " & cmdSkinsComboBox.Text)
 End Sub
 
@@ -597,7 +597,7 @@ Private Sub ComMouseGeneral_Click()
 'Last Modification: 26/04/2020
 '26/04/2020: Lorwik - Seteamos el mouse general
 '***************************************************
-    Call WriteVar(Carga.Path(Init) & "Config.ini", "Parameters", "MOUSEGENERAL", ComMouseGeneral.ListIndex)
+    Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Parameters", "MOUSEGENERAL", ComMouseGeneral.ListIndex)
     MsgBox ("Debe reiniciar el juego aplicar el cambio de mouse. Mouse Seleccionado: " & ComMouseGeneral.Text)
 End Sub
 
@@ -607,7 +607,7 @@ Private Sub ComMouseHechizos_Click()
 'Last Modification: 26/04/2020
 '26/04/2020: Lorwik - Seteamos el mouse baston
 '***************************************************
-    Call WriteVar(Carga.Path(Init) & "Config.ini", "Parameters", "MOUSEBASTON", ComMouseHechizos.ListIndex)
+    Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Parameters", "MOUSEBASTON", ComMouseHechizos.ListIndex)
     MsgBox ("Debe reiniciar el juego aplicar el cambio de mouse. Mouse Seleccionado: " & ComMouseHechizos.Text)
 End Sub
 

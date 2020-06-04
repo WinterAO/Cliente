@@ -57,7 +57,7 @@ Public Sub SetLanguageApplication()
 
     Dim LangFile As String
     
-    Language = GetVar(Carga.Path(Init) & "Config.ini", "Parameters", "Language")
+    Language = GetVar(Carga.Path(Init) & CLIENT_FILE, "Parameters", "Language")
     
     ' Si no se especifica el idioma en el archivo de configuracion, se le pregunta si quiere usar castellano
     ' y escribimos el archivo de configuracion con el idioma seleccionado
@@ -68,7 +68,7 @@ Public Sub SetLanguageApplication()
             Language = "english"
         End If
 
-        Call WriteVar(Carga.Path(Init) & "Config.ini", "Parameters", "Language", Language)
+        Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Parameters", "Language", Language)
         'Language = LCase$(ObtainOperativeSystemLanguage(LOCALE_SENGLANGUAGE))
     End If
     

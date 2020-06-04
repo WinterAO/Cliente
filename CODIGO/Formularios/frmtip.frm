@@ -124,7 +124,7 @@ Private Sub Command1_Click()
       ClientSetup.MostrarTips = False
    End If
 
-   Call WriteVar(Carga.Path(Init) & "Config.ini", "OTHER", "MOSTRAR_TIPS", CStr(ClientSetup.MostrarTips))
+   Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "OTHER", "MOSTRAR_TIPS", CStr(ClientSetup.MostrarTips))
    Unload Me
 
 End Sub

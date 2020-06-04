@@ -156,7 +156,7 @@ Private Function CrearGrafico(ByVal Archivo As Integer, _
             'TODO: No usar variable de compilacion y acceder a esto desde el config.ini
             #If Desarrollo = 0 Then
             
-                InfoHead = File_Find(App.Path & "\Recursos\Graphics.WAO", CStr(.FileName) & ".png")
+                InfoHead = File_Find(App.Path & "\Recursos\Graficos.WAO", CStr(.FileName) & ".png")
             
                 If InfoHead.lngFileSize <> 0 Then
                     Extract_File_Memory Graphics, App.Path & "\Recursos\", LCase$(CStr(.FileName) & ".png"), buffer()

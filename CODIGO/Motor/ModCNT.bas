@@ -137,9 +137,9 @@ Public Sub MostrarConnect(Optional ByVal Mostrar As Boolean = False)
     If frmConnect.txtPasswd.Visible = False Then frmConnect.txtPasswd.Visible = True
     If frmConnect.txtCrearPJNombre.Visible Then frmConnect.txtCrearPJNombre.Visible = False
     
-    If CBool(GetVar(Carga.Path(Init) & "Config.ini", "LOGIN", "Remember")) = True Then
-        frmConnect.txtNombre = GetVar(Carga.Path(Init) & "Config.ini", "LOGIN", "UserName")
-        frmConnect.txtPasswd = Cripto.AesDecryptString(GetVar(Carga.Path(Init) & "Config.ini", "LOGIN", "Password"), AES_PASSWD)
+    If CBool(GetVar(Carga.Path(Init) & CLIENT_FILE, "LOGIN", "Remember")) = True Then
+        frmConnect.txtNombre = GetVar(Carga.Path(Init) & CLIENT_FILE, "LOGIN", "UserName")
+        frmConnect.txtPasswd = Cripto.AesDecryptString(GetVar(Carga.Path(Init) & CLIENT_FILE, "LOGIN", "Password"), AES_PASSWD)
         frmConnect.chkRecordar.Checked = True
     End If
     
@@ -574,7 +574,7 @@ Public Sub ClickEvent(ByVal TX As Long, ByVal TY As Long)
     Dim i As Integer
     
     Dim Index As Byte
-Debug.Print TX & " - " & TY
+
     Select Case Pantalla
         Case 0 'Conectar
         
@@ -790,13 +790,13 @@ Private Sub btnConectar()
     frmMain.hlst.Clear
 
     If frmConnect.chkRecordar.Checked = False Then
-        Call WriteVar(Carga.Path(Init) & "Config.ini", "Login", "Remember", "False")
-        Call WriteVar(Carga.Path(Init) & "Config.ini", "Login", "UserName", vbNullString)
-        Call WriteVar(Carga.Path(Init) & "Config.ini", "Login", "Password", vbNullString)
+        Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Remember", "False")
+        Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "UserName", vbNullString)
+        Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Password", vbNullString)
     Else
-        Call WriteVar(Carga.Path(Init) & "Config.ini", "Login", "Remember", "True")
-        Call WriteVar(Carga.Path(Init) & "Config.ini", "Login", "UserName", AccountName)
-        Call WriteVar(Carga.Path(Init) & "Config.ini", "Login", "Password", Cripto.AesEncryptString(AccountPassword, AES_PASSWD))
+        Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Remember", "True")
+        Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "UserName", AccountName)
+        Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Password", Cripto.AesEncryptString(AccountPassword, AES_PASSWD))
     End If
 
     If CheckUserData() = True Then
@@ -1230,7 +1230,7 @@ Private Sub LoadCharInfo()
 
     Dim Lector As clsIniManager
     Set Lector = New clsIniManager
-    Call Lector.Initialize(Carga.Path(Init) & "CharInfo_" & Language & ".dat")
+    Call Lector.Initialize(Carga.Path(Script) & "CharInfo_" & Language & ".dat")
     
     'Modificadores de Raza
     For i = 1 To NUMRAZAS
@@ -1284,8 +1284,8 @@ Private Function CheckData() As Boolean
         Exit Function
     End If
 
-    '¿Estamos intentando crear sin tener el AccountHash?
-    If Len(AccountHash) = 0 Then
+    '¿Estamos intentando crear sin tener el AccountName?
+    If Len(AccountName) = 0 Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_HASH").item("TEXTO"))
         Exit Function
     End If

@@ -12,6 +12,7 @@ Public Type tCabecera
 End Type
 
 Public Enum ePath
+    Script
     Init
     Graficos
     Interfaces
@@ -78,7 +79,7 @@ Public ClientSetup As tSetupMods
 Public MiCabecera As tCabecera
 
 Private Lector As clsIniManager
-Private Const CLIENT_FILE As String = "Config.ini"
+Public Const CLIENT_FILE As String = "Config.ini"
 
 '********************************
 'Load Map with .CSM format
@@ -206,8 +207,11 @@ Public Function Path(ByVal PathType As ePath) As String
 
     Select Case PathType
         
-        Case ePath.Init
+        Case ePath.Script
             Path = App.Path & "\Recursos\INIT\"
+            
+        Case ePath.Init
+            Path = App.Path & "\INIT\"
         
         Case ePath.Graficos
             Path = App.Path & "\Recursos\Graficos\"
@@ -477,7 +481,7 @@ On Error GoTo errhandler:
     Dim i As Integer
     
     N = FreeFile()
-    Open Carga.Path(Init) & "Head.ind" For Binary Access Read As #N
+    Open Carga.Path(Script) & "Head.ind" For Binary Access Read As #N
     
         Get #N, , NumHeads   'cantidad de cabezas
 
@@ -512,7 +516,7 @@ On Error GoTo errhandler:
     Dim i As Integer
     
     N = FreeFile()
-    Open Carga.Path(Init) & "Helmet.ind" For Binary Access Read As #N
+    Open Carga.Path(Script) & "Helmet.ind" For Binary Access Read As #N
     
         Get #N, , NumCascos   'cantidad de cascos
              
@@ -550,7 +554,7 @@ On Error GoTo errhandler:
     Dim MisCuerpos() As tIndiceCuerpo
     
     N = FreeFile()
-    Open Carga.Path(Init) & "Personajes.ind" For Binary Access Read As #N
+    Open Carga.Path(Script) & "Personajes.ind" For Binary Access Read As #N
     
     'cabecera
     Get #N, , MiCabecera
@@ -597,7 +601,7 @@ On Error GoTo errhandler:
     Dim i As Long
     
     Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Carga.Path(Init) & "Fxs.ini")
+    Call FileManager.Initialize(Carga.Path(Script) & "Fxs.ini")
     
     'Resize array
     ReDim FxData(0 To FileManager.GetValue("INIT", "NumFxs")) As tIndiceFx
@@ -634,7 +638,7 @@ Public Sub CargarTips()
 On Error GoTo errhandler:
     
     Dim TipFile As String
-        TipFile = FileToString(Carga.Path(Init) & "tips_" & Language & ".json")
+        TipFile = FileToString(Carga.Path(Script) & "tips_" & Language & ".json")
     
     Set JsonTips = JSON.parse(TipFile)
 
@@ -656,7 +660,7 @@ On Error GoTo errhandler:
     Dim loopc As Long
 
     Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Carga.Path(Init) & "armas.dat")
+    Call FileManager.Initialize(Carga.Path(Script) & "armas.dat")
     
     NumWeaponAnims = Val(FileManager.GetValue("INIT", "NumArmas"))
     ReDim WeaponAnimData(1 To NumWeaponAnims) As WeaponAnimData
@@ -688,7 +692,7 @@ Public Sub CargarColores()
 On Error GoTo errhandler:
 
     Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Carga.Path(Init) & "colores.dat")
+    Call FileManager.Initialize(Carga.Path(Script) & "colores.dat")
     
     Dim i As Long
     
@@ -731,7 +735,7 @@ On Error GoTo errhandler:
     Dim NumEscudosAnims As Integer
     
     Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Carga.Path(Init) & "escudos.dat")
+    Call FileManager.Initialize(Carga.Path(Script) & "escudos.dat")
     
     NumEscudosAnims = Val(FileManager.GetValue("INIT", "NumEscudos"))
     
@@ -770,7 +774,7 @@ On Error GoTo errorH
     Dim j As Long
     
     Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Carga.Path(Init) & "Hechizos.dat")
+    Call FileManager.Initialize(Carga.Path(Script) & "Hechizos.dat")
 
     NumHechizos = Val(FileManager.GetValue("INIT", "NumHechizos"))
  
@@ -1025,7 +1029,7 @@ On Error GoTo errorH
     Dim i As Byte
     
     Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Carga.Path(Init) & "Maps.ini")
+    Call FileManager.Initialize(Carga.Path(Script) & "Maps.ini")
     
     NumConnectMap = Val(FileManager.GetValue("INIT", "NumMaps"))
     
