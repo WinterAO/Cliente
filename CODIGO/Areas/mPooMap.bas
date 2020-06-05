@@ -250,10 +250,9 @@ Function Map_LegalPos(ByVal X As Integer, ByVal Y As Integer) As Boolean
             Exit Function
 
       End If
-      
+
       'Esta el usuario Equitando bajo un techo?
-      If UserEquitando And MapData(X, Y).Trigger = eTrigger.BAJOTECHO Or MapData(X, Y).Trigger = eTrigger.CASA Then
-            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_MONTURA_SALIR").item("TEXTO"))
+      If UserEquitando And MapData(X, Y).Trigger = eTrigger.BAJOTECHO Or UserEquitando And MapData(X, Y).Trigger = eTrigger.CASA Then
             Exit Function
       End If
       
