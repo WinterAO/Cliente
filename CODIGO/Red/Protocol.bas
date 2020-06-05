@@ -5566,10 +5566,7 @@ Public Sub WriteLoginNewChar()
         Call .WriteByte(UserSexo)
         Call .WriteByte(UserClase)
         Call .WriteInteger(UserHead)
-
-        For i = 1 To NUMATRIBUTES
-            Call .WriteByte(UserAtributos(i))
-        Next i
+        
     End With
 End Sub
 
@@ -10684,7 +10681,7 @@ End Sub
 
 Private Sub HandleAccountLogged()
 
-    If incomingData.Length < 30 Then
+    If incomingData.Length < 10 Then
         Err.Raise incomingData.NotEnoughDataErrCode
         Exit Sub
     End If
@@ -10698,7 +10695,7 @@ Private Sub HandleAccountLogged()
 
     'Remove packet ID
     Call buffer.ReadByte
-
+    
     AccountName = buffer.ReadASCIIString
     NumberOfCharacters = buffer.ReadByte
 

@@ -146,8 +146,8 @@ Function CheckUserData() As Boolean
     Dim loopc As Long
     Dim CharAscii As Integer
     Dim Len_accountName As Long, Len_accountPassword As Long
-
-    If LenB(AccountPassword) > 24 Or LenB(AccountPassword) = 0 Then
+    
+    If LenB(AccountPassword) = 0 Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_PASSWORD").item("TEXTO"))
         Exit Function
     End If

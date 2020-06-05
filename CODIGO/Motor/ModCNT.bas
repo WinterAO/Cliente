@@ -65,9 +65,6 @@ Private ModRaza()  As tModRaza
 Private lblModRaza(1 To NUMRAZAS) As Integer
 '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-Private lblAtributos(1 To NUMATRIBUTES) As Byte 'Puntos ya asignados
-Private lblTotal As Byte 'Total de puntos para asignar
-
 Private SexoSelect(1 To 2) As String 'Sexo seleccionado
 '**********************
 
@@ -198,11 +195,6 @@ Public Sub MostrarCreacion(Optional ByVal Mostrar As Boolean = False)
     UserName = vbNullString
     UserRaza = 0
     UserClase = 0
-    lblTotal = 40
-    
-    For i = 1 To NUMATRIBUTES
-        lblAtributos(i) = 6
-    Next i
     
     Call DarCuerpoYCabeza
     Call LoadCharInfo
@@ -419,45 +411,28 @@ Private Sub RenderConnectGUI()
             If UserClase <> 0 Then Call DrawText(505, 420, ListaClases(UserClase), -1, True)
             
             'Atributos
-            Call Engine_Draw_Box(730, 250, 250, 300, D3DColorARGB(100, 0, 0, 0))
+            Call Engine_Draw_Box(730, 250, 250, 250, D3DColorARGB(100, 0, 0, 0))
+            Call DrawText(850, 255, "Modificador de raza:", -1, True)
             
             'Fuerza
-            Call DrawText(780, 285, "Fuerza:", -1, True)
-            Call Draw_GrhIndex(31485, 810, 275, 0, Normal_RGBList(), 0, False)
-            Call Draw_GrhIndex(31486, 880, 275, 0, Normal_RGBList(), 0, False)
-            Call DrawText(865, 285, lblAtributos(eAtributos.Fuerza), -1, True)
-            Call DrawText(940, 285, lblModRaza(eAtributos.Fuerza), -1, True) '
+            Call DrawText(800, 285, "Fuerza:", -1, True)
+            Call DrawText(900, 285, lblModRaza(eAtributos.Fuerza), -1, True) '
             
             'Agilidad
-            Call DrawText(780, 320, "Agilidad:", -1, True)
-            Call Draw_GrhIndex(31485, 810, 310, 0, Normal_RGBList(), 0, False)
-            Call Draw_GrhIndex(31486, 880, 310, 0, Normal_RGBList(), 0, False)
-            Call DrawText(865, 320, lblAtributos(eAtributos.Agilidad), -1, True)
-            Call DrawText(940, 320, lblModRaza(eAtributos.Agilidad), -1, True)
+            Call DrawText(800, 320, "Agilidad:", -1, True)
+            Call DrawText(900, 320, lblModRaza(eAtributos.Agilidad), -1, True)
             
             'Inteligencia
-            Call DrawText(780, 363, "Inteligencia:", -1, True)
-            Call Draw_GrhIndex(31485, 810, 353, 0, Normal_RGBList(), 0, False)
-            Call Draw_GrhIndex(31486, 880, 353, 0, Normal_RGBList(), 0, False)
-            Call DrawText(865, 363, lblAtributos(eAtributos.Inteligencia), -1, True)
-            Call DrawText(940, 363, lblModRaza(eAtributos.Inteligencia), -1, True)
+            Call DrawText(800, 363, "Inteligencia:", -1, True)
+            Call DrawText(900, 363, lblModRaza(eAtributos.Inteligencia), -1, True)
             
             'Carisma
-            Call DrawText(780, 400, "Carisma:", -1, True)
-            Call Draw_GrhIndex(31485, 810, 395, 0, Normal_RGBList(), 0, False)
-            Call Draw_GrhIndex(31486, 880, 395, 0, Normal_RGBList(), 0, False)
-            Call DrawText(865, 400, lblAtributos(eAtributos.Carisma), -1, True)
-            Call DrawText(940, 400, lblModRaza(eAtributos.Carisma), -1, True)
+            Call DrawText(800, 400, "Carisma:", -1, True)
+            Call DrawText(900, 400, lblModRaza(eAtributos.Carisma), -1, True)
             
             'Constitucion
-            Call DrawText(780, 440, "Constitucion:", -1, True)
-            Call Draw_GrhIndex(31485, 810, 440, 0, Normal_RGBList(), 0, False)
-            Call Draw_GrhIndex(31486, 880, 440, 0, Normal_RGBList(), 0, False)
-            Call DrawText(865, 440, lblAtributos(eAtributos.Constitucion), -1, True)
-            Call DrawText(940, 440, lblModRaza(eAtributos.Constitucion), -1, True)
-            
-            'Total
-            Call DrawText(830, 500, lblTotal, -1, True)
+            Call DrawText(800, 440, "Constitucion:", -1, True)
+            Call DrawText(900, 440, lblModRaza(eAtributos.Constitucion), -1, True)
             
             'Seleccion de Cabeza
             Call Draw_GrhIndex(31485, 188, 600, 0, Normal_RGBList(), 0, False)
@@ -710,26 +685,6 @@ Public Sub ClickEvent(ByVal TX As Long, ByVal TY As Long)
                 End If
             End If
             
-            'Fuerza
-            If (TX >= 813 And TX <= 841) And (TY >= 276 And TY <= 302) Then Call Menos_Click(eAtributos.Fuerza)
-            If (TX >= 883 And TX <= 911) And (TY >= 276 And TY <= 302) Then Call Mas_Click(eAtributos.Fuerza)
-            
-            'Agilidad
-            If (TX >= 813 And TX <= 841) And (TY >= 310 And TY <= 340) Then Call Menos_Click(eAtributos.Agilidad)
-            If (TX >= 883 And TX <= 911) And (TY >= 310 And TY <= 340) Then Call Mas_Click(eAtributos.Agilidad)
-            
-            'Inteligencia
-            If (TX >= 813 And TX <= 841) And (TY >= 352 And TY <= 380) Then Call Menos_Click(eAtributos.Inteligencia)
-            If (TX >= 883 And TX <= 911) And (TY >= 354 And TY <= 378) Then Call Mas_Click(eAtributos.Inteligencia)
-            
-            'Carisma
-            If (TX >= 813 And TX <= 841) And (TY >= 399 And TY <= 421) Then Call Menos_Click(eAtributos.Carisma)
-            If (TX >= 883 And TX <= 911) And (TY >= 397 And TY <= 423) Then Call Mas_Click(eAtributos.Carisma)
-            
-            'Constitucion
-            If (TX >= 813 And TX <= 841) And (TY >= 442 And TY <= 468) Then Call Menos_Click(eAtributos.Constitucion)
-            If (TX >= 883 And TX <= 911) And (TY >= 442 And TY <= 466) Then Call Mas_Click(eAtributos.Constitucion)
-            
             'Crear PJ
             If (TX >= 793 And TX <= 989) And (TY >= 656 And TY <= 710) Then _
                 If botonCrear = False Then Call btnCrear
@@ -827,39 +782,6 @@ Private Sub btnGestion()
     
 End Sub
 
-Private Sub Mas_Click(ByVal Index As Integer)
-'**************************************
-'Autor: Lorwik
-'Fecha: 24/05/2020
-'Descripcion: Resta un atributo de la asignacion
-'**************************************
-
-    Call Sound.Sound_Play(SND_CLICK)
-    
-    If lblAtributos(Index) < 18 And lblTotal > 0 Then
-        lblAtributos(Index) = lblAtributos(Index) + 1
-        lblTotal = lblTotal - 1
-    End If
-    
-End Sub
-
-Private Sub Menos_Click(ByVal Index As Integer)
-'**************************************
-'Autor: Lorwik
-'Fecha: 24/05/2020
-'Descripcion: Suma un atributo de la asignacion
-'**************************************
-
-    Call Sound.Sound_Play(SND_CLICK)
-    
-    If lblTotal = "40" Then Exit Sub
-    If lblAtributos(Index) > 6 Then
-        lblAtributos(Index) = lblAtributos(Index) - 1
-        lblTotal = lblTotal + 1
-    End If
-    
-End Sub
-
 Private Sub btnHeadPJ(ByVal Index As Integer)
 
     Select Case Index
@@ -892,11 +814,6 @@ Private Sub btnCrear()
        Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_NOMBRE_PJ").item("TEXTO").item(2))
 
     End If
-    
-    'Atributos asignados
-    For i = 1 To NUMATRIBUTES
-        UserAtributos(i) = Val(lblAtributos(i))
-    Next i
     
     'Comprobamos que todo este OK
     If Not CheckData Then Exit Sub
@@ -1256,9 +1173,6 @@ Private Function CheckData() As Boolean
 'Descripcion: Comprobacion antes de crear el PJ
 '**************************************
     
-    Dim i As Integer
-    Dim Suma As Byte
-    
     '¿Puso un nombre?
     If LenB(frmConnect.txtCrearPJNombre.Text) = 0 Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_NOMBRE_PJ").item("TEXTO"))
@@ -1287,22 +1201,6 @@ Private Function CheckData() As Boolean
     '¿Estamos intentando crear sin tener el AccountName?
     If Len(AccountName) = 0 Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_HASH").item("TEXTO"))
-        Exit Function
-    End If
-
-    'Sumamos los atributos asignados
-    For i = 1 To NUMATRIBUTOS
-        If Val(UserAtributos(i)) > 18 Then
-            Call MostrarMensaje(JsonLanguage.item("VALIDACION_ATRIBUTOS").item("TEXTO"))
-            Exit Function
-        End If
-        
-        Suma = Suma + UserAtributos(i)
-    Next i
-
-    '¿Los atributos asignados son validos?
-    If Suma <> 70 Then
-        Call MostrarMensaje(JsonLanguage.item("VALIDACION_ATRIBUTOS").item("TEXTO"))
         Exit Function
     End If
     
