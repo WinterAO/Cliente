@@ -511,7 +511,7 @@ Sub Main()
     Do While prgRun
 
         'Solo dibujamos si la ventana no esta minimizada
-        If frmMain.WindowState <> 1 And frmMain.Visible Then
+        If frmMain.WindowState <> vbMinimized And frmMain.Visible Then
             Call ShowNextFrame(frmMain.Top, frmMain.Left, frmMain.MouseX, frmMain.MouseY)
             
             Call CheckKeys

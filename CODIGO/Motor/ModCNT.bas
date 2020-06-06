@@ -144,6 +144,8 @@ Public Sub MostrarConnect(Optional ByVal Mostrar As Boolean = False)
     frmConnect.txtNombre.SelStart = Len(frmConnect.txtNombre.Text)
     TextSelected = 1
     
+    EngineRun = False
+    
     'LISTA DE SERVIDORES
     Call ListarServidores
     
@@ -169,6 +171,8 @@ Public Sub MostrarCuenta(Optional ByVal Mostrar As Boolean = False)
     If frmConnect.txtNombre.Visible Then frmConnect.txtNombre.Visible = False
     If frmConnect.txtPasswd.Visible Then frmConnect.txtPasswd.Visible = False
     If frmConnect.txtCrearPJNombre.Visible Then frmConnect.txtCrearPJNombre.Visible = False
+    
+    EngineRun = False
     
     'Ponemos el mapa de cuentas
     SelectConnectMap = 2
@@ -206,6 +210,8 @@ Public Sub MostrarCreacion(Optional ByVal Mostrar As Boolean = False)
     frmConnect.txtCrearPJNombre.SetFocus
     frmConnect.txtCrearPJNombre.Text = vbNullString
     frmConnect.txtCrearPJNombre.SelStart = Len(frmConnect.txtCrearPJNombre.Text)
+    
+    EngineRun = False
     
     'Ponemos el mapa de cuentas
     SelectConnectMap = 1

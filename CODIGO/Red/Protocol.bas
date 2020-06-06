@@ -1443,7 +1443,6 @@ Private Sub HandleDeletedChar()
     'Call CloseConnectionAndResetAllInfo
 End Sub
 
-
 Private Sub HandleLogged()
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
@@ -10681,7 +10680,7 @@ End Sub
 
 Private Sub HandleAccountLogged()
 
-    If incomingData.Length < 10 Then
+    If incomingData.Length < 9 Then
         Err.Raise incomingData.NotEnoughDataErrCode
         Exit Sub
     End If

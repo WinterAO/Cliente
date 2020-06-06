@@ -174,7 +174,6 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -686,7 +685,7 @@ Begin VB.Form frmMain
    Begin VB.Label lblMinimizar 
       BackStyle       =   0  'Transparent
       Height          =   255
-      Left            =   14520
+      Left            =   14565
       MousePointer    =   99  'Custom
       TabIndex        =   8
       Top             =   0
@@ -1420,7 +1419,7 @@ Private Sub lblMana_Click()
 End Sub
 
 Private Sub lblMinimizar_Click()
-    Me.WindowState = 1
+    Me.WindowState = vbMinimized
 End Sub
 
 Private Sub MensajeAmigo_Click()

@@ -141,12 +141,6 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub Form_Load()
-    '[CODE 002]:MatuX
-    EngineRun = False
-    '[END]
-End Sub
-
 Private Sub Renderer_Click()
     Call ModCnt.ClickEvent(MouseX, MouseY)
 End Sub
