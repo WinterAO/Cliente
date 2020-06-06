@@ -2032,7 +2032,7 @@ Private Sub CompletarEnvioMensajes()
         Case 4
             SendTxt.Text = "/CMSG "
         Case 5
-            SendTxt.Text = "/p "
+            SendTxt.Text = "/PMSG "
         Case 6
             SendTxt.Text = ";"
     End Select
@@ -2219,11 +2219,7 @@ Private Sub Client_Error(ByVal number As Integer, _
  
     If Client.State <> sckClosed Then Client.CloseSck
 
-    If Not frmCrearPersonaje.Visible Then
-        Call MostrarConnect
-    Else
-        frmConnect.MousePointer = 0
-    End If
+    Call MostrarConnect
  
 End Sub
 

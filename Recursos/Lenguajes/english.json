@@ -819,7 +819,7 @@
         "BANDIDO": "Bandit",
         "PALADIN": "Paladin",
         "CAZADOR": "Hunter",
-        "TRABAJADOR": "Worker",
+        "BRUJO": "Warlock",
         "PIRATA": "Pirate"
     },
     "ATRIBUTOS": {

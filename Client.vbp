@@ -23,7 +23,6 @@ Form=CODIGO\Formularios\frmForo.frm
 Form=CODIGO\Formularios\FrmEstadisticas.frm
 Form=CODIGO\Formularios\frmtip.frm
 Form=CODIGO\Formularios\frmMensaje.frm
-Form=CODIGO\Formularios\frmCrearPersonaje.frm
 Form=CODIGO\Formularios\frmEntrenador.frm
 Form=CODIGO\Formularios\frmSpawnList.frm
 Form=codigo\Formularios\frmHerrero.frm

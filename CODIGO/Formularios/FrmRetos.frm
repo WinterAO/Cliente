@@ -132,6 +132,7 @@ Begin VB.Form FrmRetos
       Left            =   2760
       TabIndex        =   6
       Top             =   2280
+      Visible         =   0   'False
       Width           =   1815
    End
    Begin WinterAO.uAOButton Comenzar 
@@ -354,6 +355,7 @@ Begin VB.Form FrmRetos
       Left            =   1440
       TabIndex        =   0
       Top             =   2280
+      Visible         =   0   'False
       Width           =   1125
    End
 End

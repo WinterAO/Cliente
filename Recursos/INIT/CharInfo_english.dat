@@ -47,7 +47,7 @@ Cleric=0.8
 Bard=1.075
 Mage=0.4
 Druid=0.75
-Worker=0.8
+Brujo=0.8
 
 [MODATAQUEARMAS]
 Warrior=1
@@ -61,7 +61,7 @@ Cleric=0.85
 Bard=0.7
 Mage=0.5
 Druid=0.65
-Worker=0.8
+Brujo=0.8
 
 [MODATAQUEPROYECTILES]
 Warrior=0.8
@@ -75,7 +75,7 @@ Cleric=0.7
 Bard=0.7
 Mage=0.5
 Druid=0.75
-Worker=0.7
+Brujo=0.7
 
 [MODDANOARMAS]
 Warrior=1.1
@@ -89,7 +89,7 @@ Cleric=0.8
 Bard=0.75
 Mage=0.5
 Druid=0.7
-Worker=0.8
+Brujo=0.8
 
 [MODDANOPROYECTILES]
 Warrior=0.9
@@ -103,7 +103,7 @@ Cleric=0.7
 Bard=0.7
 Mage=0.5
 Druid=0.75
-Worker=0.7
+Brujo=0.7
 
 [MODESCUDO]
 Warrior=1
@@ -117,7 +117,7 @@ Cleric=0.85
 Bard=0.8
 Mage=0
 Druid=0.75
-Worker=0.7
+Brujo=0.7
 
 [MODVIDA]
 Warrior=0.5
@@ -131,7 +131,7 @@ Cleric=2
 Bard=2
 Mage=3.5
 Druid=2
-Worker=2
+Brujo=2
 
 [HIT]
 Warrior=2.7
@@ -145,7 +145,7 @@ Cleric=2
 Bard=2
 Mage=1
 Druid=2
-Worker=2
+Brujo=2
 
 [MODMAGIA]
 Warrior=0
@@ -159,4 +159,4 @@ Cleric=2
 Bard=2
 Mage=2.8
 Druid=2
-Worker=0
+Brujo=0

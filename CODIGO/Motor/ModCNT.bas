@@ -144,6 +144,9 @@ Public Sub MostrarConnect(Optional ByVal Mostrar As Boolean = False)
     frmConnect.txtNombre.SelStart = Len(frmConnect.txtNombre.Text)
     TextSelected = 1
     
+    'LISTA DE SERVIDORES
+    Call ListarServidores
+    
     'Sorteamos el mapa a mostrar
     'Nota el mapa 1 es para el crear pj, el 2 para las cuentas
     SelectConnectMap = RandomNumber(3, NumConnectMap)
@@ -330,6 +333,11 @@ Private Sub RenderConnectGUI()
             
             'Recordar
             Call Draw_GrhIndex(31484, 390, 490, 0, Normal_RGBList(), 0, False)
+            
+            'Server
+            Call DrawText(480, 340, "Server: " & Servidor(ServIndSel).Nombre, -1, False)
+            Call Draw_GrhIndex(31485, 430, 330, 0, Normal_RGBList(), 0, False)
+            Call Draw_GrhIndex(31486, 580, 330, 0, Normal_RGBList(), 0, False)
             
             'User
             Call DrawText(445, 372, frmConnect.txtNombre.Text, -1, False)
@@ -547,12 +555,12 @@ Public Sub ClickEvent(ByVal TX As Long, ByVal TY As Long)
 'Eventos al realizar click en la GUI
 '******************************
     Dim i As Integer
-    
+
     Dim Index As Byte
 
     Select Case Pantalla
         Case 0 'Conectar
-        
+
             If (TX >= 443 And TX <= 605) And (TY >= 372 And TY <= 384) Then
                 frmConnect.txtNombre.SetFocus
                 frmConnect.txtNombre.SelStart = Len(frmConnect.txtNombre.Text)
@@ -563,6 +571,19 @@ Public Sub ClickEvent(ByVal TX As Long, ByVal TY As Long)
                 frmConnect.txtPasswd.SetFocus
                 frmConnect.txtPasswd.SelStart = Len(frmConnect.txtPasswd.Text)
                 TextSelected = 2
+            End If
+            
+            'Servers
+            If (TX >= 435 And TX <= 461) And (TY >= 330 And TY <= 356) Then
+                Call Sound.Sound_Play(SND_CLICK)
+
+                If ServIndSel > LBound(Servidor()) Then ServIndSel = ServIndSel - 1
+            End If
+            
+            If (TX >= 583 And TX <= 609) And (TY >= 330 And TY <= 356) Then
+                Call Sound.Sound_Play(SND_CLICK)
+                
+                If ServIndSel < UBound(Servidor()) Then ServIndSel = ServIndSel + 1
             End If
             
             'Conectar
@@ -704,7 +725,8 @@ Public Sub ClickEvent(ByVal TX As Long, ByVal TY As Long)
     
 End Sub
 
-'<<<<<----------------------------BOTONES-------------------------------->>>>>>
+'<<<<<--------------------------------------------------------------------->>>>>>
+'CONECTAR
 
 Private Sub CrearNuevoPJ()
 '**************************************
@@ -736,6 +758,10 @@ Private Sub btnConectar()
 'Descripcion: Boton de conectar cuenta
 '**************************************
     Call Sound.Sound_Play(SND_CLICK)
+
+    'Conectamos al servidor seleccionado
+    CurServerIp = Servidor(ServIndSel).Ip
+    CurServerPort = Servidor(ServIndSel).Puerto
 
     'update user info
     AccountName = frmConnect.txtNombre.Text
@@ -781,6 +807,35 @@ Private Sub btnGestion()
     Call ShellExecute(0, "Open", "http://winterao.com.ar/", "", App.Path, SW_SHOWNORMAL)
     
 End Sub
+
+Public Sub ListarServidores()
+On Error Resume Next
+    Dim lista() As String
+    Dim Elementos As Byte
+    
+    Dim i As Byte
+    Dim responseServer As String
+    
+    Set Inet = New clsInet
+    
+    responseServer = Inet.OpenRequest("https://winterao.com.ar/update/server-list.txt", "GET")
+    responseServer = Inet.Execute
+    responseServer = Inet.GetResponseAsString
+    
+    lista = Split(responseServer, ";")
+    
+    ReDim Servidor(0 To UBound(lista())) As Servidores
+    
+    For i = 0 To UBound(lista())
+        Servidor(i).Ip = ReadField(1, lista(i), Asc("|"))
+        Servidor(i).Puerto = ReadField(2, lista(i), Asc("|"))
+        Servidor(i).Nombre = ReadField(3, lista(i), Asc("|"))
+    Next i
+
+End Sub
+
+'<<<<<--------------------------------------------------------------------->>>>>>
+'CREACION DE PJ
 
 Private Sub btnHeadPJ(ByVal Index As Integer)
 
@@ -838,9 +893,6 @@ Private Sub btnCrear()
     bShowTutorial = True
 
 End Sub
-
-'<<<<<--------------------------------------------------------------------->>>>>>
-'CREACION DE PJ
 
 Private Sub DarCuerpoYCabeza()
 '**************************************

@@ -3887,7 +3887,7 @@ On Error GoTo errhandler
     
     Call MostrarMensaje(buffer.ReadASCIIString())
     
-    If frmConnect.Visible And (Not frmCrearPersonaje.Visible) Then
+    If frmConnect.Visible Then
         frmMain.Client.CloseSck
     End If
     

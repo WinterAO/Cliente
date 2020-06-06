@@ -446,34 +446,6 @@ Function FileExist(ByVal File As String, ByVal FileType As VbFileAttribute) As B
     FileExist = (Dir$(File, FileType) <> "")
 End Function
 
-Private Function GetCountryFromIp(ByVal Ip As String) As String
-'********************************
-'Author: Recox
-'Last Modification: 08/12/2018
-'Added endpoint to obtain the country of the server.
-'********************************
-On Error Resume Next
-    Dim URL As String
-    Dim Endpoint As String
-    Dim JsonObject As Object
-    Dim Response As String
-    
-    Set Inet = New clsInet
-    
-    URL = GetVar(Carga.Path(Init) & CLIENT_FILE, "Parameters", "IpApiEndpoint")
-    Endpoint = URL & Ip & "/json/"
-    
-    Response = Inet.OpenRequest(Endpoint, "GET")
-    Response = Inet.Execute
-    Response = Inet.GetResponseAsString
-    
-    Set JsonObject = JSON.parse(Response)
-    
-    GetCountryFromIp = JsonObject.item("country")
-    
-    Set Inet = Nothing
-End Function
-
 Sub Main()
     Static lastFlush As Long
     ' Detecta el idioma del sistema (TRUE) y carga las traducciones
@@ -512,6 +484,10 @@ Sub Main()
 
     ' Load constants, classes, flags, graphics..
     Call LoadInitialConfig
+    
+    'Busca y pre-selecciona un server.
+    Call ListarServidores
+    ServIndSel = 0
   
     Call MostrarConnect(True)
     
@@ -917,7 +893,7 @@ Private Sub InicializarNombres()
     ListaClases(eClass.Bandit) = JsonLanguage.item("CLASES").item("BANDIDO")
     ListaClases(eClass.Paladin) = JsonLanguage.item("CLASES").item("PALADIN")
     ListaClases(eClass.Hunter) = JsonLanguage.item("CLASES").item("CAZADOR")
-    ListaClases(eClass.Worker) = JsonLanguage.item("CLASES").item("TRABAJADOR")
+    ListaClases(eClass.Brujo) = JsonLanguage.item("CLASES").item("BRUJO")
     ListaClases(eClass.Pirate) = JsonLanguage.item("CLASES").item("PIRATA")
    
     SkillsNames(eSkill.Magia) = JsonLanguage.item("HABILIDADES").item("MAGIA").item("TEXTO")
@@ -1159,7 +1135,7 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     
     If UnloadForms Then
         ' Return to connection screen
-        If Not frmCrearPersonaje.Visible Then frmConnect.Visible = True
+        Call MostrarConnect
         frmMain.Visible = False
     End If
     
@@ -1358,36 +1334,12 @@ Public Sub SetSpeedUsuario()
     End If
 End Sub
 
-Public Function CurServerIp() As String
-    #If Desarrollo = 1 Then
-        CurServerIp = "127.0.0.1"
-    #Else
-        CurServerIp = "217.216.5.184"
-    #End If
-End Function
-
-Public Function CurServerPort() As Integer
-    CurServerPort = "7666"
-End Function
-
 Public Function CheckIfIpIsNumeric(CurrentIp As String) As String
     If IsNumeric(mid$(CurrentIp, 1, 1)) Then
         CheckIfIpIsNumeric = True
     Else
         CheckIfIpIsNumeric = False
     End If
-End Function
-
-Public Function GetCountryCode(CurrentIp As String) As String
-    Dim CountryCode As String
-    CountryCode = GetCountryFromIp(CurrentIp)
-
-    If LenB(CountryCode) > 0 Then
-        GetCountryCode = CountryCode
-    Else
-        GetCountryCode = "??"
-    End If
-
 End Function
 
 Public Sub Client_Screenshot(ByVal hDC As Long, ByVal Width As Long, ByVal Height As Long)

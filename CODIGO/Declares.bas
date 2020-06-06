@@ -32,12 +32,25 @@ Attribute VB_Name = "Mod_Declaraciones"
 
 Option Explicit
 
+'Indicadores de equipo
 Public lblWeapon As String
 Public lblArmor As String
 Public lblShielder As String
 Public lblHelm As String
 
 Public Inet As clsInet
+
+Public CurServerIp As String
+Public CurServerPort As Integer
+
+Public Type Servidores
+    Nombre As String
+    Ip As String
+    Puerto As Integer
+End Type
+
+Public Servidor() As Servidores
+Public ServIndSel As Byte
 
 ' Desvanecimiento en Techos
 Public ColorTecho As Byte
@@ -291,8 +304,8 @@ Public Enum eClass
     Bandit = 8    'Bandido
     Paladin = 9   'Paladin
     Hunter = 10   'Cazador
-    Worker = 11   'Trabajador
-    Pirate = 12    'Pirata
+    Brujo = 11    'Brujo
+    Pirate = 12   'Pirata
 End Enum
 
 Enum eRaza
@@ -876,9 +889,6 @@ Public nameMap As String
 
 'Control
 Public prgRun As Boolean 'When true the program ends
-
-Public IPdelServidor As String
-Public PuertoDelServidor As String
 
 '
 '********** FUNCIONES API ***********
