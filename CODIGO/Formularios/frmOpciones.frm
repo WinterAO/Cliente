@@ -180,7 +180,7 @@ Begin VB.Form frmOpciones
          Height          =   315
          ItemData        =   "frmOpciones.frx":281E7
          Left            =   240
-         List            =   "frmOpciones.frx":28203
+         List            =   "frmOpciones.frx":281F1
          Style           =   2  'Dropdown List
          TabIndex        =   6
          Top             =   2160
@@ -188,9 +188,9 @@ Begin VB.Form frmOpciones
       End
       Begin VB.ComboBox ComMouseGeneral 
          Height          =   315
-         ItemData        =   "frmOpciones.frx":28279
+         ItemData        =   "frmOpciones.frx":2820A
          Left            =   240
-         List            =   "frmOpciones.frx":28286
+         List            =   "frmOpciones.frx":28217
          Style           =   2  'Dropdown List
          TabIndex        =   4
          Top             =   1440

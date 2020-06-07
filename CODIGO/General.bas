@@ -167,7 +167,12 @@ Function CheckUserData() As Boolean
         Exit Function
     End If
 
-    If Len(AccountName) > 24 Or LenB(AccountName) = 0 Then
+    If LenB(AccountName) = 0 Then
+        Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_ACCOUNTNAME").item("TEXTO").item(1))
+        Exit Function
+    End If
+
+    If Len(AccountName) > 24 Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_ACCOUNTNAME").item("TEXTO").item(2))
         Exit Function
     End If
@@ -507,7 +512,7 @@ Sub Main()
     Dialogos.Font = frmMain.Font
     
     lFrameTimer = GetTickCount
-    
+
     Do While prgRun
 
         'Solo dibujamos si la ventana no esta minimizada

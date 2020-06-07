@@ -35,6 +35,8 @@ Attribute VB_Name = "Mod_TileEngine"
 
 Option Explicit
 
+Private NotFirstRender As Boolean
+
 Dim temp_verts(3) As TLVERTEX
 
 Public OffsetCounterX As Single
@@ -1081,59 +1083,60 @@ Sub ShowNextFrame(ByVal DisplayFormTop As Integer, _
                   ByVal MouseViewY As Integer)
 
     If EngineRun Then
-        Call Engine_BeginScene
         
+        Call Engine_BeginScene
+            
         Call DesvanecimientoTechos
         Call DesvanecimientoMsg
-        
+            
         If UserMoving Then
-        
+            
             '****** Move screen Left and Right if needed ******
             If AddtoUserPos.X <> 0 Then
                 OffsetCounterX = OffsetCounterX - ScrollPixelsPerFrameX * AddtoUserPos.X * timerTicksPerFrame
-
+    
                 If Abs(OffsetCounterX) >= Abs(TilePixelWidth * AddtoUserPos.X) Then
                     OffsetCounterX = 0
                     AddtoUserPos.X = 0
                     UserMoving = False
-
+    
                 End If
-                
+                    
             End If
-            
+                
             '****** Move screen Up and Down if needed ******
             If AddtoUserPos.Y <> 0 Then
                 OffsetCounterY = OffsetCounterY - ScrollPixelsPerFrameY * AddtoUserPos.Y * timerTicksPerFrame
-
+    
                 If Abs(OffsetCounterY) >= Abs(TilePixelHeight * AddtoUserPos.Y) Then
                     OffsetCounterY = 0
                     AddtoUserPos.Y = 0
                     UserMoving = False
-                    
+                        
                 End If
-
+    
             End If
-
+    
         End If
-        
+            
         'Update mouse position within view area
         Call ConvertCPtoTP(MouseViewX, MouseViewY, MouseTileX, MouseTileY)
-        
+            
         '****** Update screen ******
         If UserCiego Then
             Call DirectDevice.Clear(0, ByVal 0, D3DCLEAR_TARGET, 0, 1#, 0)
         Else
             Call RenderScreen(UserPos.X - AddtoUserPos.X, UserPos.Y - AddtoUserPos.Y, OffsetCounterX, OffsetCounterY)
         End If
-        
+            
         Call RenderHUD
-
+    
         'Get timing info
         timerElapsedTime = GetElapsedTime()
         timerTicksPerFrame = timerElapsedTime * Engine_BaseSpeed
-        
+            
         Call Engine_EndScene(MainScreenRect, 0)
-    
+        
         Call Inventario.DrawDragAndDrop
     
     End If

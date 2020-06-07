@@ -62,7 +62,7 @@ Public Sub Init_Ambient(ByVal Map As Integer)
     With CurMapAmbient
         .Fog = -1
         .UseDayAmbient = True
-        .OwnAmbientLight.A = 255
+        .OwnAmbientLight.a = 255
         .OwnAmbientLight.r = 0
         .OwnAmbientLight.g = 0
         .OwnAmbientLight.b = 0
@@ -141,13 +141,13 @@ Public Sub DiaNoche()
                         Call ShowConsoleMsg("Es media noche.")
                         
                     Case Is >= 1
-                        .A = 181.6
+                        .a = 181.6
                         .r = 181.6
                         .g = 181.6
                         .b = 181.6
                         
                     Case Is >= 6
-                        .A = 100 + (Hora * 12.9)
+                        .a = 100 + (Hora * 12.9)
                         .r = 100 + (Hora * 12.9)
                         .g = 100 + (Hora * 12.9)
                         .b = 100 + (Hora * 12.9)
@@ -155,7 +155,7 @@ Public Sub DiaNoche()
                         Call ShowConsoleMsg("Ha comenzado a amanercer.")
                     
                     Case Is >= 12
-                        .A = 255
+                        .a = 255
                         .r = 255
                         .g = 255
                         .b = 255
@@ -163,7 +163,7 @@ Public Sub DiaNoche()
                         Call ShowConsoleMsg("Es medio dia.")
                         
                     Case Is >= 18
-                        .A = 255 - (Hora * 3.4)
+                        .a = 255 - (Hora * 3.4)
                         .r = 255 - (Hora * 3.4)
                         .g = 255 - (Hora * 3.4)
                         .b = 255 - (Hora * 3.4)

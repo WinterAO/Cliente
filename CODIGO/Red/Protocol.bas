@@ -1815,7 +1815,7 @@ Private Sub HandleUpdateSta()
     
     frmMain.lblEnergia = UserMinSTA & "/" & UserMaxSTA
     
-    frmMain.shpEnergia.Width = (((UserMinSTA / 100) / (UserMaxSTA / 100)) * 83)
+    frmMain.shpEnergia.Width = (((UserMinSTA / 100) / (UserMaxSTA / 100)) * 92)
     
 End Sub
 
@@ -3143,7 +3143,7 @@ Private Sub HandleUpdateUserStats()
 
     '***************************
     
-    frmMain.shpEnergia.Visible = (((UserMinSTA / 100) / (UserMaxSTA / 100)) * 92)
+    frmMain.shpEnergia.Width = (((UserMinSTA / 100) / (UserMaxSTA / 100)) * 92)
     '***************************
     
     If UserMinHP = 0 Then

@@ -59,13 +59,11 @@ Public Function Engine_DirectX8_Init() As Boolean
     ScreenWidth = frmConnect.Renderer.ScaleWidth
     ScreenHeight = frmConnect.Renderer.ScaleHeight
     
+    Dim D3DWindow As D3DPRESENT_PARAMETERS
+    
     ' The D3DDISPLAYMODE type structure that holds
     ' the information about your current display adapter.
     Dim DispMode  As D3DDISPLAYMODE
-    
-    ' The D3DPRESENT_PARAMETERS type holds a description of the way
-    ' in which DirectX will display it's rendering.
-    Dim D3DWindow As D3DPRESENT_PARAMETERS
     
     ' Initialize all DirectX objects.
     Set DirectX = New DirectX8
@@ -165,7 +163,7 @@ Public Function Engine_DirectX8_Init() As Boolean
     
 End Function
 
-Private Sub Engine_Init_RenderStates()
+Public Sub Engine_Init_RenderStates()
 
     'Set the render states
     With DirectDevice
