@@ -1348,10 +1348,8 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
                 Call DrawHead(.Head, PixelOffsetX + .Body.HeadOffset.X, PixelOffsetY + .Body.HeadOffset.Y + OFFSET_HEAD, ColorFinal(), .Heading, True)
                 
             'Draw Helmet
-            If .Casco Then
-                'Call Draw_Grh(.Casco.Head(.Heading), PixelOffsetX + .Body.HeadOffset.X + 1, PixelOffsetY + .Casco.Offset.Y + .Body.HeadOffset.Y + OFFSET_HEAD, 1, ColorFinal(), 0)
-                Call DrawHead(.Casco, PixelOffsetX + .Body.HeadOffset.X + 1, PixelOffsetY + .Body.HeadOffset.Y + OFFSET_HEAD, ColorFinal(), .Heading, False)
-            End If
+            If .Casco Then _
+                Call DrawHead(.Casco, PixelOffsetX + .Body.HeadOffset.X, PixelOffsetY + .Body.HeadOffset.Y + OFFSET_HEAD, ColorFinal(), .Heading, False)
                 
             'Draw Weapon
             If .Arma.WeaponWalk(.Heading).GrhIndex Then
@@ -1389,7 +1387,7 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
                 
             'Draw Transparent Helmet
             If .Casco Then _
-                Call DrawHead(.Casco, PixelOffsetX + .Body.HeadOffset.X + 1, PixelOffsetY + .Body.HeadOffset.Y + OFFSET_HEAD, ColorFinal(), .Heading, False, True)
+                Call DrawHead(.Casco, PixelOffsetX + .Body.HeadOffset.X, PixelOffsetY + .Body.HeadOffset.Y + OFFSET_HEAD, ColorFinal(), .Heading, False, True)
                 
             'Draw Transparent Weapon
             If .Arma.WeaponWalk(.Heading).GrhIndex Then
@@ -1800,8 +1798,8 @@ Public Sub DrawHead(ByVal Head As Integer, ByVal X As Integer, ByVal Y As Intege
         textureX1 = heads(Head).startX - textureX2
         textureY1 = ((Heading - 2) * textureY2) + heads(Head).startY
     Else
-        textureX1 = Cascos(Head).startX - textureX2
-        textureY1 = ((Heading - 2) * textureY2) + Cascos(Head).startY
+        textureX1 = Cascos(Head).startX - textureX2 + 1
+        textureY1 = ((Heading - 2) * textureY2) + Cascos(Head).startY + 2
     End If
     
     Device_Textured_Render X - OffsetX + 3, Y - OffsetY + 4, textureX2, textureY2, (textureX2 + textureX1), (textureY2 + textureY1), Texture, Light, Alpha, angle, ScaleX, ScaleY

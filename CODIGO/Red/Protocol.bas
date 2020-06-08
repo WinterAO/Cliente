@@ -1665,7 +1665,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -1966,6 +1966,7 @@ Private Sub HandleUpdateStrenghtAndDexterity()
 'Author: Budi
 'Last Modification: 11/26/09
 '***************************************************
+
     'Check packet is complete
     If incomingData.Length < 3 Then
         Err.Raise incomingData.NotEnoughDataErrCode
@@ -1982,8 +1983,8 @@ Private Sub HandleUpdateStrenghtAndDexterity()
     frmMain.lblStrg.Caption = UserFuerza
     frmMain.lblDext.Caption = UserAgilidad
     
-    frmMain.ShpFuerza.Width = ((UserAgilidad / 25) * 92)
-    frmMain.ShpAgilidad.Width = ((UserFuerza / 25) * 92)
+    frmMain.ShpFuerza.Width = ((UserFuerza / 40) * 92)
+    frmMain.ShpAgilidad.Width = ((UserAgilidad / 40) * 92)
     
 End Sub
 
@@ -1994,6 +1995,7 @@ Private Sub HandleUpdateStrenght()
 'Author: Budi
 'Last Modification: 11/26/09
 '***************************************************
+
     'Check packet is complete
     If incomingData.Length < 2 Then
         Err.Raise incomingData.NotEnoughDataErrCode
@@ -2005,9 +2007,10 @@ Private Sub HandleUpdateStrenght()
     
     'Get data and update form
     UserFuerza = incomingData.ReadByte
+    
     frmMain.lblStrg.Caption = UserFuerza
     
-    frmMain.ShpFuerza.Width = ((UserAgilidad / 25) * 92)
+    frmMain.ShpFuerza.Width = ((UserFuerza / 40) * 92)
 End Sub
 
 ' Handles the UpdateStrenghtAndDexterity message.
@@ -2029,7 +2032,9 @@ Private Sub HandleUpdateDexterity()
     'Get data and update form
     UserAgilidad = incomingData.ReadByte
    
-    frmMain.ShpAgilidad.Width = ((UserFuerza / 25) * 92)
+    frmMain.lblDext.Caption = UserAgilidad
+    
+    frmMain.ShpAgilidad.Width = ((UserAgilidad / 40) * 92)
 End Sub
 
 ''

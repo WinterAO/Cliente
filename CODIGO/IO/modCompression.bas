@@ -1072,8 +1072,10 @@ Public Sub Parchear(ByVal file_type As resource_file_type, ByVal resource_path A
     Dim FileNames() As String
     Dim lngFileStart As Long
     Dim loopc As Long
+    
 'Set up the error handler
 On Local Error GoTo errhandler
+
     Select Case file_type
         Case Graphics
             SourceFilePath = resource_path & GRAPHIC_PATH

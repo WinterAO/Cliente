@@ -429,7 +429,7 @@ Public Sub Char_SetCasco(ByVal CharIndex As Integer, ByVal CascoIndex As Integer
     '
     '**************************************************************
  
-    If CascoIndex > 1 Or CascoIndex < NumCascos Then
+    If CascoIndex > NumCascos Or CascoIndex < 1 Then
 
         Exit Sub
 
