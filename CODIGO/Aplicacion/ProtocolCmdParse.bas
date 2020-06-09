@@ -505,9 +505,6 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                     Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FUNDAR_CLAN").item("TEXTO"))
                 End If
             
-            Case "/FUNDARCLANGM"
-                Call WriteGuildFundation(eClanType.ct_GM)
-            
             Case "/ECHARPARTY"
                 If notNullArguments Then
                     Call WritePartyKick(ArgumentosRaw)
