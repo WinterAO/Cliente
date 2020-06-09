@@ -80,15 +80,15 @@ Sub Damage_Initialize()
 
 End Sub
 
-Sub Damage_Create(ByVal x As Byte, _
-                  ByVal y As Byte, _
+Sub Damage_Create(ByVal X As Byte, _
+                  ByVal Y As Byte, _
                   ByVal ColorRGB As Long, _
                   ByVal DamageValue As Integer, _
                   ByVal edMode As Byte)
  
     ' @ Agrega un nuevo dano.
  
-    With MapData(x, y).Damage
+    With MapData(X, Y).Damage
      
         .Activated = True
         .ColorRGB = ColorRGB
@@ -123,14 +123,14 @@ Private Function EaseOutCubic(Time As Double)
     EaseOutCubic = Time * Time * Time + 1
 End Function
  
-Sub Damage_Draw(ByVal x As Byte, _
-                ByVal y As Byte, _
+Sub Damage_Draw(ByVal X As Byte, _
+                ByVal Y As Byte, _
                 ByVal PixelX As Integer, _
                 ByVal PixelY As Integer)
  
     ' @ Dibuja un dano
  
-    With MapData(x, y).Damage
+    With MapData(X, Y).Damage
      
         If (Not .Activated) Or (Not .DamageVal <> 0) Then Exit Sub
         
@@ -171,7 +171,7 @@ Sub Damage_Draw(ByVal x As Byte, _
             
         'Si llego al tiempo lo limpio
         Else
-            Damage_Clear x, y
+            Damage_Clear X, Y
            
         End If
        
@@ -179,11 +179,11 @@ Sub Damage_Draw(ByVal x As Byte, _
  
 End Sub
  
-Sub Damage_Clear(ByVal x As Byte, ByVal y As Byte)
+Sub Damage_Clear(ByVal X As Byte, ByVal Y As Byte)
  
     ' @ Limpia todo.
  
-    With MapData(x, y).Damage
+    With MapData(X, Y).Damage
         .Activated = False
         .ColorRGB = 0
         .DamageVal = 0
@@ -218,7 +218,7 @@ Function Damage_ModifyColour(ByVal DamageType As Byte) As Long
  
 End Function
  
-Function Damage_NewSize(ByVal ElapsedTime As Byte) As Byte
+Function Damage_NewSize(ByVal ElapsedTime As Integer) As Byte
  
     ' @ Se usa para el "efecto" del apu.
 
