@@ -1629,6 +1629,17 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
             Case "/IMPERSONAR"
                 Call WriteImpersonate
                 
+            Case "/SILENCIARGLOBAL"
+                If notNullArguments Then
+                    Call WriteSilenciarGlobal(ArgumentosRaw)
+                Else
+                    'Avisar que falta el parametro
+                    Call ShowConsoleMsg("Faltan parámetros. Utilice /SilenciarGlobal NICKNAME.")
+                End If
+
+            Case "/TOGGLEGLOBAL"
+                Call WriteToggleGlobal
+                
             Case "/MIMETIZAR"
                 Call WriteImitate
                 
@@ -1680,6 +1691,20 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_COMANDO_INCORRECTO").item("TEXTO"))
         
         End Select
+        
+    ElseIf Left$(Comando, 1) = ";" Then
+        If notNullArguments Then
+            If UserEstado = 1 Then 'Muerto
+                With FontTypes(FontTypeNames.FONTTYPE_INFO)
+                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO"), .Red, .Green, .Blue, .bold, .italic)
+                End With
+                Exit Sub
+            End If
+            Call WriteGlobalChat(ArgumentosRaw)
+        Else
+            'Avisar que falta el parametro
+            Call ShowConsoleMsg("Escriba un mensaje.")
+        End If
         
     ElseIf Left$(Comando, 1) = "\" Then
         If UserEstado = 1 Then 'Muerto

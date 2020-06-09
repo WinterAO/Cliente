@@ -320,6 +320,7 @@ Private Enum ClientPacketID
     DelAmigos
     OnAmigos
     MsgAmigos
+    ChatGlobal
 End Enum
 
 Public Enum FontTypeNames
@@ -1665,7 +1666,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -11301,4 +11302,39 @@ Private Sub HandleProyectil()
     GrhIndex = incomingData.ReadInteger()
     
     Engine_Projectile_Create CharSending, CharRecieved, GrhIndex, 0
+End Sub
+
+Public Sub WriteGlobalChat(ByVal Message As String)
+'***************************************************
+'Autor: Lorwik
+'Fecha: 09/06/2020
+'***************************************************
+    With outgoingData
+        Call .WriteByte(ClientPacketID.ChatGlobal)
+        Call .WriteASCIIString(Message)
+    End With
+End Sub
+
+Public Sub WriteSilenciarGlobal(ByVal UserName As String)
+'***************************************************
+'Autor: Lorwik
+'Fecha: 09/06/2020
+'***************************************************
+    With outgoingData
+        Call .WriteByte(ClientPacketID.GMCommands)
+        Call .WriteByte(eGMCommands.SilenciarGlobal)
+
+        Call .WriteASCIIString(UserName)
+    End With
+End Sub
+
+Public Sub WriteToggleGlobal()
+'***************************************************
+'Autor: Lorwik
+'Fecha: 09/06/2020
+'***************************************************
+    With outgoingData
+        Call .WriteByte(ClientPacketID.GMCommands)
+        Call .WriteByte(eGMCommands.ToggleGlobal)
+    End With
 End Sub

@@ -367,7 +367,7 @@ Attribute VB_Exposed = False
 Private RetoModo As Byte
 
 Private Sub dosvsdos_Click()
-
+    txtOponente(1).Visible = True
     txtOponente(1).Visible = True
     txtOponente(2).Visible = False
     lblOponente.Visible = True
@@ -492,7 +492,7 @@ Private Sub Salir_Click()
 End Sub
 
 Private Sub tresvstres_Click()
-
+    txtOponente(0).Visible = True
     txtOponente(1).Visible = True
     txtOponente(2).Visible = True
     lblOponente.Visible = True

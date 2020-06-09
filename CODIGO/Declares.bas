@@ -573,6 +573,8 @@ Public Enum eGMCommands
     LimpiarMundo            '/LIMPIARMUNDO
     EditGems                '/EDITGEMS
     ConsultarGems           '/CONSULTARGEMS
+    SilenciarGlobal         '/SILENCIARGLOBAL
+    ToggleGlobal            '/TOGGLEGLOBAL
 End Enum
 
 '
