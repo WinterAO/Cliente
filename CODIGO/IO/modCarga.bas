@@ -39,6 +39,7 @@ Public Type tSetupMods
     PartyMembers As Boolean
     TonalidadPJ As Boolean
     UsarSombras As Boolean
+    UsarReflejos As Boolean
     ParticleEngine As Boolean
     HUD As Boolean
     LimiteFPS As Boolean
@@ -261,6 +262,7 @@ Public Sub LeerConfiguracion()
         .PartyMembers = CBool(Lector.GetValue("VIDEO", "PartyMembers"))
         .TonalidadPJ = CBool(Lector.GetValue("VIDEO", "TonalidadPJ"))
         .UsarSombras = CBool(Lector.GetValue("VIDEO", "Sombras"))
+        .UsarReflejos = CBool(Lector.GetValue("VIDEO", "Reflejos"))
         .ParticleEngine = CBool(Lector.GetValue("VIDEO", "ParticleEngine"))
         .LimiteFPS = CBool(Lector.GetValue("VIDEO", "LimitarFPS"))
         .HUD = CBool(Lector.GetValue("VIDEO", "HUD"))
@@ -295,6 +297,7 @@ Public Sub LeerConfiguracion()
         Debug.Print "PartyMembers: " & .PartyMembers
         Debug.Print "TonalidadPJ: " & .TonalidadPJ
         Debug.Print "UsarSombras: " & .UsarSombras
+        Debug.Print "UsarReflejos: " & .UsarReflejos
         Debug.Print "ParticleEngine: " & .ParticleEngine
         Debug.Print "LimitarFPS: " & .LimiteFPS
         Debug.Print "bMusic: " & .bMusic
@@ -336,6 +339,7 @@ Public Sub GuardarConfiguracion()
         Call Lector.ChangeValue("VIDEO", "PartyMembers", IIf(.PartyMembers, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "TonalidadPJ", IIf(.TonalidadPJ, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "Sombras", IIf(.UsarSombras, "True", "False"))
+        Call Lector.ChangeValue("VIDEO", "Reflejos", IIf(.UsarReflejos, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ParticleEngine, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "LimitarFPS", IIf(.LimiteFPS, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "HUD", IIf(.HUD, "True", "False"))
@@ -389,71 +393,78 @@ On Error GoTo ErrorHandler:
     'Open files
     Handle = FreeFile()
     Open IniPath & "Graficos.ind" For Binary Access Read As Handle
-    
+
+        'Obtenemos el numero de la version del archivo
         Get Handle, , fileVersion
         
+        'Obtenemos el total de Grh
         Get Handle, , grhCount
         
-        ReDim GrhData(0 To grhCount) As GrhData
+        ReDim GrhData(1 To grhCount) As GrhData
         
         While Not EOF(Handle)
             Get Handle, , Grh
             
-            With GrhData(Grh)
-            
-                '.active = True
-                Get Handle, , .NumFrames
-                If .NumFrames <= 0 Then GoTo ErrorHandler
+           If Grh <> 0 Then
+           
+                With GrhData(Grh)
                 
-                ReDim .Frames(1 To .NumFrames)
+                    'Obtenemos el numero de frames
+                    Get Handle, , .NumFrames
+                    If .NumFrames <= 0 Then GoTo ErrorHandler
+                    
+                    ReDim .Frames(1 To .NumFrames)
+                    
+                    '¿Es una animacion?
+                    If .NumFrames > 1 Then
+                    
+                        For Frame = 1 To .NumFrames
+                            Get Handle, , .Frames(Frame)
+                            If .Frames(Frame) <= 0 Or .Frames(Frame) > grhCount Then GoTo ErrorHandler
+                        Next Frame
+                        
+                        Get Handle, , .speed
+                        If .speed <= 0 Then GoTo ErrorHandler
+                        
+                        .pixelHeight = GrhData(.Frames(1)).pixelHeight
+                        If .pixelHeight <= 0 Then GoTo ErrorHandler
+                        
+                        .pixelWidth = GrhData(.Frames(1)).pixelWidth
+                        If .pixelWidth <= 0 Then GoTo ErrorHandler
+                        
+                        .TileWidth = GrhData(.Frames(1)).TileWidth
+                        If .TileWidth <= 0 Then GoTo ErrorHandler
+                        
+                        .TileHeight = GrhData(.Frames(1)).TileHeight
+                        If .TileHeight <= 0 Then GoTo ErrorHandler
+                        
+                    Else '¿Es un grafico NO animado?
+                        
+                        Get Handle, , .FileNum
+                        If .FileNum <= 0 Then GoTo ErrorHandler
+                        
+                        Get Handle, , GrhData(Grh).sX
+                        If .sX < 0 Then GoTo ErrorHandler
+                        
+                        Get Handle, , .sY
+                        If .sY < 0 Then GoTo ErrorHandler
+                        
+                        Get Handle, , .pixelWidth
+                        If .pixelWidth <= 0 Then GoTo ErrorHandler
+                        
+                        Get Handle, , .pixelHeight
+                        If .pixelHeight <= 0 Then GoTo ErrorHandler
+                        
+                        .TileWidth = .pixelWidth / TilePixelHeight
+                        .TileHeight = .pixelHeight / TilePixelWidth
+                        
+                        .Frames(1) = Grh
+                        
+                    End If
+                    
+                End With
                 
-                If .NumFrames > 1 Then
-                
-                    For Frame = 1 To .NumFrames
-                        Get Handle, , .Frames(Frame)
-                        If .Frames(Frame) <= 0 Or .Frames(Frame) > grhCount Then GoTo ErrorHandler
-                    Next Frame
-                    
-                    Get Handle, , .speed
-                    If .speed <= 0 Then GoTo ErrorHandler
-                    
-                    .pixelHeight = GrhData(.Frames(1)).pixelHeight
-                    If .pixelHeight <= 0 Then GoTo ErrorHandler
-                    
-                    .pixelWidth = GrhData(.Frames(1)).pixelWidth
-                    If .pixelWidth <= 0 Then GoTo ErrorHandler
-                    
-                    .TileWidth = GrhData(.Frames(1)).TileWidth
-                    If .TileWidth <= 0 Then GoTo ErrorHandler
-                    
-                    .TileHeight = GrhData(.Frames(1)).TileHeight
-                    If .TileHeight <= 0 Then GoTo ErrorHandler
-                    
-                Else
-                    
-                    Get Handle, , .FileNum
-                    If .FileNum <= 0 Then GoTo ErrorHandler
-                    
-                    Get Handle, , GrhData(Grh).sX
-                    If .sX < 0 Then GoTo ErrorHandler
-                    
-                    Get Handle, , .sY
-                    If .sY < 0 Then GoTo ErrorHandler
-                    
-                    Get Handle, , .pixelWidth
-                    If .pixelWidth <= 0 Then GoTo ErrorHandler
-                    
-                    Get Handle, , .pixelHeight
-                    If .pixelHeight <= 0 Then GoTo ErrorHandler
-                    
-                    .TileWidth = .pixelWidth / TilePixelHeight
-                    .TileHeight = .pixelHeight / TilePixelWidth
-                    
-                    .Frames(1) = Grh
-                    
-                End If
-                
-            End With
+            End If
             
         Wend
     

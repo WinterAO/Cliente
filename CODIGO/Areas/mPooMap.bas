@@ -22,11 +22,12 @@ Public Sub Map_RemoveOldUser()
 
 End Sub
 
-Public Sub Map_CreateObject(ByVal X As Byte, ByVal Y As Byte, ByVal GrhIndex As Long, ByVal Shadow As Byte)
+Public Sub Map_CreateObject(ByVal X As Byte, ByVal Y As Byte, ByVal GrhIndex As Long, ByVal ParticulaIndex As Integer, ByVal Shadow As Byte)
 
       'Dim objgrh As Integer
         
-      If Not GrhCheck(GrhIndex) Then
+    '¿El objeto no tiene un Grh valido ni particula?
+      If Not GrhCheck(GrhIndex) And ParticulaIndex = 0 Then
             Exit Sub
 
       End If
@@ -38,8 +39,9 @@ Public Sub Map_CreateObject(ByVal X As Byte, ByVal Y As Byte, ByVal GrhIndex As 
                   'If (Map_PosExitsObject(x, y) > 0) Then
                   '      Call Map_DestroyObject(x, y)
                   'End If
-
+                  
                   .OBJInfo.Shadow = Shadow
+                  If ParticulaIndex > 0 Then .Particle_Group_Index = General_Particle_Create(ParticulaIndex, X, Y)
                   Call InitGrh(.ObjGrh, GrhIndex)
             End With
 
@@ -48,13 +50,18 @@ Public Sub Map_CreateObject(ByVal X As Byte, ByVal Y As Byte, ByVal GrhIndex As 
 End Sub
 
 Public Sub Map_DestroyObject(ByVal X As Byte, ByVal Y As Byte)
-
+    Dim ParticulaObject As Long
+    
       If (Map_InBounds(X, Y)) Then
 
             With MapData(X, Y)
                   '.objgrh.GrhIndex = 0
                   .OBJInfo.objindex = 0
                   .OBJInfo.Amount = 0
+                  
+                  ParticulaObject = Map_Particle_Group_Get(X, Y)
+                  If ParticulaObject > 0 Then Call Particle_Group_Remove(ParticulaObject)
+                  
                   Call GrhUninitialize(.ObjGrh)
         
             End With
@@ -70,7 +77,11 @@ Public Function Map_PosExitsObject(ByVal X As Byte, ByVal Y As Byte) As Integer
       '*****************************************************************
 
       If (Map_InBounds(X, Y)) Then
+        If MapData(X, Y).ObjGrh.GrhIndex > 0 Then
             Map_PosExitsObject = MapData(X, Y).ObjGrh.GrhIndex
+        ElseIf MapData(X, Y).Particle_Group_Index > 0 Then
+            Map_PosExitsObject = MapData(X, Y).Particle_Group_Index
+        End If
       Else
             Map_PosExitsObject = 0
       End If

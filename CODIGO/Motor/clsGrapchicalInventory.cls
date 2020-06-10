@@ -238,13 +238,13 @@ Public Property Get GrhIndex(ByVal slot As Byte) As Long
     GrhIndex = Inventory(slot).GrhIndex
 End Property
 
-Public Property Get Valor(ByVal slot As Byte) As Single
+Public Property Get valor(ByVal slot As Byte) As Single
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modify Date: 27/07/04
 'Retrieves the value of the selected item
 '***************************************************
-    Valor = Inventory(slot).Valor
+    valor = Inventory(slot).valor
 End Property
 
 Public Property Get Amount(ByVal slot As Byte) As Long
@@ -260,13 +260,13 @@ Public Property Get Amount(ByVal slot As Byte) As Long
     End If
 End Property
 
-Public Property Get objindex(ByVal slot As Byte) As Integer
+Public Property Get ObjIndex(ByVal slot As Byte) As Integer
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modify Date: 27/07/04
 'Retrieves the selected item's object index
 '***************************************************
-    objindex = Inventory(slot).objindex
+    ObjIndex = Inventory(slot).ObjIndex
 End Property
 
 Public Property Get OBJType(ByVal slot As Byte) As Integer
@@ -362,9 +362,9 @@ Public Sub SetItem(ByVal slot As Byte, ByVal eOBJIndex As Integer, ByVal eAmount
         .MaxHit = eMaxHit
         .MinHit = eMinHit
         .name = eName
-        .objindex = eOBJIndex
+        .ObjIndex = eOBJIndex
         .OBJType = eObjType
-        .Valor = eValor
+        .valor = eValor
     End With
     
     'If InventoryWindow.Visible = False Then InventoryWindow.Visible = True
@@ -411,7 +411,7 @@ Public Sub DrawInventory()
     'Last Modify Date: 18/01/2020
     'Renders the inventory to the given PictureBox.
     '***************************************************
-    Dim LoopC        As Long
+    Dim loopc        As Long
     Dim X            As Integer
     Dim Y            As Integer
     Dim DestRect     As RECT
@@ -429,18 +429,18 @@ Public Sub DrawInventory()
     'Clear the inventory window
     Call Engine_BeginScene
 
-    For LoopC = InventoryOffset * (InventoryWindow.ScaleWidth \ ownTilePixelWidth) + 1 To UBound(Inventory)
+    For loopc = InventoryOffset * (InventoryWindow.ScaleWidth \ ownTilePixelWidth) + 1 To UBound(Inventory)
             
-        startdX = ((LoopC - 1) Mod (frmMain.PicInv.Width / 32)) * 32
-        startdY = ((LoopC - 1) \ (frmMain.PicInv.Width / 32)) * 32
+        startdX = ((loopc - 1) Mod (frmMain.PicInv.Width / 32)) * 32
+        startdY = ((loopc - 1) \ (frmMain.PicInv.Width / 32)) * 32
 
 
         'Si se renderiza el inventario del pj hace la validacion para renderizar de un color correcto los slots especiales de mochila y alforja
         'Sino renderiza todo negro (Recox)
         If isInventory Then
-            If (LoopC > MAX_NORMAL_INVENTORY_SLOTS) And (LoopC <= MAX_MOCHILA_CHICA_INVENTORY_SLOTS) Then
+            If (loopc > MAX_NORMAL_INVENTORY_SLOTS) And (loopc <= MAX_MOCHILA_CHICA_INVENTORY_SLOTS) Then
                 Call Draw_GrhIndex(GRH_SLOT_INVENTARIO_VIOLETA, startdX, startdY, 0, Normal_RGBList(), 0, False) 'Dibuja el fondo
-            ElseIf (LoopC > MAX_MOCHILA_CHICA_INVENTORY_SLOTS) And (LoopC <= MAX_INVENTORY_SLOTS) Then
+            ElseIf (loopc > MAX_MOCHILA_CHICA_INVENTORY_SLOTS) And (loopc <= MAX_INVENTORY_SLOTS) Then
                 Call Draw_GrhIndex(GRH_SLOT_INVENTARIO_DORADO, startdX, startdY, 0, Normal_RGBList(), 0, False) 'Dibuja el fondo
             Else
                 Call Draw_GrhIndex(GRH_SLOT_INVENTARIO_NEGRO, startdX, startdY, 0, Normal_RGBList(), 0, False) 'Dibuja el fondo
@@ -450,31 +450,31 @@ Public Sub DrawInventory()
         End If
 
             
-        If Inventory(LoopC).GrhIndex Then
+        If Inventory(loopc).GrhIndex Then
 
             ' Draw Item
-            If LoopC <> DragItem Then
+            If loopc <> DragItem Then
                     
-                If LoopC = SelectedItem Then
+                If loopc = SelectedItem Then
                     Call Draw_GrhIndex(GRH_SLOT_INVENTARIO_ROJO, startdX, startdY, 0, Normal_RGBList(), 0, False) 'Dibuja el fondo cuando lo seleccionamos
 
                 End If
 
-                Call Draw_GrhIndex(Inventory(LoopC).GrhIndex, startdX, startdY, 0, Normal_RGBList())
+                Call Draw_GrhIndex(Inventory(loopc).GrhIndex, startdX, startdY, 0, Normal_RGBList())
 
                 'If equipped we render "E"
-                If Inventory(LoopC).Equipped Then
+                If Inventory(loopc).Equipped Then
                     Call DrawText(startdX + 20, startdY + 20, "E", -1)
 
                 End If
                     
-                Call DrawText(startdX, startdY, Inventory(LoopC).Amount, -1)
+                Call DrawText(startdX, startdY, Inventory(loopc).Amount, -1)
 
             End If
 
         End If
 
-    Next LoopC
+    Next loopc
 
     If DragItem <> 0 And Drag = 1 And isInventory Then
         Call Draw_GrhIndex(Inventory(DragItem).GrhIndex, MouseX - 16, MouseY - 16, 0, Normal_RGBList())

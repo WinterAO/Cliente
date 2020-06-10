@@ -1,11 +1,10 @@
 VERSION 5.00
 Begin VB.Form frmOpciones 
-   BackColor       =   &H8000000A&
-   BorderStyle     =   0  'None
+   BorderStyle     =   3  'Fixed Dialog
    ClientHeight    =   7185
-   ClientLeft      =   0
-   ClientTop       =   0
-   ClientWidth     =   16050
+   ClientLeft      =   45
+   ClientTop       =   45
+   ClientWidth     =   7770
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    BeginProperty Font 
@@ -21,20 +20,226 @@ Begin VB.Form frmOpciones
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   Picture         =   "frmOpciones.frx":0152
    ScaleHeight     =   479
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   1070
+   ScaleWidth      =   518
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
+   Begin VB.CommandButton imgSalir 
+      Caption         =   "Salir"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   345
+      Left            =   3960
+      TabIndex        =   36
+      Top             =   6720
+      Width           =   3690
+   End
+   Begin VB.CommandButton imgTutorial 
+      Caption         =   "Tutorial"
+      Height          =   345
+      Left            =   120
+      TabIndex        =   35
+      Top             =   6720
+      Width           =   3690
+   End
+   Begin VB.CommandButton imgManual 
+      Caption         =   "Manual"
+      Height          =   345
+      Left            =   120
+      TabIndex        =   34
+      Top             =   6240
+      Width           =   3690
+   End
+   Begin VB.CommandButton imgMapa 
+      Caption         =   "Mapa"
+      Height          =   345
+      Left            =   120
+      TabIndex        =   33
+      Top             =   5760
+      Width           =   3690
+   End
+   Begin VB.CommandButton imgConfigTeclas 
+      Caption         =   "Configurar Teclas"
+      Height          =   360
+      Left            =   120
+      TabIndex        =   32
+      Top             =   5280
+      Width           =   3690
+   End
+   Begin VB.Frame FraClanes 
+      Caption         =   "Clanes"
+      Height          =   1215
+      Left            =   3960
+      TabIndex        =   28
+      Top             =   2160
+      Width           =   3735
+      Begin VB.TextBox txtCantMensajes 
+         Alignment       =   2  'Center
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   255
+         Left            =   2040
+         MaxLength       =   1
+         TabIndex        =   31
+         Text            =   "5"
+         Top             =   720
+         Width           =   375
+      End
+      Begin VB.CheckBox chkop 
+         Caption         =   "Dialogos en pantalla"
+         Height          =   255
+         Index           =   10
+         Left            =   120
+         TabIndex        =   30
+         Top             =   720
+         Width           =   1815
+      End
+      Begin VB.CheckBox chkop 
+         Caption         =   "Noticias de clan al conectar"
+         Height          =   195
+         Index           =   9
+         Left            =   120
+         TabIndex        =   29
+         Top             =   360
+         Width           =   2535
+      End
+   End
+   Begin VB.Frame FragShooter 
+      Caption         =   "Frag Shooter"
+      Height          =   1335
+      Left            =   120
+      TabIndex        =   23
+      Top             =   3720
+      Width           =   3735
+      Begin VB.CheckBox chkop 
+         Caption         =   "Desactivar"
+         Height          =   195
+         Index           =   8
+         Left            =   120
+         TabIndex        =   27
+         Top             =   960
+         Width           =   1935
+      End
+      Begin VB.CheckBox chkop 
+         Caption         =   "Al morir"
+         Height          =   195
+         Index           =   7
+         Left            =   120
+         TabIndex        =   26
+         Top             =   660
+         Width           =   3375
+      End
+      Begin VB.TextBox txtLevel 
+         Alignment       =   2  'Center
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   255
+         Left            =   3120
+         MaxLength       =   2
+         TabIndex        =   25
+         Text            =   "40"
+         Top             =   360
+         Width           =   375
+      End
+      Begin VB.CheckBox chkop 
+         Caption         =   "Al matar personajes mayores a nivel"
+         Height          =   195
+         Index           =   6
+         Left            =   120
+         TabIndex        =   24
+         Top             =   360
+         Width           =   3375
+      End
+   End
+   Begin VB.Frame FraVideo 
+      Caption         =   "Video"
+      Height          =   1815
+      Left            =   3960
+      TabIndex        =   20
+      Top             =   120
+      Width           =   3735
+      Begin VB.CheckBox chkop 
+         Caption         =   "Desactivar Reflejos"
+         Height          =   195
+         Index           =   13
+         Left            =   240
+         TabIndex        =   39
+         Top             =   1320
+         Width           =   2055
+      End
+      Begin VB.CheckBox chkop 
+         Caption         =   "Desactivar Reflejos"
+         Height          =   195
+         Index           =   12
+         Left            =   240
+         TabIndex        =   38
+         Top             =   1080
+         Width           =   2055
+      End
+      Begin VB.CheckBox chkop 
+         Caption         =   "Desactivar Sombras"
+         Height          =   195
+         Index           =   11
+         Left            =   240
+         TabIndex        =   37
+         Top             =   840
+         Width           =   2055
+      End
+      Begin VB.CheckBox chkop 
+         Caption         =   "Limitar FPS"
+         Height          =   195
+         Index           =   5
+         Left            =   240
+         TabIndex        =   22
+         Top             =   600
+         Width           =   1335
+      End
+      Begin VB.CheckBox chkop 
+         Caption         =   "Desactivar HUD"
+         Height          =   195
+         Index           =   4
+         Left            =   240
+         TabIndex        =   21
+         Top             =   360
+         Width           =   1935
+      End
+   End
    Begin VB.Frame Frame2 
       Caption         =   "Audio"
       ForeColor       =   &H00000000&
       Height          =   3540
-      Left            =   7560
-      TabIndex        =   13
+      Left            =   120
+      TabIndex        =   9
       Top             =   120
-      Width           =   4215
+      Width           =   3735
       Begin VB.HScrollBar scrMusic 
          Height          =   315
          LargeChange     =   15
@@ -42,7 +247,7 @@ Begin VB.Form frmOpciones
          Max             =   0
          Min             =   -4000
          SmallChange     =   2
-         TabIndex        =   20
+         TabIndex        =   16
          Top             =   3060
          Width           =   2895
       End
@@ -53,7 +258,7 @@ Begin VB.Form frmOpciones
          Max             =   0
          Min             =   -4000
          SmallChange     =   2
-         TabIndex        =   19
+         TabIndex        =   15
          Top             =   1890
          Width           =   2895
       End
@@ -62,7 +267,7 @@ Begin VB.Form frmOpciones
          Height          =   285
          Index           =   1
          Left            =   120
-         TabIndex        =   18
+         TabIndex        =   14
          Top             =   660
          Width           =   2985
       End
@@ -71,25 +276,25 @@ Begin VB.Form frmOpciones
          Height          =   285
          Index           =   0
          Left            =   120
-         TabIndex        =   17
+         TabIndex        =   13
          Top             =   360
          Width           =   2985
       End
       Begin VB.CheckBox chkop 
          Caption         =   "Sonidos Ambientales habilitado"
          Height          =   255
-         Index           =   3
+         Index           =   2
          Left            =   120
-         TabIndex        =   16
+         TabIndex        =   12
          Top             =   960
          Width           =   2985
       End
       Begin VB.CheckBox chkop 
          Caption         =   "Invertir los canales (L/R)"
          Height          =   255
-         Index           =   4
+         Index           =   3
          Left            =   120
-         TabIndex        =   15
+         TabIndex        =   11
          Top             =   1320
          Width           =   2985
       End
@@ -100,7 +305,7 @@ Begin VB.Form frmOpciones
          Max             =   0
          Min             =   -4000
          SmallChange     =   2
-         TabIndex        =   14
+         TabIndex        =   10
          Top             =   2520
          Width           =   2895
       End
@@ -111,7 +316,7 @@ Begin VB.Form frmOpciones
          Height          =   195
          Index           =   2
          Left            =   150
-         TabIndex        =   23
+         TabIndex        =   19
          Top             =   2850
          Width           =   2865
       End
@@ -122,7 +327,7 @@ Begin VB.Form frmOpciones
          Height          =   195
          Index           =   1
          Left            =   150
-         TabIndex        =   22
+         TabIndex        =   18
          Top             =   2280
          Width           =   2865
       End
@@ -133,7 +338,7 @@ Begin VB.Form frmOpciones
          Height          =   195
          Index           =   0
          Left            =   120
-         TabIndex        =   21
+         TabIndex        =   17
          Top             =   1680
          Width           =   2835
       End
@@ -149,51 +354,51 @@ Begin VB.Form frmOpciones
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   3615
-      Left            =   5040
-      TabIndex        =   2
-      Top             =   3120
-      Width           =   2415
+      Height          =   3135
+      Left            =   3960
+      TabIndex        =   0
+      Top             =   3480
+      Width           =   3735
       Begin VB.ComboBox cmdLenguajesComboBox 
          BackColor       =   &H00FFFFFF&
          ForeColor       =   &H00000000&
          Height          =   315
          Left            =   240
          Style           =   2  'Dropdown List
-         TabIndex        =   9
-         Top             =   2880
+         TabIndex        =   7
+         Top             =   2640
          Width           =   1815
       End
       Begin VB.ComboBox cmdSkinsComboBox 
          BackColor       =   &H00FFFFFF&
          ForeColor       =   &H00000000&
          Height          =   315
-         ItemData        =   "frmOpciones.frx":281E3
+         ItemData        =   "frmOpciones.frx":0152
          Left            =   240
-         List            =   "frmOpciones.frx":281E5
+         List            =   "frmOpciones.frx":0154
          Style           =   2  'Dropdown List
-         TabIndex        =   7
-         Top             =   720
+         TabIndex        =   5
+         Top             =   480
          Width           =   1815
       End
       Begin VB.ComboBox ComMouseHechizos 
          Height          =   315
-         ItemData        =   "frmOpciones.frx":281E7
+         ItemData        =   "frmOpciones.frx":0156
          Left            =   240
-         List            =   "frmOpciones.frx":281F1
+         List            =   "frmOpciones.frx":0160
          Style           =   2  'Dropdown List
-         TabIndex        =   6
-         Top             =   2160
+         TabIndex        =   4
+         Top             =   1920
          Width           =   1815
       End
       Begin VB.ComboBox ComMouseGeneral 
          Height          =   315
-         ItemData        =   "frmOpciones.frx":2820A
+         ItemData        =   "frmOpciones.frx":0179
          Left            =   240
-         List            =   "frmOpciones.frx":28217
+         List            =   "frmOpciones.frx":0186
          Style           =   2  'Dropdown List
-         TabIndex        =   4
-         Top             =   1440
+         TabIndex        =   2
+         Top             =   1200
          Width           =   1815
       End
       Begin VB.Label lblLenguaje 
@@ -202,8 +407,8 @@ Begin VB.Form frmOpciones
          Caption         =   "Lenguaje"
          Height          =   195
          Left            =   240
-         TabIndex        =   10
-         Top             =   2640
+         TabIndex        =   8
+         Top             =   2400
          Width           =   660
       End
       Begin VB.Label lblSkinDe 
@@ -212,8 +417,8 @@ Begin VB.Form frmOpciones
          Caption         =   "Skin de Interfaces"
          Height          =   195
          Left            =   240
-         TabIndex        =   8
-         Top             =   480
+         TabIndex        =   6
+         Top             =   240
          Width           =   1305
       End
       Begin VB.Label lblMouseHechizos 
@@ -222,8 +427,8 @@ Begin VB.Form frmOpciones
          Caption         =   "Mouse Grafico de Hechizos"
          Height          =   195
          Left            =   240
-         TabIndex        =   5
-         Top             =   1920
+         TabIndex        =   3
+         Top             =   1680
          Width           =   1920
       End
       Begin VB.Label lblMouseGrafico 
@@ -232,163 +437,10 @@ Begin VB.Form frmOpciones
          Caption         =   "Mouse Grafico General"
          Height          =   195
          Left            =   240
-         TabIndex        =   3
-         Top             =   1200
+         TabIndex        =   1
+         Top             =   960
          Width           =   1620
       End
-   End
-   Begin VB.TextBox txtCantMensajes 
-      Alignment       =   2  'Center
-      BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   255
-      Left            =   2340
-      MaxLength       =   1
-      TabIndex        =   1
-      Text            =   "5"
-      Top             =   2415
-      Width           =   255
-   End
-   Begin VB.TextBox txtLevel 
-      BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   255
-      Left            =   3480
-      MaxLength       =   2
-      TabIndex        =   0
-      Text            =   "40"
-      Top             =   4110
-      Width           =   255
-   End
-   Begin VB.Label lblDesactivarHUD 
-      AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "Desactivar HUD"
-      Height          =   195
-      Left            =   5280
-      TabIndex        =   12
-      Top             =   480
-      Width           =   1140
-   End
-   Begin VB.Image chkHud 
-      Height          =   225
-      Left            =   4920
-      Top             =   480
-      Width           =   210
-   End
-   Begin VB.Image chkLimitarFPS 
-      Height          =   225
-      Left            =   4920
-      Top             =   120
-      Width           =   210
-   End
-   Begin VB.Label lblLimitarFPS 
-      AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "Limitar FPS"
-      Height          =   195
-      Left            =   5280
-      TabIndex        =   11
-      Top             =   120
-      Width           =   780
-   End
-   Begin VB.Image imgChkDesactivarFragShooter 
-      Height          =   225
-      Left            =   435
-      Top             =   4740
-      Width           =   210
-   End
-   Begin VB.Image imgChkAlMorir 
-      Height          =   225
-      Left            =   435
-      Top             =   4425
-      Width           =   210
-   End
-   Begin VB.Image imgChkRequiredLvl 
-      Height          =   225
-      Left            =   435
-      Top             =   4110
-      Width           =   210
-   End
-   Begin VB.Image imgChkNoMostrarNews 
-      Height          =   225
-      Left            =   2475
-      Top             =   3315
-      Width           =   210
-   End
-   Begin VB.Image imgChkMostrarNews 
-      Height          =   225
-      Left            =   435
-      Top             =   3315
-      Width           =   210
-   End
-   Begin VB.Image imgChkPantalla 
-      Height          =   225
-      Left            =   1950
-      Top             =   2430
-      Width           =   210
-   End
-   Begin VB.Image imgChkConsola 
-      Height          =   225
-      Left            =   435
-      Top             =   2430
-      Width           =   210
-   End
-   Begin VB.Image imgTutorial 
-      Height          =   285
-      Left            =   2520
-      Top             =   6240
-      Width           =   2010
-   End
-   Begin VB.Image imgSoporte 
-      Height          =   285
-      Left            =   360
-      Top             =   6240
-      Width           =   2010
-   End
-   Begin VB.Image imgManual 
-      Height          =   285
-      Left            =   360
-      Top             =   5880
-      Width           =   2010
-   End
-   Begin VB.Image imgMapa 
-      Height          =   285
-      Left            =   360
-      Top             =   5520
-      Width           =   2010
-   End
-   Begin VB.Image imgConfigTeclas 
-      Height          =   285
-      Left            =   360
-      Top             =   5160
-      Width           =   2010
-   End
-   Begin VB.Image imgSalir 
-      Height          =   285
-      Left            =   1440
-      Top             =   6600
-      Width           =   2010
    End
 End
 Attribute VB_Name = "frmOpciones"
@@ -432,55 +484,13 @@ Option Explicit
 
 Private clsFormulario As clsFormMovementManager
 
-Private cBotonConfigTeclas As clsGraphicalButton
-Private cBotonMapa As clsGraphicalButton
-Private cBotonManual As clsGraphicalButton
-Private cBotonSoporte As clsGraphicalButton
-Private cBotonTutorial As clsGraphicalButton
-Private cBotonSalir As clsGraphicalButton
-
-Public LastButtonPressed As clsGraphicalButton
-
-Private picCheckBox As Picture
-
 Private bMusicActivated As Boolean
 Private bSoundActivated As Boolean
 Private bSoundEffectsActivated As Boolean
 
 Private loading As Boolean
 
-Private Sub chkHud_Click()
-'***************************************************
-'Author: Lorwik
-'Last Modification: 30/04/2020
-'30/04/2020: Lorwik - Desactivamos el HUD
-'***************************************************
-    ClientSetup.LimiteFPS = Not ClientSetup.LimiteFPS
-    
-    If ClientSetup.LimiteFPS Then
-        chkLimitarFPS.Picture = picCheckBox
-    Else
-        Set chkLimitarFPS.Picture = Nothing
-    End If
-End Sub
-
-Private Sub chkLimitarFPS_Click()
-'***************************************************
-'Author: Lorwik
-'Last Modification: 28/04/2020
-'20/04/2020: Lorwik - Seteamos el Limite de FPS
-'***************************************************
-    ClientSetup.LimiteFPS = Not ClientSetup.LimiteFPS
-    
-    If ClientSetup.LimiteFPS Then
-        chkLimitarFPS.Picture = picCheckBox
-    Else
-        Set chkLimitarFPS.Picture = Nothing
-    End If
-
-End Sub
-
-Private Sub chkop_Click(Index As Integer)
+Private Sub chkop_MouseUp(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
 '***************************************************
 'Author: Lorwik
 'Fecha: 30/05/2020
@@ -513,7 +523,7 @@ Private Sub chkop_Click(Index As Integer)
                 scrVolume.Enabled = True
             End If
             
-        Case 3 'Ambiente
+        Case 2 'Ambiente
             
             If chkop(Index).value = vbUnchecked Then
                 ClientSetup.bAmbient = 0
@@ -524,6 +534,37 @@ Private Sub chkop_Click(Index As Integer)
                 Call Sound.Ambient_Load(Sound.AmbienteActual, ClientSetup.AmbientVol)
                 Call Sound.Ambient_Play
             End If
+            
+        Case 4 'HUD
+        
+            ClientSetup.HUD = Not ClientSetup.HUD
+            
+        Case 5 'FPS
+            ClientSetup.LimiteFPS = Not ClientSetup.LimiteFPS
+            
+        Case 6 'Frag shooter
+            ClientSetup.bKill = Not ClientSetup.bKill
+            
+        Case 7 'Al Morir
+            ClientSetup.bDie = Not ClientSetup.bDie
+            
+        Case 8 'Desactivar Fragshooter
+            ClientSetup.bActive = Not ClientSetup.bActive
+            
+        Case 9 'Noticias de clan
+            ClientSetup.bGuildNews = Not ClientSetup.bGuildNews
+            
+        Case 10 'Dialogos de clanes
+            DialogosClanes.Activo = Not DialogosClanes.Activo
+            
+        Case 11 'Sombras
+            ClientSetup.UsarSombras = Not ClientSetup.UsarSombras
+            
+        Case 12 'Reflejos
+            ClientSetup.UsarReflejos = Not ClientSetup.UsarReflejos
+            
+        Case 13 'Tonalidad
+            ClientSetup.TonalidadPJ = Not ClientSetup.TonalidadPJ
             
     End Select
 End Sub
@@ -611,40 +652,6 @@ Private Sub ComMouseHechizos_Click()
     MsgBox ("Debe reiniciar el juego aplicar el cambio de mouse. Mouse Seleccionado: " & ComMouseHechizos.Text)
 End Sub
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    LastButtonPressed.ToggleToNormal
-End Sub
-
-Private Sub imgChkAlMorir_Click()
-    ClientSetup.bDie = Not ClientSetup.bDie
-    
-    If ClientSetup.bDie Then
-        imgChkAlMorir.Picture = picCheckBox
-    Else
-        Set imgChkAlMorir.Picture = Nothing
-    End If
-End Sub
-
-Private Sub imgChkDesactivarFragShooter_Click()
-    ClientSetup.bActive = Not ClientSetup.bActive
-    
-    If ClientSetup.bActive Then
-        Set imgChkDesactivarFragShooter.Picture = Nothing
-    Else
-        imgChkDesactivarFragShooter.Picture = picCheckBox
-    End If
-End Sub
-
-Private Sub imgChkRequiredLvl_Click()
-    ClientSetup.bKill = Not ClientSetup.bKill
-    
-    If ClientSetup.bKill Then
-        imgChkRequiredLvl.Picture = picCheckBox
-    Else
-        Set imgChkRequiredLvl.Picture = Nothing
-    End If
-End Sub
-
 Private Sub txtCantMensajes_Change()
     txtCantMensajes.Text = Val(txtCantMensajes.Text)
     
@@ -659,34 +666,6 @@ Private Sub txtLevel_Change()
     If Not IsNumeric(txtLevel) Then txtLevel = 0
     txtLevel = Trim$(txtLevel)
     ClientSetup.byMurderedLevel = CByte(txtLevel)
-End Sub
-
-Private Sub imgChkConsola_Click()
-    DialogosClanes.Activo = False
-    
-    imgChkConsola.Picture = picCheckBox
-    Set imgChkPantalla.Picture = Nothing
-End Sub
-
-Private Sub imgChkMostrarNews_Click()
-    ClientSetup.bGuildNews = True
-    
-    imgChkMostrarNews.Picture = picCheckBox
-    Set imgChkNoMostrarNews.Picture = Nothing
-End Sub
-
-Private Sub imgChkNoMostrarNews_Click()
-    ClientSetup.bGuildNews = False
-    
-    imgChkNoMostrarNews.Picture = picCheckBox
-    Set imgChkMostrarNews.Picture = Nothing
-End Sub
-
-Private Sub imgChkPantalla_Click()
-    DialogosClanes.Activo = True
-    
-    imgChkPantalla.Picture = picCheckBox
-    Set imgChkConsola.Picture = Nothing
 End Sub
 
 Private Sub imgConfigTeclas_Click()
@@ -711,14 +690,6 @@ Private Sub imgSalir_Click()
     frmMain.SetFocus
 End Sub
 
-Private Sub imgSoporte_Click()
-    
-    If Not loading Then _
-        Call Sound.Sound_Play(SND_CLICK)
-    
-    Call ShellExecute(0, "Open", "https://github.com/ao-libre/ao-cliente/issues", "", App.Path, SW_SHOWNORMAL)
-End Sub
-
 Private Sub imgTutorial_Click()
     frmTutorial.Show vbModeless
 End Sub
@@ -728,16 +699,6 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    ' TODO: Traducir los textos de las imagenes via labels en visual basic, para que en el futuro si se quiere se pueda traducir a mas idiomas
-    ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
-    ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
-    If Language = "spanish" Then
-      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaOpciones_spanish.jpg")
-    Else
-      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaOpciones_english.jpg")
-    End If
-
-    LoadButtons
     LoadSkinsInComboBox
     LoadLenguajesInComboBox
     
@@ -772,47 +733,6 @@ Private Sub LoadLenguajesInComboBox()
 
 End Sub
 
-Private Sub LoadButtons()
-    Dim GrhPath As String
-    
-    GrhPath = Carga.Path(Interfaces)
-
-    Set cBotonConfigTeclas = New clsGraphicalButton
-    Set cBotonMapa = New clsGraphicalButton
-    Set cBotonManual = New clsGraphicalButton
-    Set cBotonSoporte = New clsGraphicalButton
-    Set cBotonTutorial = New clsGraphicalButton
-    Set cBotonSalir = New clsGraphicalButton
-    
-    Set LastButtonPressed = New clsGraphicalButton
-    
-    Call cBotonConfigTeclas.Initialize(imgConfigTeclas, GrhPath & "BotonConfigurarTeclas.jpg", _
-                                    GrhPath & "BotonConfigurarTeclasRollover.jpg", _
-                                    GrhPath & "BotonConfigurarTeclasClick.jpg", Me)
-                                    
-    Call cBotonMapa.Initialize(imgMapa, GrhPath & "BotonMapaAo.jpg", _
-                                    GrhPath & "BotonMapaAoRollover.jpg", _
-                                    GrhPath & "BotonMapaAoClick.jpg", Me)
-                                    
-    Call cBotonManual.Initialize(imgManual, GrhPath & "BotonManualAo.jpg", _
-                                    GrhPath & "BotonManualAoRollover.jpg", _
-                                    GrhPath & "BotonManualAoClick.jpg", Me)
-                                    
-    Call cBotonSoporte.Initialize(imgSoporte, GrhPath & "BotonSoporte.jpg", _
-                                    GrhPath & "BotonSoporteRollover.jpg", _
-                                    GrhPath & "BotonSoporteClick.jpg", Me)
-                                    
-    Call cBotonTutorial.Initialize(imgTutorial, GrhPath & "BotonTutorial.jpg", _
-                                    GrhPath & "BotonTutorialRollover.jpg", _
-                                    GrhPath & "BotonTutorialClick.jpg", Me)
-                                    
-    Call cBotonSalir.Initialize(imgSalir, GrhPath & "BotonSalirOpciones.jpg", _
-                                    GrhPath & "BotonSalirRolloverOpciones.jpg", _
-                                    GrhPath & "BotonSalirClickOpciones.jpg", Me)
-                                    
-    Set picCheckBox = LoadPicture(GrhPath & "CheckBoxOpciones.jpg")
-End Sub
-
 Private Sub LoadUserConfig()
 
     'Musica
@@ -845,28 +765,68 @@ Private Sub LoadUserConfig()
         chkop(3).value = vbUnchecked
         scrAmbient.value = ClientSetup.AmbientVol
     End If
-
-    txtCantMensajes.Text = CStr(DialogosClanes.CantidadDialogos)
-    
-    If DialogosClanes.Activo Then
-        imgChkPantalla.Picture = picCheckBox
-    Else
-        imgChkConsola.Picture = picCheckBox
-    End If
-    
-    If ClientSetup.bGuildNews Then
-        imgChkMostrarNews.Picture = picCheckBox
-    Else
-        imgChkNoMostrarNews.Picture = picCheckBox
-    End If
-        
-    If ClientSetup.bKill Then imgChkRequiredLvl.Picture = picCheckBox
-    If ClientSetup.bDie Then imgChkAlMorir.Picture = picCheckBox
-    If Not ClientSetup.bActive Then imgChkDesactivarFragShooter.Picture = picCheckBox
     
     txtLevel = ClientSetup.byMurderedLevel
     
-    If ClientSetup.LimiteFPS Then chkLimitarFPS.Picture = picCheckBox
-    If ClientSetup.HUD Then chkHud.Picture = picCheckBox
+    If ClientSetup.HUD = True Then
+        chkop(4).value = vbUnchecked
+    Else
+        chkop(4).value = vbChecked
+    End If
     
+    If ClientSetup.LimiteFPS = True Then
+        chkop(5).value = vbChecked
+    Else
+        chkop(5).value = vbUnchecked
+    End If
+    
+    If ClientSetup.bKill Then
+        chkop(6).value = vbChecked
+    Else
+        chkop(6).value = vbUnchecked
+    End If
+    
+    If ClientSetup.bDie Then
+        chkop(7).value = vbChecked
+    Else
+        chkop(7).value = vbUnchecked
+    End If
+    
+    If Not ClientSetup.bActive Then
+        chkop(8).value = vbChecked
+    Else
+        chkop(8).value = vbUnchecked
+    End If
+    
+    If ClientSetup.bGuildNews Then
+        chkop(9).value = vbChecked
+    Else
+        chkop(9).value = vbUnchecked
+    End If
+    
+    If DialogosClanes.Activo Then
+        chkop(10).value = vbChecked
+    Else
+        chkop(10).value = vbUnchecked
+    End If
+    
+    If ClientSetup.UsarSombras Then
+        chkop(11).value = vbChecked
+    Else
+        chkop(11).value = vbUnchecked
+    End If
+    
+    If ClientSetup.UsarReflejos Then
+        chkop(12).value = vbChecked
+    Else
+        chkop(12).value = vbUnchecked
+    End If
+    
+    If ClientSetup.TonalidadPJ Then
+        chkop(13).value = vbChecked
+    Else
+        chkop(13).value = vbUnchecked
+    End If
+    
+    txtCantMensajes.Text = CStr(DialogosClanes.CantidadDialogos)
 End Sub

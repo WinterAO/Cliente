@@ -790,7 +790,8 @@ Private Sub Particle_Group_Make(ByVal Particle_Group_Index As Long, ByVal map_x 
     End If
     
 End Sub
-Private Function Map_Particle_Group_Get(ByVal map_x As Integer, ByVal map_y As Integer) As Long
+
+Public Function Map_Particle_Group_Get(ByVal map_x As Integer, ByVal map_y As Integer) As Long
 '*****************************************************************
 'Author: Aaron Perkins
 'Last Modify Date: 2/20/2003

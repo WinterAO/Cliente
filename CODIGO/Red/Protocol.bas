@@ -1666,7 +1666,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -2823,17 +2823,19 @@ Private Sub HandleObjectCreate()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    Dim X        As Byte
-    Dim Y        As Byte
-    Dim GrhIndex As Long
-    Dim Shadow   As Byte
+    Dim X               As Byte
+    Dim Y               As Byte
+    Dim GrhIndex        As Long
+    Dim ParticulaIndex  As Integer
+    Dim Shadow          As Byte
     
     X = incomingData.ReadByte()
     Y = incomingData.ReadByte()
     GrhIndex = incomingData.ReadLong()
+    ParticulaIndex = incomingData.ReadInteger()
     Shadow = incomingData.ReadByte()
-        
-    Call Map_CreateObject(X, Y, GrhIndex, Shadow)
+    
+    Call Map_CreateObject(X, Y, GrhIndex, ParticulaIndex, Shadow)
 End Sub
 
 ''
@@ -2861,7 +2863,7 @@ Private Sub HandleObjectDelete()
     Y = incomingData.ReadByte()
         
     obj = Map_PosExitsObject(X, Y)
-        
+
     If (obj > 0) Then
         Call Map_DestroyObject(X, Y)
     End If
@@ -4429,6 +4431,7 @@ Private Sub HandleOfferDetails()
 'Last Modification: 05/17/06
 '
 '***************************************************
+
     If incomingData.Length < 3 Then
         Err.Raise incomingData.NotEnoughDataErrCode
         Exit Sub
@@ -4926,6 +4929,7 @@ Private Sub HandleChangeUserTradeSlot()
 'Last Modification: 05/17/06
 '
 '***************************************************
+
     If incomingData.Length < 22 Then
         Err.Raise incomingData.NotEnoughDataErrCode
         Exit Sub
@@ -4937,21 +4941,44 @@ On Error GoTo errhandler
     Call buffer.CopyBuffer(incomingData)
     
     Dim OfferSlot As Byte
-    
-    'Remove packet ID
-    Call buffer.ReadByte
-    
-    OfferSlot = buffer.ReadByte
+    Dim objindex As Integer
+    Dim Amount As Long
+    Dim ObjGrhIndex As Long
+    Dim OffObjType As Byte
+    Dim MaximoHit As Integer
+    Dim MinimoHit As Integer
+    Dim MaximaDefensa As Integer
+    Dim MinimaDefensa As Integer
+    Dim PrecioValor As Long
+    Dim NombreObjeto As String
     
     With buffer
+    
+        'Remove packet ID
+        Call .ReadByte
+        OfferSlot = .ReadByte()
+        objindex = .ReadInteger()
+        Amount = .ReadLong()
+        
+        ObjGrhIndex = .ReadLong()
+        OffObjType = .ReadByte()
+        MaximoHit = .ReadInteger()
+        MinimoHit = .ReadInteger()
+        MaximaDefensa = .ReadInteger()
+        MinimaDefensa = .ReadInteger()
+        PrecioValor = .ReadLong()
+        NombreObjeto = .ReadASCIIString()
+        
         If OfferSlot = GOLD_OFFER_SLOT Then
-            Call InvOroComUsu(2).SetItem(1, .ReadInteger(), .ReadLong(), 0, _
-                                            .ReadInteger(), .ReadByte(), .ReadInteger(), _
-                                            .ReadInteger(), .ReadInteger(), .ReadInteger(), .ReadLong(), .ReadASCIIString())
+            Call InvOroComUsu(2).SetItem(1, objindex, Amount, 0, _
+                                            ObjGrhIndex, OffObjType, MaximoHit, MinimoHit, _
+                                            MaximaDefensa, MinimaDefensa, PrecioValor, NombreObjeto)
+
         Else
-            Call InvOfferComUsu(1).SetItem(OfferSlot, .ReadInteger(), .ReadLong(), 0, _
-                                            .ReadInteger(), .ReadByte(), .ReadInteger(), _
-                                            .ReadInteger(), .ReadInteger(), .ReadInteger(), .ReadLong(), .ReadASCIIString())
+            Call InvOfferComUsu(1).SetItem(OfferSlot, objindex, Amount, 0, _
+                                            ObjGrhIndex, OffObjType, MaximoHit, MinimoHit, _
+                                            MaximaDefensa, MinimaDefensa, PrecioValor, NombreObjeto)
+
         End If
     End With
     
@@ -4959,7 +4986,7 @@ On Error GoTo errhandler
     
     'If we got here then packet is complete, copy data back to original queue
     Call incomingData.CopyBuffer(buffer)
-    
+
 errhandler:
     Dim Error As Long
     Error = Err.number
