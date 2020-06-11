@@ -362,39 +362,66 @@ Private Sub CheckKeys()
 End Sub
 
 Sub SwitchMap(ByVal Map As Integer)
-    '**********************************************************************************
-    'Disenado y creado por Juan Martin Sotuyo Dodero (Maraxus) (juansotuyo@hotmail.com)
-    '**********************************************************************************
+'**********************************************************************************
+'Autor: Lorwik
+'Fecha: 11/06/2020
+'Descripción: Intentamos descomprimir el mapa, si existe lo cargamos
+'**********************************************************************************
     
-    'Limpieza adicional del mapa. PARCHE: Solucion a bug de clones. [Gracias Yhunja]
-    'EDIT: cambio el rango de valores en x y para solucionar otro bug con respecto al cambio de mapas
-    Call Char_CleanAll
+    Dim Dir_Map As String
     
-    'Borramos las particulas activas en el mapa.
-    Call Particle_Group_Remove_All
-    
-    'Borramos las particulas de lluvia
-    Call mDx8_Particulas.RemoveWeatherParticles(eWeather.Rain)
-    
-    'Cargamos el mapa.
-    Call Carga.CargarMapa(Map)
-    
-    'Dibujamos el Mini-Mapa
-    If FileExist(Carga.Path(Graficos) & "MiniMapa\" & Map & ".bmp", vbArchive) Then
-        frmMain.MiniMapa.Picture = LoadPicture(Carga.Path(Graficos) & "MiniMapa\" & Map & ".bmp")
-    End If
-    
-    CurMap = Map
-    
-    Call Init_Ambient(Map)
-    
-    'Resetear el mensaje en render con el nombre del mapa.
-    renderText = nameMap
-    renderFont = 2
-    colorRender = 240
+    Dir_Map = Get_Extract(resource_file_type.Map, "Mapa" & Map & ".csm")
 
-    'Aqui ponemos el nombre del mapa en el label del frmMain
-    frmMain.lblMapName.Caption = nameMap
+    If FileExist(Dir_Map, vbArchive) Then
+
+        'Limpieza adicional del mapa. PARCHE: Solucion a bug de clones. [Gracias Yhunja]
+        'EDIT: cambio el rango de valores en x y para solucionar otro bug con respecto al cambio de mapas
+        Call Char_CleanAll
+        
+        'Borramos las particulas activas en el mapa.
+        Call Particle_Group_Remove_All
+        
+        'Borramos las particulas de lluvia
+        Call mDx8_Particulas.RemoveWeatherParticles(eWeather.Rain)
+        
+        'Cargamos el mapa.
+        Call Carga.CargarMapa(Map, Dir_Map)
+        
+        'Dibujamos el Mini-Mapa
+        If FileExist(Carga.Path(Graficos) & "MiniMapa\" & Map & ".bmp", vbArchive) Then
+            frmMain.MiniMapa.Picture = LoadPicture(Carga.Path(Graficos) & "MiniMapa\" & Map & ".bmp")
+        End If
+        
+        CurMap = Map
+        
+        Call Init_Ambient(Map)
+        
+        'Si estamos jugando y no en el conectar...
+        If frmMain.Visible Then
+            'Resetear el mensaje en render con el nombre del mapa.
+            renderText = nameMap
+            renderFont = 2
+            colorRender = 240
+        
+            'Aqui ponemos el nombre del mapa en el label del frmMain
+            frmMain.lblMapName.Caption = nameMap
+            
+            'Reproducimos la música del mapa
+            If ClientSetup.bMusic <> CONST_DESHABILITADA Then
+                If ClientSetup.bMusic <> CONST_DESHABILITADA Then
+                    Sound.NextMusic = mapInfo.Music
+                    Sound.Fading = 200
+                End If
+            End If
+        End If
+    Else
+    
+        'no encontramos el mapa en el hd
+        Call MsgBox(JsonLanguage.item("ERROR_MAPAS").item("TEXTO"))
+        
+        Call CloseClient
+        
+    End If
     
 End Sub
 

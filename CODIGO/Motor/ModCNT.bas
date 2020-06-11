@@ -35,9 +35,6 @@ Public PJAccSelected As Byte
 'Indica el TextBox selecionado
 Private TextSelected As Byte
 
-'Codigo de encriptado de la pass
-Public Const AES_PASSWD As String = "illoestapassestodifisi"
-
 '*********************
 'Flags
 '*********************
@@ -136,7 +133,6 @@ Public Sub MostrarConnect(Optional ByVal Mostrar As Boolean = False)
     
     If CBool(GetVar(Carga.Path(Init) & CLIENT_FILE, "LOGIN", "Remember")) = True Then
         frmConnect.txtNombre = GetVar(Carga.Path(Init) & CLIENT_FILE, "LOGIN", "UserName")
-        frmConnect.txtPasswd = Cripto.AesDecryptString(GetVar(Carga.Path(Init) & CLIENT_FILE, "LOGIN", "Password"), AES_PASSWD)
         frmConnect.chkRecordar.Checked = True
     End If
     
@@ -779,11 +775,9 @@ Private Sub btnConectar()
     If frmConnect.chkRecordar.Checked = False Then
         Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Remember", "False")
         Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "UserName", vbNullString)
-        Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Password", vbNullString)
     Else
         Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Remember", "True")
         Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "UserName", AccountName)
-        Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Password", Cripto.AesEncryptString(AccountPassword, AES_PASSWD))
     End If
 
     If CheckUserData() = True Then

@@ -240,8 +240,6 @@ Public Enum ePartesCuerpo
     bTorso = 6
 End Enum
 
-Public NumEscudosAnims As Integer
-
 Public ArmasHerrero() As tItemsConstruibles
 Public ArmadurasHerrero() As tItemsConstruibles
 Public ObjCarpintero() As tItemsConstruibles
@@ -714,9 +712,9 @@ Public Type PjCuenta
     Nombre      As String
     Head        As Integer
     Body        As Integer
-    shield      As Byte
+    Shield      As Byte
     helmet      As Byte
-    weapon      As Byte
+    Weapon      As Byte
     Mapa        As Integer
     Class       As Byte
     Race        As Byte
@@ -945,6 +943,14 @@ Public Type tIndiceFx
     Animacion As Long
     OffsetX As Integer
     OffsetY As Integer
+End Type
+
+Public Type tIndiceArmas
+    Weapon(1 To 4) As Long
+End Type
+
+Public Type tIndiceEscudos
+    Shield(1 To 4) As Long
 End Type
 
 Public EsperandoLevel As Boolean

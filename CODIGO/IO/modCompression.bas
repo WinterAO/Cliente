@@ -12,7 +12,7 @@ Public PkContra() As Byte
 'size and number of contained files
 Public Type FILEHEADER
     lngFileSize As Long                 'How big is this file? (Used to check integrity)
-    intNumFiles As Integer              'How many files are inside?
+    lngNumFiles As Long                 'How many files are inside?
 End Type
 
 'This structure will describe each file contained
@@ -61,7 +61,7 @@ Public Sub GenerateContra()
 
 'on error resume next
     Dim Contra As String
-    Dim loopC As Byte
+    Dim loopc As Byte
     
     Contra = "T5lTCWm2m1rR7#SMgq!cazNv"
     
@@ -69,9 +69,9 @@ Public Sub GenerateContra()
     
     If LenB(Contra) <> 0 Then
         ReDim PkContra(Len(Contra) - 1)
-        For loopC = 0 To UBound(PkContra)
-            PkContra(loopC) = Asc(mid(Contra, loopC + 1, 1))
-        Next loopC
+        For loopc = 0 To UBound(PkContra)
+            PkContra(loopc) = Asc(mid(Contra, loopc + 1, 1))
+        Next loopc
     End If
     
 End Sub
@@ -86,7 +86,7 @@ Public Sub Compress_Data(ByRef Data() As Byte)
     Dim DimBuffer As Long
     Dim BufTemp() As Byte
     Dim BufTemp2() As Byte
-    Dim loopC As Long
+    Dim loopc As Long
     
     'Get size of the uncompressed data
     Dimensions = UBound(Data)
@@ -112,9 +112,9 @@ Public Sub Compress_Data(ByRef Data() As Byte)
     
     'Encrypt the first byte of the compressed data for extra security
     If UBound(PkContra) <= UBound(Data) And UBound(PkContra) <> 0 Then
-        For loopC = 0 To UBound(PkContra)
-            Data(loopC) = Data(loopC) Xor PkContra(loopC)
-        Next loopC
+        For loopc = 0 To UBound(PkContra)
+            Data(loopc) = Data(loopc) Xor PkContra(loopc)
+        Next loopc
     End If
 End Sub
 
@@ -125,15 +125,15 @@ Public Sub Decompress_Data(ByRef Data() As Byte, ByVal OrigSize As Long)
 'Decompresses binary data
 '*****************************************************************
     Dim BufTemp() As Byte
-    Dim loopC As Integer
+    Dim loopc As Integer
     
     ReDim BufTemp(OrigSize - 1)
     
     'Des-encrypt the first byte of the compressed data
     If UBound(PkContra) <= UBound(Data) And UBound(PkContra) <> 0 Then
-        For loopC = 0 To UBound(PkContra)
-            Data(loopC) = Data(loopC) Xor PkContra(loopC)
-        Next loopC
+        For loopc = 0 To UBound(PkContra)
+            Data(loopc) = Data(loopc) Xor PkContra(loopc)
+        Next loopc
     End If
     
     UnCompress BufTemp(0), OrigSize, Data(0), UBound(Data) + 1
@@ -169,16 +169,16 @@ Public Function General_Get_Temp_Dir() As String
 '**************************************************************
  Const MAX_LENGTH = 512
    Dim s As String
-   Dim C As Long
+   Dim c As Long
    s = Space$(MAX_LENGTH)
-   C = GetTempPath(MAX_LENGTH, s)
-   If C > 0 Then
-       If C > Len(s) Then
-           s = Space$(C + 1)
-           C = GetTempPath(MAX_LENGTH, s)
+   c = GetTempPath(MAX_LENGTH, s)
+   If c > 0 Then
+       If c > Len(s) Then
+           s = Space$(c + 1)
+           c = GetTempPath(MAX_LENGTH, s)
        End If
    End If
-   General_Get_Temp_Dir = IIf(C > 0, Left$(s, C), "")
+   General_Get_Temp_Dir = IIf(c > 0, Left$(s, c), "")
 End Function
 
 Public Sub Extract_All_Files(ByVal file_type As resource_file_type, ByVal resource_path As String, Optional ByVal UseOutputFolder As Boolean = False)
@@ -187,7 +187,7 @@ Public Sub Extract_All_Files(ByVal file_type As resource_file_type, ByVal resour
 'Last Modify Date: 10/13/2004
 'Extracts all files from a resource file
 '*****************************************************************
-    Dim loopC As Long
+    Dim loopc As Long
     Dim SourceFilePath As String
     Dim OutputFilePath As String
     Dim SourceFile As Integer
@@ -286,34 +286,34 @@ On Local Error GoTo errhandler
         Exit Sub
     End If
     'Size the InfoHead array
-    ReDim InfoHead(FileHead.intNumFiles - 1)
+    ReDim InfoHead(FileHead.lngNumFiles - 1)
 
     'Extract the INFOHEADER
     Get SourceFile, , InfoHead
 
     'Extract all of the files from the binary file
-    For loopC = 0 To UBound(InfoHead)
+    For loopc = 0 To UBound(InfoHead)
         
         'Check if there is enough memory
-        If InfoHead(loopC).lngFileSizeUncompressed > General_Drive_Get_Free_Bytes(Left(App.Path, 3)) Then
+        If InfoHead(loopc).lngFileSizeUncompressed > General_Drive_Get_Free_Bytes(Left(App.Path, 3)) Then
             MsgBox "No tienes suficiente espacio en el disco para seguir descomprimiendo archivos."
             Exit Sub
         End If
         
         'Resize the byte data array
-        ReDim SourceData(InfoHead(loopC).lngFileSize - 1)
+        ReDim SourceData(InfoHead(loopc).lngFileSize - 1)
         
         'Get the data
-        Get SourceFile, InfoHead(loopC).lngFileStart, SourceData
+        Get SourceFile, InfoHead(loopc).lngFileStart, SourceData
         
         'Decompress all data
-        Decompress_Data SourceData, InfoHead(loopC).lngFileSizeUncompressed
+        Decompress_Data SourceData, InfoHead(loopc).lngFileSizeUncompressed
         
         'Get a free handler
         Handle = FreeFile
 
         'Create a new file and put in the data
-        Open OutputFilePath & InfoHead(loopC).strFileName For Binary As Handle
+        Open OutputFilePath & InfoHead(loopc).strFileName For Binary As Handle
         
         Put Handle, , SourceData
         
@@ -322,7 +322,7 @@ On Local Error GoTo errhandler
         Erase SourceData
         
         DoEvents
-    Next loopC
+    Next loopc
     
     'Close the binary file
     Close SourceFile
@@ -345,7 +345,7 @@ Public Function Extract_Patch(ByVal resource_path As String, ByVal file_name As 
 'Last Modify Date: 10/13/2004
 'Comrpesses all files to a resource file
 '*****************************************************************
-    Dim loopC As Long
+    Dim loopc As Long
     Dim LoopC2 As Long
     Dim LoopC3 As Long
     Dim OutputFile As Integer
@@ -394,15 +394,15 @@ On Local Error GoTo errhandler
     'End If
     
     'Size the InfoHead array
-    ReDim InfoHead(FileHead.intNumFiles - 1)
+    ReDim InfoHead(FileHead.lngNumFiles - 1)
     
     'Extract the INFOHEADER
     Get SourceFile, , InfoHead
     
     'Check if there is enough hard drive space to extract all files
-    For loopC = 0 To UBound(InfoHead)
-        RequiredSpace = RequiredSpace + InfoHead(loopC).lngFileSizeUncompressed
-    Next loopC
+    For loopc = 0 To UBound(InfoHead)
+        RequiredSpace = RequiredSpace + InfoHead(loopc).lngFileSizeUncompressed
+    Next loopc
     
     If RequiredSpace >= General_Drive_Get_Free_Bytes(Left(App.Path, 3)) Then
         Erase InfoHead
@@ -411,9 +411,9 @@ On Local Error GoTo errhandler
     End If
     
     'Extract all of the files from the binary file
-    For loopC = 0 To UBound(InfoHead())
+    For loopc = 0 To UBound(InfoHead())
         'Check the extension of the file
-        Select Case LCase(Right(Trim(InfoHead(loopC).strFileName), 3))
+        Select Case LCase(Right(Trim(InfoHead(loopc).strFileName), 3))
             Case Is = "png"
                 If png_done Then GoTo EndMainLoop
                 FileExtension = "png"
@@ -458,13 +458,13 @@ On Local Error GoTo errhandler
         Get OutputFile, 1, ResFileHead
                 
         'Resize the Info Header array
-        ReDim ResInfoHead(ResFileHead.intNumFiles - 1)
+        ReDim ResInfoHead(ResFileHead.lngNumFiles - 1)
         
         'Load the info header
         Get OutputFile, , ResInfoHead
                 
         'Check how many of the files are new, and how many are replacements
-        For LoopC2 = loopC To UBound(InfoHead())
+        For LoopC2 = loopc To UBound(InfoHead())
             If LCase$(Right$(Trim$(InfoHead(LoopC2).strFileName), 3)) = FileExtension Then
                 'Look for same name in the resource file
                 For LoopC3 = 0 To UBound(ResInfoHead())
@@ -476,7 +476,7 @@ On Local Error GoTo errhandler
                 'Update the File Head
                 If LoopC3 > UBound(ResInfoHead()) Then
                     'Update number of files and size
-                    ResFileHead.intNumFiles = ResFileHead.intNumFiles + 1
+                    ResFileHead.lngNumFiles = ResFileHead.lngNumFiles + 1
                     ResFileHead.lngFileSize = ResFileHead.lngFileSize + Len(InfoHead(0)) + InfoHead(LoopC2).lngFileSize
                 Else
                     'We substract the size of the old file and add the one of the new one
@@ -486,7 +486,7 @@ On Local Error GoTo errhandler
         Next LoopC2
         
         'Get the offset of the compressed data
-        DataOffset = CLng(ResFileHead.intNumFiles) * Len(ResInfoHead(0)) + Len(FileHead) + 1
+        DataOffset = CLng(ResFileHead.lngNumFiles) * Len(ResInfoHead(0)) + Len(FileHead) + 1
                 
         'Now we start saving the updated file
         UpdatedFile = FreeFile
@@ -496,7 +496,7 @@ On Local Error GoTo errhandler
         Put UpdatedFile, 1, ResFileHead
         
         'Start storing the Info Heads
-        LoopC2 = loopC
+        LoopC2 = loopc
         For LoopC3 = 0 To UBound(ResInfoHead())
             Do While LoopC2 <= UBound(InfoHead())
                 If LCase$(ResInfoHead(LoopC3).strFileName) < LCase$(InfoHead(LoopC2).strFileName) Then Exit Do
@@ -547,7 +547,7 @@ EndLoop:
         Next LoopC2
         
         'Now we start adding the compressed data
-        LoopC2 = loopC
+        LoopC2 = loopc
         For LoopC3 = 0 To UBound(ResInfoHead())
             Do While LoopC2 <= UBound(InfoHead())
                 If LCase$(ResInfoHead(LoopC3).strFileName) < LCase$(InfoHead(LoopC2).strFileName) Then Exit Do
@@ -601,7 +601,7 @@ EndLoop2:
         'Deallocate the memory used by the data array
         Erase SourceData
 EndMainLoop:
-    Next loopC
+    Next loopc
     
     'Close the binary file
     Close SourceFile
@@ -635,7 +635,7 @@ Public Sub Compress_Files(ByVal file_type As resource_file_type, ByVal resource_
     Dim InfoHead() As INFOHEADER
     Dim FileNames() As String
     Dim lngFileStart As Long
-    Dim loopC As Long
+    Dim loopc As Long
     Dim tmplng As Long
     
 'Set up the error handler
@@ -690,17 +690,17 @@ On Local Error GoTo errhandler
     
     'Get all other files i nthe directory
     While SourceFileName <> ""
-        FileHead.intNumFiles = FileHead.intNumFiles + 1
+        FileHead.lngNumFiles = FileHead.lngNumFiles + 1
         
-        ReDim Preserve FileNames(FileHead.intNumFiles - 1)
-        FileNames(FileHead.intNumFiles - 1) = LCase(SourceFileName)
+        ReDim Preserve FileNames(FileHead.lngNumFiles - 1)
+        FileNames(FileHead.lngNumFiles - 1) = LCase(SourceFileName)
         
         'Search new file
         SourceFileName = Dir$()
     Wend
     
     'If we found none, be can't compress a thing, so we exit
-    If FileHead.intNumFiles = 0 Then
+    If FileHead.lngNumFiles = 0 Then
         MsgBox "There are no files of extension " & SourceFileExtension & " in " & SourceFilePath & ".", , "Error"
         Exit Sub
     End If
@@ -709,7 +709,7 @@ On Local Error GoTo errhandler
     General_Quick_Sort FileNames(), 0, UBound(FileNames)
     
     'Resize InfoHead array
-    ReDim InfoHead(FileHead.intNumFiles - 1)
+    ReDim InfoHead(FileHead.lngNumFiles - 1)
         
     'Destroy file if it previuosly existed
     If Dir(OutputFilePath, vbNormal) <> "" Then
@@ -720,20 +720,20 @@ On Local Error GoTo errhandler
     OutputFile = FreeFile
     Open OutputFilePath For Binary Access Read Write As OutputFile
     
-    For loopC = 0 To FileHead.intNumFiles - 1
+    For loopc = 0 To FileHead.lngNumFiles - 1
         'Find a free file number to use and open the file
         
         SourceFile = FreeFile
-        Open SourceFilePath & FileNames(loopC) For Binary Access Read Lock Write As SourceFile
+        Open SourceFilePath & FileNames(loopc) For Binary Access Read Lock Write As SourceFile
         
         'Store file name
-        InfoHead(loopC).strFileName = FileNames(loopC)
+        InfoHead(loopc).strFileName = FileNames(loopc)
         
         'Find out how large the file is and resize the data array appropriately
         ReDim SourceData(LOF(SourceFile) - 1)
         
         'Store the value so we can decompress it later on
-        InfoHead(loopC).lngFileSizeUncompressed = LOF(SourceFile)
+        InfoHead(loopc).lngFileSizeUncompressed = LOF(SourceFile)
         
         'Get the data from the file
         Get SourceFile, , SourceData
@@ -747,7 +747,7 @@ On Local Error GoTo errhandler
         FileHead.lngFileSize = FileHead.lngFileSize + UBound(SourceData) + 1
         
         'Set up the info headers
-        InfoHead(loopC).lngFileSize = UBound(SourceData) + 1
+        InfoHead(loopc).lngFileSize = UBound(SourceData) + 1
         
         Erase SourceData
         
@@ -755,17 +755,17 @@ On Local Error GoTo errhandler
         Close SourceFile
         
         DoEvents
-    Next loopC
+    Next loopc
     
     'Finish setting the FileHeader data
-    FileHead.lngFileSize = FileHead.lngFileSize + CLng(FileHead.intNumFiles) * Len(InfoHead(0)) + Len(FileHead)
+    FileHead.lngFileSize = FileHead.lngFileSize + CLng(FileHead.lngNumFiles) * Len(InfoHead(0)) + Len(FileHead)
     
     'Set InfoHead data
-    lngFileStart = Len(FileHead) + CLng(FileHead.intNumFiles) * Len(InfoHead(0)) + 1
-    For loopC = 0 To FileHead.intNumFiles - 1
-        InfoHead(loopC).lngFileStart = lngFileStart
-        lngFileStart = lngFileStart + InfoHead(loopC).lngFileSize
-    Next loopC
+    lngFileStart = Len(FileHead) + CLng(FileHead.lngNumFiles) * Len(InfoHead(0)) + 1
+    For loopc = 0 To FileHead.lngNumFiles - 1
+        InfoHead(loopc).lngFileStart = lngFileStart
+        lngFileStart = lngFileStart + InfoHead(loopc).lngFileSize
+    Next loopc
         
     '************ Write Data
     FileHead.lngFileSize = FileHead.lngFileSize + (PswPk * 2)
@@ -807,7 +807,7 @@ Public Function Extract_File(ByVal file_type As resource_file_type, ByVal resour
 'Last Modify Date: 10/13/2004
 'Extracts all files from a resource file
 '*****************************************************************
-    Dim loopC As Long
+    Dim loopc As Long
     Dim SourceFilePath As String
     Dim SourceData() As Byte
     Dim InfoHead As INFOHEADER
@@ -864,6 +864,13 @@ On Local Error GoTo errhandler
                 SourceFilePath = resource_path & OUTPUT_PATH & "Fuentes" & Formato
             Else
                 SourceFilePath = resource_path & "\Fuentes" & Formato
+            End If
+        
+        Case Map
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "Maps" & Formato
+            Else
+                SourceFilePath = resource_path & "\Maps" & Formato
             End If
         
         Case Else
@@ -934,7 +941,7 @@ Public Function Extract_File_Ex(ByVal file_type As resource_file_type, ByVal res
 'Last Modify Date: 10/13/2004
 'Extracts all files from a resource file
 '*****************************************************************
-    Dim loopC As Long
+    Dim loopc As Long
     Dim SourceFilePath As String
     Dim InfoHead As INFOHEADER
     Dim Handle As Integer
@@ -1071,7 +1078,7 @@ Public Sub Parchear(ByVal file_type As resource_file_type, ByVal resource_path A
     Dim InfoHead() As INFOHEADER
     Dim FileNames() As String
     Dim lngFileStart As Long
-    Dim loopC As Long
+    Dim loopc As Long
 'Set up the error handler
 On Local Error GoTo errhandler
     Select Case file_type
@@ -1124,17 +1131,17 @@ On Local Error GoTo errhandler
     
     'Get all other files i nthe directory
     While SourceFileName <> ""
-        FileHead.intNumFiles = FileHead.intNumFiles + 1
+        FileHead.lngNumFiles = FileHead.lngNumFiles + 1
         
-        ReDim Preserve FileNames(FileHead.intNumFiles - 1)
-        FileNames(FileHead.intNumFiles - 1) = LCase(SourceFileName)
+        ReDim Preserve FileNames(FileHead.lngNumFiles - 1)
+        FileNames(FileHead.lngNumFiles - 1) = LCase(SourceFileName)
         
         'Search new file
         SourceFileName = Dir$()
     Wend
     
     'If we found none, be can't compress a thing, so we exit
-    If FileHead.intNumFiles = 0 Then
+    If FileHead.lngNumFiles = 0 Then
         MsgBox "There are no files of extension " & SourceFileExtension & " in " & SourceFilePath & ".", , "Error"
         Exit Sub
     End If
@@ -1143,7 +1150,7 @@ On Local Error GoTo errhandler
     General_Quick_Sort FileNames(), 0, UBound(FileNames)
     
     'Resize InfoHead array
-    ReDim InfoHead(FileHead.intNumFiles - 1)
+    ReDim InfoHead(FileHead.lngNumFiles - 1)
         
     'Destroy file if it previuosly existed
     'If Dir(OutputFilePath, vbNormal) <> "" Then
@@ -1154,20 +1161,20 @@ On Local Error GoTo errhandler
     OutputFile = FreeFile
     Open OutputFilePath For Binary Access Read Write As OutputFile
     
-    For loopC = 0 To FileHead.intNumFiles - 1
+    For loopc = 0 To FileHead.lngNumFiles - 1
         'Find a free file number to use and open the file
         
         SourceFile = FreeFile
-        Open SourceFilePath & FileNames(loopC) For Binary Access Read Lock Write As SourceFile
+        Open SourceFilePath & FileNames(loopc) For Binary Access Read Lock Write As SourceFile
         
         'Store file name
-        InfoHead(loopC).strFileName = FileNames(loopC)
+        InfoHead(loopc).strFileName = FileNames(loopc)
         
         'Find out how large the file is and resize the data array appropriately
         ReDim SourceData(LOF(SourceFile) - 1)
         
         'Store the value so we can decompress it later on
-        InfoHead(loopC).lngFileSizeUncompressed = LOF(SourceFile)
+        InfoHead(loopc).lngFileSizeUncompressed = LOF(SourceFile)
         
         'Get the data from the file
         Get SourceFile, , SourceData
@@ -1181,7 +1188,7 @@ On Local Error GoTo errhandler
         FileHead.lngFileSize = FileHead.lngFileSize + UBound(SourceData) + 1
         
         'Set up the info headers
-        InfoHead(loopC).lngFileSize = UBound(SourceData) + 1
+        InfoHead(loopc).lngFileSize = UBound(SourceData) + 1
         
         Erase SourceData
         
@@ -1189,17 +1196,17 @@ On Local Error GoTo errhandler
         Close SourceFile
         
         DoEvents
-    Next loopC
+    Next loopc
     
     'Finish setting the FileHeader data
-    FileHead.lngFileSize = FileHead.lngFileSize + CLng(FileHead.intNumFiles) * Len(InfoHead(0)) + Len(FileHead)
+    FileHead.lngFileSize = FileHead.lngFileSize + CLng(FileHead.lngNumFiles) * Len(InfoHead(0)) + Len(FileHead)
     
     'Set InfoHead data
-    lngFileStart = Len(FileHead) + CLng(FileHead.intNumFiles) * Len(InfoHead(0)) + 1
-    For loopC = 0 To FileHead.intNumFiles - 1
-        InfoHead(loopC).lngFileStart = lngFileStart
-        lngFileStart = lngFileStart + InfoHead(loopC).lngFileSize
-    Next loopC
+    lngFileStart = Len(FileHead) + CLng(FileHead.lngNumFiles) * Len(InfoHead(0)) + 1
+    For loopc = 0 To FileHead.lngNumFiles - 1
+        InfoHead(loopc).lngFileStart = lngFileStart
+        lngFileStart = lngFileStart + InfoHead(loopc).lngFileSize
+    Next loopc
         
     '************ Write Data
     FileHead.lngFileSize = FileHead.lngFileSize + (PswPk * 2)
@@ -1235,7 +1242,7 @@ End Sub
 Public Function Extract_File_Memory(ByVal file_type As resource_file_type, ByVal resource_path As String, ByVal file_name As String, ByRef SourceData() As Byte) As Boolean
  
     ' Parra was here (;
-    Dim loopC As Long
+    Dim loopc As Long
     Dim SourceFilePath As String
     Dim InfoHead As INFOHEADER
     Dim Handle As Integer
@@ -1357,7 +1364,7 @@ On Error GoTo errhandler
     Get file_handler, 1, file_head
    
     Min = 1
-    Max = file_head.intNumFiles
+    Max = file_head.lngNumFiles
    
     Do While Min <= Max
         mid = (Min + Max) / 2

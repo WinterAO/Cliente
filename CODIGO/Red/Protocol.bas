@@ -1667,7 +1667,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -2061,26 +2061,8 @@ Private Sub HandleChangeMap()
     'TODO: Once on-the-fly editor is implemented check for map version before loading....
     'For now we just drop it
     Call incomingData.ReadInteger
-    
-    If FileExist(Carga.Path(Mapas) & "Mapa" & UserMap & ".csm", vbNormal) Then
-        
-        Call SwitchMap(UserMap)
-        
-        If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-            If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-                Sound.NextMusic = mapInfo.Music
-                Sound.Fading = 200
-            End If
-        End If
-        
-    Else
-    
-        'no encontramos el mapa en el hd
-        Call MsgBox(JsonLanguage.item("ERROR_MAPAS").item("TEXTO"))
-        
-        Call CloseClient
-        
-    End If
+      
+    Call SwitchMap(UserMap)
     
 End Sub
 

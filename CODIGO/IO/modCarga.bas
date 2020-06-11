@@ -193,13 +193,14 @@ Private FileManager As clsIniManager
 
 Public NumHeads As Integer
 Public NumCascos As Integer
+Public NumEscudosAnims As Integer
 
 Public Sub IniciarCabecera()
 
     With MiCabecera
-        .Desc = "Argentum Online by Noland Studios. Copyright Noland-Studios 2001, pablomarquez@noland-studios.com.ar"
-        .CRC = Rnd * 100
-        .MagicWord = Rnd * 10
+        .Desc = "WinterAO Resurrection mod Argentum Online by Noland Studios. http://winterao.com.ar"
+        .CRC = Rnd * 245
+        .MagicWord = Rnd * 92
     End With
     
 End Sub
@@ -386,10 +387,13 @@ On Error GoTo ErrorHandler:
     Dim grhCount As Long
     Dim Handle As Integer
     Dim fileVersion As Long
+    Dim LaCabecera As tCabecera
     
     'Open files
     Handle = FreeFile()
     Open IniPath & "Graficos.ind" For Binary Access Read As Handle
+    
+        Get Handle, , LaCabecera
     
         Get Handle, , fileVersion
         
@@ -435,17 +439,17 @@ On Error GoTo ErrorHandler:
                     Get Handle, , .FileNum
                     If .FileNum <= 0 Then GoTo ErrorHandler
                     
-                    Get Handle, , GrhData(Grh).sX
-                    If .sX < 0 Then GoTo ErrorHandler
-                    
-                    Get Handle, , .sY
-                    If .sY < 0 Then GoTo ErrorHandler
-                    
                     Get Handle, , .pixelWidth
                     If .pixelWidth <= 0 Then GoTo ErrorHandler
                     
                     Get Handle, , .pixelHeight
                     If .pixelHeight <= 0 Then GoTo ErrorHandler
+                    
+                    Get Handle, , GrhData(Grh).sX
+                    If .sX < 0 Then GoTo ErrorHandler
+                    
+                    Get Handle, , .sY
+                    If .sY < 0 Then GoTo ErrorHandler
                     
                     .TileWidth = .pixelWidth / TilePixelHeight
                     .TileHeight = .pixelHeight / TilePixelWidth
@@ -480,9 +484,12 @@ On Error GoTo errhandler:
 
     Dim N As Integer
     Dim i As Integer
+    Dim LaCabecera As tCabecera
     
     N = FreeFile()
     Open Carga.Path(Script) & "Head.ind" For Binary Access Read As #N
+    
+        Get #N, , LaCabecera
     
         Get #N, , NumHeads   'cantidad de cabezas
 
@@ -515,9 +522,12 @@ On Error GoTo errhandler:
 
     Dim N As Integer
     Dim i As Integer
+    Dim LaCabecera As tCabecera
     
     N = FreeFile()
     Open Carga.Path(Script) & "Helmet.ind" For Binary Access Read As #N
+    
+        Get #N, , LaCabecera
     
         Get #N, , NumCascos   'cantidad de cascos
              
@@ -553,12 +563,13 @@ On Error GoTo errhandler:
     Dim i As Long
     Dim NumCuerpos As Integer
     Dim MisCuerpos() As tIndiceCuerpo
+    Dim LaCabecera As tCabecera
     
     N = FreeFile()
     Open Carga.Path(Script) & "Personajes.ind" For Binary Access Read As #N
     
     'cabecera
-    Get #N, , MiCabecera
+    Get #N, , LaCabecera
     
     'num de cabezas
     Get #N, , NumCuerpos
@@ -599,32 +610,35 @@ End Sub
 Sub CargarFxs()
 On Error GoTo errhandler:
 
+    Dim N As Integer
     Dim i As Long
+    Dim NumFxs As Integer
+    Dim LaCabecera As tCabecera
+
+    N = FreeFile
+    Open Carga.Path(Script) & "FXs.ind" For Binary Access Read As #N
     
-    Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Carga.Path(Script) & "Fxs.ini")
+    'cabecera
+    Get #N, , LaCabecera
+    
+    'num de cabezas
+    Get #N, , NumFxs
     
     'Resize array
-    ReDim FxData(0 To FileManager.GetValue("INIT", "NumFxs")) As tIndiceFx
+    ReDim FxData(1 To NumFxs) As tIndiceFx
     
-    For i = 1 To UBound(FxData())
-        
-        With FxData(i)
-            .Animacion = Val(FileManager.GetValue("FX" & CStr(i), "Animacion"))
-            .OffsetX = Val(FileManager.GetValue("FX" & CStr(i), "OffsetX"))
-            .OffsetY = Val(FileManager.GetValue("FX" & CStr(i), "OffsetY"))
-        End With
+    For i = 1 To NumFxs
+        Get #N, , FxData(i)
+    Next i
     
-    Next
-    
-    Set FileManager = Nothing
-    
+    Close #N
+
 errhandler:
     
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Fxs.ini no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Fxs.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
             Call CloseClient
         End If
         
@@ -658,29 +672,44 @@ End Sub
 Sub CargarAnimArmas()
 On Error GoTo errhandler:
 
-    Dim loopC As Long
-
-    Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Carga.Path(Script) & "armas.dat")
+    Dim N As Integer
+    Dim i As Long
+    Dim LaCabecera As tCabecera
     
-    NumWeaponAnims = Val(FileManager.GetValue("INIT", "NumArmas"))
+    N = FreeFile
+    Open Carga.Path(Script) & "Armas.ind" For Binary Access Read As #N
+    
+    'cabecera
+    Get #N, , LaCabecera
+    
+    'num de cabezas
+    Get #N, , NumWeaponAnims
+    
+    'Resize array
     ReDim WeaponAnimData(1 To NumWeaponAnims) As WeaponAnimData
+    ReDim Weapons(1 To NumWeaponAnims) As tIndiceArmas
     
-    For loopC = 1 To NumWeaponAnims
-        Call InitGrh(WeaponAnimData(loopC).WeaponWalk(1), Val(FileManager.GetValue("ARMA" & loopC, "Dir3")), 0)
-        Call InitGrh(WeaponAnimData(loopC).WeaponWalk(2), Val(FileManager.GetValue("ARMA" & loopC, "Dir1")), 0)
-        Call InitGrh(WeaponAnimData(loopC).WeaponWalk(3), Val(FileManager.GetValue("ARMA" & loopC, "Dir4")), 0)
-        Call InitGrh(WeaponAnimData(loopC).WeaponWalk(4), Val(FileManager.GetValue("ARMA" & loopC, "Dir2")), 0)
-    Next loopC
+    For i = 1 To NumWeaponAnims
+        Get #N, , Weapons(i)
+        
+        If Weapons(i).weapon(1) Then
+        
+            Call InitGrh(WeaponAnimData(i).WeaponWalk(1), Weapons(i).weapon(1), 0)
+            Call InitGrh(WeaponAnimData(i).WeaponWalk(2), Weapons(i).weapon(2), 0)
+            Call InitGrh(WeaponAnimData(i).WeaponWalk(3), Weapons(i).weapon(3), 0)
+            Call InitGrh(WeaponAnimData(i).WeaponWalk(4), Weapons(i).weapon(4), 0)
+        
+        End If
+    Next i
     
-    Set FileManager = Nothing
-    
+    Close #N
+
 errhandler:
     
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo armas.dat no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Armas.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
             Call CloseClient
         End If
         
@@ -732,31 +761,44 @@ End Sub
 Sub CargarAnimEscudos()
 On Error GoTo errhandler:
 
-    Dim loopC As Long
-    Dim NumEscudosAnims As Integer
+    Dim N As Integer
+    Dim i As Long
+    Dim LaCabecera As tCabecera
     
-    Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Carga.Path(Script) & "escudos.dat")
+    N = FreeFile
+    Open Carga.Path(Script) & "Escudos.ind" For Binary Access Read As #N
     
-    NumEscudosAnims = Val(FileManager.GetValue("INIT", "NumEscudos"))
+    'cabecera
+    Get #N, , LaCabecera
     
-    ReDim ShieldAnimData(1 To NumEscudosAnims) As ShieldAnimData
+    'num de cabezas
+    Get #N, , NumEscudosAnims
     
-    For loopC = 1 To NumEscudosAnims
-        Call InitGrh(ShieldAnimData(loopC).ShieldWalk(1), Val(FileManager.GetValue("ESC" & loopC, "Dir3")), 0)
-        Call InitGrh(ShieldAnimData(loopC).ShieldWalk(2), Val(FileManager.GetValue("ESC" & loopC, "Dir1")), 0)
-        Call InitGrh(ShieldAnimData(loopC).ShieldWalk(3), Val(FileManager.GetValue("ESC" & loopC, "Dir4")), 0)
-        Call InitGrh(ShieldAnimData(loopC).ShieldWalk(4), Val(FileManager.GetValue("ESC" & loopC, "Dir2")), 0)
-    Next loopC
+    'Resize array
+    ReDim ShieldAnimData(1 To NumWeaponAnims) As ShieldAnimData
+    ReDim Shields(1 To NumWeaponAnims) As tIndiceEscudos
     
-    Set FileManager = Nothing
+    For i = 1 To NumEscudosAnims
+        Get #N, , Shields(i)
+        
+        If Shields(i).shield(1) Then
+        
+            Call InitGrh(ShieldAnimData(i).ShieldWalk(1), Shields(i).shield(1), 0)
+            Call InitGrh(ShieldAnimData(i).ShieldWalk(2), Shields(i).shield(2), 0)
+            Call InitGrh(ShieldAnimData(i).ShieldWalk(3), Shields(i).shield(3), 0)
+            Call InitGrh(ShieldAnimData(i).ShieldWalk(4), Shields(i).shield(4), 0)
+        
+        End If
+    Next i
     
+    Close #N
+
 errhandler:
     
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo escudos.dat no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Escudos.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
             Call CloseClient
         End If
         
@@ -830,12 +872,11 @@ errorH:
 
 End Sub
 
-Sub CargarMapa(ByVal Map As Integer)
+Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
 
     On Error GoTo ErrorHandler
 
     Dim fh           As Integer
-    Dim File         As Integer
     
     Dim MH           As tMapHeader
     Dim Blqs()       As tDatosBloqueados
@@ -855,10 +896,15 @@ Sub CargarMapa(ByVal Map As Integer)
     Dim i            As Long
     Dim j            As Long
 
-    DoEvents
+    Dim LaCabecera   As tCabecera
 
+    DoEvents
+    
     fh = FreeFile
-    Open Carga.Path(Mapas) & "Mapa" & CStr(Map) & ".csm" For Binary Access Read As fh
+    Open Dir_Map For Binary Access Read As fh
+    
+    Get #fh, , LaCabecera
+    
     Get #fh, , MH
     Get #fh, , MapSize
     
@@ -1009,6 +1055,7 @@ Sub CargarMapa(ByVal Map As Integer)
     mapInfo.Music = MapDat.music_number
     mapInfo.Ambient = MapDat.Ambient
 
+    Delete_File Dir_Map
 ErrorHandler:
     
     If fh <> 0 Then Close fh

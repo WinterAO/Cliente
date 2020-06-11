@@ -174,6 +174,7 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -2178,11 +2179,11 @@ Private Sub Client_Connect()
  
 End Sub
 
-Private Sub Client_DataArrival(ByVal bytesTotal As Long)
+Private Sub Client_DataArrival(ByVal BytesTotal As Long)
     Dim RD     As String
     Dim Data() As Byte
     
-    Client.GetData RD, vbByte, bytesTotal
+    Client.GetData RD, vbByte, BytesTotal
     Data = StrConv(RD, vbFromUnicode)
     
     'Set data in the buffer
@@ -2322,11 +2323,11 @@ Public Sub UpdateProgressExperienceLevelBar(ByVal UserExp As Long)
         frmMain.lblPorcLvl.Caption = "¡Nivel Máximo!"
 
         'Si no tiene mas niveles que subir ponemos la barra al maximo.
-        frmMain.uAOProgressExperienceLevel.max = 100
+        frmMain.uAOProgressExperienceLevel.Max = 100
         frmMain.uAOProgressExperienceLevel.value = 100
     Else
         frmMain.lblPorcLvl.Caption = Round(CDbl(UserExp) * CDbl(100) / CDbl(UserPasarNivel), 2) & "%"
-        frmMain.uAOProgressExperienceLevel.max = UserPasarNivel
+        frmMain.uAOProgressExperienceLevel.Max = UserPasarNivel
         frmMain.uAOProgressExperienceLevel.value = UserExp
     End If
 End Sub

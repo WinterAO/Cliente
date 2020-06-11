@@ -213,22 +213,22 @@ End Function
 
 Public Function ARGB(ByVal r As Long, ByVal g As Long, ByVal b As Long, ByVal a As Long) As Long
         
-    Dim C As Long
+    Dim c As Long
         
     If a > 127 Then
         a = a - 128
-        C = a * 2 ^ 24 Or &H80000000
-        C = C Or r * 2 ^ 16
-        C = C Or g * 2 ^ 8
-        C = C Or b
+        c = a * 2 ^ 24 Or &H80000000
+        c = c Or r * 2 ^ 16
+        c = c Or g * 2 ^ 8
+        c = c Or b
     Else
-        C = a * 2 ^ 24
-        C = C Or r * 2 ^ 16
-        C = C Or g * 2 ^ 8
-        C = C Or b
+        c = a * 2 ^ 24
+        c = c Or r * 2 ^ 16
+        c = c Or g * 2 ^ 8
+        c = c Or b
     End If
     
-    ARGB = C
+    ARGB = c
 
 End Function
 
@@ -338,7 +338,7 @@ Sub Engine_Init_FontSettings()
     Dim u        As Single
     Dim v        As Single
     Dim i As Long
-    Dim file As String
+    Dim File As String
     
     '*** Default font ***
 
@@ -347,11 +347,13 @@ Sub Engine_Init_FontSettings()
     
     For i = 1 To UBound(cfonts)
     
-        file = Get_Extract(Fuentes, "Font" & i & ".dat")
+        File = Get_Extract(resource_file_type.Fuentes, "Font" & i & ".dat")
         
-        Open file For Binary As #FileNum
+        Open File For Binary As #FileNum
             Get #FileNum, , cfonts(i).HeaderInfo
         Close #FileNum
+        
+        Delete_File File
         
         'Calculate some common values
         cfonts(i).CharHeight = cfonts(i).HeaderInfo.CellHeight - 4
