@@ -1455,6 +1455,7 @@ Private Sub HandleLogged()
     
     ' Variable initialization
     UserClase = incomingData.ReadByte
+
     EngineRun = True
     Nombres = True
     bRain = False
@@ -1666,7 +1667,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -2863,6 +2864,8 @@ Private Sub HandleObjectDelete()
     Y = incomingData.ReadByte()
         
     obj = Map_PosExitsObject(X, Y)
+
+    Call Particle_Group_Remove(MapData(X, Y).Particle_Group_Index)
 
     If (obj > 0) Then
         Call Map_DestroyObject(X, Y)

@@ -41,7 +41,7 @@ Public Sub Map_CreateObject(ByVal X As Byte, ByVal Y As Byte, ByVal GrhIndex As 
                   'End If
                   
                   .OBJInfo.Shadow = Shadow
-                  If ParticulaIndex > 0 Then .Particle_Group_Index = General_Particle_Create(ParticulaIndex, X, Y)
+                  If ParticulaIndex > 0 And .Particle_Group_Index = 0 Then .Particle_Group_Index = General_Particle_Create(ParticulaIndex, X, Y)
                   Call InitGrh(.ObjGrh, GrhIndex)
             End With
 
@@ -58,10 +58,7 @@ Public Sub Map_DestroyObject(ByVal X As Byte, ByVal Y As Byte)
                   '.objgrh.GrhIndex = 0
                   .OBJInfo.objindex = 0
                   .OBJInfo.Amount = 0
-                  
-                  ParticulaObject = Map_Particle_Group_Get(X, Y)
-                  If ParticulaObject > 0 Then Call Particle_Group_Remove(ParticulaObject)
-                  
+
                   Call GrhUninitialize(.ObjGrh)
         
             End With

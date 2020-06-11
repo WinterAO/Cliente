@@ -6,7 +6,7 @@ Begin VB.Form frmConnect
    ClientHeight    =   11520
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   15345
+   ClientWidth     =   15360
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    FillColor       =   &H00000040&
@@ -27,29 +27,30 @@ Begin VB.Form frmConnect
    PaletteMode     =   1  'UseZOrder
    ScaleHeight     =   768
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   1023
+   ScaleWidth      =   1024
    StartUpPosition =   2  'CenterScreen
    Visible         =   0   'False
    Begin VB.TextBox txtCrearPJNombre 
-      BackColor       =   &H80000012&
+      Alignment       =   2  'Center
+      BackColor       =   &H00404040&
       BorderStyle     =   0  'None
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   17.25
+         Size            =   14.25
          Charset         =   0
-         Weight          =   700
+         Weight          =   400
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      ForeColor       =   &H000080FF&
-      Height          =   390
-      Left            =   15840
+      ForeColor       =   &H00FFFFFF&
+      Height          =   330
+      Left            =   6000
       MaxLength       =   30
       TabIndex        =   4
-      Top             =   3960
+      Top             =   10020
       Visible         =   0   'False
-      Width           =   255
+      Width           =   3255
    End
    Begin VB.TextBox txtNombre 
       BackColor       =   &H00000000&
@@ -65,11 +66,11 @@ Begin VB.Form frmConnect
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   225
-      Left            =   15840
+      Left            =   6675
       MaxLength       =   23
       TabIndex        =   0
-      Top             =   2880
-      Width           =   180
+      Top             =   5595
+      Width           =   2460
    End
    Begin VB.TextBox txtPasswd 
       BackColor       =   &H00000000&
@@ -86,12 +87,12 @@ Begin VB.Form frmConnect
       ForeColor       =   &H00FFFFFF&
       Height          =   225
       IMEMode         =   3  'DISABLE
-      Left            =   15840
+      Left            =   6675
       MaxLength       =   23
       PasswordChar    =   "*"
       TabIndex        =   1
-      Top             =   3360
-      Width           =   180
+      Top             =   6120
+      Width           =   2460
    End
    Begin VB.PictureBox Renderer 
       BackColor       =   &H00404040&
@@ -109,10 +110,10 @@ Begin VB.Form frmConnect
       Width           =   15360
       Begin WinterAO.uAOCheckbox chkRecordar 
          Height          =   345
-         Left            =   6480
+         Left            =   6000
          TabIndex        =   3
          TabStop         =   0   'False
-         Top             =   5760
+         Top             =   7440
          Visible         =   0   'False
          Width           =   345
          _ExtentX        =   609

@@ -223,9 +223,6 @@ Public Function Path(ByVal PathType As ePath) As String
         Case ePath.Interfaces
             Path = App.Path & "\Recursos\Graficos\Interfaces\"
             
-        Case ePath.Fonts
-            Path = App.Path & "\Recursos\Graficos\Fonts\"
-            
         Case ePath.Lenguajes
             Path = App.Path & "\Recursos\Lenguajes\"
             
@@ -393,78 +390,71 @@ On Error GoTo ErrorHandler:
     'Open files
     Handle = FreeFile()
     Open IniPath & "Graficos.ind" For Binary Access Read As Handle
-
-        'Obtenemos el numero de la version del archivo
+    
         Get Handle, , fileVersion
         
-        'Obtenemos el total de Grh
         Get Handle, , grhCount
         
-        ReDim GrhData(1 To grhCount) As GrhData
+        ReDim GrhData(0 To grhCount) As GrhData
         
         While Not EOF(Handle)
             Get Handle, , Grh
             
-           If Grh <> 0 Then
-           
-                With GrhData(Grh)
+            With GrhData(Grh)
+            
+                '.active = True
+                Get Handle, , .NumFrames
+                If .NumFrames <= 0 Then GoTo ErrorHandler
                 
-                    'Obtenemos el numero de frames
-                    Get Handle, , .NumFrames
-                    If .NumFrames <= 0 Then GoTo ErrorHandler
-                    
-                    ReDim .Frames(1 To .NumFrames)
-                    
-                    '¿Es una animacion?
-                    If .NumFrames > 1 Then
-                    
-                        For Frame = 1 To .NumFrames
-                            Get Handle, , .Frames(Frame)
-                            If .Frames(Frame) <= 0 Or .Frames(Frame) > grhCount Then GoTo ErrorHandler
-                        Next Frame
-                        
-                        Get Handle, , .speed
-                        If .speed <= 0 Then GoTo ErrorHandler
-                        
-                        .pixelHeight = GrhData(.Frames(1)).pixelHeight
-                        If .pixelHeight <= 0 Then GoTo ErrorHandler
-                        
-                        .pixelWidth = GrhData(.Frames(1)).pixelWidth
-                        If .pixelWidth <= 0 Then GoTo ErrorHandler
-                        
-                        .TileWidth = GrhData(.Frames(1)).TileWidth
-                        If .TileWidth <= 0 Then GoTo ErrorHandler
-                        
-                        .TileHeight = GrhData(.Frames(1)).TileHeight
-                        If .TileHeight <= 0 Then GoTo ErrorHandler
-                        
-                    Else '¿Es un grafico NO animado?
-                        
-                        Get Handle, , .FileNum
-                        If .FileNum <= 0 Then GoTo ErrorHandler
-                        
-                        Get Handle, , GrhData(Grh).sX
-                        If .sX < 0 Then GoTo ErrorHandler
-                        
-                        Get Handle, , .sY
-                        If .sY < 0 Then GoTo ErrorHandler
-                        
-                        Get Handle, , .pixelWidth
-                        If .pixelWidth <= 0 Then GoTo ErrorHandler
-                        
-                        Get Handle, , .pixelHeight
-                        If .pixelHeight <= 0 Then GoTo ErrorHandler
-                        
-                        .TileWidth = .pixelWidth / TilePixelHeight
-                        .TileHeight = .pixelHeight / TilePixelWidth
-                        
-                        .Frames(1) = Grh
-                        
-                    End If
-                    
-                End With
+                ReDim .Frames(1 To .NumFrames)
                 
-            End If
+                If .NumFrames > 1 Then
+                
+                    For Frame = 1 To .NumFrames
+                        Get Handle, , .Frames(Frame)
+                        If .Frames(Frame) <= 0 Or .Frames(Frame) > grhCount Then GoTo ErrorHandler
+                    Next Frame
+                    
+                    Get Handle, , .speed
+                    If .speed <= 0 Then GoTo ErrorHandler
+                    
+                    .pixelHeight = GrhData(.Frames(1)).pixelHeight
+                    If .pixelHeight <= 0 Then GoTo ErrorHandler
+                    
+                    .pixelWidth = GrhData(.Frames(1)).pixelWidth
+                    If .pixelWidth <= 0 Then GoTo ErrorHandler
+                    
+                    .TileWidth = GrhData(.Frames(1)).TileWidth
+                    If .TileWidth <= 0 Then GoTo ErrorHandler
+                    
+                    .TileHeight = GrhData(.Frames(1)).TileHeight
+                    If .TileHeight <= 0 Then GoTo ErrorHandler
+                    
+                Else
+                    
+                    Get Handle, , .FileNum
+                    If .FileNum <= 0 Then GoTo ErrorHandler
+                    
+                    Get Handle, , GrhData(Grh).sX
+                    If .sX < 0 Then GoTo ErrorHandler
+                    
+                    Get Handle, , .sY
+                    If .sY < 0 Then GoTo ErrorHandler
+                    
+                    Get Handle, , .pixelWidth
+                    If .pixelWidth <= 0 Then GoTo ErrorHandler
+                    
+                    Get Handle, , .pixelHeight
+                    If .pixelHeight <= 0 Then GoTo ErrorHandler
+                    
+                    .TileWidth = .pixelWidth / TilePixelHeight
+                    .TileHeight = .pixelHeight / TilePixelWidth
+                    
+                    .Frames(1) = Grh
+                    
+                End If
+                
+            End With
             
         Wend
     
@@ -668,7 +658,7 @@ End Sub
 Sub CargarAnimArmas()
 On Error GoTo errhandler:
 
-    Dim loopc As Long
+    Dim loopC As Long
 
     Set FileManager = New clsIniManager
     Call FileManager.Initialize(Carga.Path(Script) & "armas.dat")
@@ -676,12 +666,12 @@ On Error GoTo errhandler:
     NumWeaponAnims = Val(FileManager.GetValue("INIT", "NumArmas"))
     ReDim WeaponAnimData(1 To NumWeaponAnims) As WeaponAnimData
     
-    For loopc = 1 To NumWeaponAnims
-        Call InitGrh(WeaponAnimData(loopc).WeaponWalk(1), Val(FileManager.GetValue("ARMA" & loopc, "Dir3")), 0)
-        Call InitGrh(WeaponAnimData(loopc).WeaponWalk(2), Val(FileManager.GetValue("ARMA" & loopc, "Dir1")), 0)
-        Call InitGrh(WeaponAnimData(loopc).WeaponWalk(3), Val(FileManager.GetValue("ARMA" & loopc, "Dir4")), 0)
-        Call InitGrh(WeaponAnimData(loopc).WeaponWalk(4), Val(FileManager.GetValue("ARMA" & loopc, "Dir2")), 0)
-    Next loopc
+    For loopC = 1 To NumWeaponAnims
+        Call InitGrh(WeaponAnimData(loopC).WeaponWalk(1), Val(FileManager.GetValue("ARMA" & loopC, "Dir3")), 0)
+        Call InitGrh(WeaponAnimData(loopC).WeaponWalk(2), Val(FileManager.GetValue("ARMA" & loopC, "Dir1")), 0)
+        Call InitGrh(WeaponAnimData(loopC).WeaponWalk(3), Val(FileManager.GetValue("ARMA" & loopC, "Dir4")), 0)
+        Call InitGrh(WeaponAnimData(loopC).WeaponWalk(4), Val(FileManager.GetValue("ARMA" & loopC, "Dir2")), 0)
+    Next loopC
     
     Set FileManager = Nothing
     
@@ -742,7 +732,7 @@ End Sub
 Sub CargarAnimEscudos()
 On Error GoTo errhandler:
 
-    Dim loopc As Long
+    Dim loopC As Long
     Dim NumEscudosAnims As Integer
     
     Set FileManager = New clsIniManager
@@ -752,12 +742,12 @@ On Error GoTo errhandler:
     
     ReDim ShieldAnimData(1 To NumEscudosAnims) As ShieldAnimData
     
-    For loopc = 1 To NumEscudosAnims
-        Call InitGrh(ShieldAnimData(loopc).ShieldWalk(1), Val(FileManager.GetValue("ESC" & loopc, "Dir3")), 0)
-        Call InitGrh(ShieldAnimData(loopc).ShieldWalk(2), Val(FileManager.GetValue("ESC" & loopc, "Dir1")), 0)
-        Call InitGrh(ShieldAnimData(loopc).ShieldWalk(3), Val(FileManager.GetValue("ESC" & loopc, "Dir4")), 0)
-        Call InitGrh(ShieldAnimData(loopc).ShieldWalk(4), Val(FileManager.GetValue("ESC" & loopc, "Dir2")), 0)
-    Next loopc
+    For loopC = 1 To NumEscudosAnims
+        Call InitGrh(ShieldAnimData(loopC).ShieldWalk(1), Val(FileManager.GetValue("ESC" & loopC, "Dir3")), 0)
+        Call InitGrh(ShieldAnimData(loopC).ShieldWalk(2), Val(FileManager.GetValue("ESC" & loopC, "Dir1")), 0)
+        Call InitGrh(ShieldAnimData(loopC).ShieldWalk(3), Val(FileManager.GetValue("ESC" & loopC, "Dir4")), 0)
+        Call InitGrh(ShieldAnimData(loopC).ShieldWalk(4), Val(FileManager.GetValue("ESC" & loopC, "Dir2")), 0)
+    Next loopC
     
     Set FileManager = Nothing
     

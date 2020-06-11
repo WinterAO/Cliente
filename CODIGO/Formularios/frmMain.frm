@@ -174,7 +174,6 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -635,9 +634,9 @@ Begin VB.Form frmMain
       Width           =   1380
    End
    Begin VB.Label lblPorcLvl 
-      AutoSize        =   -1  'True
+      Alignment       =   2  'Center
       BackStyle       =   0  'Transparent
-      Caption         =   "33.33%"
+      Caption         =   "¡Nivel Máximo!"
       BeginProperty Font 
          Name            =   "Tahoma"
          Size            =   6.75
@@ -649,10 +648,10 @@ Begin VB.Form frmMain
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   165
-      Left            =   12900
+      Left            =   12105
       TabIndex        =   15
       Top             =   900
-      Width           =   645
+      Width           =   2190
    End
    Begin VB.Label lblMapName 
       Alignment       =   2  'Center
@@ -2318,14 +2317,15 @@ Private Sub timerPasarSegundo_Timer()
 End Sub
 
 Public Sub UpdateProgressExperienceLevelBar(ByVal UserExp As Long)
+
     If UserLvl = STAT_MAXELV Then
-        frmMain.lblPorcLvl.Caption = "[N/A]"
+        frmMain.lblPorcLvl.Caption = "¡Nivel Máximo!"
 
         'Si no tiene mas niveles que subir ponemos la barra al maximo.
         frmMain.uAOProgressExperienceLevel.max = 100
         frmMain.uAOProgressExperienceLevel.value = 100
     Else
-        'frmMain.lblPorcLvl.Caption = Round(CDbl(UserExp) * CDbl(100) / CDbl(UserPasarNivel), 2) & "%"
+        frmMain.lblPorcLvl.Caption = Round(CDbl(UserExp) * CDbl(100) / CDbl(UserPasarNivel), 2) & "%"
         frmMain.uAOProgressExperienceLevel.max = UserPasarNivel
         frmMain.uAOProgressExperienceLevel.value = UserExp
     End If

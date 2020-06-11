@@ -213,22 +213,22 @@ End Function
 
 Public Function ARGB(ByVal r As Long, ByVal g As Long, ByVal b As Long, ByVal a As Long) As Long
         
-    Dim c As Long
+    Dim C As Long
         
     If a > 127 Then
         a = a - 128
-        c = a * 2 ^ 24 Or &H80000000
-        c = c Or r * 2 ^ 16
-        c = c Or g * 2 ^ 8
-        c = c Or b
+        C = a * 2 ^ 24 Or &H80000000
+        C = C Or r * 2 ^ 16
+        C = C Or g * 2 ^ 8
+        C = C Or b
     Else
-        c = a * 2 ^ 24
-        c = c Or r * 2 ^ 16
-        c = c Or g * 2 ^ 8
-        c = c Or b
+        C = a * 2 ^ 24
+        C = C Or r * 2 ^ 16
+        C = C Or g * 2 ^ 8
+        C = C Or b
     End If
     
-    ARGB = c
+    ARGB = C
 
 End Function
 
@@ -276,27 +276,38 @@ Sub Engine_Init_FontTextures()
     
     Dim i       As Long
     Dim TexInfo As D3DXIMAGE_INFO_A
-
+    Dim InfoHead As INFOHEADER
+    Dim Data() As Byte
+        
     'Check if we have the device
     If DirectDevice.TestCooperativeLevel <> D3D_OK Then Exit Sub
 
     '*** Default font ***
     For i = 1 To UBound(cfonts)
+
+        InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Fuentes.WAO", "font" & CStr(i) & ".png")
         
-        'Set the texture
-        Set cfonts(i).Texture = DirectD3D8.CreateTextureFromFileEx(DirectDevice, _
-                                                                   Carga.Path(Fonts) & "font" & i & ".bmp", _
-                                                                   D3DX_DEFAULT, _
-                                                                   D3DX_DEFAULT, _
-                                                                   0, _
-                                                                   0, _
-                                                                   D3DFMT_UNKNOWN, _
-                                                                   D3DPOOL_MANAGED, _
-                                                                   D3DX_FILTER_POINT, _
-                                                                   D3DX_FILTER_POINT, _
-                                                                   &HFF000000, _
-                                                                   ByVal 0, _
-                                                                   ByVal 0)
+        If InfoHead.lngFileSize <> 0 Then
+
+            Extract_File_Memory Fuentes, Carga.Path(ePath.recursos) & "\", "font" & LCase$(CStr(i) & ".png"), Data()
+                
+            'Set the texture
+            Set cfonts(i).Texture = DirectD3D8.CreateTextureFromFileInMemoryEx(DirectDevice, _
+                                                                       Data(0), UBound(Data) + 1, _
+                                                                       D3DX_DEFAULT, _
+                                                                       D3DX_DEFAULT, _
+                                                                       0, _
+                                                                       0, _
+                                                                       D3DFMT_UNKNOWN, _
+                                                                       D3DPOOL_MANAGED, _
+                                                                       D3DX_FILTER_POINT, _
+                                                                       D3DX_FILTER_POINT, _
+                                                                       &HFF000000, _
+                                                                       ByVal 0, _
+                                                                       ByVal 0)
+        
+            Erase Data
+        End If
         
         'Store the size of the texture
         cfonts(i).TextureSize.X = TexInfo.Width
@@ -308,7 +319,7 @@ Sub Engine_Init_FontTextures()
 eDebug:
 
     If Err.number = "-2005529767" Then
-        MsgBox "Error en la textura de fuente utilizada " & Carga.Path(Graficos) & "Font.png.", vbCritical
+        MsgBox "Error en la textura de fuente utilizada " & Carga.Path(ePath.recursos) & "Font.png.", vbCritical
         End
     End If
     
@@ -327,13 +338,18 @@ Sub Engine_Init_FontSettings()
     Dim u        As Single
     Dim v        As Single
     Dim i As Long
+    Dim file As String
+    
     '*** Default font ***
 
     'Load the header information
     FileNum = FreeFile
+    
     For i = 1 To UBound(cfonts)
+    
+        file = Get_Extract(Fuentes, "Font" & i & ".dat")
         
-        Open Carga.Path(Fonts) & "\Font" & i & ".dat" For Binary As #FileNum
+        Open file For Binary As #FileNum
             Get #FileNum, , cfonts(i).HeaderInfo
         Close #FileNum
         

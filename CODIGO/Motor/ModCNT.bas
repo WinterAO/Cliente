@@ -140,8 +140,8 @@ Public Sub MostrarConnect(Optional ByVal Mostrar As Boolean = False)
         frmConnect.chkRecordar.Checked = True
     End If
     
-    frmConnect.txtNombre.SetFocus
-    frmConnect.txtNombre.SelStart = Len(frmConnect.txtNombre.Text)
+    'frmConnect.txtNombre.SetFocus
+    'frmConnect.txtNombre.SelStart = Len(frmConnect.txtNombre.Text)
     TextSelected = 1
     
     EngineRun = False
@@ -207,9 +207,9 @@ Public Sub MostrarCreacion(Optional ByVal Mostrar As Boolean = False)
     Call LoadCharInfo
 
     'Focus al nombre del PJ y lo reseteamos
-    frmConnect.txtCrearPJNombre.SetFocus
-    frmConnect.txtCrearPJNombre.Text = vbNullString
-    frmConnect.txtCrearPJNombre.SelStart = Len(frmConnect.txtCrearPJNombre.Text)
+    'frmConnect.txtCrearPJNombre.SetFocus
+    'frmConnect.txtCrearPJNombre.Text = vbNullString
+    'frmConnect.txtCrearPJNombre.SelStart = Len(frmConnect.txtCrearPJNombre.Text)
     
     EngineRun = False
     
@@ -346,28 +346,28 @@ Private Sub RenderConnectGUI()
             Call Draw_GrhIndex(31486, 580, 330, 0, Normal_RGBList(), 0, False)
             
             'User
-            Call DrawText(445, 372, frmConnect.txtNombre.Text, -1, False)
+            'Call DrawText(445, 372, frmConnect.txtNombre.Text, -1, False)
             
-            If timeGetTime Mod CursorFlashRate * 2 < CursorFlashRate Then
-                If TextSelected = 1 Then
-                    Call Draw_GrhIndex(25319, 446 + Engine_AnchoTexto(1, frmConnect.txtNombre.Text), 372, 0, Normal_RGBList(), 0, False)
-                    
-                ElseIf TextSelected = 2 Then
-                    Call Draw_GrhIndex(25319, 453 + Engine_AnchoTexto(1, frmConnect.txtPasswd.Text), 406, 0, Normal_RGBList(), 0, False)
-                    
-                End If
-            End If
+            'If timeGetTime Mod CursorFlashRate * 2 < CursorFlashRate Then
+            '    If TextSelected = 1 Then
+            '        Call Draw_GrhIndex(25319, 446 + Engine_AnchoTexto(1, frmConnect.txtNombre.Text), 372, 0, Normal_RGBList(), 0, False)
+            '
+            '    ElseIf TextSelected = 2 Then
+            '        Call Draw_GrhIndex(25319, 453 + Engine_AnchoTexto(1, frmConnect.txtPasswd.Text), 406, 0, Normal_RGBList(), 0, False)
+            '
+            '    End If
+            'End If
             
-            If Len(frmConnect.txtPasswd.Text) > 0 Then
-                For i = 0 To Len(frmConnect.txtPasswd.Text)
-                    asterisco = asterisco + "*"
-                Next i
-            Else
-                asterisco = vbNullString
-            End If
+            'If Len(frmConnect.txtPasswd.Text) > 0 Then
+            '    For i = 0 To Len(frmConnect.txtPasswd.Text)
+            '        asterisco = asterisco + "*"
+            '    Next i
+            'Else
+            '    asterisco = vbNullString
+            'End If
             
             'Password
-            Call DrawText(445, 406, asterisco, -1, False)
+            'Call DrawText(445, 406, asterisco, -1, False)
             
             'Salir
             Call Draw_GrhIndex(31503, 20, 650, 0, Normal_RGBList(), 0, False)
@@ -516,7 +516,7 @@ Private Sub RenderPJ()
                 Call DrawHead(UserHead, 225 + BodyData(UserBody).HeadOffset.X, 527 + BodyData(UserBody).HeadOffset.Y, Normal_RGBList(), 1, True)
                 
             'Nombre
-            Call DrawText(225 + 16, 560 + 30, frmConnect.txtCrearPJNombre.Text, -1, True)
+            'Call DrawText(225 + 16, 560 + 30, frmConnect.txtCrearPJNombre.Text, -1, True)
             
         End If
     End Select
@@ -567,17 +567,17 @@ Public Sub ClickEvent(ByVal TX As Long, ByVal TY As Long)
     Select Case Pantalla
         Case 0 'Conectar
 
-            If (TX >= 443 And TX <= 605) And (TY >= 372 And TY <= 384) Then
-                frmConnect.txtNombre.SetFocus
-                frmConnect.txtNombre.SelStart = Len(frmConnect.txtNombre.Text)
-                TextSelected = 1
-            End If
+            'If (TX >= 443 And TX <= 605) And (TY >= 372 And TY <= 384) Then
+            '    frmConnect.txtNombre.SetFocus
+            '    frmConnect.txtNombre.SelStart = Len(frmConnect.txtNombre.Text)
+            '    TextSelected = 1
+            'End If
             
-            If (TX >= 443 And TX <= 605) And (TY >= 405 And TY <= 424) Then
-                frmConnect.txtPasswd.SetFocus
-                frmConnect.txtPasswd.SelStart = Len(frmConnect.txtPasswd.Text)
-                TextSelected = 2
-            End If
+            'If (TX >= 443 And TX <= 605) And (TY >= 405 And TY <= 424) Then
+            '    frmConnect.txtPasswd.SetFocus
+            '    frmConnect.txtPasswd.SelStart = Len(frmConnect.txtPasswd.Text)
+            '    TextSelected = 2
+            'End If
             
             'Servers
             If (TX >= 435 And TX <= 461) And (TY >= 330 And TY <= 356) Then
@@ -717,10 +717,10 @@ Public Sub ClickEvent(ByVal TX As Long, ByVal TY As Long)
                 If botonCrear = False Then Call btnCrear
                 
             'Nombre del PJ
-            If (TX >= 379 And TX <= 625) And (TY >= 659 And TY <= 689) Then
-                frmConnect.txtCrearPJNombre.SetFocus
-                frmConnect.txtCrearPJNombre.SelStart = Len(frmConnect.txtCrearPJNombre.Text)
-            End If
+            'If (TX >= 379 And TX <= 625) And (TY >= 659 And TY <= 689) Then
+            '    frmConnect.txtCrearPJNombre.SetFocus
+            '    frmConnect.txtCrearPJNombre.SelStart = Len(frmConnect.txtCrearPJNombre.Text)
+            'End If
                 
             'Cabezas
             If (TX >= 192 And TX <= 228) And (TY >= 600 And TY <= 628) Then Call btnHeadPJ(1) 'Menos
