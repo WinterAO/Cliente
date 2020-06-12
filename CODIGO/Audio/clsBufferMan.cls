@@ -438,7 +438,7 @@ On Error GoTo ErrorHandler
     
     If tipo = Ambient Then Debug.Print "Tipo: " & tipo & " Extension: " & extension & " WavPath: " & WavPath & " file_Name: " & file_name
     
-    If Extract_File_Ex(tipo, file_name & extension, btArr) Then
+    If Extract_File_Memory(tipo, file_name & extension, btArr) Then
         
         lngOffset = LenB(gudtHeader)
         

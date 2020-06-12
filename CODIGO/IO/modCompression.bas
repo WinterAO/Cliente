@@ -109,6 +109,7 @@ Public Sub Compress_Data(ByRef Data() As Byte)
             Data(loopc) = Data(loopc) Xor PkContra(loopc)
         Next loopc
     End If
+    
 End Sub
 
 Public Sub Decompress_Data(ByRef Data() As Byte, ByVal OrigSize As Long)
@@ -137,14 +138,17 @@ Public Sub Decompress_Data(ByRef Data() As Byte, ByVal OrigSize As Long)
     Data = BufTemp
     
     Erase BufTemp
+    
 End Sub
 
 Private Sub encryptHeaderFile(ByRef FileHead As FILEHEADER)
+
     'Each different variable is encrypted with a different key for extra security
     With FileHead
         .lngNumFiles = .lngNumFiles Xor 37816
         .lngFileSize = .lngFileSize Xor 245378169
     End With
+    
 End Sub
 
 Private Sub encryptHeaderInfo(ByRef InfoHead As INFOHEADER)
@@ -653,89 +657,6 @@ errhandler:
     Erase SourceData
     'Display an error message if it didn't work
     'MsgBox "Unable to decode binary file. Reason: " & Err.number & " : " & Err.Description, vbOKOnly, "Error"
-End Function
-
-Public Function Extract_File_Ex(ByVal File_Type As srcFileType, ByVal file_name As String, ByRef bytArr() As Byte) As Boolean
-'*****************************************************************
-'Author: Juan Martín Dotuyo Dodero
-'Last Modify Date: 10/13/2004
-'Extracts all files from a resource file
-'*****************************************************************
-
-    Dim loopc As Long
-    Dim SourceFilePath As String
-    Dim InfoHead As INFOHEADER
-    Dim Handle As Integer
-    
-'Set up the error handler
-On Local Error GoTo errhandler
-    
-    Select Case File_Type
-        Case Graphics
-                SourceFilePath = App.Path & SrcPath & "Graficos" & Formato
-            
-        Case Music
-                SourceFilePath = App.Path & SrcPath & "Musics" & Formato
-        
-        Case Wav
-                SourceFilePath = App.Path & SrcPath & "Sounds" & Formato
-
-        Case Scripts
-                SourceFilePath = App.Path & SrcPath & "Scripts" & Formato
-
-        Case Interface
-                SourceFilePath = App.Path & SrcPath & "Interface" & Formato
-
-        Case Map
-                SourceFilePath = App.Path & SrcPath & "Maps" & Formato
-
-        Case Ambient
-                SourceFilePath = App.Path & SrcPath & "Ambient" & Formato
-                
-        Case Fuentes
-                SourceFilePath = App.Path & SrcPath & "Fuentes" & Formato
-                
-        Case Else
-            Exit Function
-    End Select
-    
-    'Find the Info Head of the desired file
-    InfoHead = File_Find(SourceFilePath, file_name)
-    
-    If InfoHead.strFileName = vbNullString Or InfoHead.lngFileSize = 0 Then Exit Function
-
-    'Open the binary file
-    Handle = FreeFile
-    Open SourceFilePath For Binary Access Read Lock Write As Handle
-        
-    'Make sure there is enough space in the HD
-    If InfoHead.lngFileSizeUncompressed > General_Drive_Get_Free_Bytes(Left$(App.Path, 3)) Then
-        Close Handle
-        MsgBox "¡Espacio insuficiente!", , "Error"
-        Exit Function
-    End If
-    
-    'Extract file from the binary file
-    
-    'Resize the byte data array
-    ReDim bytArr(InfoHead.lngFileSize - 1)
-    
-    'Get the data
-    Get Handle, InfoHead.lngFileStart, bytArr
-    
-    'Decompress all data
-    Decompress_Data bytArr, InfoHead.lngFileSizeUncompressed
-        
-    'Close the binary file
-    Close Handle
-            
-    Extract_File_Ex = True
-Exit Function
-
-errhandler:
-    Close Handle
-    Erase bytArr
-    
 End Function
 
 Public Function Extract_File_Memory(ByVal File_Type As srcFileType, ByVal file_name As String, ByRef SourceData() As Byte) As Boolean
