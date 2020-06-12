@@ -53,10 +53,11 @@ Begin VB.Form frmConnect
       Width           =   3255
    End
    Begin VB.TextBox txtNombre 
-      BackColor       =   &H00000000&
+      Alignment       =   2  'Center
+      BackColor       =   &H00404040&
       BorderStyle     =   0  'None
       BeginProperty Font 
-         Name            =   "MS Sans Serif"
+         Name            =   "Tahoma"
          Size            =   8.25
          Charset         =   0
          Weight          =   700
@@ -70,13 +71,14 @@ Begin VB.Form frmConnect
       MaxLength       =   23
       TabIndex        =   0
       Top             =   5595
-      Width           =   2460
+      Width           =   2340
    End
    Begin VB.TextBox txtPasswd 
-      BackColor       =   &H00000000&
+      Alignment       =   2  'Center
+      BackColor       =   &H00404040&
       BorderStyle     =   0  'None
       BeginProperty Font 
-         Name            =   "MS Sans Serif"
+         Name            =   "Tahoma"
          Size            =   8.25
          Charset         =   0
          Weight          =   700
@@ -92,7 +94,7 @@ Begin VB.Form frmConnect
       PasswordChar    =   "*"
       TabIndex        =   1
       Top             =   6120
-      Width           =   2460
+      Width           =   2340
    End
    Begin VB.PictureBox Renderer 
       BackColor       =   &H00404040&

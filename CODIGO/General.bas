@@ -370,7 +370,7 @@ Sub SwitchMap(ByVal Map As Integer)
     
     Dim Dir_Map As String
     
-    Dir_Map = Get_Extract(resource_file_type.Map, "Mapa" & Map & ".csm")
+    Dir_Map = Get_Extract(srcFileType.Map, "Mapa" & Map & ".csm")
 
     If FileExist(Dir_Map, vbArchive) Then
 

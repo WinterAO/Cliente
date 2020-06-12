@@ -568,7 +568,7 @@ Public Function Music_Load(ByVal file_str As String, Optional ByVal Volume As Lo
 
     If ClientSetup.bMusic = CONST_MP3 Then
     
-        If Extract_File(resource_file_type.Music, MP3Path, file_str & ".mp3", Windows_Temp_Dir, False) Then
+        If extractFile(srcFileType.Music, file_str & ".mp3", True) Then
             If Not Music_Empty() = True Then GoTo Error_Handl
             Set IMC = New FilgraphManager
             IMC.RenderFile Windows_Temp_Dir & file_str & ".mp3"

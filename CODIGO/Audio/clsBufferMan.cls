@@ -44,7 +44,7 @@ Option Explicit
 
 
 Private Type WAV_DB_ENTRY
-    FileName As Integer
+    filename As Integer
     UltimoAcceso As Long
     buffer As DirectSoundSecondaryBuffer8
 End Type
@@ -109,7 +109,7 @@ Public Property Let Path(ByVal inString As String)
     WavPath = inString
 End Property
 
-Public Sub GetBuffer(ByVal FileName As Integer, ByRef tBuff As DirectSoundSecondaryBuffer8, tipo As resource_file_type)
+Public Sub GetBuffer(ByVal filename As Integer, ByRef tBuff As DirectSoundSecondaryBuffer8, tipo As srcFileType)
 '**************************************************************
 'Author: Juan Martín Sotuyo Dodero
 'Modified by Augusto José Rando
@@ -119,7 +119,7 @@ Public Sub GetBuffer(ByVal FileName As Integer, ByRef tBuff As DirectSoundSecond
 
     Dim IndiceObtenido As Integer
     'Dim tCap As DSBCAPS
-    IndiceObtenido = ObtenerIndice(FileName)
+    IndiceObtenido = ObtenerIndice(filename)
     
     If IndiceObtenido > 0 Then
             
@@ -137,7 +137,7 @@ Public Sub GetBuffer(ByVal FileName As Integer, ByRef tBuff As DirectSoundSecond
                 Set tBuff = mBuffers(IndiceObtenido).buffer
             'End If
         Else
-            If CreateBufferFromFile_Ex(FileName, IndiceObtenido, tipo) Then
+            If CreateBufferFromFile_Ex(filename, IndiceObtenido, tipo) Then
                 Set tBuff = mBuffers(IndiceObtenido).buffer
             End If
         End If
@@ -155,38 +155,38 @@ CrearNuevoBuffer:
     'Vemos si puedo agregar uno a la lista
     If mMaxEntries = mCantidadBuffers Then
         'Sacamos el que hace más que no usamos, y utilizamos el slot
-        IndiceObtenido = CrearBuffer(FileName, BorraMenosUsado(), tipo)
+        IndiceObtenido = CrearBuffer(filename, BorraMenosUsado(), tipo)
         Set tBuff = mBuffers(IndiceObtenido).buffer
     Else
         'Agrego un buffer nueva a la lista
-        IndiceObtenido = CrearBuffer(FileName, IndiceObtenido, tipo)
+        IndiceObtenido = CrearBuffer(filename, IndiceObtenido, tipo)
         Set tBuff = mBuffers(IndiceObtenido).buffer
     End If
     
 End Sub
 
-Private Function ObtenerIndice(ByVal FileName As Integer) As Integer
+Private Function ObtenerIndice(ByVal filename As Integer) As Integer
 '**************************************************************
 'Author: Juan Martín Sotuyo Dodero
 'Last Modify Date: 5/04/2005
 'Busqueda binaria para hallar el buffer deseado
 '**************************************************************
-    Dim max As Integer  'Max index
-    Dim min As Integer  'Min index
+    Dim Max As Integer  'Max index
+    Dim Min As Integer  'Min index
     Dim mid As Integer  'Middle index
     
-    min = 1
+    Min = 1
     mid = 1
-    max = mCantidadBuffers
+    Max = mCantidadBuffers
     
-    Do While min <= max
-        mid = (min + max) / 2
-        If FileName < mBuffers(mid).FileName Then
+    Do While Min <= Max
+        mid = (Min + Max) / 2
+        If filename < mBuffers(mid).filename Then
             'El índice no existe
-            max = mid - 1
-        ElseIf FileName > mBuffers(mid).FileName Then
+            Max = mid - 1
+        ElseIf filename > mBuffers(mid).filename Then
             'El índice no existe
-            min = mid + 1
+            Min = mid + 1
         Else
             ObtenerIndice = mid
             Exit Function
@@ -275,7 +275,7 @@ Public Sub ModificarVolumenTodo(ByVal Volume As Long)
     
 End Sub
 
-Public Function Borrar(ByVal FileName As Integer) As Integer
+Public Function Borrar(ByVal filename As Integer) As Integer
 '**************************************************************
 'Author: Juan Martín Sotuyo Dodero
 'Last Modify Date: 5/04/2005
@@ -284,13 +284,13 @@ Public Function Borrar(ByVal FileName As Integer) As Integer
     Dim indice As Long
     
     'Obtenemos el ìndice
-    indice = ObtenerIndice(FileName)
+    indice = ObtenerIndice(filename)
     If indice < 0 Then Exit Function
     
     'Lo eliminamos
     With mBuffers(indice)
         Set .buffer = Nothing
-        .FileName = 0
+        .filename = 0
         .UltimoAcceso = 0
     End With
     
@@ -306,7 +306,7 @@ Public Function Borrar(ByVal FileName As Integer) As Integer
     ReDim Preserve mBuffers(1 To mCantidadBuffers)
 End Function
 
-Private Function CrearBuffer(ByVal Archivo As Integer, ByVal Index As Integer, ByVal tipo As resource_file_type) As Integer
+Private Function CrearBuffer(ByVal Archivo As Integer, ByVal Index As Integer, ByVal tipo As srcFileType) As Integer
 '**************************************************************
 'Author: Juan Martín Sotuyo Dodero
 'Last Modify Date: 5/04/2005
@@ -327,7 +327,7 @@ On Error GoTo errhandler
     
     With mBuffers(Index)
         'Nombre
-        .FileName = Archivo
+        .filename = Archivo
         
         'Ultimo acceso
         .UltimoAcceso = GetTickCount
@@ -348,53 +348,67 @@ errhandler:
 End Function
 
 Private Function CreateBufferFromFile(ByVal file_name As Integer, ByVal buffer_index As Integer, Optional ByVal Ambient As Boolean = False) As Boolean
-'**************************************************************
-'Author: Augusto José Rando
-'Last Modify Date: 3/04/2007
-'Creación de buffers desde archivo (despreciado)
-'**************************************************************
-
-Dim dsbd As DSBUFFERDESC, dsbcap As DSBCAPS
-
-dsbd.lFlags = DSBCAPS_CTRLFREQUENCY Or DSBCAPS_CTRLPAN Or DSBCAPS_CTRLVOLUME
-dsbd.fxFormat.nFormatTag = WAVE_FORMAT_PCM
-dsbd.fxFormat.nChannels = 2
-dsbd.fxFormat.lSamplesPerSec = 22050
-dsbd.fxFormat.nBitsPerSample = 16
-dsbd.fxFormat.nBlockAlign = dsbd.fxFormat.nBitsPerSample / 8 * dsbd.fxFormat.nChannels
-dsbd.fxFormat.lAvgBytesPerSec = dsbd.fxFormat.lSamplesPerSec * dsbd.fxFormat.nBlockAlign
-
-If Ambient = False Then
-    If Extract_File(Wav, WavPath, file_name & ".wav", Windows_Temp_Dir, False) Then
-        Set mBuffers(buffer_index).buffer = mDS.CreateSoundBufferFromFile(Windows_Temp_Dir & file_name & ".wav", dsbd)
-        Delete_File Windows_Temp_Dir & file_name & ".wav"
-        CreateBufferFromFile = True
+    '**************************************************************
+    'Author: Augusto José Rando
+    'Last Modify Date: 3/04/2007
+    'Creación de buffers desde archivo (despreciado)
+    '**************************************************************
+    
+    Dim dsbd As DSBUFFERDESC, dsbcap As DSBCAPS
+    
+    dsbd.lFlags = DSBCAPS_CTRLFREQUENCY Or DSBCAPS_CTRLPAN Or DSBCAPS_CTRLVOLUME
+    
+    With dsbd.fxFormat
+        .nFormatTag = WAVE_FORMAT_PCM
+        .nChannels = 2
+        .lSamplesPerSec = 22050
+        .nBitsPerSample = 16
+        .nBlockAlign = dsbd.fxFormat.nBitsPerSample / 8 * dsbd.fxFormat.nChannels
+        .lAvgBytesPerSec = dsbd.fxFormat.lSamplesPerSec * dsbd.fxFormat.nBlockAlign
+    End With
+    
+    
+    '¿Es un sonido ambiental?
+    If Ambient Then
+    
+        If extractFile(Ambient, file_name & ".amb", True) Then
+            Set mBuffers(buffer_index).buffer = mDS.CreateSoundBufferFromFile(Windows_Temp_Dir & file_name & ".amb", dsbd)
+            DeleteFile Windows_Temp_Dir & file_name & ".amb"
+            CreateBufferFromFile = True
+        End If
+        
+    Else '¿O es un sonido comun?
+    
+        If extractFile(Wav, file_name & ".wav", True) Then
+            Set mBuffers(buffer_index).buffer = mDS.CreateSoundBufferFromFile(Windows_Temp_Dir & file_name & ".wav", dsbd)
+            DeleteFile Windows_Temp_Dir & file_name & ".wav"
+            CreateBufferFromFile = True
+        End If
+        
     End If
-Else
-    If Extract_File(Ambient, WavPath, file_name & ".amb", Windows_Temp_Dir, False) Then
-        Set mBuffers(buffer_index).buffer = mDS.CreateSoundBufferFromFile(Windows_Temp_Dir & file_name & ".wav", dsbd)
-        Delete_File Windows_Temp_Dir & file_name & ".amb"
-        CreateBufferFromFile = True
-    End If
-End If
-Exit Function
+    
+    Exit Function
 
 errhandler:
-    If Ambient = False Then
-        'Ocurrió un error, la causa más probable es que el archivo no exista
-        If FileExist(Windows_Temp_Dir & file_name & ".wav", vbNormal) Then
-            Delete_File Windows_Temp_Dir & file_name & ".wav"
-        End If
-    Else
-        'Ocurrió un error, la causa más probable es que el archivo no exista
+    'Ocurrió un error, la causa más probable es que el archivo no exista
+    
+    If Ambient Then
+    
         If FileExist(Windows_Temp_Dir & file_name & ".amb", vbNormal) Then
-            Delete_File Windows_Temp_Dir & file_name & ".amb"
+            DeleteFile Windows_Temp_Dir & file_name & ".amb"
         End If
+
+    Else
+        
+        If FileExist(Windows_Temp_Dir & file_name & ".wav", vbNormal) Then
+            DeleteFile Windows_Temp_Dir & file_name & ".wav"
+        End If
+        
     End If
 
 End Function
 
-Private Function CreateBufferFromFile_Ex(ByVal file_name As Integer, ByVal buffer_index, ByVal tipo As resource_file_type) As Boolean
+Private Function CreateBufferFromFile_Ex(ByVal file_name As Integer, ByVal buffer_index, ByVal tipo As srcFileType) As Boolean
 '**************************************************************
 'Author: Augusto José Rando
 'Last Modify Date: 3/04/2007
@@ -403,78 +417,78 @@ Private Function CreateBufferFromFile_Ex(ByVal file_name As Integer, ByVal buffe
 
 On Error GoTo ErrorHandler
 
-Dim extension As String
-
-Dim btArr() As Byte, gudtHeader As WAVETYPE
-
-Dim i As Long, lngChunkSize As Long
-
-Dim tB(1 To 4) As Byte
-
-Dim glngChunkSize As Long
-Dim lngOffset As Long
-
-Dim udtBufferDesc As DSBUFFERDESC
-
-If tipo = Ambient Then
-    extension = ".amb"
-Else
-    extension = ".wav"
-End If
-
-If tipo = Ambient Then Debug.Print "Tipo: " & tipo & " Extension: " & extension & " WavPath: " & WavPath & " file_Name: " & file_name
-
-If Extract_File_Ex(tipo, WavPath, file_name & extension, btArr) Then
+    Dim extension As String
     
-    lngOffset = LenB(gudtHeader)
+    Dim btArr() As Byte, gudtHeader As WAVETYPE
     
-    Call CopyMemory(gudtHeader, btArr(0), lngOffset)
+    Dim i As Long, lngChunkSize As Long
     
-    'Only PCM
-    If gudtHeader.intFormat <> WAVE_FORMAT_PCM Then Exit Function
+    Dim tB(1 To 4) As Byte
     
-    lngOffset = 36
+    Dim glngChunkSize As Long
+    Dim lngOffset As Long
     
-    For i = lngOffset To UBound(btArr)
-        tB(1) = btArr(i)
-        tB(2) = btArr(i + 1)
-        tB(3) = btArr(i + 2)
-        tB(4) = btArr(i + 3)
+    Dim udtBufferDesc As DSBUFFERDESC
+    
+    If tipo = Ambient Then
+        extension = ".amb"
+    Else
+        extension = ".wav"
+    End If
+    
+    If tipo = Ambient Then Debug.Print "Tipo: " & tipo & " Extension: " & extension & " WavPath: " & WavPath & " file_Name: " & file_name
+    
+    If Extract_File_Ex(tipo, file_name & extension, btArr) Then
         
-        If StrConv(tB(), vbUnicode) = "data" Then
-            Exit For
-        End If
+        lngOffset = LenB(gudtHeader)
         
-    Next i
-    
-    lngOffset = i + 4
-    
-    Call CopyMemory(ByVal VarPtr(glngChunkSize), btArr(lngOffset), ByVal 4)
-    
-    lngOffset = lngOffset + 4
-    
-    'Set the Wave Format
-    With udtBufferDesc.fxFormat
-        .nFormatTag = gudtHeader.intFormat
-        .nChannels = gudtHeader.intChannels
-        .lSamplesPerSec = gudtHeader.lngSamplesPerSec
-        .nBitsPerSample = gudtHeader.intBitsPerSample
-        .nBlockAlign = gudtHeader.intBlockAlign
-        .lAvgBytesPerSec = gudtHeader.lngAvgBytesPerSec
-        .nSize = gudtHeader.lngChunkSize
-    End With
+        Call CopyMemory(gudtHeader, btArr(0), lngOffset)
+        
+        'Only PCM
+        If gudtHeader.intFormat <> WAVE_FORMAT_PCM Then Exit Function
+        
+        lngOffset = 36
+        
+        For i = lngOffset To UBound(btArr)
+            tB(1) = btArr(i)
+            tB(2) = btArr(i + 1)
+            tB(3) = btArr(i + 2)
+            tB(4) = btArr(i + 3)
             
-    'Create the buffer
-    udtBufferDesc.lBufferBytes = glngChunkSize
-    udtBufferDesc.lFlags = DSBCAPS_CTRLPAN Or DSBCAPS_CTRLVOLUME
-    
-    Set mBuffers(buffer_index).buffer = mDS.CreateSoundBuffer(udtBufferDesc)
-                
-    'Load the buffer with data
-    mBuffers(buffer_index).buffer.WriteBuffer 0, glngChunkSize, btArr(lngOffset), DSBLOCK_ENTIREBUFFER
+            If StrConv(tB(), vbUnicode) = "data" Then
+                Exit For
+            End If
+            
+        Next i
         
-    CreateBufferFromFile_Ex = True
-End If
+        lngOffset = i + 4
+        
+        Call CopyMemory(ByVal VarPtr(glngChunkSize), btArr(lngOffset), ByVal 4)
+        
+        lngOffset = lngOffset + 4
+        
+        'Set the Wave Format
+        With udtBufferDesc.fxFormat
+            .nFormatTag = gudtHeader.intFormat
+            .nChannels = gudtHeader.intChannels
+            .lSamplesPerSec = gudtHeader.lngSamplesPerSec
+            .nBitsPerSample = gudtHeader.intBitsPerSample
+            .nBlockAlign = gudtHeader.intBlockAlign
+            .lAvgBytesPerSec = gudtHeader.lngAvgBytesPerSec
+            .nSize = gudtHeader.lngChunkSize
+        End With
+                
+        'Create the buffer
+        udtBufferDesc.lBufferBytes = glngChunkSize
+        udtBufferDesc.lFlags = DSBCAPS_CTRLPAN Or DSBCAPS_CTRLVOLUME
+        
+        Set mBuffers(buffer_index).buffer = mDS.CreateSoundBuffer(udtBufferDesc)
+                    
+        'Load the buffer with data
+        mBuffers(buffer_index).buffer.WriteBuffer 0, glngChunkSize, btArr(lngOffset), DSBLOCK_ENTIREBUFFER
+            
+        CreateBufferFromFile_Ex = True
+    End If
 
 Exit Function
 
@@ -513,7 +527,7 @@ Private Function BorraMenosUsado() As Integer
     'Borramos los buffers
     Set mBuffers(BorraMenosUsado).buffer = Nothing
     
-    mBuffers(BorraMenosUsado).FileName = 0
+    mBuffers(BorraMenosUsado).filename = 0
     mBuffers(BorraMenosUsado).UltimoAcceso = 0
     
     ' Redimensionamos el array
@@ -574,7 +588,7 @@ Public Sub BorraTimerProc()
             Set mBuffers(loopc).buffer = Nothing
             
             'Clear variables
-            mBuffers(loopc).FileName = 0
+            mBuffers(loopc).filename = 0
             mBuffers(loopc).UltimoAcceso = 0
             
             offset = offset + 1
@@ -585,7 +599,7 @@ Public Sub BorraTimerProc()
     mCantidadBuffers = mCantidadBuffers - offset
 End Sub
 
-Public Function CargarBuffer(ByVal FileName As Integer, ByVal tipo As resource_file_type) As Boolean
+Public Function CargarBuffer(ByVal filename As Integer, ByVal tipo As srcFileType) As Boolean
 '**************************************************************
 'Author: Augusto José Rando
 'Last Modify Date: 17/08/2005
@@ -593,7 +607,7 @@ Public Function CargarBuffer(ByVal FileName As Integer, ByVal tipo As resource_f
 '**************************************************************
 
     Dim Index As Integer
-    Index = ObtenerIndice(FileName)
+    Index = ObtenerIndice(filename)
     
     If Index > 0 Then
         CargarBuffer = True
@@ -601,11 +615,11 @@ Public Function CargarBuffer(ByVal FileName As Integer, ByVal tipo As resource_f
         'Vemos si puedo agregar uno a la lista
         If mMaxEntries = mCantidadBuffers Then
             'Sacamos el que hace más que no usamos, y utilizamos el slot
-            Call CrearBuffer(FileName, BorraMenosUsado(), tipo)
+            Call CrearBuffer(filename, BorraMenosUsado(), tipo)
             CargarBuffer = True
         Else
             'Agrego un buffer nueva a la lista
-            Call CrearBuffer(FileName, Index, tipo)
+            Call CrearBuffer(filename, Index, tipo)
             CargarBuffer = True
         End If
     End If
@@ -756,5 +770,6 @@ ErrorHandler:
     PlayingCheck = False
 
 End Function
+
 
 

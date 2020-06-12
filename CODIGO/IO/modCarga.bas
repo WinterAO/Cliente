@@ -1055,7 +1055,7 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
     mapInfo.Music = MapDat.music_number
     mapInfo.Ambient = MapDat.Ambient
 
-    Delete_File Dir_Map
+    deleteFile Dir_Map
 ErrorHandler:
     
     If fh <> 0 Then Close fh

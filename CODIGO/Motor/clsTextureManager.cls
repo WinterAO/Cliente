@@ -18,7 +18,7 @@ Private Const DEFAULT_MEMORY_TO_USE As Long = 64 ' In MB
 Private Const HASH_TABLE_SIZE       As Long = 337
 
 Private Type SURFACE_ENTRY_DYN
-    FileName As Integer
+    filename As Integer
     UltimoAcceso As Long
     Texture As Direct3DTexture8
     Size As Long
@@ -77,11 +77,11 @@ Public Property Get Surface(ByVal fileIndex As Long) As Direct3DTexture8
     
 End Property
  
-Public Function GetTexture(ByVal FileName As Integer, _
+Public Function GetTexture(ByVal filename As Integer, _
                            ByRef TextureWidth As Long, _
                            ByRef TextureHeight As Long) As Direct3DTexture8
 
-    If FileName = 0 Then
+    If filename = 0 Then
         Debug.Print "0 GRH ATTEMPT TO BE LOADED"
         Exit Function
 
@@ -90,11 +90,11 @@ Public Function GetTexture(ByVal FileName As Integer, _
     Dim i As Long
 
     ' Search the index on the list
-    With TexList(FileName Mod HASH_TABLE_SIZE)
+    With TexList(filename Mod HASH_TABLE_SIZE)
 
         For i = 1 To .surfaceCount
 
-            If .SurfaceEntry(i).FileName = FileName Then
+            If .SurfaceEntry(i).filename = filename Then
                 TextureWidth = .SurfaceEntry(i).texture_width
                 TextureHeight = .SurfaceEntry(i).texture_height
                 Set GetTexture = .SurfaceEntry(i).Texture
@@ -107,7 +107,7 @@ Public Function GetTexture(ByVal FileName As Integer, _
     End With
  
     'Not in memory, load it!
-    Set GetTexture = CrearGrafico(FileName, TextureWidth, TextureHeight)
+    Set GetTexture = CrearGrafico(filename, TextureWidth, TextureHeight)
 
 End Function
  
@@ -151,15 +151,15 @@ Private Function CrearGrafico(ByVal Archivo As Integer, _
         With .SurfaceEntry(.surfaceCount)
         
             'Nombre
-            .FileName = Archivo
+            .filename = Archivo
 
             'TODO: No usar variable de compilacion y acceder a esto desde el config.ini
             #If Desarrollo = 0 Then
             
-                InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Graficos.WAO", CStr(.FileName) & ".png")
+                InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Graficos.WAO", CStr(.filename) & ".png")
             
                 If InfoHead.lngFileSize <> 0 Then
-                    Extract_File_Memory Graphics, Carga.Path(ePath.recursos) & "\", LCase$(CStr(.FileName) & ".png"), buffer()
+                    Extract_File_Memory Graphics, LCase$(CStr(.filename) & ".png"), buffer()
                     'Seteamos la textura.
                     Set .Texture = DirectD3D.CreateTextureFromFileInMemoryEx(DirectDevice, buffer(0), UBound(buffer()) + 1, D3DX_DEFAULT, D3DX_DEFAULT, 0, 0, D3DFMT_A8R8G8B8, _
                                                                              D3DPOOL_MANAGED, D3DX_FILTER_POINT, D3DX_FILTER_NONE, &HFF000000, texture_info, ByVal 0)
@@ -169,7 +169,7 @@ Private Function CrearGrafico(ByVal Archivo As Integer, _
             #Else
                 
                 Dim Graphic As String
-                    Graphic = Carga.Path(Graficos) & .FileName
+                    Graphic = Carga.Path(Graficos) & .filename
                 
                 If FileExist(Graphic & ".png", vbNormal) Then
                     Set .Texture = DirectD3D.CreateTextureFromFileEx(DirectDevice, Graphic & ".png", D3DX_DEFAULT, D3DX_DEFAULT, 0, 0, D3DFMT_A8R8G8B8, _

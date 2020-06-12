@@ -289,7 +289,7 @@ Sub Engine_Init_FontTextures()
         
         If InfoHead.lngFileSize <> 0 Then
 
-            Extract_File_Memory Fuentes, Carga.Path(ePath.recursos) & "\", "font" & LCase$(CStr(i) & ".png"), Data()
+            Extract_File_Memory Fuentes, "font" & LCase$(CStr(i) & ".png"), Data()
                 
             'Set the texture
             Set cfonts(i).Texture = DirectD3D8.CreateTextureFromFileInMemoryEx(DirectDevice, _
@@ -347,13 +347,13 @@ Sub Engine_Init_FontSettings()
     
     For i = 1 To UBound(cfonts)
     
-        File = Get_Extract(resource_file_type.Fuentes, "Font" & i & ".dat")
+        File = Get_Extract(srcFileType.Fuentes, "Font" & i & ".dat")
         
         Open File For Binary As #FileNum
             Get #FileNum, , cfonts(i).HeaderInfo
         Close #FileNum
         
-        Delete_File File
+        DeleteFile File
         
         'Calculate some common values
         cfonts(i).CharHeight = cfonts(i).HeaderInfo.CellHeight - 4
