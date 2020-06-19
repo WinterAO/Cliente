@@ -189,15 +189,6 @@ Begin VB.Form frmOpciones
       Begin VB.CheckBox chkop 
          Caption         =   "Desactivar Reflejos"
          Height          =   195
-         Index           =   13
-         Left            =   240
-         TabIndex        =   39
-         Top             =   1320
-         Width           =   2055
-      End
-      Begin VB.CheckBox chkop 
-         Caption         =   "Desactivar Reflejos"
-         Height          =   195
          Index           =   12
          Left            =   240
          TabIndex        =   38
@@ -490,7 +481,7 @@ Private bSoundEffectsActivated As Boolean
 
 Private loading As Boolean
 
-Private Sub chkop_MouseUp(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub chkop_MouseUp(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
 '***************************************************
 'Author: Lorwik
 'Fecha: 30/05/2020
@@ -562,9 +553,6 @@ Private Sub chkop_MouseUp(Index As Integer, Button As Integer, Shift As Integer,
             
         Case 12 'Reflejos
             ClientSetup.UsarReflejos = Not ClientSetup.UsarReflejos
-            
-        Case 13 'Tonalidad
-            ClientSetup.TonalidadPJ = Not ClientSetup.TonalidadPJ
             
     End Select
 End Sub
@@ -820,12 +808,6 @@ Private Sub LoadUserConfig()
         chkop(12).value = vbChecked
     Else
         chkop(12).value = vbUnchecked
-    End If
-    
-    If ClientSetup.TonalidadPJ Then
-        chkop(13).value = vbChecked
-    Else
-        chkop(13).value = vbUnchecked
     End If
     
     txtCantMensajes.Text = CStr(DialogosClanes.CantidadDialogos)
