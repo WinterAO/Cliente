@@ -1667,7 +1667,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -2658,10 +2658,20 @@ Private Sub HandleCharacterRemove()
     Call incomingData.ReadByte
     
     Dim CharIndex As Integer
+    Dim Desaparece As Boolean
     
     CharIndex = incomingData.ReadInteger()
+    Desaparece = incomingData.ReadBoolean()
     
-    charlist(CharIndex).Desapareciendo = True
+    'Si quremos que desaparezca, y no es el cuerpo del propio user...
+    If Desaparece And CharIndex <> UserCharIndex Then
+        charlist(CharIndex).Desapareciendo = True
+        
+    Else
+        Call Char_Erase(CharIndex)
+        
+    End If
+    
 End Sub
 
 ''

@@ -24,7 +24,7 @@
 *.mp3 -text
 *.wav -text
 *.ao -text
-*.WAO filter=lfs diff=lfs merge=lfs -text
+*.WAO -text
 *.ocx -text
 *.OCX -text
 *.csm -text
@@ -39,5 +39,3 @@
 *.vbp encoding=ansi
 *.frm encoding=ansi
 *.json encoding=ansi
-/Recursos/*.WAO filter=lfs diff=lfs merge=lfs -text
-*.WAO filter=lfs diff=lfs merge=lfs -text

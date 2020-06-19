@@ -748,7 +748,7 @@ Private Sub LoadInitialConfig()
                             True, False, False, rtfLeft)
     
     'Inicializamos el inventario grafico
-    Call Inventario.Initialize(DirectD3D8, frmMain.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call Inventario.Initialize(DirectD3D8, frmMain.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     'Set cKeys = New Collection
     Call AddtoRichTextBox(frmCargando.status, _
@@ -865,6 +865,9 @@ End Function
 
 'TODO : como todo lo relativo a mapas, no tiene nada que hacer aca....
 Function HayAgua(ByVal X As Integer, ByVal Y As Integer) As Boolean
+    'Si las coordenadas son invalidad salimos
+    If X <= 0 Or Y = 0 Then Exit Function
+    
     HayAgua = ((MapData(X, Y).Graphic(1).GrhIndex >= 1505 And MapData(X, Y).Graphic(1).GrhIndex <= 1520) Or _
             (MapData(X, Y).Graphic(1).GrhIndex >= 5665 And MapData(X, Y).Graphic(1).GrhIndex <= 5680) Or _
             (MapData(X, Y).Graphic(1).GrhIndex >= 13547 And MapData(X, Y).Graphic(1).GrhIndex <= 13562)) And _

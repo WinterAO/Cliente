@@ -526,6 +526,8 @@ Public Sub Char_Make(ByVal CharIndex As Integer, _
         'Update position
         .Pos.X = X
         .Pos.Y = Y
+        
+        .ColorChar = 250
            
     End With
    
