@@ -201,8 +201,6 @@ Public Type Char
     Particle_Group() As Long
     
     NoShadow As Byte 'No emite sombra
-    Desapareciendo As Boolean
-    ColorChar As Byte
 End Type
 
 'Info de un objeto
@@ -696,9 +694,7 @@ Sub RenderScreen(ByVal tilex As Integer, _
                     '***********************************************
 
                     'Char layer********************************
-                    If .CharIndex <> 0 Then
-                        Call CharRender(.CharIndex, PixelOffsetXTemp, PixelOffsetYTemp)
-                    End If
+                    If .CharIndex <> 0 Then Call CharRender(.CharIndex, PixelOffsetXTemp, PixelOffsetYTemp)
                     '*************************************************
 
                     'Layer 3 *****************************************
@@ -1137,7 +1133,7 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
     Dim moved As Boolean
     
     With charlist(CharIndex)
-
+        
         If .Moving Then
 
             'If needed, move left and right
@@ -1229,7 +1225,6 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
         Dim RenderSpell        As Boolean
         
         If Not .muerto Then
-        
             ColorFinal(0) = MapData(.Pos.X, .Pos.Y).Engine_Light()(0)
             ColorFinal(1) = MapData(.Pos.X, .Pos.Y).Engine_Light()(1)
             ColorFinal(2) = MapData(.Pos.X, .Pos.Y).Engine_Light()(2)
@@ -1250,8 +1245,6 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
             End If
 
         End If
-                
-        Call DesvanecimientoChar(CharIndex, ColorFinal())
                 
         Movement_Speed = 0.5
                 
@@ -1802,7 +1795,7 @@ Public Sub GrhUninitialize(Grh As Grh)
 
 End Sub
 
-Public Sub DesvanecimientoTechos()
+Private Sub DesvanecimientoTechos()
  
     If bTecho Then
         If Not Val(ColorTecho) = 50 Then ColorTecho = ColorTecho - 1
@@ -1813,25 +1806,6 @@ Public Sub DesvanecimientoTechos()
     If Not Val(ColorTecho) = 250 Then
         Call Engine_Long_To_RGB_List(temp_rgb(), D3DColorARGB(ColorTecho, ColorTecho, ColorTecho, ColorTecho))
     End If
-    
-End Sub
-
-Public Sub DesvanecimientoChar(ByVal CharIndex As Integer, ByRef ColorFinal() As Long)
- 
-    With charlist(CharIndex)
-    
-        If .Desapareciendo Then
-            If Not Val(.ColorChar) = 50 Then .ColorChar = .ColorChar - 1
-        Else
-            If Not Val(.ColorChar) = 250 Then .ColorChar = .ColorChar + 1
-        End If
-        
-        If Not Val(.ColorChar) = 250 Then
-            Call Engine_Long_To_RGB_List(ColorFinal(), D3DColorARGB(.ColorChar, .ColorChar, .ColorChar, .ColorChar))
-        End If
-        
-        If .ColorChar <= 50 Then Call Char_Erase(CharIndex)
-    End With
     
 End Sub
 

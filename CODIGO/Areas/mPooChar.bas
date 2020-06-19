@@ -46,9 +46,6 @@ Public Sub Char_Erase(ByVal CharIndex As Integer)
         'Remove char's dialog
         Call Dialogos.RemoveDialog(CharIndex)
                 
-        'Remove particles
-        Call Char_Particle_Group_Remove_All(CharIndex)
-                
         'Update NumChars
         NumChars = NumChars - 1
  
@@ -67,7 +64,7 @@ Private Sub Char_ResetInfo(ByVal CharIndex As Integer)
     '*****************************************************************
 
     With charlist(CharIndex)
-
+        'Remove particles
         Call Char_Particle_Group_Remove_All(CharIndex)
             
         .active = 0
@@ -526,8 +523,6 @@ Public Sub Char_Make(ByVal CharIndex As Integer, _
         'Update position
         .Pos.X = X
         .Pos.Y = Y
-        
-        .ColorChar = 250
            
     End With
    

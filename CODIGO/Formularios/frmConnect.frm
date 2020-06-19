@@ -118,11 +118,11 @@ Begin VB.Form frmConnect
          Top             =   7440
          Visible         =   0   'False
          Width           =   345
-         _ExtentX        =   609
-         _ExtentY        =   609
-         CHCK            =   0   'False
-         ENAB            =   -1  'True
-         PICC            =   "frmConnect.frx":000C
+         _extentx        =   609
+         _extenty        =   609
+         chck            =   0   'False
+         enab            =   -1  'True
+         picc            =   "frmConnect.frx":000C
       End
    End
 End
@@ -139,9 +139,7 @@ Public MouseX              As Long
 Public MouseY              As Long
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
-    If KeyCode = 27 Then
-        Call CloseClient
-    End If
+    Call ModCnt.TeclaEvent(KeyCode)
 End Sub
 
 Private Sub Renderer_Click()

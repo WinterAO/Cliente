@@ -727,6 +727,51 @@ Public Sub ClickEvent(ByVal TX As Long, ByVal TY As Long)
     
 End Sub
 
+Public Sub TeclaEvent(ByVal KeyCode As Integer)
+'**************************************
+'Autor: Lorwik
+'Fecha: 19/06/2020
+'Descripcion: Recibimos la pulsación de una tecla y ejecutamos
+'**************************************
+
+    'Si pulsamos Escape salimos
+    Select Case KeyCode
+    
+    Case 27
+        Call CloseClient
+        
+    Case 13  'Si pulsamos Enter...
+    
+        'y estamos en el conectar, entramos a la cuenta
+        If Pantalla = PConnect Then
+            Call btnConectar
+            
+        ElseIf Pantalla = PCuenta Then 'y estamos en la cuenta, entramos al pj
+            If PJAccSelected <= 0 Or PJAccSelected > 10 Then
+                MsgBox "Selecciona un PJ"
+                Exit Sub
+            End If
+            
+            Call WriteLoginExistingChar
+            
+        End If
+        
+    Case 46 'Eliminar PJ si esta dentro de la cuenta
+        'Si no esta dentro de cuenta...
+        If Not Pantalla = PCuenta Then Exit Sub
+        
+        '¿Tiene un PJ Seleccionado?
+        If PJAccSelected < 1 Then
+            Call MostrarMensaje(JsonLanguage.item("ERROR_PERSONAJE_NO_SELECCIONADO").item("TEXTO"))
+            Exit Sub
+        End If
+                    
+        frmBorrarPJ.Show
+        
+    End Select
+    
+End Sub
+
 '<<<<<--------------------------------------------------------------------->>>>>>
 'CONECTAR
 
