@@ -712,9 +712,9 @@ Public Type PjCuenta
     Nombre      As String
     Head        As Integer
     Body        As Integer
-    Shield      As Byte
+    shield      As Byte
     helmet      As Byte
-    Weapon      As Byte
+    weapon      As Byte
     Mapa        As Integer
     Class       As Byte
     Race        As Byte
@@ -946,11 +946,11 @@ Public Type tIndiceFx
 End Type
 
 Public Type tIndiceArmas
-    Weapon(1 To 4) As Long
+    weapon(1 To 4) As Long
 End Type
 
 Public Type tIndiceEscudos
-    Shield(1 To 4) As Long
+    shield(1 To 4) As Long
 End Type
 
 Public EsperandoLevel As Boolean

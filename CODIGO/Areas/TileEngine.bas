@@ -202,6 +202,7 @@ Public Type Char
     
     NoShadow As Byte 'No emite sombra
     Desapareciendo As Boolean
+    ColorChar As Byte
 End Type
 
 'Info de un objeto
@@ -1250,6 +1251,8 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
 
         End If
                 
+        Call DesvanecimientoChar(CharIndex, ColorFinal())
+                
         Movement_Speed = 0.5
                 
         If Not .invisible Then
@@ -1810,6 +1813,25 @@ Public Sub DesvanecimientoTechos()
     If Not Val(ColorTecho) = 250 Then
         Call Engine_Long_To_RGB_List(temp_rgb(), D3DColorARGB(ColorTecho, ColorTecho, ColorTecho, ColorTecho))
     End If
+    
+End Sub
+
+Public Sub DesvanecimientoChar(ByVal CharIndex As Integer, ByRef ColorFinal() As Long)
+ 
+    With charlist(CharIndex)
+    
+        If .Desapareciendo Then
+            If Not Val(.ColorChar) = 50 Then .ColorChar = .ColorChar - 1
+        Else
+            If Not Val(.ColorChar) = 250 Then .ColorChar = .ColorChar + 1
+        End If
+        
+        If Not Val(.ColorChar) = 250 Then
+            Call Engine_Long_To_RGB_List(ColorFinal(), D3DColorARGB(.ColorChar, .ColorChar, .ColorChar, .ColorChar))
+        End If
+        
+        If .ColorChar <= 50 Then Call Char_Erase(CharIndex)
+    End With
     
 End Sub
 
