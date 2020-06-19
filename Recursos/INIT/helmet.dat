@@ -1,5 +1,5 @@
 [INIT]
-NumCascos=138
+NumCascos=139
 
 [Casco1]
 Std=2
@@ -827,4 +827,10 @@ OffSetY=160
 Std=2
 FileNum=1108
 OffSetX=297
+OffSetY=160
+
+[Casco139]
+Std=2
+FileNum=1108
+OffSetX=324
 OffSetY=160

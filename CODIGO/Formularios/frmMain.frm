@@ -174,7 +174,6 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -811,10 +810,10 @@ Begin VB.Form frmMain
       EndProperty
       ForeColor       =   &H0000FFFF&
       Height          =   210
-      Left            =   12510
+      Left            =   12030
       TabIndex        =   1
       Top             =   11085
-      Width           =   1395
+      Width           =   2475
    End
    Begin VB.Image InvEqu 
       Height          =   4530
@@ -2179,11 +2178,11 @@ Private Sub Client_Connect()
  
 End Sub
 
-Private Sub Client_DataArrival(ByVal BytesTotal As Long)
+Private Sub Client_DataArrival(ByVal bytesTotal As Long)
     Dim RD     As String
     Dim Data() As Byte
     
-    Client.GetData RD, vbByte, BytesTotal
+    Client.GetData RD, vbByte, bytesTotal
     Data = StrConv(RD, vbFromUnicode)
     
     'Set data in the buffer

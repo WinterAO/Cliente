@@ -762,6 +762,7 @@ ERROR_HANDLER:
     Kill file_path
         
 End Sub
+
 Public Function General_File_Exists(ByVal file_path As String, ByVal File_Type As VbFileAttribute) As Boolean
 '*****************************************************************
 'Author: Aaron Perkins
@@ -884,5 +885,3 @@ errhandler:
     File_Find.strFileName = ""
     File_Find.lngFileSize = 0
 End Function
-
-

@@ -37,7 +37,6 @@ Public Type tSetupMods
     byMemory    As Integer
     ProyectileEngine As Boolean
     PartyMembers As Boolean
-    TonalidadPJ As Boolean
     UsarSombras As Boolean
     UsarReflejos As Boolean
     ParticleEngine As Boolean
@@ -258,7 +257,6 @@ Public Sub LeerConfiguracion()
         .bNoRes = CBool(Lector.GetValue("VIDEO", "DisableResolutionChange"))
         .ProyectileEngine = CBool(Lector.GetValue("VIDEO", "ProjectileEngine"))
         .PartyMembers = CBool(Lector.GetValue("VIDEO", "PartyMembers"))
-        .TonalidadPJ = CBool(Lector.GetValue("VIDEO", "TonalidadPJ"))
         .UsarSombras = CBool(Lector.GetValue("VIDEO", "Sombras"))
         .UsarReflejos = CBool(Lector.GetValue("VIDEO", "Reflejos"))
         .ParticleEngine = CBool(Lector.GetValue("VIDEO", "ParticleEngine"))
@@ -293,7 +291,6 @@ Public Sub LeerConfiguracion()
         Debug.Print "bNoRes: " & .bNoRes
         Debug.Print "ProyectileEngine: " & .ProyectileEngine
         Debug.Print "PartyMembers: " & .PartyMembers
-        Debug.Print "TonalidadPJ: " & .TonalidadPJ
         Debug.Print "UsarSombras: " & .UsarSombras
         Debug.Print "UsarReflejos: " & .UsarReflejos
         Debug.Print "ParticleEngine: " & .ParticleEngine
@@ -335,7 +332,6 @@ Public Sub GuardarConfiguracion()
         Call Lector.ChangeValue("VIDEO", "DisableResolutionChange", IIf(.bNoRes, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ProyectileEngine, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "PartyMembers", IIf(.PartyMembers, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "TonalidadPJ", IIf(.TonalidadPJ, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "Sombras", IIf(.UsarSombras, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "Reflejos", IIf(.UsarReflejos, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ParticleEngine, "True", "False"))
@@ -1055,7 +1051,7 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
     mapInfo.Music = MapDat.music_number
     mapInfo.Ambient = MapDat.Ambient
 
-    deleteFile Dir_Map
+    DeleteFile Dir_Map
 ErrorHandler:
     
     If fh <> 0 Then Close fh

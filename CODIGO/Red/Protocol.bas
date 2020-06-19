@@ -1667,7 +1667,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -2661,7 +2661,7 @@ Private Sub HandleCharacterRemove()
     
     CharIndex = incomingData.ReadInteger()
     
-    Call Char_Erase(CharIndex)
+    charlist(CharIndex).Desapareciendo = True
 End Sub
 
 ''

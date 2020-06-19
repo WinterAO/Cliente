@@ -201,6 +201,7 @@ Public Type Char
     Particle_Group() As Long
     
     NoShadow As Byte 'No emite sombra
+    Desapareciendo As Boolean
 End Type
 
 'Info de un objeto
@@ -1184,6 +1185,7 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
 
         End If
         
+        If .Heading = 0 Then Exit Sub
         'if is attacking we set the attack anim
         If .attacking And .Arma.WeaponWalk(.Heading).Started = 0 Then
             .Arma.WeaponWalk(.Heading).Started = 1
@@ -1227,34 +1229,10 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
         
         If Not .muerto Then
         
-            If Abs(MouseTileX - .Pos.X) < 1 And (Abs(MouseTileY - .Pos.Y)) < 1 And CharIndex <> UserCharIndex And ClientSetup.TonalidadPJ Then
-                
-                If Len(.Nombre) > 0 Then
-                    
-                    If .Criminal Then
-                        Call Engine_Long_To_RGB_List(ColorFinal(), D3DColorXRGB(204, 100, 100))
-                    Else
-                        Call Engine_Long_To_RGB_List(ColorFinal(), D3DColorXRGB(100, 100, 255))
-
-                    End If
-                    
-                Else
-                    ColorFinal(0) = MapData(.Pos.X, .Pos.Y).Engine_Light()(0)
-                    ColorFinal(1) = MapData(.Pos.X, .Pos.Y).Engine_Light()(1)
-                    ColorFinal(2) = MapData(.Pos.X, .Pos.Y).Engine_Light()(2)
-                    ColorFinal(3) = MapData(.Pos.X, .Pos.Y).Engine_Light()(3)
-
-                End If
-
-                RenderSpell = True
-            
-            Else
-                ColorFinal(0) = MapData(.Pos.X, .Pos.Y).Engine_Light()(0)
-                ColorFinal(1) = MapData(.Pos.X, .Pos.Y).Engine_Light()(1)
-                ColorFinal(2) = MapData(.Pos.X, .Pos.Y).Engine_Light()(2)
-                ColorFinal(3) = MapData(.Pos.X, .Pos.Y).Engine_Light()(3)
-
-            End If
+            ColorFinal(0) = MapData(.Pos.X, .Pos.Y).Engine_Light()(0)
+            ColorFinal(1) = MapData(.Pos.X, .Pos.Y).Engine_Light()(1)
+            ColorFinal(2) = MapData(.Pos.X, .Pos.Y).Engine_Light()(2)
+            ColorFinal(3) = MapData(.Pos.X, .Pos.Y).Engine_Light()(3)
 
         Else
 
@@ -1372,6 +1350,32 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
             'Check if animation is over
             If .fX.Started = 0 Then .FxIndex = 0
             
+        End If
+        
+        '************Draw Pasos************
+        If CharIndex = UserCharIndex Then
+            If Not UserEquitando Then
+                If MapData(.Pos.X, .Pos.Y).Graphic(1).GrhIndex >= 7704 And MapData(.Pos.X, .Pos.Y).Graphic(1).GrhIndex <= 7719 Or _
+                    MapData(.Pos.X, .Pos.Y).Graphic(1).GrhIndex >= 1315 And MapData(.Pos.X, .Pos.Y).Graphic(1).GrhIndex <= 1330 Or _
+                        MapData(.Pos.X, .Pos.Y).Graphic(1).GrhIndex >= 30120 And MapData(.Pos.X, .Pos.Y).Graphic(1).GrhIndex <= 30439 Then
+                    
+                    Select Case .Heading
+                    
+                        Case E_Heading.SOUTH 'Arriba
+                            Call General_Particle_Create(65, .Pos.X, .Pos.Y, 250)
+                            
+                        Case E_Heading.NORTH  'Abajo
+                            Call General_Particle_Create(122, .Pos.X, .Pos.Y, 250)
+                            
+                        Case E_Heading.WEST  'Izquierda
+                            Call General_Particle_Create(124, .Pos.X, .Pos.Y, 250)
+                            
+                        Case E_Heading.EAST  'Derecha
+                            Call General_Particle_Create(123, .Pos.X, .Pos.Y, 250)
+                        
+                    End Select
+                End If
+            End If
         End If
         
     End With
