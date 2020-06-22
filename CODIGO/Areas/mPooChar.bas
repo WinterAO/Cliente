@@ -473,6 +473,24 @@ Public Sub Char_SetFx(ByVal CharIndex As Integer, ByVal fX As Integer, ByVal Loo
    
 End Sub
  
+Public Sub Char_SetAura(ByVal CharIndex As Integer, ByVal AuraAnim As Long, ByVal AuraColor As Long)
+    '***************************************************
+    'Autor: Lorwik
+    'Fecha: 20/06/2020
+    '***************************************************
+    
+        If (Char_Check(CharIndex)) Then
+        
+        With charlist(CharIndex)
+                        
+            Call InitGrh(.AuraAnim, AuraAnim)
+            .AuraColor = AuraColor
+                                
+        End With
+        
+    End If
+End Sub
+ 
 Public Sub Char_Make(ByVal CharIndex As Integer, _
                      ByVal Body As Integer, _
                      ByVal Head As Integer, _
@@ -481,7 +499,9 @@ Public Sub Char_Make(ByVal CharIndex As Integer, _
                      ByVal Y As Integer, _
                      ByVal Arma As Integer, _
                      ByVal Escudo As Integer, _
-                     ByVal Casco As Integer)
+                     ByVal Casco As Integer, _
+                     ByVal AuraAnim As Long, _
+                     ByVal AuraColor As Long)
  
     'Apuntamos al ultimo Char
  
@@ -509,6 +529,9 @@ Public Sub Char_Make(ByVal CharIndex As Integer, _
         .Arma = WeaponAnimData(Arma)
         .Escudo = ShieldAnimData(Escudo)
         .Casco = Casco
+
+        Call InitGrh(.AuraAnim, AuraAnim)
+        .AuraColor = AuraColor
         
         .Heading = Heading
          

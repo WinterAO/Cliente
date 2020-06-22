@@ -35,6 +35,9 @@ Public PJAccSelected As Byte
 'Indica el TextBox selecionado
 Private TextSelected As Byte
 
+Private GRHFX_PJ_Selecionado As Grh
+Private Const FX_PJ_Seleccionado As Long = 13181
+
 '*********************
 'Flags
 '*********************
@@ -112,6 +115,8 @@ Public Sub InicializarRndCNT()
     
     SexoSelect(1) = JsonLanguage.item("FRM_CREARPJ_HOMBRE").item("TEXTO")
     SexoSelect(2) = JsonLanguage.item("FRM_CREARPJ_MUJER").item("TEXTO")
+    
+    Call InitGrh(GRHFX_PJ_Selecionado, FX_PJ_Seleccionado)
     
 End Sub
 
@@ -236,6 +241,8 @@ Sub RenderConnect()
         .Right = 1024
     End With
     
+    Movement_Speed = 1
+    
     Call Engine_BeginScene
      
     For X = 1 To 32
@@ -293,8 +300,8 @@ Sub RenderConnect()
     Call RenderConnectGUI
      
     'Get timing info
-    'timerElapsedTime = GetElapsedTime()
-    'timerTicksPerFrame = timerElapsedTime * Engine_BaseSpeed
+    timerElapsedTime = GetElapsedTime()
+    timerTicksPerFrame = timerElapsedTime * Engine_BaseSpeed
         
     Call Engine_EndScene(RE, frmConnect.Renderer.hWnd)
 End Sub
@@ -476,6 +483,8 @@ Private Sub RenderPJ()
     
                     If .Body <> 0 Then
             
+                        If PJAccSelected = Index Then Call Draw_Grh(GRHFX_PJ_Selecionado, PJPos(Index).X, PJPos(Index).Y + 60, 1, Normal_RGBList(), 1, True)
+                        
                         Call Draw_Grh(BodyData(.Body).Walk(1), PJPos(Index).X, PJPos(Index).Y, 1, Normal_RGBList(), 0)
             
                         If .Head <> 0 Then _
@@ -738,6 +747,7 @@ Public Sub TeclaEvent(ByVal KeyCode As Integer)
     Select Case KeyCode
     
     Case 27
+    
         Call CloseClient
         
     Case 13  'Si pulsamos Enter...
@@ -757,6 +767,7 @@ Public Sub TeclaEvent(ByVal KeyCode As Integer)
         End If
         
     Case 46 'Eliminar PJ si esta dentro de la cuenta
+    
         'Si no esta dentro de cuenta...
         If Not Pantalla = PCuenta Then Exit Sub
         

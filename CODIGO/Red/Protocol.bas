@@ -2549,6 +2549,8 @@ On Error GoTo errhandler
     Dim helmet As Integer
     Dim privs As Integer
     Dim NickColor As Byte
+    Dim AuraAnim As Long
+    Dim AuraColor As Long
     
     CharIndex = buffer.ReadInteger()
     Body = buffer.ReadInteger()
@@ -2600,10 +2602,13 @@ On Error GoTo errhandler
             .priv = 0
         End If
         
+        AuraAnim = buffer.ReadLong()
+        AuraColor = buffer.ReadLong()
+        
         .NoShadow = buffer.ReadByte()
     End With
     
-    Call Char_Make(CharIndex, Body, Head, Heading, X, Y, weapon, shield, helmet)
+    Call Char_Make(CharIndex, Body, Head, Heading, X, Y, weapon, shield, helmet, AuraAnim, AuraColor)
     
     'If we got here then packet is complete, copy data back to original queue
     Call incomingData.CopyBuffer(buffer)
@@ -2767,6 +2772,9 @@ Private Sub HandleCharacterChange()
         
     '// Char Fx
     Call Char_SetFx(CharIndex, incomingData.ReadInteger(), incomingData.ReadInteger())
+    
+    '// Char Aura
+    Call Char_SetAura(CharIndex, incomingData.ReadLong(), incomingData.ReadLong())
 End Sub
 
 Private Sub HandleHeadingChange()

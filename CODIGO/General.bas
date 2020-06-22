@@ -490,9 +490,6 @@ Sub Main()
     
     Call CargarHechizos
     
-    'Inicializamos el conectar renderizado
-    Call ModCnt.InicializarRndCNT
-    
     #If Desarrollo = 0 Then
         If Application.FindPreviousInstance Then
             Call MsgBox(JsonLanguage.item("OTRO_CLIENTE_ABIERTO").item("TEXTO"), vbApplicationModal + vbInformation + vbOKOnly, "Error al ejecutar")
@@ -1230,6 +1227,7 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     Dim i As Long
     For i = 1 To LastChar
         charlist(i).invisible = False
+
     Next i
 
     ' Reset stats
@@ -1290,7 +1288,7 @@ Public Sub ResetAllInfoAccounts()
                 .Gold = 0
                 .Criminal = False
                 .Dead = False
-
+                
                 .GameMaster = False
             End With
             
