@@ -2949,7 +2949,7 @@ Private Sub HandlePlayWave()
     Dim srcX As Byte
     Dim srcY As Byte
     
-    wave = incomingData.ReadByte()
+    wave = incomingData.ReadInteger()
     srcX = incomingData.ReadByte()
     srcY = incomingData.ReadByte()
         
