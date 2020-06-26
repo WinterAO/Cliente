@@ -484,9 +484,9 @@ On Error GoTo Error_Handl
     
     If Volume = 0 Then Volume = mEffectsVolumeMax
     
-    If Not Buffers.Reproducir(Sound_File, IIf(Do_Loop, DSBPLAY_LOOPING, DSBPLAY_DEFAULT), Volume, pan) Then _
-        If Not Buffers_Sec.Reproducir(Sound_File, IIf(Do_Loop, DSBPLAY_LOOPING, DSBPLAY_DEFAULT), Volume, pan) Then _
-            Call Buffers_Ter.Reproducir(Sound_File, IIf(Do_Loop, DSBPLAY_LOOPING, DSBPLAY_DEFAULT), Volume, pan)
+    If Not Buffers.Reproducir(Sound_File & ".wav", IIf(Do_Loop, DSBPLAY_LOOPING, DSBPLAY_DEFAULT), Volume, pan) Then _
+        If Not Buffers_Sec.Reproducir(Sound_File & ".wav", IIf(Do_Loop, DSBPLAY_LOOPING, DSBPLAY_DEFAULT), Volume, pan) Then _
+            Call Buffers_Ter.Reproducir(Sound_File & ".wav", IIf(Do_Loop, DSBPLAY_LOOPING, DSBPLAY_DEFAULT), Volume, pan)
     
     Sound_Play = True
     
@@ -732,7 +732,7 @@ Error_Handl:
 
 End Function
 
-Public Function Ambient_Load(ByVal file_name As Integer, Optional ByVal Volume As Long = 0)
+Public Function Ambient_Load(ByVal file_name As String, Optional ByVal Volume As Long = 0)
 '**************************************************************
 'Author: Augusto José Rando (barrin@imperiumao.com.ar)
 'Last Modify Date: 2/08/2006
@@ -742,7 +742,7 @@ Public Function Ambient_Load(ByVal file_name As Integer, Optional ByVal Volume A
 
     If (file_name <= 0) Or (ClientSetup.bAmbient = 0) Or (Engine_Initialized = False) Then Exit Function
     
-    Call Buffers.GetBuffer(file_name, ambient_buffer, Ambient)
+    Call Buffers.GetBuffer(file_name & ".amb", ambient_buffer, Ambient)
     
     If Volume < -4000 Then Volume = -4000
     ambient_buffer.SetVolume Volume
@@ -1016,7 +1016,7 @@ On Error Resume Next
 
 End Function
 
-Public Function Sound_Load(ByVal file_num As Integer) As Boolean
+Public Function Sound_Load(ByVal file_num As String) As Boolean
 '**************************************************************
 'Author: Augusto José Rando
 'Last Modify Date: 7/16/2005
@@ -1024,7 +1024,7 @@ Public Function Sound_Load(ByVal file_num As Integer) As Boolean
     
     If (ClientSetup.bSound = 0) Or (Engine_Initialized = False) Then Exit Function
     
-    If Buffers.CargarBuffer(file_num, Wav) Then
+    If Buffers.CargarBuffer(file_num & ".wav", Wav) Then
         Sound_Load = True
     End If
 

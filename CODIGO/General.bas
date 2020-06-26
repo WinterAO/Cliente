@@ -246,6 +246,8 @@ Sub SetConnected()
     
     'Load main form
     frmMain.Visible = True
+    
+    ModCnt.Conectando = True
 
     FPSFLAG = True
 

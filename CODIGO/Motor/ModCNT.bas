@@ -392,6 +392,10 @@ Private Sub RenderConnectGUI()
             'Desconectar
             Call Draw_GrhIndex(31494, 20, 650, 0, Normal_RGBList(), 0, False)
             
+            'Conectando
+            If ModCnt.Conectando = False Then _
+                Call DrawText(490, 620, "Conectando...", -1, True, 2)
+
         Case 2 'Crear PJ
             'Marco
             Call Draw_GrhIndex(31481, 0, 0, 0, Normal_RGBList(), 0, False)
@@ -548,7 +552,7 @@ Public Sub DobleClickEvent(ByVal TX As Long, ByVal TY As Long)
     
                         If LenB(.Nombre) <> 0 Then
                             UserName = .Nombre
-                            Call WriteLoginExistingChar
+                            Call ConnectPJ
                         End If
                         
                     End If
@@ -762,7 +766,7 @@ Public Sub TeclaEvent(ByVal KeyCode As Integer)
                 Exit Sub
             End If
             
-            Call WriteLoginExistingChar
+            Call ConnectPJ
             
         End If
         
@@ -888,6 +892,30 @@ On Error Resume Next
         Servidor(i).Nombre = ReadField(3, lista(i), Asc("|"))
     Next i
 
+End Sub
+
+Public Sub ConnectPJ()
+'**************************************
+'Autor: Lorwik
+'Fecha: 24/06/2020
+'Descripcion: Mandamos el connect PJ
+'**************************************
+
+    If Not frmMain.Client.State = sckConnected Then
+        MsgBox JsonLanguage.item("ERROR_CONN_LOST").item("TEXTO")
+        Call MostrarConnect
+        
+    Else
+        If ModCnt.Conectando Then
+            ModCnt.Conectando = False
+            Call WriteLoginExistingChar
+            
+            DoEvents
+    
+            Call FlushBuffer
+        End If
+    End If
+                
 End Sub
 
 '<<<<<--------------------------------------------------------------------->>>>>>

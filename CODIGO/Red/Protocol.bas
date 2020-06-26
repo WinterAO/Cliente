@@ -2945,7 +2945,7 @@ Private Sub HandlePlayWave()
     'Remove packet ID
     Call incomingData.ReadByte
         
-    Dim wave As Byte
+    Dim wave As Integer
     Dim srcX As Byte
     Dim srcY As Byte
     
@@ -5550,9 +5550,6 @@ Public Sub WriteLoginExistingChar()
 'CHOTS: Accounts
 'Writes the "LoginExistingChar" message to the outgoing data buffer
 '***************************************************
-
-    'Evitamos enviar multiples peticiones de conexion al servidor.
-    ModCnt.Conectando = False
     
     With outgoingData
         Call .WriteByte(ClientPacketID.LoginExistingChar)
@@ -5564,7 +5561,6 @@ Public Sub WriteLoginExistingChar()
         Call .WriteByte(App.Revision)
     End With
 
-    ModCnt.Conectando = True
 End Sub
 
 ''

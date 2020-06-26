@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
 Begin VB.Form frmMain 
    Appearance      =   0  'Flat
    BackColor       =   &H80000005&
@@ -1098,6 +1098,7 @@ Private Sub LoadTextsForm()
     fMenu.Caption = JsonLanguage.item("LBL_GRUPO").item("TEXTO")
     btnOpciones.Caption = JsonLanguage.item("LBL_OPCIONES").item("TEXTO")
     btnEstadisticas.Caption = JsonLanguage.item("LBL_ESTADISTICAS").item("TEXTO")
+    btnQuest.Caption = JsonLanguage.item("LBL_QUEST").item("TEXTO")
     btnClanes.Caption = JsonLanguage.item("LBL_CLANES").item("TEXTO")
     btnRetos.Caption = JsonLanguage.item("LBL_RETOS").item("TEXTO")
 End Sub
@@ -2199,6 +2200,7 @@ Private Sub Client_CloseSck()
 
     If frmMain.Visible = True Then frmMain.Visible = False
     Call ResetAllInfo
+    ModCnt.Conectando = True
     Call MostrarConnect(True)
 End Sub
 
@@ -2217,7 +2219,8 @@ Private Sub Client_Error(ByVal number As Integer, _
     Second.Enabled = False
  
     If Client.State <> sckClosed Then Client.CloseSck
-
+    
+    ModCnt.Conectando = True
     Call MostrarConnect
  
 End Sub

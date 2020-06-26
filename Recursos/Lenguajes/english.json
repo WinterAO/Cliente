@@ -1157,6 +1157,9 @@
     "LBL_ESTADISTICAS": {
         "TEXTO": "Statistics"
     },
+	"LBL_QUEST": {
+        "TEXTO": "Quest"
+    },
     "LBL_CLANES": {
         "TEXTO": "Guilds"
     },
