@@ -3,31 +3,38 @@ Begin VB.Form frmEstadisticas
    BackColor       =   &H00C0C0C0&
    BorderStyle     =   0  'None
    Caption         =   "Estadisticas"
-   ClientHeight    =   6675
+   ClientHeight    =   6765
    ClientLeft      =   0
    ClientTop       =   -75
-   ClientWidth     =   6975
+   ClientWidth     =   14100
    ClipControls    =   0   'False
    Icon            =   "FrmEstadisticas.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
    Picture         =   "FrmEstadisticas.frx":000C
-   ScaleHeight     =   445
+   ScaleHeight     =   451
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   465
+   ScaleWidth      =   940
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
-   Begin VB.Label lblEquitacion 
-      AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "Equitacion"
-      ForeColor       =   &H00FFFFFF&
-      Height          =   195
-      Left            =   3120
-      TabIndex        =   38
-      Top             =   6120
-      Width           =   750
+   Begin VB.Shape shpSkillsBar 
+      BorderStyle     =   0  'Transparent
+      FillStyle       =   0  'Solid
+      Height          =   120
+      Index           =   21
+      Left            =   10200
+      Top             =   5760
+      Width           =   1095
+   End
+   Begin VB.Shape shpSkillsBar 
+      BorderStyle     =   0  'Transparent
+      FillStyle       =   0  'Solid
+      Height          =   120
+      Index           =   20
+      Left            =   10200
+      Top             =   5280
+      Width           =   1095
    End
    Begin VB.Label Skills 
       AutoSize        =   -1  'True
@@ -35,7 +42,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -43,45 +50,27 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   21
-      Left            =   4200
+      Left            =   5640
       TabIndex        =   37
-      Top             =   6075
+      Top             =   5625
       Width           =   315
    End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   21
-      Left            =   5460
-      Top             =   6120
-      Width           =   1095
-   End
    Begin VB.Image imgCerrar 
-      Height          =   360
-      Left            =   105
+      Height          =   240
+      Left            =   120
       Tag             =   "1"
-      Top             =   6240
+      Top             =   6480
       Width           =   6810
    End
    Begin VB.Shape shpSkillsBar 
       BorderStyle     =   0  'Transparent
       FillStyle       =   0  'Solid
       Height          =   120
-      Index           =   20
-      Left            =   5415
-      Top             =   5805
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
       Index           =   19
-      Left            =   5415
-      Top             =   5535
+      Left            =   5400
+      Top             =   3840
       Width           =   1095
    End
    Begin VB.Shape shpSkillsBar 
@@ -89,8 +78,8 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   18
-      Left            =   5415
-      Top             =   5265
+      Left            =   5520
+      Top             =   3600
       Width           =   1095
    End
    Begin VB.Shape shpSkillsBar 
@@ -98,8 +87,8 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   17
-      Left            =   5415
-      Top             =   4995
+      Left            =   10200
+      Top             =   4800
       Width           =   1095
    End
    Begin VB.Shape shpSkillsBar 
@@ -107,8 +96,8 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   16
-      Left            =   5415
-      Top             =   4725
+      Left            =   10200
+      Top             =   4560
       Width           =   1095
    End
    Begin VB.Shape shpSkillsBar 
@@ -116,8 +105,8 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   15
-      Left            =   5415
-      Top             =   4470
+      Left            =   10200
+      Top             =   4320
       Width           =   1095
    End
    Begin VB.Shape shpSkillsBar 
@@ -125,8 +114,8 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   14
-      Left            =   5415
-      Top             =   4230
+      Left            =   10200
+      Top             =   4080
       Width           =   1095
    End
    Begin VB.Shape shpSkillsBar 
@@ -134,8 +123,8 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   13
-      Left            =   5415
-      Top             =   3975
+      Left            =   10200
+      Top             =   3840
       Width           =   1095
    End
    Begin VB.Shape shpSkillsBar 
@@ -143,8 +132,8 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   12
-      Left            =   5415
-      Top             =   3720
+      Left            =   10320
+      Top             =   3600
       Width           =   1095
    End
    Begin VB.Shape shpSkillsBar 
@@ -152,8 +141,8 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   11
-      Left            =   5415
-      Top             =   3450
+      Left            =   5520
+      Top             =   3360
       Width           =   1095
    End
    Begin VB.Shape shpSkillsBar 
@@ -161,8 +150,8 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   10
-      Left            =   5415
-      Top             =   3195
+      Left            =   10320
+      Top             =   3240
       Width           =   1095
    End
    Begin VB.Shape shpSkillsBar 
@@ -170,25 +159,7 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   9
-      Left            =   5415
-      Top             =   2940
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   8
-      Left            =   5415
-      Top             =   2670
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   7
-      Left            =   5415
+      Left            =   10440
       Top             =   2400
       Width           =   1095
    End
@@ -196,9 +167,27 @@ Begin VB.Form frmEstadisticas
       BorderStyle     =   0  'Transparent
       FillStyle       =   0  'Solid
       Height          =   120
+      Index           =   8
+      Left            =   5520
+      Top             =   3120
+      Width           =   1095
+   End
+   Begin VB.Shape shpSkillsBar 
+      BorderStyle     =   0  'Transparent
+      FillStyle       =   0  'Solid
+      Height          =   120
+      Index           =   7
+      Left            =   5400
+      Top             =   2880
+      Width           =   1095
+   End
+   Begin VB.Shape shpSkillsBar 
+      BorderStyle     =   0  'Transparent
+      FillStyle       =   0  'Solid
+      Height          =   120
       Index           =   6
-      Left            =   5415
-      Top             =   2145
+      Left            =   5400
+      Top             =   2640
       Width           =   1095
    End
    Begin VB.Shape shpSkillsBar 
@@ -206,8 +195,8 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   5
-      Left            =   5415
-      Top             =   1890
+      Left            =   5520
+      Top             =   2400
       Width           =   1095
    End
    Begin VB.Shape shpSkillsBar 
@@ -215,8 +204,8 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   4
-      Left            =   5415
-      Top             =   1635
+      Left            =   5400
+      Top             =   2160
       Width           =   1095
    End
    Begin VB.Shape shpSkillsBar 
@@ -224,8 +213,8 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   3
-      Left            =   5415
-      Top             =   1380
+      Left            =   5520
+      Top             =   1920
       Width           =   1095
    End
    Begin VB.Shape shpSkillsBar 
@@ -233,8 +222,8 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   2
-      Left            =   5415
-      Top             =   1125
+      Left            =   5520
+      Top             =   1680
       Width           =   1095
    End
    Begin VB.Shape shpSkillsBar 
@@ -243,16 +232,16 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   1
-      Left            =   5415
-      Top             =   885
+      Left            =   5400
+      Top             =   1440
       Width           =   1095
    End
    Begin VB.Label Label6 
       BackStyle       =   0  'Transparent
       Caption         =   "000"
       BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
+         Name            =   "Tahoma"
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -264,15 +253,15 @@ Begin VB.Form frmEstadisticas
       Index           =   5
       Left            =   2325
       TabIndex        =   36
-      Top             =   5880
-      Width           =   555
+      Top             =   6150
+      Width           =   435
    End
    Begin VB.Label Label6 
       BackStyle       =   0  'Transparent
       Caption         =   "000"
       BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
+         Name            =   "Tahoma"
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -282,17 +271,17 @@ Begin VB.Form frmEstadisticas
       ForeColor       =   &H00FFFFFF&
       Height          =   195
       Index           =   4
-      Left            =   960
+      Left            =   930
       TabIndex        =   35
-      Top             =   5670
+      Top             =   5910
       Width           =   1785
    End
    Begin VB.Label Label6 
       BackStyle       =   0  'Transparent
       Caption         =   "000"
       BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
+         Name            =   "Tahoma"
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -302,17 +291,17 @@ Begin VB.Form frmEstadisticas
       ForeColor       =   &H00FFFFFF&
       Height          =   195
       Index           =   3
-      Left            =   1920
+      Left            =   1875
       TabIndex        =   34
-      Top             =   5460
+      Top             =   5640
       Width           =   825
    End
    Begin VB.Label Label6 
       BackStyle       =   0  'Transparent
       Caption         =   "000"
       BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
+         Name            =   "Tahoma"
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -322,17 +311,17 @@ Begin VB.Form frmEstadisticas
       ForeColor       =   &H00FFFFFF&
       Height          =   195
       Index           =   2
-      Left            =   1920
+      Left            =   1830
       TabIndex        =   33
-      Top             =   5220
+      Top             =   5400
       Width           =   825
    End
    Begin VB.Label Label6 
       BackStyle       =   0  'Transparent
       Caption         =   "000"
       BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
+         Name            =   "Tahoma"
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -342,17 +331,17 @@ Begin VB.Form frmEstadisticas
       ForeColor       =   &H00FFFFFF&
       Height          =   195
       Index           =   1
-      Left            =   1920
+      Left            =   2160
       TabIndex        =   32
-      Top             =   4980
-      Width           =   825
+      Top             =   5160
+      Width           =   585
    End
    Begin VB.Label Label6 
       BackStyle       =   0  'Transparent
       Caption         =   "000"
       BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
+         Name            =   "Tahoma"
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -362,10 +351,10 @@ Begin VB.Form frmEstadisticas
       ForeColor       =   &H00FFFFFF&
       Height          =   195
       Index           =   0
-      Left            =   1920
+      Left            =   2010
       TabIndex        =   31
-      Top             =   4740
-      Width           =   825
+      Top             =   4920
+      Width           =   705
    End
    Begin VB.Label Skills 
       AutoSize        =   -1  'True
@@ -373,7 +362,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -381,11 +370,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   20
-      Left            =   4155
+      Left            =   5760
       TabIndex        =   30
-      Top             =   5760
+      Top             =   5385
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -394,7 +383,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -402,11 +391,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   19
-      Left            =   4605
+      Left            =   3945
       TabIndex        =   29
-      Top             =   5520
+      Top             =   3840
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -415,7 +404,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -423,11 +412,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   18
-      Left            =   4725
+      Left            =   4005
       TabIndex        =   28
-      Top             =   5235
+      Top             =   3600
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -436,7 +425,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -444,11 +433,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   17
-      Left            =   4440
+      Left            =   6060
       TabIndex        =   27
-      Top             =   4965
+      Top             =   5160
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -457,7 +446,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -465,11 +454,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   16
-      Left            =   3960
+      Left            =   5550
       TabIndex        =   26
-      Top             =   4680
+      Top             =   4950
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -478,7 +467,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -486,11 +475,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   15
-      Left            =   3885
+      Left            =   3840
       TabIndex        =   25
-      Top             =   4440
+      Top             =   6075
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -499,7 +488,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -507,11 +496,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   14
-      Left            =   4080
+      Left            =   4035
       TabIndex        =   24
-      Top             =   4200
+      Top             =   5850
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -520,7 +509,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -528,11 +517,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   13
-      Left            =   3825
+      Left            =   3795
       TabIndex        =   23
-      Top             =   3915
+      Top             =   5610
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -541,7 +530,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -549,10 +538,52 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   12
-      Left            =   3705
+      Left            =   3645
       TabIndex        =   22
+      Top             =   5385
+      Width           =   315
+   End
+   Begin VB.Label Label4 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "000"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   6.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   165
+      Index           =   7
+      Left            =   960
+      TabIndex        =   21
+      Top             =   3885
+      Width           =   315
+   End
+   Begin VB.Label Label4 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "000"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   6.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   165
+      Index           =   6
+      Left            =   960
+      TabIndex        =   20
       Top             =   3660
       Width           =   315
    End
@@ -562,7 +593,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -570,146 +601,20 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
-      Index           =   7
-      Left            =   1065
-      TabIndex        =   21
-      Top             =   3900
-      Width           =   315
-   End
-   Begin VB.Label Label4 
-      AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "000"
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   195
-      Index           =   6
-      Left            =   1065
-      TabIndex        =   20
-      Top             =   3630
-      Width           =   315
-   End
-   Begin VB.Label Label4 
-      AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "000"
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   5
-      Left            =   1065
+      Left            =   990
       TabIndex        =   19
-      Top             =   3375
-      Width           =   315
-   End
-   Begin VB.Label Label4 
-      AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "000"
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   195
-      Index           =   4
-      Left            =   1065
-      TabIndex        =   18
-      Top             =   3120
-      Width           =   315
-   End
-   Begin VB.Label Label4 
-      AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "000"
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   195
-      Index           =   2
-      Left            =   1065
-      TabIndex        =   17
-      Top             =   2880
-      Width           =   315
-   End
-   Begin VB.Label Label4 
-      AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "000"
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   195
-      Index           =   1
-      Left            =   1065
-      TabIndex        =   16
-      Top             =   2625
-      Width           =   315
-   End
-   Begin VB.Label Skills 
-      AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "000"
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   195
-      Index           =   11
-      Left            =   4740
-      TabIndex        =   15
       Top             =   3420
       Width           =   315
    End
-   Begin VB.Label Skills 
+   Begin VB.Label Label4 
       AutoSize        =   -1  'True
       BackStyle       =   0  'Transparent
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -717,11 +622,95 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
+      Index           =   4
+      Left            =   1065
+      TabIndex        =   18
+      Top             =   3195
+      Width           =   315
+   End
+   Begin VB.Label Label4 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "000"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   6.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   165
+      Index           =   2
+      Left            =   1140
+      TabIndex        =   17
+      Top             =   2985
+      Width           =   315
+   End
+   Begin VB.Label Label4 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "000"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   6.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   165
+      Index           =   1
+      Left            =   1125
+      TabIndex        =   16
+      Top             =   2745
+      Width           =   315
+   End
+   Begin VB.Label Skills 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "000"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   6.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   165
+      Index           =   11
+      Left            =   4005
+      TabIndex        =   15
+      Top             =   3360
+      Width           =   315
+   End
+   Begin VB.Label Skills 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "000"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   6.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   165
       Index           =   10
       Left            =   3930
       TabIndex        =   14
-      Top             =   3165
+      Top             =   5160
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -730,7 +719,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -738,11 +727,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   9
-      Left            =   3690
+      Left            =   3600
       TabIndex        =   13
-      Top             =   2910
+      Top             =   4950
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -751,7 +740,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -759,10 +748,52 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   8
-      Left            =   4230
+      Left            =   3480
       TabIndex        =   12
+      Top             =   3120
+      Width           =   315
+   End
+   Begin VB.Label Skills 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "000"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   6.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   165
+      Index           =   7
+      Left            =   3195
+      TabIndex        =   11
+      Top             =   2880
+      Width           =   315
+   End
+   Begin VB.Label Skills 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "000"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   6.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   165
+      Index           =   6
+      Left            =   3180
+      TabIndex        =   10
       Top             =   2640
       Width           =   315
    End
@@ -772,7 +803,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -780,53 +811,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
-      Index           =   7
-      Left            =   3945
-      TabIndex        =   11
-      Top             =   2370
-      Width           =   315
-   End
-   Begin VB.Label Skills 
-      AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "000"
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   195
-      Index           =   6
-      Left            =   3900
-      TabIndex        =   10
-      Top             =   2115
-      Width           =   315
-   End
-   Begin VB.Label Skills 
-      AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "000"
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   5
-      Left            =   3825
+      Left            =   3045
       TabIndex        =   9
-      Top             =   1875
+      Top             =   2400
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -835,7 +824,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -843,11 +832,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   4
-      Left            =   4590
+      Left            =   3990
       TabIndex        =   8
-      Top             =   1605
+      Top             =   2160
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -856,7 +845,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -864,11 +853,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   3
-      Left            =   4635
+      Left            =   3990
       TabIndex        =   7
-      Top             =   1350
+      Top             =   1935
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -877,7 +866,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -885,11 +874,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   2
-      Left            =   3630
+      Left            =   2955
       TabIndex        =   6
-      Top             =   1095
+      Top             =   1695
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -898,7 +887,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "000"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -906,11 +895,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   1
-      Left            =   3645
+      Left            =   3000
       TabIndex        =   5
-      Top             =   855
+      Top             =   1455
       Width           =   315
    End
    Begin VB.Label Atri 
@@ -919,7 +908,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "00"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -927,11 +916,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   5
-      Left            =   1500
+      Left            =   1440
       TabIndex        =   4
-      Top             =   1890
+      Top             =   1710
       Width           =   210
    End
    Begin VB.Label Atri 
@@ -940,7 +929,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "00"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -948,11 +937,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   4
-      Left            =   1500
+      Left            =   1200
       TabIndex        =   3
-      Top             =   1635
+      Top             =   1500
       Width           =   210
    End
    Begin VB.Label Atri 
@@ -961,7 +950,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "00"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -969,11 +958,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   3
-      Left            =   1500
+      Left            =   1440
       TabIndex        =   2
-      Top             =   1380
+      Top             =   1260
       Width           =   210
    End
    Begin VB.Label Atri 
@@ -982,7 +971,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "00"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -990,11 +979,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   2
-      Left            =   1500
+      Left            =   1200
       TabIndex        =   1
-      Top             =   1095
+      Top             =   1020
       Width           =   210
    End
    Begin VB.Label Atri 
@@ -1003,7 +992,7 @@ Begin VB.Form frmEstadisticas
       Caption         =   "00"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   6.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -1011,11 +1000,11 @@ Begin VB.Form frmEstadisticas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   195
+      Height          =   165
       Index           =   1
-      Left            =   1500
+      Left            =   1080
       TabIndex        =   0
-      Top             =   840
+      Top             =   795
       Width           =   210
    End
 End
@@ -1160,3 +1149,4 @@ Private Sub imgCerrar_MouseMove(Button As Integer, Shift As Integer, X As Single
     End If
 
 End Sub
+

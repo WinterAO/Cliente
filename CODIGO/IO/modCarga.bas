@@ -39,6 +39,7 @@ Public Type tSetupMods
     PartyMembers As Boolean
     UsarSombras As Boolean
     UsarReflejos As Boolean
+    UsarAuras As Boolean
     ParticleEngine As Boolean
     HUD As Boolean
     LimiteFPS As Boolean
@@ -259,6 +260,7 @@ Public Sub LeerConfiguracion()
         .PartyMembers = CBool(Lector.GetValue("VIDEO", "PartyMembers"))
         .UsarSombras = CBool(Lector.GetValue("VIDEO", "Sombras"))
         .UsarReflejos = CBool(Lector.GetValue("VIDEO", "Reflejos"))
+        .UsarAuras = CBool(Lector.GetValue("VIDEO", "Auras"))
         .ParticleEngine = CBool(Lector.GetValue("VIDEO", "ParticleEngine"))
         .LimiteFPS = CBool(Lector.GetValue("VIDEO", "LimitarFPS"))
         .HUD = CBool(Lector.GetValue("VIDEO", "HUD"))
@@ -293,6 +295,7 @@ Public Sub LeerConfiguracion()
         Debug.Print "PartyMembers: " & .PartyMembers
         Debug.Print "UsarSombras: " & .UsarSombras
         Debug.Print "UsarReflejos: " & .UsarReflejos
+        Debug.Print "UsarAuras: " & .UsarAuras
         Debug.Print "ParticleEngine: " & .ParticleEngine
         Debug.Print "LimitarFPS: " & .LimiteFPS
         Debug.Print "bMusic: " & .bMusic
@@ -334,6 +337,7 @@ Public Sub GuardarConfiguracion()
         Call Lector.ChangeValue("VIDEO", "PartyMembers", IIf(.PartyMembers, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "Sombras", IIf(.UsarSombras, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "Reflejos", IIf(.UsarReflejos, "True", "False"))
+        Call Lector.ChangeValue("VIDEO", "Auras", IIf(.UsarAuras, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ParticleEngine, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "LimitarFPS", IIf(.LimiteFPS, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "HUD", IIf(.HUD, "True", "False"))
@@ -1050,6 +1054,7 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
     mapInfo.name = MapDat.map_name
     mapInfo.Music = MapDat.music_number
     mapInfo.Ambient = MapDat.Ambient
+    mapInfo.Zona = MapDat.zone
 
     DeleteFile Dir_Map
 ErrorHandler:

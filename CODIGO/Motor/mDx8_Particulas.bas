@@ -1031,7 +1031,7 @@ Public Sub Engine_Weather_Update()
     'Sin embargo al cambiar de mapa o al entrar y salir de un techo la particula se vuelve a cargar
     'Este error NO pasa cuando esta lloviendo y recien abro el juego y entro, en ese caso la lluvia se ve bien (Recox)
 
-    If bRain And Not bTecho Then
+    If bRain And mapInfo.Zona <> "DUNGEON" Then
         'Primero verificamos que las particulas de lluvia esten creadas en la coleccion de particulas
         'Si estan creadas las renderizamos, sino las creamos
         If RainParticle <= 0 Then

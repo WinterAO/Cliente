@@ -241,6 +241,7 @@ Public Type mapInfo
     StartPos As WorldPos
     MapVersion As Integer
     Ambient As String
+    Zona As String
 End Type
 
 Public IniPath As String
@@ -1261,7 +1262,7 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
             If ClientSetup.UsarReflejos Then Call RenderReflejos(CharIndex, PixelOffsetX, PixelOffsetY)
             
             'Auras
-            If .AuraAnim.GrhIndex > 0 Then
+            If .AuraAnim.GrhIndex > 0 And ClientSetup.UsarAuras Then
                 Call Engine_Long_To_RGB_List(AuraColorFinal(), .AuraColor)
                 Call Draw_Grh(.AuraAnim, PixelOffsetX, PixelOffsetY + 35, 1, AuraColorFinal(), 1, True)
             End If
@@ -1315,7 +1316,7 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
         ElseIf CharIndex = UserCharIndex Or (.Clan <> vbNullString And .Clan = charlist(UserCharIndex).Clan) Then
             
             'Auras
-            If .AuraAnim.GrhIndex > 0 Then
+            If .AuraAnim.GrhIndex > 0 And ClientSetup.UsarAuras Then
                 Call Engine_Long_To_RGB_List(AuraColorFinal(), .AuraColor)
                 Call Draw_Grh(.AuraAnim, PixelOffsetX, PixelOffsetY + 35, 1, AuraColorFinal(), 1, True)
             End If

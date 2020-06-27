@@ -187,21 +187,30 @@ Begin VB.Form frmOpciones
       Top             =   120
       Width           =   3735
       Begin VB.CheckBox chkop 
-         Caption         =   "Desactivar Reflejos"
+         Caption         =   "Activar Auras"
+         Height          =   195
+         Index           =   13
+         Left            =   240
+         TabIndex        =   39
+         Top             =   1420
+         Width           =   2055
+      End
+      Begin VB.CheckBox chkop 
+         Caption         =   "Activar Reflejos"
          Height          =   195
          Index           =   12
          Left            =   240
          TabIndex        =   38
-         Top             =   1080
+         Top             =   1150
          Width           =   2055
       End
       Begin VB.CheckBox chkop 
-         Caption         =   "Desactivar Sombras"
+         Caption         =   "Activar Sombras"
          Height          =   195
          Index           =   11
          Left            =   240
          TabIndex        =   37
-         Top             =   840
+         Top             =   880
          Width           =   2055
       End
       Begin VB.CheckBox chkop 
@@ -210,7 +219,7 @@ Begin VB.Form frmOpciones
          Index           =   5
          Left            =   240
          TabIndex        =   22
-         Top             =   600
+         Top             =   620
          Width           =   1335
       End
       Begin VB.CheckBox chkop 
@@ -554,6 +563,9 @@ Private Sub chkop_MouseUp(Index As Integer, Button As Integer, Shift As Integer,
         Case 12 'Reflejos
             ClientSetup.UsarReflejos = Not ClientSetup.UsarReflejos
             
+        Case 13 'Auras
+            ClientSetup.UsarAuras = Not ClientSetup.UsarAuras
+            
     End Select
 End Sub
 
@@ -808,6 +820,12 @@ Private Sub LoadUserConfig()
         chkop(12).value = vbChecked
     Else
         chkop(12).value = vbUnchecked
+    End If
+    
+    If ClientSetup.UsarAuras Then
+        chkop(13).value = vbChecked
+    Else
+        chkop(13).value = vbUnchecked
     End If
     
     txtCantMensajes.Text = CStr(DialogosClanes.CantidadDialogos)
