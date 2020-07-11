@@ -627,7 +627,7 @@
         "TEXTO": "Error en los mapas, algun archivo ha sido modificado o esta roto."
     },
     "MENSAJE_FUNDAR_CLAN": {
-        "TEXTO": "Para fundar un clan tenes que ser nivel 25 y tener 90 puntos de skill en Liderazgo."
+        "TEXTO": "Para fundar un clan, primero debes ser nivel 40 y tener 90 puntos de skill en Liderazgo."
     },
     "ERROR_CONN_LOST": {
         "TEXTO": "Error: Se ha perdido la conexion con el servidor."

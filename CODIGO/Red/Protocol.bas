@@ -1667,7 +1667,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -2606,6 +2606,7 @@ On Error GoTo errhandler
         AuraColor = buffer.ReadLong()
         
         .NoShadow = buffer.ReadByte()
+        .EstadoQuest = buffer.ReadByte()
     End With
     
     Call Char_Make(CharIndex, Body, Head, Heading, X, Y, weapon, shield, helmet, AuraAnim, AuraColor)
@@ -2775,6 +2776,7 @@ Private Sub HandleCharacterChange()
     
     '// Char Aura
     Call Char_SetAura(CharIndex, incomingData.ReadLong(), incomingData.ReadLong())
+    
 End Sub
 
 Private Sub HandleHeadingChange()

@@ -627,7 +627,7 @@
         "TEXTO": "Error in the maps, some file has been modified or is damaged."
     },
     "MENSAJE_FUNDAR_CLAN": {
-        "TEXTO": "To found a clan you have to be level 25 and have 90 skills in leadership."
+        "TEXTO": "To found a clan, you must first be level 40 and have 90 skill points in Leadership."
     },
     "ERROR_CONN_LOST": {
         "TEXTO": "Error: has lost the connection with the server."

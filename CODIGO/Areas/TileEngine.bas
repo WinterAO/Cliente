@@ -155,6 +155,12 @@ Type ShieldAnimData
     ShieldWalk(E_Heading.SOUTH To E_Heading.EAST) As Grh
 End Type
 
+Public Enum eStatusQuest
+    NoAceptada = 0
+    EnCurso = 1
+    Terminada = 2
+    NoTieneQuest = 255
+End Enum
 
 'Apariencia del personaje
 Public Type Char
@@ -203,6 +209,7 @@ Public Type Char
     Particle_Group() As Long
     
     NoShadow As Byte 'No emite sombra
+    EstadoQuest As eStatusQuest
 End Type
 
 'Info de un objeto
@@ -1391,6 +1398,23 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
                 End If
             End If
         End If
+        
+        '¿Tiene quest?
+        If .EstadoQuest <> eStatusQuest.NoTieneQuest Then
+            Dim GrhQuest As Long
+            
+            Select Case .EstadoQuest
+                Case eStatusQuest.NoAceptada
+                    GrhQuest = 558
+                Case eStatusQuest.EnCurso
+                    GrhQuest = 559
+                Case eStatusQuest.Terminada
+                    GrhQuest = 2637
+            End Select
+            
+            Call Draw_GrhIndex(GrhQuest, PixelOffsetX, PixelOffsetY + OFFSET_HEAD - 23, 1, ColorFinal())
+        End If
+        
         
     End With
     
