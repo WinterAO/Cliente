@@ -79,7 +79,7 @@ Begin VB.Form frmOpciones
       Height          =   1215
       Left            =   3960
       TabIndex        =   28
-      Top             =   2160
+      Top             =   2040
       Width           =   3735
       Begin VB.TextBox txtCantMensajes 
          Alignment       =   2  'Center
@@ -295,7 +295,7 @@ Begin VB.Form frmOpciones
          Index           =   3
          Left            =   120
          TabIndex        =   11
-         Top             =   1320
+         Top             =   1240
          Width           =   2985
       End
       Begin VB.HScrollBar scrAmbient 
@@ -357,7 +357,7 @@ Begin VB.Form frmOpciones
       Height          =   3135
       Left            =   3960
       TabIndex        =   0
-      Top             =   3480
+      Top             =   3360
       Width           =   3735
       Begin VB.ComboBox cmdLenguajesComboBox 
          BackColor       =   &H00FFFFFF&

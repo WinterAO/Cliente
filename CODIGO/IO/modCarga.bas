@@ -69,6 +69,7 @@ Public Type tSetupMods
     ' OTHER
     MostrarTips As Byte
     MostrarBindKeysSelection As Byte
+    BloqueoMovimiento As Boolean
     
     'MOUSE
     MouseGeneral As Byte
@@ -287,6 +288,7 @@ Public Sub LeerConfiguracion()
         ' OTHER
         .MostrarTips = CBool(Lector.GetValue("OTHER", "MOSTRAR_TIPS"))
         .MostrarBindKeysSelection = CBool(Lector.GetValue("OTHER", "MOSTRAR_BIND_KEYS_SELECTION"))
+        .BloqueoMovimiento = CBool(Lector.GetValue("OTHER", "BLOQUEOMOV"))
         
         Debug.Print "Modo de Renderizado: " & IIf(.Aceleracion = 1, "Mixto (Hardware + Software)", "Hardware")
         Debug.Print "byMemory: " & .byMemory
@@ -365,6 +367,7 @@ Public Sub GuardarConfiguracion()
         ' Lo comento por que no tiene por que setearse aqui esto.
         ' Al menos no al hacer click en el boton Salir del formulario opciones (Recox)
         ' Call Lector.ChangeValue("OTHER", "MOSTRAR_TIPS", CBool(.MostrarTips))
+        Call Lector.ChangeValue("OTHER", "BLOQUEOMOV", CBool(.BloqueoMovimiento))
     End With
     
     Call Lector.DumpFile(Carga.Path(Init) & CLIENT_FILE)

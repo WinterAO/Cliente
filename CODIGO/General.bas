@@ -308,7 +308,7 @@ Private Sub CheckKeys()
     If Traveling Then Exit Sub
 
     'Si esta chateando, no mover el pj, tanto para chat de clanes y normal
-    If frmMain.SendTxt.Visible Then Exit Sub
+    If frmMain.SendTxt.Visible And ClientSetup.BloqueoMovimiento Then Exit Sub
 
     'Don't allow any these keys during movement..
     If UserMoving = 0 Then

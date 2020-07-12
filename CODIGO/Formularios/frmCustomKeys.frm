@@ -24,6 +24,14 @@ Begin VB.Form frmCustomKeys
    ScaleWidth      =   679
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
+   Begin VB.CheckBox chkBloquearMovimiento 
+      Caption         =   "Bloquear movimiento al escribir"
+      Height          =   375
+      Left            =   3360
+      TabIndex        =   64
+      Top             =   4200
+      Width           =   3495
+   End
    Begin VB.CommandButton imgGuardar 
       Caption         =   "Guardar"
       Height          =   480
@@ -1021,6 +1029,10 @@ Option Explicit
 
 Private clsFormulario As clsFormMovementManager
 
+Private Sub chkBloquearMovimiento_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    ClientSetup.BloqueoMovimiento = Not ClientSetup.BloqueoMovimiento
+End Sub
+
 Private Sub Form_Load()
     Dim i As Long
     
@@ -1033,6 +1045,13 @@ Private Sub Form_Load()
     For i = 1 To CustomKeys.KeyCount
         Text1(i).Text = CustomKeys.ReadableName(CustomKeys.BindedKey(i))
     Next i
+    
+    If ClientSetup.BloqueoMovimiento Then
+        chkBloquearMovimiento.value = vbChecked
+    Else
+        chkBloquearMovimiento.value = vbUnchecked
+    End If
+    
 End Sub
 
 Private Sub LoadTextsForm()
@@ -1056,6 +1075,8 @@ Private Sub imgGuardar_Click()
             Exit Sub
         End If
     Next i
+    
+    Call Carga.GuardarConfiguracion
     
     Unload Me
 End Sub
