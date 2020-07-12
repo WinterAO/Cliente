@@ -1081,5 +1081,4 @@ Public UserParalizadoSegundosRestantes As Integer
 Public UserInvisibleSegundosRestantes As Integer
 Public UserEquitandoSegundosRestantes As Long
 
-Public QuantityServers As Integer
-Public IpApiEnabled As Boolean
+Public Security As New clsSecurity

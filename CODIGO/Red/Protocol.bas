@@ -3500,7 +3500,7 @@ On Error GoTo errhandler
     
     Dim Count As Integer
     Dim i As Long
-    Dim j As Long
+    Dim J As Long
     Dim k As Long
     
     Count = buffer.ReadInteger()
@@ -3547,18 +3547,18 @@ On Error GoTo errhandler
             If .Upgrade Then
                 For k = 1 To Count
                     If .Upgrade = ArmasHerrero(k).objindex Then
-                        j = j + 1
+                        J = J + 1
                 
-                        ReDim Preserve HerreroMejorar(j) As tItemsConstruibles
+                        ReDim Preserve HerreroMejorar(J) As tItemsConstruibles
                         
-                        HerreroMejorar(j).name = .name
-                        HerreroMejorar(j).GrhIndex = .GrhIndex
-                        HerreroMejorar(j).objindex = .objindex
-                        HerreroMejorar(j).UpgradeName = ArmasHerrero(k).name
-                        HerreroMejorar(j).UpgradeGrhIndex = ArmasHerrero(k).GrhIndex
-                        HerreroMejorar(j).LinH = ArmasHerrero(k).LinH - .LinH * 0.85
-                        HerreroMejorar(j).LinP = ArmasHerrero(k).LinP - .LinP * 0.85
-                        HerreroMejorar(j).LinO = ArmasHerrero(k).LinO - .LinO * 0.85
+                        HerreroMejorar(J).name = .name
+                        HerreroMejorar(J).GrhIndex = .GrhIndex
+                        HerreroMejorar(J).objindex = .objindex
+                        HerreroMejorar(J).UpgradeName = ArmasHerrero(k).name
+                        HerreroMejorar(J).UpgradeGrhIndex = ArmasHerrero(k).GrhIndex
+                        HerreroMejorar(J).LinH = ArmasHerrero(k).LinH - .LinH * 0.85
+                        HerreroMejorar(J).LinP = ArmasHerrero(k).LinP - .LinP * 0.85
+                        HerreroMejorar(J).LinO = ArmasHerrero(k).LinO - .LinO * 0.85
                         
                         Exit For
                     End If
@@ -3603,7 +3603,7 @@ On Error GoTo errhandler
     
     Dim Count As Integer
     Dim i As Long
-    Dim j As Long
+    Dim J As Long
     Dim k As Long
     
     Count = buffer.ReadInteger()
@@ -3629,25 +3629,25 @@ On Error GoTo errhandler
     Call frmHerrero.Show(vbModeless, frmMain)
     MirandoHerreria = True
     
-    j = UBound(HerreroMejorar)
+    J = UBound(HerreroMejorar)
     
     For i = 1 To Count
         With ArmadurasHerrero(i)
             If .Upgrade Then
                 For k = 1 To Count
                     If .Upgrade = ArmadurasHerrero(k).objindex Then
-                        j = j + 1
+                        J = J + 1
                 
-                        ReDim Preserve HerreroMejorar(j) As tItemsConstruibles
+                        ReDim Preserve HerreroMejorar(J) As tItemsConstruibles
                         
-                        HerreroMejorar(j).name = .name
-                        HerreroMejorar(j).GrhIndex = .GrhIndex
-                        HerreroMejorar(j).objindex = .objindex
-                        HerreroMejorar(j).UpgradeName = ArmadurasHerrero(k).name
-                        HerreroMejorar(j).UpgradeGrhIndex = ArmadurasHerrero(k).GrhIndex
-                        HerreroMejorar(j).LinH = ArmadurasHerrero(k).LinH - .LinH * 0.85
-                        HerreroMejorar(j).LinP = ArmadurasHerrero(k).LinP - .LinP * 0.85
-                        HerreroMejorar(j).LinO = ArmadurasHerrero(k).LinO - .LinO * 0.85
+                        HerreroMejorar(J).name = .name
+                        HerreroMejorar(J).GrhIndex = .GrhIndex
+                        HerreroMejorar(J).objindex = .objindex
+                        HerreroMejorar(J).UpgradeName = ArmadurasHerrero(k).name
+                        HerreroMejorar(J).UpgradeGrhIndex = ArmadurasHerrero(k).GrhIndex
+                        HerreroMejorar(J).LinH = ArmadurasHerrero(k).LinH - .LinH * 0.85
+                        HerreroMejorar(J).LinP = ArmadurasHerrero(k).LinP - .LinP * 0.85
+                        HerreroMejorar(J).LinO = ArmadurasHerrero(k).LinO - .LinO * 0.85
                         
                         Exit For
                     End If
@@ -3693,7 +3693,7 @@ On Error GoTo errhandler
     
     Dim Count As Integer
     Dim i As Long
-    Dim j As Long
+    Dim J As Long
     Dim k As Long
     
     Count = buffer.ReadInteger()
@@ -3739,17 +3739,17 @@ On Error GoTo errhandler
             If .Upgrade Then
                 For k = 1 To Count
                     If .Upgrade = ObjCarpintero(k).objindex Then
-                        j = j + 1
+                        J = J + 1
                 
-                        ReDim Preserve CarpinteroMejorar(j) As tItemsConstruibles
+                        ReDim Preserve CarpinteroMejorar(J) As tItemsConstruibles
                         
-                        CarpinteroMejorar(j).name = .name
-                        CarpinteroMejorar(j).GrhIndex = .GrhIndex
-                        CarpinteroMejorar(j).objindex = .objindex
-                        CarpinteroMejorar(j).UpgradeName = ObjCarpintero(k).name
-                        CarpinteroMejorar(j).UpgradeGrhIndex = ObjCarpintero(k).GrhIndex
-                        CarpinteroMejorar(j).Madera = ObjCarpintero(k).Madera - .Madera * 0.85
-                        CarpinteroMejorar(j).MaderaElfica = ObjCarpintero(k).MaderaElfica - .MaderaElfica * 0.85
+                        CarpinteroMejorar(J).name = .name
+                        CarpinteroMejorar(J).GrhIndex = .GrhIndex
+                        CarpinteroMejorar(J).objindex = .objindex
+                        CarpinteroMejorar(J).UpgradeName = ObjCarpintero(k).name
+                        CarpinteroMejorar(J).UpgradeGrhIndex = ObjCarpintero(k).GrhIndex
+                        CarpinteroMejorar(J).Madera = ObjCarpintero(k).Madera - .Madera * 0.85
+                        CarpinteroMejorar(J).MaderaElfica = ObjCarpintero(k).MaderaElfica - .MaderaElfica * 0.85
                         
                         Exit For
                     End If
@@ -3793,7 +3793,7 @@ On Error GoTo errhandler
     Dim CountObjs As Integer
     Dim CountCrafteo As Integer
     Dim i As Long
-    Dim j As Long
+    Dim J As Long
     Dim k As Long
 
     frmArtesano.ArtesaniaCosto = buffer.ReadLong()
@@ -3811,12 +3811,12 @@ On Error GoTo errhandler
             CountCrafteo = buffer.ReadByte()
             ReDim .ItemsCrafteo(CountCrafteo) As tItemCrafteo
             
-            For j = 1 To CountCrafteo
-                .ItemsCrafteo(j).name = buffer.ReadASCIIString()
-                .ItemsCrafteo(j).GrhIndex = buffer.ReadLong()
-                .ItemsCrafteo(j).objindex = buffer.ReadInteger()
-                .ItemsCrafteo(j).Amount = buffer.ReadInteger()
-            Next j
+            For J = 1 To CountCrafteo
+                .ItemsCrafteo(J).name = buffer.ReadASCIIString()
+                .ItemsCrafteo(J).GrhIndex = buffer.ReadLong()
+                .ItemsCrafteo(J).objindex = buffer.ReadInteger()
+                .ItemsCrafteo(J).Amount = buffer.ReadInteger()
+            Next J
         End With
     Next i
 
@@ -10345,6 +10345,12 @@ Private Sub SendData(ByRef sdData As String)
     'No enviamos nada si no estamos conectados
     If Not frmMain.Client.State = sckConnected Then Exit Sub
     
+    Dim data() As Byte
+
+    data = StrConv(sdData, vbFromUnicode)
+    Security.NAC_E_Byte data, Security.Redundance
+    sdData = StrConv(data, vbUnicode)
+    
     'Send data!
     Call frmMain.Client.SendData(sdData)
 End Sub
@@ -10721,6 +10727,7 @@ Private Sub HandleAccountLogged()
     'Remove packet ID
     Call buffer.ReadByte
     
+    Security.Redundance = buffer.ReadByte
     AccountName = buffer.ReadASCIIString
     NumberOfCharacters = buffer.ReadByte
 

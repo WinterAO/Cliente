@@ -110,6 +110,7 @@ Class=clsBufferMan; CODIGO\Audio\clsBufferMan.cls
 Module=mDx8_Clima; CODIGO\Motor\mDx8_Clima.bas
 Module=mDx8_Ambiente; CODIGO\Motor\mDx8_Ambiente.bas
 Form=CODIGO\Formularios\frmAmbientEditor.frm
+Class=clsSecurity; CODIGO\Red\clsSecurityt.cls
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""
