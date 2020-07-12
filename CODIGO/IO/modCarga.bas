@@ -33,7 +33,6 @@ End Enum
 Public Type tSetupMods
 
     ' VIDEO
-    Aceleracion As Byte
     byMemory    As Integer
     ProyectileEngine As Boolean
     PartyMembers As Boolean
@@ -254,7 +253,6 @@ Public Sub LeerConfiguracion()
     
     With ClientSetup
         ' VIDEO
-        .Aceleracion = Lector.GetValue("VIDEO", "RenderMode")
         .byMemory = Lector.GetValue("VIDEO", "DynamicMemory")
         .bNoRes = CBool(Lector.GetValue("VIDEO", "DisableResolutionChange"))
         .ProyectileEngine = CBool(Lector.GetValue("VIDEO", "ProjectileEngine"))
@@ -290,7 +288,6 @@ Public Sub LeerConfiguracion()
         .MostrarBindKeysSelection = CBool(Lector.GetValue("OTHER", "MOSTRAR_BIND_KEYS_SELECTION"))
         .BloqueoMovimiento = CBool(Lector.GetValue("OTHER", "BLOQUEOMOV"))
         
-        Debug.Print "Modo de Renderizado: " & IIf(.Aceleracion = 1, "Mixto (Hardware + Software)", "Hardware")
         Debug.Print "byMemory: " & .byMemory
         Debug.Print "bNoRes: " & .bNoRes
         Debug.Print "ProyectileEngine: " & .ProyectileEngine
@@ -332,7 +329,6 @@ Public Sub GuardarConfiguracion()
     With ClientSetup
         
         ' VIDEO
-        Call Lector.ChangeValue("VIDEO", "RenderMode", .Aceleracion)
         Call Lector.ChangeValue("VIDEO", "DynamicMemory", .byMemory)
         Call Lector.ChangeValue("VIDEO", "DisableResolutionChange", IIf(.bNoRes, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ProyectileEngine, "True", "False"))
@@ -817,7 +813,7 @@ Public Sub CargarHechizos()
 '********************************
 On Error GoTo errorH
 
-    Dim j As Long
+    Dim J As Long
     
     Set FileManager = New clsIniManager
     Call FileManager.Initialize(Carga.Path(Script) & "Hechizos.dat")
@@ -826,29 +822,29 @@ On Error GoTo errorH
  
     ReDim Hechizos(1 To NumHechizos) As tHechizos
     
-    For j = 1 To NumHechizos
+    For J = 1 To NumHechizos
         
-        With Hechizos(j)
-            .Desc = FileManager.GetValue("HECHIZO" & j, "Desc")
-            .PalabrasMagicas = FileManager.GetValue("HECHIZO" & j, "PalabrasMagicas")
-            .Nombre = FileManager.GetValue("HECHIZO" & j, "Nombre")
-            .SkillRequerido = Val(FileManager.GetValue("HECHIZO" & j, "MinSkill"))
+        With Hechizos(J)
+            .Desc = FileManager.GetValue("HECHIZO" & J, "Desc")
+            .PalabrasMagicas = FileManager.GetValue("HECHIZO" & J, "PalabrasMagicas")
+            .Nombre = FileManager.GetValue("HECHIZO" & J, "Nombre")
+            .SkillRequerido = Val(FileManager.GetValue("HECHIZO" & J, "MinSkill"))
          
-            If j <> 38 And j <> 39 Then
+            If J <> 38 And J <> 39 Then
                 
-                .EnergiaRequerida = Val(FileManager.GetValue("HECHIZO" & j, "StaRequerido"))
+                .EnergiaRequerida = Val(FileManager.GetValue("HECHIZO" & J, "StaRequerido"))
                  
-                .HechiceroMsg = FileManager.GetValue("HECHIZO" & j, "HechizeroMsg")
-                .ManaRequerida = Val(FileManager.GetValue("HECHIZO" & j, "ManaRequerido"))
+                .HechiceroMsg = FileManager.GetValue("HECHIZO" & J, "HechizeroMsg")
+                .ManaRequerida = Val(FileManager.GetValue("HECHIZO" & J, "ManaRequerido"))
              
-                .PropioMsg = FileManager.GetValue("HECHIZO" & j, "PropioMsg")
-                .TargetMsg = FileManager.GetValue("HECHIZO" & j, "TargetMsg")
+                .PropioMsg = FileManager.GetValue("HECHIZO" & J, "PropioMsg")
+                .TargetMsg = FileManager.GetValue("HECHIZO" & J, "TargetMsg")
                 
             End If
             
         End With
         
-    Next j
+    Next J
     
     Set FileManager = Nothing
     
@@ -861,7 +857,7 @@ errorH:
         Select Case Err.number
             
             Case 9
-                Call MsgBox("Error cargando el archivo Hechizos.dat (Hechizo " & j & "). Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , "Winter AO Resurrection")
+                Call MsgBox("Error cargando el archivo Hechizos.dat (Hechizo " & J & "). Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , "Winter AO Resurrection")
                 Call LogError(Err.number, Err.Description, "CargarHechizos")
             
             Case 53
@@ -897,7 +893,7 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
     Dim TEs()        As tDatosTE
 
     Dim i            As Long
-    Dim j            As Long
+    Dim J            As Long
 
     Dim LaCabecera   As tCabecera
 
@@ -1040,15 +1036,15 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
 
     Close fh
 
-    For j = MapSize.YMin To MapSize.YMax
+    For J = MapSize.YMin To MapSize.YMax
         For i = MapSize.XMin To MapSize.XMax
 
-            If L1(i, j) > 0 Then
-                Call InitGrh(MapData(i, j).Graphic(1), L1(i, j))
+            If L1(i, J) > 0 Then
+                Call InitGrh(MapData(i, J).Graphic(1), L1(i, J))
             End If
 
         Next i
-    Next j
+    Next J
     
     '*******************************
     'INFORMACION DEL MAPA
