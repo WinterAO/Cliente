@@ -705,15 +705,11 @@ Private Sub LoadInitialConfig()
                             JsonLanguage.item("INICIA_MOTOR_GRAFICO").item("COLOR").item(3), _
                             True, False, True, rtfCenter)
     
-    '     Iniciamos el Engine de DirectX 8
-    If Not Engine_DirectX8_Init Then
-        Call CloseClient
-    End If
+    'Iniciamos el Engine de DirectX 8
+    Call mDx8_Engine.Engine_DirectX8_Init
           
-    '     Tile Engine
-    If Not InitTileEngine(frmMain.hWnd, 32, 32, 8, 8) Then
-        Call CloseClient
-    End If
+    'Tile Engine
+    Call InitTileEngine(frmMain.hWnd, 32, 32, 8, 8)
     
     Call mDx8_Engine.Engine_DirectX8_Aditional_Init
 

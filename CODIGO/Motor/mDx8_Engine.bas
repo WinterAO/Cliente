@@ -61,8 +61,9 @@ End Type
 
 Private EndTime As Long
 
-Public Function Engine_DirectX8_Init() As Boolean
- 
+Public Sub Engine_DirectX8_Init()
+    On Error GoTo EngineHandler:
+
     ' Initialize all DirectX objects.
     Set DirectX = New DirectX8
     Set DirectD3D = DirectX.Direct3DCreate
@@ -80,7 +81,7 @@ Public Function Engine_DirectX8_Init() As Boolean
             End If
         End If
     End If
-    
+
     'Seteamos la matriz de proyeccion.
     Call D3DXMatrixOrthoOffCenterLH(Projection, 0, ScreenWidth, ScreenHeight, 0, -1#, 1#)
     Call D3DXMatrixIdentity(View)
@@ -97,23 +98,18 @@ Public Function Engine_DirectX8_Init() As Boolean
     Set SpriteBatch = New clsBatch
     Call SpriteBatch.Initialise(2000)
     
+    'Inicializamos el resto de sistemas.
+    Call Engine_DirectX8_Aditional_Init
+    
     EndTime = timeGetTime
-
-    If Err Then
-        MsgBox JsonLanguage.item("ERROR_DIRECTX_INIT").item("TEXTO")
-        Engine_DirectX8_Init = False
-        Exit Function
-    End If
     
-    If DirectDevice Is Nothing Then
-        MsgBox JsonLanguage.item("ERROR_DIRECTDEVICE_INIT").item("TEXTO")
-        Engine_DirectX8_Init = False
-        Exit Function
-    End If
+    Exit Sub
+EngineHandler:
     
-    Engine_DirectX8_Init = True
+    Call LogError(Err.number, Err.Description, "mDx8_Engine.Engine_DirectX8")
     
-End Function
+    Call CloseClient
+End Sub
 
 Private Function Engine_Init_DirectDevice(D3DCREATEFLAGS As CONST_D3DCREATEFLAGS) As Boolean
 
@@ -240,9 +236,6 @@ Public Sub Engine_DirectX8_Aditional_Init()
 
     FPS = 101
     FramesPerSecCounter = 101
-    
-    ColorTecho = 250
-    colorRender = 240
 
     TileBufferSize = Areas.TilesBuffer
     
@@ -254,22 +247,31 @@ Public Sub Engine_DirectX8_Aditional_Init()
         .Bottom = frmMain.MainViewPic.ScaleHeight
         .Right = frmMain.MainViewPic.ScaleWidth
     End With
-    
-    ' Seteamos algunos colores por adelantado y unica vez.
-    Call Engine_Long_To_RGB_List(Normal_RGBList(), -1)
-    Call Engine_Long_To_RGB_List(Color_Shadow(), D3DColorARGB(50, 0, 0, 0))
-    Color_Paralisis = D3DColorARGB(180, 230, 230, 250)
-    Color_Invisibilidad = D3DColorARGB(180, 236, 136, 66)
-    Color_Montura = D3DColorARGB(180, 15, 230, 40)
-    
-    ' Inicializamos otros sistemas.
+
+    'Inicializamos y cargamos los graficos de las Fonts.
     Call mDx8_Text.Engine_Init_FontTextures
-    Call mDx8_Text.Engine_Init_FontSettings
-    Call mDx8_Clima.Init_MeteoEngine
-    Call mDx8_Dibujado.Damage_Initialize
     
-    ' Inicializa DIB surface, un buffer usado para dejar imagenes estaticas en PictureBox
-    Call PrepareDrawBuffer
+    If Not prgRun Then
+    
+        ColorTecho = 250
+        colorRender = 240
+        
+        ' Seteamos algunos colores por adelantado y unica vez.
+        Call Engine_Long_To_RGB_List(Normal_RGBList(), -1)
+        Call Engine_Long_To_RGB_List(Color_Shadow(), D3DColorARGB(50, 0, 0, 0))
+        Color_Paralisis = D3DColorARGB(180, 230, 230, 250)
+        Color_Invisibilidad = D3DColorARGB(180, 236, 136, 66)
+        Color_Montura = D3DColorARGB(180, 15, 230, 40)
+        
+        ' Inicializamos otros sistemas.
+        Call mDx8_Text.Engine_Init_FontSettings
+        Call mDx8_Clima.Init_MeteoEngine
+        Call mDx8_Dibujado.Damage_Initialize
+        
+        ' Inicializa DIB surface, un buffer usado para dejar imagenes estaticas en PictureBox
+        Call PrepareDrawBuffer
+        
+    End If
     
 End Sub
 
@@ -563,15 +565,30 @@ Public Sub Engine_EndScene(ByRef DestRect As RECT, Optional ByVal hWndDest As Lo
 'Last Modification: 29/12/10
 'Blisse-AO | DD EndScene & Present
 '***************************************************
-    
+On Error GoTo DeviceHandler:
+
     Call SpriteBatch.Flush
     
     Call DirectDevice.EndScene
         
     If hWndDest = 0 Then
         Call DirectDevice.Present(DestRect, ByVal 0&, ByVal 0&, ByVal 0&)
+    
     Else
         Call DirectDevice.Present(DestRect, ByVal 0, hWndDest, ByVal 0)
+    
+    End If
+    
+    Exit Sub
+    
+DeviceHandler:
+
+    If DirectDevice.TestCooperativeLevel = D3DERR_DEVICENOTRESET Then
+
+        Call mDx8_Engine.Engine_DirectX8_Init
+
+        Call LoadGraphics
+
     End If
     
 End Sub

@@ -226,6 +226,8 @@ Sub RenderConnect()
 'Fecha: 15/05/2020
 'Renderiza el screen del conectar
 '******************************
+On Error GoTo ErrorHandler:
+
     Dim X As Long
     Dim Y As Long
     
@@ -304,6 +306,17 @@ Sub RenderConnect()
     timerTicksPerFrame = timerElapsedTime * Engine_BaseSpeed
         
     Call Engine_EndScene(RE, frmConnect.Renderer.hWnd)
+    
+ErrorHandler:
+
+    If DirectDevice.TestCooperativeLevel = D3DERR_DEVICENOTRESET Then
+        
+        Call mDx8_Engine.Engine_DirectX8_Init
+        
+        Call LoadGraphics
+    
+    End If
+  
 End Sub
 
 Private Sub RenderConnectGUI()

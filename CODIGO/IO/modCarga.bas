@@ -312,6 +312,8 @@ Public Sub LeerConfiguracion()
         
     End With
   
+  Exit Sub
+  
 fileErr:
 
     If Err.number <> 0 Then
