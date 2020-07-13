@@ -32,6 +32,9 @@ Attribute VB_Name = "Mod_Declaraciones"
 
 Option Explicit
 
+'Caption de los Forms del proyecto
+Public Form_Caption As String
+
 'Indicadores de equipo
 Public lblWeapon As String
 Public lblArmor As String
@@ -897,7 +900,7 @@ Public prgRun As Boolean 'When true the program ends
 '******Mouse Cursor*********
 'Esto es para poder usar iconos de mouse .ani
 'https://www.gs-zone.org/temas/cursor-ani.45555/#post-375757
-Public Declare Function SetClassLong Lib "user32" Alias "SetClassLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
+Public Declare Function SetClassLong Lib "user32" Alias "SetClassLongA" (ByVal hwnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
  
 Public Const GLC_HCURSOR = (-12)
 Public hSwapCursor As Long
@@ -917,7 +920,7 @@ Public Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
 
 'Para ejecutar el browser y programas externos
 Public Const SW_SHOWNORMAL As Long = 1
-Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
 'CopyMemory Kernel Function
 Public Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (hpvDest As Any, hpvSource As Any, ByVal cbCopy As Long)

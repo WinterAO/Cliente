@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "Richtx32.ocx"
 Begin VB.Form frmCargando 
    AutoRedraw      =   -1  'True
    BackColor       =   &H80000000&
@@ -31,6 +31,7 @@ Begin VB.Form frmCargando
       _ExtentY        =   4207
       _Version        =   393217
       BackColor       =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       Appearance      =   0
@@ -105,6 +106,8 @@ Private Sub Form_Load()
 
     'Solo hay 9 imagenes de cargando, cambiar 14 por el numero maximo si se quiere cambiar
     LOGO.Picture = LoadPicture(Carga.Path(Interfaces) & "ImagenCargando" & RandomNumber(1, 14) & ".jpg")
+    ' Seteamos el caption
+    Me.Caption = Form_Caption
 End Sub
 
 Private Sub LOGO_KeyPress(KeyAscii As Integer)

@@ -1071,7 +1071,7 @@ Private Sub imgGuardar_Click()
     
     For i = 1 To CustomKeys.KeyCount
         If LenB(Text1(i).Text) = 0 Then
-            Call MsgBox(JsonLanguage.item("CUSTOMKEYS_TECLA_INVALIDA").item("TEXTO"), vbCritical Or vbOKOnly Or vbApplicationModal Or vbDefaultButton1, "Winter AO Resurrection")
+            Call MsgBox(JsonLanguage.item("CUSTOMKEYS_TECLA_INVALIDA").item("TEXTO"), vbCritical Or vbOKOnly Or vbApplicationModal Or vbDefaultButton1, Form_Caption)
             Exit Sub
         End If
     Next i

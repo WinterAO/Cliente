@@ -2,7 +2,6 @@ VERSION 5.00
 Begin VB.Form frmConnect 
    BackColor       =   &H00E0E0E0&
    BorderStyle     =   0  'None
-   Caption         =   "WinterAO Resurrection"
    ClientHeight    =   11520
    ClientLeft      =   0
    ClientTop       =   0
@@ -118,11 +117,11 @@ Begin VB.Form frmConnect
          Top             =   7440
          Visible         =   0   'False
          Width           =   345
-         _extentx        =   609
-         _extenty        =   609
-         chck            =   0   'False
-         enab            =   -1  'True
-         picc            =   "frmConnect.frx":000C
+         _ExtentX        =   609
+         _ExtentY        =   609
+         CHCK            =   0   'False
+         ENAB            =   -1  'True
+         PICC            =   "frmConnect.frx":000C
       End
    End
 End
@@ -172,4 +171,9 @@ End Sub
 
 Private Sub txtPasswd_KeyPress(KeyAscii As Integer)
   '  If KeyAscii = vbKeyReturn Then btnConectarse_Click
+End Sub
+
+Private Sub Form_Load()
+    ' Seteamos el caption
+    Me.Caption = Form_Caption
 End Sub

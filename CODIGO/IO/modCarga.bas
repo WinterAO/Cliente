@@ -386,29 +386,29 @@ On Error GoTo ErrorHandler:
     Dim Grh As Long
     Dim Frame As Long
     Dim grhCount As Long
-    Dim Handle As Integer
+    Dim handle As Integer
     Dim fileVersion As Long
     Dim LaCabecera As tCabecera
     
     'Open files
-    Handle = FreeFile()
-    Open IniPath & "Graficos.ind" For Binary Access Read As Handle
+    handle = FreeFile()
+    Open IniPath & "Graficos.ind" For Binary Access Read As handle
     
-        Get Handle, , LaCabecera
+        Get handle, , LaCabecera
     
-        Get Handle, , fileVersion
+        Get handle, , fileVersion
         
-        Get Handle, , grhCount
+        Get handle, , grhCount
         
         ReDim GrhData(0 To grhCount) As GrhData
         
-        While Not EOF(Handle)
-            Get Handle, , Grh
+        While Not EOF(handle)
+            Get handle, , Grh
             
             With GrhData(Grh)
             
                 '.active = True
-                Get Handle, , .NumFrames
+                Get handle, , .NumFrames
                 If .NumFrames <= 0 Then GoTo ErrorHandler
                 
                 ReDim .Frames(1 To .NumFrames)
@@ -416,11 +416,11 @@ On Error GoTo ErrorHandler:
                 If .NumFrames > 1 Then
                 
                     For Frame = 1 To .NumFrames
-                        Get Handle, , .Frames(Frame)
+                        Get handle, , .Frames(Frame)
                         If .Frames(Frame) <= 0 Or .Frames(Frame) > grhCount Then GoTo ErrorHandler
                     Next Frame
                     
-                    Get Handle, , .speed
+                    Get handle, , .speed
                     If .speed <= 0 Then GoTo ErrorHandler
                     
                     .pixelHeight = GrhData(.Frames(1)).pixelHeight
@@ -437,19 +437,19 @@ On Error GoTo ErrorHandler:
                     
                 Else
                     
-                    Get Handle, , .FileNum
+                    Get handle, , .FileNum
                     If .FileNum <= 0 Then GoTo ErrorHandler
                     
-                    Get Handle, , .pixelWidth
+                    Get handle, , .pixelWidth
                     If .pixelWidth <= 0 Then GoTo ErrorHandler
                     
-                    Get Handle, , .pixelHeight
+                    Get handle, , .pixelHeight
                     If .pixelHeight <= 0 Then GoTo ErrorHandler
                     
-                    Get Handle, , GrhData(Grh).sX
+                    Get handle, , GrhData(Grh).sX
                     If .sX < 0 Then GoTo ErrorHandler
                     
-                    Get Handle, , .sY
+                    Get handle, , .sY
                     If .sY < 0 Then GoTo ErrorHandler
                     
                     .TileWidth = .pixelWidth / TilePixelHeight
@@ -463,7 +463,7 @@ On Error GoTo ErrorHandler:
             
         Wend
     
-    Close Handle
+    Close handle
     
 Exit Sub
 
@@ -472,7 +472,7 @@ ErrorHandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Graficos.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Graficos.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -510,7 +510,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Head.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Head.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -549,7 +549,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Helmet.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Helmet.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -600,7 +600,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Personajes.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Personajes.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -639,7 +639,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Fxs.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Fxs.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -663,7 +663,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo" & "tips_" & Language & ".json no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo" & "tips_" & Language & ".json no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -710,7 +710,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Armas.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Armas.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -751,7 +751,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo colores.dat no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo colores.dat no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -799,7 +799,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Escudos.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Escudos.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -815,7 +815,7 @@ Public Sub CargarHechizos()
 '********************************
 On Error GoTo errorH
 
-    Dim J As Long
+    Dim j As Long
     
     Set FileManager = New clsIniManager
     Call FileManager.Initialize(Carga.Path(Script) & "Hechizos.dat")
@@ -824,29 +824,29 @@ On Error GoTo errorH
  
     ReDim Hechizos(1 To NumHechizos) As tHechizos
     
-    For J = 1 To NumHechizos
+    For j = 1 To NumHechizos
         
-        With Hechizos(J)
-            .Desc = FileManager.GetValue("HECHIZO" & J, "Desc")
-            .PalabrasMagicas = FileManager.GetValue("HECHIZO" & J, "PalabrasMagicas")
-            .Nombre = FileManager.GetValue("HECHIZO" & J, "Nombre")
-            .SkillRequerido = Val(FileManager.GetValue("HECHIZO" & J, "MinSkill"))
+        With Hechizos(j)
+            .Desc = FileManager.GetValue("HECHIZO" & j, "Desc")
+            .PalabrasMagicas = FileManager.GetValue("HECHIZO" & j, "PalabrasMagicas")
+            .Nombre = FileManager.GetValue("HECHIZO" & j, "Nombre")
+            .SkillRequerido = Val(FileManager.GetValue("HECHIZO" & j, "MinSkill"))
          
-            If J <> 38 And J <> 39 Then
+            If j <> 38 And j <> 39 Then
                 
-                .EnergiaRequerida = Val(FileManager.GetValue("HECHIZO" & J, "StaRequerido"))
+                .EnergiaRequerida = Val(FileManager.GetValue("HECHIZO" & j, "StaRequerido"))
                  
-                .HechiceroMsg = FileManager.GetValue("HECHIZO" & J, "HechizeroMsg")
-                .ManaRequerida = Val(FileManager.GetValue("HECHIZO" & J, "ManaRequerido"))
+                .HechiceroMsg = FileManager.GetValue("HECHIZO" & j, "HechizeroMsg")
+                .ManaRequerida = Val(FileManager.GetValue("HECHIZO" & j, "ManaRequerido"))
              
-                .PropioMsg = FileManager.GetValue("HECHIZO" & J, "PropioMsg")
-                .TargetMsg = FileManager.GetValue("HECHIZO" & J, "TargetMsg")
+                .PropioMsg = FileManager.GetValue("HECHIZO" & j, "PropioMsg")
+                .TargetMsg = FileManager.GetValue("HECHIZO" & j, "TargetMsg")
                 
             End If
             
         End With
         
-    Next J
+    Next j
     
     Set FileManager = Nothing
     
@@ -859,11 +859,11 @@ errorH:
         Select Case Err.number
             
             Case 9
-                Call MsgBox("Error cargando el archivo Hechizos.dat (Hechizo " & J & "). Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , "Winter AO Resurrection")
+                Call MsgBox("Error cargando el archivo Hechizos.dat (Hechizo " & j & "). Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , Form_Caption)
                 Call LogError(Err.number, Err.Description, "CargarHechizos")
             
             Case 53
-                Call MsgBox("El archivo Hechizos.dat no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+                Call MsgBox("El archivo Hechizos.dat no existe. Por favor, reinstale el juego.", , Form_Caption)
         
         End Select
         
@@ -895,7 +895,7 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
     Dim TEs()        As tDatosTE
 
     Dim i            As Long
-    Dim J            As Long
+    Dim j            As Long
 
     Dim LaCabecera   As tCabecera
 
@@ -1038,15 +1038,15 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
 
     Close fh
 
-    For J = MapSize.YMin To MapSize.YMax
+    For j = MapSize.YMin To MapSize.YMax
         For i = MapSize.XMin To MapSize.XMax
 
-            If L1(i, J) > 0 Then
-                Call InitGrh(MapData(i, J).Graphic(1), L1(i, J))
+            If L1(i, j) > 0 Then
+                Call InitGrh(MapData(i, j).Graphic(1), L1(i, j))
             End If
 
         Next i
-    Next J
+    Next j
     
     '*******************************
     'INFORMACION DEL MAPA
@@ -1104,11 +1104,11 @@ errorH:
         Select Case Err.number
             
             Case 9
-                Call MsgBox("Error cargando el archivo de Mapas. Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , "Winter AO Resurrection")
+                Call MsgBox("Error cargando el archivo de Mapas. Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , Form_Caption)
                 Call LogError(Err.number, Err.Description, "CargarHechizos")
             
             Case 53
-                Call MsgBox("El archivo de configuracion de Mapas no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+                Call MsgBox("El archivo de configuracion de Mapas no existe. Por favor, reinstale el juego.", , Form_Caption)
         
         End Select
         

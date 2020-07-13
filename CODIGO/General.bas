@@ -41,6 +41,17 @@ Private m_FileName         As String
 
 Private keysMovementPressedQueue As clsArrayList
 
+'Remove Title Bar
+Public Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long) As Long
+Public Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Private Const GWL_STYLE = (-16)
+Private Const WS_CAPTION = &HC00000
+Private Const SWP_FRAMECHANGED = &H20
+Private Const SWP_NOMOVE = &H2
+Private Const SWP_NOZORDER = &H4
+Private Const SWP_NOSIZE = &H1
+
 Public Function RandomNumber(ByVal LowerBound As Long, ByVal UpperBound As Long) As Long
     'Initialize randomizer
     Randomize Timer
@@ -504,11 +515,12 @@ Sub Main()
     Call LeerLineaComandos
     
     'usaremos esto para ayudar en los parches
-    Call SaveSetting("ArgentumOnlineCliente", "Init", "Path", App.Path & "\")
+    Call SaveSetting("WinterAOCliente", "Init", "Path", App.Path & "\")
     
     ChDrive App.Path
     ChDir App.Path
     Windows_Temp_Dir = General_Get_Temp_Dir
+    Form_Caption = "WinterAO Resurrection v" & App.Major & "." & App.Minor & "." & App.Revision
     
     'Set resolution BEFORE the loading form is displayed, therefore it will be centered.
     Call Resolution.SetResolution(1024, 768)
@@ -604,9 +616,9 @@ Private Sub LoadInitialConfig()
     'Si es 0 cargamos el por defecto
     If ClientSetup.MouseGeneral > 0 Then
         CursorAniDir = Carga.Path(Graficos) & "MouseIcons\General" & ClientSetup.MouseGeneral & ".ani"
-        hSwapCursor = SetClassLong(frmMain.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
-        hSwapCursor = SetClassLong(frmMain.MainViewPic.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
-        hSwapCursor = SetClassLong(frmMain.hlst.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
+        hSwapCursor = SetClassLong(frmMain.hwnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
+        hSwapCursor = SetClassLong(frmMain.MainViewPic.hwnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
+        hSwapCursor = SetClassLong(frmMain.hlst.hwnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
     End If
    
     frmCargando.Show
@@ -652,7 +664,7 @@ Private Sub LoadInitialConfig()
                             True, False, True, rtfCenter)
                             
     'Inicializamos el sonido
-    If Sound.Initialize_Engine(frmMain.hWnd, Path(ePath.recursos), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
+    If Sound.Initialize_Engine(frmMain.hwnd, Path(ePath.recursos), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
         'frmCargando.picLoad.Width = 300
     Else
         MsgBox "¡No se ha logrado iniciar el engine de DirectSound! Reinstale los últimos controladores de DirectX. No habrá soporte de audio en el juego.", vbCritical, "Advertencia"
@@ -709,7 +721,7 @@ Private Sub LoadInitialConfig()
     Call mDx8_Engine.Engine_DirectX8_Init
           
     'Tile Engine
-    Call InitTileEngine(frmMain.hWnd, 32, 32, 8, 8)
+    Call InitTileEngine(frmMain.hwnd, 32, 32, 8, 8)
     
     Call mDx8_Engine.Engine_DirectX8_Aditional_Init
 
@@ -1466,3 +1478,16 @@ Public Function General_Distance_Get(ByVal x1 As Integer, ByVal y1 As Integer, B
     General_Distance_Get = Abs(x1 - x2) + Abs(y1 - y2)
 
 End Function
+
+Public Sub Form_RemoveTitleBar(f As Form)
+    Dim Style As Long
+    ' Get window's current style bits.
+    Style = GetWindowLong(f.hwnd, GWL_STYLE)
+    ' Set the style bit for the title off.
+    Style = Style And Not WS_CAPTION
+
+    ' Send the new style to the window.
+    SetWindowLong f.hwnd, GWL_STYLE, Style
+    ' Repaint the window.
+    'SetWindowPos f.hwnd, 0, 0, 0, 0, 0, SWP_FRAMECHANGED Or SWP_NOMOVE Or SWP_NOZORDER Or SWP_NOSIZE
+End Sub

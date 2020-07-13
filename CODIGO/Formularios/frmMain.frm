@@ -1,8 +1,6 @@
 VERSION 5.00
 Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "Richtx32.ocx"
 Begin VB.Form frmMain 
-   Appearance      =   0  'Flat
-   BackColor       =   &H80000005&
    BorderStyle     =   0  'None
    ClientHeight    =   11520
    ClientLeft      =   360
@@ -22,11 +20,12 @@ Begin VB.Form frmMain
       Italic          =   0   'False
       Strikethrough   =   0   'False
    EndProperty
-   FontTransparent =   0   'False
    ForeColor       =   &H00004080&
    Icon            =   "frmMain.frx":0000
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
+   MaxButton       =   0   'False
+   MinButton       =   0   'False
    PaletteMode     =   1  'UseZOrder
    Picture         =   "frmMain.frx":1A041
    ScaleHeight     =   768
@@ -174,6 +173,7 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -943,7 +943,7 @@ Private Const USER_GOLD_COLOR As Long = vbYellow
 
 Private Declare Function SetWindowLong _
                 Lib "user32" _
-                Alias "SetWindowLongA" (ByVal hWnd As Long, _
+                Alias "SetWindowLongA" (ByVal hwnd As Long, _
                                         ByVal nIndex As Long, _
                                         ByVal dwNewLong As Long) As Long
 
@@ -975,7 +975,7 @@ Call Sound.Sound_Play(SND_CLICK)
             btnSolapa(2).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
             
             ' Activo controles de inventario
-            picInv.Visible = True
+            PicInv.Visible = True
         
             ' Desactivo controles de hechizo y amigos
             hlst.Visible = False
@@ -1009,7 +1009,7 @@ Call Sound.Sound_Play(SND_CLICK)
             cmdMoverHechi(1).Visible = True
             
             ' Desactivo controles de inventario y amigos
-            picInv.Visible = False
+            PicInv.Visible = False
             
             ListAmigos.Visible = False
             AgregarAmigo.Visible = False
@@ -1026,7 +1026,7 @@ Call Sound.Sound_Play(SND_CLICK)
             BorrarAmigo.Visible = True
             
             ' Desactivo controles de inventario y hechizos
-            picInv.Visible = False
+            PicInv.Visible = False
             
             hlst.Visible = False
             btnInfo.Visible = False
@@ -1069,10 +1069,15 @@ Private Sub Form_Load()
         
     Call LoadButtons
     
-    With Me
-        'Lo hardcodeo porque de lo contrario se ve un borde blanco.
-        .Height = 11550
-    End With
+    ' Seteamos el caption
+    Me.Caption = Form_Caption
+    
+    ' Removemos la barra de titulo pero conservando el caption para la barra de tareas
+    Call Form_RemoveTitleBar(Me)
+
+    ' Reseteamos el tamanio de la ventana para que no queden bordes blancos
+    Me.Width = 15360
+    Me.Height = 11520
 
     Call LoadTextsForm
     'Call LoadAOCustomControlsPictures(Me)
@@ -1080,10 +1085,10 @@ Private Sub Form_Load()
     'y poder borrar los frx de este archivo
         
     ' Detect links in console
-    Call EnableURLDetect(RecTxt.hWnd, Me.hWnd)
+    Call EnableURLDetect(RecTxt.hwnd, Me.hwnd)
     
     ' Make the console transparent
-    Call SetWindowLong(RecTxt.hWnd, -20, &H20&)
+    Call SetWindowLong(RecTxt.hwnd, -20, &H20&)
     
     CtrlMaskOn = False
     
@@ -1516,8 +1521,8 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         SendTxt.Visible = False
         
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
         ElseIf hlst.Visible Then
             hlst.SetFocus
         Else
@@ -1960,8 +1965,8 @@ Private Sub RecTxt_Change()
            (Not frmCantidad.Visible) And _
            (Not MirandoParty) Then
 
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
                         
         ElseIf hlst.Visible Then
             hlst.SetFocus
@@ -1974,8 +1979,8 @@ End Sub
 
 Private Sub RecTxt_KeyDown(KeyCode As Integer, Shift As Integer)
 
-    If picInv.Visible Then
-        picInv.SetFocus
+    If PicInv.Visible Then
+        PicInv.SetFocus
     Else
         hlst.SetFocus
     End If
@@ -2181,13 +2186,13 @@ End Sub
 
 Private Sub Client_DataArrival(ByVal bytesTotal As Long)
     Dim RD     As String
-    Dim data() As Byte
+    Dim Data() As Byte
     
     Client.GetData RD, vbByte, bytesTotal
-    data = StrConv(RD, vbFromUnicode)
+    Data = StrConv(RD, vbFromUnicode)
     
     'Set data in the buffer
-    Call incomingData.WriteBlock(data)
+    Call incomingData.WriteBlock(Data)
     
     'Send buffer to Handle data
     Call HandleIncomingData
