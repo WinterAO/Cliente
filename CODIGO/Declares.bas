@@ -367,7 +367,8 @@ Public Enum PlayerType
     RoyalCouncil = &H80
 End Enum
 
-Public Enum eObjType
+Public Enum eOBJType
+
     otUseOnce = 1
     otWeapon = 2
     otArmadura = 3
@@ -383,8 +384,8 @@ Public Enum eObjType
     otBebidas = 13
     otLena = 14
     otFogata = 15
-    otescudo = 16
-    otcasco = 17
+    otEscudo = 16
+    otCasco = 17
     otAnillo = 18
     otTeleport = 19
     otMuebles = 20
@@ -403,10 +404,12 @@ Public Enum eObjType
     otBotellaVacia = 33
     otBotellaLlena = 34
     otManuales = 35
-    otArbolElfico = 36
+    otPasajes = 36
     otMochilas = 37
     otYacimientoPez = 38
+    otPiedraHogar = 39
     otCualquiera = 1000
+
 End Enum
 
 Public MaxInventorySlots As Byte
