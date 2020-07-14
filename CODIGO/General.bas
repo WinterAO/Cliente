@@ -42,9 +42,9 @@ Private m_FileName         As String
 Private keysMovementPressedQueue As clsArrayList
 
 'Remove Title Bar
-Public Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long) As Long
-Public Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
-Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long) As Long
+Public Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 Private Const GWL_STYLE = (-16)
 Private Const WS_CAPTION = &HC00000
 Private Const SWP_FRAMECHANGED = &H20
@@ -314,9 +314,6 @@ Private Sub CheckKeys()
     If MirandoForo Then Exit Sub
     'If game is paused, abort movement.
     If pausa Then Exit Sub
-    
-    'TODO: Deberia informarle por consola?
-    If Traveling Then Exit Sub
 
     'Si esta chateando, no mover el pj, tanto para chat de clanes y normal
     If frmMain.SendTxt.Visible And ClientSetup.BloqueoMovimiento Then Exit Sub
@@ -616,9 +613,9 @@ Private Sub LoadInitialConfig()
     'Si es 0 cargamos el por defecto
     If ClientSetup.MouseGeneral > 0 Then
         CursorAniDir = Carga.Path(Graficos) & "MouseIcons\General" & ClientSetup.MouseGeneral & ".ani"
-        hSwapCursor = SetClassLong(frmMain.hwnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
-        hSwapCursor = SetClassLong(frmMain.MainViewPic.hwnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
-        hSwapCursor = SetClassLong(frmMain.hlst.hwnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
+        hSwapCursor = SetClassLong(frmMain.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
+        hSwapCursor = SetClassLong(frmMain.MainViewPic.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
+        hSwapCursor = SetClassLong(frmMain.hlst.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
     End If
    
     frmCargando.Show
@@ -626,12 +623,7 @@ Private Sub LoadInitialConfig()
     
     '#######
     ' CLASES
-    Call AddtoRichTextBox(frmCargando.status, _
-                            JsonLanguage.item("INICIA_CLASES").item("TEXTO"), _
-                            JsonLanguage.item("INICIA_CLASES").item("COLOR").item(1), _
-                            JsonLanguage.item("INICIA_CLASES").item("COLOR").item(2), _
-                            JsonLanguage.item("INICIA_CLASES").item("COLOR").item(3), _
-                            True, False, True, rtfCenter)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_CLASES").item("TEXTO"), 10)
                             
     Set Dialogos = New clsDialogs
     Set Sound = New clsSoundEngine
@@ -647,24 +639,14 @@ Private Sub LoadInitialConfig()
     Set keysMovementPressedQueue = New clsArrayList
     Call keysMovementPressedQueue.Initialize(1, 4)
 
-    Call AddtoRichTextBox(frmCargando.status, _
-                            "   " & JsonLanguage.item("HECHO").item("TEXTO"), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(1), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(2), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(3), _
-                            True, False, False, rtfLeft)
-    
+    Call frmCargando.ActualizarCarga(frmCargando.Caption = JsonLanguage.item("HECHO").item("TEXTO"), 20)
+
     '#############
     ' DIRECT SOUND
-    Call AddtoRichTextBox(frmCargando.status, _
-                            JsonLanguage.item("INICIA_SONIDO").item("TEXTO"), _
-                            JsonLanguage.item("INICIA_SONIDO").item("COLOR").item(1), _
-                            JsonLanguage.item("INICIA_SONIDO").item("COLOR").item(2), _
-                            JsonLanguage.item("INICIA_SONIDO").item("COLOR").item(3), _
-                            True, False, True, rtfCenter)
-                            
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_SONIDO").item("TEXTO"), 30)
+    
     'Inicializamos el sonido
-    If Sound.Initialize_Engine(frmMain.hwnd, Path(ePath.recursos), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
+    If Sound.Initialize_Engine(frmMain.hWnd, Path(ePath.recursos), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
         'frmCargando.picLoad.Width = 300
     Else
         MsgBox "¡No se ha logrado iniciar el engine de DirectSound! Reinstale los últimos controladores de DirectX. No habrá soporte de audio en el juego.", vbCritical, "Advertencia"
@@ -677,22 +659,12 @@ Private Sub LoadInitialConfig()
         Sound.Sound_Render
     End If
 
-    Call AddtoRichTextBox(frmCargando.status, _
-                            "   " & JsonLanguage.item("HECHO").item("TEXTO"), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(1), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(2), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(3), _
-                            True, False, False, rtfLeft)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 40)
     
     '###########
     ' CONSTANTES
-    Call AddtoRichTextBox(frmCargando.status, _
-                            JsonLanguage.item("INICIA_CONSTANTES").item("TEXTO"), _
-                            JsonLanguage.item("INICIA_CONSTANTES").item("COLOR").item(1), _
-                            JsonLanguage.item("INICIA_CONSTANTES").item("COLOR").item(2), _
-                            JsonLanguage.item("INICIA_CONSTANTES").item("COLOR").item(3), _
-                            True, False, True, rtfCenter)
-                            
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_CONSTANTES").item("TEXTO"), 50)
+    
     Call InicializarNombres
     
     ' Initialize FONTTYPES
@@ -700,71 +672,39 @@ Private Sub LoadInitialConfig()
  
     UserMap = 1
     
-    Call AddtoRichTextBox(frmCargando.status, _
-                            "   " & JsonLanguage.item("HECHO").item("TEXTO"), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(1), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(2), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(3), _
-                            True, False, False, rtfLeft)
-    
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 60)
 
     '##############
     ' MOTOR GRAFICO
-    Call AddtoRichTextBox(frmCargando.status, _
-                            JsonLanguage.item("INICIA_MOTOR_GRAFICO").item("TEXTO"), _
-                            JsonLanguage.item("INICIA_MOTOR_GRAFICO").item("COLOR").item(1), _
-                            JsonLanguage.item("INICIA_MOTOR_GRAFICO").item("COLOR").item(2), _
-                            JsonLanguage.item("INICIA_MOTOR_GRAFICO").item("COLOR").item(3), _
-                            True, False, True, rtfCenter)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_MOTOR_GRAFICO").item("TEXTO"), 70)
     
     'Iniciamos el Engine de DirectX 8
     Call mDx8_Engine.Engine_DirectX8_Init
           
     'Tile Engine
-    Call InitTileEngine(frmMain.hwnd, 32, 32, 8, 8)
+    Call InitTileEngine(frmMain.hWnd, 32, 32, 8, 8)
     
     Call mDx8_Engine.Engine_DirectX8_Aditional_Init
 
-    Call AddtoRichTextBox(frmCargando.status, _
-                            "   " & JsonLanguage.item("HECHO").item("TEXTO"), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(1), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(2), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(3), _
-                            True, False, False, rtfLeft)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 80)
     
     '###################
     ' ANIMACIONES EXTRAS
-    Call AddtoRichTextBox(frmCargando.status, _
-                            JsonLanguage.item("INICIA_FXS").item("TEXTO"), _
-                            JsonLanguage.item("INICIA_FXS").item("COLOR").item(1), _
-                            JsonLanguage.item("INICIA_FXS").item("COLOR").item(2), _
-                            JsonLanguage.item("INICIA_FXS").item("COLOR").item(3), _
-                            True, False, True, rtfCenter)
-                            
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_FXS").item("TEXTO"), 90)
+    
     Call CargarTips
     Call CargarAnimArmas
     Call CargarAnimEscudos
     Call CargarColores
     Call CargarPasos
     
-    Call AddtoRichTextBox(frmCargando.status, _
-                            "   " & JsonLanguage.item("HECHO").item("TEXTO"), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(1), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(2), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(3), _
-                            True, False, False, rtfLeft)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 95)
     
     'Inicializamos el inventario grafico
     Call Inventario.Initialize(DirectD3D8, frmMain.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     'Set cKeys = New Collection
-    Call AddtoRichTextBox(frmCargando.status, _
-                            JsonLanguage.item("BIENVENIDO").item("TEXTO"), _
-                            JsonLanguage.item("BIENVENIDO").item("COLOR").item(1), _
-                            JsonLanguage.item("BIENVENIDO").item("COLOR").item(2), _
-                            JsonLanguage.item("BIENVENIDO").item("COLOR").item(3), _
-                            True, False, True, rtfCenter)
-                            
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("BIENVENIDO").item("TEXTO"), 100)
 
     Unload frmCargando
     
@@ -1214,7 +1154,6 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     UserCiego = False
     UserDescansar = False
     UserParalizado = False
-    Traveling = False
     UserNavegando = False
     UserEvento = False
     bFogata = False
@@ -1479,15 +1418,15 @@ Public Function General_Distance_Get(ByVal x1 As Integer, ByVal y1 As Integer, B
 
 End Function
 
-Public Sub Form_RemoveTitleBar(f As Form)
+Public Sub Form_RemoveTitleBar(F As Form)
     Dim Style As Long
     ' Get window's current style bits.
-    Style = GetWindowLong(f.hwnd, GWL_STYLE)
+    Style = GetWindowLong(F.hWnd, GWL_STYLE)
     ' Set the style bit for the title off.
     Style = Style And Not WS_CAPTION
 
     ' Send the new style to the window.
-    SetWindowLong f.hwnd, GWL_STYLE, Style
+    SetWindowLong F.hWnd, GWL_STYLE, Style
     ' Repaint the window.
     'SetWindowPos f.hwnd, 0, 0, 0, 0, 0, SWP_FRAMECHANGED Or SWP_NOMOVE Or SWP_NOZORDER Or SWP_NOSIZE
 End Sub

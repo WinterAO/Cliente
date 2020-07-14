@@ -403,14 +403,6 @@
             255
         ]
     },
-    "MENSAJE_HOGAR_CANCEL": {
-        "TEXTO": "El viaje a tu hogar ha sido cancelado.",
-        "COLOR": [
-            255,
-            0,
-            0
-        ]
-    },
     "MENSAJE_USER_MUERTO": {
         "TEXTO": [
             "Estas Muerto!!!",
@@ -432,14 +424,6 @@
     },
     "MENSAJE_DAMAGE_NPC": {
         "TEXTO": "Le has quitado VAR_DANO puntos de vida a la criatura!!",
-        "COLOR": [
-            255,
-            0,
-            0
-        ]
-    },
-    "MENSAJE_ESTAS_A_MAPAS_DE_DURACION_VIAJE": {
-        "TEXTO": "Te encuentras a VAR_DISTANCIA_MAPAS mapas de VAR_MAPA_DESTINO, este viaje durara ",
         "COLOR": [
             255,
             0,
@@ -918,7 +902,7 @@
         "TEXTO": "Tu version no es la actual, Deseas ejecutar el actualizador?."
     },
     "OTRO_CLIENTE_ABIERTO": {
-        "TEXTO": "Argentum Online ya esta ejecutandose! No es posible ejecutar otra instancia del juego. Haga click en Aceptar para salir."
+        "TEXTO": "WinterAO ya esta ejecutandose! No es posible ejecutar otra instancia del juego. Haga click en Aceptar para salir."
     },
     "BUSCA_SERVIDORES": {
         "TEXTO": "Buscando servidores...",
@@ -969,7 +953,7 @@
         ]
     },
     "BIENVENIDO": {
-        "TEXTO": "Bienvenido a Argentum Online!",
+        "TEXTO": "Bienvenido a WinterAO!",
         "COLOR": [
             255,
             255,
@@ -1037,7 +1021,7 @@
         "TEXTO": "Es sumamente importante que ingreses una direccion de correo electronico valida, ya que en el caso de perder la password de tu personaje, se te enviara cuando lo requieras, a esa direccion."
     },
     "AYUDA_CREARPJ_NOMBREPJ": {
-        "TEXTO": "Se cuidadoso al seleccionar el nombre de tu personaje. Argentum es un juego de rol, un mundo magico y fantastico, y si seleccionas un nombre obsceno o con connotacion politica, los administradores borraran tu personaje y no habra ninguna posibilidad de recuperarlo."
+        "TEXTO": "Se cuidadoso al seleccionar el nombre de tu personaje. WinterAO es un juego de rol, un mundo magico y fantastico, y si seleccionas un nombre obsceno o con connotacion politica, los administradores borraran tu personaje y no habra ninguna posibilidad de recuperarlo."
     },
     "AYUDA_CREARPJ_ATRIBUTOS": {
         "TEXTO": "Son las cualidades que definen tu personaje. Generalmente se los llama [DADOS]. (Ver Tirar Dados)"

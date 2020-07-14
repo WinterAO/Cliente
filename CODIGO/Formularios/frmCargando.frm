@@ -1,62 +1,49 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "Richtx32.ocx"
 Begin VB.Form frmCargando 
    AutoRedraw      =   -1  'True
    BackColor       =   &H80000000&
    BorderStyle     =   0  'None
-   ClientHeight    =   7650
+   ClientHeight    =   11520
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   10020
+   ClientWidth     =   15345
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   510
+   ScaleHeight     =   768
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   668
+   ScaleWidth      =   1023
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
-   Begin RichTextLib.RichTextBox Status 
-      Height          =   2385
-      Left            =   2610
-      TabIndex        =   1
-      TabStop         =   0   'False
-      ToolTipText     =   "Mensajes del servidor"
-      Top             =   3210
-      Width           =   5190
-      _ExtentX        =   9155
-      _ExtentY        =   4207
-      _Version        =   393217
-      BackColor       =   0
-      Enabled         =   -1  'True
-      ReadOnly        =   -1  'True
-      ScrollBars      =   2
-      Appearance      =   0
-      TextRTF         =   $"frmCargando.frx":0000
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Verdana"
-         Size            =   8.25
+   Begin VB.Image imgProgress 
+      Height          =   390
+      Left            =   3480
+      Picture         =   "frmCargando.frx":0000
+      Top             =   1800
+      Width           =   8700
+   End
+   Begin VB.Label lblstatus 
+      Alignment       =   2  'Center
+      BackStyle       =   0  'Transparent
+      Caption         =   "Iniciando..."
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   9.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-   End
-   Begin VB.PictureBox LOGO 
-      BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      Height          =   7200
-      Left            =   240
-      ScaleHeight     =   480
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   640
+      ForeColor       =   &H00FFFFFF&
+      Height          =   240
+      Left            =   3360
       TabIndex        =   0
-      Top             =   240
-      Width           =   9600
+      Top             =   2880
+      Width           =   8730
    End
 End
 Attribute VB_Name = "frmCargando"
@@ -100,12 +87,17 @@ Option Explicit
 
 Public NoInternetConnection As Boolean
 
+Private porcentajeActual As Integer
+ 
+Private Const PROGRESS_DELAY = 10
+Private Const PROGRESS_DELAY_BACKWARDS = 4
+Private Const DEFAULT_PROGRESS_WIDTH = 564
+Private Const DEFAULT_STEP_FORWARD = 1
+Private Const DEFAULT_STEP_BACKWARDS = -3
+
 Private Sub Form_Load()
     Me.Analizar
     Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaCargando.jpg")
-
-    'Solo hay 9 imagenes de cargando, cambiar 14 por el numero maximo si se quiere cambiar
-    LOGO.Picture = LoadPicture(Carga.Path(Interfaces) & "ImagenCargando" & RandomNumber(1, 14) & ".jpg")
     ' Seteamos el caption
     Me.Caption = Form_Caption
 End Sub
@@ -128,3 +120,63 @@ On Error Resume Next
     End If
            
 End Function
+
+Private Sub progresoConDelay(ByVal porcentaje As Integer)
+ 
+    If porcentaje = porcentajeActual Then Exit Sub
+     
+    Dim step As Integer, stepInterval As Integer, Timer As Long, tickCount As Long
+     
+    If (porcentaje > porcentajeActual) Then
+        step = DEFAULT_STEP_FORWARD
+        stepInterval = PROGRESS_DELAY
+    Else
+        step = DEFAULT_STEP_BACKWARDS
+        stepInterval = PROGRESS_DELAY_BACKWARDS
+    End If
+     
+    Do Until compararPorcentaje(porcentaje, porcentajeActual, step)
+        Do Until (Timer + stepInterval) <= GetTickCount()
+            DoEvents
+        Loop
+        Timer = GetTickCount()
+        porcentajeActual = porcentajeActual + step
+        Call establecerProgreso(porcentajeActual)
+    Loop
+ 
+End Sub
+ 
+Private Sub establecerProgreso(ByVal nuevoPorcentaje As Integer)
+ 
+    If nuevoPorcentaje >= 0 And nuevoPorcentaje <= 100 Then
+        imgProgress.Width = DEFAULT_PROGRESS_WIDTH * CLng(nuevoPorcentaje) / 100
+    ElseIf nuevoPorcentaje > 100 Then
+        imgProgress.Width = DEFAULT_PROGRESS_WIDTH
+    Else
+        imgProgress.Width = 0
+    End If
+    porcentajeActual = nuevoPorcentaje
+ 
+End Sub
+ 
+Private Function compararPorcentaje(ByVal porcentajeTarget As Integer, ByVal porcentajeAct As Integer, ByVal step As Integer) As Boolean
+ 
+    If step = DEFAULT_STEP_FORWARD Then
+        compararPorcentaje = (porcentajeAct >= porcentajeTarget)
+    Else
+        compararPorcentaje = (porcentajeAct <= porcentajeTarget)
+    End If
+ 
+End Function
+
+Public Sub ActualizarCarga(ByVal Mensaje As String, ByVal Progreso As Byte)
+'***********************************************
+'Autor: Lorwik
+'Fecha: 13/07/2020
+'Descripcion: Actualiza el progreso de carga
+'***********************************************
+
+    lblstatus.Caption = Mensaje
+    lblstatus.Refresh
+    Call progresoConDelay(Progreso)
+End Sub
