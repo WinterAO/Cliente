@@ -325,6 +325,7 @@ Private Enum ClientPacketID
     ChatGlobal
     Lookprocess
     SendProcessList
+    AccionInventario
 End Enum
 
 Public Enum FontTypeNames
@@ -2223,7 +2224,7 @@ On Error GoTo errhandler
         
         ' Para no perder el foco cuando chatea por party
         If FontIndex = FontTypeNames.FONTTYPE_PARTY Then
-            If MirandoParty Then frmParty.SendTxt.SetFocus
+            If MirandoParty Then frmParty.Sendtxt.SetFocus
         End If
     End If
 '    Call checkText(chat)
@@ -3174,16 +3175,16 @@ On Error GoTo errhandler
     
     If Equipped Then
         Select Case OBJType
-            Case eObjType.otWeapon
+            Case eOBJType.otWeapon
                 lblWeapon = MinHit & "/" & MaxHit
                 UserWeaponEqpSlot = slot
-            Case eObjType.otArmadura
+            Case eOBJType.otArmadura
                 lblArmor = MinDef & "/" & MaxDef
                 UserArmourEqpSlot = slot
-            Case eObjType.otescudo
+            Case eOBJType.otEscudo
                 lblShielder = MinDef & "/" & MaxDef
                 UserHelmEqpSlot = slot
-            Case eObjType.otcasco
+            Case eOBJType.otCasco
                 lblHelm = MinDef & "/" & MaxDef
                 UserShieldEqpSlot = slot
         End Select
@@ -6163,7 +6164,6 @@ Public Sub WriteCreateNewGuild(ByVal Desc As String, ByVal name As String, ByVal
         Call .WriteASCIIString(temp)
     End With
 End Sub
-
 
 ''
 ' Writes the "EquipItem" message to the outgoing data buffer.
@@ -11421,4 +11421,36 @@ errhandler:
     On Error GoTo 0
     Set buffer = Nothing
     If Error <> 0 Then Call Err.Raise(Error)
+End Sub
+
+''
+' Writes the "AccionInventario" message to the outgoing data buffer.
+'
+' @param    slot Invetory slot where the item to equip is.
+' @remarks  The data is not actually sent until the buffer is properly flushed.
+
+Public Sub WriteAccionInventario(ByVal slot As Byte)
+'***************************************************
+'Author: Lorwik
+'Fecha: 14/07/2020
+'Se dio doble click sobre un item del inventario.
+'***************************************************
+
+    '¿Esta muerto?
+    If UserEstado = 1 Then
+        With FontTypes(FontTypeNames.FONTTYPE_INFO)
+            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
+        End With
+        Exit Sub
+    End If
+    
+    '¿Esta comerciando?
+    If Comerciando Then Exit Sub
+    
+    With outgoingData
+        Call .WriteByte(ClientPacketID.AccionInventario)
+        
+        Call .WriteByte(slot)
+    End With
+    
 End Sub
