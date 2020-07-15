@@ -956,15 +956,27 @@ Private Sub btnCrear()
 '**************************************
 
     Dim i As Integer
+    Dim Count As Byte
     
     'Nombre de usuario
-    UserName = frmConnect.txtCrearPJNombre.Text
+    UserName = LTrim(frmConnect.txtCrearPJNombre.Text)
             
     '¿El nombre esta vacio y es correcto?
     If Right$(UserName, 1) = " " Then
         UserName = RTrim$(UserName)
-       Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_NOMBRE_PJ").item("TEXTO").item(2))
-
+        Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_NOMBRE_PJ").item("TEXTO").item(2))
+        Exit Sub
+    End If
+    
+    'Solo permitimos 1 espacio en los nombres
+    For i = 1 To Len(UserName)
+        
+        If mid(UserName, i, 1) = Chr(32) Then Count = Count + 1
+        
+    Next i
+    If Count > 1 Then
+        Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_NOMBRE_PJ").item("TEXTO").item(3))
+        Exit Sub
     End If
     
     'Comprobamos que todo este OK

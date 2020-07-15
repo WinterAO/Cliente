@@ -392,8 +392,8 @@ On Error GoTo ErrorHandler:
     
     'Open files
     handle = FreeFile()
-    Open IniPath & "Graficos.ind" For Binary Access Read As handle
-    
+    Open IniPath & "Graficos.ind" For Binary Access Read As #handle
+        
         Get handle, , LaCabecera
     
         Get handle, , fileVersion
@@ -402,9 +402,9 @@ On Error GoTo ErrorHandler:
         
         ReDim GrhData(0 To grhCount) As GrhData
         
-        While Not EOF(handle)
+        While Grh < grhCount
             Get handle, , Grh
-            
+
             With GrhData(Grh)
             
                 '.active = True
