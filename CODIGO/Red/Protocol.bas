@@ -2224,7 +2224,7 @@ On Error GoTo errhandler
         
         ' Para no perder el foco cuando chatea por party
         If FontIndex = FontTypeNames.FONTTYPE_PARTY Then
-            If MirandoParty Then frmParty.Sendtxt.SetFocus
+            If MirandoParty Then frmParty.SendTxt.SetFocus
         End If
     End If
 '    Call checkText(chat)
@@ -3175,16 +3175,16 @@ On Error GoTo errhandler
     
     If Equipped Then
         Select Case OBJType
-            Case eOBJType.otWeapon
+            Case eObjType.otWeapon
                 lblWeapon = MinHit & "/" & MaxHit
                 UserWeaponEqpSlot = slot
-            Case eOBJType.otArmadura
+            Case eObjType.otArmadura
                 lblArmor = MinDef & "/" & MaxDef
                 UserArmourEqpSlot = slot
-            Case eOBJType.otEscudo
+            Case eObjType.otEscudo
                 lblShielder = MinDef & "/" & MaxDef
                 UserHelmEqpSlot = slot
-            Case eOBJType.otCasco
+            Case eObjType.otCasco
                 lblHelm = MinDef & "/" & MaxDef
                 UserShieldEqpSlot = slot
         End Select
@@ -10694,12 +10694,19 @@ Private Sub HandleAccountLogged()
     'Remove packet ID
     Call buffer.ReadByte
     
+    Dim Refresh As Boolean
+    
     Security.Redundance = buffer.ReadByte
+    Refresh = buffer.ReadBoolean
     AccountName = buffer.ReadASCIIString
     NumberOfCharacters = buffer.ReadByte
 
-    'Cambiamos al modo cuenta
-    Call ModCnt.MostrarCuenta(Not frmConnect.Visible)
+    If Refresh Then
+        Call ResetAllInfoAccounts
+    Else
+        'Cambiamos al modo cuenta
+        Call ModCnt.MostrarCuenta(Not frmConnect.Visible)
+    End If
 
     If NumberOfCharacters > 0 Then
     
