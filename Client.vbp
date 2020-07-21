@@ -113,6 +113,7 @@ Form=CODIGO\Formularios\frmAmbientEditor.frm
 Class=clsSecurity; CODIGO\Red\clsSecurityt.cls
 Module=mVPrcs; CODIGO\Aplicacion\mVPrcs.bas
 Form=CODIGO\Formularios\frmShowProcess.frm
+Form=CODIGO\Formularios\frmSubastar.frm
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""

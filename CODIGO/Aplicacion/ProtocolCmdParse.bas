@@ -126,6 +126,22 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
             Case "/INVOCAR"
                 Call WriteInvocar
                 
+            Case "/SUBASTA"
+                Call WriteConsultaSubasta
+           
+            Case "/OFERTAR"
+                If notNullArguments Then
+                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Long) Then
+                        Call WriteOfertarSubasta(ArgumentosAll(0))
+                    Else
+                        'No es numerico
+                        Call ShowConsoleMsg("Npc incorrecto. Utilice /Ofertar oferta.")
+                    End If
+                Else
+                    'Avisar que falta el parametro
+                    Call ShowConsoleMsg("Faltan parámetros. Utilice /Ofertar oferta.")
+                End If
+                
             Case "/FADD"
                 If notNullArguments Then
                     Call WriteAddAmigo(ArgumentosRaw, 2)
