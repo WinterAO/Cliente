@@ -123,6 +123,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
             Case "/ONLINE"
                 Call WriteOnline
                 
+            Case "/INVOCAR"
+                Call WriteInvocar
+                
             Case "/FADD"
                 If notNullArguments Then
                     Call WriteAddAmigo(ArgumentosRaw, 2)

@@ -1331,7 +1331,7 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
 
             If ClientSetup.ParticleEngine Then
 
-                Call RenderCharParticles(CharIndex, PixelOffsetX, PixelOffsetY)
+                Call RenderCharParticles(CharIndex, PixelOffsetX + 17, PixelOffsetY + 10)
 
             End If
             

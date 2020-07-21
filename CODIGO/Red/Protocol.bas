@@ -172,6 +172,7 @@ Private Enum ServerPacketID
     Proyectil
     SeeInProcess
     ShowProcess
+    CharParticle
 End Enum
 
 Private Enum ClientPacketID
@@ -326,6 +327,7 @@ Private Enum ClientPacketID
     Lookprocess
     SendProcessList
     AccionInventario
+    invocar                         '/INVOCAR
 End Enum
 
 Public Enum FontTypeNames
@@ -912,6 +914,9 @@ On Error Resume Next
             
         Case ServerPacketID.ShowProcess
             Call HandleShowProcess
+            
+        Case ServerPacketID.CharParticle
+            Call HandleCharParticle
 
         Case Else
             'ERROR : Abort!
@@ -1630,7 +1635,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -11461,4 +11466,48 @@ Public Sub WriteAccionInventario(ByVal slot As Byte)
         Call .WriteByte(slot)
     End With
     
+End Sub
+
+Public Sub WriteInvocar()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 19/07/2020
+'Writes the "Invocar" message to the outgoing data buffer
+'***************************************************
+
+    Call outgoingData.WriteByte(ClientPacketID.invocar)
+End Sub
+
+Private Sub HandleCharParticle()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 20/07/2020
+'***************************************************
+
+    If incomingData.Length < 7 Then
+        Err.Raise incomingData.NotEnoughDataErrCode
+        Exit Sub
+    End If
+    
+    Dim Create As Boolean
+    Dim ParticulaID As Integer
+    Dim char_index As Integer
+    Dim Life As Long
+
+    'Remove packet ID
+    Call incomingData.ReadByte
+    
+    ParticulaID = incomingData.ReadInteger
+    Create = incomingData.ReadBoolean
+    char_index = incomingData.ReadInteger
+    Life = incomingData.ReadLong
+    
+    'Si el create esta en true, creamos
+    If Create Then
+        Call General_Char_Particle_Create(ParticulaID, char_index, Life)
+        
+    Else 'si es False, destruimos
+    
+        Call Char_Particle_Group_Remove_All(char_index)
+    End If
 End Sub

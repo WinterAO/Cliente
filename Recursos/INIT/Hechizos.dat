@@ -1,5 +1,5 @@
 [INIT]
-NUMHECHIZOS=46
+NUMHECHIZOS=51
 [HECHIZO1]
 Desc=Con este conjuro podrás mutar los fluidos tóxicos de tu cuerpo para detener su vil accionar, contrarrestando los efectos nocivos de todo tipo de ponzoñas y venenos. Se trata de un conjuro tan simple como necesario, puesto que, además de los magos que provocan envenenamiento, son varias las criaturas que lanzan veneno en estas tierras.
 PalabrasMagicas=NIHIL VED
@@ -454,3 +454,45 @@ ManaRequerido=0
 PropioMsg=
 TargetMsg=ha invocado una mascota sobre ti.
 HechizeroMsg=Has invocado una mascota contra
+
+[HECHIZO47]
+Nombre=Flecha Ladrón Pretoriano
+Desc=Flecha Ladrón Pretoriano
+PalabrasMagicas= 
+HechizeroMsg=Has lanzado una flecha sobre 
+TargetMsg=lanzó un flechazo sobre vos.
+PropioMsg=Has lanzado un flechazo sobre ti.
+MinSkill=101
+
+[HECHIZO48]
+Nombre=Granize cel
+Desc=Fuego artificial.
+PalabrasMagicas=
+HechizeroMsg=Has lanzado un fuego artificial sobre 
+TargetMsg=te ha lanzado un fuego artificial.
+PropioMsg=Te has lanzado un fuego artificial.
+
+[HECHIZO49]
+Nombre=Fuego cel
+Desc=Fuego artificial.
+PalabrasMagicas=
+HechizeroMsg=Has lanzado un fuego artificial sobre 
+TargetMsg=te ha lanzado un fuego artificial.
+PropioMsg=Te has lanzado un fuego artificial.
+
+[HECHIZO50]
+Nombre=Fuego coliris
+Desc=Fuego artificial.
+PalabrasMagicas=
+HechizeroMsg=Has lanzado un fuego artificial sobre 
+TargetMsg=te ha lanzado un fuego artificial.
+PropioMsg=Te has lanzado un fuego artificial.
+
+[HECHIZO51]
+Nombre=Portal a Abissal
+Desc=El brujo invoca un portal hacia el vacio Abissal donde podra viajar a diferentes destinos.
+PalabrasMagicas=Statim Aperta Portal
+HechizeroMsg=Comienzas abrir un portal al Vacio Abissal.
+MinSkill=100
+ManaRequerido=1100
+StaRequerido=500
