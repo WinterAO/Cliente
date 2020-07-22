@@ -129,7 +129,7 @@ Private Property Let SetWavPath(ByVal inString As String)
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-WavPath = inString
+    WavPath = inString
 
 End Property
 
@@ -139,7 +139,8 @@ Private Property Let SetMP3Path(ByVal inString As String)
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-MP3Path = inString
+    MP3Path = inString
+    
 End Property
 
 Public Property Get Engine_Running() As Boolean
@@ -148,7 +149,7 @@ Public Property Get Engine_Running() As Boolean
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-Engine_Running = Engine_Initialized
+    Engine_Running = Engine_Initialized
 
 End Property
 
@@ -158,42 +159,42 @@ Public Function Engine_DeInitialize()
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-'Destroy all buffers
-If Not Buffers Is Nothing Then
-    Call Buffers.BorrarTodo
-    Set Buffers = Nothing
-End If
-
-If Not Buffers_Sec Is Nothing Then
-    Call Buffers_Sec.BorrarTodo
-    Set Buffers_Sec = Nothing
-End If
-
-If Not Buffers_Ter Is Nothing Then
-    Call Buffers_Ter.BorrarTodo
-    Set Buffers_Ter = Nothing
-End If
-
-Call Music_Empty
-
-Set dmSegState = Nothing
-
-If Not dmPath Is Nothing Then
-    Call dmPath.Activate(False)
-    Set dmPath = Nothing
-End If
-
-If Not dmPerf Is Nothing Then
-    dmPerf.CloseDown
-    Set dmPerf = Nothing
-End If
-
-Set dmLoader = Nothing
-Set dmSeg = Nothing
-
-Set DS_Enum = Nothing
-Set DS = Nothing
-Set dX = Nothing
+    'Destroy all buffers
+    If Not Buffers Is Nothing Then
+        Call Buffers.BorrarTodo
+        Set Buffers = Nothing
+    End If
+    
+    If Not Buffers_Sec Is Nothing Then
+        Call Buffers_Sec.BorrarTodo
+        Set Buffers_Sec = Nothing
+    End If
+    
+    If Not Buffers_Ter Is Nothing Then
+        Call Buffers_Ter.BorrarTodo
+        Set Buffers_Ter = Nothing
+    End If
+    
+    Call Music_Empty
+    
+    Set dmSegState = Nothing
+    
+    If Not dmPath Is Nothing Then
+        Call dmPath.Activate(False)
+        Set dmPath = Nothing
+    End If
+    
+    If Not dmPerf Is Nothing Then
+        dmPerf.CloseDown
+        Set dmPerf = Nothing
+    End If
+    
+    Set dmLoader = Nothing
+    Set dmSeg = Nothing
+    
+    Set DS_Enum = Nothing
+    Set DS = Nothing
+    Set dX = Nothing
 
 End Function
 
@@ -203,63 +204,63 @@ Public Function Initialize_Engine(ByVal main_hwnd As String, ByVal SoundPath As 
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-On Error GoTo errhandler
-
-Dim dmA As DMUS_AUDIOPARAMS
-
-If Initialize_Sounds Or Initialize_Music Then
-    Set dX = New DirectX8
-
-    If Initialize_Sounds Then
-        SetWavPath = SoundPath
-        Set DS_Enum = dX.GetDSEnum
-        Set DS = dX.DirectSoundCreate(DS_Enum.GetGuid(1))
+    On Error GoTo errhandler
+    
+    Dim dmA As DMUS_AUDIOPARAMS
+    
+    If Initialize_Sounds Or Initialize_Music Then
+        Set dX = New DirectX8
+    
+        If Initialize_Sounds Then
+            SetWavPath = SoundPath
+            Set DS_Enum = dX.GetDSEnum
+            Set DS = dX.DirectSoundCreate(DS_Enum.GetGuid(1))
+            
+            Set Buffers = New clsBufferMan
+            Set Buffers_Sec = New clsBufferMan
+            Set Buffers_Ter = New clsBufferMan
+            
+            Buffers.Path = SoundPath
+            Buffers_Sec.Path = SoundPath
+            Buffers_Ter.Path = SoundPath
+            
+            Call Buffers.Init(DS, 400)
+            Call Buffers_Sec.Init(DS, 200)
+            Call Buffers_Ter.Init(DS, 100)
+            
+            If Play_only_on_focus Then
+                DS.SetCooperativeLevel main_hwnd, DSSCL_NORMAL
+            Else
+                DS.SetCooperativeLevel main_hwnd, DSSCL_PRIORITY
+            End If
         
-        Set Buffers = New clsBufferMan
-        Set Buffers_Sec = New clsBufferMan
-        Set Buffers_Ter = New clsBufferMan
-        
-        Buffers.Path = SoundPath
-        Buffers_Sec.Path = SoundPath
-        Buffers_Ter.Path = SoundPath
-        
-        Call Buffers.Init(DS, 400)
-        Call Buffers_Sec.Init(DS, 200)
-        Call Buffers_Ter.Init(DS, 100)
-        
-        If Play_only_on_focus Then
-            DS.SetCooperativeLevel main_hwnd, DSSCL_NORMAL
-        Else
-            DS.SetCooperativeLevel main_hwnd, DSSCL_PRIORITY
+            VolumenActual = sound_volume
+            mInvert_Sound = invert_snd
+            
         End If
-    
-        VolumenActual = sound_volume
-        mInvert_Sound = invert_snd
         
+        Sound.VolumenActualAmbient_set ClientSetup.AmbientVol
+        
+        If Initialize_Music Then
+            SetMP3Path = SoundPath
+            VolumenActualMusicMax = music_volume
+            Set dmLoader = dX.DirectMusicLoaderCreate
+            Set dmPerf = dX.DirectMusicPerformanceCreate
+            dmPerf.InitAudio main_hwnd, DMUS_AUDIOF_ENVIRON + DMUS_AUDIOF_BUFFERS + DMUS_AUDIOF_3D + DMUS_AUDIOF_EAX + DMUS_AUDIOF_DMOS, dmA
+            dmPerf.SetMasterVolume (music_volume)
+            Set dmPath = dmPerf.CreateStandardAudioPath(DMUS_APATH_DYNAMIC_3D, 64, True)
+        End If
+        
+        Engine_Initialized = True
+        Initialize_Engine = True
+    Else
+        Engine_Initialized = False
+        Initialize_Engine = True
     End If
     
-    Sound.VolumenActualAmbient_set ClientSetup.AmbientVol
+    Call Ambient_General_Load(mEffectsVolumeAmbient)
     
-    If Initialize_Music Then
-        SetMP3Path = SoundPath
-        VolumenActualMusicMax = music_volume
-        Set dmLoader = dX.DirectMusicLoaderCreate
-        Set dmPerf = dX.DirectMusicPerformanceCreate
-        dmPerf.InitAudio main_hwnd, DMUS_AUDIOF_ENVIRON + DMUS_AUDIOF_BUFFERS + DMUS_AUDIOF_3D + DMUS_AUDIOF_EAX + DMUS_AUDIOF_DMOS, dmA
-        dmPerf.SetMasterVolume (music_volume)
-        Set dmPath = dmPerf.CreateStandardAudioPath(DMUS_APATH_DYNAMIC_3D, 64, True)
-    End If
-    
-    Engine_Initialized = True
-    Initialize_Engine = True
-Else
-    Engine_Initialized = False
-    Initialize_Engine = True
-End If
-
-Call Ambient_General_Load(mEffectsVolumeAmbient)
-
-Exit Function
+    Exit Function
 
 errhandler:
     If Len(Trim$(Err.Description)) Then
@@ -275,7 +276,8 @@ Public Property Get AmbienteActual() As Integer
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-AmbienteActual = mAmbienteActual
+    AmbienteActual = mAmbienteActual
+    
 End Property
 
 Public Property Get MusicActual() As String
@@ -284,7 +286,8 @@ Public Property Get MusicActual() As String
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-MusicActual = mMusActual
+    MusicActual = mMusActual
+    
 End Property
 
 Public Property Let MusicActual(ByVal vNewValue As String)
@@ -293,7 +296,8 @@ Public Property Let MusicActual(ByVal vNewValue As String)
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-mMusActual = vNewValue
+    mMusActual = vNewValue
+    
 End Property
 
 Public Property Let Fading(ByVal vNewValue As Long)
@@ -302,8 +306,9 @@ Public Property Let Fading(ByVal vNewValue As Long)
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-mFadingMusicMod = vNewValue
-TimeElapsed = GetTickCount
+    mFadingMusicMod = vNewValue
+    TimeElapsed = GetTickCount
+    
 End Property
 
 Public Property Get Fading() As Long
@@ -312,7 +317,8 @@ Public Property Get Fading() As Long
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-Fading = mFadingMusicMod
+    Fading = mFadingMusicMod
+    
 End Property
 
 Public Property Get VolumenActual() As Long
@@ -321,7 +327,8 @@ Public Property Get VolumenActual() As Long
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-VolumenActual = mEffectsVolumeMax
+    VolumenActual = mEffectsVolumeMax
+    
 End Property
 
 Public Property Get VolumenActualAmbient() As Long
@@ -330,11 +337,14 @@ Public Property Get VolumenActualAmbient() As Long
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-VolumenActualAmbient = mEffectsVolumeAmbient
+    VolumenActualAmbient = mEffectsVolumeAmbient
+    
 End Property
 
 Public Sub VolumenActualAmbient_set(ByVal vNewValue As Long)
+
     mEffectsVolumeAmbient = vNewValue
+    
 End Sub
 
 Public Property Let VolumenActual(ByVal vNewValue As Long)
@@ -343,20 +353,19 @@ Public Property Let VolumenActual(ByVal vNewValue As Long)
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-Dim sglVolume As Single
-
-If vNewValue > 0 Then vNewValue = 0
-If vNewValue < -4000 Then vNewValue = -4000
-
-mEffectsVolumeMax = vNewValue
-Buffers.ModificarVolumenTodo (vNewValue)
-Buffers_Sec.ModificarVolumenTodo (vNewValue)
-Buffers_Ter.ModificarVolumenTodo (vNewValue)
-
-sglVolume = ((vNewValue - 1) * 100) / -4000
+    Dim sglVolume As Single
+    
+    If vNewValue > 0 Then vNewValue = 0
+    If vNewValue < -4000 Then vNewValue = -4000
+    
+    mEffectsVolumeMax = vNewValue
+    Buffers.ModificarVolumenTodo (vNewValue)
+    Buffers_Sec.ModificarVolumenTodo (vNewValue)
+    Buffers_Ter.ModificarVolumenTodo (vNewValue)
+    
+    sglVolume = ((vNewValue - 1) * 100) / -4000
 
 End Property
-
 
 Public Property Get InvertirSonido() As Boolean
 '**************************************************************
@@ -364,7 +373,7 @@ Public Property Get InvertirSonido() As Boolean
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-InvertirSonido = mInvert_Sound
+    InvertirSonido = mInvert_Sound
 End Property
 
 Public Property Let InvertirSonido(ByVal vNewValue As Boolean)
@@ -373,7 +382,7 @@ Public Property Let InvertirSonido(ByVal vNewValue As Boolean)
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-mInvert_Sound = vNewValue
+    mInvert_Sound = vNewValue
 End Property
 
 Public Property Let VolumenActualMusicMax(ByVal vNewValue As Long)
@@ -382,10 +391,10 @@ Public Property Let VolumenActualMusicMax(ByVal vNewValue As Long)
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-If vNewValue > 0 Then vNewValue = 0
-If vNewValue < -4000 Then vNewValue = -4000
-
-mMusicVolumeMax = vNewValue
+    If vNewValue > 0 Then vNewValue = 0
+    If vNewValue < -4000 Then vNewValue = -4000
+    
+    mMusicVolumeMax = vNewValue
 
 End Property
 
@@ -395,7 +404,7 @@ Public Property Get VolumenActualMusicMax() As Long
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-VolumenActualMusicMax = mMusicVolumeMax
+    VolumenActualMusicMax = mMusicVolumeMax
 End Property
 
 Public Property Get VolumenActualMusic() As Long
@@ -404,7 +413,7 @@ Public Property Get VolumenActualMusic() As Long
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-VolumenActualMusic = mMusicVolume
+    VolumenActualMusic = mMusicVolume
 End Property
 
 Public Property Get LastMapMusic() As Integer
@@ -413,7 +422,7 @@ Public Property Get LastMapMusic() As Integer
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-LastMapMusic = mLastMapMusic
+    LastMapMusic = mLastMapMusic
 End Property
 
 Public Property Let LastMapMusic(ByVal vNewValue As Integer)
@@ -422,7 +431,7 @@ Public Property Let LastMapMusic(ByVal vNewValue As Integer)
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-mLastMapMusic = vNewValue
+    mLastMapMusic = vNewValue
 End Property
 
 Public Property Let VolumenActualMusic(ByVal vNewValue As Long)
@@ -431,7 +440,7 @@ Public Property Let VolumenActualMusic(ByVal vNewValue As Long)
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-mMusicVolume = vNewValue
+    mMusicVolume = vNewValue
 End Property
 
 Public Property Let NextMusic(ByVal vNewValue As String)
@@ -440,12 +449,12 @@ Public Property Let NextMusic(ByVal vNewValue As String)
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-If mFadingStatus <> 2 And LenB(vNewValue) > 0 Then 'Si no estamos en fade up ya...
-    mNextMusic = vNewValue
-Else
-    mNextMusic = vNewValue
-    mFadingStatus = 0
-End If
+    If mFadingStatus <> 2 And LenB(vNewValue) > 0 Then 'Si no estamos en fade up ya...
+        mNextMusic = vNewValue
+    Else
+        mNextMusic = vNewValue
+        mFadingStatus = 0
+    End If
 
 End Property
 
@@ -455,15 +464,15 @@ Public Function Sound_Stop_All() As Boolean
 'Last Modify Date: 2/08/2006
 '**************************************************************
 
-On Error GoTo Error_Handl
-
-Buffers.DetenerTodo
-Buffers_Sec.DetenerTodo
-Buffers_Ter.DetenerTodo
-
-'Ambient_Stop
-
-Sound_Stop_All = True
+    On Error GoTo Error_Handl
+    
+    Buffers.DetenerTodo
+    Buffers_Sec.DetenerTodo
+    Buffers_Ter.DetenerTodo
+    
+    'Ambient_Stop
+    
+    Sound_Stop_All = True
 
 Exit Function
     
@@ -484,9 +493,9 @@ On Error GoTo Error_Handl
     
     If Volume = 0 Then Volume = mEffectsVolumeMax
     
-    If Not Buffers.Reproducir(Sound_File, IIf(Do_Loop, DSBPLAY_LOOPING, DSBPLAY_DEFAULT), Volume, pan) Then _
-        If Not Buffers_Sec.Reproducir(Sound_File, IIf(Do_Loop, DSBPLAY_LOOPING, DSBPLAY_DEFAULT), Volume, pan) Then _
-            Call Buffers_Ter.Reproducir(Sound_File, IIf(Do_Loop, DSBPLAY_LOOPING, DSBPLAY_DEFAULT), Volume, pan)
+    If Not Buffers.Reproducir(Sound_File & ".wav", IIf(Do_Loop, DSBPLAY_LOOPING, DSBPLAY_DEFAULT), Volume, pan) Then _
+        If Not Buffers_Sec.Reproducir(Sound_File & ".wav", IIf(Do_Loop, DSBPLAY_LOOPING, DSBPLAY_DEFAULT), Volume, pan) Then _
+            Call Buffers_Ter.Reproducir(Sound_File & ".wav", IIf(Do_Loop, DSBPLAY_LOOPING, DSBPLAY_DEFAULT), Volume, pan)
     
     Sound_Play = True
     
@@ -732,7 +741,7 @@ Error_Handl:
 
 End Function
 
-Public Function Ambient_Load(ByVal file_name As Integer, Optional ByVal Volume As Long = 0)
+Public Function Ambient_Load(ByVal file_name As String, Optional ByVal Volume As Long = 0)
 '**************************************************************
 'Author: Augusto José Rando (barrin@imperiumao.com.ar)
 'Last Modify Date: 2/08/2006
@@ -742,7 +751,7 @@ Public Function Ambient_Load(ByVal file_name As Integer, Optional ByVal Volume A
 
     If (file_name <= 0) Or (ClientSetup.bAmbient = 0) Or (Engine_Initialized = False) Then Exit Function
     
-    Call Buffers.GetBuffer(file_name, ambient_buffer, Ambient)
+    Call Buffers.GetBuffer(file_name & ".amb", ambient_buffer, Ambient)
     
     If Volume < -4000 Then Volume = -4000
     ambient_buffer.SetVolume Volume
@@ -1016,7 +1025,7 @@ On Error Resume Next
 
 End Function
 
-Public Function Sound_Load(ByVal file_num As Integer) As Boolean
+Public Function Sound_Load(ByVal file_num As String) As Boolean
 '**************************************************************
 'Author: Augusto José Rando
 'Last Modify Date: 7/16/2005
@@ -1024,7 +1033,7 @@ Public Function Sound_Load(ByVal file_num As Integer) As Boolean
     
     If (ClientSetup.bSound = 0) Or (Engine_Initialized = False) Then Exit Function
     
-    If Buffers.CargarBuffer(file_num, Wav) Then
+    If Buffers.CargarBuffer(file_num & ".wav", Wav) Then
         Sound_Load = True
     End If
 
@@ -1129,7 +1138,3 @@ Private Function Ambient_Calculate() As Integer
     'End If
 
 End Function
-
-
-
-

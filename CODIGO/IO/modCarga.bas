@@ -33,17 +33,18 @@ End Enum
 Public Type tSetupMods
 
     ' VIDEO
-    Aceleracion As Byte
     byMemory    As Integer
     ProyectileEngine As Boolean
     PartyMembers As Boolean
     UsarSombras As Boolean
     UsarReflejos As Boolean
+    UsarAuras As Boolean
     ParticleEngine As Boolean
     HUD As Boolean
     LimiteFPS As Boolean
     bNoRes      As Boolean
     FPSShow      As Boolean
+    OverrideVertexProcess As Byte
     
     ' AUDIO
     bMusic    As E_SISTEMA_MUSICA
@@ -68,6 +69,7 @@ Public Type tSetupMods
     ' OTHER
     MostrarTips As Byte
     MostrarBindKeysSelection As Byte
+    BloqueoMovimiento As Boolean
     
     'MOUSE
     MouseGeneral As Byte
@@ -252,16 +254,17 @@ Public Sub LeerConfiguracion()
     
     With ClientSetup
         ' VIDEO
-        .Aceleracion = Lector.GetValue("VIDEO", "RenderMode")
         .byMemory = Lector.GetValue("VIDEO", "DynamicMemory")
         .bNoRes = CBool(Lector.GetValue("VIDEO", "DisableResolutionChange"))
         .ProyectileEngine = CBool(Lector.GetValue("VIDEO", "ProjectileEngine"))
         .PartyMembers = CBool(Lector.GetValue("VIDEO", "PartyMembers"))
         .UsarSombras = CBool(Lector.GetValue("VIDEO", "Sombras"))
         .UsarReflejos = CBool(Lector.GetValue("VIDEO", "Reflejos"))
+        .UsarAuras = CBool(Lector.GetValue("VIDEO", "Auras"))
         .ParticleEngine = CBool(Lector.GetValue("VIDEO", "ParticleEngine"))
         .LimiteFPS = CBool(Lector.GetValue("VIDEO", "LimitarFPS"))
         .HUD = CBool(Lector.GetValue("VIDEO", "HUD"))
+        .OverrideVertexProcess = CByte(Lector.GetValue("VIDEO", "VertexProcessingOverride"))
         
         ' AUDIO
         .bMusic = CByte(Lector.GetValue("AUDIO", "MUSICA"))
@@ -285,14 +288,15 @@ Public Sub LeerConfiguracion()
         ' OTHER
         .MostrarTips = CBool(Lector.GetValue("OTHER", "MOSTRAR_TIPS"))
         .MostrarBindKeysSelection = CBool(Lector.GetValue("OTHER", "MOSTRAR_BIND_KEYS_SELECTION"))
+        .BloqueoMovimiento = CBool(Lector.GetValue("OTHER", "BLOQUEOMOV"))
         
-        Debug.Print "Modo de Renderizado: " & IIf(.Aceleracion = 1, "Mixto (Hardware + Software)", "Hardware")
         Debug.Print "byMemory: " & .byMemory
         Debug.Print "bNoRes: " & .bNoRes
         Debug.Print "ProyectileEngine: " & .ProyectileEngine
         Debug.Print "PartyMembers: " & .PartyMembers
         Debug.Print "UsarSombras: " & .UsarSombras
         Debug.Print "UsarReflejos: " & .UsarReflejos
+        Debug.Print "UsarAuras: " & .UsarAuras
         Debug.Print "ParticleEngine: " & .ParticleEngine
         Debug.Print "LimitarFPS: " & .LimiteFPS
         Debug.Print "bMusic: " & .bMusic
@@ -309,6 +313,8 @@ Public Sub LeerConfiguracion()
         Debug.Print vbNullString
         
     End With
+  
+  Exit Sub
   
 fileErr:
 
@@ -327,16 +333,17 @@ Public Sub GuardarConfiguracion()
     With ClientSetup
         
         ' VIDEO
-        Call Lector.ChangeValue("VIDEO", "RenderMode", .Aceleracion)
         Call Lector.ChangeValue("VIDEO", "DynamicMemory", .byMemory)
         Call Lector.ChangeValue("VIDEO", "DisableResolutionChange", IIf(.bNoRes, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ProyectileEngine, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "PartyMembers", IIf(.PartyMembers, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "Sombras", IIf(.UsarSombras, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "Reflejos", IIf(.UsarReflejos, "True", "False"))
+        Call Lector.ChangeValue("VIDEO", "Auras", IIf(.UsarAuras, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ParticleEngine, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "LimitarFPS", IIf(.LimiteFPS, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "HUD", IIf(.HUD, "True", "False"))
+        Call Lector.ChangeValue("VIDEO", "VertexProcessingOverride", .OverrideVertexProcess)
         
         ' AUDIO
         Call Lector.ChangeValue("AUDIO", "MUSICA", .bMusic)
@@ -361,6 +368,7 @@ Public Sub GuardarConfiguracion()
         ' Lo comento por que no tiene por que setearse aqui esto.
         ' Al menos no al hacer click en el boton Salir del formulario opciones (Recox)
         ' Call Lector.ChangeValue("OTHER", "MOSTRAR_TIPS", CBool(.MostrarTips))
+        Call Lector.ChangeValue("OTHER", "BLOQUEOMOV", CBool(.BloqueoMovimiento))
     End With
     
     Call Lector.DumpFile(Carga.Path(Init) & CLIENT_FILE)
@@ -381,29 +389,29 @@ On Error GoTo ErrorHandler:
     Dim Grh As Long
     Dim Frame As Long
     Dim grhCount As Long
-    Dim Handle As Integer
+    Dim handle As Integer
     Dim fileVersion As Long
     Dim LaCabecera As tCabecera
     
     'Open files
-    Handle = FreeFile()
-    Open IniPath & "Graficos.ind" For Binary Access Read As Handle
-    
-        Get Handle, , LaCabecera
-    
-        Get Handle, , fileVersion
+    handle = FreeFile()
+    Open IniPath & "Graficos.ind" For Binary Access Read As #handle
         
-        Get Handle, , grhCount
+        Get handle, , LaCabecera
+    
+        Get handle, , fileVersion
+        
+        Get handle, , grhCount
         
         ReDim GrhData(0 To grhCount) As GrhData
         
-        While Not EOF(Handle)
-            Get Handle, , Grh
-            
+        While Grh < grhCount
+            Get handle, , Grh
+
             With GrhData(Grh)
             
                 '.active = True
-                Get Handle, , .NumFrames
+                Get handle, , .NumFrames
                 If .NumFrames <= 0 Then GoTo ErrorHandler
                 
                 ReDim .Frames(1 To .NumFrames)
@@ -411,11 +419,11 @@ On Error GoTo ErrorHandler:
                 If .NumFrames > 1 Then
                 
                     For Frame = 1 To .NumFrames
-                        Get Handle, , .Frames(Frame)
+                        Get handle, , .Frames(Frame)
                         If .Frames(Frame) <= 0 Or .Frames(Frame) > grhCount Then GoTo ErrorHandler
                     Next Frame
                     
-                    Get Handle, , .speed
+                    Get handle, , .speed
                     If .speed <= 0 Then GoTo ErrorHandler
                     
                     .pixelHeight = GrhData(.Frames(1)).pixelHeight
@@ -432,19 +440,19 @@ On Error GoTo ErrorHandler:
                     
                 Else
                     
-                    Get Handle, , .FileNum
+                    Get handle, , .FileNum
                     If .FileNum <= 0 Then GoTo ErrorHandler
                     
-                    Get Handle, , .pixelWidth
+                    Get handle, , .pixelWidth
                     If .pixelWidth <= 0 Then GoTo ErrorHandler
                     
-                    Get Handle, , .pixelHeight
+                    Get handle, , .pixelHeight
                     If .pixelHeight <= 0 Then GoTo ErrorHandler
                     
-                    Get Handle, , GrhData(Grh).sX
+                    Get handle, , GrhData(Grh).sX
                     If .sX < 0 Then GoTo ErrorHandler
                     
-                    Get Handle, , .sY
+                    Get handle, , .sY
                     If .sY < 0 Then GoTo ErrorHandler
                     
                     .TileWidth = .pixelWidth / TilePixelHeight
@@ -458,7 +466,7 @@ On Error GoTo ErrorHandler:
             
         Wend
     
-    Close Handle
+    Close handle
     
 Exit Sub
 
@@ -467,7 +475,7 @@ ErrorHandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Graficos.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Graficos.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -505,7 +513,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Head.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Head.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -544,7 +552,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Helmet.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Helmet.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -595,7 +603,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Personajes.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Personajes.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -634,7 +642,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Fxs.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Fxs.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -658,7 +666,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo" & "tips_" & Language & ".json no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo" & "tips_" & Language & ".json no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -705,7 +713,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Armas.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Armas.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -746,7 +754,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo colores.dat no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo colores.dat no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -794,7 +802,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Escudos.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Escudos.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -854,11 +862,11 @@ errorH:
         Select Case Err.number
             
             Case 9
-                Call MsgBox("Error cargando el archivo Hechizos.dat (Hechizo " & j & "). Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , "Winter AO Resurrection")
+                Call MsgBox("Error cargando el archivo Hechizos.dat (Hechizo " & j & "). Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , Form_Caption)
                 Call LogError(Err.number, Err.Description, "CargarHechizos")
             
             Case 53
-                Call MsgBox("El archivo Hechizos.dat no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+                Call MsgBox("El archivo Hechizos.dat no existe. Por favor, reinstale el juego.", , Form_Caption)
         
         End Select
         
@@ -1050,6 +1058,7 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
     mapInfo.name = MapDat.map_name
     mapInfo.Music = MapDat.music_number
     mapInfo.Ambient = MapDat.Ambient
+    mapInfo.Zona = MapDat.zone
 
     DeleteFile Dir_Map
 ErrorHandler:
@@ -1098,11 +1107,11 @@ errorH:
         Select Case Err.number
             
             Case 9
-                Call MsgBox("Error cargando el archivo de Mapas. Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , "Winter AO Resurrection")
+                Call MsgBox("Error cargando el archivo de Mapas. Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , Form_Caption)
                 Call LogError(Err.number, Err.Description, "CargarHechizos")
             
             Case 53
-                Call MsgBox("El archivo de configuracion de Mapas no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+                Call MsgBox("El archivo de configuracion de Mapas no existe. Por favor, reinstale el juego.", , Form_Caption)
         
         End Select
         

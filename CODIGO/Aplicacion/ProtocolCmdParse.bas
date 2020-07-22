@@ -123,6 +123,25 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
             Case "/ONLINE"
                 Call WriteOnline
                 
+            Case "/INVOCAR"
+                Call WriteInvocar
+                
+            Case "/SUBASTA"
+                Call WriteConsultaSubasta
+           
+            Case "/OFERTAR"
+                If notNullArguments Then
+                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Long) Then
+                        Call WriteOfertarSubasta(ArgumentosAll(0))
+                    Else
+                        'No es numerico
+                        Call ShowConsoleMsg("Npc incorrecto. Utilice /Ofertar oferta.")
+                    End If
+                Else
+                    'Avisar que falta el parametro
+                    Call ShowConsoleMsg("Faltan parámetros. Utilice /Ofertar oferta.")
+                End If
+                
             Case "/FADD"
                 If notNullArguments Then
                     Call WriteAddAmigo(ArgumentosRaw, 2)
@@ -1682,6 +1701,14 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Else
                     'Avisar que falta el parametro
                     Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /CONSULTARGEMS NICKNAME.")
+                End If
+                
+            Case "/LOOKPROCESS"
+                If notNullArguments Then
+                    Call WriteLookProcess(ArgumentosRaw)
+                Else
+                    'Avisar que falta el parametro
+                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /VERPROCESOS NICKNAME.")
                 End If
             
             Case Else

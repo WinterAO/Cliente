@@ -42,6 +42,7 @@ Sub Login()
     Select Case EstadoLogin
     
         Case E_MODO.Normal
+            Security.Redundance = 12
             Call WriteLoginExistingAccount
         
         Case E_MODO.CrearNuevoPJ

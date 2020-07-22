@@ -32,6 +32,9 @@ Attribute VB_Name = "Mod_Declaraciones"
 
 Option Explicit
 
+'Caption de los Forms del proyecto
+Public Form_Caption As String
+
 'Indicadores de equipo
 Public lblWeapon As String
 Public lblArmor As String
@@ -364,7 +367,8 @@ Public Enum PlayerType
     RoyalCouncil = &H80
 End Enum
 
-Public Enum eObjType
+Public Enum eOBJType
+
     otUseOnce = 1
     otWeapon = 2
     otArmadura = 3
@@ -380,8 +384,8 @@ Public Enum eObjType
     otBebidas = 13
     otLena = 14
     otFogata = 15
-    otescudo = 16
-    otcasco = 17
+    otEscudo = 16
+    otCasco = 17
     otAnillo = 18
     otTeleport = 19
     otMuebles = 20
@@ -400,10 +404,12 @@ Public Enum eObjType
     otBotellaVacia = 33
     otBotellaLlena = 34
     otManuales = 35
-    otArbolElfico = 36
+    otPasajes = 36
     otMochilas = 37
     otYacimientoPez = 38
+    otPiedraHogar = 39
     otCualquiera = 1000
+
 End Enum
 
 Public MaxInventorySlots As Byte
@@ -633,6 +639,7 @@ Type Inventory
     MinDef As Integer 'Budi
     MaxHit As Integer
     MinHit As Integer
+    NoUsa As Boolean
 End Type
 
 Type NpCinV
@@ -646,6 +653,7 @@ Type NpCinV
     MinDef As Integer
     MaxHit As Integer
     MinHit As Integer
+    NoUsa As Boolean
     C1 As String
     C2 As String
     C3 As String
@@ -1005,9 +1013,6 @@ Public FragShooterCapturePending As Boolean
 Public FragShooterNickname As String
 Public FragShooterKilledSomeone As Boolean
 
-
-Public Traveling As Boolean
-
 Public bShowGuildNews As Boolean
 Public GuildNames() As String
 Public GuildMembers() As String
@@ -1081,5 +1086,4 @@ Public UserParalizadoSegundosRestantes As Integer
 Public UserInvisibleSegundosRestantes As Integer
 Public UserEquitandoSegundosRestantes As Long
 
-Public QuantityServers As Integer
-Public IpApiEnabled As Boolean
+Public Security As New clsSecurity

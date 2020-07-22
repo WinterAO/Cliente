@@ -155,6 +155,12 @@ Type ShieldAnimData
     ShieldWalk(E_Heading.SOUTH To E_Heading.EAST) As Grh
 End Type
 
+Public Enum eStatusQuest
+    NoAceptada = 0
+    EnCurso = 1
+    Terminada = 2
+    NoTieneQuest = 255
+End Enum
 
 'Apariencia del personaje
 Public Type Char
@@ -172,6 +178,8 @@ Public Type Char
     Arma As WeaponAnimData
     Escudo As ShieldAnimData
     UsandoArma As Boolean
+    AuraAnim As Grh
+    AuraColor As Long
     
     fX As Grh
     FxIndex As Integer
@@ -201,8 +209,7 @@ Public Type Char
     Particle_Group() As Long
     
     NoShadow As Byte 'No emite sombra
-    Desapareciendo As Boolean
-    ColorChar As Byte
+    EstadoQuest As eStatusQuest
 End Type
 
 'Info de un objeto
@@ -241,6 +248,7 @@ Public Type mapInfo
     StartPos As WorldPos
     MapVersion As Integer
     Ambient As String
+    Zona As String
 End Type
 
 Public IniPath As String
@@ -311,6 +319,7 @@ Public mapInfo As mapInfo ' Info acerca del mapa en uso
 
 Public Normal_RGBList(3) As Long
 Public Color_Shadow(3) As Long
+Public NoUsa_RGBList(3) As Long
 Public Color_Paralisis As Long
 Public Color_Invisibilidad As Long
 Public Color_Montura As Long
@@ -696,9 +705,7 @@ Sub RenderScreen(ByVal tilex As Integer, _
                     '***********************************************
 
                     'Char layer********************************
-                    If .CharIndex <> 0 Then
-                        Call CharRender(.CharIndex, PixelOffsetXTemp, PixelOffsetYTemp)
-                    End If
+                    If .CharIndex <> 0 Then Call CharRender(.CharIndex, PixelOffsetXTemp, PixelOffsetYTemp)
                     '*************************************************
 
                     'Layer 3 *****************************************
@@ -981,13 +988,16 @@ Function HayUserAbajo(ByVal X As Integer, ByVal Y As Integer, ByVal GrhIndex As 
     End If
 End Function
 
-Public Function InitTileEngine(ByVal setDisplayFormhWnd As Long, ByVal setTilePixelHeight As Integer, ByVal setTilePixelWidth As Integer, ByVal pixelsToScrollPerFrameX As Integer, pixelsToScrollPerFrameY As Integer) As Boolean
+Public Sub InitTileEngine(ByVal setDisplayFormhWnd As Long, ByVal setTilePixelHeight As Integer, ByVal setTilePixelWidth As Integer, ByVal pixelsToScrollPerFrameX As Integer, pixelsToScrollPerFrameY As Integer)
 '***************************************************
 'Author: Aaron Perkins
 'Last Modification: 08/14/07
 'Last modified by: Juan Martin Sotuyo Dodero (Maraxus)
 'Configures the engine to start running.
 '***************************************************
+
+On Error GoTo ErrorHandler:
+
     TilePixelWidth = setTilePixelWidth
     TilePixelHeight = setTilePixelHeight
     WindowTileHeight = Round(frmMain.MainViewPic.Height / 32, 0)
@@ -1025,10 +1035,19 @@ On Error GoTo 0
     Call CargarFxs
     Call LoadGraphics
     Call CargarParticulas
-
-    InitTileEngine = True
     
-End Function
+    'Inicializamos el conectar renderizado
+    Call ModCnt.InicializarRndCNT
+
+    Exit Sub
+    
+ErrorHandler:
+
+    Call LogError(Err.number, Err.Description, "Mod_TileEngine.InitTileEngine")
+    
+    Call CloseClient
+    
+End Sub
 
 Public Sub LoadGraphics()
     Call SurfaceDB.Initialize(DirectD3D8, ClientSetup.byMemory)
@@ -1038,6 +1057,8 @@ Sub ShowNextFrame(ByVal DisplayFormTop As Integer, _
                   ByVal DisplayFormLeft As Integer, _
                   ByVal MouseViewX As Integer, _
                   ByVal MouseViewY As Integer)
+
+On Error GoTo ErrorHandler:
 
     If EngineRun Then
         
@@ -1097,6 +1118,16 @@ Sub ShowNextFrame(ByVal DisplayFormTop As Integer, _
         Call Inventario.DrawDragAndDrop
     
     End If
+    
+ErrorHandler:
+
+    If DirectDevice.TestCooperativeLevel = D3DERR_DEVICENOTRESET Then
+        
+        Call mDx8_Engine.Engine_DirectX8_Init
+        
+        Call LoadGraphics
+    
+    End If
   
 End Sub
 
@@ -1135,9 +1166,11 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
     '***************************************************
     
     Dim moved As Boolean
-    
+    Dim AuraColorFinal(0 To 3) As Long
+    Dim ColorFinal(0 To 3) As Long
+        
     With charlist(CharIndex)
-
+        
         If .Moving Then
 
             'If needed, move left and right
@@ -1225,11 +1258,7 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
         PixelOffsetX = PixelOffsetX + .MoveOffsetX
         PixelOffsetY = PixelOffsetY + .MoveOffsetY
         
-        Dim ColorFinal(0 To 3) As Long
-        Dim RenderSpell        As Boolean
-        
         If Not .muerto Then
-        
             ColorFinal(0) = MapData(.Pos.X, .Pos.Y).Engine_Light()(0)
             ColorFinal(1) = MapData(.Pos.X, .Pos.Y).Engine_Light()(1)
             ColorFinal(2) = MapData(.Pos.X, .Pos.Y).Engine_Light()(2)
@@ -1251,21 +1280,25 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
 
         End If
                 
-        Call DesvanecimientoChar(CharIndex, ColorFinal())
-                
         Movement_Speed = 0.5
                 
         If Not .invisible Then
         
             'Sombras
-            If ClientSetup.UsarSombras Then Call RenderSombras(CharIndex, PixelOffsetX, PixelOffsetY)
+            If ClientSetup.UsarSombras And .AuraAnim.GrhIndex = 0 Then Call RenderSombras(CharIndex, PixelOffsetX, PixelOffsetY)
 
             'Reflejos
             If ClientSetup.UsarReflejos Then Call RenderReflejos(CharIndex, PixelOffsetX, PixelOffsetY)
             
+            'Auras
+            If .AuraAnim.GrhIndex > 0 And ClientSetup.UsarAuras Then
+                Call Engine_Long_To_RGB_List(AuraColorFinal(), .AuraColor)
+                Call Draw_Grh(.AuraAnim, PixelOffsetX, PixelOffsetY + 35, 1, AuraColorFinal(), 1, True)
+            End If
+            
             'Draw Body
             If .Body.Walk(.Heading).GrhIndex Then
-                Call Draw_Grh(.Body.Walk(.Heading), PixelOffsetX, PixelOffsetY, 1, ColorFinal(), 1)
+                Call Draw_Grh(.Body.Walk(.Heading), PixelOffsetX, PixelOffsetY, 1, ColorFinal, 1)
             End If
                 
             'Draw name when navigating
@@ -1294,10 +1327,11 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
             If .Escudo.ShieldWalk(.Heading).GrhIndex Then
                 Call Draw_Grh(.Escudo.ShieldWalk(.Heading), PixelOffsetX, PixelOffsetY, 1, ColorFinal(), 1)
             End If
+            
 
             If ClientSetup.ParticleEngine Then
 
-                Call RenderCharParticles(CharIndex, PixelOffsetX, PixelOffsetY)
+                Call RenderCharParticles(CharIndex, PixelOffsetX + 17, PixelOffsetY + 10)
 
             End If
             
@@ -1309,6 +1343,12 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
             End If
             
         ElseIf CharIndex = UserCharIndex Or (.Clan <> vbNullString And .Clan = charlist(UserCharIndex).Clan) Then
+            
+            'Auras
+            If .AuraAnim.GrhIndex > 0 And ClientSetup.UsarAuras Then
+                Call Engine_Long_To_RGB_List(AuraColorFinal(), .AuraColor)
+                Call Draw_Grh(.AuraAnim, PixelOffsetX, PixelOffsetY + 35, 1, AuraColorFinal(), 1, True)
+            End If
             
             'Draw Transparent Body
             If .Body.Walk(.Heading).GrhIndex Then
@@ -1380,6 +1420,23 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
                 End If
             End If
         End If
+        
+        '¿Tiene quest?
+        If .EstadoQuest <> eStatusQuest.NoTieneQuest Then
+            Dim GrhQuest As Long
+            
+            Select Case .EstadoQuest
+                Case eStatusQuest.NoAceptada
+                    GrhQuest = 558
+                Case eStatusQuest.EnCurso
+                    GrhQuest = 559
+                Case eStatusQuest.Terminada
+                    GrhQuest = 2637
+            End Select
+            
+            Call Draw_GrhIndex(GrhQuest, PixelOffsetX, PixelOffsetY + OFFSET_HEAD - 23, 1, ColorFinal())
+        End If
+        
         
     End With
     
@@ -1668,7 +1725,7 @@ Sub Draw_GrhIndex(ByVal GrhIndex As Long, ByVal X As Integer, ByVal Y As Integer
         End If
         
         'Draw
-        Call Device_Textured_Render(X, Y, .pixelWidth, .pixelHeight, .sX, .sY, .FileNum, Color_List())
+        Call Device_Textured_Render(X, Y, .pixelWidth, .pixelHeight, .sX, .sY, .FileNum, Color_List(), Alpha)
     End With
     
 End Sub
@@ -1686,7 +1743,7 @@ On Error GoTo Error
     If Animate Then
         If Grh.Started = 1 Then
             Grh.FrameCounter = Grh.FrameCounter + (timerElapsedTime * GrhData(Grh.GrhIndex).NumFrames / Grh.speed) * Movement_Speed
-            
+
             If Grh.FrameCounter > GrhData(Grh.GrhIndex).NumFrames Then
                 Grh.FrameCounter = (Grh.FrameCounter Mod GrhData(Grh.GrhIndex).NumFrames) + 1
                 
@@ -1802,7 +1859,7 @@ Public Sub GrhUninitialize(Grh As Grh)
 
 End Sub
 
-Public Sub DesvanecimientoTechos()
+Private Sub DesvanecimientoTechos()
  
     If bTecho Then
         If Not Val(ColorTecho) = 50 Then ColorTecho = ColorTecho - 1
@@ -1813,25 +1870,6 @@ Public Sub DesvanecimientoTechos()
     If Not Val(ColorTecho) = 250 Then
         Call Engine_Long_To_RGB_List(temp_rgb(), D3DColorARGB(ColorTecho, ColorTecho, ColorTecho, ColorTecho))
     End If
-    
-End Sub
-
-Public Sub DesvanecimientoChar(ByVal CharIndex As Integer, ByRef ColorFinal() As Long)
- 
-    With charlist(CharIndex)
-    
-        If .Desapareciendo Then
-            If Not Val(.ColorChar) = 50 Then .ColorChar = .ColorChar - 1
-        Else
-            If Not Val(.ColorChar) = 250 Then .ColorChar = .ColorChar + 1
-        End If
-        
-        If Not Val(.ColorChar) = 250 Then
-            Call Engine_Long_To_RGB_List(ColorFinal(), D3DColorARGB(.ColorChar, .ColorChar, .ColorChar, .ColorChar))
-        End If
-        
-        If .ColorChar <= 50 Then Call Char_Erase(CharIndex)
-    End With
     
 End Sub
 

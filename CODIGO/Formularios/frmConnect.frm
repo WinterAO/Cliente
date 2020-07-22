@@ -2,7 +2,6 @@ VERSION 5.00
 Begin VB.Form frmConnect 
    BackColor       =   &H00E0E0E0&
    BorderStyle     =   0  'None
-   Caption         =   "WinterAO Resurrection"
    ClientHeight    =   11520
    ClientLeft      =   0
    ClientTop       =   0
@@ -139,9 +138,7 @@ Public MouseX              As Long
 Public MouseY              As Long
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
-    If KeyCode = 27 Then
-        Call CloseClient
-    End If
+    Call ModCnt.TeclaEvent(KeyCode)
 End Sub
 
 Private Sub Renderer_Click()
@@ -174,4 +171,9 @@ End Sub
 
 Private Sub txtPasswd_KeyPress(KeyAscii As Integer)
   '  If KeyAscii = vbKeyReturn Then btnConectarse_Click
+End Sub
+
+Private Sub Form_Load()
+    ' Seteamos el caption
+    Me.Caption = Form_Caption
 End Sub

@@ -398,7 +398,7 @@ On Local Error GoTo errhandler
         Case Map
             SourceFileExtension = ".csm"
             SourceFilePath = App.Path & "\EXTRAIDOS\Mapas\"
-            OutputFilePath = App.Path & SrcPath & "Maps" & Formato
+            OutputFilePath = App.Path & SrcPath & "Mapas" & Formato
             
         Case Interface
             SourceFileExtension = ".jpg"
@@ -690,7 +690,7 @@ On Local Error GoTo errhandler
                 SourceFilePath = App.Path & SrcPath & "Interface" & Formato
 
         Case Map
-                SourceFilePath = App.Path & SrcPath & "Maps" & Formato
+                SourceFilePath = App.Path & SrcPath & "Mapas" & Formato
 
         Case Ambient
                 SourceFilePath = App.Path & SrcPath & "Ambient" & Formato

@@ -35,6 +35,9 @@ Public PJAccSelected As Byte
 'Indica el TextBox selecionado
 Private TextSelected As Byte
 
+Private GRHFX_PJ_Selecionado As Grh
+Private Const FX_PJ_Seleccionado As Long = 13181
+
 '*********************
 'Flags
 '*********************
@@ -112,6 +115,8 @@ Public Sub InicializarRndCNT()
     
     SexoSelect(1) = JsonLanguage.item("FRM_CREARPJ_HOMBRE").item("TEXTO")
     SexoSelect(2) = JsonLanguage.item("FRM_CREARPJ_MUJER").item("TEXTO")
+    
+    Call InitGrh(GRHFX_PJ_Selecionado, FX_PJ_Seleccionado)
     
 End Sub
 
@@ -221,6 +226,8 @@ Sub RenderConnect()
 'Fecha: 15/05/2020
 'Renderiza el screen del conectar
 '******************************
+On Error GoTo ErrorHandler:
+
     Dim X As Long
     Dim Y As Long
     
@@ -235,6 +242,8 @@ Sub RenderConnect()
         .Bottom = 768
         .Right = 1024
     End With
+    
+    Movement_Speed = 1
     
     Call Engine_BeginScene
      
@@ -293,10 +302,21 @@ Sub RenderConnect()
     Call RenderConnectGUI
      
     'Get timing info
-    'timerElapsedTime = GetElapsedTime()
-    'timerTicksPerFrame = timerElapsedTime * Engine_BaseSpeed
+    timerElapsedTime = GetElapsedTime()
+    timerTicksPerFrame = timerElapsedTime * Engine_BaseSpeed
         
     Call Engine_EndScene(RE, frmConnect.Renderer.hWnd)
+    
+ErrorHandler:
+
+    If DirectDevice.TestCooperativeLevel = D3DERR_DEVICENOTRESET Then
+        
+        Call mDx8_Engine.Engine_DirectX8_Init
+        
+        Call LoadGraphics
+    
+    End If
+  
 End Sub
 
 Private Sub RenderConnectGUI()
@@ -385,6 +405,10 @@ Private Sub RenderConnectGUI()
             'Desconectar
             Call Draw_GrhIndex(31494, 20, 650, 0, Normal_RGBList(), 0, False)
             
+            'Conectando
+            If ModCnt.Conectando = False Then _
+                Call DrawText(490, 620, "Conectando...", -1, True, 2)
+
         Case 2 'Crear PJ
             'Marco
             Call Draw_GrhIndex(31481, 0, 0, 0, Normal_RGBList(), 0, False)
@@ -476,6 +500,8 @@ Private Sub RenderPJ()
     
                     If .Body <> 0 Then
             
+                        If PJAccSelected = Index Then Call Draw_Grh(GRHFX_PJ_Selecionado, PJPos(Index).X, PJPos(Index).Y + 60, 1, Normal_RGBList(), 1, True)
+                        
                         Call Draw_Grh(BodyData(.Body).Walk(1), PJPos(Index).X, PJPos(Index).Y, 1, Normal_RGBList(), 0)
             
                         If .Head <> 0 Then _
@@ -539,7 +565,7 @@ Public Sub DobleClickEvent(ByVal TX As Long, ByVal TY As Long)
     
                         If LenB(.Nombre) <> 0 Then
                             UserName = .Nombre
-                            Call WriteLoginExistingChar
+                            Call ConnectPJ
                         End If
                         
                     End If
@@ -727,6 +753,53 @@ Public Sub ClickEvent(ByVal TX As Long, ByVal TY As Long)
     
 End Sub
 
+Public Sub TeclaEvent(ByVal KeyCode As Integer)
+'**************************************
+'Autor: Lorwik
+'Fecha: 19/06/2020
+'Descripcion: Recibimos la pulsación de una tecla y ejecutamos
+'**************************************
+
+    'Si pulsamos Escape salimos
+    Select Case KeyCode
+    
+    Case 27
+    
+        Call CloseClient
+        
+    Case 13  'Si pulsamos Enter...
+    
+        'y estamos en el conectar, entramos a la cuenta
+        If Pantalla = PConnect Then
+            Call btnConectar
+            
+        ElseIf Pantalla = PCuenta Then 'y estamos en la cuenta, entramos al pj
+            If PJAccSelected <= 0 Or PJAccSelected > 10 Then
+                MsgBox "Selecciona un PJ"
+                Exit Sub
+            End If
+            
+            Call ConnectPJ
+            
+        End If
+        
+    Case 46 'Eliminar PJ si esta dentro de la cuenta
+    
+        'Si no esta dentro de cuenta...
+        If Not Pantalla = PCuenta Then Exit Sub
+        
+        '¿Tiene un PJ Seleccionado?
+        If PJAccSelected < 1 Then
+            Call MostrarMensaje(JsonLanguage.item("ERROR_PERSONAJE_NO_SELECCIONADO").item("TEXTO"))
+            Exit Sub
+        End If
+                    
+        frmBorrarPJ.Show
+        
+    End Select
+    
+End Sub
+
 '<<<<<--------------------------------------------------------------------->>>>>>
 'CONECTAR
 
@@ -834,6 +907,30 @@ On Error Resume Next
 
 End Sub
 
+Public Sub ConnectPJ()
+'**************************************
+'Autor: Lorwik
+'Fecha: 24/06/2020
+'Descripcion: Mandamos el connect PJ
+'**************************************
+
+    If Not frmMain.Client.State = sckConnected Then
+        MsgBox JsonLanguage.item("ERROR_CONN_LOST").item("TEXTO")
+        Call MostrarConnect
+        
+    Else
+        If ModCnt.Conectando Then
+            ModCnt.Conectando = False
+            Call WriteLoginExistingChar
+            
+            DoEvents
+    
+            Call FlushBuffer
+        End If
+    End If
+                
+End Sub
+
 '<<<<<--------------------------------------------------------------------->>>>>>
 'CREACION DE PJ
 
@@ -859,15 +956,27 @@ Private Sub btnCrear()
 '**************************************
 
     Dim i As Integer
+    Dim Count As Byte
     
     'Nombre de usuario
-    UserName = frmConnect.txtCrearPJNombre.Text
+    UserName = LTrim(frmConnect.txtCrearPJNombre.Text)
             
     '¿El nombre esta vacio y es correcto?
     If Right$(UserName, 1) = " " Then
         UserName = RTrim$(UserName)
-       Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_NOMBRE_PJ").item("TEXTO").item(2))
-
+        Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_NOMBRE_PJ").item("TEXTO").item(2))
+        Exit Sub
+    End If
+    
+    'Solo permitimos 1 espacio en los nombres
+    For i = 1 To Len(UserName)
+        
+        If mid(UserName, i, 1) = Chr(32) Then Count = Count + 1
+        
+    Next i
+    If Count > 1 Then
+        Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_NOMBRE_PJ").item("TEXTO").item(3))
+        Exit Sub
     End If
     
     'Comprobamos que todo este OK

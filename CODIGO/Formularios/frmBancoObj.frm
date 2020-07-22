@@ -9,6 +9,7 @@ Begin VB.Form frmBancoObj
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    ForeColor       =   &H8000000F&
+   KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
@@ -420,6 +421,19 @@ Public LasActionBuy As Boolean
 Public LastIndex1 As Integer
 Public LastIndex2 As Integer
 Public NoPuedeMover As Boolean
+Private Shifteando As Boolean
+
+Private Sub Form_KeyDown(KeyCode As Integer, shift As Integer)
+
+    If shift = 1 Then Shifteando = True
+    
+End Sub
+
+Private Sub Form_KeyUp(KeyCode As Integer, shift As Integer)
+
+    If shift <> 1 Then Shifteando = False
+    
+End Sub
 
 Private Sub cantidad_Change()
 
@@ -483,7 +497,7 @@ On Error Resume Next
 
 End Sub
 
-Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub Form_MouseUp(Button As Integer, shift As Integer, X As Single, Y As Single)
 On Error Resume Next
 
     InvBanco(0).DrawInventory
@@ -524,7 +538,7 @@ Private Sub LoadButtons()
     Image1(1).MouseIcon = picMouseIcon
 End Sub
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub Form_MouseMove(Button As Integer, shift As Integer, X As Single, Y As Single)
     Call LastButtonPressed.ToggleToNormal
 End Sub
 
@@ -562,6 +576,13 @@ End Sub
 Private Sub PicBancoInv_Click()
 
     If InvBanco(0).SelectedItem <> 0 Then
+
+        If Shifteando Then
+            LasActionBuy = True
+            Call WriteBankExtractItem(InvBanco(0).SelectedItem, 10000)
+            Exit Sub
+        End If
+        
         With UserBancoInventory(InvBanco(0).SelectedItem)
             Label1(0).Caption = .name
             
@@ -594,13 +615,20 @@ Private Sub PicBancoInv_Click()
 
 End Sub
 
-Private Sub PicBancoInv_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub PicBancoInv_MouseMove(Button As Integer, shift As Integer, X As Single, Y As Single)
     Call LastButtonPressed.ToggleToNormal
 End Sub
 
 Private Sub PicInv_Click()
     
     If InvBanco(1).SelectedItem <> 0 Then
+
+        If Shifteando Then
+            LasActionBuy = False
+            Call WriteBankDeposit(InvBanco(1).SelectedItem, 10000)
+            Exit Sub
+        End If
+        
         With Inventario
             Label1(0).Caption = .ItemName(InvBanco(1).SelectedItem)
             
@@ -611,7 +639,7 @@ Private Sub PicInv_Click()
                     Label1(1).Visible = True
                     Label1(2).Visible = True
                     
-                Case eObjType.otcasco, eObjType.otArmadura, eObjType.otescudo ' 3, 16, 17
+                Case eObjType.otCasco, eObjType.otArmadura, eObjType.otEscudo ' 3, 16, 17
                     Label1(1).Caption = "Max " & JsonLanguage.item("DEFENSA").item("TEXTO") & ":" & .MaxDef(InvBanco(1).SelectedItem)
                     Label1(2).Caption = "Min " & JsonLanguage.item("DEFENSA").item("TEXTO") & ":" & .MinDef(InvBanco(1).SelectedItem)
                     Label1(1).Visible = True
@@ -631,7 +659,7 @@ Private Sub PicInv_Click()
     End If
 End Sub
 
-Private Sub PicInv_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub PicInv_MouseMove(Button As Integer, shift As Integer, X As Single, Y As Single)
     Call LastButtonPressed.ToggleToNormal
 End Sub
 
