@@ -44,6 +44,7 @@ Public Type tSetupMods
     LimiteFPS As Boolean
     bNoRes      As Boolean
     FPSShow      As Boolean
+    OverrideVertexProcess As Byte
     
     ' AUDIO
     bMusic    As E_SISTEMA_MUSICA
@@ -263,6 +264,7 @@ Public Sub LeerConfiguracion()
         .ParticleEngine = CBool(Lector.GetValue("VIDEO", "ParticleEngine"))
         .LimiteFPS = CBool(Lector.GetValue("VIDEO", "LimitarFPS"))
         .HUD = CBool(Lector.GetValue("VIDEO", "HUD"))
+        .OverrideVertexProcess = CByte(Lector.GetValue("VIDEO", "VertexProcessingOverride"))
         
         ' AUDIO
         .bMusic = CByte(Lector.GetValue("AUDIO", "MUSICA"))
@@ -341,6 +343,7 @@ Public Sub GuardarConfiguracion()
         Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ParticleEngine, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "LimitarFPS", IIf(.LimiteFPS, "True", "False"))
         Call Lector.ChangeValue("VIDEO", "HUD", IIf(.HUD, "True", "False"))
+        Call Lector.ChangeValue("VIDEO", "VertexProcessingOverride", .OverrideVertexProcess)
         
         ' AUDIO
         Call Lector.ChangeValue("AUDIO", "MUSICA", .bMusic)

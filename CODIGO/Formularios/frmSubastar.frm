@@ -178,7 +178,6 @@ Private Sub cmdSubastar_Click()
         Exit Sub
     End If
     
-    
     '   Si no tiene nada no se puede subastar
     If List1.Text = "Nada" Then
         Call MostrarMensaje("Debes seleccionar un ítem para poder iniciar una subasta")
@@ -237,7 +236,7 @@ Private Sub list1_Click()
         Picture1.Cls
     Else
         lblName.Caption = Inventario.ItemName(Val(List1.ListIndex + 1))
-        lblInfo.Caption = "Valor Inicial: " & FormatNumber(Inventario.Valor(Val(List1.ListIndex + 1)), 0) & vbCrLf & _
+        lblInfo.Caption = "Valor Inicial: " & FormatNumber(Inventario.valor(Val(List1.ListIndex + 1)), 0) & vbCrLf & _
                                 "Cantidad Disponible: " & Inventario.Amount(Val(List1.ListIndex + 1)) & vbCrLf & _
                                 "MinHit/MaxHit: " & Inventario.MinHit(Val(List1.ListIndex + 1)) & "/" & Inventario.MaxHit(Val(List1.ListIndex + 1)) & vbCrLf & _
                                 "MinDef/MaxDef: " & Inventario.MinDef(Val(List1.ListIndex + 1)) & "/" & Inventario.MaxDef(Val(List1.ListIndex + 1))

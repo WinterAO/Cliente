@@ -69,15 +69,41 @@ Public Sub Engine_DirectX8_Init()
     Set DirectD3D = DirectX.Direct3DCreate
     Set DirectD3D8 = New D3DX8
     
-    'Detectamos el modo de renderizado mas compatible con tu PC.
-    If Not Engine_Init_DirectDevice(D3DCREATE_MIXED_VERTEXPROCESSING) Then
-        If Not Engine_Init_DirectDevice(D3DCREATE_HARDWARE_VERTEXPROCESSING) Then
-            If Not Engine_Init_DirectDevice(D3DCREATE_SOFTWARE_VERTEXPROCESSING) Then
+    If ClientSetup.OverrideVertexProcess > 0 Then
+        
+        Select Case ClientSetup.OverrideVertexProcess
             
-                Call MsgBox(JsonLanguage.item("ERROR_DIRECTX_INIT").item("TEXTO"))
+            Case 1:
+                If Not Engine_Init_DirectDevice(D3DCREATE_HARDWARE_VERTEXPROCESSING) Then
+                    Call MsgBox(JsonLanguage.item("ERROR_DIRECTX_INIT").item("TEXTO"))
+                    End
+                End If
+            
+            
+            Case 2:
+                If Not Engine_Init_DirectDevice(D3DCREATE_MIXED_VERTEXPROCESSING) Then
+                    Call MsgBox(JsonLanguage.item("ERROR_DIRECTX_INIT").item("TEXTO"))
+                    End
+                End If
+
+            
+            Case 3:
+                If Not Engine_Init_DirectDevice(D3DCREATE_SOFTWARE_VERTEXPROCESSING) Then
+                    Call MsgBox(JsonLanguage.item("ERROR_DIRECTX_INIT").item("TEXTO"))
+                    End
+                End If
+        End Select
+        
+    Else
+        'Detectamos el modo de renderizado mas compatible con tu PC.
+        If Not Engine_Init_DirectDevice(D3DCREATE_HARDWARE_VERTEXPROCESSING) Then
+            If Not Engine_Init_DirectDevice(D3DCREATE_MIXED_VERTEXPROCESSING) Then
+                If Not Engine_Init_DirectDevice(D3DCREATE_SOFTWARE_VERTEXPROCESSING) Then
+            
+                    Call MsgBox(JsonLanguage.item("ERROR_DIRECTX_INIT").item("TEXTO"))
+                    End
                 
-                End
-                
+                End If
             End If
         End If
     End If
@@ -106,7 +132,7 @@ Public Sub Engine_DirectX8_Init()
     Exit Sub
 EngineHandler:
     
-    Call LogError(Err.number, Err.Description, "mDx8_Engine.Engine_DirectX8")
+    Call LogError(Err.number, Err.Description, "mDx8_Engine.Engine_DirectX8_Init")
     
     Call CloseClient
 End Sub
@@ -178,7 +204,7 @@ ErrorDevice:
     
 End Function
 
-Public Sub Engine_Init_RenderStates()
+Private Sub Engine_Init_RenderStates()
 
     'Set the render states
     With DirectDevice
