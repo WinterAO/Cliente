@@ -1037,6 +1037,7 @@ On Error GoTo 0
     Call CargarParticulas
     
     'Inicializamos el conectar renderizado
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_GUI").item("TEXTO"), 75)
     Call ModCnt.InicializarRndCNT
 
     Exit Sub
