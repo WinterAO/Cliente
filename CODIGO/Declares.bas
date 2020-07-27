@@ -367,7 +367,7 @@ Public Enum PlayerType
     RoyalCouncil = &H80
 End Enum
 
-Public Enum eOBJType
+Public Enum eObjType
 
     otUseOnce = 1
     otWeapon = 2
@@ -1081,9 +1081,5 @@ Public JsonTips As Object
 Public Const STAT_MAXELV As Byte = 50
 Public IntervaloParalizado As Integer
 Public IntervaloInvisible As Integer
-
-Public UserParalizadoSegundosRestantes As Integer
-Public UserInvisibleSegundosRestantes As Integer
-Public UserEquitandoSegundosRestantes As Long
 
 Public Security As New clsSecurity

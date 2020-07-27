@@ -877,20 +877,6 @@ Sub RenderHUD()
         Call DibujarCartel
         If DialogosClanes.Activo Then Call DialogosClanes.Draw ' GSZAO
 
-        '*********Tiempo restante para que termine el invi o el paralizar*********
-        If UserParalizado And UserParalizadoSegundosRestantes > 0 Then
-            Call DrawText(1, 25, UserParalizadoSegundosRestantes & " segundos restantes de Paralisis", Color_Paralisis)
-        End If
-
-        If UserInvisible And UserInvisibleSegundosRestantes > 0 Then
-            Call DrawText(1, 13, UserInvisibleSegundosRestantes & " segundos restantes de Invisibilidad", Color_Invisibilidad)
-        End If
-        
-        If Not UserEquitando And UserEquitandoSegundosRestantes > 0 Then
-            Call DrawText(1, 37, UserEquitandoSegundosRestantes & " segundos restantes para volver a montarte", Color_Montura)
-        End If
-        '*************************************************************************
-
         ' Calculamos los FPS y los mostramos
         Call Engine_Update_FPS
         If ClientSetup.FPSShow = True Then Call DrawText(680, 5, "FPS: " & Mod_TileEngine.FPS, -1, True)
