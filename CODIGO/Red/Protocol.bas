@@ -2827,7 +2827,7 @@ Private Sub HandleObjectDelete()
     
     Dim X   As Byte
     Dim Y   As Byte
-    Dim obj As Integer
+    Dim obj As Long
 
     X = incomingData.ReadByte()
     Y = incomingData.ReadByte()
@@ -11296,11 +11296,11 @@ Private Sub HandleProyectil()
         
     Dim CharSending      As Integer
     Dim CharRecieved     As Integer
-    Dim GrhIndex         As Integer
+    Dim GrhIndex         As Long
         
     CharSending = incomingData.ReadInteger()
     CharRecieved = incomingData.ReadInteger()
-    GrhIndex = incomingData.ReadInteger()
+    GrhIndex = incomingData.ReadLong()
     
     Engine_Projectile_Create CharSending, CharRecieved, GrhIndex, 0
 End Sub
