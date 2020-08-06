@@ -98,51 +98,53 @@ Private Type tMapHeader
 End Type
 
 Private Type tDatosBloqueados
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
 End Type
 
 Private Type tDatosGrh
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     GrhIndex As Long
 End Type
 
 Private Type tDatosTrigger
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     Trigger As Integer
 End Type
 
 Private Type tDatosLuces
-    X As Integer
-    Y As Integer
-    light_value(3) As Long
-    base_light(0 To 3) As Boolean 'Indica si el tile tiene luz propia.
+    R As Integer
+    G As Integer
+    B As Integer
+    range As Byte
+    x As Integer
+    y As Integer
 End Type
 
 Private Type tDatosParticulas
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     Particula As Long
 End Type
 
 Private Type tDatosNPC
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     NPCIndex As Integer
 End Type
 
 Private Type tDatosObjs
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     objindex As Integer
     ObjAmmount As Integer
 End Type
 
 Private Type tDatosTE
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     DestM As Integer
     DestX As Integer
     DestY As Integer
@@ -184,8 +186,8 @@ Public MapDat As tMapDat
 'Conectar renderizado
 Private Type tMapaConnect
     Map As Byte
-    X As Byte
-    Y As Byte
+    x As Byte
+    y As Byte
 End Type
 Public MapaConnect() As tMapaConnect
 Public NumConnectMap As Byte 'Numero total de mapas cargados
@@ -591,8 +593,8 @@ On Error GoTo errhandler:
             Call InitGrh(BodyData(i).Walk(3), MisCuerpos(i).Body(3), 0)
             Call InitGrh(BodyData(i).Walk(4), MisCuerpos(i).Body(4), 0)
             
-            BodyData(i).HeadOffset.X = MisCuerpos(i).HeadOffsetX
-            BodyData(i).HeadOffset.Y = MisCuerpos(i).HeadOffsetY
+            BodyData(i).HeadOffset.x = MisCuerpos(i).HeadOffsetX
+            BodyData(i).HeadOffset.y = MisCuerpos(i).HeadOffsetY
         End If
     Next i
     
@@ -928,7 +930,7 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
             Get #fh, , Blqs
 
             For i = 1 To .NumeroBloqueados
-                MapData(Blqs(i).X, Blqs(i).Y).Blocked = 1
+                MapData(Blqs(i).x, Blqs(i).y).Blocked = 1
             Next i
 
         End If
@@ -938,7 +940,7 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
             Get #fh, , L2
 
             For i = 1 To .NumeroLayers(2)
-                Call InitGrh(MapData(L2(i).X, L2(i).Y).Graphic(2), L2(i).GrhIndex)
+                Call InitGrh(MapData(L2(i).x, L2(i).y).Graphic(2), L2(i).GrhIndex)
             Next i
 
         End If
@@ -948,7 +950,7 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
             Get #fh, , L3
 
             For i = 1 To .NumeroLayers(3)
-                Call InitGrh(MapData(L3(i).X, L3(i).Y).Graphic(3), L3(i).GrhIndex)
+                Call InitGrh(MapData(L3(i).x, L3(i).y).Graphic(3), L3(i).GrhIndex)
             Next i
 
         End If
@@ -958,7 +960,7 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
             Get #fh, , L4
 
             For i = 1 To .NumeroLayers(4)
-                Call InitGrh(MapData(L4(i).X, L4(i).Y).Graphic(4), L4(i).GrhIndex)
+                Call InitGrh(MapData(L4(i).x, L4(i).y).Graphic(4), L4(i).GrhIndex)
             Next i
 
         End If
@@ -970,7 +972,7 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
             For i = 1 To .NumeroTriggers
                 
                 With Triggers(i)
-                    MapData(.X, .Y).Trigger = .Trigger
+                    MapData(.x, .y).Trigger = .Trigger
                 End With
                 
             Next i
@@ -984,7 +986,7 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
             For i = 1 To .NumeroParticulas
 
                 With Particulas(i)
-                    MapData(.X, .Y).Particle_Group_Index = General_Particle_Create(.Particula, .X, .Y)
+                    MapData(.x, .y).Particle_Group_Index = General_Particle_Create(.Particula, .x, .y)
                 End With
 
             Next i
@@ -993,9 +995,13 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
             
         If .NumeroLuces > 0 Then
             ReDim Luces(1 To .NumeroLuces)
+            Dim p As Byte
             Get #fh, , Luces
+            For i = 1 To .NumeroLuces
+                Call Create_Light_To_Map(Luces(i).x, Luces(i).y, Luces(i).range, Luces(i).R, Luces(i).G, Luces(i).B)
+            Next i
             
-            'Aca metes la carga de las luces...
+            Call LightRenderAll
         End If
             
         If .NumeroOBJs > 0 Then
@@ -1004,7 +1010,7 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
             
             For i = 1 To .NumeroOBJs
                 'Erase OBJs
-                MapData(Objetos(i).X, Objetos(i).Y).ObjGrh.GrhIndex = 0
+                MapData(Objetos(i).x, Objetos(i).y).ObjGrh.GrhIndex = 0
             Next i
             
         End If
@@ -1014,7 +1020,7 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
             Get #fh, , NPCs
             
             For i = 1 To .NumeroNPCs
-                MapData(NPCs(i).X, NPCs(i).Y).NPCIndex = NPCs(i).NPCIndex
+                MapData(NPCs(i).x, NPCs(i).y).NPCIndex = NPCs(i).NPCIndex
             Next
                 
         End If
@@ -1027,9 +1033,9 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
                 
                 With TEs(i)
                 
-                    MapData(.X, .Y).TileExit.Map = .DestM
-                    MapData(.X, .Y).TileExit.X = .DestX
-                    MapData(.X, .Y).TileExit.Y = .DestY
+                    MapData(.x, .y).TileExit.Map = .DestM
+                    MapData(.x, .y).TileExit.x = .DestX
+                    MapData(.x, .y).TileExit.y = .DestY
                 
                 End With
                 
@@ -1091,8 +1097,8 @@ On Error GoTo errorH
     For i = 1 To NumConnectMap
     
         MapaConnect(i).Map = Val(FileManager.GetValue("MAPA" & i, "Map"))
-        MapaConnect(i).X = Val(FileManager.GetValue("MAPA" & i, "X"))
-        MapaConnect(i).Y = Val(FileManager.GetValue("MAPA" & i, "Y"))
+        MapaConnect(i).x = Val(FileManager.GetValue("MAPA" & i, "X"))
+        MapaConnect(i).y = Val(FileManager.GetValue("MAPA" & i, "Y"))
         
     Next i
     
