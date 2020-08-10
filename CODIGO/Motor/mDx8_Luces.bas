@@ -55,11 +55,7 @@ Public Function Delete_Light_To_Index(ByVal light_index As Integer)
 
     Light_List(light_index).active = False
  
-    If CurMapAmbient.UseDayAmbient Then
-        Call Actualizar_Estado(Estado_Actual_Date)
-    Else
-        Call Apply_OwnAmbient
-    End If
+    Call Actualizar_Estado(Estado_Actual_Date)
     
     LightRenderAll
 End Function
@@ -96,32 +92,32 @@ Private Sub LightRender(ByVal light_index As Integer)
     min_y = Light_List(light_index).map_y - Light_List(light_index).range
     max_y = Light_List(light_index).map_y + Light_List(light_index).range
     
-    Dim TEMP_COLOR As D3DCOLORVALUE
+    Dim temp_color As D3DCOLORVALUE
     
     For Ya = min_y To max_y
         For Xa = min_x To max_x
             If InMapBounds(Xa, Ya) Then
                 XCoord = Xa * 32
                 YCoord = Ya * 32
-                Call Engine_Get_ARGB(MapData(Xa, Ya).Engine_Light(0), TEMP_COLOR)
+                Call Engine_Get_ARGB(MapData(Xa, Ya).Engine_Light(0), temp_color)
                 
-                MapData(Xa, Ya).Engine_Light(0) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(0), LightColor, TEMP_COLOR)
+                MapData(Xa, Ya).Engine_Light(0) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(0), LightColor, temp_color)
  
                 XCoord = Xa * 32 + 32
                 YCoord = Ya * 32
-                Call Engine_Get_ARGB(MapData(Xa, Ya).Engine_Light(1), TEMP_COLOR)
+                Call Engine_Get_ARGB(MapData(Xa, Ya).Engine_Light(1), temp_color)
                                 
-                MapData(Xa, Ya).Engine_Light(1) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(1), LightColor, TEMP_COLOR)
+                MapData(Xa, Ya).Engine_Light(1) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(1), LightColor, temp_color)
                        
                 XCoord = Xa * 32
                 YCoord = Ya * 32 + 32
-                Call Engine_Get_ARGB(MapData(Xa, Ya).Engine_Light(2), TEMP_COLOR)
-                MapData(Xa, Ya).Engine_Light(2) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(2), LightColor, TEMP_COLOR)
+                Call Engine_Get_ARGB(MapData(Xa, Ya).Engine_Light(2), temp_color)
+                MapData(Xa, Ya).Engine_Light(2) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(2), LightColor, temp_color)
    
                 XCoord = Xa * 32 + 32
                 YCoord = Ya * 32 + 32
-                Call Engine_Get_ARGB(MapData(Xa, Ya).Engine_Light(3), TEMP_COLOR)
-                MapData(Xa, Ya).Engine_Light(3) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(3), LightColor, TEMP_COLOR)
+                Call Engine_Get_ARGB(MapData(Xa, Ya).Engine_Light(3), temp_color)
+                MapData(Xa, Ya).Engine_Light(3) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(3), LightColor, temp_color)
                
             End If
         Next Xa

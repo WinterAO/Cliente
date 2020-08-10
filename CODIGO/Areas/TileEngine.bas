@@ -325,7 +325,6 @@ Public Color_Invisibilidad As Long
 Public Color_Montura As Long
 
 '   Control de Lluvia
-Public bRain As Boolean
 Public bTecho       As Boolean 'hay techo?
 Public bFogata       As Boolean
 

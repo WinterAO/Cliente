@@ -38,7 +38,7 @@ Y=-140
 PosX=0
 PosY=0
 GrhNormal=31480
-GrhClarito=0
+GrhClarito=31480
 
 [BUTTON2] 'Marco
 X=0
@@ -46,7 +46,7 @@ Y=0
 PosX=0
 PosY=0
 GrhNormal=31481
-GrhClarito=0
+GrhClarito=31481
 
 [BUTTON3] 'Login: Menu cabecera
 X=805
@@ -54,7 +54,7 @@ Y=400
 PosX=0
 PosY=0
 GrhNormal=31487
-GrhClarito=0
+GrhClarito=31487
 
 [BUTTON4] 'Login: Crear Cuenta
 X=805
@@ -62,7 +62,7 @@ Y=458
 PosX=985
 PosY=509
 GrhNormal=31489
-GrhClarito=0
+GrhClarito=31511
 
 [BUTTON5] 'Login: Recuperar Cuenta
 X=805
@@ -70,7 +70,7 @@ Y=523
 PosX=985
 PosY=583
 GrhNormal=31488
-GrhClarito=0
+GrhClarito=31510
 
 [BUTTON6] 'Login: Conectarse
 X=390
@@ -78,7 +78,7 @@ Y=435
 PosX=513
 PosY=480
 GrhNormal=31490
-GrhClarito=0
+GrhClarito=31512
 
 [BUTTON7] 'Login: Teclado
 X=530
@@ -86,7 +86,7 @@ Y=435
 PosX=647
 PosY=480
 GrhNormal=31491
-GrhClarito=0
+GrhClarito=31513
 
 [BUTTON8] 'Login: Recordar
 X=390

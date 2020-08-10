@@ -33,14 +33,6 @@ Begin VB.Form frmMain
    ScaleWidth      =   1024
    StartUpPosition =   2  'CenterScreen
    Visible         =   0   'False
-   Begin VB.CommandButton cmdCommand1 
-      Caption         =   "Command1"
-      Height          =   360
-      Left            =   14400
-      TabIndex        =   34
-      Top             =   11040
-      Width           =   690
-   End
    Begin VB.TextBox Sendtxt 
       Appearance      =   0  'Flat
       BackColor       =   &H00202020&
@@ -175,6 +167,7 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -1045,10 +1038,6 @@ Call Sound.Sound_Play(SND_CLICK)
             cmdMoverHechi(1).Visible = False
             
     End Select
-End Sub
-
-Private Sub cmdCommand1_Click()
-    frmAmbientEditor.Show
 End Sub
 
 Private Sub Form_Activate()
@@ -2193,13 +2182,13 @@ End Sub
 
 Private Sub Client_DataArrival(ByVal bytesTotal As Long)
     Dim RD     As String
-    Dim data() As Byte
+    Dim Data() As Byte
     
     Client.GetData RD, vbByte, bytesTotal
-    data = StrConv(RD, vbFromUnicode)
+    Data = StrConv(RD, vbFromUnicode)
     
     'Set data in the buffer
-    Call incomingData.WriteBlock(data)
+    Call incomingData.WriteBlock(Data)
     
     'Send buffer to Handle data
     Call HandleIncomingData

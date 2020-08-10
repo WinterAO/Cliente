@@ -93,7 +93,7 @@ Private Enum ServerPacketID
     guildList                    ' GL
     AreaChanged                  ' CA
     PauseToggle                  ' BKW
-    RainToggle                   ' LLU
+    ActualizarClima
     CreateFX                     ' CFX
     UpdateUserStats              ' EST
     ChangeInventorySlot          ' CSI
@@ -687,8 +687,8 @@ On Error Resume Next
         Case ServerPacketID.PauseToggle             ' BKW
             Call HandlePauseToggle
         
-        Case ServerPacketID.RainToggle              ' LLU
-            Call HandleRainToggle
+        Case ServerPacketID.ActualizarClima
+            Call HandleActualizarClima
         
         Case ServerPacketID.CreateFX                ' CFX
             Call HandleCreateFX
@@ -1433,7 +1433,6 @@ Private Sub HandleLogged()
 
     EngineRun = True
     Nombres = True
-    bRain = False
     
     'Set connected state
     Call SetConnected
@@ -3028,24 +3027,24 @@ Private Sub HandlePauseToggle()
 End Sub
 
 ''
-' Handles the RainToggle message.
+' Handles the ActualizarClima message.
 
-Private Sub HandleRainToggle()
+Private Sub HandleActualizarClima()
 '***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
+'Author: Lorwik
+'Last Modification: 09/08/2020
 '
 '***************************************************
+    Dim DayStatus As Byte
+    
     'Remove packet ID
     Call incomingData.ReadByte
     
-    If Not InMapBounds(UserPos.X, UserPos.Y) Then Exit Sub
+    'Recibimos el estado del dia8
+    DayStatus = incomingData.ReadByte
     
-    bTecho = (MapData(UserPos.X, UserPos.Y).Trigger = eTrigger.BAJOTECHO Or _
-        MapData(UserPos.X, UserPos.Y).Trigger = eTrigger.CASA Or _
-        MapData(UserPos.X, UserPos.Y).Trigger = eTrigger.ZONASEGURA)
+    Call Actualizar_Estado(DayStatus)
     
-    bRain = Not bRain
 End Sub
 
 ''

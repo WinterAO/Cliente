@@ -9,14 +9,17 @@ Option Explicit
 '***************************************************
 
 Enum e_estados
-    AMANECER = 1
-    MEDIODIA = 2
-    DIA = 3
-    ATARDECER = 4
-    NOCHE = 5
+    Amanecer = 0
+    MedioDia
+    Tarde
+    Noche
+    Lluvia
+    Nieve
+    Niebla
+    FogLluvia 'Niebla mas lluvia
 End Enum
 
-Public Estados(1 To 5) As D3DCOLORVALUE
+Public Estados(0 To 8) As D3DCOLORVALUE
 Public Estado_Actual As D3DCOLORVALUE
 Public Estado_Actual_Date As Byte
 
@@ -26,47 +29,61 @@ Public Sub Init_MeteoEngine()
 'Last Modification: 15/05/10
 'Initializate
 '***************************************************
-    With Estados(e_estados.AMANECER)
-        .A = 255
-        .r = 255
+    With Estados(e_estados.Amanecer)
+        .a = 255
+        .r = 230
         .g = 200
         .b = 200
     End With
     
-    With Estados(e_estados.MEDIODIA)
-        .A = 255
-        .r = 240
-        .g = 250
-        .b = 210
-    End With
-    
-    With Estados(e_estados.DIA)
-        .A = 255
+    With Estados(e_estados.MedioDia)
+        .a = 255
         .r = 255
         .g = 255
         .b = 255
     End With
     
-    With Estados(e_estados.ATARDECER)
-        .A = 255
-        .r = 150
-        .g = 120
-        .b = 120
+    With Estados(e_estados.Tarde)
+        .a = 255
+        .r = 200
+        .g = 200
+        .b = 200
     End With
   
-    With Estados(e_estados.NOCHE)
-        .A = 255
-        .r = 100
-        .g = 100
-        .b = 100
+    With Estados(e_estados.Noche)
+        .a = 255
+        .r = 165
+        .g = 165
+        .b = 165
     End With
     
-    Estado_Actual_Date = 3
+    With Estados(e_estados.Lluvia)
+        .a = 255
+        .r = 200
+        .g = 200
+        .b = 200
+    End With
+    
+    With Estados(e_estados.Niebla)
+        .a = 255
+        .r = 200
+        .g = 200
+        .b = 200
+    End With
+    
+    With Estados(e_estados.FogLluvia)
+        .a = 255
+        .r = 200
+        .g = 200
+        .b = 200
+    End With
+    
+    Estado_Actual_Date = 1
     
 End Sub
 
 Public Sub Set_AmbientColor()
-    Estado_Actual.A = 255
+    Estado_Actual.a = 255
     Estado_Actual.b = CurMapAmbient.OwnAmbientLight.b
     Estado_Actual.g = CurMapAmbient.OwnAmbientLight.g
     Estado_Actual.r = CurMapAmbient.OwnAmbientLight.r
@@ -74,26 +91,36 @@ End Sub
 
 Public Sub Actualizar_Estado(ByVal Estado As Byte)
 '***************************************************
-'Author: Standelf
-'Last Modification: 15/05/10
-'Update State and RenderLights
+'Author: Lorwik
+'Last Modification: 09/08/2020
+'Actualiza el estado del clima y del dia
 '***************************************************
-    If Estado < 0 Or Estado > 5 Then Exit Sub
-    If CurMapAmbient.UseDayAmbient = False Then Exit Sub
+    If Estado < 0 Or Estado > 8 Then Exit Sub
     
-        If Estado = 0 Then Estado = e_estados.DIA
+    If Estado = 0 Then Estado = e_estados.MedioDia
         
-        Estado_Actual = Estados(Estado)
-        Estado_Actual_Date = Estado
+    Estado_Actual = Estados(Estado)
+    Estado_Actual_Date = Estado
         
     Dim X As Byte, Y As Byte
-        For X = XMinMapSize To XMaxMapSize
-            For Y = YMinMapSize To YMaxMapSize
-                Call Engine_D3DColor_To_RGB_List(MapData(X, Y).Engine_Light(), Estado_Actual)
-            Next Y
-        Next X
+    
+    For X = XMinMapSize To XMaxMapSize
+        For Y = YMinMapSize To YMaxMapSize
+            Call Engine_D3DColor_To_RGB_List(MapData(X, Y).Engine_Light(), Estado_Actual)
+        Next Y
+    Next X
         
     Call LightRenderAll
+    
+    If Estado = (e_estados.Lluvia Or e_estados.FogLluvia) Then
+        If Not InMapBounds(UserPos.X, UserPos.Y) Then Exit Sub
+    
+        bTecho = (MapData(UserPos.X, UserPos.Y).Trigger = eTrigger.BAJOTECHO Or _
+            MapData(UserPos.X, UserPos.Y).Trigger = eTrigger.CASA Or _
+            MapData(UserPos.X, UserPos.Y).Trigger = eTrigger.ZONASEGURA)
+        
+    End If
+    
 End Sub
 
 Public Sub Start_Rampage()
@@ -103,7 +130,7 @@ Public Sub Start_Rampage()
 'Init Rampage
 '***************************************************
     Dim X As Byte, Y As Byte, TempColor As D3DCOLORVALUE
-    TempColor.A = 255: TempColor.b = 255: TempColor.r = 255: TempColor.g = 255
+    TempColor.a = 255: TempColor.b = 255: TempColor.r = 255: TempColor.g = 255
     
         For X = XMinMapSize To XMaxMapSize
             For Y = YMinMapSize To YMaxMapSize
@@ -131,3 +158,11 @@ Public Sub End_Rampage()
 
 End Sub
 
+Public Function bRain() As Boolean
+    If Estado_Actual_Date = (e_estados.Lluvia Or e_estados.FogLluvia) Then
+        bRain = True
+        Exit Function
+    End If
+    
+    bRain = False
+End Function

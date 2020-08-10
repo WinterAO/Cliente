@@ -364,11 +364,6 @@ Private Sub CheckKeys()
 
     End If
     
-    ' Activamos el sistema DiaNoche
-    ' Lo comento hasta que el DiaNoche sea estable por que se hace de noche en dungeons
-    ' Y el dia entero dura unos 4/5 minutos, hay que arreglarlo.
-    'Call DiaNoche
-    
 End Sub
 
 Sub SwitchMap(ByVal Map As Integer)
@@ -1157,7 +1152,6 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     UserNavegando = False
     UserEvento = False
     bFogata = False
-    bRain = False
     bFogata = False
     Comerciando = False
     bShowTutorial = False
@@ -1192,6 +1186,8 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     lblWeapon = "0/0"
     lblArmor = "0/0"
     lblShielder = "0/0"
+    
+    Call Actualizar_Estado(e_estados.MedioDia)
 
     Call SetSpeedUsuario
 
