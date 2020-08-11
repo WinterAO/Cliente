@@ -370,6 +370,7 @@ On Error GoTo handle
     
 handle:
     LightRemoveAll = False
+    Call LogError(Err.number, Err.Description, "LightRemoveAll")
     Exit Function
 End Function
 

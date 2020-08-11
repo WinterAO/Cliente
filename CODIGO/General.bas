@@ -254,6 +254,7 @@ Sub SetConnected()
     keysMovementPressedQueue.Clear
 
     frmMain.lblName.Caption = UserName
+    frmMain.lblMapName.Caption = mapInfo.name
     
     'Load main form
     frmMain.Visible = True
@@ -385,6 +386,9 @@ Sub SwitchMap(ByVal Map As Integer)
         
         'Borramos las particulas activas en el mapa.
         Call Particle_Group_Remove_All
+        
+        'Borramos todas las luces
+        Call LightRemoveAll
         
         'Borramos las particulas de lluvia
         Call mDx8_Particulas.RemoveWeatherParticles(eWeather.Rain)

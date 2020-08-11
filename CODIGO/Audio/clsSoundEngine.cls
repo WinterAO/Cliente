@@ -40,8 +40,6 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
-Private Const MapExt As Byte = 0
-
 Private dX As DirectX8
 
 '**** Direct Sound ********
@@ -63,8 +61,6 @@ Dim IMPos As IMediaPosition
 
 '**** AMBIENT ********
 Dim ambient_buffer As DirectSoundSecondaryBuffer8
-Dim ambient_rain_buffer As DirectSoundSecondaryBuffer8
-Dim ambient_rain_int_buffer As DirectSoundSecondaryBuffer8
 Dim ambient_fire_buffer As DirectSoundSecondaryBuffer8
 
 Private mAmbienteActual As Integer
@@ -774,14 +770,9 @@ Public Function Ambient_General_Load(ByVal Volume As Long)
 
     If (ClientSetup.bAmbient = 0) Or (Engine_Initialized = False) Then Exit Function
     
-    'Lorwik> No hay lluvia de momento.
-    'Call Buffers.GetBuffer(SND_LLUVIAIN, ambient_rain_int_buffer)
-    'Call Buffers.GetBuffer(SND_LLUVIAOUT, ambient_rain_buffer)
     Call Buffers.GetBuffer(SND_FUEGO, ambient_fire_buffer, Ambient)
     
     If Volume < -4000 Then Volume = -4000
-    'ambient_rain_buffer.SetVolume Volume
-    'ambient_rain_int_buffer.SetVolume Volume
     
     Ambient_General_Load = True
     Exit Function
@@ -858,9 +849,6 @@ Public Function Ambient_Stop() As Boolean
     If (ClientSetup.bAmbient = 0) Or (Engine_Initialized = False) Then Exit Function
     
     If Not ambient_buffer Is Nothing Then ambient_buffer.Stop
-    'ambient_rain_int_buffer.Stop
-    'ambient_rain_buffer.Stop
-    'ambient_fire_buffer.Stop
     
     play_fire = False
     mAmbienteActual = 0
@@ -918,75 +906,58 @@ On Error Resume Next
     
         If UserMap > 0 Then
             under_roof = bTecho
-            If MapExt Then
-                mAmb = Ambient_Calculate
-                    
-                If mAmbienteActual <> mAmb Then
-                    Call Ambient_Stop
-                    mAmbienteActual = mAmb
-                    Call Ambient_Load(mAmbienteActual, mEffectsVolumeAmbient)
-                    Call Ambient_Play
-                End If
-                    
-                If under_roof Then 'En los interiores el sonido es más suave :)
-                    If mEffectsVolumeAmbient <> INTERIOR_VOLUME Then
-                        Call Ambient_Volume_Set(INTERIOR_VOLUME)
-                        mEffectsVolumeAmbient = INTERIOR_VOLUME
-                    End If
-                Else
-                    If mEffectsVolumeAmbient <> EXTERIOR_VOLUME Then
-                        Call Ambient_Volume_Set(EXTERIOR_VOLUME)
-                        mEffectsVolumeAmbient = EXTERIOR_VOLUME
-                    End If
-                End If
-                    
-            Else 'CurrentUser.MapExt = 0
                 
+            mAmb = Ambient_Calculate
+                        
+            If mAmbienteActual <> mAmb Then
+                Call Ambient_Stop
+                mAmbienteActual = mAmb
+                Call Ambient_Load(mAmbienteActual, mEffectsVolumeAmbient)
+                Call Ambient_Play
+            End If
+                        
+            If under_roof Then 'En los interiores el sonido es más suave :)
                 If mEffectsVolumeAmbient <> INTERIOR_VOLUME Then
+                    Call Ambient_Volume_Set(INTERIOR_VOLUME)
+                    mEffectsVolumeAmbient = INTERIOR_VOLUME
+                End If
+            Else
+                If mEffectsVolumeAmbient <> EXTERIOR_VOLUME Then
                     Call Ambient_Volume_Set(EXTERIOR_VOLUME)
                     mEffectsVolumeAmbient = EXTERIOR_VOLUME
                 End If
-                
-                mAmb = Ambient_Calculate
-                
-                If mAmbienteActual <> mAmb Then
-                    Call Ambient_Stop
-                    mAmbienteActual = mAmb
-                    Call Ambient_Load(mAmbienteActual, mEffectsVolumeAmbient)
-                    Call Ambient_Play
-                End If
-                
-            End If
-        
-            If Map_Item_Grh_In_Current_Area(GRH_FOGATA, X, Y) Then
-                If Not play_fire Then
-                    ambient_fire_buffer.SetVolume Calculate_Volume(X, Y)
-                    ambient_fire_buffer.SetPan Calculate_Pan(X, Y)
-                    ambient_fire_buffer.Play DSBPLAY_LOOPING
-                    play_fire = True
-                ElseIf charlist(UserCharIndex).moved Then
-                    ambient_fire_buffer.SetVolume Calculate_Volume(X, Y)
-                    ambient_fire_buffer.SetPan Calculate_Pan(X, Y)
-                End If
-            ElseIf play_fire Then
-                play_fire = False
-                ambient_fire_buffer.Stop
             End If
                     
         End If
+                    
+        
+        If Map_Item_Grh_In_Current_Area(GRH_FOGATA, X, Y) Then
+            If Not play_fire Then
+                ambient_fire_buffer.SetVolume Calculate_Volume(X, Y)
+                ambient_fire_buffer.SetPan Calculate_Pan(X, Y)
+                ambient_fire_buffer.Play DSBPLAY_LOOPING
+                play_fire = True
+            ElseIf charlist(UserCharIndex).moved Then
+                ambient_fire_buffer.SetVolume Calculate_Volume(X, Y)
+                ambient_fire_buffer.SetPan Calculate_Pan(X, Y)
+            End If
+        ElseIf play_fire Then
+            play_fire = False
+            ambient_fire_buffer.Stop
+        End If
                 
         If mFadingMusicMod <> 0 And ClientSetup.bMusic <> CONST_DESHABILITADA Then
-            
+                
             '¿Fade up or fade down? Primero fade down, después fade up
             If TimeElapsed + 60 < TiempoActual Then
-                
+                    
                 TimeElapsed = TiempoActual
-                
+                    
                 'Fade down
                 If mMusicVolume > mMusicVolumeMax Then
-                    
+                        
                     mMusicVolume = mMusicVolumeMax
-                    
+                        
                     If mFadingStatus = 0 Then
                         mFadingStatus = 1
                         mFadingMusicMod = mFadingMusicMod * (-1)
@@ -1001,9 +972,9 @@ On Error Resume Next
                     mMusicVolume = -4000
                     mFadingMusicMod = mFadingMusicMod * (-1)
                 End If
-                
+                    
                 mMusicVolume = mMusicVolume + mFadingMusicMod
-                
+                    
                 If Val(mNextMusic) > 0 And mFadingStatus = 2 Then
                     If Music_Load(mNextMusic, mMusicVolume) Then
                         'Music_Stop
@@ -1017,7 +988,7 @@ On Error Resume Next
         Else
             mMusicVolume = mMusicVolumeMax
         End If
-    
+        
         If ClientSetup.bMusic <> CONST_DESHABILITADA Then Call Music_GetLoop
         If UserCharIndex > 0 Then charlist(UserCharIndex).moved = False
         
@@ -1120,14 +1091,26 @@ End Sub
 
 Private Function Ambient_Calculate() As Integer
 
+    Static under_roof As Boolean
     Dim intSound As Integer
     
-    If mapInfo.Ambient = "" Then mapInfo.Ambient = 0
+    under_roof = bTecho
+    intSound = Val(mapInfo.Ambient)
     
-    intSound = mapInfo.Ambient
+    '¿Esta lloviendo?
+    If Estado_Actual_Date = (e_estados.Lluvia Or e_estados.FogLluvia) Then
+    
+        '¿Esta en techo?
+        If under_roof Then
+            intSound = SND_LLUVIAIN
+                                    
+        Else '¿Esta fuera?
+            intSound = SND_LLUVIAOUT
+                                          
+        End If
     
     '¿Es de noche?
-    If Estado_Actual_Date = e_estados.Noche Then
+    ElseIf Estado_Actual_Date = e_estados.Noche Then
     
         If mapInfo.Zona = "BOSQUE" Then 'Sonidos en bosques:
             intSound = SND_AMBIENTE_NOCHE

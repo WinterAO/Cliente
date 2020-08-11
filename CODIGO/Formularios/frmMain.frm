@@ -167,6 +167,7 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -409,6 +410,17 @@ Begin VB.Form frmMain
          End
       End
    End
+   Begin VB.Label lblHour 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "00:00"
+      ForeColor       =   &H00FFFFFF&
+      Height          =   195
+      Left            =   13905
+      TabIndex        =   34
+      Top             =   9975
+      Width           =   465
+   End
    Begin VB.Image btnShop 
       Height          =   360
       Left            =   11670
@@ -563,12 +575,14 @@ Begin VB.Form frmMain
    Begin VB.Image btnInfo 
       Height          =   495
       Left            =   13575
+      MousePointer    =   99  'Custom
       Top             =   5940
       Width           =   1095
    End
    Begin VB.Image btnLanzar 
       Height          =   540
-      Left            =   11700
+      Left            =   11640
+      MousePointer    =   99  'Custom
       Top             =   5940
       Width           =   1710
    End
@@ -1551,6 +1565,8 @@ End Sub
 Private Sub Second_Timer()
 
     If Not DialogosClanes Is Nothing Then DialogosClanes.PassTimer
+    
+    Call ActualizarHora
 End Sub
 
 '[END]'
@@ -2174,6 +2190,9 @@ Private Sub Client_Connect()
     
     Second.Enabled = True
     
+    'Actualizams la hora
+    Call ActualizarHora
+    
     Select Case EstadoLogin
 
         Case E_MODO.CrearNuevoPJ, E_MODO.Normal
@@ -2357,3 +2376,15 @@ Private Sub btnShop_MouseMove(Button As Integer, Shift As Integer, X As Single, 
 
 End Sub
 
+Public Sub ActualizarHora()
+'**********************************
+'Autor: Lorwik
+'Fecha: 11/08/2020
+'Descripcion: Actualiza la hora del lbl del frmmain
+'**********************************
+
+    If ReadField(1, lblHour.Caption, Asc(":")) <> Minute(Now) Then
+        lblHour.Caption = Hour(Now) & ":" & Minute(Now)
+    End If
+        
+End Sub

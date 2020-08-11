@@ -138,7 +138,9 @@ Public Const MUS_Inicio As String = "1"
 Public Const MUS_VolverInicio As String = "2"
 Public Const MUS_CrearPersonaje As String = "3"
 
-'Ambiental+
+'Ambiental
+Public Const SND_LLUVIAIN As Integer = 17
+Public Const SND_LLUVIAOUT As Integer = 18
 Public Const SND_AMBIENTE_NOCHE As Integer = 7
 Public Const SND_AMBIENTE_NOCHE_CIU As Integer = 3
 
