@@ -1126,15 +1126,19 @@ Private Function Ambient_Calculate() As Integer
     
     intSound = mapInfo.Ambient
     
-    'If MapExt > 0 And intSound <> 73 Then
-    '    If Val(MapDat.battle_mode) = 0 Then
-    '        Ambient_Calculate = SND_AMBIENTE_NOCHE
-    '    Else
-    '        Ambient_Calculate = SND_AMBIENTE_NOCHE_CIU
-    '    End If
-    'Else
-     '   If intSound = 73 Then intSound = 75
-        Ambient_Calculate = intSound
-    'End If
+    '¿Es de noche?
+    If Estado_Actual_Date = e_estados.Noche Then
+    
+        If mapInfo.Zona = "BOSQUE" Then 'Sonidos en bosques:
+            intSound = SND_AMBIENTE_NOCHE
+            
+        ElseIf mapInfo.Zona = "CIUDAD" Then 'Sonidos en ciudad:
+            intSound = SND_AMBIENTE_NOCHE_CIU
+            
+        End If
+        
+    End If
+    
+    Ambient_Calculate = intSound
 
 End Function

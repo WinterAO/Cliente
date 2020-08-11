@@ -3,17 +3,17 @@ Begin VB.Form frmMapa
    BackColor       =   &H00000000&
    BorderStyle     =   0  'None
    Caption         =   "Form1"
-   ClientHeight    =   8850
+   ClientHeight    =   12165
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   8595
+   ClientWidth     =   10830
    ClipControls    =   0   'False
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   8850
-   ScaleWidth      =   8595
+   ScaleHeight     =   12165
+   ScaleWidth      =   10830
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
    Begin VB.Image imgToogleMap 
@@ -33,31 +33,12 @@ Begin VB.Form frmMapa
       Width           =   735
    End
    Begin VB.Image imgCerrar 
-      Height          =   255
-      Left            =   8040
+      Height          =   525
+      Left            =   4320
       MousePointer    =   99  'Custom
-      Top             =   240
-      Width           =   255
-   End
-   Begin VB.Label lblTexto 
-      Alignment       =   2  'Center
-      BackStyle       =   0  'Transparent
-      Caption         =   $"frmMapa.frx":0000
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   12
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   975
-      Left            =   0
-      TabIndex        =   0
-      Top             =   7920
-      Width           =   8175
+      Picture         =   "frmMapa.frx":0000
+      Top             =   11520
+      Width           =   1695
    End
 End
 Attribute VB_Name = "frmMapa"

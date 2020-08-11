@@ -138,6 +138,10 @@ Public Const MUS_Inicio As String = "1"
 Public Const MUS_VolverInicio As String = "2"
 Public Const MUS_CrearPersonaje As String = "3"
 
+'Ambiental+
+Public Const SND_AMBIENTE_NOCHE As Integer = 7
+Public Const SND_AMBIENTE_NOCHE_CIU As Integer = 3
+
 ' Constantes de intervalo
 Public Enum eIntervalos
     INT_ATTACK = 1400        'Atacar

@@ -8,7 +8,7 @@ Option Explicit
     the Lights.
 '***************************************************
 
-Enum e_estados
+Public Enum e_estados
     Amanecer = 0
     MedioDia
     Tarde
