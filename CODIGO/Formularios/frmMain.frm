@@ -991,7 +991,7 @@ Call Sound.Sound_Play(SND_CLICK)
             btnSolapa(2).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
             
             ' Activo controles de inventario
-            PicInv.Visible = True
+            picInv.Visible = True
         
             ' Desactivo controles de hechizo y amigos
             hlst.Visible = False
@@ -1025,7 +1025,7 @@ Call Sound.Sound_Play(SND_CLICK)
             cmdMoverHechi(1).Visible = True
             
             ' Desactivo controles de inventario y amigos
-            PicInv.Visible = False
+            picInv.Visible = False
             
             ListAmigos.Visible = False
             AgregarAmigo.Visible = False
@@ -1042,7 +1042,7 @@ Call Sound.Sound_Play(SND_CLICK)
             BorrarAmigo.Visible = True
             
             ' Desactivo controles de inventario y hechizos
-            PicInv.Visible = False
+            picInv.Visible = False
             
             hlst.Visible = False
             btnInfo.Visible = False
@@ -1554,8 +1554,8 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         SendTxt.Visible = False
         
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
         ElseIf hlst.Visible Then
             hlst.SetFocus
         Else
@@ -1985,8 +1985,8 @@ Private Sub RecTxt_Change()
            (Not frmCantidad.Visible) And _
            (Not MirandoParty) Then
 
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
                         
         ElseIf hlst.Visible Then
             hlst.SetFocus
@@ -1999,8 +1999,8 @@ End Sub
 
 Private Sub RecTxt_KeyDown(KeyCode As Integer, Shift As Integer)
 
-    If PicInv.Visible Then
-        PicInv.SetFocus
+    If picInv.Visible Then
+        picInv.SetFocus
     Else
         hlst.SetFocus
     End If
