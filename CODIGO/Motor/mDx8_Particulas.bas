@@ -155,6 +155,10 @@ Private RainParticle As Long
 Private NieveParticle As Long
 Private ArenaParticle As Long
 
+Public OnRampage As Long
+Public OnRampageImg As Long
+Public OnRampageImgGrh As Integer
+
 Public Enum eWeather
     Rain
     Nieve
@@ -1035,12 +1039,41 @@ Public Sub Engine_Weather_Update()
         Select Case mapInfo.Terreno
         
             Case "BOSQUE"
-            
                 If RainParticle <= 0 Then
                     'Creamos las particulas de lluvia
                     Call mDx8_Particulas.LoadWeatherParticles(eWeather.Rain)
                 ElseIf RainParticle > 0 Then
                     Call mDx8_Particulas.Particle_Group_Render(RainParticle, 250, -1)
+                End If
+                
+                'EXTRA: Relampagos
+                If RandomNumber(1, 200000) < 20 Then
+                    Call Sound.Sound_Play(SND_RELAMPAGO)
+                    Start_Rampage
+                    OnRampage = GetTickCount
+                    OnRampageImg = OnRampage
+                    OnRampageImgGrh = 2837
+            End If
+            
+                If OnRampageImg <> 0 Then
+                    If GetTickCount - OnRampageImg > 36 Then
+                    
+                        OnRampageImgGrh = OnRampageImgGrh + 1
+                        If OnRampageImgGrh = 2847 Then OnRampageImgGrh = 2837
+            
+                        OnRampageImg = GetTickCount
+                    End If
+                End If
+                
+                If OnRampage <> 0 Then 'Hay Uno en curso
+                    If GetTickCount - OnRampage > 400 Then
+                        End_Rampage
+                        OnRampage = 0
+                    End If
+                End If
+                
+                If OnRampageImgGrh <> 0 Then
+                    Call Draw_GrhIndex(OnRampageImgGrh, 0, 0, 0, Normal_RGBList(), , True)
                 End If
             
             Case "NIEVE"
@@ -1134,24 +1167,7 @@ Public Sub RemoveWeatherParticles(ByVal Weather As Byte)
     End Select
 End Sub
 
-Public Sub Load_Map_Particles(ByVal Map As Integer)
-'*****************************************************************
-'Author: Jopi
-'Para los que no tienen un World Editor con sistema de particulas
-'Crea las particulas al entrar en un mapa.
-'*****************************************************************
-    
-    ' Crea las particulas especificas para el mapa actual.
-    Select Case Map
-    
-        Case 1
-            Call General_Particle_Create(1, 45, 45)
-            
-    End Select
-    
-End Sub
-
-Sub Engine_Weather_UpdateFog(ByVal A As Byte, ByVal r As Byte, ByVal g As Byte, ByVal b As Byte)
+Sub Engine_Weather_UpdateFog(ByVal a As Byte, ByVal r As Byte, ByVal g As Byte, ByVal b As Byte)
 '*****************************************************************
 'Update the fog effects
 '*****************************************************************
@@ -1206,7 +1222,7 @@ Sub Engine_Weather_UpdateFog(ByVal A As Byte, ByVal r As Byte, ByVal g As Byte, 
     X = 2
     Y = -1
     For i = 0 To 3
-        FogColor(i) = D3DColorARGB(A, r, g, b)
+        FogColor(i) = D3DColorARGB(a, r, g, b)
     Next i
     
     For i = 1 To WeatherFogCount

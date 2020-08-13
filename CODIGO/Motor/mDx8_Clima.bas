@@ -146,6 +146,10 @@ Public Sub End_Rampage()
     'Last Modification: 27/05/2010
     'End Rampage
     '***************************************************
+    
+    OnRampageImgGrh = 0
+    OnRampageImg = 0
+    
     Dim X As Byte, Y As Byte
 
     For X = XMinMapSize To XMaxMapSize
@@ -159,7 +163,7 @@ Public Sub End_Rampage()
 End Sub
 
 Public Function bRain() As Boolean
-    If Estado_Actual_Date = (e_estados.Lluvia Or e_estados.FogLluvia) Then
+    If Estado_Actual_Date = e_estados.FogLluvia Or Estado_Actual_Date = e_estados.Lluvia Then
         bRain = True
         Exit Function
     End If

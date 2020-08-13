@@ -132,6 +132,7 @@ Public Const SND_NAVEGANDO As String = 50
 Public Const SND_MSG As String = 84
 Public Const SND_FUEGO As Integer = 79
 Public Const GRH_FOGATA As Integer = 1521
+Public Const SND_RELAMPAGO As Byte = 97
 
 'Musicas
 Public Const MUS_Inicio As String = "1"
