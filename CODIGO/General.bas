@@ -384,14 +384,14 @@ Sub SwitchMap(ByVal Map As Integer)
         'EDIT: cambio el rango de valores en x y para solucionar otro bug con respecto al cambio de mapas
         Call Char_CleanAll
         
+        'Borramos las particulas de lluvia
+        Call mDx8_Particulas.RemoveWeatherParticlesAll
+        
         'Borramos las particulas activas en el mapa.
         Call Particle_Group_Remove_All
         
         'Borramos todas las luces
         Call LightRemoveAll
-        
-        'Borramos las particulas de lluvia
-        Call mDx8_Particulas.RemoveWeatherParticles(eWeather.Rain)
         
         'Cargamos el mapa.
         Call Carga.CargarMapa(Map, Dir_Map)

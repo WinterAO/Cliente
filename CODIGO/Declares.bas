@@ -139,10 +139,11 @@ Public Const MUS_VolverInicio As String = "2"
 Public Const MUS_CrearPersonaje As String = "3"
 
 'Ambiental
-Public Const SND_LLUVIAIN As Integer = 17
-Public Const SND_LLUVIAOUT As Integer = 18
-Public Const SND_AMBIENTE_NOCHE As Integer = 7
-Public Const SND_AMBIENTE_NOCHE_CIU As Integer = 3
+Public Const SND_LLUVIAIN As Byte = 17
+Public Const SND_LLUVIAOUT As Byte = 18
+Public Const SND_VIENTO As Byte = 14
+Public Const SND_AMBIENTE_NOCHE As Byte = 7
+Public Const SND_AMBIENTE_NOCHE_CIU As Byte = 3
 
 ' Constantes de intervalo
 Public Enum eIntervalos

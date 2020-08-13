@@ -249,6 +249,7 @@ Public Type mapInfo
     MapVersion As Integer
     Ambient As String
     Zona As String
+    Terreno As String
 End Type
 
 Public IniPath As String

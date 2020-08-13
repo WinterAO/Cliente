@@ -800,44 +800,6 @@ Error_Handl:
     Ambient_Play = False
 End Function
 
-Public Function Ambient_Rain_Play() As Boolean
-'**************************************************************
-'Author: Augusto José Rando (barrin@imperiumao.com.ar)
-'Last Modify Date: 2/08/2006
-'**************************************************************
-    
-    On Error GoTo Error_Handl
-    
-    If (ClientSetup.bAmbient = 0) Or (Engine_Initialized = False) Then Exit Function
-    ambient_rain_buffer.SetVolume mEffectsVolumeAmbient
-    ambient_rain_buffer.Play DSBPLAY_LOOPING
-    
-    Ambient_Rain_Play = True
-    Exit Function
-
-Error_Handl:
-    Ambient_Rain_Play = False
-End Function
-
-Public Function Ambient_Rain_Int_Play() As Boolean
-'**************************************************************
-'Author: Augusto José Rando (barrin@imperiumao.com.ar)
-'Last Modify Date: 2/08/2006
-'**************************************************************
-    
-    On Error GoTo Error_Handl
-    
-    If (ClientSetup.bAmbient = 0) Or (Engine_Initialized = False) Then Exit Function
-    ambient_rain_int_buffer.SetVolume mEffectsVolumeAmbient
-    ambient_rain_int_buffer.Play DSBPLAY_LOOPING
-    
-    Ambient_Rain_Int_Play = True
-    Exit Function
-
-Error_Handl:
-    Ambient_Rain_Int_Play = False
-End Function
-
 Public Function Ambient_Stop() As Boolean
 '**************************************************************
 'Author: Augusto José Rando (barrin@imperiumao.com.ar)
@@ -1097,16 +1059,23 @@ Private Function Ambient_Calculate() As Integer
     under_roof = bTecho
     intSound = Val(mapInfo.Ambient)
     
-    '¿Esta lloviendo?
-    If Estado_Actual_Date = (e_estados.Lluvia Or e_estados.FogLluvia) Then
+    '¿Esta lloviendo? Y NO ES DUNGEON!
+    If Estado_Actual_Date = (e_estados.Lluvia Or e_estados.FogLluvia) And mapInfo.Zona <> "DUNGEON" Then
     
-        '¿Esta en techo?
-        If under_roof Then
-            intSound = SND_LLUVIAIN
-                                    
-        Else '¿Esta fuera?
-            intSound = SND_LLUVIAOUT
-                                          
+        'Mapas de tipo bosque, sonido de lluvia
+        If mapInfo.Terreno = "BOSQUE" Then
+            '¿Esta en techo?
+            If under_roof Then
+                intSound = SND_LLUVIAIN
+                                        
+            Else '¿Esta fuera?
+                intSound = SND_LLUVIAOUT
+                                              
+            End If
+            
+        Else 'El resto, sonido de viento
+            intSound = SND_VIENTO
+            
         End If
     
     '¿Es de noche?

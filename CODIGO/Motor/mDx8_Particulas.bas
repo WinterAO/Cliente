@@ -1,7 +1,5 @@
 Attribute VB_Name = "mDx8_Particulas"
 '*************************************************************
-'ImperiumAO 1.4.6
-'*************************************************************
 'Este modulo contiene TODOS los procedimientos que conforma
 'el Sistema de Particulas ORE.
 '*************************************************************
@@ -154,10 +152,13 @@ Public StreamData() As Stream
 Public Const PI As Single = 3.14159265358979
 
 Private RainParticle As Long
+Private NieveParticle As Long
+Private ArenaParticle As Long
 
 Public Enum eWeather
     Rain
-    Snow
+    Nieve
+    Arena
 End Enum
 
 Public Sub CargarParticulas()
@@ -1022,28 +1023,53 @@ End Sub
 
 Public Sub Engine_Weather_Update()
 '*****************************************************************
-'Author: Lucas Recoaro (Recox)
-'Last Modify Date: 19/12/2019
+'Author: Lorwik
+'Fecha: 13/08/2020
 'Controla los climas, aqui se renderizan la lluvia, nieve, etc.
 '*****************************************************************
-    'TODO: Hay un bug no muy importante que hace que no se renderice la lluvia
-    'en caso que empiece a llover, tiro el comando /salir y vuelvo a entrar al juego
-    'Sin embargo al cambiar de mapa o al entrar y salir de un techo la particula se vuelve a cargar
-    'Este error NO pasa cuando esta lloviendo y recien abro el juego y entro, en ese caso la lluvia se ve bien (Recox)
 
+    '¿Esta lloviendo y no esta en desierto?
     If bRain And mapInfo.Zona <> "DUNGEON" Then
-        'Primero verificamos que las particulas de lluvia esten creadas en la coleccion de particulas
-        'Si estan creadas las renderizamos, sino las creamos
-        If RainParticle <= 0 Then
-            'Creamos las particulas de lluvia
-            Call mDx8_Particulas.LoadWeatherParticles(eWeather.Rain)
-        ElseIf RainParticle > 0 Then
-            Call mDx8_Particulas.Particle_Group_Render(RainParticle, 250, -1)
-        End If
-    Else
-        'Borramos las particulas de lluvia en caso de que pare la lluvia o nos escondamos en un techo
-        Call mDx8_Particulas.RemoveWeatherParticles(eWeather.Rain)
+            
+        'Particula segun el terreno...
+        Select Case mapInfo.Terreno
+        
+            Case "BOSQUE"
+            
+                If RainParticle <= 0 Then
+                    'Creamos las particulas de lluvia
+                    Call mDx8_Particulas.LoadWeatherParticles(eWeather.Rain)
+                ElseIf RainParticle > 0 Then
+                    Call mDx8_Particulas.Particle_Group_Render(RainParticle, 250, -1)
+                End If
+            
+            Case "NIEVE"
+            
+                If NieveParticle <= 0 Then
+                    'Creamos las particulas de nieve
+                    Call mDx8_Particulas.LoadWeatherParticles(eWeather.Nieve)
+                ElseIf NieveParticle > 0 Then
+                    Call mDx8_Particulas.Particle_Group_Render(NieveParticle, 250, -1)
+                End If
+            
+            Case "DESIERTO"
+        
+                If ArenaParticle <= 0 Then
+                    'Creamos las particulas de Arena
+                    Call mDx8_Particulas.LoadWeatherParticles(eWeather.Arena)
+                ElseIf ArenaParticle > 0 Then
+                    Call mDx8_Particulas.Particle_Group_Render(ArenaParticle, 250, -1)
+                End If
+        
+        End Select
+    
+    Else '¿No esta lloviendo o dejo de llover?
+        
+        Call RemoveWeatherParticlesAll
+            
     End If
+    
+    Engine_Weather_UpdateFog 100, 255, 255, 255
 
 End Sub
 
@@ -1057,8 +1083,32 @@ Public Sub LoadWeatherParticles(ByVal Weather As Byte)
 
         Case eWeather.Rain
             RainParticle = mDx8_Particulas.General_Particle_Create(8, -1, -1)
-
+            
+        Case eWeather.Nieve
+            NieveParticle = mDx8_Particulas.General_Particle_Create(56, -1, -1)
+            
+        Case eWeather.Arena
+            ArenaParticle = mDx8_Particulas.General_Particle_Create(59, -1, -1)
     End Select
+End Sub
+
+Public Sub RemoveWeatherParticlesAll()
+'*****************************************************************
+'Author: Lorwik
+'Last Modify Date: 13/08/2020
+'Comprobamos si hay alguna particula climatologica activa para eliminarla
+'*****************************************************************
+
+    'Si alguna de las siguientes particulas esta cargada, la eliminamos
+    If RainParticle > 0 Then
+        Call mDx8_Particulas.RemoveWeatherParticles(eWeather.Rain)
+            
+    ElseIf NieveParticle > 0 Then
+        Call mDx8_Particulas.RemoveWeatherParticles(eWeather.Nieve)
+            
+    ElseIf ArenaParticle > 0 Then
+        Call mDx8_Particulas.RemoveWeatherParticles(eWeather.Arena)
+    End If
 End Sub
 
 Public Sub RemoveWeatherParticles(ByVal Weather As Byte)
@@ -1072,6 +1122,14 @@ Public Sub RemoveWeatherParticles(ByVal Weather As Byte)
         Case eWeather.Rain
             Particle_Group_Remove (RainParticle)
             RainParticle = 0
+            
+        Case eWeather.Nieve
+            Particle_Group_Remove (NieveParticle)
+            NieveParticle = 0
+            
+        Case eWeather.Arena
+            Particle_Group_Remove (ArenaParticle)
+            ArenaParticle = 0
 
     End Select
 End Sub
@@ -1093,3 +1151,85 @@ Public Sub Load_Map_Particles(ByVal Map As Integer)
     
 End Sub
 
+Sub Engine_Weather_UpdateFog(ByVal A As Byte, ByVal r As Byte, ByVal g As Byte, ByVal b As Byte)
+'*****************************************************************
+'Update the fog effects
+'*****************************************************************
+
+    If Estado_Actual_Date <> (e_estados.Niebla Or e_estados.FogLluvia) Then Exit Sub
+    
+    Dim TempGrh As Grh
+    Dim i As Long
+    Dim X As Long
+    Dim Y As Long
+    Dim FogColor(3) As Long
+
+    'Make sure we have the fog value
+    If WeatherFogCount = 0 Then WeatherFogCount = 13
+    
+    'Update the fog's position
+    WeatherFogX1 = WeatherFogX1 + (timerElapsedTime * (0.018 + Rnd * 0.01)) + (LastOffsetX - ParticleOffsetX)
+    WeatherFogY1 = WeatherFogY1 + (timerElapsedTime * (0.013 + Rnd * 0.01)) + (LastOffsetY - ParticleOffsetY)
+    Do While WeatherFogX1 < -512
+        WeatherFogX1 = WeatherFogX1 + 512
+    Loop
+    Do While WeatherFogY1 < -512
+        WeatherFogY1 = WeatherFogY1 + 512
+    Loop
+    Do While WeatherFogX1 > 0
+        WeatherFogX1 = WeatherFogX1 - 512
+    Loop
+    Do While WeatherFogY1 > 0
+        WeatherFogY1 = WeatherFogY1 - 512
+    Loop
+    
+    WeatherFogX2 = WeatherFogX2 - (timerElapsedTime * (0.037 + Rnd * 0.01)) + (LastOffsetX - ParticleOffsetX)
+    WeatherFogY2 = WeatherFogY2 - (timerElapsedTime * (0.021 + Rnd * 0.01)) + (LastOffsetY - ParticleOffsetY)
+    Do While WeatherFogX2 < -512
+        WeatherFogX2 = WeatherFogX2 + 512
+    Loop
+    Do While WeatherFogY2 < -512
+        WeatherFogY2 = WeatherFogY2 + 512
+    Loop
+    Do While WeatherFogX2 > 0
+        WeatherFogX2 = WeatherFogX2 - 512
+    Loop
+    Do While WeatherFogY2 > 0
+        WeatherFogY2 = WeatherFogY2 - 512
+    Loop
+
+    TempGrh.FrameCounter = 1
+    
+    'Render fog 2
+    TempGrh.GrhIndex = 3193
+    
+    X = 2
+    Y = -1
+    For i = 0 To 3
+        FogColor(i) = D3DColorARGB(A, r, g, b)
+    Next i
+    
+    For i = 1 To WeatherFogCount
+        Call Draw_Grh(TempGrh, (X * 512) + WeatherFogX1, (Y * 512) + WeatherFogY1, 1, FogColor(), 1, True)
+        X = X + 1
+        If X > (1 + (ScreenWidth \ 512)) Then
+            X = 0
+            Y = Y + 1
+        End If
+    Next i
+            
+    'Render fog 1
+    TempGrh.GrhIndex = 3194
+    X = 0
+    Y = 0
+    For i = 1 To WeatherFogCount
+        Call Draw_Grh(TempGrh, (X * 512) + WeatherFogX1, (Y * 512) + WeatherFogY1, 1, FogColor(), 1, True)
+        X = X + 1
+        If X > (2 + (ScreenWidth \ 512)) Then
+            X = 0
+            Y = Y + 1
+        End If
+    Next i
+
+
+End Sub
