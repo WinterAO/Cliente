@@ -43,6 +43,7 @@ Public Function Delete_Light_To_Map(ByVal X As Byte, ByVal Y As Byte)
     For i = 1 To NumLights
         If Light_List(i).map_x = X And Light_List(i).map_y = Y Then
             Delete_Light_To_Index i
+            
             Exit Function
         End If
     Next i
@@ -52,8 +53,27 @@ End Function
 #If LightEngine = 1 Then '   Luces Radiales
 
 Public Function Delete_Light_To_Index(ByVal light_index As Integer)
+'************************************
+'Autor: Lorwik
+'Fecha: 14/08/2020
+'Descripción: Primero desactivamos una luz concreta y luego reordenamos el array
+'************************************
 
+    'Borramos la luz
     Light_List(light_index).active = False
+    
+    'Reordamos el Aray
+    If light_index = NumLights Then
+    
+        Do Until Light_List(NumLights).active
+            NumLights = NumLights - 1
+            If NumLights = 0 Then
+                Exit Function
+            End If
+        Loop
+        ReDim Preserve Light_List(1 To NumLights)
+    
+    End If
  
     Call Actualizar_Estado(Estado_Actual_Date)
     
@@ -327,6 +347,10 @@ Private Sub Delete_Light_To_Index(ByVal light_index As Integer)
         Next Y
     Next X
     
+    'Reducimos en 1 el numero de luces y redimensionamos el Array
+    NumLights = NumLights - 1
+    ReDim Preserve Light_List(1 To NumLights) As tLight
+    
 End Sub
 
 #End If 'Terminamos de Seleccionar las luces
@@ -339,39 +363,37 @@ Public Sub DeInit_LightEngine()
     Exit Sub
 End Sub
 
-Public Function LightRenderAll() As Boolean
-On Error GoTo handle
+Public Function LightRenderAll()
+'**************************************************************
+'Author: Aaron Perkins
+'Last Modify Date: 10/07/2002
+'
+'**************************************************************
     Dim i As Long
 
-    If UBound(Light_List) < 1 Then Exit Function
+    If NumLights = 0 Then Exit Function
 
     For i = 1 To UBound(Light_List)
         LightRender i
     Next i
-    
-LightRenderAll = True
 
-
-handle:
-    LightRenderAll = False
-    Exit Function
 End Function
 
-Public Function LightRemoveAll() As Boolean
-On Error GoTo handle
+Public Sub LightRemoveAll()
+'**************************************************************
+'Author: Aaron Perkins
+'Last Modify Date: 10/07/2002
+'
+'**************************************************************
+
     Dim i As Long
-    If UBound(Light_List) < 1 Then Exit Function
     
+    If NumLights = 0 Then Exit Sub
+    Debug.Print "Numero de luces: " & NumLights & "-" & UBound(Light_List)
     For i = 1 To UBound(Light_List)
         Delete_Light_To_Index i
     Next i
-    
-    LightRemoveAll = True
-    
-handle:
-    LightRemoveAll = False
-    Call LogError(Err.number, Err.Description, "LightRemoveAll")
-    Exit Function
-End Function
+
+End Sub
 
 
