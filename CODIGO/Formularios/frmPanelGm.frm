@@ -361,7 +361,7 @@ Begin VB.Form frmPanelGm
    Begin VB.Menu mnuWorld 
       Caption         =   "World"
       Begin VB.Menu cmdLLUVIA 
-         Caption         =   "Lluvia"
+         Caption         =   "Meteo"
       End
       Begin VB.Menu cmdLIMPIAR 
          Caption         =   "Limpiar"
@@ -1086,9 +1086,14 @@ Private Sub cmdLIMPIAR_Click()
     Call WriteLimpiarMundo
 End Sub
 
-Private Sub cmdLLUVIA_Click()
-    '/LLUVIA
-    Call WriteRainToggle
+Private Sub cmdMETEO_Click()
+    '/METEO
+    Dim tBte As Byte
+    
+    tBte = InputBox("Escriba el fenomeno, 0: Random, 1: Lluvia, 2: Niebla, 3: Niebla + Lluvia.", "Seleccion meteorologico")
+    
+    If Val(tBte) < 0 And Val(tBte) > 250 Then _
+        Call WriteMeteoToggle(Val(tBte))
 End Sub
 
 Private Sub cmdMASSDEST_Click()

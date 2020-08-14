@@ -25,7 +25,7 @@ Attribute VB_Name = "ProtocolCmdParse"
 Option Explicit
 
 Public Enum eNumber_Types
-    ent_Byte
+    ent_byte
     ent_Integer
     ent_Long
     ent_Trigger
@@ -349,7 +349,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                     Call WriteInquiry
                 Else
                     ' Version con argumentos: InquiryVote
-                    If ValidNumber(ArgumentosRaw, eNumber_Types.ent_Byte) Then
+                    If ValidNumber(ArgumentosRaw, eNumber_Types.ent_byte) Then
                         Call WriteInquiryVote(ArgumentosRaw)
                     Else
                         'No es numerico
@@ -620,17 +620,17 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 
             Case "/TELEP"
                 If notNullArguments And CantidadArgumentos >= 4 Then
-                    If ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Byte) And ValidNumber(ArgumentosAll(3), eNumber_Types.ent_Byte) Then
+                    If ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(3), eNumber_Types.ent_byte) Then
                         Call WriteWarpChar(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2), ArgumentosAll(3))
                     Else
                         'No es numerico
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telep NICKNAME MAPA X Y.")
                     End If
                 ElseIf CantidadArgumentos = 3 Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Byte) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Byte) Then
+                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_byte) Then
                         'Por defecto, si no se indica el nombre, se teletransporta el mismo usuario
                         Call WriteWarpChar("YO", ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2))
-                    ElseIf ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Byte) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Byte) Then
+                    ElseIf ValidNumber(ArgumentosAll(1), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_byte) Then
                         'Por defecto, si no se indica el mapa, se teletransporta al mismo donde esta el usuario
                         Call WriteWarpChar(ArgumentosAll(0), UserMap, ArgumentosAll(1), ArgumentosAll(2))
                     Else
@@ -638,7 +638,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telep NICKNAME MAPA X Y.")
                     End If
                 ElseIf CantidadArgumentos = 2 Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Byte) Then
+                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_byte) Then
                         ' Por defecto, se considera que se quiere unicamente cambiar las coordenadas del usuario, en el mismo mapa
                         Call WriteWarpChar("YO", UserMap, ArgumentosAll(0), ArgumentosAll(1))
                     Else
@@ -699,7 +699,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 If notNullArguments Then
                     tmpArr = Split(ArgumentosRaw, "@")
                     If UBound(tmpArr) = 2 Then
-                        If ValidNumber(tmpArr(2), eNumber_Types.ent_Byte) Then
+                        If ValidNumber(tmpArr(2), eNumber_Types.ent_byte) Then
                             Call WriteJail(tmpArr(0), tmpArr(1), tmpArr(2))
                         Else
                             'No es numerico
@@ -982,13 +982,13 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 
             Case "/CT"
                 If notNullArguments And CantidadArgumentos >= 3 Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Byte) And _
-                        ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Byte) Then
+                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_byte) And _
+                        ValidNumber(ArgumentosAll(2), eNumber_Types.ent_byte) Then
                         
                         If CantidadArgumentos = 3 Then
                             Call WriteTeleportCreate(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2))
                         Else
-                            If ValidNumber(ArgumentosAll(3), eNumber_Types.ent_Byte) Then
+                            If ValidNumber(ArgumentosAll(3), eNumber_Types.ent_byte) Then
                                 Call WriteTeleportCreate(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2), ArgumentosAll(3))
                             Else
                                 'No es numerico
@@ -1010,8 +1010,16 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
             Case "/DE"
                 Call WriteExitDestroy
                 
-            Case "/LLUVIA"
-                Call WriteRainToggle
+            Case "/METEO"
+                If notNullArguments = False Then
+                    Call WriteMeteoToggle
+                Else
+                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) Then
+                        Call WriteMeteoToggle(ArgumentosAll(0))
+                    Else
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /METEO 0: Random, 1: Lluvia, 2: Niebla, 3: Niebla + Lluvia.")
+                    End If
+                End If
                 
             Case "/SETDESC"
                 Call WriteSetCharDescription(ArgumentosRaw)
@@ -1021,7 +1029,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 If notNullArguments Then
                     'elegir el mapa es opcional
                     If CantidadArgumentos = 1 Then
-                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Byte) Then
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) Then
                             'evitamos un mapa nulo para que tome el del usuario.
                             Call WriteForceMUSICToMap(ArgumentosAll(0), 0)
                         Else
@@ -1029,7 +1037,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                             Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /forcemusicmap MUSICA MAPA")
                         End If
                     Else
-                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
                             Call WriteForceMUSICToMap(ArgumentosAll(0), ArgumentosAll(1))
                         Else
                             'No es numerico
@@ -1045,7 +1053,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 If notNullArguments Then
                     'elegir la posicion es opcional
                     If CantidadArgumentos = 1 Then
-                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Byte) Then
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) Then
                             'evitamos una posicion nula para que tome la del usuario.
                             Call WriteForceWAVEToMap(ArgumentosAll(0), 0, 0, 0)
                         Else
@@ -1053,7 +1061,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                             Call ShowConsoleMsg("Utilice /forcewavmap WAV MAP X Y, siendo los ultimos 3 opcionales.")
                         End If
                     ElseIf CantidadArgumentos = 4 Then
-                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Byte) And ValidNumber(ArgumentosAll(3), eNumber_Types.ent_Byte) Then
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(3), eNumber_Types.ent_byte) Then
                             Call WriteForceWAVEToMap(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2), ArgumentosAll(3))
                         Else
                             'No es numerico
@@ -1252,7 +1260,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
     
             Case "/FORCEMUSIC"
                 If notNullArguments Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Byte) Then
+                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) Then
                         Call WriteForceMUSICAll(ArgumentosAll(0))
                     Else
                         'No es numerico
@@ -1265,7 +1273,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
     
             Case "/FORCEWAV"
                 If notNullArguments Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Byte) Then
+                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) Then
                         Call WriteForceWAVEAll(ArgumentosAll(0))
                     Else
                         'No es numerico
@@ -1346,7 +1354,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
         
             Case "/AI" ' 1 - 4
                 If notNullArguments And CantidadArgumentos >= 2 Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
+                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
                         Call WriteImperialArmour(ArgumentosAll(0), ArgumentosAll(1))
                     Else
                         'No es numerico
@@ -1359,7 +1367,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 
             Case "/AC" ' 1 - 4
                 If notNullArguments And CantidadArgumentos >= 2 Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
+                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
                         Call WriteChaosArmour(ArgumentosAll(0), ArgumentosAll(1))
                     Else
                         'No es numerico
@@ -1429,7 +1437,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 If notNullArguments Then
                     tmpArr = Split(ArgumentosRaw, "@", 2)
                     If UBound(tmpArr) = 1 Then
-                        If ValidNumber(tmpArr(1), eNumber_Types.ent_Byte) Then
+                        If ValidNumber(tmpArr(1), eNumber_Types.ent_byte) Then
                             Call WriteCheckSlot(tmpArr(0), tmpArr(1))
                         Else
                             'Faltan o sobran los parametros con el formato propio
@@ -1452,8 +1460,8 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 If CantidadArgumentos = 3 Then
                     
                     If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And _
-                       ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Byte) And _
-                       ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Byte) Then
+                       ValidNumber(ArgumentosAll(1), eNumber_Types.ent_byte) And _
+                       ValidNumber(ArgumentosAll(2), eNumber_Types.ent_byte) Then
                        
                         Call WriteCreatePretorianClan(Val(ArgumentosAll(0)), Val(ArgumentosAll(1)), _
                                                       Val(ArgumentosAll(2)))
@@ -1578,7 +1586,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
             
             Case "/CHATCOLOR"
                 If notNullArguments And CantidadArgumentos >= 3 Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Byte) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Byte) Then
+                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_byte) Then
                         Call WriteChatColor(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2))
                     Else
                         'No es numerico
@@ -1794,7 +1802,7 @@ Public Function ValidNumber(ByVal Numero As String, ByVal tipo As eNumber_Types)
         Exit Function
     
     Select Case tipo
-        Case eNumber_Types.ent_Byte
+        Case eNumber_Types.ent_byte
             Minimo = 0
             Maximo = 255
 
@@ -1833,10 +1841,10 @@ Private Function validipv4str(ByVal Ip As String) As Boolean
     If UBound(tmpArr) <> 3 Then _
         Exit Function
 
-    If Not ValidNumber(tmpArr(0), eNumber_Types.ent_Byte) Or _
-      Not ValidNumber(tmpArr(1), eNumber_Types.ent_Byte) Or _
-      Not ValidNumber(tmpArr(2), eNumber_Types.ent_Byte) Or _
-      Not ValidNumber(tmpArr(3), eNumber_Types.ent_Byte) Then _
+    If Not ValidNumber(tmpArr(0), eNumber_Types.ent_byte) Or _
+      Not ValidNumber(tmpArr(1), eNumber_Types.ent_byte) Or _
+      Not ValidNumber(tmpArr(2), eNumber_Types.ent_byte) Or _
+      Not ValidNumber(tmpArr(3), eNumber_Types.ent_byte) Then _
         Exit Function
     
     validipv4str = True

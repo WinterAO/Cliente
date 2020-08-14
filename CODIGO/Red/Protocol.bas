@@ -1641,7 +1641,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -8666,18 +8666,21 @@ Public Sub WriteExitDestroy()
     Call outgoingData.WriteByte(eGMCommands.ExitDestroy)
 End Sub
 ''
-' Writes the "RainToggle" message to the outgoing data buffer.
+' Writes the "MeteoToggle" message to the outgoing data buffer.
 '
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteRainToggle()
+Public Sub WriteMeteoToggle(Optional ByVal Forzar As Byte = 0)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
-'Writes the "RainToggle" message to the outgoing data buffer
+'Writes the "MeteoToggle" message to the outgoing data buffer
 '***************************************************
-    Call outgoingData.WriteByte(ClientPacketID.GMCommands)
-    Call outgoingData.WriteByte(eGMCommands.RainToggle)
+    With outgoingData
+        Call .WriteByte(ClientPacketID.GMCommands)
+        Call .WriteByte(eGMCommands.MeteoToggle)
+        Call .WriteByte(Forzar)
+    End With
 End Sub
 
 ''

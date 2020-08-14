@@ -385,7 +385,7 @@ Sub SwitchMap(ByVal Map As Integer)
         Call Char_CleanAll
         
         'Borramos las particulas de lluvia
-        Call mDx8_Particulas.RemoveWeatherParticlesAll
+        Call mDx8_Clima.RemoveWeatherParticlesAll
         
         'Borramos las particulas activas en el mapa.
         Call Particle_Group_Remove_All
