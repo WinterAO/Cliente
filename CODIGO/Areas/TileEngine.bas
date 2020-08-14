@@ -1226,15 +1226,11 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
             If Not .Heading <> 0 Then .Heading = EAST
             
             .Body.Walk(.Heading).Started = 0
-            .Body.Walk(.Heading).FrameCounter = 1
             
             '//Movimiento del arma y el escudo
             If Not .Movement And Not .attacking Then
                 .Arma.WeaponWalk(.Heading).Started = 0
-                .Arma.WeaponWalk(.Heading).FrameCounter = 1
-                
                 .Escudo.ShieldWalk(.Heading).Started = 0
-                .Escudo.ShieldWalk(.Heading).FrameCounter = 1
 
             End If
             
@@ -1544,7 +1540,6 @@ Private Sub RenderReflejos(ByVal CharIndex As Integer, ByVal PixelOffsetX As Int
             'Animacion del reflejo del arma.
             If .attacking = False And .Moving = False Then
                 .Arma.WeaponWalk(GetInverseHeading).Started = 0
-                .Arma.WeaponWalk(GetInverseHeading).FrameCounter = 0
             End If
             
             If .attacking And .Arma.WeaponWalk(GetInverseHeading).Started = 0 Then
@@ -1722,6 +1717,7 @@ Sub Draw_Grh(ByRef Grh As Grh, ByVal X As Integer, ByVal Y As Integer, ByVal Cen
 'Draws a GRH transparently to a X and Y position
 '*****************************************************************
     Dim CurrentGrhIndex As Long
+    Dim FrameDuration As Single
     
     If Grh.GrhIndex = 0 Then Exit Sub
     
@@ -1729,7 +1725,8 @@ On Error GoTo Error
     
     If Animate Then
         If Grh.Started = 1 Then
-            Grh.FrameCounter = Grh.FrameCounter + (timerElapsedTime * GrhData(Grh.GrhIndex).NumFrames / Grh.speed) * Movement_Speed
+            FrameDuration = Grh.speed / GrhData(Grh.GrhIndex).NumFrames
+            Grh.FrameCounter = Grh.FrameCounter + (timerElapsedTime / FrameDuration) * Movement_Speed
 
             If Grh.FrameCounter > GrhData(Grh.GrhIndex).NumFrames Then
                 Grh.FrameCounter = (Grh.FrameCounter Mod GrhData(Grh.GrhIndex).NumFrames) + 1
@@ -1742,6 +1739,14 @@ On Error GoTo Error
                     End If
                 End If
             End If
+        End If
+        
+    ElseIf Grh.FrameCounter > 1 Then
+        FrameDuration = Grh.speed / GrhData(Grh.GrhIndex).NumFrames
+        Grh.FrameCounter = Grh.FrameCounter + (timerElapsedTime / FrameDuration) * Movement_Speed
+
+        If Grh.FrameCounter > GrhData(Grh.GrhIndex).NumFrames Then
+            Grh.FrameCounter = 1
         End If
     End If
     
