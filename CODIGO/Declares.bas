@@ -822,6 +822,7 @@ Public Ciudades(1 To NUMCIUDADES) As String
 Public ListaRazas(1 To NUMRAZAS) As String
 Public ListaClases(1 To NUMCLASES) As String
 
+Public SkillPoints As Integer
 Public Alocados As Integer
 Public flags() As Integer
 

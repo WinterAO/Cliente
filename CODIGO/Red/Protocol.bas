@@ -112,6 +112,7 @@ Private Enum ServerPacketID
     UpdateHungerAndThirst        ' EHYS
     Fame                         ' FAMA
     MiniStats                    ' MEST
+    LevelUp                      ' SUNI
     AddForumMsg                  ' FMSG
     ShowForumForm                ' MFOR
     SetInvisible                 ' NOVER
@@ -211,9 +212,9 @@ Private Enum ClientPacketID
     CraftCarpenter                  'CNC
     WorkLeftClick                   'WLC
     CreateNewGuild                  'CIG
-    sadasdA
     EquipItem                       'EQUI
     ChangeHeading                   'CHEA
+    ModifySkills                    'SKSE
     Train                           'ENTR
     CommerceBuy                     'COMP
     BankExtractItem                 'RETI
@@ -746,6 +747,9 @@ On Error Resume Next
         
         Case ServerPacketID.MiniStats               ' MEST
             Call HandleMiniStats
+            
+        Case ServerPacketID.LevelUp                 ' SUNI
+            Call HandleLevelUp
         
         Case ServerPacketID.AddForumMsg             ' FMSG
             Call HandleAddForumMessage
@@ -1641,7 +1645,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -2235,7 +2239,7 @@ On Error GoTo errhandler
         
         ' Para no perder el foco cuando chatea por party
         If FontIndex = FontTypeNames.FONTTYPE_PARTY Then
-            If MirandoParty Then frmParty.SendTxt.SetFocus
+            If MirandoParty Then frmParty.Sendtxt.SetFocus
         End If
     End If
 '    Call checkText(chat)
@@ -4103,6 +4107,27 @@ Private Sub HandleMiniStats()
         .Clase = ListaClases(incomingData.ReadByte())
         .PenaCarcel = incomingData.ReadLong()
     End With
+End Sub
+
+''
+' Handles the LevelUp message.
+
+Private Sub HandleLevelUp()
+'***************************************************
+'Author: Juan Martin Sotuyo Dodero (Maraxus)
+'Last Modification: 05/17/06
+'
+'***************************************************
+    If incomingData.Length < 3 Then
+        Err.Raise incomingData.NotEnoughDataErrCode
+        Exit Sub
+    End If
+    
+    'Remove packet ID
+    Call incomingData.ReadByte
+    
+    SkillPoints = SkillPoints + incomingData.ReadInteger()
+
 End Sub
 
 ''
@@ -6203,6 +6228,29 @@ Public Sub WriteChangeHeading(ByVal Heading As E_Heading)
         Call .WriteByte(Heading)
     End With
     
+End Sub
+
+''
+' Writes the "ModifySkills" message to the outgoing data buffer.
+'
+' @param    skillEdt a-based array containing for each skill the number of points to add to it.
+' @remarks  The data is not actually sent until the buffer is properly flushed.
+
+Public Sub WriteModifySkills(ByRef skillEdt() As Byte)
+'***************************************************
+'Author: Juan Martin Sotuyo Dodero (Maraxus)
+'Last Modification: 05/17/06
+'Writes the "ModifySkills" message to the outgoing data buffer
+'***************************************************
+    Dim i As Long
+    
+    With outgoingData
+        Call .WriteByte(ClientPacketID.ModifySkills)
+        
+        For i = 1 To NUMSKILLS
+            Call .WriteByte(skillEdt(i))
+        Next i
+    End With
 End Sub
 
 ''
