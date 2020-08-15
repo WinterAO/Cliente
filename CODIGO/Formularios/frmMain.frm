@@ -167,6 +167,7 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -991,7 +992,7 @@ Call Sound.Sound_Play(SND_CLICK)
             btnSolapa(2).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
             
             ' Activo controles de inventario
-            picInv.Visible = True
+            PicInv.Visible = True
         
             ' Desactivo controles de hechizo y amigos
             hlst.Visible = False
@@ -1025,7 +1026,7 @@ Call Sound.Sound_Play(SND_CLICK)
             cmdMoverHechi(1).Visible = True
             
             ' Desactivo controles de inventario y amigos
-            picInv.Visible = False
+            PicInv.Visible = False
             
             ListAmigos.Visible = False
             AgregarAmigo.Visible = False
@@ -1042,7 +1043,7 @@ Call Sound.Sound_Play(SND_CLICK)
             BorrarAmigo.Visible = True
             
             ' Desactivo controles de inventario y hechizos
-            picInv.Visible = False
+            PicInv.Visible = False
             
             hlst.Visible = False
             btnInfo.Visible = False
@@ -1124,18 +1125,18 @@ Private Sub LoadButtons()
     lblCerrar.MouseIcon = picMouseIcon
     lblMinimizar.MouseIcon = picMouseIcon
     
-    GrhPath = Carga.Path(Interfaces)
+    GrhPath = Carga.Path(Skins) & ClientSetup.SkinSeleccionado
     
     Set cBotonMenu = New clsGraphicalButton
     Set cBotonShop = New clsGraphicalButton
     
-    Call cBotonMenu.Initialize(btnMenu, GrhPath & "btnmenu.jpg", _
-                                    GrhPath & "btnmenulight.jpg", _
-                                    GrhPath & "btnmenudown.jpg", Me)
+    Call cBotonMenu.Initialize(btnMenu, GrhPath & "/btnmenu.jpg", _
+                                    GrhPath & "/btnmenulight.jpg", _
+                                    GrhPath & "/btnmenudown.jpg", Me)
     
-    Call cBotonShop.Initialize(btnShop, GrhPath & "btnshop.jpg", _
-                                    GrhPath & "btnshoplight.jpg", _
-                                    GrhPath & "btnshopdown.jpg", Me)
+    Call cBotonShop.Initialize(btnShop, GrhPath & "/btnshop.jpg", _
+                                    GrhPath & "/btnshoplight.jpg", _
+                                    GrhPath & "/btnshopdown.jpg", Me)
 
 End Sub
 
@@ -1554,8 +1555,8 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         SendTxt.Visible = False
         
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
         ElseIf hlst.Visible Then
             hlst.SetFocus
         Else
@@ -1985,8 +1986,8 @@ Private Sub RecTxt_Change()
            (Not frmCantidad.Visible) And _
            (Not MirandoParty) Then
 
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
                         
         ElseIf hlst.Visible Then
             hlst.SetFocus
@@ -1999,8 +2000,8 @@ End Sub
 
 Private Sub RecTxt_KeyDown(KeyCode As Integer, Shift As Integer)
 
-    If picInv.Visible Then
-        picInv.SetFocus
+    If PicInv.Visible Then
+        PicInv.SetFocus
     Else
         hlst.SetFocus
     End If
@@ -2364,7 +2365,7 @@ End Sub
 
 Private Sub btnMenu_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If btnMenu.Tag = 1 Then
-        btnMenu.Picture = LoadPicture(Carga.Path(Interfaces) & "btnmenudown.jpg")
+        btnMenu.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "/btnmenudown.jpg")
         btnMenu.Tag = 0
     End If
 
@@ -2372,7 +2373,7 @@ End Sub
 
 Private Sub btnShop_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If btnShop.Tag = 1 Then
-        btnShop.Picture = LoadPicture(Carga.Path(Interfaces) & "btnshopdown.jpg")
+        btnShop.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "/btnshopdown.jpg")
         btnShop.Tag = 0
     End If
 
