@@ -491,14 +491,14 @@ Sub Main()
     Static lastFlush As Long
     ' Detecta el idioma del sistema (TRUE) y carga las traducciones
     Call SetLanguageApplication
-    
+
     Call GenerateContra
     
     'Load client configurations.
     Call Carga.LeerConfiguracion
-    
+
     Call CargarHechizos
-    
+
     #If Desarrollo = 0 Then
         If Application.FindPreviousInstance Then
             Call MsgBox(JsonLanguage.item("OTRO_CLIENTE_ABIERTO").item("TEXTO"), vbApplicationModal + vbInformation + vbOKOnly, "Error al ejecutar")

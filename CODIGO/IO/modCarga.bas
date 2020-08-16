@@ -248,12 +248,12 @@ End Function
 
 Public Sub LeerConfiguracion()
     On Local Error GoTo fileErr:
-    
+
     Call IniciarCabecera
-    
+
     Set Lector = New clsIniManager
     Call Lector.Initialize(Carga.Path(Init) & CLIENT_FILE)
-    
+
     With ClientSetup
         ' VIDEO
         .byMemory = Lector.GetValue("VIDEO", "DynamicMemory")
@@ -275,12 +275,11 @@ Public Sub LeerConfiguracion()
         .MusicVolume = CLng(Lector.GetValue("AUDIO", "VOLMUSICA"))
         .SoundVolume = CLng(Lector.GetValue("AUDIO", "VOLAUDIO"))
         .AmbientVol = CLng(Lector.GetValue("AUDIO", "VOLAMBIENT"))
-        
+
         ' GUILD
         .bGuildNews = CBool(Lector.GetValue("GUILD", "NEWS"))
         .bGldMsgConsole = CBool(Lector.GetValue("GUILD", "MESSAGES"))
         .bCantMsgs = CByte(Lector.GetValue("GUILD", "MAX_MESSAGES"))
-        
         ' FRAGSHOOTER
         .bDie = CBool(Lector.GetValue("FRAGSHOOTER", "DIE"))
         .bKill = CBool(Lector.GetValue("FRAGSHOOTER", "KILL"))
@@ -291,7 +290,7 @@ Public Sub LeerConfiguracion()
         .MostrarTips = CBool(Lector.GetValue("OTHER", "MOSTRAR_TIPS"))
         .MostrarBindKeysSelection = CBool(Lector.GetValue("OTHER", "MOSTRAR_BIND_KEYS_SELECTION"))
         .BloqueoMovimiento = CBool(Lector.GetValue("OTHER", "BLOQUEOMOV"))
-        
+
         Debug.Print "byMemory: " & .byMemory
         Debug.Print "bNoRes: " & .bNoRes
         Debug.Print "ProyectileEngine: " & .ProyectileEngine
@@ -315,7 +314,7 @@ Public Sub LeerConfiguracion()
         Debug.Print vbNullString
         
     End With
-  
+
   Exit Sub
   
 fileErr:

@@ -170,7 +170,7 @@ GrhClarito=0
 
 [BUTTON18] 'CrearPJ: Seleccion de Sexo (recuadro)
 X=350
-Y=300
+Y=307
 PosX=0
 PosY=0
 GrhNormal=31505
@@ -194,7 +194,7 @@ GrhClarito=0
 
 [BUTTON21] 'CrearPJ: Seleccion de Raza (recuadro)
 X=350
-Y=350
+Y=357
 PosX=0
 PosY=0
 GrhNormal=31505
@@ -218,7 +218,7 @@ GrhClarito=0
 
 [BUTTON24] 'CrearPJ: Seleccion de Clase (recuadro)
 X=350
-Y=400
+Y=407
 PosX=0
 PosY=0
 GrhNormal=31505

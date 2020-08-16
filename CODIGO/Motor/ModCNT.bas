@@ -33,6 +33,7 @@ Private Type tButtonsGUI
     PosY As Integer
     GrhNormal As Long
     GrhClarito As Long
+    Color(0 To 3) As Long
 End Type
 
 Private ButtonGUI() As tButtonsGUI
@@ -90,6 +91,7 @@ Public Sub InicializarRndCNT()
     
     Dim Leer As New clsIniManager
     Dim i As Integer
+    Dim j As Byte
     Dim NumButtons As Integer
     
     'Cargamos los mapas que mostraremos
@@ -117,6 +119,10 @@ Public Sub InicializarRndCNT()
             .PosY = Val(Leer.GetValue("BUTTON" & i, "PosY"))
             .GrhNormal = Val(Leer.GetValue("BUTTON" & i, "GrhNormal"))
             .GrhClarito = Val(Leer.GetValue("BUTTON" & i, "GrhClarito"))
+            
+            For j = 0 To 3
+                .Color(j) = Normal_RGBList(j)
+            Next j
             
         End With
     Next i
@@ -347,7 +353,7 @@ Private Sub RenderConnectGUI()
             
             For i = 1 To 11
                 With ButtonGUI(i)
-                    Call Draw_GrhIndex(.GrhNormal, .X, .Y, 0, Normal_RGBList(), 0, False)
+                    Call Draw_GrhIndex(.GrhNormal, .X, .Y, 0, .Color(), 0, False)
                 End With
             Next i
             
@@ -357,11 +363,11 @@ Private Sub RenderConnectGUI()
         Case 1 'Cuenta
         
             'Marco
-            Call Draw_GrhIndex(ButtonGUI(2).GrhNormal, ButtonGUI(2).X, ButtonGUI(2).Y, 0, Normal_RGBList(), 0, False)
+            Call Draw_GrhIndex(ButtonGUI(2).GrhNormal, ButtonGUI(2).X, ButtonGUI(2).Y, 0, ButtonGUI(2).Color(), 0, False)
             
             For i = 12 To 15
                 With ButtonGUI(i)
-                     Call Draw_GrhIndex(.GrhNormal, .X, .Y, 0, Normal_RGBList(), 0, False)
+                     Call Draw_GrhIndex(.GrhNormal, .X, .Y, 0, .Color(), 0, False)
                 End With
             Next i
             
@@ -372,19 +378,19 @@ Private Sub RenderConnectGUI()
         Case 2 'Crear PJ
         
             'Marco
-            Call Draw_GrhIndex(ButtonGUI(2).GrhNormal, ButtonGUI(2).X, ButtonGUI(2).Y, 0, Normal_RGBList(), 0, False)
+            Call Draw_GrhIndex(ButtonGUI(2).GrhNormal, ButtonGUI(2).X, ButtonGUI(2).Y, 0, ButtonGUI(2).Color(), 0, False)
             
             For i = 16 To 28
                 With ButtonGUI(i)
-                    Call Draw_GrhIndex(.GrhNormal, .X, .Y, 0, Normal_RGBList(), 0, False)
+                    Call Draw_GrhIndex(.GrhNormal, .X, .Y, 0, .Color(), 0, False)
                 End With
             Next i
             
             'If timeGetTime Mod CursorFlashRate * 2 < CursorFlashRate Then _
-                Call Draw_GrhIndex(25319, 400 + Engine_AnchoTexto(1, frmConnect.txtCrearPJNombre.Text), 670, 0, Normal_RGBList(), 0, False)
+                Call Draw_GrhIndex(25319, 400 + Engine_AnchoTexto(1, frmConnect.txtCrearPJNombre.Text), 670, 0, .Color(), 0, False)
 
             'Crear Personaje
-            If botonCrear = False Then Call Draw_GrhIndex(ButtonGUI(29).GrhNormal, ButtonGUI(29).X, ButtonGUI(29).Y, 0, Normal_RGBList(), 0, False)
+            If botonCrear = False Then Call Draw_GrhIndex(ButtonGUI(29).GrhNormal, ButtonGUI(29).X, ButtonGUI(29).Y, 0, ButtonGUI(29).Color(), 0, False)
             
             'Textos
             Call DrawText(400, 670, frmConnect.txtCrearPJNombre.Text, -1, False)
@@ -477,7 +483,7 @@ Private Sub RenderPJ()
 
 End Sub
 
-Public Sub DobleClickEvent(ByVal TX As Long, ByVal TY As Long)
+Public Sub DobleClickEvent(ByVal tX As Long, ByVal tY As Long)
 '******************************
 'Autor: Lorwik
 'Fecha: 13/05/2020
@@ -493,7 +499,7 @@ Public Sub DobleClickEvent(ByVal TX As Long, ByVal TY As Long)
             'Con doble click conectamos al PJ
             For i = 1 To NumberOfCharacters
                 With cPJ(i)
-                    If (TX >= PJPos(i).X And TX <= PJPos(i).X + 20) And (TY >= PJPos(i).Y And TY <= PJPos(i).Y - OFFSET_HEAD) Then
+                    If (tX >= PJPos(i).X And tX <= PJPos(i).X + 20) And (tY >= PJPos(i).Y And tY <= PJPos(i).Y - OFFSET_HEAD) Then
     
                         If LenB(.Nombre) <> 0 Then
                             UserName = .Nombre
@@ -508,7 +514,7 @@ Public Sub DobleClickEvent(ByVal TX As Long, ByVal TY As Long)
     
 End Sub
 
-Public Sub ClickEvent(ByVal TX As Long, ByVal TY As Long)
+Public Sub ClickEvent(ByVal tX As Long, ByVal tY As Long)
 '******************************
 'Autor: Lorwik
 'Fecha: 13/05/2020
@@ -518,7 +524,6 @@ Public Sub ClickEvent(ByVal TX As Long, ByVal TY As Long)
 
     Dim Index As Byte
     
-Debug.Print TX & "-" & TY
     Select Case Pantalla
         Case 0 'Conectar
 
@@ -535,37 +540,37 @@ Debug.Print TX & "-" & TY
             'End If'
             
             'Servers
-            If (TX >= ButtonGUI(9).X And TX <= ButtonGUI(9).PosX) And (TY >= ButtonGUI(9).Y And TY <= ButtonGUI(9).PosY) Then
+            If (tX >= ButtonGUI(9).X And tX <= ButtonGUI(9).PosX) And (tY >= ButtonGUI(9).Y And tY <= ButtonGUI(9).PosY) Then
                 Call Sound.Sound_Play(SND_CLICK)
                 If ServIndSel > LBound(Servidor()) Then ServIndSel = ServIndSel - 1
             End If
             
-            If (TX >= ButtonGUI(10).X And TX <= ButtonGUI(10).PosX) And (TY >= ButtonGUI(10).Y And TY <= ButtonGUI(10).PosY) Then
+            If (tX >= ButtonGUI(10).X And tX <= ButtonGUI(10).PosX) And (tY >= ButtonGUI(10).Y And tY <= ButtonGUI(10).PosY) Then
                 Call Sound.Sound_Play(SND_CLICK)
                 If ServIndSel < UBound(Servidor()) Then ServIndSel = ServIndSel + 1
             End If
             
             'Conectar
-            If (TX >= ButtonGUI(6).X And TX <= ButtonGUI(6).PosX) And (TY >= ButtonGUI(6).Y And TY <= ButtonGUI(6).PosY) Then Call btnConectar
+            If (tX >= ButtonGUI(6).X And tX <= ButtonGUI(6).PosX) And (tY >= ButtonGUI(6).Y And tY <= ButtonGUI(6).PosY) Then Call btnConectar
             
             'Teclas
-            If (TX >= ButtonGUI(7).X And TX <= ButtonGUI(7).PosX) And (TY >= ButtonGUI(7).Y And TY <= ButtonGUI(7).PosY) Then Call btnTeclas
+            If (tX >= ButtonGUI(7).X And tX <= ButtonGUI(7).PosX) And (tY >= ButtonGUI(7).Y And tY <= ButtonGUI(7).PosY) Then Call btnTeclas
             
             'Crear Cuenta
-            If (TX >= ButtonGUI(4).X And TX <= ButtonGUI(4).PosX) And (TY >= ButtonGUI(4).Y And TY <= ButtonGUI(4).PosY) Then Call btnGestion
+            If (tX >= ButtonGUI(4).X And tX <= ButtonGUI(4).PosX) And (tY >= ButtonGUI(4).Y And tY <= ButtonGUI(4).PosY) Then Call btnGestion
             
             'Recuperar
-            If (TX >= ButtonGUI(5).X And TX <= ButtonGUI(5).PosX) And (TY >= ButtonGUI(5).Y And TY <= ButtonGUI(5).PosY) Then Call btnGestion
+            If (tX >= ButtonGUI(5).X And tX <= ButtonGUI(5).PosX) And (tY >= ButtonGUI(5).Y And tY <= ButtonGUI(5).PosY) Then Call btnGestion
             
             'Salir
-            If (TX >= ButtonGUI(11).X And TX <= ButtonGUI(11).PosX) And (TY >= ButtonGUI(11).Y And TY <= ButtonGUI(11).PosY) Then Call CloseClient
+            If (tX >= ButtonGUI(11).X And tX <= ButtonGUI(11).PosX) And (tY >= ButtonGUI(11).Y And tY <= ButtonGUI(11).PosY) Then Call CloseClient
         
         Case 1 'Cuenta
 
             'Seleccionamos un PJ
             For i = 1 To NumberOfCharacters
                 With cPJ(i)
-                    If (TX >= PJPos(i).X And TX <= PJPos(i).X + 20) And (TY >= PJPos(i).Y And TY <= PJPos(i).Y - OFFSET_HEAD) Then
+                    If (tX >= PJPos(i).X And tX <= PJPos(i).X + 20) And (tY >= PJPos(i).Y And tY <= PJPos(i).Y - OFFSET_HEAD) Then
     
                         If LenB(.Nombre) <> 0 Then
                             'El PJ seleccionado queda guardado
@@ -577,10 +582,10 @@ Debug.Print TX & "-" & TY
             Next i
             
             'Crear Nuevo PJ
-            If (TX >= ButtonGUI(12).X And TX <= ButtonGUI(12).PosX) And (TY >= ButtonGUI(12).Y And TY <= ButtonGUI(12).PosY) Then Call CrearNuevoPJ
+            If (tX >= ButtonGUI(12).X And tX <= ButtonGUI(12).PosX) And (tY >= ButtonGUI(12).Y And tY <= ButtonGUI(12).PosY) Then Call CrearNuevoPJ
             
             'Borrar PJ
-            If (TX >= ButtonGUI(13).X And TX <= ButtonGUI(13).PosX) And (TY >= ButtonGUI(13).Y And TY <= ButtonGUI(13).PosY) Then
+            If (tX >= ButtonGUI(13).X And tX <= ButtonGUI(13).PosX) And (tY >= ButtonGUI(13).Y And tY <= ButtonGUI(13).PosY) Then
                 If PJAccSelected < 1 Then
                     Call MostrarMensaje(JsonLanguage.item("ERROR_PERSONAJE_NO_SELECCIONADO").item("TEXTO"))
                     Exit Sub
@@ -590,10 +595,10 @@ Debug.Print TX & "-" & TY
             
             End If
 
-            If (TX >= ButtonGUI(14).X And TX <= ButtonGUI(14).PosX) And (TY >= ButtonGUI(14).Y And TY <= ButtonGUI(14).PosY) Then Call btnGestion
+            If (tX >= ButtonGUI(14).X And tX <= ButtonGUI(14).PosX) And (tY >= ButtonGUI(14).Y And tY <= ButtonGUI(14).PosY) Then Call btnGestion
 
             'Desconectar
-            If (TX >= ButtonGUI(15).X And TX <= ButtonGUI(15).PosX) And (TY >= ButtonGUI(15).Y And TY <= ButtonGUI(15).PosY) Then
+            If (tX >= ButtonGUI(15).X And tX <= ButtonGUI(15).PosX) And (tY >= ButtonGUI(15).Y And tY <= ButtonGUI(15).PosY) Then
                 frmMain.Client.CloseSck
                 Call ResetAllInfoAccounts
                 Call MostrarConnect
@@ -602,7 +607,7 @@ Debug.Print TX & "-" & TY
         Case 2 'Crear PJ
         
             'Volver
-            If (TX >= ButtonGUI(17).X And TX <= ButtonGUI(17).PosX) And (TY >= ButtonGUI(17).Y And TY <= ButtonGUI(17).PosY) Then
+            If (tX >= ButtonGUI(17).X And tX <= ButtonGUI(17).PosX) And (tY >= ButtonGUI(17).Y And tY <= ButtonGUI(17).PosY) Then
                 Call Sound.Sound_Play(SND_CLICK)
 
                 If ClientSetup.bMusic <> CONST_DESHABILITADA Then
@@ -616,7 +621,7 @@ Debug.Print TX & "-" & TY
             End If
             
             'SexoAnterior <
-            If (TX >= ButtonGUI(19).X And TX <= ButtonGUI(19).PosX) And (TY >= ButtonGUI(19).Y And TY <= ButtonGUI(19).PosY) Then
+            If (tX >= ButtonGUI(19).X And tX <= ButtonGUI(19).PosX) And (tY >= ButtonGUI(19).Y And tY <= ButtonGUI(19).PosY) Then
                 If UserSexo > 1 Then
                     UserSexo = UserSexo - 1
                     Call DarCuerpoYCabeza
@@ -624,7 +629,7 @@ Debug.Print TX & "-" & TY
             End If
                 
             'SexoSiguiente >
-            If (TX >= ButtonGUI(20).X And TX <= ButtonGUI(20).PosX) And (TY >= ButtonGUI(20).Y And TY <= ButtonGUI(20).PosY) Then
+            If (tX >= ButtonGUI(20).X And tX <= ButtonGUI(20).PosX) And (tY >= ButtonGUI(20).Y And tY <= ButtonGUI(20).PosY) Then
                 If UserSexo < 2 Then
                     UserSexo = UserSexo + 1
                     Call DarCuerpoYCabeza
@@ -632,7 +637,7 @@ Debug.Print TX & "-" & TY
             End If
                 
             'RazaAnterior <
-            If (TX >= ButtonGUI(22).X And TX <= ButtonGUI(22).PosX) And (TY >= ButtonGUI(22).Y And TY <= ButtonGUI(22).PosY) Then
+            If (tX >= ButtonGUI(22).X And tX <= ButtonGUI(22).PosX) And (tY >= ButtonGUI(22).Y And tY <= ButtonGUI(22).PosY) Then
                 If UserRaza > 1 Then
                     UserRaza = UserRaza - 1
                     Call DarCuerpoYCabeza
@@ -641,7 +646,7 @@ Debug.Print TX & "-" & TY
             End If
                 
             'RazaSiguiente >
-            If (TX >= ButtonGUI(23).X And TX <= ButtonGUI(23).PosX) And (TY >= ButtonGUI(23).Y And TY <= ButtonGUI(23).PosY) Then
+            If (tX >= ButtonGUI(23).X And tX <= ButtonGUI(23).PosX) And (tY >= ButtonGUI(23).Y And tY <= ButtonGUI(23).PosY) Then
                 If UserRaza < NUMRAZAS Then
                     UserRaza = UserRaza + 1
                     Call DarCuerpoYCabeza
@@ -650,7 +655,7 @@ Debug.Print TX & "-" & TY
             End If
                 
             'ClaseAnterior <
-            If (TX >= ButtonGUI(25).X And TX <= ButtonGUI(25).PosX) And (TY >= ButtonGUI(25).Y And TY <= ButtonGUI(25).PosY) Then
+            If (tX >= ButtonGUI(25).X And tX <= ButtonGUI(25).PosX) And (tY >= ButtonGUI(25).Y And tY <= ButtonGUI(25).PosY) Then
                 If UserClase > 1 Then
                     UserClase = UserClase - 1
                     Call DarCuerpoYCabeza
@@ -658,7 +663,7 @@ Debug.Print TX & "-" & TY
             End If
                 
             'ClaseSiguiente >
-            If (TX >= ButtonGUI(26).X And TX <= ButtonGUI(26).PosX) And (TY >= ButtonGUI(26).Y And TY <= ButtonGUI(26).PosY) Then
+            If (tX >= ButtonGUI(26).X And tX <= ButtonGUI(26).PosX) And (tY >= ButtonGUI(26).Y And tY <= ButtonGUI(26).PosY) Then
                 If UserClase < NUMCLASES Then
                     UserClase = UserClase + 1
                     Call DarCuerpoYCabeza
@@ -666,7 +671,7 @@ Debug.Print TX & "-" & TY
             End If
             
             'Crear PJ
-            If (TX >= ButtonGUI(29).X And TX <= ButtonGUI(29).PosX) And (TY >= ButtonGUI(29).Y And TY <= ButtonGUI(29).PosY) Then _
+            If (tX >= ButtonGUI(29).X And tX <= ButtonGUI(29).PosX) And (tY >= ButtonGUI(29).Y And tY <= ButtonGUI(29).PosY) Then _
                 If botonCrear = False Then Call btnCrear
                 
             'Nombre del PJ
@@ -676,12 +681,26 @@ Debug.Print TX & "-" & TY
             'End If
                 
             'Cabezas
-            If (TX >= ButtonGUI(27).X And TX <= ButtonGUI(27).PosX) And (TY >= ButtonGUI(27).Y And TY <= ButtonGUI(27).PosY) Then Call btnHeadPJ(1) 'Menos
-            If (TX >= ButtonGUI(28).X And TX <= ButtonGUI(28).PosX) And (TY >= ButtonGUI(28).Y And TY <= ButtonGUI(28).PosY) Then Call btnHeadPJ(0) 'Mas
+            If (tX >= ButtonGUI(27).X And tX <= ButtonGUI(27).PosX) And (tY >= ButtonGUI(27).Y And tY <= ButtonGUI(27).PosY) Then Call btnHeadPJ(1) 'Menos
+            If (tX >= ButtonGUI(28).X And tX <= ButtonGUI(28).PosX) And (tY >= ButtonGUI(28).Y And tY <= ButtonGUI(28).PosY) Then Call btnHeadPJ(0) 'Mas
             
             
     End Select
     
+End Sub
+
+Public Sub MouseMove_Event(ByVal tX As Long, ByVal tY As Long)
+    Dim i As Integer
+    
+    Select Case Pantalla
+    
+        Case 0 'Conectar
+        
+        Case 1 'Cuenta
+        
+        Case 2 'Crear PJ
+        
+    End Select
 End Sub
 
 Public Sub TeclaEvent(ByVal KeyCode As Integer)

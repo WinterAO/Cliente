@@ -167,6 +167,8 @@ Private Sub Renderer_MouseMove(Button As Integer, Shift As Integer, X As Single,
         MouseY = Renderer.Height
     End If
     
+    Call MouseMove_Event(X, Y)
+    
 End Sub
 
 Private Sub txtPasswd_KeyPress(KeyAscii As Integer)
