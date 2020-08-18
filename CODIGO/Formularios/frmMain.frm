@@ -168,6 +168,7 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -636,7 +637,7 @@ Begin VB.Form frmMain
    End
    Begin VB.Image btnMenu 
       Height          =   360
-      Left            =   11640
+      Left            =   11670
       MouseIcon       =   "frmMain.frx":6C62B
       Tag             =   "1"
       Top             =   9240
@@ -940,8 +941,8 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
-Public TX                  As Byte
-Public TY                  As Byte
+Public tX                  As Byte
+Public tY                  As Byte
 Public MouseX              As Long
 Public MouseY              As Long
 Public MouseBoton          As Long
@@ -1496,12 +1497,12 @@ Private Sub mnuEquipar_Click()
 End Sub
 
 Private Sub mnuNPCComerciar_Click()
-    Call WriteLeftClick(TX, TY)
+    Call WriteLeftClick(tX, tY)
     Call WriteCommerceStart
 End Sub
 
 Private Sub mnuNpcDesc_Click()
-    Call WriteLeftClick(TX, TY)
+    Call WriteLeftClick(tX, tY)
 End Sub
 
 Private Sub mnuTirar_Click()
@@ -1744,7 +1745,7 @@ Private Sub MainViewPic_MouseDown(Button As Integer, _
     '¿Hizo click derecho?
     If Button = 2 Then
         If Not MirandoForo And Not Comerciando Then 'frmComerciar.Visible And Not frmBancoObj.Visible Then
-            Call WriteAccionClick(TX, TY)
+            Call WriteAccionClick(tX, tY)
         End If
     End If
     
@@ -1774,7 +1775,7 @@ Private Sub MainViewPic_DblClick()
     '12/28/2007: ByVal - Chequea que la ventana de comercio y boveda no este abierta al hacer doble clic a un comerciante, sobrecarga la lista de items.
     '**************************************************************
     If Not MirandoForo And Not Comerciando Then 'frmComerciar.Visible And Not frmBancoObj.Visible Then
-        Call WriteAccionClick(TX, TY)
+        Call WriteAccionClick(tX, tY)
     End If
     
 End Sub
@@ -1787,7 +1788,7 @@ Private Sub MainViewPic_Click()
     Dim VAR_LANZANDO        As String
     
     If Not Comerciando Then
-        Call ConvertCPtoTP(MouseX, MouseY, TX, TY)
+        Call ConvertCPtoTP(MouseX, MouseY, tX, tY)
         
         If Not InGameArea() Then Exit Sub
         
@@ -1807,7 +1808,7 @@ Private Sub MainViewPic_Click()
 
                 '[/ybarra]
                 If UsingSkill = 0 Then
-                    Call WriteLeftClick(TX, TY)
+                    Call WriteLeftClick(tX, tY)
                 Else
                     
                     If Not MainTimer.Check(TimersIndex.Arrows, False) Then 'Check if arrows interval has finished.
@@ -1887,7 +1888,7 @@ Private Sub MainViewPic_Click()
                     If frmMain.MousePointer <> 2 Then Exit Sub 'Parcheo porque a veces tira el hechizo sin tener el cursor (NicoNZ)
                     
                     frmMain.MousePointer = vbDefault
-                    Call WriteWorkLeftClick(TX, TY, UsingSkill)
+                    Call WriteWorkLeftClick(tX, tY, UsingSkill)
                     UsingSkill = 0
                 End If
             Else
@@ -1898,7 +1899,7 @@ Private Sub MainViewPic_Click()
 
             If Not CustomKeys.KeyAssigned(KeyCodeConstants.vbKeyShift) Then
                 If MouseBoton = vbLeftButton Then
-                    Call WriteWarpChar("YO", UserMap, TX, TY)
+                    Call WriteWarpChar("YO", UserMap, tX, tY)
                 End If
             End If
         End If
@@ -1913,7 +1914,7 @@ Private Sub Form_DblClick()
     '12/28/2007: ByVal - Chequea que la ventana de comercio y boveda no este abierta al hacer doble clic a un comerciante, sobrecarga la lista de items.
     '**************************************************************
     If Not MirandoForo And Not Comerciando Then 'frmComerciar.Visible And Not frmBancoObj.Visible Then
-        Call WriteAccionClick(TX, TY)
+        Call WriteAccionClick(tX, tY)
     End If
 End Sub
 
@@ -2130,10 +2131,10 @@ Private Sub AbrirMenuViewPort()
     'TODO: No usar variable de compilacion y acceder a esto desde el config.ini
     #If (ConMenuseConextuales = 1) Then
 
-        If TX >= MinXBorder And TY >= MinYBorder And TY <= MaxYBorder And TX <= MaxXBorder Then
+        If tX >= MinXBorder And tY >= MinYBorder And tY <= MaxYBorder And tX <= MaxXBorder Then
 
-            If MapData(TX, TY).CharIndex > 0 Then
-                If charlist(MapData(TX, TY).CharIndex).invisible = False Then
+            If MapData(tX, tY).CharIndex > 0 Then
+                If charlist(MapData(tX, tY).CharIndex).invisible = False Then
         
                     Dim m As frmMenuseFashion
                     Set m = New frmMenuseFashion
@@ -2143,8 +2144,8 @@ Private Sub AbrirMenuViewPort()
                     m.SetMenuId 1
                     m.ListaInit 2, False
             
-                    If LenB(charlist(MapData(TX, TY).CharIndex).Nombre) <> 0 Then
-                        m.ListaSetItem 0, charlist(MapData(TX, TY).CharIndex).Nombre, True
+                    If LenB(charlist(MapData(tX, tY).CharIndex).Nombre) <> 0 Then
+                        m.ListaSetItem 0, charlist(MapData(tX, tY).CharIndex).Nombre, True
                     Else
                         m.ListaSetItem 0, "<NPC>", True
                     End If
@@ -2190,10 +2191,10 @@ Public Sub CallbackMenuFashion(ByVal MenuId As Long, ByVal Sel As Long)
             Select Case Sel
 
                 Case 0 'Nombre
-                    Call WriteLeftClick(TX, TY)
+                    Call WriteLeftClick(tX, tY)
         
                 Case 1 'Comerciar
-                    Call WriteLeftClick(TX, TY)
+                    Call WriteLeftClick(tX, tY)
                     Call WriteCommerceStart
             End Select
     End Select

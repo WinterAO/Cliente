@@ -371,8 +371,6 @@ On Error GoTo ErrorHandler
     
     Dim udtBufferDesc As DSBUFFERDESC
     
-    Debug.Print "Tipo: " & tipo & " Extension: " & extension & " WavPath: " & WavPath & " file_Name: " & file_name
-    
     If tipo = Ambient Then
         InfoHead = File_Find(App.Path & "\recursos\Ambient.WAO", CStr(file_name))
     Else
