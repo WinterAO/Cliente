@@ -34,7 +34,7 @@ Begin VB.Form frmHerrero
       Height          =   255
       Left            =   5175
       MaxLength       =   5
-      TabIndex        =   14
+      TabIndex        =   13
       Text            =   "1"
       Top             =   2940
       Width           =   1050
@@ -49,7 +49,7 @@ Begin VB.Form frmHerrero
       Left            =   5430
       ScaleHeight     =   480
       ScaleWidth      =   480
-      TabIndex        =   13
+      TabIndex        =   12
       Top             =   1545
       Visible         =   0   'False
       Width           =   480
@@ -64,7 +64,7 @@ Begin VB.Form frmHerrero
       Left            =   5400
       ScaleHeight     =   480
       ScaleWidth      =   480
-      TabIndex        =   12
+      TabIndex        =   11
       Top             =   2340
       Visible         =   0   'False
       Width           =   480
@@ -79,7 +79,7 @@ Begin VB.Form frmHerrero
       Left            =   5430
       ScaleHeight     =   480
       ScaleWidth      =   480
-      TabIndex        =   11
+      TabIndex        =   10
       Top             =   3135
       Visible         =   0   'False
       Width           =   480
@@ -94,29 +94,10 @@ Begin VB.Form frmHerrero
       Left            =   5430
       ScaleHeight     =   480
       ScaleWidth      =   480
-      TabIndex        =   10
+      TabIndex        =   9
       Top             =   3930
       Visible         =   0   'False
       Width           =   480
-   End
-   Begin VB.ComboBox cboItemsCiclo 
-      BackColor       =   &H80000006&
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   315
-      Left            =   5325
-      Style           =   2  'Dropdown List
-      TabIndex        =   1
-      Top             =   4080
-      Width           =   735
    End
    Begin VB.PictureBox picItem 
       AutoRedraw      =   -1  'True
@@ -128,7 +109,7 @@ Begin VB.Form frmHerrero
       Left            =   870
       ScaleHeight     =   480
       ScaleWidth      =   480
-      TabIndex        =   9
+      TabIndex        =   8
       Top             =   3930
       Visible         =   0   'False
       Width           =   480
@@ -142,7 +123,7 @@ Begin VB.Form frmHerrero
       Left            =   1710
       ScaleHeight     =   480
       ScaleWidth      =   1440
-      TabIndex        =   8
+      TabIndex        =   7
       Top             =   3930
       Visible         =   0   'False
       Width           =   1440
@@ -157,7 +138,7 @@ Begin VB.Form frmHerrero
       Left            =   870
       ScaleHeight     =   480
       ScaleWidth      =   480
-      TabIndex        =   7
+      TabIndex        =   6
       Top             =   3135
       Visible         =   0   'False
       Width           =   480
@@ -171,7 +152,7 @@ Begin VB.Form frmHerrero
       Left            =   1710
       ScaleHeight     =   480
       ScaleWidth      =   1440
-      TabIndex        =   6
+      TabIndex        =   5
       Top             =   3135
       Visible         =   0   'False
       Width           =   1440
@@ -186,7 +167,7 @@ Begin VB.Form frmHerrero
       Left            =   870
       ScaleHeight     =   480
       ScaleWidth      =   480
-      TabIndex        =   5
+      TabIndex        =   4
       Top             =   2340
       Visible         =   0   'False
       Width           =   480
@@ -200,7 +181,7 @@ Begin VB.Form frmHerrero
       Left            =   1710
       ScaleHeight     =   480
       ScaleWidth      =   1440
-      TabIndex        =   4
+      TabIndex        =   3
       Top             =   2340
       Visible         =   0   'False
       Width           =   1440
@@ -222,7 +203,7 @@ Begin VB.Form frmHerrero
       Left            =   1710
       ScaleHeight     =   480
       ScaleWidth      =   1440
-      TabIndex        =   3
+      TabIndex        =   2
       Top             =   1545
       Visible         =   0   'False
       Width           =   1440
@@ -237,16 +218,10 @@ Begin VB.Form frmHerrero
       Left            =   870
       ScaleHeight     =   480
       ScaleWidth      =   480
-      TabIndex        =   2
+      TabIndex        =   1
       Top             =   1545
       Visible         =   0   'False
       Width           =   480
-   End
-   Begin VB.Image imgCantidadCiclo 
-      Height          =   645
-      Left            =   5160
-      Top             =   3435
-      Width           =   1110
    End
    Begin VB.Image imgMarcoLingotes 
       Height          =   780
@@ -366,21 +341,6 @@ Begin VB.Form frmHerrero
       Top             =   2370
       Width           =   1710
    End
-   Begin VB.Image picCheckBox 
-      Height          =   420
-      Left            =   5415
-      MousePointer    =   99  'Custom
-      Top             =   1860
-      Width           =   435
-   End
-   Begin VB.Image picPestania 
-      Height          =   255
-      Index           =   2
-      Left            =   3240
-      MousePointer    =   99  'Custom
-      Top             =   480
-      Width           =   1095
-   End
    Begin VB.Image picPestania 
       Height          =   255
       Index           =   1
@@ -476,7 +436,6 @@ Option Explicit
 Private Enum ePestania
     ieArmas
     ieArmaduras
-    ieMejorar
 End Enum
 
 Private picCheck As Picture
@@ -488,12 +447,10 @@ Private UltimaPestania As Byte
 
 Private cPicCerrar As clsGraphicalButton
 Private cPicConstruir(0 To 3) As clsGraphicalButton
-Private cPicMejorar(0 To 3) As clsGraphicalButton
 Public LastButtonPressed As clsGraphicalButton
 
 Private Cargando As Boolean
 
-Private UsarMacro As Boolean
 Private Armas As Boolean
 
 Private clsFormulario As clsFormMovementManager
@@ -510,11 +467,9 @@ Private Sub CargarImagenes()
     If Language = "spanish" Then
       Set Pestanias(ePestania.ieArmas) = LoadPicture(ImgPath & "VentanaHerreriaArmas_spanish.jpg")
       Set Pestanias(ePestania.ieArmaduras) = LoadPicture(ImgPath & "VentanaHerreriaArmaduras_spanish.jpg")
-      Set Pestanias(ePestania.ieMejorar) = LoadPicture(ImgPath & "VentanaHerreriaMejorar_spanish.jpg")
     Else
       Set Pestanias(ePestania.ieArmas) = LoadPicture(ImgPath & "VentanaHerreriaArmas_english.jpg")
       Set Pestanias(ePestania.ieArmaduras) = LoadPicture(ImgPath & "VentanaHerreriaArmaduras_english.jpg")
-      Set Pestanias(ePestania.ieMejorar) = LoadPicture(ImgPath & "VentanaHerreriaMejorar_english.jpg")
     End If
 
     Set picCheck = LoadPicture(ImgPath & "CheckBoxHerreria.jpg")
@@ -524,7 +479,6 @@ Private Sub CargarImagenes()
     
     For Index = 1 To MAX_LIST_ITEMS
         imgMarcoItem(Index).Picture = picRecuadroItem
-        imgMarcoUpgrade(Index).Picture = picRecuadroItem
         imgMarcoLingotes(Index).Picture = picRecuadroLingotes
     Next Index
     
@@ -533,10 +487,6 @@ Private Sub CargarImagenes()
     Set cPicConstruir(1) = New clsGraphicalButton
     Set cPicConstruir(2) = New clsGraphicalButton
     Set cPicConstruir(3) = New clsGraphicalButton
-    Set cPicMejorar(0) = New clsGraphicalButton
-    Set cPicMejorar(1) = New clsGraphicalButton
-    Set cPicMejorar(2) = New clsGraphicalButton
-    Set cPicMejorar(3) = New clsGraphicalButton
 
     Set LastButtonPressed = New clsGraphicalButton
     
@@ -545,46 +495,27 @@ Private Sub CargarImagenes()
     Call cPicConstruir(1).Initialize(picConstruir1, ImgPath & "BotonConstruirHerreria.jpg", ImgPath & "BotonConstruirRolloverHerreria.jpg", ImgPath & "BotonConstruirClickHerreria.jpg", Me)
     Call cPicConstruir(2).Initialize(picConstruir2, ImgPath & "BotonConstruirHerreria.jpg", ImgPath & "BotonConstruirRolloverHerreria.jpg", ImgPath & "BotonConstruirClickHerreria.jpg", Me)
     Call cPicConstruir(3).Initialize(picConstruir3, ImgPath & "BotonConstruirHerreria.jpg", ImgPath & "BotonConstruirRolloverHerreria.jpg", ImgPath & "BotonConstruirClickHerreria.jpg", Me)
-    Call cPicMejorar(0).Initialize(picMejorar0, ImgPath & "BotonMejorarHerreria.jpg", ImgPath & "BotonMejorarRolloverHerreria.jpg", ImgPath & "BotonMejorarClickHerreria.jpg", Me)
-    Call cPicMejorar(1).Initialize(picMejorar1, ImgPath & "BotonMejorarHerreria.jpg", ImgPath & "BotonMejorarRolloverHerreria.jpg", ImgPath & "BotonMejorarClickHerreria.jpg", Me)
-    Call cPicMejorar(2).Initialize(picMejorar2, ImgPath & "BotonMejorarHerreria.jpg", ImgPath & "BotonMejorarRolloverHerreria.jpg", ImgPath & "BotonMejorarClickHerreria.jpg", Me)
-    Call cPicMejorar(3).Initialize(picMejorar3, ImgPath & "BotonMejorarHerreria.jpg", ImgPath & "BotonMejorarRolloverHerreria.jpg", ImgPath & "BotonMejorarClickHerreria.jpg", Me)
-
-    imgCantidadCiclo.Picture = LoadPicture(ImgPath & "ConstruirPorCiclo.jpg")
     
     picPestania(ePestania.ieArmas).MouseIcon = picMouseIcon
     picPestania(ePestania.ieArmaduras).MouseIcon = picMouseIcon
-    picPestania(ePestania.ieMejorar).MouseIcon = picMouseIcon
     
-    picCheckBox.MouseIcon = picMouseIcon
 End Sub
 
 Private Sub ConstruirItem(ByVal Index As Integer)
     Dim ItemIndex As Integer
-    Dim CantItemsCiclo As Integer
     
     If Scroll.Visible = True Then ItemIndex = Scroll.value
     ItemIndex = ItemIndex + Index
     
     Select Case UltimaPestania
         Case ePestania.ieArmas
-        
-            ' Que cosntruya el maximo, total si sobra no importa, valida el server
-            CantItemsCiclo = Val(cboItemsCiclo.List(cboItemsCiclo.ListCount - 1))
             
-            Call WriteInitCrafting(Val(txtCantItems.Text), CantItemsCiclo)
-            Call WriteCraftBlacksmith(ArmasHerrero(ItemIndex).objindex)
+            Call WriteCraftBlacksmith(ArmasHerrero(ItemIndex).objindex, txtCantItems.Text)
             
         Case ePestania.ieArmaduras
-        
-            ' Que cosntruya el maximo, total si sobra no importa, valida el server
-            CantItemsCiclo = Val(cboItemsCiclo.List(cboItemsCiclo.ListCount - 1))
             
-            Call WriteInitCrafting(Val(txtCantItems.Text), CantItemsCiclo)
-            Call WriteCraftBlacksmith(ArmadurasHerrero(ItemIndex).objindex)
-        
-        Case ePestania.ieMejorar
-            Call WriteItemUpgrade(HerreroMejorar(ItemIndex).objindex)
+            Call WriteCraftBlacksmith(ArmadurasHerrero(ItemIndex).objindex, txtCantItems.Text)
+
     End Select
     
     Unload Me
@@ -603,22 +534,14 @@ Private Sub Form_Load()
     
     ' Cargar imagenes
     Set Me.Picture = Pestanias(ePestania.ieArmas)
-    picCheckBox.Picture = picCheck
     
     Cargando = True
     
     MaxConstItem = CInt((UserLvl - 2) * 0.2)
     MaxConstItem = IIf(MaxConstItem < 1, 1, MaxConstItem)
     
-    For i = 1 To MaxConstItem
-        cboItemsCiclo.AddItem i
-    Next i
-    
-    cboItemsCiclo.ListIndex = 0
-    
     Cargando = False
-    
-    UsarMacro = True
+
     Armas = True
     UltimaPestania = 0
 End Sub
@@ -665,8 +588,6 @@ Public Sub HideExtraControls(ByVal NumItems As Integer, Optional ByVal Upgrading
         picItem(i).Visible = (NumItems >= i)
         imgMarcoItem(i).Visible = (NumItems >= i)
         imgMarcoLingotes(i).Visible = (NumItems >= i)
-        picUpgradeItem(i).Visible = (NumItems >= i And Upgrading)
-        imgMarcoUpgrade(i).Visible = (NumItems >= i And Upgrading)
     Next i
     
     picConstruir0.Visible = (NumItems >= 1 And Not Upgrading)
@@ -674,21 +595,12 @@ Public Sub HideExtraControls(ByVal NumItems As Integer, Optional ByVal Upgrading
     picConstruir2.Visible = (NumItems >= 3 And Not Upgrading)
     picConstruir3.Visible = (NumItems >= 4 And Not Upgrading)
     
-    picMejorar0.Visible = (NumItems >= 1 And Upgrading)
-    picMejorar1.Visible = (NumItems >= 2 And Upgrading)
-    picMejorar2.Visible = (NumItems >= 3 And Upgrading)
-    picMejorar3.Visible = (NumItems >= 4 And Upgrading)
-    
-    picCheckBox.Visible = Not Upgrading
-    cboItemsCiclo.Visible = Not Upgrading And UsarMacro
-    imgCantidadCiclo.Visible = Not Upgrading And UsarMacro
     txtCantItems.Visible = Not Upgrading
-    picCheckBox.Visible = Not Upgrading
     
     If NumItems > MAX_LIST_ITEMS Then
         Scroll.Visible = True
         Cargando = True
-        Scroll.max = NumItems - MAX_LIST_ITEMS
+        Scroll.Max = NumItems - MAX_LIST_ITEMS
         Cargando = False
     Else
         Scroll.Visible = False
@@ -736,9 +648,6 @@ On Error Resume Next
                 ' Agrego el item
                 Call RenderItem(picItem(i), .GrhIndex)
                 picItem(i).ToolTipText = .name
-     
-                Call RenderItem(picUpgradeItem(i), .UpgradeGrhIndex)
-                picUpgradeItem(i).ToolTipText = .UpgradeName
                 
                  ' Inventariode lingotes
                 Call InvLingosHerreria(i).SetItem(1, 0, .LinH, 0, LH_GRH, 0, 0, 0, 0, 0, 0, JsonLanguage.item("HERRERO").item("TEXTO").item(1))
@@ -750,37 +659,6 @@ On Error Resume Next
         
     Next i
     
-End Sub
-
-Public Sub RenderUpgradeList(ByVal Inicio As Integer)
-    Dim i        As Long
-    Dim NumItems As Integer
-
-    NumItems = UBound(HerreroMejorar)
-    Inicio = Inicio - 1
-
-    For i = 1 To MAX_LIST_ITEMS
-
-        If i + Inicio <= NumItems Then
-
-            With HerreroMejorar(i + Inicio)
-                ' Agrego el item
-                Call RenderItem(picItem(i), .GrhIndex)
-                picItem(i).ToolTipText = .name
-            
-                Call RenderItem(picUpgradeItem(i), .UpgradeGrhIndex)
-                picUpgradeItem(i).ToolTipText = .UpgradeName
-            
-                ' Inventariode lingotes
-                Call InvLingosHerreria(i).SetItem(1, 0, .LinH, 0, LH_GRH, 0, 0, 0, 0, 0, 0, JsonLanguage.item("HERRERO").item("TEXTO").item(1))
-                Call InvLingosHerreria(i).SetItem(2, 0, .LinP, 0, LP_GRH, 0, 0, 0, 0, 0, 0, JsonLanguage.item("HERRERO").item("TEXTO").item(2))
-                Call InvLingosHerreria(i).SetItem(3, 0, .LinO, 0, LO_GRH, 0, 0, 0, 0, 0, 0, JsonLanguage.item("HERRERO").item("TEXTO").item(3))
-            End With
-            
-        End If
-        
-    Next i
-
 End Sub
 
 Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -797,22 +675,12 @@ Private Sub Form_Unload(Cancel As Integer)
     MirandoHerreria = False
 End Sub
 
-Private Sub imgCerrar_Click()
-    Unload Me
+Private Sub imgCantidadCiclo_Click()
+
 End Sub
 
-Private Sub picCheckBox_Click()
-    
-    UsarMacro = Not UsarMacro
-
-    If UsarMacro Then
-        picCheckBox.Picture = picCheck
-    Else
-        picCheckBox.Picture = Nothing
-    End If
-    
-    cboItemsCiclo.Visible = UsarMacro
-    imgCantidadCiclo.Visible = UsarMacro
+Private Sub imgCerrar_Click()
+    Unload Me
 End Sub
 
 Private Sub picConstruir0_Click()
@@ -845,22 +713,6 @@ End Sub
 
 Private Sub picLingotes3_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     LastButtonPressed.ToggleToNormal
-End Sub
-
-Private Sub picMejorar0_Click()
-    Call ConstruirItem(1)
-End Sub
-
-Private Sub picMejorar1_Click()
-    Call ConstruirItem(2)
-End Sub
-
-Private Sub picMejorar2_Click()
-    Call ConstruirItem(3)
-End Sub
-
-Private Sub picMejorar3_Click()
-    Call ConstruirItem(4)
 End Sub
 
 Private Sub picPestania_Click(Index As Integer)
@@ -897,16 +749,7 @@ Private Sub picPestania_Click(Index As Integer)
             Call RenderList(1, False)
             
             Armas = False
-            
-        Case ePestania.ieMejorar
-            ' Background
-            Me.Picture = Pestanias(ePestania.ieMejorar)
-            
-            NumItems = UBound(HerreroMejorar)
-            
-            Call HideExtraControls(NumItems, True)
-            
-            Call RenderUpgradeList(1)
+
     End Select
 
     UltimaPestania = Index
@@ -926,9 +769,6 @@ Private Sub Scroll_Change()
             
         Case ePestania.ieArmaduras
             Call RenderList(i + 1, False)
-            
-        Case ePestania.ieMejorar
-            Call RenderUpgradeList(i + 1)
             
     End Select
     

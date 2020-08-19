@@ -28,7 +28,7 @@ Begin VB.Form frmCarpinteria
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
-      TabIndex        =   14
+      TabIndex        =   13
       Top             =   3930
       Visible         =   0   'False
       Width           =   480
@@ -44,7 +44,7 @@ Begin VB.Form frmCarpinteria
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
-      TabIndex        =   13
+      TabIndex        =   12
       Top             =   3135
       Visible         =   0   'False
       Width           =   480
@@ -60,7 +60,7 @@ Begin VB.Form frmCarpinteria
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
-      TabIndex        =   12
+      TabIndex        =   11
       Top             =   2340
       Visible         =   0   'False
       Width           =   480
@@ -76,7 +76,7 @@ Begin VB.Form frmCarpinteria
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
-      TabIndex        =   11
+      TabIndex        =   10
       Top             =   1545
       Visible         =   0   'False
       Width           =   480
@@ -105,25 +105,6 @@ Begin VB.Form frmCarpinteria
       Top             =   2925
       Width           =   1050
    End
-   Begin VB.ComboBox cboItemsCiclo 
-      BackColor       =   &H00000000&
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   315
-      Left            =   5400
-      Style           =   2  'Dropdown List
-      TabIndex        =   2
-      Top             =   4080
-      Width           =   735
-   End
    Begin VB.PictureBox picItem 
       AutoRedraw      =   -1  'True
       BackColor       =   &H00000000&
@@ -135,7 +116,7 @@ Begin VB.Form frmCarpinteria
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
-      TabIndex        =   10
+      TabIndex        =   9
       Top             =   1545
       Visible         =   0   'False
       Width           =   480
@@ -150,7 +131,7 @@ Begin VB.Form frmCarpinteria
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   64
-      TabIndex        =   9
+      TabIndex        =   8
       Top             =   1545
       Visible         =   0   'False
       Width           =   960
@@ -173,7 +154,7 @@ Begin VB.Form frmCarpinteria
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   64
-      TabIndex        =   8
+      TabIndex        =   7
       Top             =   2340
       Visible         =   0   'False
       Width           =   960
@@ -189,7 +170,7 @@ Begin VB.Form frmCarpinteria
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
-      TabIndex        =   7
+      TabIndex        =   6
       Top             =   2340
       Visible         =   0   'False
       Width           =   480
@@ -204,7 +185,7 @@ Begin VB.Form frmCarpinteria
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   64
-      TabIndex        =   6
+      TabIndex        =   5
       Top             =   3135
       Visible         =   0   'False
       Width           =   960
@@ -220,7 +201,7 @@ Begin VB.Form frmCarpinteria
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
-      TabIndex        =   5
+      TabIndex        =   4
       Top             =   3135
       Visible         =   0   'False
       Width           =   480
@@ -235,7 +216,7 @@ Begin VB.Form frmCarpinteria
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   64
-      TabIndex        =   4
+      TabIndex        =   3
       Top             =   3930
       Visible         =   0   'False
       Width           =   960
@@ -251,16 +232,10 @@ Begin VB.Form frmCarpinteria
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
-      TabIndex        =   3
+      TabIndex        =   2
       Top             =   3930
       Visible         =   0   'False
       Width           =   480
-   End
-   Begin VB.Image imgCantidadCiclo 
-      Height          =   645
-      Left            =   5160
-      Top             =   3435
-      Width           =   1110
    End
    Begin VB.Image imgPestania 
       Height          =   255
@@ -408,13 +383,6 @@ Begin VB.Form frmCarpinteria
       Visible         =   0   'False
       Width           =   1710
    End
-   Begin VB.Image imgChkMacro 
-      Height          =   420
-      Left            =   5415
-      MousePointer    =   99  'Custom
-      Top             =   1860
-      Width           =   435
-   End
    Begin VB.Image imgMejorar0 
       Height          =   420
       Left            =   3150
@@ -488,7 +456,6 @@ Private clsFormulario As clsFormMovementManager
 
 Private Enum ePestania
     ieItems
-    ieMejorar
 End Enum
 
 Private picCheck                As Picture
@@ -500,11 +467,8 @@ Private UltimaPestania          As Byte
 
 Private cBotonCerrar            As clsGraphicalButton
 Private cBotonConstruir(0 To 4) As clsGraphicalButton
-Private cBotonMejorar(0 To 4)   As clsGraphicalButton
 
 Public LastButtonPressed        As clsGraphicalButton
-
-Private UsarMacro               As Boolean
 
 Private Sub Form_Load()
     
@@ -557,7 +521,6 @@ Private Sub LoadButtons()
     GrhPath = Carga.Path(Interfaces)
 
     Set Pestanias(ePestania.ieItems) = LoadPicture(GrhPath & "VentanaCarpinteriaItems.jpg")
-    Set Pestanias(ePestania.ieMejorar) = LoadPicture(GrhPath & "VentanaCarpinteriaMejorar.jpg")
     
     Set picCheck = LoadPicture(GrhPath & "CheckBoxCarpinteria.jpg")
     
@@ -575,10 +538,6 @@ Private Sub LoadButtons()
     Set cBotonConstruir(1) = New clsGraphicalButton
     Set cBotonConstruir(2) = New clsGraphicalButton
     Set cBotonConstruir(3) = New clsGraphicalButton
-    Set cBotonMejorar(0) = New clsGraphicalButton
-    Set cBotonMejorar(1) = New clsGraphicalButton
-    Set cBotonMejorar(2) = New clsGraphicalButton
-    Set cBotonMejorar(3) = New clsGraphicalButton
 
     Set LastButtonPressed = New clsGraphicalButton
     
@@ -589,19 +548,7 @@ Private Sub LoadButtons()
     Call cBotonConstruir(2).Initialize(imgConstruir2, GrhPath & "BotonConstruirCarpinteria.jpg", GrhPath & "BotonConstruirRolloverCarpinteria.jpg", GrhPath & "BotonConstruirClickCarpinteria.jpg", Me)
     Call cBotonConstruir(3).Initialize(imgConstruir3, GrhPath & "BotonConstruirCarpinteria.jpg", GrhPath & "BotonConstruirRolloverCarpinteria.jpg", GrhPath & "BotonConstruirClickCarpinteria.jpg", Me)
     
-    Call cBotonMejorar(0).Initialize(imgMejorar0, GrhPath & "BotonMejorarCarpinteria.jpg", GrhPath & "BotonMejorarRolloverCarpinteria.jpg", GrhPath & "BotonMejorarClickCarpinteria.jpg", Me)
-    Call cBotonMejorar(1).Initialize(imgMejorar1, GrhPath & "BotonMejorarCarpinteria.jpg", GrhPath & "BotonMejorarRolloverCarpinteria.jpg", GrhPath & "BotonMejorarClickCarpinteria.jpg", Me)
-    Call cBotonMejorar(2).Initialize(imgMejorar2, GrhPath & "BotonMejorarCarpinteria.jpg", GrhPath & "BotonMejorarRolloverCarpinteria.jpg", GrhPath & "BotonMejorarClickCarpinteria.jpg", Me)
-    Call cBotonMejorar(3).Initialize(imgMejorar3, GrhPath & "BotonMejorarCarpinteria.jpg", GrhPath & "BotonMejorarRolloverCarpinteria.jpg", GrhPath & "BotonMejorarClickCarpinteria.jpg", Me)
-                                    
-    imgCantidadCiclo.Picture = LoadPicture(GrhPath & "ConstruirPorCiclo.jpg")
-    
-    imgChkMacro.Picture = picCheck
-    
     imgPestania(ePestania.ieItems).MouseIcon = picMouseIcon
-    imgPestania(ePestania.ieMejorar).MouseIcon = picMouseIcon
-    
-    imgChkMacro.MouseIcon = picMouseIcon
     
 End Sub
 
@@ -615,15 +562,7 @@ Private Sub LoadDefaultValues()
     MaxConstItem = CInt((UserLvl - 2) * 0.2)
     MaxConstItem = IIf(MaxConstItem < 1, 1, MaxConstItem)
     
-    For i = 1 To MaxConstItem
-        cboItemsCiclo.AddItem i
-    Next i
-    
-    cboItemsCiclo.ListIndex = 0
-    
     Scroll.value = 0
-    
-    UsarMacro = True
     
     UltimaPestania = ePestania.ieItems
     
@@ -633,7 +572,6 @@ End Sub
 Private Sub Construir(ByVal Index As Integer)
 
     Dim ItemIndex      As Integer
-    Dim CantItemsCiclo As Integer
     
     If Scroll.Visible = True Then ItemIndex = Scroll.value
     ItemIndex = ItemIndex + Index
@@ -641,15 +579,9 @@ Private Sub Construir(ByVal Index As Integer)
     Select Case UltimaPestania
 
         Case ePestania.ieItems
-        
-            ' Que cosntruya el maximo, total si sobra no importa, valida el server
-            CantItemsCiclo = Val(cboItemsCiclo.List(cboItemsCiclo.ListCount - 1))
             
-            Call WriteInitCrafting(Val(txtCantItems.Text), CantItemsCiclo)
-            Call WriteCraftCarpenter(ObjCarpintero(ItemIndex).objindex)
-            
-        Case ePestania.ieMejorar
-            Call WriteItemUpgrade(CarpinteroMejorar(ItemIndex).objindex)
+            Call WriteCraftCarpenter(ObjCarpintero(ItemIndex).objindex, txtCantItems.Text)
+
     End Select
         
     Unload Me
@@ -670,11 +602,6 @@ Public Sub HideExtraControls(ByVal NumItems As Integer, _
     imgConstruir2.Visible = (NumItems >= 3 And Not Upgrading)
     imgConstruir3.Visible = (NumItems >= 4 And Not Upgrading)
     
-    imgMejorar0.Visible = (NumItems >= 1 And Upgrading)
-    imgMejorar1.Visible = (NumItems >= 2 And Upgrading)
-    imgMejorar2.Visible = (NumItems >= 3 And Upgrading)
-    imgMejorar3.Visible = (NumItems >= 4 And Upgrading)
-    
     For i = 1 To MAX_LIST_ITEMS
         picItem(i).Visible = (NumItems >= i)
         imgMarcoItem(i).Visible = (NumItems >= i)
@@ -688,16 +615,14 @@ Public Sub HideExtraControls(ByVal NumItems As Integer, _
     If NumItems > MAX_LIST_ITEMS Then
         Scroll.Visible = True
         Cargando = True
-        Scroll.max = NumItems - MAX_LIST_ITEMS
+        Scroll.Max = NumItems - MAX_LIST_ITEMS
         Cargando = False
     Else
         Scroll.Visible = False
     End If
     
     txtCantItems.Visible = Not Upgrading
-    cboItemsCiclo.Visible = Not Upgrading And UsarMacro
-    imgChkMacro.Visible = Not Upgrading
-    imgCantidadCiclo.Visible = Not Upgrading And UsarMacro
+    
 End Sub
 
 Private Sub RenderItem(ByRef Pic As PictureBox, ByVal GrhIndex As Long)
@@ -746,36 +671,6 @@ Public Sub RenderList(ByVal Inicio As Integer)
     
 End Sub
 
-Public Sub RenderUpgradeList(ByVal Inicio As Integer)
-    Dim i        As Long
-    Dim NumItems As Integer
-
-    NumItems = UBound(CarpinteroMejorar)
-    Inicio = Inicio - 1
-
-    For i = 1 To MAX_LIST_ITEMS
-
-        If i + Inicio <= NumItems Then
-
-            With CarpinteroMejorar(i + Inicio)
-                ' Agrego el item
-                Call RenderItem(picItem(i), .GrhIndex)
-                picItem(i).ToolTipText = .name
-            
-                Call RenderItem(picUpgrade(i), .UpgradeGrhIndex)
-                picUpgrade(i).ToolTipText = .UpgradeName
-        
-                ' Inventario de lenos
-                Call InvMaderasCarpinteria(i).SetItem(1, 0, .Madera, 0, MADERA_GRH, 0, 0, 0, 0, 0, 0, "Lena")
-                Call InvMaderasCarpinteria(i).SetItem(2, 0, .MaderaElfica, 0, MADERA_ELFICA_GRH, 0, 0, 0, 0, 0, 0, "Lena elfica")
-            End With
-            
-        End If
-        
-    Next i
-
-End Sub
-
 Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
@@ -794,19 +689,6 @@ Private Sub imgCerrar_Click()
     Unload Me
 End Sub
 
-Private Sub imgChkMacro_Click()
-    UsarMacro = Not UsarMacro
-    
-    If UsarMacro Then
-        imgChkMacro.Picture = picCheck
-    Else
-        Set imgChkMacro.Picture = Nothing
-    End If
-    
-    cboItemsCiclo.Visible = UsarMacro
-    imgCantidadCiclo.Visible = UsarMacro
-End Sub
-
 Private Sub imgConstruir0_Click()
     Call Construir(1)
 End Sub
@@ -820,22 +702,6 @@ Private Sub imgConstruir2_Click()
 End Sub
 
 Private Sub imgConstruir3_Click()
-    Call Construir(4)
-End Sub
-
-Private Sub imgMejorar0_Click()
-    Call Construir(1)
-End Sub
-
-Private Sub imgMejorar1_Click()
-    Call Construir(2)
-End Sub
-
-Private Sub imgMejorar2_Click()
-    Call Construir(3)
-End Sub
-
-Private Sub imgMejorar3_Click()
     Call Construir(4)
 End Sub
 
@@ -860,15 +726,6 @@ Private Sub imgPestania_Click(Index As Integer)
             ' Cargo inventarios e imagenes
             Call RenderList(1)
 
-        Case ePestania.ieMejorar
-            ' Background
-            Me.Picture = Pestanias(ePestania.ieMejorar)
-            
-            NumItems = UBound(CarpinteroMejorar)
-            
-            Call HideExtraControls(NumItems, True)
-            
-            Call RenderUpgradeList(1)
     End Select
 
     UltimaPestania = Index
@@ -887,8 +744,6 @@ Private Sub Scroll_Change()
 
         Case ePestania.ieItems
             Call RenderList(i + 1)
-
-        Case ePestania.ieMejorar
-            Call RenderUpgradeList(i + 1)
+            
     End Select
 End Sub

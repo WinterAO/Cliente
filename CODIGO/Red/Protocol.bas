@@ -295,9 +295,7 @@ Private Enum ClientPacketID
     PartyAcceptMember               '/ACCEPTPARTY
     Ping                            '/PING
     RequestPartyForm
-    ItemUpgrade
     GMCommands
-    InitCrafting
     Home
     ShowGuildNews
     ShareNpc                        '/COMPARTIR
@@ -1645,7 +1643,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -2239,7 +2237,7 @@ On Error GoTo errhandler
         
         ' Para no perder el foco cuando chatea por party
         If FontIndex = FontTypeNames.FONTTYPE_PARTY Then
-            If MirandoParty Then frmParty.Sendtxt.SetFocus
+            If MirandoParty Then frmParty.SendTxt.SetFocus
         End If
     End If
 '    Call checkText(chat)
@@ -3269,9 +3267,9 @@ Private Sub HandleStopWorking()
 '***************************************************
 
     Call incomingData.ReadByte
-    
+
     With FontTypes(FontTypeNames.FONTTYPE_INFO)
-        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_WORK_FINISHED"), .Red, .Green, .Blue, .bold, .italic)
+        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_WORK_FINISHED").item("TEXTO"), .Red, .Green, .Blue, .bold, .italic)
     End With
 End Sub
 
@@ -3487,7 +3485,6 @@ On Error GoTo errhandler
     Count = buffer.ReadInteger()
     
     ReDim ArmasHerrero(Count) As tItemsConstruibles
-    ReDim HerreroMejorar(0) As tItemsConstruibles
     
     For i = 1 To Count
         With ArmasHerrero(i)
@@ -3522,31 +3519,6 @@ On Error GoTo errhandler
         Call .HideExtraControls(Count)
         Call .RenderList(1, True)
     End With
-    
-    For i = 1 To Count
-        With ArmasHerrero(i)
-            If .Upgrade Then
-                For k = 1 To Count
-                    If .Upgrade = ArmasHerrero(k).objindex Then
-                        j = j + 1
-                
-                        ReDim Preserve HerreroMejorar(j) As tItemsConstruibles
-                        
-                        HerreroMejorar(j).name = .name
-                        HerreroMejorar(j).GrhIndex = .GrhIndex
-                        HerreroMejorar(j).objindex = .objindex
-                        HerreroMejorar(j).UpgradeName = ArmasHerrero(k).name
-                        HerreroMejorar(j).UpgradeGrhIndex = ArmasHerrero(k).GrhIndex
-                        HerreroMejorar(j).LinH = ArmasHerrero(k).LinH - .LinH * 0.85
-                        HerreroMejorar(j).LinP = ArmasHerrero(k).LinP - .LinP * 0.85
-                        HerreroMejorar(j).LinO = ArmasHerrero(k).LinO - .LinO * 0.85
-                        
-                        Exit For
-                    End If
-                Next k
-            End If
-        End With
-    Next i
 
 errhandler:
     Dim Error As Long
@@ -3609,33 +3581,6 @@ On Error GoTo errhandler
     
     Call frmHerrero.Show(vbModeless, frmMain)
     MirandoHerreria = True
-    
-    j = UBound(HerreroMejorar)
-    
-    For i = 1 To Count
-        With ArmadurasHerrero(i)
-            If .Upgrade Then
-                For k = 1 To Count
-                    If .Upgrade = ArmadurasHerrero(k).objindex Then
-                        j = j + 1
-                
-                        ReDim Preserve HerreroMejorar(j) As tItemsConstruibles
-                        
-                        HerreroMejorar(j).name = .name
-                        HerreroMejorar(j).GrhIndex = .GrhIndex
-                        HerreroMejorar(j).objindex = .objindex
-                        HerreroMejorar(j).UpgradeName = ArmadurasHerrero(k).name
-                        HerreroMejorar(j).UpgradeGrhIndex = ArmadurasHerrero(k).GrhIndex
-                        HerreroMejorar(j).LinH = ArmadurasHerrero(k).LinH - .LinH * 0.85
-                        HerreroMejorar(j).LinP = ArmadurasHerrero(k).LinP - .LinP * 0.85
-                        HerreroMejorar(j).LinO = ArmadurasHerrero(k).LinO - .LinO * 0.85
-                        
-                        Exit For
-                    End If
-                Next k
-            End If
-        End With
-    Next i
 
 errhandler:
     Dim Error As Long
@@ -5766,22 +5711,6 @@ Public Sub WriteRequestPartyForm()
 End Sub
 
 ''
-' Writes the "ItemUpgrade" message to the outgoing data buffer.
-'
-' @param    ItemIndex The index to the item to upgrade.
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WriteItemUpgrade(ByVal ItemIndex As Integer)
-'***************************************************
-'Author: Torres Patricio (Pato)
-'Last Modification: 12/09/09
-'Writes the "ItemUpgrade" message to the outgoing data buffer
-'***************************************************
-    Call outgoingData.WriteByte(ClientPacketID.ItemUpgrade)
-    Call outgoingData.WriteInteger(ItemIndex)
-End Sub
-
-''
 ' Writes the "RequestAtributes" message to the outgoing data buffer.
 '
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
@@ -6061,7 +5990,7 @@ End Sub
 ' @param    item Index of the item to craft in the list sent by the server.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteCraftBlacksmith(ByVal item As Integer)
+Public Sub WriteCraftBlacksmith(ByVal item As Integer, ByVal cantidad As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -6071,6 +6000,7 @@ Public Sub WriteCraftBlacksmith(ByVal item As Integer)
         Call .WriteByte(ClientPacketID.CraftBlacksmith)
         
         Call .WriteInteger(item)
+        Call .WriteInteger(cantidad)
     End With
 End Sub
 
@@ -6080,7 +6010,7 @@ End Sub
 ' @param    item Index of the item to craft in the list sent by the server.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteCraftCarpenter(ByVal item As Integer)
+Public Sub WriteCraftCarpenter(ByVal item As Integer, ByVal cantidad As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -6090,6 +6020,7 @@ Public Sub WriteCraftCarpenter(ByVal item As Integer)
         Call .WriteByte(ClientPacketID.CraftCarpenter)
         
         Call .WriteInteger(item)
+        Call .WriteInteger(cantidad)
     End With
 End Sub
 
@@ -7695,26 +7626,6 @@ Public Sub WriteGuildMemberList(ByVal guild As String)
         Call .WriteByte(eGMCommands.GuildMemberList)
         
         Call .WriteASCIIString(guild)
-    End With
-End Sub
-
-''
-' Writes the "InitCrafting" message to the outgoing data buffer.
-'
-' @param    Cantidad The final aumont of item to craft.
-' @param    NroPorCiclo The amount of items to craft per cicle.
-
-Public Sub WriteInitCrafting(ByVal cantidad As Long, ByVal NroPorCiclo As Integer)
-'***************************************************
-'Author: ZaMa
-'Last Modification: 29/01/2010
-'Writes the "InitCrafting" message to the outgoing data buffer
-'***************************************************
-    With outgoingData
-        Call .WriteByte(ClientPacketID.InitCrafting)
-        Call .WriteLong(cantidad)
-        
-        Call .WriteInteger(NroPorCiclo)
     End With
 End Sub
 

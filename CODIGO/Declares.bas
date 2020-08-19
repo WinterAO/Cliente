@@ -254,8 +254,6 @@ End Enum
 Public ArmasHerrero() As tItemsConstruibles
 Public ArmadurasHerrero() As tItemsConstruibles
 Public ObjCarpintero() As tItemsConstruibles
-Public CarpinteroMejorar() As tItemsConstruibles
-Public HerreroMejorar() As tItemsConstruibles
 Public ObjArtesano() As tItemArtesano
 
 Public UsaMacro As Boolean
@@ -336,19 +334,20 @@ Public Enum eSkill
     Apunalar = 6
     Ocultarse = 7
     Supervivencia = 8
-    Talar = 9
-    Comerciar = 10
-    Defensa = 11
-    Pesca = 12
-    Mineria = 13
-    Carpinteria = 14
-    Herreria = 15
-    Liderazgo = 16
-    Domar = 17
-    Proyectiles = 18
-    Wrestling = 19
-    Navegacion = 20
-    Equitacion = 21
+    Defensa = 9
+    Proyectiles = 10
+    Wrestling = 11
+    Comerciar = 12
+    Domar = 13
+    '<--Fijos-->
+    Liderazgo = 14
+    Navegacion = 15
+    Equitacion = 16
+    Talar = 17
+    pesca = 18
+    Mineria = 19
+    Carpinteria = 20
+    Herreria = 21
 End Enum
 
 Public Enum eAtributos
