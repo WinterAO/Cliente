@@ -175,6 +175,7 @@ Private Enum ServerPacketID
     ShowProcess
     CharParticle
     IniciarSubastaConsulta
+    ConfirmarInstruccion
 End Enum
 
 Private Enum ClientPacketID
@@ -329,8 +330,10 @@ Private Enum ClientPacketID
     AccionInventario
     invocar                         '/INVOCAR
     IniciarSubasta
+    cancelarsubasta
     OfertarSubasta
     ConsultaSubasta
+    RespuestaInstruccion
 End Enum
 
 Public Enum FontTypeNames
@@ -926,6 +929,9 @@ On Error Resume Next
             
         Case ServerPacketID.IniciarSubastaConsulta
             Call HandleIniciarSubasta
+            
+        Case ServerPacketID.ConfirmarInstruccion
+            Call HandleConfirmarInstruccion
 
         Case Else
             'ERROR : Abort!
@@ -1238,7 +1244,7 @@ Public Sub HandleMultiMessage()
                             JsonLanguage.item("MENSAJE_TRABAJO_MAGIA").item("COLOR").item(2), _
                             JsonLanguage.item("MENSAJE_TRABAJO_MAGIA").item("COLOR").item(3))
                 
-                    Case Pesca
+                    Case pesca
                         Call AddtoRichTextBox(frmMain.RecTxt, _
                             JsonLanguage.item("MENSAJE_TRABAJO_PESCA").item("TEXTO"), _
                             JsonLanguage.item("MENSAJE_TRABAJO_PESCA").item("COLOR").item(1), _
@@ -3494,7 +3500,6 @@ On Error GoTo errhandler
             .LinP = buffer.ReadInteger()        'The silver needed
             .LinO = buffer.ReadInteger()        'The gold needed
             .objindex = buffer.ReadInteger()
-            .Upgrade = buffer.ReadInteger()
         End With
     Next i
     
@@ -3571,7 +3576,6 @@ On Error GoTo errhandler
             .LinP = buffer.ReadInteger()        'The silver needed
             .LinO = buffer.ReadInteger()        'The gold needed
             .objindex = buffer.ReadInteger()
-            .Upgrade = buffer.ReadInteger()
         End With
     Next i
     
@@ -3634,7 +3638,6 @@ On Error GoTo errhandler
             .Madera = buffer.ReadInteger()          'The wood needed
             .MaderaElfica = buffer.ReadInteger()    'The elfic wood needed
             .objindex = buffer.ReadInteger()
-            .Upgrade = buffer.ReadInteger()
         End With
     Next i
     
@@ -3659,30 +3662,6 @@ On Error GoTo errhandler
         Call .HideExtraControls(Count)
         Call .RenderList(1)
     End With
-    
-    For i = 1 To Count
-        With ObjCarpintero(i)
-            If .Upgrade Then
-                For k = 1 To Count
-                    If .Upgrade = ObjCarpintero(k).objindex Then
-                        j = j + 1
-                
-                        ReDim Preserve CarpinteroMejorar(j) As tItemsConstruibles
-                        
-                        CarpinteroMejorar(j).name = .name
-                        CarpinteroMejorar(j).GrhIndex = .GrhIndex
-                        CarpinteroMejorar(j).objindex = .objindex
-                        CarpinteroMejorar(j).UpgradeName = ObjCarpintero(k).name
-                        CarpinteroMejorar(j).UpgradeGrhIndex = ObjCarpintero(k).GrhIndex
-                        CarpinteroMejorar(j).Madera = ObjCarpintero(k).Madera - .Madera * 0.85
-                        CarpinteroMejorar(j).MaderaElfica = ObjCarpintero(k).MaderaElfica - .MaderaElfica * 0.85
-                        
-                        Exit For
-                    End If
-                Next k
-            End If
-        End With
-    Next i
 
 errhandler:
     Dim Error As Long
@@ -11467,7 +11446,7 @@ Private Sub HandleCharParticle()
     End If
 End Sub
 
-Public Sub HandleIniciarSubasta()
+Private Sub HandleIniciarSubasta()
     With incomingData
         Call .ReadByte
         frmSubastar.Show
@@ -11490,6 +11469,19 @@ Public Sub WriteIniciarSubasta(ByVal slot As Integer, ByVal cantidad As Integer,
     End With
 End Sub
  
+Public Sub WriteCancelarsubasta()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 19/08/2020
+'Descripción: El user no subasta, cierra el form
+'***************************************************
+    With outgoingData
+        Call .WriteByte(ClientPacketID.cancelarsubasta)
+        
+        Unload frmSubastar
+    End With
+End Sub
+ 
 Public Sub WriteConsultaSubasta()
 '***************************************************
 'Author: Standelf
@@ -11508,5 +11500,36 @@ Public Sub WriteOfertarSubasta(ByVal Oferta As Long)
     With outgoingData
         Call .WriteByte(ClientPacketID.OfertarSubasta)
         Call .WriteLong(Oferta)
+    End With
+End Sub
+
+Private Sub HandleConfirmarInstruccion()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 19/08/2020
+'***************************************************
+
+    Dim Mensaje As String
+    
+    With incomingData
+        Call .ReadByte
+        
+        Mensaje = .ReadASCIIString
+        
+        Call Sound.Sound_Play(SND_MSG)
+        frmConfirmacion.msg.Caption = Mensaje
+        frmConfirmacion.Show
+    End With
+End Sub
+
+Public Sub WriteRespuestaInstruccion(ByVal Acepto As Boolean)
+'***************************************************
+'Author: Lorwik
+'Last Modification: 19/08/2020
+'***************************************************
+
+    With outgoingData
+        Call .WriteByte(ClientPacketID.RespuestaInstruccion)
+        Call .WriteBoolean(Acepto)
     End With
 End Sub

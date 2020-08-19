@@ -529,7 +529,6 @@ Private Sub LoadButtons()
     
     For Index = 1 To MAX_LIST_ITEMS
         imgMarcoItem(Index).Picture = picRecuadroItem
-        imgMarcoUpgrade(Index).Picture = picRecuadroItem
         imgMarcoMaderas(Index).Picture = picRecuadroMaderas
     Next Index
     
@@ -606,10 +605,6 @@ Public Sub HideExtraControls(ByVal NumItems As Integer, _
         picItem(i).Visible = (NumItems >= i)
         imgMarcoItem(i).Visible = (NumItems >= i)
         imgMarcoMaderas(i).Visible = (NumItems >= i)
-
-        ' Upgrade
-        imgMarcoUpgrade(i).Visible = (NumItems >= i And Upgrading)
-        picUpgrade(i).Visible = (NumItems >= i And Upgrading)
     Next i
     
     If NumItems > MAX_LIST_ITEMS Then

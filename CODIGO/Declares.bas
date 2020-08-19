@@ -699,9 +699,6 @@ Type tItemsConstruibles
     LinO As Integer
     Madera As Integer
     MaderaElfica As Integer
-    Upgrade As Integer
-    UpgradeName As String
-    UpgradeGrhIndex As Long
 End Type
 
 Type tItemCrafteo
