@@ -694,11 +694,9 @@ Type tItemsConstruibles
     name As String
     objindex As Integer
     GrhIndex As Long
-    LinH As Integer
-    LinP As Integer
-    LinO As Integer
-    Madera As Integer
-    MaderaElfica As Integer
+    Materiales(1 To 4) As Integer
+    CantMateriales(1 To 4) As Integer
+    NameMateriales(1 To 4) As String
 End Type
 
 Type tItemCrafteo

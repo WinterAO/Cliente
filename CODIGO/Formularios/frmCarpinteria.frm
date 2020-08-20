@@ -24,7 +24,7 @@ Begin VB.Form frmCarpinteria
       FillStyle       =   0  'Solid
       Height          =   480
       Index           =   4
-      Left            =   5430
+      Left            =   5670
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
@@ -40,7 +40,7 @@ Begin VB.Form frmCarpinteria
       FillStyle       =   0  'Solid
       Height          =   480
       Index           =   3
-      Left            =   5430
+      Left            =   5670
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
@@ -56,7 +56,7 @@ Begin VB.Form frmCarpinteria
       FillStyle       =   0  'Solid
       Height          =   480
       Index           =   2
-      Left            =   5430
+      Left            =   5670
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
@@ -72,7 +72,7 @@ Begin VB.Form frmCarpinteria
       FillStyle       =   0  'Solid
       Height          =   480
       Index           =   1
-      Left            =   5430
+      Left            =   5670
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
@@ -97,7 +97,7 @@ Begin VB.Form frmCarpinteria
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   285
-      Left            =   5175
+      Left            =   5415
       MaxLength       =   6
       TabIndex        =   1
       Text            =   "1"
@@ -112,7 +112,7 @@ Begin VB.Form frmCarpinteria
       FillStyle       =   0  'Solid
       Height          =   480
       Index           =   1
-      Left            =   870
+      Left            =   630
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
@@ -127,18 +127,18 @@ Begin VB.Form frmCarpinteria
       BorderStyle     =   0  'None
       FillStyle       =   0  'Solid
       Height          =   480
-      Left            =   1710
+      Left            =   1440
       ScaleHeight     =   32
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   64
+      ScaleMode       =   0  'User
+      ScaleWidth      =   256
       TabIndex        =   8
       Top             =   1545
       Visible         =   0   'False
-      Width           =   960
+      Width           =   1920
    End
    Begin VB.VScrollBar Scroll 
       Height          =   3135
-      Left            =   450
+      Left            =   210
       TabIndex        =   0
       Top             =   1410
       Visible         =   0   'False
@@ -150,14 +150,14 @@ Begin VB.Form frmCarpinteria
       BorderStyle     =   0  'None
       FillStyle       =   0  'Solid
       Height          =   480
-      Left            =   1710
+      Left            =   1470
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   64
+      ScaleWidth      =   128
       TabIndex        =   7
       Top             =   2340
       Visible         =   0   'False
-      Width           =   960
+      Width           =   1920
    End
    Begin VB.PictureBox picItem 
       AutoRedraw      =   -1  'True
@@ -166,7 +166,7 @@ Begin VB.Form frmCarpinteria
       FillStyle       =   0  'Solid
       Height          =   480
       Index           =   2
-      Left            =   870
+      Left            =   630
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
@@ -181,14 +181,14 @@ Begin VB.Form frmCarpinteria
       BorderStyle     =   0  'None
       FillStyle       =   0  'Solid
       Height          =   480
-      Left            =   1710
+      Left            =   1470
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   64
+      ScaleWidth      =   128
       TabIndex        =   5
       Top             =   3135
       Visible         =   0   'False
-      Width           =   960
+      Width           =   1920
    End
    Begin VB.PictureBox picItem 
       AutoRedraw      =   -1  'True
@@ -197,7 +197,7 @@ Begin VB.Form frmCarpinteria
       FillStyle       =   0  'Solid
       Height          =   480
       Index           =   3
-      Left            =   870
+      Left            =   630
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
@@ -212,14 +212,14 @@ Begin VB.Form frmCarpinteria
       BorderStyle     =   0  'None
       FillStyle       =   0  'Solid
       Height          =   480
-      Left            =   1710
+      Left            =   1470
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   64
+      ScaleWidth      =   128
       TabIndex        =   3
       Top             =   3930
       Visible         =   0   'False
-      Width           =   960
+      Width           =   1920
    End
    Begin VB.PictureBox picItem 
       AutoRedraw      =   -1  'True
@@ -228,7 +228,7 @@ Begin VB.Form frmCarpinteria
       FillStyle       =   0  'Solid
       Height          =   480
       Index           =   4
-      Left            =   870
+      Left            =   630
       ScaleHeight     =   32
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
@@ -256,7 +256,7 @@ Begin VB.Form frmCarpinteria
    Begin VB.Image imgMarcoUpgrade 
       Height          =   780
       Index           =   4
-      Left            =   5280
+      Left            =   5520
       Top             =   3780
       Visible         =   0   'False
       Width           =   780
@@ -264,7 +264,7 @@ Begin VB.Form frmCarpinteria
    Begin VB.Image imgMarcoUpgrade 
       Height          =   780
       Index           =   3
-      Left            =   5280
+      Left            =   5520
       Top             =   2985
       Visible         =   0   'False
       Width           =   780
@@ -272,7 +272,7 @@ Begin VB.Form frmCarpinteria
    Begin VB.Image imgMarcoUpgrade 
       Height          =   780
       Index           =   2
-      Left            =   5280
+      Left            =   5520
       Top             =   2190
       Visible         =   0   'False
       Width           =   780
@@ -280,7 +280,7 @@ Begin VB.Form frmCarpinteria
    Begin VB.Image imgMarcoUpgrade 
       Height          =   780
       Index           =   1
-      Left            =   5280
+      Left            =   5520
       Top             =   1395
       Visible         =   0   'False
       Width           =   780
@@ -288,39 +288,39 @@ Begin VB.Form frmCarpinteria
    Begin VB.Image imgMarcoMaderas 
       Height          =   780
       Index           =   4
-      Left            =   1560
+      Left            =   1320
       Top             =   3780
       Visible         =   0   'False
-      Width           =   1260
+      Width           =   2160
    End
    Begin VB.Image imgMarcoMaderas 
       Height          =   780
       Index           =   3
-      Left            =   1560
+      Left            =   1320
       Top             =   2985
       Visible         =   0   'False
-      Width           =   1260
+      Width           =   2160
    End
    Begin VB.Image imgMarcoMaderas 
       Height          =   780
       Index           =   2
-      Left            =   1560
+      Left            =   1320
       Top             =   2190
       Visible         =   0   'False
-      Width           =   1260
+      Width           =   2160
    End
    Begin VB.Image imgMarcoMaderas 
       Height          =   780
       Index           =   1
-      Left            =   1560
+      Left            =   1320
       Top             =   1395
       Visible         =   0   'False
-      Width           =   1260
+      Width           =   2160
    End
    Begin VB.Image imgMarcoItem 
       Height          =   780
       Index           =   4
-      Left            =   720
+      Left            =   480
       Top             =   3780
       Visible         =   0   'False
       Width           =   780
@@ -328,7 +328,7 @@ Begin VB.Form frmCarpinteria
    Begin VB.Image imgMarcoItem 
       Height          =   780
       Index           =   3
-      Left            =   720
+      Left            =   480
       Top             =   2985
       Visible         =   0   'False
       Width           =   780
@@ -336,7 +336,7 @@ Begin VB.Form frmCarpinteria
    Begin VB.Image imgMarcoItem 
       Height          =   780
       Index           =   2
-      Left            =   720
+      Left            =   480
       Top             =   2190
       Visible         =   0   'False
       Width           =   780
@@ -344,7 +344,7 @@ Begin VB.Form frmCarpinteria
    Begin VB.Image imgMarcoItem 
       Height          =   780
       Index           =   1
-      Left            =   720
+      Left            =   480
       Top             =   1395
       Visible         =   0   'False
       Width           =   780
@@ -355,58 +355,58 @@ Begin VB.Form frmCarpinteria
       Top             =   4650
       Width           =   1455
    End
-   Begin VB.Image imgConstruir3 
+   Begin VB.Image picConstruir3 
       Height          =   420
-      Left            =   3150
+      Left            =   3630
       Top             =   3960
       Visible         =   0   'False
       Width           =   1710
    End
-   Begin VB.Image imgConstruir2 
+   Begin VB.Image picConstruir2 
       Height          =   420
-      Left            =   3150
+      Left            =   3630
       Top             =   3180
       Visible         =   0   'False
       Width           =   1710
    End
-   Begin VB.Image imgConstruir1 
+   Begin VB.Image picConstruir1 
       Height          =   420
-      Left            =   3150
+      Left            =   3630
       Top             =   2370
       Visible         =   0   'False
       Width           =   1710
    End
-   Begin VB.Image imgConstruir0 
+   Begin VB.Image picConstruir0 
       Height          =   420
-      Left            =   3150
+      Left            =   3630
       Top             =   1560
       Visible         =   0   'False
       Width           =   1710
    End
    Begin VB.Image imgMejorar0 
       Height          =   420
-      Left            =   3150
+      Left            =   3630
       Top             =   1560
       Visible         =   0   'False
       Width           =   1710
    End
    Begin VB.Image imgMejorar1 
       Height          =   420
-      Left            =   3150
+      Left            =   3630
       Top             =   2370
       Visible         =   0   'False
       Width           =   1710
    End
    Begin VB.Image imgMejorar2 
       Height          =   420
-      Left            =   3150
+      Left            =   3630
       Top             =   3180
       Visible         =   0   'False
       Width           =   1710
    End
    Begin VB.Image imgMejorar3 
       Height          =   420
-      Left            =   3150
+      Left            =   3630
       Top             =   3960
       Visible         =   0   'False
       Width           =   1710
@@ -466,7 +466,7 @@ Private Pestanias(1)            As Picture
 Private UltimaPestania          As Byte
 
 Private cBotonCerrar            As clsGraphicalButton
-Private cBotonConstruir(0 To 4) As clsGraphicalButton
+Private cBotonConstruir(0 To 3) As clsGraphicalButton
 
 Public LastButtonPressed        As clsGraphicalButton
 
@@ -517,6 +517,7 @@ End Sub
 Private Sub LoadButtons()
     Dim GrhPath As String
     Dim Index   As Long
+    Dim i As Byte
     
     GrhPath = Carga.Path(Interfaces)
 
@@ -533,19 +534,20 @@ Private Sub LoadButtons()
     Next Index
     
     Set cBotonCerrar = New clsGraphicalButton
+    
     Set cBotonConstruir(0) = New clsGraphicalButton
     Set cBotonConstruir(1) = New clsGraphicalButton
     Set cBotonConstruir(2) = New clsGraphicalButton
     Set cBotonConstruir(3) = New clsGraphicalButton
-
+    
     Set LastButtonPressed = New clsGraphicalButton
     
+    Call cBotonConstruir(0).Initialize(picConstruir0, GrhPath & "BotonConstruirCarpinteria.jpg", GrhPath & "BotonConstruirRolloverCarpinteria.jpg", GrhPath & "BotonConstruirClickCarpinteria.jpg", Me)
+    Call cBotonConstruir(1).Initialize(picConstruir1, GrhPath & "BotonConstruirCarpinteria.jpg", GrhPath & "BotonConstruirRolloverCarpinteria.jpg", GrhPath & "BotonConstruirClickCarpinteria.jpg", Me)
+    Call cBotonConstruir(2).Initialize(picConstruir2, GrhPath & "BotonConstruirCarpinteria.jpg", GrhPath & "BotonConstruirRolloverCarpinteria.jpg", GrhPath & "BotonConstruirClickCarpinteria.jpg", Me)
+    Call cBotonConstruir(3).Initialize(picConstruir2, GrhPath & "BotonConstruirCarpinteria.jpg", GrhPath & "BotonConstruirRolloverCarpinteria.jpg", GrhPath & "BotonConstruirClickCarpinteria.jpg", Me)
+    
     Call cBotonCerrar.Initialize(imgCerrar, GrhPath & "BotonCerrarCarpinteria.jpg", GrhPath & "BotonCerrarRolloverCarpinteria.jpg", GrhPath & "BotonCerrarClickCarpinteria.jpg", Me)
-                                    
-    Call cBotonConstruir(0).Initialize(imgConstruir0, GrhPath & "BotonConstruirCarpinteria.jpg", GrhPath & "BotonConstruirRolloverCarpinteria.jpg", GrhPath & "BotonConstruirClickCarpinteria.jpg", Me)
-    Call cBotonConstruir(1).Initialize(imgConstruir1, GrhPath & "BotonConstruirCarpinteria.jpg", GrhPath & "BotonConstruirRolloverCarpinteria.jpg", GrhPath & "BotonConstruirClickCarpinteria.jpg", Me)
-    Call cBotonConstruir(2).Initialize(imgConstruir2, GrhPath & "BotonConstruirCarpinteria.jpg", GrhPath & "BotonConstruirRolloverCarpinteria.jpg", GrhPath & "BotonConstruirClickCarpinteria.jpg", Me)
-    Call cBotonConstruir(3).Initialize(imgConstruir3, GrhPath & "BotonConstruirCarpinteria.jpg", GrhPath & "BotonConstruirRolloverCarpinteria.jpg", GrhPath & "BotonConstruirClickCarpinteria.jpg", Me)
     
     imgPestania(ePestania.ieItems).MouseIcon = picMouseIcon
     
@@ -587,8 +589,7 @@ Private Sub Construir(ByVal Index As Integer)
 
 End Sub
 
-Public Sub HideExtraControls(ByVal NumItems As Integer, _
-                             Optional ByVal Upgrading As Boolean = False)
+Public Sub HideExtraControls(ByVal NumItems As Integer)
     Dim i As Integer
     
     picMaderas0.Visible = (NumItems >= 1)
@@ -596,10 +597,10 @@ Public Sub HideExtraControls(ByVal NumItems As Integer, _
     picMaderas2.Visible = (NumItems >= 3)
     picMaderas3.Visible = (NumItems >= 4)
     
-    imgConstruir0.Visible = (NumItems >= 1 And Not Upgrading)
-    imgConstruir1.Visible = (NumItems >= 2 And Not Upgrading)
-    imgConstruir2.Visible = (NumItems >= 3 And Not Upgrading)
-    imgConstruir3.Visible = (NumItems >= 4 And Not Upgrading)
+    picConstruir0.Visible = (NumItems >= 1)
+    picConstruir1.Visible = (NumItems >= 2)
+    picConstruir2.Visible = (NumItems >= 3)
+    picConstruir3.Visible = (NumItems >= 4)
     
     For i = 1 To MAX_LIST_ITEMS
         picItem(i).Visible = (NumItems >= i)
@@ -615,8 +616,6 @@ Public Sub HideExtraControls(ByVal NumItems As Integer, _
     Else
         Scroll.Visible = False
     End If
-    
-    txtCantItems.Visible = Not Upgrading
     
 End Sub
 

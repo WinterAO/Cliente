@@ -1649,7 +1649,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -3496,9 +3496,13 @@ On Error GoTo errhandler
         With ArmasHerrero(i)
             .name = buffer.ReadASCIIString()    'Get the object's name
             .GrhIndex = buffer.ReadLong()
-            .LinH = buffer.ReadInteger()        'The iron needed
-            .LinP = buffer.ReadInteger()        'The silver needed
-            .LinO = buffer.ReadInteger()        'The gold needed
+            
+            For j = 1 To 4
+                .Materiales(j) = buffer.ReadLong()
+                .CantMateriales(j) = buffer.ReadInteger()
+                .NameMateriales(j) = buffer.ReadASCIIString()
+            Next j
+            
             .objindex = buffer.ReadInteger()
         End With
     Next i
@@ -3572,9 +3576,13 @@ On Error GoTo errhandler
         With ArmadurasHerrero(i)
             .name = buffer.ReadASCIIString()    'Get the object's name
             .GrhIndex = buffer.ReadLong()
-            .LinH = buffer.ReadInteger()        'The iron needed
-            .LinP = buffer.ReadInteger()        'The silver needed
-            .LinO = buffer.ReadInteger()        'The gold needed
+            
+            For j = 1 To 4
+                .Materiales(j) = buffer.ReadLong()
+                .CantMateriales(j) = buffer.ReadInteger()
+                .NameMateriales(j) = buffer.ReadASCIIString()
+            Next j
+            
             .objindex = buffer.ReadInteger()
         End With
     Next i
@@ -3635,8 +3643,13 @@ On Error GoTo errhandler
         With ObjCarpintero(i)
             .name = buffer.ReadASCIIString()        'Get the object's name
             .GrhIndex = buffer.ReadLong()
-            .Madera = buffer.ReadInteger()          'The wood needed
-            .MaderaElfica = buffer.ReadInteger()    'The elfic wood needed
+            
+            For j = 1 To 4
+                .Materiales = buffer.ReadLong()
+                .CantMateriales = buffer.ReadInteger()
+                .NameMateriales = buffer.ReadASCIIString()
+            Next j
+            
             .objindex = buffer.ReadInteger()
         End With
     Next i
@@ -3654,10 +3667,10 @@ On Error GoTo errhandler
     
     With frmCarpinteria
         ' Inicializo los inventarios
-        Call InvMaderasCarpinteria(1).Initialize(DirectD3D8, .picMaderas0, 2, , , , , , False)
-        Call InvMaderasCarpinteria(2).Initialize(DirectD3D8, .picMaderas1, 2, , , , , , False)
-        Call InvMaderasCarpinteria(3).Initialize(DirectD3D8, .picMaderas2, 2, , , , , , False)
-        Call InvMaderasCarpinteria(4).Initialize(DirectD3D8, .picMaderas3, 2, , , , , , False)
+        Call InvMaderasCarpinteria(1).Initialize(DirectD3D8, .picMaderas0, 4, , , , , , False)
+        Call InvMaderasCarpinteria(2).Initialize(DirectD3D8, .picMaderas1, 4, , , , , , False)
+        Call InvMaderasCarpinteria(3).Initialize(DirectD3D8, .picMaderas2, 4, , , , , , False)
+        Call InvMaderasCarpinteria(4).Initialize(DirectD3D8, .picMaderas3, 4, , , , , , False)
         
         Call .HideExtraControls(Count)
         Call .RenderList(1)

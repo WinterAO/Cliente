@@ -303,31 +303,11 @@ Begin VB.Form frmHerrero
       Visible         =   0   'False
       Width           =   780
    End
-   Begin VB.Image picMejorar1 
-      Height          =   420
-      Left            =   3360
-      Top             =   2370
-      Visible         =   0   'False
-      Width           =   1710
-   End
-   Begin VB.Image picMejorar2 
-      Height          =   420
-      Left            =   3360
-      Top             =   3180
-      Visible         =   0   'False
-      Width           =   1710
-   End
    Begin VB.Image imgCerrar 
       Height          =   360
       Left            =   2760
       Top             =   4650
       Width           =   1455
-   End
-   Begin VB.Image picConstruir3 
-      Height          =   420
-      Left            =   3360
-      Top             =   3960
-      Width           =   1710
    End
    Begin VB.Image picConstruir2 
       Height          =   420
@@ -357,7 +337,7 @@ Begin VB.Form frmHerrero
       Top             =   480
       Width           =   975
    End
-   Begin VB.Image picMejorar3 
+   Begin VB.Image picConstruir3 
       Height          =   420
       Left            =   3360
       Top             =   3960
@@ -379,13 +359,6 @@ Begin VB.Form frmHerrero
       Top             =   1395
       Visible         =   0   'False
       Width           =   1740
-   End
-   Begin VB.Image picMejorar0 
-      Height          =   420
-      Left            =   3360
-      Top             =   1560
-      Visible         =   0   'False
-      Width           =   1710
    End
    Begin VB.Image picConstruir0 
       Height          =   420
@@ -627,6 +600,7 @@ Public Sub RenderList(ByVal Inicio As Integer, ByVal Armas As Boolean)
 On Error Resume Next
 
     Dim i As Long
+    Dim j As Byte
     Dim NumItems As Integer
     Dim ObjHerrero() As tItemsConstruibles
     
@@ -650,9 +624,10 @@ On Error Resume Next
                 picItem(i).ToolTipText = .name
                 
                  ' Inventariode lingotes
-                Call InvLingosHerreria(i).SetItem(1, 0, .LinH, 0, LH_GRH, 0, 0, 0, 0, 0, 0, JsonLanguage.item("HERRERO").item("TEXTO").item(1))
-                Call InvLingosHerreria(i).SetItem(2, 0, .LinP, 0, LP_GRH, 0, 0, 0, 0, 0, 0, JsonLanguage.item("HERRERO").item("TEXTO").item(2))
-                Call InvLingosHerreria(i).SetItem(3, 0, .LinO, 0, LO_GRH, 0, 0, 0, 0, 0, 0, JsonLanguage.item("HERRERO").item("TEXTO").item(3))
+                For j = 1 To 4
+                    Call InvLingosHerreria(i).SetItem(j, 0, .CantMateriales(j), 0, .Materiales(j), 0, 0, 0, 0, 0, 0, .NameMateriales(j))
+                Next j
+                
             End With
             
         End If
