@@ -1649,7 +1649,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -3497,7 +3497,7 @@ On Error GoTo errhandler
             .name = buffer.ReadASCIIString()    'Get the object's name
             .GrhIndex = buffer.ReadLong()
             
-            For j = 1 To 4
+            For j = 1 To MAXMATERIALES
                 .Materiales(j) = buffer.ReadLong()
                 .CantMateriales(j) = buffer.ReadInteger()
                 .NameMateriales(j) = buffer.ReadASCIIString()
@@ -3577,7 +3577,7 @@ On Error GoTo errhandler
             .name = buffer.ReadASCIIString()    'Get the object's name
             .GrhIndex = buffer.ReadLong()
             
-            For j = 1 To 4
+            For j = 1 To MAXMATERIALES
                 .Materiales(j) = buffer.ReadLong()
                 .CantMateriales(j) = buffer.ReadInteger()
                 .NameMateriales(j) = buffer.ReadASCIIString()
@@ -3644,10 +3644,10 @@ On Error GoTo errhandler
             .name = buffer.ReadASCIIString()        'Get the object's name
             .GrhIndex = buffer.ReadLong()
             
-            For j = 1 To 4
-                .Materiales = buffer.ReadLong()
-                .CantMateriales = buffer.ReadInteger()
-                .NameMateriales = buffer.ReadASCIIString()
+            For j = 1 To MAXMATERIALES
+                .Materiales(j) = buffer.ReadLong()
+                .CantMateriales(j) = buffer.ReadInteger()
+                .NameMateriales(j) = buffer.ReadASCIIString()
             Next j
             
             .objindex = buffer.ReadInteger()

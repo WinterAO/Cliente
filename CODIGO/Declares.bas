@@ -88,6 +88,8 @@ Public InvObjArtesano(1 To MAX_LIST_ITEMS) As clsGraphicalInventory
 
 Public Const MAX_ITEMS_CRAFTEO As Byte = 4
 
+Public Const MAXMATERIALES As Byte = 4 '4 materiales maximo para construir un item
+
 Public CustomKeys As clsCustomKeys
 
 Public incomingData As clsByteQueue

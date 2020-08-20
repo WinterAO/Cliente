@@ -239,14 +239,6 @@ Begin VB.Form frmCarpinteria
    End
    Begin VB.Image imgPestania 
       Height          =   255
-      Index           =   1
-      Left            =   1680
-      MousePointer    =   99  'Custom
-      Top             =   480
-      Width           =   1215
-   End
-   Begin VB.Image imgPestania 
-      Height          =   255
       Index           =   0
       Left            =   720
       MousePointer    =   99  'Custom
@@ -638,6 +630,7 @@ Public Sub RenderList(ByVal Inicio As Integer)
     On Error Resume Next
 
     Dim i        As Long
+    Dim j        As Byte
     Dim NumItems As Integer
     
     NumItems = UBound(ObjCarpintero)
@@ -654,8 +647,9 @@ Public Sub RenderList(ByVal Inicio As Integer)
                 picItem(i).ToolTipText = .name
 
                 ' Inventario de lenos
-                Call InvMaderasCarpinteria(i).SetItem(1, 0, .Madera, 0, MADERA_GRH, 0, 0, 0, 0, 0, 0, "Lena")
-                Call InvMaderasCarpinteria(i).SetItem(2, 0, .MaderaElfica, 0, MADERA_ELFICA_GRH, 0, 0, 0, 0, 0, 0, "Lena elfica")
+                For j = 1 To MAXMATERIALES
+                    Call InvMaderasCarpinteria(i).SetItem(j, 0, .CantMateriales(j), 0, .Materiales(j), 0, 0, 0, 0, 0, 0, .NameMateriales(j))
+                Next j
                 
             End With
             

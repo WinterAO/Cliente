@@ -624,7 +624,7 @@ On Error Resume Next
                 picItem(i).ToolTipText = .name
                 
                  ' Inventariode lingotes
-                For j = 1 To 4
+                For j = 1 To MAXMATERIALES
                     Call InvLingosHerreria(i).SetItem(j, 0, .CantMateriales(j), 0, .Materiales(j), 0, 0, 0, 0, 0, 0, .NameMateriales(j))
                 Next j
                 
