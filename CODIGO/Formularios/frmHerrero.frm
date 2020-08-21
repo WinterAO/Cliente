@@ -1,5 +1,5 @@
 VERSION 5.00
-Begin VB.Form frmHerrero 
+Begin VB.Form frmTrabajo 
    BackColor       =   &H8000000A&
    BorderStyle     =   0  'None
    Caption         =   "Herrero"
@@ -114,7 +114,7 @@ Begin VB.Form frmHerrero
       Visible         =   0   'False
       Width           =   480
    End
-   Begin VB.PictureBox picLingotes3 
+   Begin VB.PictureBox picMaterial3 
       AutoRedraw      =   -1  'True
       BackColor       =   &H00000000&
       BorderStyle     =   0  'None
@@ -143,7 +143,7 @@ Begin VB.Form frmHerrero
       Visible         =   0   'False
       Width           =   480
    End
-   Begin VB.PictureBox picLingotes2 
+   Begin VB.PictureBox picMaterial2 
       AutoRedraw      =   -1  'True
       BackColor       =   &H00000000&
       BorderStyle     =   0  'None
@@ -172,7 +172,7 @@ Begin VB.Form frmHerrero
       Visible         =   0   'False
       Width           =   480
    End
-   Begin VB.PictureBox picLingotes1 
+   Begin VB.PictureBox picMaterial1 
       AutoRedraw      =   -1  'True
       BackColor       =   &H00000000&
       BorderStyle     =   0  'None
@@ -194,13 +194,13 @@ Begin VB.Form frmHerrero
       Visible         =   0   'False
       Width           =   255
    End
-   Begin VB.PictureBox picLingotes0 
+   Begin VB.PictureBox picMaterial0 
       AutoRedraw      =   -1  'True
       BackColor       =   &H00000000&
       BorderStyle     =   0  'None
       FillStyle       =   0  'Solid
       Height          =   480
-      Left            =   1710
+      Left            =   1680
       ScaleHeight     =   480
       ScaleWidth      =   1440
       TabIndex        =   2
@@ -351,7 +351,7 @@ Begin VB.Form frmHerrero
       Width           =   1710
    End
 End
-Attribute VB_Name = "frmHerrero"
+Attribute VB_Name = "frmTrabajo"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -451,7 +451,7 @@ Private Sub ConstruirItem(ByVal Index As Integer)
     If Scroll.Visible = True Then ItemIndex = Scroll.value
     ItemIndex = ItemIndex + Index
     
-    Call WriteCraftBlacksmith(ObjetoHerrero(ItemIndex).objindex, txtCantItems.Text)
+    Call WriteCraftearItem(ObjetoTrabajo(ItemIndex).objindex, txtCantItems.Text)
             
     Unload Me
 
@@ -479,40 +479,40 @@ End Sub
 Private Sub Form_Activate()
 On Error Resume Next
 
-    InvLingosHerreria(1).DrawInventory
-    InvLingosHerreria(2).DrawInventory
-    InvLingosHerreria(3).DrawInventory
-    InvLingosHerreria(4).DrawInventory
+    InvMaterialTrabajo(1).DrawInventory
+    InvMaterialTrabajo(2).DrawInventory
+    InvMaterialTrabajo(3).DrawInventory
+    InvMaterialTrabajo(4).DrawInventory
 
 End Sub
 
 Private Sub Form_GotFocus()
 On Error Resume Next
 
-    InvLingosHerreria(1).DrawInventory
-    InvLingosHerreria(2).DrawInventory
-    InvLingosHerreria(3).DrawInventory
-    InvLingosHerreria(4).DrawInventory
+    InvMaterialTrabajo(1).DrawInventory
+    InvMaterialTrabajo(2).DrawInventory
+    InvMaterialTrabajo(3).DrawInventory
+    InvMaterialTrabajo(4).DrawInventory
 
 End Sub
 
 Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
 On Error Resume Next
 
-    InvLingosHerreria(1).DrawInventory
-    InvLingosHerreria(2).DrawInventory
-    InvLingosHerreria(3).DrawInventory
-    InvLingosHerreria(4).DrawInventory
+    InvMaterialTrabajo(1).DrawInventory
+    InvMaterialTrabajo(2).DrawInventory
+    InvMaterialTrabajo(3).DrawInventory
+    InvMaterialTrabajo(4).DrawInventory
 
 End Sub
 
 Public Sub HideExtraControls(ByVal NumItems As Integer, Optional ByVal Upgrading As Boolean = False)
     Dim i As Integer
 
-    picLingotes0.Visible = (NumItems >= 1)
-    picLingotes1.Visible = (NumItems >= 2)
-    picLingotes2.Visible = (NumItems >= 3)
-    picLingotes3.Visible = (NumItems >= 4)
+    picMaterial0.Visible = (NumItems >= 1)
+    picMaterial1.Visible = (NumItems >= 2)
+    picMaterial2.Visible = (NumItems >= 3)
+    picMaterial3.Visible = (NumItems >= 4)
     
     For i = 1 To MAX_LIST_ITEMS
         picItem(i).Visible = (NumItems >= i)
@@ -559,18 +559,18 @@ On Error Resume Next
     Dim i As Long
     Dim j As Byte
     Dim NumItems As Integer
-    Dim ObjHerrero() As tItemsConstruibles
+    Dim ObjTrabajo() As tItemsConstruibles
     
-    ObjHerrero = ObjetoHerrero
+    ObjTrabajo = ObjetoTrabajo
     
-    NumItems = UBound(ObjHerrero)
+    NumItems = UBound(ObjTrabajo)
     Inicio = Inicio - 1
     
     For i = 1 To MAX_LIST_ITEMS
     
         If i + Inicio <= NumItems Then
         
-            With ObjHerrero(i + Inicio)
+            With ObjTrabajo(i + Inicio)
             
                 ' Agrego el item
                 Call RenderItem(picItem(i), .GrhIndex)
@@ -578,7 +578,7 @@ On Error Resume Next
                 
                  ' Inventariode lingotes
                 For j = 1 To MAXMATERIALES
-                    Call InvLingosHerreria(i).SetItem(j, 0, .CantMateriales(j), 0, .Materiales(j), 0, 0, 0, 0, 0, 0, .NameMateriales(j))
+                    Call InvMaterialTrabajo(i).SetItem(j, 0, .CantMateriales(j), 0, .Materiales(j), 0, 0, 0, 0, 0, 0, .NameMateriales(j))
                 Next j
                 
             End With
@@ -597,10 +597,10 @@ Private Sub Form_Unload(Cancel As Integer)
     Dim i As Long
     
     For i = 1 To MAX_LIST_ITEMS
-        Set InvLingosHerreria(i) = Nothing
+        Set InvMaterialTrabajo(i) = Nothing
     Next i
     
-    MirandoHerreria = False
+    MirandoTrabajo = 0
 End Sub
 
 Private Sub imgCantidadCiclo_Click()
@@ -608,6 +608,7 @@ Private Sub imgCantidadCiclo_Click()
 End Sub
 
 Private Sub imgCerrar_Click()
+    Call WriteWorkClose
     Unload Me
 End Sub
 
@@ -627,19 +628,19 @@ Private Sub picConstruir3_Click()
     Call ConstruirItem(4)
 End Sub
 
-Private Sub picLingotes0_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub picMaterial00_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 
-Private Sub picLingotes1_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub picMaterial01_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 
-Private Sub picLingotes2_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub picMaterial02_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 
-Private Sub picLingotes3_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub picMaterial03_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 

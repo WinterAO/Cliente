@@ -100,7 +100,6 @@ Module=Carga; CODIGO\IO\modCarga.bas
 Class=clsBatch; CODIGO\Motor\clsBatch.cls
 Class=clsArrayList; CODIGO\clsArrayList.cls
 Form=CODIGO\Formularios\frmKeysConfigurationSelect.frm
-Form=CODIGO\Formularios\frmCarpinteria.frm
 Form=CODIGO\Formularios\frmArtesano.frm
 Class=clsJpeg; CODIGO\Aplicacion\clsJpeg.cls
 Module=ModCnt; CODIGO\Motor\ModCNT.bas

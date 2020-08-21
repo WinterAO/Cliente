@@ -100,8 +100,7 @@ Private Enum ServerPacketID
     ChangeBankSlot               ' SBO
     ChangeSpellSlot              ' SHS
     Atributes                    ' ATR
-    Blacksmith
-    InitCarpenting               ' OBR
+    InitTrabajo
     RestOK                       ' DOK
     ErrorMsg                     ' ERR
     Blind                        ' CEGU
@@ -208,8 +207,8 @@ Private Enum ClientPacketID
     Work                            'UK
     UseSpellMacro                   'UMH
     UseItem                         'USA
-    CraftBlacksmith                 'CNS
-    CraftCarpenter                  'CNC
+    CraftearItem
+    WorkClose
     WorkLeftClick                   'WLC
     CreateNewGuild                  'CIG
     EquipItem                       'EQUI
@@ -709,11 +708,8 @@ On Error Resume Next
         Case ServerPacketID.Atributes               ' ATR
             Call HandleAtributes
         
-        Case ServerPacketID.Blacksmith
-            Call HandleBlacksmith
-        
-        Case ServerPacketID.InitCarpenting          ' OBR
-            Call HandleInitCarpenting
+        Case ServerPacketID.InitTrabajo
+            Call HandleInitTrabajo
             
         Case ServerPacketID.InitCraftman
             Call HandleInitCraftman
@@ -966,42 +962,42 @@ Public Sub HandleMultiMessage()
 
             Case eMessages.NPCSwing
                 Call AddtoRichTextBox(frmMain.RecTxt, _
-                        JsonLanguage.item("MENSAJE_CRIATURA_FALLA_GOLPE").item("TEXTO"), _
-                        JsonLanguage.item("MENSAJE_CRIATURA_FALLA_GOLPE").item("COLOR").item(1), _
-                        JsonLanguage.item("MENSAJE_CRIATURA_FALLA_GOLPE").item("COLOR").item(2), _
-                        JsonLanguage.item("MENSAJE_CRIATURA_FALLA_GOLPE").item("COLOR").item(3), _
+                        JsonLanguage.Item("MENSAJE_CRIATURA_FALLA_GOLPE").Item("TEXTO"), _
+                        JsonLanguage.Item("MENSAJE_CRIATURA_FALLA_GOLPE").Item("COLOR").Item(1), _
+                        JsonLanguage.Item("MENSAJE_CRIATURA_FALLA_GOLPE").Item("COLOR").Item(2), _
+                        JsonLanguage.Item("MENSAJE_CRIATURA_FALLA_GOLPE").Item("COLOR").Item(3), _
                         True, False, True)
         
             Case eMessages.NPCKillUser
                 Call AddtoRichTextBox(frmMain.RecTxt, _
-                    JsonLanguage.item("MENSAJE_CRIATURA_MATADO").item("TEXTO"), _
-                    JsonLanguage.item("MENSAJE_CRIATURA_MATADO").item("COLOR").item(1), _
-                    JsonLanguage.item("MENSAJE_CRIATURA_MATADO").item("COLOR").item(2), _
-                    JsonLanguage.item("MENSAJE_CRIATURA_MATADO").item("COLOR").item(3), _
+                    JsonLanguage.Item("MENSAJE_CRIATURA_MATADO").Item("TEXTO"), _
+                    JsonLanguage.Item("MENSAJE_CRIATURA_MATADO").Item("COLOR").Item(1), _
+                    JsonLanguage.Item("MENSAJE_CRIATURA_MATADO").Item("COLOR").Item(2), _
+                    JsonLanguage.Item("MENSAJE_CRIATURA_MATADO").Item("COLOR").Item(3), _
                     True, False, True)
         
             Case eMessages.BlockedWithShieldUser
                 Call AddtoRichTextBox(frmMain.RecTxt, _
-                    JsonLanguage.item("MENSAJE_RECHAZO_ATAQUE_ESCUDO").item("TEXTO"), _
-                    JsonLanguage.item("MENSAJE_RECHAZO_ATAQUE_ESCUDO").item("COLOR").item(1), _
-                    JsonLanguage.item("MENSAJE_RECHAZO_ATAQUE_ESCUDO").item("COLOR").item(2), _
-                    JsonLanguage.item("MENSAJE_RECHAZO_ATAQUE_ESCUDO").item("COLOR").item(3), _
+                    JsonLanguage.Item("MENSAJE_RECHAZO_ATAQUE_ESCUDO").Item("TEXTO"), _
+                    JsonLanguage.Item("MENSAJE_RECHAZO_ATAQUE_ESCUDO").Item("COLOR").Item(1), _
+                    JsonLanguage.Item("MENSAJE_RECHAZO_ATAQUE_ESCUDO").Item("COLOR").Item(2), _
+                    JsonLanguage.Item("MENSAJE_RECHAZO_ATAQUE_ESCUDO").Item("COLOR").Item(3), _
                     True, False, True)
         
             Case eMessages.BlockedWithShieldOther
                 Call AddtoRichTextBox(frmMain.RecTxt, _
-                    JsonLanguage.item("MENSAJE_USUARIO_RECHAZO_ATAQUE_ESCUDO").item("TEXTO"), _
-                    JsonLanguage.item("MENSAJE_USUARIO_RECHAZO_ATAQUE_ESCUDO").item("COLOR").item(1), _
-                    JsonLanguage.item("MENSAJE_USUARIO_RECHAZO_ATAQUE_ESCUDO").item("COLOR").item(2), _
-                    JsonLanguage.item("MENSAJE_USUARIO_RECHAZO_ATAQUE_ESCUDO").item("COLOR").item(3), _
+                    JsonLanguage.Item("MENSAJE_USUARIO_RECHAZO_ATAQUE_ESCUDO").Item("TEXTO"), _
+                    JsonLanguage.Item("MENSAJE_USUARIO_RECHAZO_ATAQUE_ESCUDO").Item("COLOR").Item(1), _
+                    JsonLanguage.Item("MENSAJE_USUARIO_RECHAZO_ATAQUE_ESCUDO").Item("COLOR").Item(2), _
+                    JsonLanguage.Item("MENSAJE_USUARIO_RECHAZO_ATAQUE_ESCUDO").Item("COLOR").Item(3), _
                     True, False, True)
         
             Case eMessages.UserSwing
                 Call AddtoRichTextBox(frmMain.RecTxt, _
-                    JsonLanguage.item("MENSAJE_FALLADO_GOLPE").item("TEXTO"), _
-                    JsonLanguage.item("MENSAJE_FALLADO_GOLPE").item("COLOR").item(1), _
-                    JsonLanguage.item("MENSAJE_FALLADO_GOLPE").item("COLOR").item(2), _
-                    JsonLanguage.item("MENSAJE_FALLADO_GOLPE").item("COLOR").item(3), _
+                    JsonLanguage.Item("MENSAJE_FALLADO_GOLPE").Item("TEXTO"), _
+                    JsonLanguage.Item("MENSAJE_FALLADO_GOLPE").Item("COLOR").Item(1), _
+                    JsonLanguage.Item("MENSAJE_FALLADO_GOLPE").Item("COLOR").Item(2), _
+                    JsonLanguage.Item("MENSAJE_FALLADO_GOLPE").Item("COLOR").Item(3), _
                     True, False, True)
         
             Case eMessages.SafeModeOn
@@ -1018,18 +1014,18 @@ Public Sub HandleMultiMessage()
         
             Case eMessages.NobilityLost
                 Call AddtoRichTextBox(frmMain.RecTxt, _
-                    JsonLanguage.item("MENSAJE_PIERDE_NOBLEZA").item("TEXTO"), _
-                    JsonLanguage.item("MENSAJE_PIERDE_NOBLEZA").item("COLOR").item(1), _
-                    JsonLanguage.item("MENSAJE_PIERDE_NOBLEZA").item("COLOR").item(2), _
-                    JsonLanguage.item("MENSAJE_PIERDE_NOBLEZA").item("COLOR").item(3), _
+                    JsonLanguage.Item("MENSAJE_PIERDE_NOBLEZA").Item("TEXTO"), _
+                    JsonLanguage.Item("MENSAJE_PIERDE_NOBLEZA").Item("COLOR").Item(1), _
+                    JsonLanguage.Item("MENSAJE_PIERDE_NOBLEZA").Item("COLOR").Item(2), _
+                    JsonLanguage.Item("MENSAJE_PIERDE_NOBLEZA").Item("COLOR").Item(3), _
                     False, False, True)
         
             Case eMessages.CantUseWhileMeditating
                 Call AddtoRichTextBox(frmMain.RecTxt, _
-                    JsonLanguage.item("MENSAJE_USAR_MEDITANDO").item("TEXTO"), _
-                    JsonLanguage.item("MENSAJE_USAR_MEDITANDO").item("COLOR").item(1), _
-                    JsonLanguage.item("MENSAJE_USAR_MEDITANDO").item("COLOR").item(2), _
-                    JsonLanguage.item("MENSAJE_USAR_MEDITANDO").item("COLOR").item(3), _
+                    JsonLanguage.Item("MENSAJE_USAR_MEDITANDO").Item("TEXTO"), _
+                    JsonLanguage.Item("MENSAJE_USAR_MEDITANDO").Item("COLOR").Item(1), _
+                    JsonLanguage.Item("MENSAJE_USAR_MEDITANDO").Item("COLOR").Item(2), _
+                    JsonLanguage.Item("MENSAJE_USAR_MEDITANDO").Item("COLOR").Item(3), _
                     False, False, True)
         
             Case eMessages.NPCHitUser
@@ -1038,72 +1034,72 @@ Public Sub HandleMultiMessage()
 
                     Case ePartesCuerpo.bCabeza
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_GOLPE_CABEZA").item("TEXTO") & CStr(incomingData.ReadInteger()) & "!!", _
-                            JsonLanguage.item("MENSAJE_GOLPE_CABEZA").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_GOLPE_CABEZA").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_GOLPE_CABEZA").item("COLOR").item(3), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_CABEZA").Item("TEXTO") & CStr(incomingData.ReadInteger()) & "!!", _
+                            JsonLanguage.Item("MENSAJE_GOLPE_CABEZA").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_CABEZA").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_CABEZA").Item("COLOR").Item(3), _
                             True, False, True)
                 
                     Case ePartesCuerpo.bBrazoIzquierdo
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_GOLPE_BRAZO_IZQ").item("TEXTO") & CStr(incomingData.ReadInteger()) & "!!", _
-                            JsonLanguage.item("MENSAJE_GOLPE_BRAZO_IZQ").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_GOLPE_BRAZO_IZQ").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_GOLPE_BRAZO_IZQ").item("COLOR").item(3), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_BRAZO_IZQ").Item("TEXTO") & CStr(incomingData.ReadInteger()) & "!!", _
+                            JsonLanguage.Item("MENSAJE_GOLPE_BRAZO_IZQ").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_BRAZO_IZQ").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_BRAZO_IZQ").Item("COLOR").Item(3), _
                             True, False, True)
                 
                     Case ePartesCuerpo.bBrazoDerecho
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_GOLPE_BRAZO_DER").item("TEXTO") & CStr(incomingData.ReadInteger()) & "!!", _
-                            JsonLanguage.item("MENSAJE_GOLPE_BRAZO_DER").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_GOLPE_BRAZO_DER").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_GOLPE_BRAZO_DER").item("COLOR").item(3), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_BRAZO_DER").Item("TEXTO") & CStr(incomingData.ReadInteger()) & "!!", _
+                            JsonLanguage.Item("MENSAJE_GOLPE_BRAZO_DER").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_BRAZO_DER").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_BRAZO_DER").Item("COLOR").Item(3), _
                             True, False, True)
                 
                     Case ePartesCuerpo.bPiernaIzquierda
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_GOLPE_PIERNA_IZQ").item("TEXTO") & CStr(incomingData.ReadInteger()) & "!!", _
-                            JsonLanguage.item("MENSAJE_GOLPE_PIERNA_IZQ").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_GOLPE_PIERNA_IZQ").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_GOLPE_PIERNA_IZQ").item("COLOR").item(3), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_PIERNA_IZQ").Item("TEXTO") & CStr(incomingData.ReadInteger()) & "!!", _
+                            JsonLanguage.Item("MENSAJE_GOLPE_PIERNA_IZQ").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_PIERNA_IZQ").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_PIERNA_IZQ").Item("COLOR").Item(3), _
                             True, False, True)
                 
                     Case ePartesCuerpo.bPiernaDerecha
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_GOLPE_PIERNA_DER").item("TEXTO") & CStr(incomingData.ReadInteger()) & "!!", _
-                            JsonLanguage.item("MENSAJE_GOLPE_PIERNA_DER").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_GOLPE_PIERNA_DER").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_GOLPE_PIERNA_DER").item("COLOR").item(3), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_PIERNA_DER").Item("TEXTO") & CStr(incomingData.ReadInteger()) & "!!", _
+                            JsonLanguage.Item("MENSAJE_GOLPE_PIERNA_DER").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_PIERNA_DER").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_PIERNA_DER").Item("COLOR").Item(3), _
                             True, False, True)
                 
                     Case ePartesCuerpo.bTorso
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_GOLPE_TORSO").item("TEXTO") & CStr(incomingData.ReadInteger() & "!!"), _
-                            JsonLanguage.item("MENSAJE_GOLPE_TORSO").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_GOLPE_TORSO").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_GOLPE_TORSO").item("COLOR").item(3), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_TORSO").Item("TEXTO") & CStr(incomingData.ReadInteger() & "!!"), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_TORSO").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_TORSO").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_GOLPE_TORSO").Item("COLOR").Item(3), _
                             True, False, True)
 
                 End Select
         
             Case eMessages.UserHitNPC
                 Dim MsgHitNpc As String
-                    MsgHitNpc = JsonLanguage.item("MENSAJE_DAMAGE_NPC").item("TEXTO")
+                    MsgHitNpc = JsonLanguage.Item("MENSAJE_DAMAGE_NPC").Item("TEXTO")
                     MsgHitNpc = Replace$(MsgHitNpc, "VAR_DANO", CStr(incomingData.ReadLong()))
                     
                 Call AddtoRichTextBox(frmMain.RecTxt, _
                     MsgHitNpc, _
-                    JsonLanguage.item("MENSAJE_DAMAGE_NPC").item("COLOR").item(1), _
-                    JsonLanguage.item("MENSAJE_DAMAGE_NPC").item("COLOR").item(2), _
-                    JsonLanguage.item("MENSAJE_DAMAGE_NPC").item("COLOR").item(3), _
+                    JsonLanguage.Item("MENSAJE_DAMAGE_NPC").Item("COLOR").Item(1), _
+                    JsonLanguage.Item("MENSAJE_DAMAGE_NPC").Item("COLOR").Item(2), _
+                    JsonLanguage.Item("MENSAJE_DAMAGE_NPC").Item("COLOR").Item(3), _
                     True, False, True)
         
             Case eMessages.UserAttackedSwing
                 Call AddtoRichTextBox(frmMain.RecTxt, _
-                    charlist(incomingData.ReadInteger()).Nombre & JsonLanguage.item("MENSAJE_ATAQUE_FALLO").item("TEXTO"), _
-                    JsonLanguage.item("MENSAJE_ATAQUE_FALLO").item("COLOR").item(1), _
-                    JsonLanguage.item("MENSAJE_ATAQUE_FALLO").item("COLOR").item(2), _
-                    JsonLanguage.item("MENSAJE_ATAQUE_FALLO").item("COLOR").item(3), _
+                    charlist(incomingData.ReadInteger()).Nombre & JsonLanguage.Item("MENSAJE_ATAQUE_FALLO").Item("TEXTO"), _
+                    JsonLanguage.Item("MENSAJE_ATAQUE_FALLO").Item("COLOR").Item(1), _
+                    JsonLanguage.Item("MENSAJE_ATAQUE_FALLO").Item("COLOR").Item(2), _
+                    JsonLanguage.Item("MENSAJE_ATAQUE_FALLO").Item("COLOR").Item(3), _
                     True, False, True)
         
             Case eMessages.UserHittedByUser
@@ -1118,50 +1114,50 @@ Public Sub HandleMultiMessage()
 
                     Case ePartesCuerpo.bCabeza
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            AttackerName & JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_CABEZA").item("TEXTO") & Dano & MENSAJE_2, _
-                            JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_CABEZA").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_CABEZA").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_CABEZA").item("COLOR").item(3), _
+                            AttackerName & JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_CABEZA").Item("TEXTO") & Dano & MENSAJE_2, _
+                            JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_CABEZA").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_CABEZA").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_CABEZA").Item("COLOR").Item(3), _
                             True, False, True)
                 
                     Case ePartesCuerpo.bBrazoIzquierdo
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                        AttackerName & JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_BRAZO_IZQ").item("TEXTO") & Dano & MENSAJE_2, _
-                        JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_BRAZO_IZQ").item("COLOR").item(1), _
-                        JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_BRAZO_IZQ").item("COLOR").item(2), _
-                        JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_BRAZO_IZQ").item("COLOR").item(3), _
+                        AttackerName & JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_BRAZO_IZQ").Item("TEXTO") & Dano & MENSAJE_2, _
+                        JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_BRAZO_IZQ").Item("COLOR").Item(1), _
+                        JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_BRAZO_IZQ").Item("COLOR").Item(2), _
+                        JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_BRAZO_IZQ").Item("COLOR").Item(3), _
                         True, False, True)
                 
                     Case ePartesCuerpo.bBrazoDerecho
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            AttackerName & JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_BRAZO_DER").item("TEXTO") & Dano & MENSAJE_2, _
-                            JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_BRAZO_DER").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_BRAZO_DER").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_BRAZO_DER").item("COLOR").item(3), _
+                            AttackerName & JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_BRAZO_DER").Item("TEXTO") & Dano & MENSAJE_2, _
+                            JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_BRAZO_DER").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_BRAZO_DER").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_BRAZO_DER").Item("COLOR").Item(3), _
                             True, False, True)
                 
                     Case ePartesCuerpo.bPiernaIzquierda
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            AttackerName & JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_PIERNA_IZQ").item("TEXTO") & Dano & MENSAJE_2, _
-                            JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_PIERNA_IZQ").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_PIERNA_IZQ").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_PIERNA_IZQ").item("COLOR").item(3), _
+                            AttackerName & JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_PIERNA_IZQ").Item("TEXTO") & Dano & MENSAJE_2, _
+                            JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_PIERNA_IZQ").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_PIERNA_IZQ").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_PIERNA_IZQ").Item("COLOR").Item(3), _
                             True, False, True)
                 
                     Case ePartesCuerpo.bPiernaDerecha
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            AttackerName & JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_PIERNA_DER").item("TEXTO") & Dano & MENSAJE_2, _
-                            JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_PIERNA_DER").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_PIERNA_DER").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_PIERNA_DER").item("COLOR").item(3), _
+                            AttackerName & JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_PIERNA_DER").Item("TEXTO") & Dano & MENSAJE_2, _
+                            JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_PIERNA_DER").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_PIERNA_DER").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_PIERNA_DER").Item("COLOR").Item(3), _
                             True, False, True)
                 
                     Case ePartesCuerpo.bTorso
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            AttackerName & JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_TORSO").item("TEXTO") & Dano & MENSAJE_2, _
-                            JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_TORSO").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_TORSO").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_RECIVE_IMPACTO_TORSO").item("COLOR").item(3), _
+                            AttackerName & JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_TORSO").Item("TEXTO") & Dano & MENSAJE_2, _
+                            JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_TORSO").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_TORSO").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_RECIVE_IMPACTO_TORSO").Item("COLOR").Item(3), _
                             True, False, True)
 
                 End Select
@@ -1178,50 +1174,50 @@ Public Sub HandleMultiMessage()
 
                     Case ePartesCuerpo.bCabeza
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_1").item("TEXTO") & VictimName & JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_CABEZA").item("TEXTO") & Dano & MENSAJE_2, _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_CABEZA").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_CABEZA").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_CABEZA").item("COLOR").item(3), _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_1").Item("TEXTO") & VictimName & JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_CABEZA").Item("TEXTO") & Dano & MENSAJE_2, _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_CABEZA").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_CABEZA").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_CABEZA").Item("COLOR").Item(3), _
                             True, False, True)
                 
                     Case ePartesCuerpo.bBrazoIzquierdo
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_1").item("TEXTO") & VictimName & JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_BRAZO_IZQ").item("TEXTO") & Dano & MENSAJE_2, _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_BRAZO_IZQ").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_BRAZO_IZQ").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_BRAZO_IZQ").item("COLOR").item(3), _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_1").Item("TEXTO") & VictimName & JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_BRAZO_IZQ").Item("TEXTO") & Dano & MENSAJE_2, _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_BRAZO_IZQ").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_BRAZO_IZQ").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_BRAZO_IZQ").Item("COLOR").Item(3), _
                             True, False, True)
                 
                     Case ePartesCuerpo.bBrazoDerecho
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_1").item("TEXTO") & VictimName & JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_BRAZO_DER").item("TEXTO") & Dano & MENSAJE_2, _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_BRAZO_DER").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_BRAZO_DER").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_BRAZO_DER").item("COLOR").item(3), _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_1").Item("TEXTO") & VictimName & JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_BRAZO_DER").Item("TEXTO") & Dano & MENSAJE_2, _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_BRAZO_DER").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_BRAZO_DER").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_BRAZO_DER").Item("COLOR").Item(3), _
                             True, False, True)
                 
                     Case ePartesCuerpo.bPiernaIzquierda
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_1").item("TEXTO") & VictimName & JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_PIERNA_IZQ").item("TEXTO") & Dano & MENSAJE_2, _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_PIERNA_IZQ").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_PIERNA_IZQ").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_PIERNA_IZQ").item("COLOR").item(3), _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_1").Item("TEXTO") & VictimName & JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_PIERNA_IZQ").Item("TEXTO") & Dano & MENSAJE_2, _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_PIERNA_IZQ").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_PIERNA_IZQ").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_PIERNA_IZQ").Item("COLOR").Item(3), _
                             True, False, True)
                 
                     Case ePartesCuerpo.bPiernaDerecha
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_1").item("TEXTO") & VictimName & JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_PIERNA_DER").item("TEXTO") & Dano & MENSAJE_2, _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_PIERNA_DER").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_PIERNA_DER").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_PIERNA_DER").item("COLOR").item(3), _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_1").Item("TEXTO") & VictimName & JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_PIERNA_DER").Item("TEXTO") & Dano & MENSAJE_2, _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_PIERNA_DER").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_PIERNA_DER").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_PIERNA_DER").Item("COLOR").Item(3), _
                             True, False, True)
                 
                     Case ePartesCuerpo.bTorso
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_1").item("TEXTO") & VictimName & JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_TORSO").item("TEXTO") & Dano & MENSAJE_2, _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_TORSO").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_TORSO").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_PRODUCE_IMPACTO_TORSO").item("COLOR").item(3), _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_1").Item("TEXTO") & VictimName & JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_TORSO").Item("TEXTO") & Dano & MENSAJE_2, _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_TORSO").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_TORSO").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_PRODUCE_IMPACTO_TORSO").Item("COLOR").Item(3), _
                             True, False, True)
 
                 End Select
@@ -1235,52 +1231,52 @@ Public Sub HandleMultiMessage()
 
                     Case Magia
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_TRABAJO_MAGIA").item("TEXTO"), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_MAGIA").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_MAGIA").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_MAGIA").item("COLOR").item(3))
+                            JsonLanguage.Item("MENSAJE_TRABAJO_MAGIA").Item("TEXTO"), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_MAGIA").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_MAGIA").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_MAGIA").Item("COLOR").Item(3))
                 
                     Case pesca
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_TRABAJO_PESCA").item("TEXTO"), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_PESCA").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_PESCA").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_PESCA").item("COLOR").item(3))
+                            JsonLanguage.Item("MENSAJE_TRABAJO_PESCA").Item("TEXTO"), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_PESCA").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_PESCA").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_PESCA").Item("COLOR").Item(3))
                 
                     Case Robar
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_TRABAJO_ROBAR").item("TEXTO"), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_ROBAR").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_ROBAR").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_ROBAR").item("COLOR").item(3))
+                            JsonLanguage.Item("MENSAJE_TRABAJO_ROBAR").Item("TEXTO"), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_ROBAR").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_ROBAR").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_ROBAR").Item("COLOR").Item(3))
                 
                     Case Talar
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_TRABAJO_TALAR").item("TEXTO"), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_TALAR").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_TALAR").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_TALAR").item("COLOR").item(3))
+                            JsonLanguage.Item("MENSAJE_TRABAJO_TALAR").Item("TEXTO"), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_TALAR").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_TALAR").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_TALAR").Item("COLOR").Item(3))
                 
                     Case Mineria
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_TRABAJO_MINERIA").item("TEXTO"), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_MINERIA").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_MINERIA").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_MINERIA").item("COLOR").item(3))
+                            JsonLanguage.Item("MENSAJE_TRABAJO_MINERIA").Item("TEXTO"), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_MINERIA").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_MINERIA").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_MINERIA").Item("COLOR").Item(3))
                 
                     Case FundirMetal
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_TRABAJO_FUNDIRMETAL").item("TEXTO"), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_FUNDIRMETAL").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_FUNDIRMETAL").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_FUNDIRMETAL").item("COLOR").item(3))
+                            JsonLanguage.Item("MENSAJE_TRABAJO_FUNDIRMETAL").Item("TEXTO"), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_FUNDIRMETAL").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_FUNDIRMETAL").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_FUNDIRMETAL").Item("COLOR").Item(3))
                 
                     Case Proyectiles
                         Call AddtoRichTextBox(frmMain.RecTxt, _
-                            JsonLanguage.item("MENSAJE_TRABAJO_PROYECTILES").item("TEXTO"), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_PROYECTILES").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_PROYECTILES").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_TRABAJO_PROYECTILES").item("COLOR").item(3))
+                            JsonLanguage.Item("MENSAJE_TRABAJO_PROYECTILES").Item("TEXTO"), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_PROYECTILES").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_PROYECTILES").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_TRABAJO_PROYECTILES").Item("COLOR").Item(3))
 
                 End Select
 
@@ -1296,20 +1292,20 @@ Public Sub HandleMultiMessage()
                 EXP = .ReadLong
             
                 Call ShowConsoleMsg( _
-                    JsonLanguage.item("MENSAJE_HAS_MATADO_A").item("TEXTO") & charlist(KilledUser).Nombre & MENSAJE_22, _
-                    JsonLanguage.item("MENSAJE_HAS_MATADO_A").item("COLOR").item(1), _
-                    JsonLanguage.item("MENSAJE_HAS_MATADO_A").item("COLOR").item(2), _
-                    JsonLanguage.item("MENSAJE_HAS_MATADO_A").item("COLOR").item(3), _
+                    JsonLanguage.Item("MENSAJE_HAS_MATADO_A").Item("TEXTO") & charlist(KilledUser).Nombre & MENSAJE_22, _
+                    JsonLanguage.Item("MENSAJE_HAS_MATADO_A").Item("COLOR").Item(1), _
+                    JsonLanguage.Item("MENSAJE_HAS_MATADO_A").Item("COLOR").Item(2), _
+                    JsonLanguage.Item("MENSAJE_HAS_MATADO_A").Item("COLOR").Item(3), _
                     True, False)
                 
                 ' Para mejor lectura
-                MensajeExp = JsonLanguage.item("MENSAJE_HAS_GANADO_EXP").item("TEXTO") 'String original
+                MensajeExp = JsonLanguage.Item("MENSAJE_HAS_GANADO_EXP").Item("TEXTO") 'String original
                 MensajeExp = Replace$(MensajeExp, "VAR_EXP_GANADA", EXP) 'Parte a reemplazar
                 
                 Call ShowConsoleMsg(MensajeExp, _
-                                    JsonLanguage.item("MENSAJE_HAS_GANADO_EXP").item("COLOR").item(1), _
-                                    JsonLanguage.item("MENSAJE_HAS_GANADO_EXP").item("COLOR").item(2), _
-                                    JsonLanguage.item("MENSAJE_HAS_GANADO_EXP").item("COLOR").item(3), _
+                                    JsonLanguage.Item("MENSAJE_HAS_GANADO_EXP").Item("COLOR").Item(1), _
+                                    JsonLanguage.Item("MENSAJE_HAS_GANADO_EXP").Item("COLOR").Item(2), _
+                                    JsonLanguage.Item("MENSAJE_HAS_GANADO_EXP").Item("COLOR").Item(3), _
                                     True, False)
             
                 'Sacamos un screenshot si esta activado el FragShooter:
@@ -1330,10 +1326,10 @@ Public Sub HandleMultiMessage()
             
                 KillerUser = .ReadInteger
             
-                Call ShowConsoleMsg(charlist(KillerUser).Nombre & JsonLanguage.item("MENSAJE_TE_HA_MATADO").item("TEXTO"), _
-                                    JsonLanguage.item("MENSAJE_TE_HA_MATADO").item("COLOR").item(1), _
-                                    JsonLanguage.item("MENSAJE_TE_HA_MATADO").item("COLOR").item(2), _
-                                    JsonLanguage.item("MENSAJE_TE_HA_MATADO").item("COLOR").item(3), _
+                Call ShowConsoleMsg(charlist(KillerUser).Nombre & JsonLanguage.Item("MENSAJE_TE_HA_MATADO").Item("TEXTO"), _
+                                    JsonLanguage.Item("MENSAJE_TE_HA_MATADO").Item("COLOR").Item(1), _
+                                    JsonLanguage.Item("MENSAJE_TE_HA_MATADO").Item("COLOR").Item(2), _
+                                    JsonLanguage.Item("MENSAJE_TE_HA_MATADO").Item("COLOR").Item(3), _
                                     True, False)
             
                 'Sacamos un screenshot si esta activado el FragShooter:
@@ -1358,22 +1354,22 @@ Public Sub HandleMultiMessage()
         
                    
             Case eMessages.FinishHome
-                Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_HOGAR").item("TEXTO"), _
-                                    JsonLanguage.item("MENSAJE_HOGAR").item("COLOR").item(1), _
-                                    JsonLanguage.item("MENSAJE_HOGAR").item("COLOR").item(2), _
-                                    JsonLanguage.item("MENSAJE_HOGAR").item("COLOR").item(3))
+                Call ShowConsoleMsg(JsonLanguage.Item("MENSAJE_HOGAR").Item("TEXTO"), _
+                                    JsonLanguage.Item("MENSAJE_HOGAR").Item("COLOR").Item(1), _
+                                    JsonLanguage.Item("MENSAJE_HOGAR").Item("COLOR").Item(2), _
+                                    JsonLanguage.Item("MENSAJE_HOGAR").Item("COLOR").Item(3))
             
             Case eMessages.UserMuerto
-                Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(2), _
-                                    JsonLanguage.item("MENSAJE_USER_MUERTO").item("COLOR").item(1), _
-                                    JsonLanguage.item("MENSAJE_USER_MUERTO").item("COLOR").item(2), _
-                                    JsonLanguage.item("MENSAJE_USER_MUERTO").item("COLOR").item(3))
+                Call ShowConsoleMsg(JsonLanguage.Item("MENSAJE_USER_MUERTO").Item("TEXTO").Item(2), _
+                                    JsonLanguage.Item("MENSAJE_USER_MUERTO").Item("COLOR").Item(1), _
+                                    JsonLanguage.Item("MENSAJE_USER_MUERTO").Item("COLOR").Item(2), _
+                                    JsonLanguage.Item("MENSAJE_USER_MUERTO").Item("COLOR").Item(3))
         
             Case eMessages.NpcInmune
-                Call ShowConsoleMsg(JsonLanguage.item("NPC_INMUNE").item("TEXTO"), _
-                                    JsonLanguage.item("NPC_INMUNE").item("COLOR").item(1), _
-                                    JsonLanguage.item("NPC_INMUNE").item("COLOR").item(2), _
-                                    JsonLanguage.item("NPC_INMUNE").item("COLOR").item(3))
+                Call ShowConsoleMsg(JsonLanguage.Item("NPC_INMUNE").Item("TEXTO"), _
+                                    JsonLanguage.Item("NPC_INMUNE").Item("COLOR").Item(1), _
+                                    JsonLanguage.Item("NPC_INMUNE").Item("COLOR").Item(2), _
+                                    JsonLanguage.Item("NPC_INMUNE").Item("COLOR").Item(3))
             
             Case eMessages.Hechizo_HechiceroMSG_NOMBRE
                 SpellIndex = .ReadByte
@@ -1384,7 +1380,7 @@ Public Sub HandleMultiMessage()
             Case eMessages.Hechizo_HechiceroMSG_ALGUIEN
                 SpellIndex = .ReadByte
          
-                Call ShowConsoleMsg(Hechizos(SpellIndex).HechiceroMsg & " " & JsonLanguage.item("ALGUIEN").item("TEXTO") & ".", 210, 220, 220)
+                Call ShowConsoleMsg(Hechizos(SpellIndex).HechiceroMsg & " " & JsonLanguage.Item("ALGUIEN").Item("TEXTO") & ".", 210, 220, 220)
          
             Case eMessages.Hechizo_HechiceroMSG_CRIATURA
                 SpellIndex = .ReadByte
@@ -1645,7 +1641,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -1767,7 +1763,7 @@ Private Sub HandleUserOfferConfirm()
         ' Now he can accept the offer or reject it
         .HabilitarAceptarRechazar True
         
-        .PrintCommerceMsg TradingUserName & JsonLanguage.item("MENSAJE_COMM_OFERTA_ACEPTA").item("TEXTO"), FontTypeNames.FONTTYPE_CONSE
+        .PrintCommerceMsg TradingUserName & JsonLanguage.Item("MENSAJE_COMM_OFERTA_ACEPTA").Item("TEXTO"), FontTypeNames.FONTTYPE_CONSE
     End With
     
 End Sub
@@ -3271,7 +3267,7 @@ Private Sub HandleStopWorking()
     Call incomingData.ReadByte
 
     With FontTypes(FontTypeNames.FONTTYPE_INFO)
-        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_WORK_FINISHED").item("TEXTO"), .Red, .Green, .Blue, .bold, .italic)
+        Call ShowConsoleMsg(JsonLanguage.Item("MENSAJE_WORK_FINISHED").Item("TEXTO"), .Red, .Green, .Blue, .bold, .italic)
     End With
 End Sub
 
@@ -3309,7 +3305,7 @@ Private Sub HandleCancelOfferItem()
     End If
     
     With FontTypes(FontTypeNames.FONTTYPE_INFO)
-        Call frmComerciarUsu.PrintCommerceMsg(JsonLanguage.item("MENSAJE_NO_COMM_OBJETO").item("TEXTO"), FontTypeNames.FONTTYPE_INFO)
+        Call frmComerciarUsu.PrintCommerceMsg(JsonLanguage.Item("MENSAJE_NO_COMM_OBJETO").Item("TEXTO"), FontTypeNames.FONTTYPE_INFO)
     End With
 End Sub
 
@@ -3404,14 +3400,14 @@ On Error GoTo errhandler
         If str <> vbNullString Then
             frmMain.hlst.List(slot - 1) = str
         Else
-            Call frmMain.hlst.AddItem(JsonLanguage.item("NADA").item("TEXTO"))
+            Call frmMain.hlst.AddItem(JsonLanguage.Item("NADA").Item("TEXTO"))
         End If
     Else
         str = DevolverNombreHechizo(UserHechizos(slot))
         If str <> vbNullString Then
             Call frmMain.hlst.AddItem(str)
         Else
-            Call frmMain.hlst.AddItem(JsonLanguage.item("NADA").item("TEXTO"))
+            Call frmMain.hlst.AddItem(JsonLanguage.Item("NADA").Item("TEXTO"))
         End If
     End If
  
@@ -3457,9 +3453,9 @@ Private Sub HandleAtributes()
 End Sub
 
 ''
-' Handles the BlacksmithWeapons message.
+' Handles the InitTrabajo message.
 
-Private Sub HandleBlacksmith()
+Private Sub HandleInitTrabajo()
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -3484,15 +3480,17 @@ On Error GoTo errhandler
     Dim j As Long
     Dim k As Long
     
+    MirandoTrabajo = buffer.ReadByte() 'Me sirve para saber que trabajo estoy mirado y para indicar que estoy trabajando
+    
     Count = buffer.ReadInteger()
     
-    ReDim ObjetoHerrero(Count) As tItemsConstruibles
+    ReDim ObjetoTrabajo(Count) As tItemsConstruibles
     
     For i = 1 To Count
-        With ObjetoHerrero(i)
+        With ObjetoTrabajo(i)
             .name = buffer.ReadASCIIString()    'Get the object's name
             .GrhIndex = buffer.ReadLong()
-            
+            Debug.Print .GrhIndex
             For j = 1 To MAXMATERIALES
                 .Materiales(j) = buffer.ReadLong()
                 .CantMateriales(j) = buffer.ReadInteger()
@@ -3507,101 +3505,18 @@ On Error GoTo errhandler
     'En otras palabras, a partir de ahora podes usar "Exit Sub" sin romper nada.
     Call incomingData.CopyBuffer(buffer)
     
-    Call frmHerrero.Show(vbModeless, frmMain)
-    MirandoHerreria = True
+    Call frmTrabajo.Show(vbModeless, frmMain)
     
     For i = 1 To MAX_LIST_ITEMS
-        Set InvLingosHerreria(i) = New clsGraphicalInventory
+        Set InvMaterialTrabajo(i) = New clsGraphicalInventory
     Next i
     
-    With frmHerrero
+    With frmTrabajo
         ' Inicializo los inventarios
-        Call InvLingosHerreria(1).Initialize(DirectD3D8, .picLingotes0, 3, , , , , , False)
-        Call InvLingosHerreria(2).Initialize(DirectD3D8, .picLingotes1, 3, , , , , , False)
-        Call InvLingosHerreria(3).Initialize(DirectD3D8, .picLingotes2, 3, , , , , , False)
-        Call InvLingosHerreria(4).Initialize(DirectD3D8, .picLingotes3, 3, , , , , , False)
-        
-        Call .HideExtraControls(Count)
-        Call .RenderList(1)
-    End With
-
-errhandler:
-    Dim Error As Long
-    Error = Err.number
-On Error GoTo 0
-    
-    'Destroy auxiliar buffer
-    Set buffer = Nothing
-
-    If Error <> 0 Then _
-        Err.Raise Error
-End Sub
-
-''
-' Handles the InitCarpenting message.
-
-Private Sub HandleInitCarpenting()
-'***************************************************
-'Author: Jopi
-'Last Modification: 01/01/20
-'Este solia ser HandleCarpenterObjects(), pero fue modificado para fusionar los paquetes CarptenterObjects y ShowCarpenterForm.
-'***************************************************
-    If incomingData.Length < 5 Then
-        Err.Raise incomingData.NotEnoughDataErrCode
-        Exit Sub
-    End If
-    
-On Error GoTo errhandler
-    
-    'This packet contains strings, make a copy of the data to prevent losses if it's not complete yet...
-    Dim buffer As clsByteQueue: Set buffer = New clsByteQueue
-    Call buffer.CopyBuffer(incomingData)
-    
-    'Remove packet ID
-    Call buffer.ReadByte
-    
-    Dim Count As Integer
-    Dim i As Long
-    Dim j As Long
-    Dim k As Long
-    
-    Count = buffer.ReadInteger()
-    
-    ReDim ObjCarpintero(Count) As tItemsConstruibles
-    ReDim CarpinteroMejorar(0) As tItemsConstruibles
-    
-    For i = 1 To Count
-        With ObjCarpintero(i)
-            .name = buffer.ReadASCIIString()        'Get the object's name
-            .GrhIndex = buffer.ReadLong()
-            
-            For j = 1 To MAXMATERIALES
-                .Materiales(j) = buffer.ReadLong()
-                .CantMateriales(j) = buffer.ReadInteger()
-                .NameMateriales(j) = buffer.ReadASCIIString()
-            Next j
-            
-            .objindex = buffer.ReadInteger()
-        End With
-    Next i
-    
-    'If we got here then packet is complete, copy data back to original queue
-    'En otras palabras, a partir de ahora podes usar "Exit Sub" sin romper nada.
-    Call incomingData.CopyBuffer(buffer)
-    
-    Call frmCarpinteria.Show(vbModeless, frmMain)
-    MirandoCarpinteria = True
-    
-    For i = 1 To MAX_LIST_ITEMS
-        Set InvMaderasCarpinteria(i) = New clsGraphicalInventory
-    Next i
-    
-    With frmCarpinteria
-        ' Inicializo los inventarios
-        Call InvMaderasCarpinteria(1).Initialize(DirectD3D8, .picMaderas0, 4, , , , , , False)
-        Call InvMaderasCarpinteria(2).Initialize(DirectD3D8, .picMaderas1, 4, , , , , , False)
-        Call InvMaderasCarpinteria(3).Initialize(DirectD3D8, .picMaderas2, 4, , , , , , False)
-        Call InvMaderasCarpinteria(4).Initialize(DirectD3D8, .picMaderas3, 4, , , , , , False)
+        Call InvMaterialTrabajo(1).Initialize(DirectD3D8, .picMaterial0, 3, , , , , , False)
+        Call InvMaterialTrabajo(2).Initialize(DirectD3D8, .picMaterial1, 3, , , , , , False)
+        Call InvMaterialTrabajo(3).Initialize(DirectD3D8, .picMaterial2, 3, , , , , , False)
+        Call InvMaterialTrabajo(4).Initialize(DirectD3D8, .picMaterial3, 3, , , , , , False)
         
         Call .HideExtraControls(Count)
         Call .RenderList(1)
@@ -4503,19 +4418,19 @@ On Error GoTo errhandler
         caos = buffer.ReadBoolean()
         
         If armada Then
-            .ejercito.Caption = JsonLanguage.item("ARMADA").item("TEXTO")
+            .ejercito.Caption = JsonLanguage.Item("ARMADA").Item("TEXTO")
         ElseIf caos Then
-            .ejercito.Caption = JsonLanguage.item("LEGION").item("TEXTO")
+            .ejercito.Caption = JsonLanguage.Item("LEGION").Item("TEXTO")
         End If
         
         .Ciudadanos.Caption = CStr(buffer.ReadLong())
         .criminales.Caption = CStr(buffer.ReadLong())
         
         If reputation > 0 Then
-            .status.Caption = " " & JsonLanguage.item("CIUDADANO").item("TEXTO")
+            .status.Caption = " " & JsonLanguage.Item("CIUDADANO").Item("TEXTO")
             .status.ForeColor = vbBlue
         Else
-            .status.Caption = " " & JsonLanguage.item("CRIMINAL").item("TEXTO")
+            .status.Caption = " " & JsonLanguage.Item("CRIMINAL").Item("TEXTO")
             .status.ForeColor = vbRed
         End If
         
@@ -4651,9 +4566,9 @@ On Error GoTo errhandler
         .Miembros.Caption = buffer.ReadInteger()
         
         If buffer.ReadBoolean() Then
-            .eleccion.Caption = UCase$(JsonLanguage.item("ABIERTA").item("TEXTO"))
+            .eleccion.Caption = UCase$(JsonLanguage.Item("ABIERTA").Item("TEXTO"))
         Else
-            .eleccion.Caption = UCase$(JsonLanguage.item("CERRADA").item("TEXTO"))
+            .eleccion.Caption = UCase$(JsonLanguage.Item("CERRADA").Item("TEXTO"))
         End If
         
         .lblAlineacion.Caption = buffer.ReadASCIIString()
@@ -4841,7 +4756,7 @@ On Error GoTo errhandler
         End If
     End With
     
-    Call frmComerciarUsu.PrintCommerceMsg(TradingUserName & JsonLanguage.item("MENSAJE_COMM_OFERTA_CAMBIA").item("TEXTO"), FontTypeNames.FONTTYPE_VENENO)
+    Call frmComerciarUsu.PrintCommerceMsg(TradingUserName & JsonLanguage.Item("MENSAJE_COMM_OFERTA_CAMBIA").Item("TEXTO"), FontTypeNames.FONTTYPE_VENENO)
     
     'If we got here then packet is complete, copy data back to original queue
     Call incomingData.CopyBuffer(buffer)
@@ -5221,14 +5136,14 @@ Private Sub HandlePong()
     Call incomingData.ReadByte
     
     Dim MENSAJE_PING As String
-        MENSAJE_PING = JsonLanguage.item("MENSAJE_PING").item("TEXTO")
+        MENSAJE_PING = JsonLanguage.Item("MENSAJE_PING").Item("TEXTO")
         MENSAJE_PING = Replace$(MENSAJE_PING, "VAR_PING", (timeGetTime - pingTime))
         
     Call AddtoRichTextBox(frmMain.RecTxt, _
                             MENSAJE_PING, _
-                            JsonLanguage.item("MENSAJE_PING").item("COLOR").item(1), _
-                            JsonLanguage.item("MENSAJE_PING").item("COLOR").item(2), _
-                            JsonLanguage.item("MENSAJE_PING").item("COLOR").item(3), _
+                            JsonLanguage.Item("MENSAJE_PING").Item("COLOR").Item(1), _
+                            JsonLanguage.Item("MENSAJE_PING").Item("COLOR").Item(2), _
+                            JsonLanguage.Item("MENSAJE_PING").Item("COLOR").Item(3), _
                             True, False, True)
     
     pingTime = 0
@@ -5908,43 +5823,34 @@ Public Sub WriteUseItem(ByVal slot As Byte)
 End Sub
 
 ''
-' Writes the "CraftBlacksmith" message to the outgoing data buffer.
+' Writes the "CraftearItem" message to the outgoing data buffer.
 '
 ' @param    item Index of the item to craft in the list sent by the server.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteCraftBlacksmith(ByVal item As Integer, ByVal cantidad As Integer)
+Public Sub WriteCraftearItem(ByVal Item As Long, ByVal cantidad As Integer)
 '***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'Writes the "CraftBlacksmith" message to the outgoing data buffer
+'Author: Lorwik
+'Last Modification: 21/08/2020
+'Writes the "CraftearItem" message to the outgoing data buffer
 '***************************************************
     With outgoingData
-        Call .WriteByte(ClientPacketID.CraftBlacksmith)
+        Call .WriteByte(ClientPacketID.CraftearItem)
         
-        Call .WriteInteger(item)
+        Call .WriteLong(Item)
         Call .WriteInteger(cantidad)
+        Call .WriteByte(MirandoTrabajo) 'Indicamos que profesion es
     End With
 End Sub
 
-''
-' Writes the "CraftCarpenter" message to the outgoing data buffer.
-'
-' @param    item Index of the item to craft in the list sent by the server.
-' @remarks  The data is not actually sent until the buffer is properly flushed.
+Public Sub WriteWorkClose()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 21/08/2020
+'Writes the "WorkClose" message to the outgoing data buffer
+'***************************************************
 
-Public Sub WriteCraftCarpenter(ByVal item As Integer, ByVal cantidad As Integer)
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'Writes the "CraftCarpenter" message to the outgoing data buffer
-'***************************************************
-    With outgoingData
-        Call .WriteByte(ClientPacketID.CraftCarpenter)
-        
-        Call .WriteInteger(item)
-        Call .WriteInteger(cantidad)
-    End With
+    Call outgoingData.WriteByte(ClientPacketID.WorkClose)
 End Sub
 
 ''
@@ -5953,7 +5859,7 @@ End Sub
 ' @param    item Index of the item to craft in the list sent by the server.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteCraftsmanCreate(ByVal item As Integer)
+Public Sub WriteCraftsmanCreate(ByVal Item As Integer)
 '***************************************************
 'Author: WyroX
 'Last Modification: 27/01/2020
@@ -5962,7 +5868,7 @@ Public Sub WriteCraftsmanCreate(ByVal item As Integer)
     With outgoingData
         Call .WriteByte(ClientPacketID.CraftsmanCreate)
         
-        Call .WriteInteger(item)
+        Call .WriteInteger(Item)
     End With
 End Sub
 
@@ -10429,10 +10335,10 @@ On Error GoTo errhandler
         'Status del pj
         If buffer.ReadBoolean Then
             .lblEstado.ForeColor = vbGreen
-            .lblEstado.Caption = UCase$(JsonLanguage.item("EN_LINEA").item("TEXTO"))
+            .lblEstado.Caption = UCase$(JsonLanguage.Item("EN_LINEA").Item("TEXTO"))
         Else
             .lblEstado.ForeColor = vbRed
-            .lblEstado.Caption = UCase$(JsonLanguage.item("DESCONECTADO").item("TEXTO"))
+            .lblEstado.Caption = UCase$(JsonLanguage.Item("DESCONECTADO").Item("TEXTO"))
         End If
         
         'IP del personaje
@@ -10440,7 +10346,7 @@ On Error GoTo errhandler
         If LenB(tmpStr) Then
             .txtIP.Text = tmpStr
         Else
-            .txtIP.Text = JsonLanguage.item("USUARIO").item("TEXTO") & JsonLanguage.item("DESCONECTADO").item("TEXTO")
+            .txtIP.Text = JsonLanguage.Item("USUARIO").Item("TEXTO") & JsonLanguage.Item("DESCONECTADO").Item("TEXTO")
         End If
         
         'Tiempo online
@@ -10448,7 +10354,7 @@ On Error GoTo errhandler
         If LenB(tmpStr) Then
             .txtTimeOn.Text = tmpStr
         Else
-            .txtTimeOn.Text = JsonLanguage.item("USUARIO").item("TEXTO") & JsonLanguage.item("DESCONECTADO").item("TEXTO")
+            .txtTimeOn.Text = JsonLanguage.Item("USUARIO").Item("TEXTO") & JsonLanguage.Item("DESCONECTADO").Item("TEXTO")
         End If
         
         'Observaciones
@@ -10456,7 +10362,7 @@ On Error GoTo errhandler
         If LenB(tmpStr) Then
             .txtObs.Text = tmpStr
         Else
-            .txtObs.Text = JsonLanguage.item("MENSAJE_NO_NOVEDADES").item("TEXTO")
+            .txtObs.Text = JsonLanguage.Item("MENSAJE_NO_NOVEDADES").Item("TEXTO")
         End If
     End With
     
@@ -11330,7 +11236,7 @@ Public Sub WriteAccionInventario(ByVal slot As Byte)
     '¿Esta muerto?
     If UserEstado = 1 Then
         With FontTypes(FontTypeNames.FONTTYPE_INFO)
-            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
+            Call ShowConsoleMsg(JsonLanguage.Item("MENSAJE_USER_MUERTO").Item("TEXTO").Item(1), .Red, .Green, .Blue, .bold, .italic)
         End With
         Exit Sub
     End If

@@ -82,8 +82,7 @@ Public InvComNpc As clsGraphicalInventory  ' Inventario con los items que ofrece
 
 'Inventarios de herreria
 Public Const MAX_LIST_ITEMS As Byte = 4
-Public InvLingosHerreria(1 To MAX_LIST_ITEMS) As clsGraphicalInventory
-Public InvMaderasCarpinteria(1 To MAX_LIST_ITEMS) As clsGraphicalInventory
+Public InvMaterialTrabajo(1 To MAX_LIST_ITEMS) As clsGraphicalInventory
 Public InvObjArtesano(1 To MAX_LIST_ITEMS) As clsGraphicalInventory
 
 Public Const MAX_ITEMS_CRAFTEO As Byte = 4
@@ -253,8 +252,7 @@ Public Enum ePartesCuerpo
     bTorso = 6
 End Enum
 
-Public ObjetoHerrero() As tItemsConstruibles
-Public ObjCarpintero() As tItemsConstruibles
+Public ObjetoTrabajo() As tItemsConstruibles
 Public ObjArtesano() As tItemArtesano
 
 Public UsaMacro As Boolean
@@ -791,8 +789,7 @@ Public MirandoForo As Boolean
 Public MirandoAsignarSkills As Boolean
 Public MirandoEstadisticas As Boolean
 Public MirandoParty As Boolean
-Public MirandoCarpinteria As Boolean
-Public MirandoHerreria As Boolean
+Public MirandoTrabajo As Byte
 '<-------------------------NUEVO-------------------------->
 
 Public UserClase As eClass

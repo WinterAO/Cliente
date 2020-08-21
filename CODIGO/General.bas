@@ -910,7 +910,7 @@ Private Sub InicializarNombres()
     SkillsNames(eSkill.Talar) = JsonLanguage.item("HABILIDADES").item("TALAR").item("TEXTO")
     SkillsNames(eSkill.Comerciar) = JsonLanguage.item("HABILIDADES").item("COMERCIO").item("TEXTO")
     SkillsNames(eSkill.Defensa) = JsonLanguage.item("HABILIDADES").item("DEFENSA_CON_ESCUDOS").item("TEXTO")
-    SkillsNames(eSkill.Pesca) = JsonLanguage.item("HABILIDADES").item("PESCA").item("TEXTO")
+    SkillsNames(eSkill.pesca) = JsonLanguage.item("HABILIDADES").item("PESCA").item("TEXTO")
     SkillsNames(eSkill.Mineria) = JsonLanguage.item("HABILIDADES").item("MINERIA").item("TEXTO")
     SkillsNames(eSkill.Carpinteria) = JsonLanguage.item("HABILIDADES").item("CARPINTERIA").item("TEXTO")
     SkillsNames(eSkill.Herreria) = JsonLanguage.item("HABILIDADES").item("HERRERIA").item("TEXTO")
@@ -1161,10 +1161,9 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     bShowTutorial = False
     
     MirandoAsignarSkills = False
-    MirandoCarpinteria = False
     MirandoEstadisticas = False
     MirandoForo = False
-    MirandoHerreria = False
+    MirandoTrabajo = 0
     MirandoParty = False
     
     'Delete all kind of dialogs
