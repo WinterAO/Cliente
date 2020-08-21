@@ -253,8 +253,7 @@ Public Enum ePartesCuerpo
     bTorso = 6
 End Enum
 
-Public ArmasHerrero() As tItemsConstruibles
-Public ArmadurasHerrero() As tItemsConstruibles
+Public ObjetoHerrero() As tItemsConstruibles
 Public ObjCarpintero() As tItemsConstruibles
 Public ObjArtesano() As tItemArtesano
 
@@ -350,6 +349,9 @@ Public Enum eSkill
     Mineria = 19
     Carpinteria = 20
     Herreria = 21
+    Sastreria = 22
+    Herboristeria = 23
+    Alquimia = 24
 End Enum
 
 Public Enum eAtributos
@@ -799,7 +801,7 @@ Public UserRaza As eRaza
 Public UserEmail As String
 
 Public Const NUMCIUDADES As Byte = 5
-Public Const NUMSKILLS As Byte = 21
+Public Const NUMSKILLS As Byte = 24
 Public Const NUMATRIBUTOS As Byte = 5
 Public Const NUMCLASES As Byte = 12
 Public Const NUMRAZAS As Byte = 7

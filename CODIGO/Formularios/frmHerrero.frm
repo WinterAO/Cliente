@@ -321,22 +321,6 @@ Begin VB.Form frmHerrero
       Top             =   2370
       Width           =   1710
    End
-   Begin VB.Image picPestania 
-      Height          =   255
-      Index           =   1
-      Left            =   1680
-      MousePointer    =   99  'Custom
-      Top             =   480
-      Width           =   1455
-   End
-   Begin VB.Image picPestania 
-      Height          =   255
-      Index           =   0
-      Left            =   720
-      MousePointer    =   99  'Custom
-      Top             =   480
-      Width           =   975
-   End
    Begin VB.Image picConstruir3 
       Height          =   420
       Left            =   3360
@@ -406,25 +390,15 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
-Private Enum ePestania
-    ieArmas
-    ieArmaduras
-End Enum
-
 Private picCheck As Picture
 Private picRecuadroItem As Picture
 Private picRecuadroLingotes As Picture
-
-Private Pestanias(0 To 2) As Picture
-Private UltimaPestania As Byte
 
 Private cPicCerrar As clsGraphicalButton
 Private cPicConstruir(0 To 3) As clsGraphicalButton
 Public LastButtonPressed As clsGraphicalButton
 
 Private Cargando As Boolean
-
-Private Armas As Boolean
 
 Private clsFormulario As clsFormMovementManager
 
@@ -438,11 +412,9 @@ Private Sub CargarImagenes()
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
     ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
     If Language = "spanish" Then
-      Set Pestanias(ePestania.ieArmas) = LoadPicture(ImgPath & "VentanaHerreriaArmas_spanish.jpg")
-      Set Pestanias(ePestania.ieArmaduras) = LoadPicture(ImgPath & "VentanaHerreriaArmaduras_spanish.jpg")
+      Me.Picture = LoadPicture(ImgPath & "VentanaHerreriaArmas_spanish.jpg")
     Else
-      Set Pestanias(ePestania.ieArmas) = LoadPicture(ImgPath & "VentanaHerreriaArmas_english.jpg")
-      Set Pestanias(ePestania.ieArmaduras) = LoadPicture(ImgPath & "VentanaHerreriaArmaduras_english.jpg")
+      Me.Picture = LoadPicture(ImgPath & "VentanaHerreriaArmas_english.jpg")
     End If
 
     Set picCheck = LoadPicture(ImgPath & "CheckBoxHerreria.jpg")
@@ -469,8 +441,7 @@ Private Sub CargarImagenes()
     Call cPicConstruir(2).Initialize(picConstruir2, ImgPath & "BotonConstruirHerreria.jpg", ImgPath & "BotonConstruirRolloverHerreria.jpg", ImgPath & "BotonConstruirClickHerreria.jpg", Me)
     Call cPicConstruir(3).Initialize(picConstruir3, ImgPath & "BotonConstruirHerreria.jpg", ImgPath & "BotonConstruirRolloverHerreria.jpg", ImgPath & "BotonConstruirClickHerreria.jpg", Me)
     
-    picPestania(ePestania.ieArmas).MouseIcon = picMouseIcon
-    picPestania(ePestania.ieArmaduras).MouseIcon = picMouseIcon
+    Me.MouseIcon = picMouseIcon
     
 End Sub
 
@@ -480,17 +451,8 @@ Private Sub ConstruirItem(ByVal Index As Integer)
     If Scroll.Visible = True Then ItemIndex = Scroll.value
     ItemIndex = ItemIndex + Index
     
-    Select Case UltimaPestania
-        Case ePestania.ieArmas
+    Call WriteCraftBlacksmith(ObjetoHerrero(ItemIndex).objindex, txtCantItems.Text)
             
-            Call WriteCraftBlacksmith(ArmasHerrero(ItemIndex).objindex, txtCantItems.Text)
-            
-        Case ePestania.ieArmaduras
-            
-            Call WriteCraftBlacksmith(ArmadurasHerrero(ItemIndex).objindex, txtCantItems.Text)
-
-    End Select
-    
     Unload Me
 
 End Sub
@@ -505,9 +467,6 @@ Private Sub Form_Load()
     
     CargarImagenes
     
-    ' Cargar imagenes
-    Set Me.Picture = Pestanias(ePestania.ieArmas)
-    
     Cargando = True
     
     MaxConstItem = CInt((UserLvl - 2) * 0.2)
@@ -515,8 +474,6 @@ Private Sub Form_Load()
     
     Cargando = False
 
-    Armas = True
-    UltimaPestania = 0
 End Sub
 
 Private Sub Form_Activate()
@@ -595,7 +552,7 @@ On Error Resume Next
 
 End Sub
 
-Public Sub RenderList(ByVal Inicio As Integer, ByVal Armas As Boolean)
+Public Sub RenderList(ByVal Inicio As Integer)
 
 On Error Resume Next
 
@@ -604,11 +561,7 @@ On Error Resume Next
     Dim NumItems As Integer
     Dim ObjHerrero() As tItemsConstruibles
     
-    If Armas Then
-        ObjHerrero = ArmasHerrero
-    Else
-        ObjHerrero = ArmadurasHerrero
-    End If
+    ObjHerrero = ObjetoHerrero
     
     NumItems = UBound(ObjHerrero)
     Inicio = Inicio - 1
@@ -690,46 +643,6 @@ Private Sub picLingotes3_MouseMove(Button As Integer, Shift As Integer, X As Sin
     LastButtonPressed.ToggleToNormal
 End Sub
 
-Private Sub picPestania_Click(Index As Integer)
-    Dim NumItems As Integer
-    
-    If Cargando Then Exit Sub
-    If UltimaPestania = Index Then Exit Sub
-    
-    Scroll.value = 0
-    
-    Select Case Index
-        Case ePestania.ieArmas
-            ' Background
-            Me.Picture = Pestanias(ePestania.ieArmas)
-            
-            NumItems = UBound(ArmasHerrero)
-        
-            Call HideExtraControls(NumItems)
-            
-            ' Cargo inventarios e imagenes
-            Call RenderList(1, True)
-            
-            Armas = True
-            
-        Case ePestania.ieArmaduras
-            ' Background
-            Me.Picture = Pestanias(ePestania.ieArmaduras)
-            
-            NumItems = UBound(ArmadurasHerrero)
-        
-            Call HideExtraControls(NumItems)
-            
-            ' Cargo inventarios e imagenes
-            Call RenderList(1, False)
-            
-            Armas = False
-
-    End Select
-
-    UltimaPestania = Index
-End Sub
-
 Private Sub Scroll_Change()
     Dim i As Long
     
@@ -738,15 +651,8 @@ Private Sub Scroll_Change()
     i = Scroll.value
     ' Cargo inventarios e imagenes
     
-    Select Case UltimaPestania
-        Case ePestania.ieArmas
-            Call RenderList(i + 1, True)
+    Call RenderList(i + 1)
             
-        Case ePestania.ieArmaduras
-            Call RenderList(i + 1, False)
-            
-    End Select
-    
 End Sub
 
 Private Sub txtCantItems_Change()

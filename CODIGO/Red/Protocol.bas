@@ -100,8 +100,7 @@ Private Enum ServerPacketID
     ChangeBankSlot               ' SBO
     ChangeSpellSlot              ' SHS
     Atributes                    ' ATR
-    BlacksmithWeapons            ' LAH
-    BlacksmithArmors             ' LAR
+    Blacksmith
     InitCarpenting               ' OBR
     RestOK                       ' DOK
     ErrorMsg                     ' ERR
@@ -710,11 +709,8 @@ On Error Resume Next
         Case ServerPacketID.Atributes               ' ATR
             Call HandleAtributes
         
-        Case ServerPacketID.BlacksmithWeapons       ' LAH
-            Call HandleBlacksmithWeapons
-        
-        Case ServerPacketID.BlacksmithArmors        ' LAR
-            Call HandleBlacksmithArmors
+        Case ServerPacketID.Blacksmith
+            Call HandleBlacksmith
         
         Case ServerPacketID.InitCarpenting          ' OBR
             Call HandleInitCarpenting
@@ -1649,7 +1645,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -3463,7 +3459,7 @@ End Sub
 ''
 ' Handles the BlacksmithWeapons message.
 
-Private Sub HandleBlacksmithWeapons()
+Private Sub HandleBlacksmith()
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -3490,10 +3486,10 @@ On Error GoTo errhandler
     
     Count = buffer.ReadInteger()
     
-    ReDim ArmasHerrero(Count) As tItemsConstruibles
+    ReDim ObjetoHerrero(Count) As tItemsConstruibles
     
     For i = 1 To Count
-        With ArmasHerrero(i)
+        With ObjetoHerrero(i)
             .name = buffer.ReadASCIIString()    'Get the object's name
             .GrhIndex = buffer.ReadLong()
             
@@ -3526,73 +3522,8 @@ On Error GoTo errhandler
         Call InvLingosHerreria(4).Initialize(DirectD3D8, .picLingotes3, 3, , , , , , False)
         
         Call .HideExtraControls(Count)
-        Call .RenderList(1, True)
+        Call .RenderList(1)
     End With
-
-errhandler:
-    Dim Error As Long
-    Error = Err.number
-On Error GoTo 0
-    
-    'Destroy auxiliar buffer
-    Set buffer = Nothing
-
-    If Error <> 0 Then _
-        Err.Raise Error
-End Sub
-
-''
-' Handles the BlacksmithArmors message.
-
-Private Sub HandleBlacksmithArmors()
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'
-'***************************************************
-    If incomingData.Length < 5 Then
-        Err.Raise incomingData.NotEnoughDataErrCode
-        Exit Sub
-    End If
-    
-On Error GoTo errhandler
-    'This packet contains strings, make a copy of the data to prevent losses if it's not complete yet...
-    Dim buffer As clsByteQueue: Set buffer = New clsByteQueue
-    Call buffer.CopyBuffer(incomingData)
-    
-    'Remove packet ID
-    Call buffer.ReadByte
-    
-    Dim Count As Integer
-    Dim i As Long
-    Dim j As Long
-    Dim k As Long
-    
-    Count = buffer.ReadInteger()
-    
-    ReDim ArmadurasHerrero(Count) As tItemsConstruibles
-    
-    For i = 1 To Count
-        With ArmadurasHerrero(i)
-            .name = buffer.ReadASCIIString()    'Get the object's name
-            .GrhIndex = buffer.ReadLong()
-            
-            For j = 1 To MAXMATERIALES
-                .Materiales(j) = buffer.ReadLong()
-                .CantMateriales(j) = buffer.ReadInteger()
-                .NameMateriales(j) = buffer.ReadASCIIString()
-            Next j
-            
-            .objindex = buffer.ReadInteger()
-        End With
-    Next i
-    
-    'If we got here then packet is complete, copy data back to original queue
-    'En otras palabras, a partir de ahora podes usar "Exit Sub" sin romper nada.
-    Call incomingData.CopyBuffer(buffer)
-    
-    Call frmHerrero.Show(vbModeless, frmMain)
-    MirandoHerreria = True
 
 errhandler:
     Dim Error As Long

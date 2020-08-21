@@ -21,12 +21,101 @@ Begin VB.Form frmEstadisticas
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   Picture         =   "FrmEstadisticas.frx":000C
    ScaleHeight     =   451
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   467
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
+   Begin VB.Label Skills 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "000"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   6.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   165
+      Index           =   24
+      Left            =   5265
+      TabIndex        =   41
+      Top             =   5730
+      Width           =   315
+   End
+   Begin VB.Label Skills 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "000"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   6.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   165
+      Index           =   23
+      Left            =   5520
+      TabIndex        =   40
+      Top             =   5490
+      Width           =   315
+   End
+   Begin VB.Label Skills 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "000"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   6.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   165
+      Index           =   22
+      Left            =   5235
+      TabIndex        =   39
+      Top             =   5250
+      Width           =   315
+   End
+   Begin VB.Shape shpSkillsBar 
+      BorderStyle     =   0  'Transparent
+      FillStyle       =   0  'Solid
+      Height          =   120
+      Index           =   23
+      Left            =   9000
+      Top             =   4350
+      Width           =   1095
+   End
+   Begin VB.Shape shpSkillsBar 
+      BorderStyle     =   0  'Transparent
+      FillStyle       =   0  'Solid
+      Height          =   120
+      Index           =   22
+      Left            =   9000
+      Top             =   3960
+      Width           =   1095
+   End
+   Begin VB.Shape shpSkillsBar 
+      BorderStyle     =   0  'Transparent
+      FillStyle       =   0  'Solid
+      Height          =   120
+      Index           =   24
+      Left            =   9000
+      Top             =   4155
+      Width           =   1095
+   End
    Begin VB.Label lblLibres 
       AutoSize        =   -1  'True
       BackStyle       =   0  'Transparent
@@ -51,7 +140,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   13
       Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":1546E
+      Picture         =   "FrmEstadisticas.frx":000C
       Top             =   3900
       Visible         =   0   'False
       Width           =   135
@@ -60,7 +149,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   13
       Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":17809
+      Picture         =   "FrmEstadisticas.frx":23A7
       Top             =   3900
       Visible         =   0   'False
       Width           =   135
@@ -69,7 +158,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   12
       Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":19BBF
+      Picture         =   "FrmEstadisticas.frx":475D
       Top             =   3705
       Visible         =   0   'False
       Width           =   135
@@ -78,7 +167,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   12
       Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":1BF5A
+      Picture         =   "FrmEstadisticas.frx":6AF8
       Top             =   3705
       Visible         =   0   'False
       Width           =   135
@@ -87,7 +176,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   11
       Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":1E310
+      Picture         =   "FrmEstadisticas.frx":8EAE
       Top             =   3480
       Visible         =   0   'False
       Width           =   135
@@ -96,7 +185,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   11
       Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":206AB
+      Picture         =   "FrmEstadisticas.frx":B249
       Top             =   3480
       Visible         =   0   'False
       Width           =   135
@@ -105,7 +194,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   10
       Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":22A61
+      Picture         =   "FrmEstadisticas.frx":D5FF
       Top             =   3270
       Visible         =   0   'False
       Width           =   135
@@ -114,7 +203,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   10
       Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":24DFC
+      Picture         =   "FrmEstadisticas.frx":F99A
       Top             =   3270
       Visible         =   0   'False
       Width           =   135
@@ -123,7 +212,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   9
       Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":271B2
+      Picture         =   "FrmEstadisticas.frx":11D50
       Top             =   3075
       Visible         =   0   'False
       Width           =   135
@@ -132,7 +221,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   9
       Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":2954D
+      Picture         =   "FrmEstadisticas.frx":140EB
       Top             =   3075
       Visible         =   0   'False
       Width           =   135
@@ -141,7 +230,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   8
       Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":2B903
+      Picture         =   "FrmEstadisticas.frx":164A1
       Top             =   2865
       Visible         =   0   'False
       Width           =   135
@@ -150,7 +239,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   8
       Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":2DC9E
+      Picture         =   "FrmEstadisticas.frx":1883C
       Top             =   2865
       Visible         =   0   'False
       Width           =   135
@@ -159,7 +248,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   7
       Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":30054
+      Picture         =   "FrmEstadisticas.frx":1ABF2
       Top             =   2640
       Visible         =   0   'False
       Width           =   135
@@ -168,7 +257,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   7
       Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":323EF
+      Picture         =   "FrmEstadisticas.frx":1CF8D
       Top             =   2640
       Visible         =   0   'False
       Width           =   135
@@ -177,7 +266,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   6
       Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":347A5
+      Picture         =   "FrmEstadisticas.frx":1F343
       Top             =   2430
       Visible         =   0   'False
       Width           =   135
@@ -186,7 +275,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   6
       Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":36B40
+      Picture         =   "FrmEstadisticas.frx":216DE
       Top             =   2430
       Visible         =   0   'False
       Width           =   135
@@ -195,7 +284,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   5
       Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":38EF6
+      Picture         =   "FrmEstadisticas.frx":23A94
       Top             =   2220
       Visible         =   0   'False
       Width           =   135
@@ -204,7 +293,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   5
       Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":3B291
+      Picture         =   "FrmEstadisticas.frx":25E2F
       Top             =   2220
       Visible         =   0   'False
       Width           =   135
@@ -213,7 +302,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   4
       Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":3D647
+      Picture         =   "FrmEstadisticas.frx":281E5
       Top             =   2025
       Visible         =   0   'False
       Width           =   135
@@ -222,7 +311,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   4
       Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":3F9E2
+      Picture         =   "FrmEstadisticas.frx":2A580
       Top             =   2025
       Visible         =   0   'False
       Width           =   135
@@ -231,7 +320,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   3
       Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":41D98
+      Picture         =   "FrmEstadisticas.frx":2C936
       Top             =   1830
       Visible         =   0   'False
       Width           =   135
@@ -240,7 +329,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   3
       Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":44133
+      Picture         =   "FrmEstadisticas.frx":2ECD1
       Top             =   1830
       Visible         =   0   'False
       Width           =   135
@@ -249,7 +338,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   2
       Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":464E9
+      Picture         =   "FrmEstadisticas.frx":31087
       Top             =   1635
       Visible         =   0   'False
       Width           =   135
@@ -258,7 +347,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   2
       Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":48884
+      Picture         =   "FrmEstadisticas.frx":33422
       Top             =   1635
       Visible         =   0   'False
       Width           =   135
@@ -267,7 +356,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   1
       Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":4AC3A
+      Picture         =   "FrmEstadisticas.frx":357D8
       Top             =   1425
       Visible         =   0   'False
       Width           =   135
@@ -276,7 +365,7 @@ Begin VB.Form frmEstadisticas
       Height          =   135
       Index           =   1
       Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":4CFD5
+      Picture         =   "FrmEstadisticas.frx":37B73
       Top             =   1425
       Visible         =   0   'False
       Width           =   135
@@ -286,7 +375,7 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   16
-      Left            =   5520
+      Left            =   8400
       Top             =   6000
       Width           =   1095
    End
@@ -295,7 +384,7 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   15
-      Left            =   5520
+      Left            =   8400
       Top             =   5805
       Width           =   1095
    End
@@ -317,7 +406,7 @@ Begin VB.Form frmEstadisticas
       Index           =   16
       Left            =   3870
       TabIndex        =   37
-      Top             =   5970
+      Top             =   5220
       Width           =   315
    End
    Begin VB.Image imgCerrar 
@@ -359,7 +448,7 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   14
-      Left            =   5520
+      Left            =   8400
       Top             =   5610
       Width           =   1095
    End
@@ -368,7 +457,7 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   21
-      Left            =   5520
+      Left            =   8400
       Top             =   5415
       Width           =   1095
    End
@@ -377,7 +466,7 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   18
-      Left            =   5520
+      Left            =   8400
       Top             =   6195
       Width           =   1095
    End
@@ -386,7 +475,7 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   19
-      Left            =   5520
+      Left            =   8400
       Top             =   5025
       Width           =   1095
    End
@@ -395,7 +484,7 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   20
-      Left            =   5520
+      Left            =   8400
       Top             =   5220
       Width           =   1095
    End
@@ -422,7 +511,7 @@ Begin VB.Form frmEstadisticas
       FillStyle       =   0  'Solid
       Height          =   120
       Index           =   17
-      Left            =   5520
+      Left            =   8400
       Top             =   4830
       Width           =   1095
    End
@@ -637,7 +726,7 @@ Begin VB.Form frmEstadisticas
       Index           =   15
       Left            =   3960
       TabIndex        =   30
-      Top             =   5775
+      Top             =   5010
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -721,7 +810,7 @@ Begin VB.Form frmEstadisticas
       Index           =   14
       Left            =   3840
       TabIndex        =   26
-      Top             =   5580
+      Top             =   4800
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -740,9 +829,9 @@ Begin VB.Form frmEstadisticas
       ForeColor       =   &H00FFFFFF&
       Height          =   165
       Index           =   21
-      Left            =   3720
+      Left            =   5235
       TabIndex        =   25
-      Top             =   5400
+      Top             =   5040
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -761,9 +850,9 @@ Begin VB.Form frmEstadisticas
       ForeColor       =   &H00FFFFFF&
       Height          =   165
       Index           =   20
-      Left            =   3960
+      Left            =   5445
       TabIndex        =   24
-      Top             =   5160
+      Top             =   4800
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -782,9 +871,9 @@ Begin VB.Form frmEstadisticas
       ForeColor       =   &H00FFFFFF&
       Height          =   165
       Index           =   19
-      Left            =   3720
+      Left            =   3690
       TabIndex        =   23
-      Top             =   4995
+      Top             =   5970
       Width           =   315
    End
    Begin VB.Label Skills 
@@ -805,7 +894,7 @@ Begin VB.Form frmEstadisticas
       Index           =   18
       Left            =   3555
       TabIndex        =   22
-      Top             =   6165
+      Top             =   5730
       Width           =   315
    End
    Begin VB.Label Label4 
@@ -992,9 +1081,9 @@ Begin VB.Form frmEstadisticas
       ForeColor       =   &H00FFFFFF&
       Height          =   165
       Index           =   17
-      Left            =   3570
+      Left            =   3510
       TabIndex        =   13
-      Top             =   4800
+      Top             =   5490
       Width           =   315
    End
    Begin VB.Label Skills 

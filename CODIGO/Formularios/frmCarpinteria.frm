@@ -677,19 +677,19 @@ Private Sub imgCerrar_Click()
     Unload Me
 End Sub
 
-Private Sub imgConstruir0_Click()
+Private Sub picConstruir0_Click()
     Call Construir(1)
 End Sub
 
-Private Sub imgConstruir1_Click()
+Private Sub picConstruir1_Click()
     Call Construir(2)
 End Sub
 
-Private Sub imgConstruir2_Click()
+Private Sub picConstruir2_Click()
     Call Construir(3)
 End Sub
 
-Private Sub imgConstruir3_Click()
+Private Sub picConstruir3_Click()
     Call Construir(4)
 End Sub
 
