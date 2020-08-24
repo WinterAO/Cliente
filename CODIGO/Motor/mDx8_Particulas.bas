@@ -159,7 +159,7 @@ Public Sub CargarParticulas()
     Dim ColorSet As Long
     Dim Leer As New clsIniManager
 
-    Call Leer.Initialize(Path(Script) & "Particulas.ini")
+    Call Leer.Initialize(Path(Script) & "Particulas.dat")
 
     TotalStreams = Val(Leer.GetValue("INIT", "Total"))
     

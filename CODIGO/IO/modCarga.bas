@@ -1088,7 +1088,7 @@ On Error GoTo errorH
     Dim i As Byte
     
     Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Carga.Path(Script) & "Maps.ini")
+    Call FileManager.Initialize(Carga.Path(Script) & "GUI.dat")
     
     NumConnectMap = Val(FileManager.GetValue("INIT", "NumMaps"))
     
