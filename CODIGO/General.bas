@@ -375,6 +375,7 @@ Sub SwitchMap(ByVal Map As Integer)
 '**********************************************************************************
     
     Dim Dir_Map As String
+    Dim bytArr() As Byte
     
     Dir_Map = Get_Extract(srcFileType.Map, "Mapa" & Map & ".csm")
 
@@ -396,9 +397,11 @@ Sub SwitchMap(ByVal Map As Integer)
         'Cargamos el mapa.
         Call Carga.CargarMapa(Map, Dir_Map)
         
-        'Dibujamos el Mini-Mapa
-        If FileExist(Carga.Path(Graficos) & "MiniMapa\" & Map & ".bmp", vbArchive) Then
-            frmMain.MiniMapa.Picture = LoadPicture(Carga.Path(Graficos) & "MiniMapa\" & Map & ".bmp")
+        'Dibujamos el Mini-Mapa'
+        If Extract_File_Memory(srcFileType.Minimap, Map & ".bmp", bytArr()) Then
+            frmMain.MiniMapa.Picture = General_Load_Picture_From_BArray(bytArr())
+        Else
+            frmMain.MiniMapa.Picture = Nothing
         End If
         
         CurMap = Map

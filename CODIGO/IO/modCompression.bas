@@ -31,8 +31,9 @@ Public Enum srcFileType
     Scripts
     Map
     Interface
-    Skin
     Fuentes
+    Skin
+    Minimap
     Patch
 End Enum
 
@@ -239,14 +240,7 @@ Public Function extractFiles(ByVal File_Type As srcFileType) As Boolean
 On Local Error GoTo errhandler
 
     Select Case File_Type
-        Case Graphics
-            SourceFilePath = App.Path & SrcPath & "Graficos" & Formato
-            OutputFilePath = App.Path & "\EXTRAIDOS\Graficos\"
-            
-        Case Ambient
-            SourceFilePath = App.Path & SrcPath & "Ambient" & Formato
-            OutputFilePath = App.Path & "\EXTRAIDOS\Graficos\"
-        
+
         Case Music
             SourceFilePath = App.Path & SrcPath & "Music" & Formato
             OutputFilePath = App.Path & "\EXTRAIDOS\Musica\"
@@ -262,14 +256,6 @@ On Local Error GoTo errhandler
         Case Map
             SourceFilePath = App.Path & SrcPath & "Mapas" & Formato
             OutputFilePath = App.Path & "\EXTRAIDOS\Mapas\"
-            
-        Case Interface
-            SourceFilePath = App.Path & SrcPath & "Interface" & Formato
-            OutputFilePath = App.Path & "\EXTRAIDOS\Interface\"
-            
-        Case Fuentes
-            SourceFilePath = App.Path & SrcPath & "Fuentes" & Formato
-            OutputFilePath = App.Path & "\EXTRAIDOS\Fuentes\"
             
         Case Patch
             SourceFilePath = App.Path & SrcPath & "Patch" & Formato
@@ -355,199 +341,6 @@ errhandler:
     MsgBox "Unable to decode binary file. Reason: " & Err.number & " : " & Err.Description, vbOKOnly, "Error"
 End Function
 
-Public Function compressFiles(ByVal File_Type As srcFileType) As Boolean
-'*****************************************************************
-'Author: Juan Martín Dotuyo Dodero
-'Last Modify Date: 10/13/2004
-'Comrpesses all files to a resource file
-'*****************************************************************
-
-    Dim SourceFilePath As String
-    Dim SourceFileExtension As String
-    Dim OutputFilePath As String
-    Dim SourceFile As Long
-    Dim OutputFile As Long
-    Dim SourceFileName As String
-    Dim SourceData() As Byte
-    Dim FileHead As FILEHEADER
-    Dim InfoHead() As INFOHEADER
-    Dim FileNames() As String
-    Dim lngFileStart As Long
-    Dim loopc As Long
-    Dim tmplng As Long
-    
-'Set up the error handler
-On Local Error GoTo errhandler
-    
-    Select Case File_Type
-        Case Graphics
-            SourceFileExtension = ".png"
-            SourceFilePath = App.Path & "\EXTRAIDOS\Graficos\"
-            OutputFilePath = App.Path & SrcPath & "Graficos" & Formato
-            
-        Case Ambient
-            SourceFileExtension = ".amb"
-            SourceFilePath = App.Path & "\EXTRAIDOS\Ambient\"
-            OutputFilePath = App.Path & SrcPath & "Ambient" & Formato
-        
-        Case Music
-            SourceFileExtension = ".mp3"
-            SourceFilePath = App.Path & "\EXTRAIDOS\Music\"
-            OutputFilePath = App.Path & SrcPath & "Music" & Formato
-            
-        Case Wav
-            SourceFileExtension = ".wav"
-            SourceFilePath = App.Path & "\EXTRAIDOS\Wav\"
-            OutputFilePath = App.Path & SrcPath & "Sounds" & Formato
-            
-        Case Scripts
-            SourceFileExtension = ".*"
-            SourceFilePath = App.Path & "\EXTRAIDOS\Init\"
-            OutputFilePath = App.Path & SrcPath & "Scripts" & Formato
-            
-        Case Map
-            SourceFileExtension = ".csm"
-            SourceFilePath = App.Path & "\EXTRAIDOS\Mapas\"
-            OutputFilePath = App.Path & SrcPath & "Mapas" & Formato
-            
-        Case Interface
-            SourceFileExtension = ".gif"
-            SourceFilePath = App.Path & "\EXTRAIDOS\Interfaces\"
-            OutputFilePath = App.Path & SrcPath & "Interface" & Formato
-            
-        Case Fuentes
-            SourceFileExtension = ".*"
-            SourceFilePath = App.Path & "\EXTRAIDOS\Fuentes\"
-            OutputFilePath = App.Path & SrcPath & "Fuentes" & Formato
-            
-        Case Patch
-            SourceFileExtension = ".*"
-            SourceFilePath = App.Path & "\EXTRAIDOS\Parches\"
-            OutputFilePath = App.Path & SrcPath & "Patch" & Formato
-        
-        Case Else
-            Exit Function
-    End Select
-    
-    'Get first file in the directoy
-    SourceFileName = Dir$(SourceFilePath & "*" & SourceFileExtension, vbNormal)
-    
-    SourceFile = FreeFile
-    
-    'Get all other files i nthe directory
-    While SourceFileName <> ""
-        FileHead.lngNumFiles = FileHead.lngNumFiles + 1
-        
-        ReDim Preserve FileNames(FileHead.lngNumFiles - 1)
-        FileNames(FileHead.lngNumFiles - 1) = LCase(SourceFileName)
-        
-        'Search new file
-        SourceFileName = Dir$()
-    Wend
-    
-    'If we found none, be can't compress a thing, so we exit
-    If FileHead.lngNumFiles = 0 Then
-        MsgBox "There are no files of extension " & SourceFileExtension & " in " & SourceFilePath & ".", , "Error"
-        Exit Function
-    End If
-    
-    'Sort file names alphabetically (this will make patching much easier).
-    General_Quick_Sort FileNames(), 0, UBound(FileNames)
-    
-    'Resize InfoHead array
-    ReDim InfoHead(FileHead.lngNumFiles - 1)
-        
-    'Destroy file if it previuosly existed
-    If Dir(OutputFilePath, vbNormal) <> "" Then
-        Kill OutputFilePath
-    End If
-    
-    'Open a new file
-    OutputFile = FreeFile
-    Open OutputFilePath For Binary Access Read Write As OutputFile
-    
-    For loopc = 0 To FileHead.lngNumFiles - 1
-        'Find a free file number to use and open the file
-        
-        SourceFile = FreeFile
-        Open SourceFilePath & FileNames(loopc) For Binary Access Read Lock Write As SourceFile
-        
-        'Store file name
-        InfoHead(loopc).strFileName = FileNames(loopc)
-        
-        'Find out how large the file is and resize the data array appropriately
-        ReDim SourceData(LOF(SourceFile) - 1)
-        
-        'Store the value so we can decompress it later on
-        InfoHead(loopc).lngFileSizeUncompressed = LOF(SourceFile)
-        
-        'Get the data from the file
-        Get SourceFile, , SourceData
-        'If loopc = 0 Then SourceData = "115792!"
-        'Compress it
-        Compress_Data SourceData
-        
-        'Save it to a temp file
-        Put OutputFile, , SourceData
-        
-        'Set up the file header
-        FileHead.lngFileSize = FileHead.lngFileSize + UBound(SourceData) + 1
-        
-        'Set up the info headers
-        InfoHead(loopc).lngFileSize = UBound(SourceData) + 1
-        
-        Erase SourceData
-        
-        'Close temp file
-        Close SourceFile
-        
-        DoEvents
-    Next loopc
-    
-    'Finish setting the FileHeader data
-    FileHead.lngFileSize = FileHead.lngFileSize + CLng(FileHead.lngNumFiles) * Len(InfoHead(0)) + Len(FileHead)
-    
-    'Set InfoHead data
-    lngFileStart = Len(FileHead) + CLng(FileHead.lngNumFiles) * Len(InfoHead(0)) + 1
-    For loopc = 0 To FileHead.lngNumFiles - 1
-        InfoHead(loopc).lngFileStart = lngFileStart
-        lngFileStart = lngFileStart + InfoHead(loopc).lngFileSize
-        'Once an InfoHead index is ready, we encrypt it
-        encryptHeaderInfo InfoHead(loopc)
-    Next loopc
-    
-    'Desencrypt File Header
-    encryptHeaderFile FileHead
-    
-    'InfoHead.lngFileSize = InfoHead.lngFileSize + 15
-    'Get all data stored so far
-    ReDim SourceData(LOF(OutputFile) - 1)
-    Seek OutputFile, 1
-    Get OutputFile, , SourceData
-    
-    Seek OutputFile, 1
-    
-    'Store the data in the file
-    Put OutputFile, , FileHead
-    Put OutputFile, , InfoHead
-    Put OutputFile, , SourceData
-    
-    'Close the file
-    Close OutputFile
-    
-    Erase InfoHead
-    Erase SourceData
-    
-    compressFiles = True
-Exit Function
-
-errhandler:
-    Erase SourceData
-    Erase InfoHead
-    'Display an error message if it didn't work
-    MsgBox "Unable to create binary file. Reason: " & Err.number & " : " & Err.Description, vbOKOnly, "Error"
-End Function
-
 Public Function extractFile(ByVal File_Type As srcFileType, ByVal file_name As String, Optional ByVal TempDir As Boolean = False) As Boolean
 '*****************************************************************
 'Author: Juan Martín Dotuyo Dodero
@@ -568,14 +361,7 @@ Public Function extractFile(ByVal File_Type As srcFileType, ByVal file_name As S
 On Local Error GoTo errhandler
     
     Select Case File_Type
-        Case Graphics
-            SourceFilePath = App.Path & SrcPath & "Graficos" & Formato
-            OutputFilePath = App.Path & "\EXTRAIDOS\Graficos\"
             
-        Case Ambient
-            SourceFilePath = App.Path & SrcPath & "Ambient" & Formato
-            OutputFilePath = App.Path & "\EXTRAIDOS\Graficos\"
-        
         Case Music
             SourceFilePath = App.Path & SrcPath & "Music" & Formato
             OutputFilePath = App.Path & "\EXTRAIDOS\Musica\"
@@ -591,10 +377,6 @@ On Local Error GoTo errhandler
         Case Map
             SourceFilePath = App.Path & SrcPath & "Mapas" & Formato
             OutputFilePath = App.Path & "\EXTRAIDOS\Mapas\"
-            
-        Case Interface
-            SourceFilePath = App.Path & SrcPath & "Interface" & Formato
-            OutputFilePath = App.Path & "\EXTRAIDOS\Interface\"
             
         Case Fuentes
             SourceFilePath = App.Path & SrcPath & "Fuentes" & Formato
@@ -711,6 +493,9 @@ On Local Error GoTo errhandler
                 
         Case Skin
                 SourceFilePath = App.Path & SrcPath & "Skins\" & ClientSetup.SkinSeleccionado & Formato
+                
+        Case Minimap
+                SourceFilePath = App.Path & SrcPath & "Minimap" & Formato
                 
         Case Else
             Exit Function
