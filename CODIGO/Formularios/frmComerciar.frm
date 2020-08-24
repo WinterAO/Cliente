@@ -321,7 +321,6 @@ Private Sub Form_Load()
     
     Call LoadButtons
     Call LoadTextsForm
-    Call LoadAOCustomControlsPictures(Me)
 End Sub
 
 Private Sub Form_Activate()

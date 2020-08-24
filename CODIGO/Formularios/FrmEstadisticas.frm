@@ -1534,7 +1534,7 @@ End Sub
 Private Sub imgCerrar_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
 
     If imgCerrar.Tag = 1 Then
-        imgCerrar.Picture = LoadPicture(Carga.Path(Interfaces) & "BotonCerrarApretadoEstadisticas.jpg")
+        imgCerrar.Picture = LoadPicture(Carga.Path(Interfaces) & "BotonCerrar.jpg")
         imgCerrar.Tag = 0
     End If
 

@@ -184,6 +184,7 @@ Begin VB.Form frmComerciarUsu
       _ExtentY        =   2858
       _Version        =   393217
       BackColor       =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -661,7 +662,6 @@ Private Sub Form_Load()
     Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaComercioUsuario.jpg")
     
     Call LoadTextsForm
-    Call LoadAOCustomControlsPictures(Me)
     
     Call PrintCommerceMsg("> " & JsonLanguage.item("MENSAJE_COMM_INFO").item("TEXTO").item(1), FontTypeNames.FONTTYPE_GUILDMSG)
     Call PrintCommerceMsg("> " & JsonLanguage.item("MENSAJE_COMM_INFO").item("TEXTO").item(2), FontTypeNames.FONTTYPE_GUILDMSG)

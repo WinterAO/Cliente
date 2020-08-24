@@ -152,9 +152,6 @@ Private Sub Form_Load()
     Call clsFormulario.Initialize(Me)
     
     Me.Picture = LoadPicture(Carga.Path(Interfaces) & "frmCerrar.jpg")
-    'Call LoadAOCustomControlsPictures(Me)
-    'Todo: Poner la carga de botones como en el frmCambiaMotd.frm para mantener coherencia con el resto de la aplicacion
-    'y poder borrar los frx de este archivo
 
     Call LoadFormTexts
 End Sub

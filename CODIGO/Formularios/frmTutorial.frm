@@ -209,7 +209,6 @@ Private Sub Form_Load()
     Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaTutorial.jpg")
 
     Call LoadTextForms
-    Call LoadAOCustomControlsPictures(Me)
     Call LoadButtons
     Call LoadTutorial
     

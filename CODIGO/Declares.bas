@@ -393,8 +393,8 @@ Public Enum eObjType
     otBebidas = 13
     otLena = 14
     otFogata = 15
-    otEscudo = 16
-    otCasco = 17
+    otescudo = 16
+    otcasco = 17
     otAnillo = 18
     otTeleport = 19
     otMuebles = 20
@@ -1070,13 +1070,6 @@ End Type
 'MundoSeleccionado desde la propiedad Mundo en sinfo.dat / World selected from sinfo.dat file
 Public MundoSeleccionado As String
 
-' * Configuracion de estilos de controles
-Public Const uAOButton_bEsquina As String = "bEsquina.bmp"
-Public Const uAOButton_bFondo As String = "bFondo.bmp"
-Public Const uAOButton_bHorizontal As String = "bHorizontal.bmp"
-Public Const uAOButton_bVertical As String = "bVertical.bmp"
-Public Const uAOButton_cCheckbox As String = "cCheckbox.bmp" ' Grande
-Public Const uAOButton_cCheckboxSmall As String = "cCheckboxSmall.bmp" ' Chico
 ' * Configuracion de estilo de controles
 
 Public JsonTips As Object

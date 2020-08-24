@@ -168,6 +168,7 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -1107,9 +1108,6 @@ Private Sub Form_Load()
     Me.Height = 11520
 
     Call LoadTextsForm
-    'Call LoadAOCustomControlsPictures(Me)
-    'Todo: Poner la carga de botones como en el frmCambiaMotd.frm para mantener coherencia con el resto de la aplicacion
-    'y poder borrar los frx de este archivo
         
     ' Detect links in console
     Call EnableURLDetect(RecTxt.hWnd, Me.hWnd)
