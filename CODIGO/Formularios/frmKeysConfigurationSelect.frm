@@ -193,7 +193,6 @@ Attribute VB_Exposed = False
 
 Private Sub Form_Load()
    Call LoadTextsForm
-   Call LoadAOCustomControlsPictures(Me)
    imgAlternativeKeyboard.Picture = LoadPicture(Carga.Path(Interfaces) & "frmKeysConfigurationSelectAlternativeKeyboard.jpg")
    imgNormalKeyboard.Picture = LoadPicture(Carga.Path(Interfaces) & "frmKeysConfigurationSelectNormalKeyboard.jpg")
 End Sub

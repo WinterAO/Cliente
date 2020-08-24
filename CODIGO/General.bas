@@ -254,6 +254,7 @@ Sub SetConnected()
     keysMovementPressedQueue.Clear
 
     frmMain.lblName.Caption = UserName
+    frmMain.lblMapName.Caption = mapInfo.name
     
     'Load main form
     frmMain.Visible = True
@@ -364,11 +365,6 @@ Private Sub CheckKeys()
 
     End If
     
-    ' Activamos el sistema DiaNoche
-    ' Lo comento hasta que el DiaNoche sea estable por que se hace de noche en dungeons
-    ' Y el dia entero dura unos 4/5 minutos, hay que arreglarlo.
-    'Call DiaNoche
-    
 End Sub
 
 Sub SwitchMap(ByVal Map As Integer)
@@ -388,11 +384,14 @@ Sub SwitchMap(ByVal Map As Integer)
         'EDIT: cambio el rango de valores en x y para solucionar otro bug con respecto al cambio de mapas
         Call Char_CleanAll
         
+        'Borramos las particulas de lluvia
+        Call mDx8_Clima.RemoveWeatherParticlesAll
+        
         'Borramos las particulas activas en el mapa.
         Call Particle_Group_Remove_All
         
-        'Borramos las particulas de lluvia
-        Call mDx8_Particulas.RemoveWeatherParticles(eWeather.Rain)
+        'Borramos todas las luces
+        Call LightRemoveAll
         
         'Cargamos el mapa.
         Call Carga.CargarMapa(Map, Dir_Map)
@@ -492,14 +491,14 @@ Sub Main()
     Static lastFlush As Long
     ' Detecta el idioma del sistema (TRUE) y carga las traducciones
     Call SetLanguageApplication
-    
+
     Call GenerateContra
     
     'Load client configurations.
     Call Carga.LeerConfiguracion
-    
+
     Call CargarHechizos
-    
+
     #If Desarrollo = 0 Then
         If Application.FindPreviousInstance Then
             Call MsgBox(JsonLanguage.item("OTRO_CLIENTE_ABIERTO").item("TEXTO"), vbApplicationModal + vbInformation + vbOKOnly, "Error al ejecutar")
@@ -911,7 +910,7 @@ Private Sub InicializarNombres()
     SkillsNames(eSkill.Talar) = JsonLanguage.item("HABILIDADES").item("TALAR").item("TEXTO")
     SkillsNames(eSkill.Comerciar) = JsonLanguage.item("HABILIDADES").item("COMERCIO").item("TEXTO")
     SkillsNames(eSkill.Defensa) = JsonLanguage.item("HABILIDADES").item("DEFENSA_CON_ESCUDOS").item("TEXTO")
-    SkillsNames(eSkill.Pesca) = JsonLanguage.item("HABILIDADES").item("PESCA").item("TEXTO")
+    SkillsNames(eSkill.pesca) = JsonLanguage.item("HABILIDADES").item("PESCA").item("TEXTO")
     SkillsNames(eSkill.Mineria) = JsonLanguage.item("HABILIDADES").item("MINERIA").item("TEXTO")
     SkillsNames(eSkill.Carpinteria) = JsonLanguage.item("HABILIDADES").item("CARPINTERIA").item("TEXTO")
     SkillsNames(eSkill.Herreria) = JsonLanguage.item("HABILIDADES").item("HERRERIA").item("TEXTO")
@@ -1157,16 +1156,14 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     UserNavegando = False
     UserEvento = False
     bFogata = False
-    bRain = False
     bFogata = False
     Comerciando = False
     bShowTutorial = False
     
     MirandoAsignarSkills = False
-    MirandoCarpinteria = False
     MirandoEstadisticas = False
     MirandoForo = False
-    MirandoHerreria = False
+    MirandoTrabajo = 0
     MirandoParty = False
     
     'Delete all kind of dialogs
@@ -1187,11 +1184,15 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     UserELO = 0
     Alocados = 0
     UserEquitando = 0
+    Alocados = 0
+    SkillPoints = 0
     
     lblHelm = "0/0"
     lblWeapon = "0/0"
     lblArmor = "0/0"
     lblShielder = "0/0"
+    
+    Call Actualizar_Estado(e_estados.MedioDia)
 
     Call SetSpeedUsuario
 
@@ -1303,32 +1304,6 @@ Function ImgRequest(ByVal sFile As String) As String
     ImgRequest = sFile
     
 End Function
-
-Public Sub LoadAOCustomControlsPictures(ByRef tForm As Form)
-    '***************************************************
-    'Author: RecoX
-    'Last Modify Date: 17/10/2019
-    'Cargamos las imagenes de los uAOControls en los formularios.
-    '***************************************************
-    Dim DirButtons As String
-        DirButtons = Carga.Path(Graficos) & "\Botones\"
-
-    Dim cControl As Control
-
-    For Each cControl In tForm.Controls
-
-        If TypeOf cControl Is uAOButton Then
-            cControl.PictureEsquina = LoadPicture(ImgRequest(DirButtons & uAOButton_bEsquina))
-            cControl.PictureFondo = LoadPicture(ImgRequest(DirButtons & uAOButton_bFondo))
-            cControl.PictureHorizontal = LoadPicture(ImgRequest(DirButtons & uAOButton_bHorizontal))
-            cControl.PictureVertical = LoadPicture(ImgRequest(DirButtons & uAOButton_bVertical))
-        ElseIf TypeOf cControl Is uAOCheckbox Then
-            cControl.Picture = LoadPicture(ImgRequest(DirButtons & uAOButton_cCheckboxSmall))
-        End If
-        
-    Next
-    
-End Sub
 
 Public Sub SetSpeedUsuario()
     If UserEquitando Then

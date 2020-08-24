@@ -27,9 +27,9 @@ Begin VB.Form frmCustomKeys
    Begin VB.CheckBox chkBloquearMovimiento 
       Caption         =   "Bloquear movimiento al escribir"
       Height          =   375
-      Left            =   3360
+      Left            =   3240
       TabIndex        =   64
-      Top             =   4200
+      Top             =   4800
       Width           =   3495
    End
    Begin VB.CommandButton imgGuardar 
@@ -59,11 +59,30 @@ Begin VB.Form frmCustomKeys
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   4095
+      Height          =   4455
       Left            =   3360
       TabIndex        =   41
       Top             =   0
       Width           =   3495
+      Begin VB.TextBox Text1 
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   285
+         Index           =   30
+         Left            =   1680
+         TabIndex        =   65
+         Top             =   3960
+         Width           =   1620
+      End
       Begin VB.TextBox Text1 
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
@@ -254,7 +273,19 @@ Begin VB.Form frmCustomKeys
          Top             =   1800
          Width           =   1620
       End
-      Begin VB.Label lblSeguroDe 
+      Begin VB.Label lblAbrirQuests 
+         Alignment       =   1  'Right Justify
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Abrir Quests"
+         Height          =   195
+         Index           =   0
+         Left            =   240
+         TabIndex        =   66
+         Top             =   3960
+         Width           =   1320
+      End
+      Begin VB.Label lblAbrirQuests 
          Alignment       =   1  'Right Justify
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent

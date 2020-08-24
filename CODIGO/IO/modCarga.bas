@@ -115,10 +115,12 @@ Private Type tDatosTrigger
 End Type
 
 Private Type tDatosLuces
+    r As Integer
+    g As Integer
+    b As Integer
+    range As Byte
     X As Integer
     Y As Integer
-    light_value(3) As Long
-    base_light(0 To 3) As Boolean 'Indica si el tile tiene luz propia.
 End Type
 
 Private Type tDatosParticulas
@@ -246,12 +248,12 @@ End Function
 
 Public Sub LeerConfiguracion()
     On Local Error GoTo fileErr:
-    
+
     Call IniciarCabecera
-    
+
     Set Lector = New clsIniManager
     Call Lector.Initialize(Carga.Path(Init) & CLIENT_FILE)
-    
+
     With ClientSetup
         ' VIDEO
         .byMemory = Lector.GetValue("VIDEO", "DynamicMemory")
@@ -273,12 +275,11 @@ Public Sub LeerConfiguracion()
         .MusicVolume = CLng(Lector.GetValue("AUDIO", "VOLMUSICA"))
         .SoundVolume = CLng(Lector.GetValue("AUDIO", "VOLAUDIO"))
         .AmbientVol = CLng(Lector.GetValue("AUDIO", "VOLAMBIENT"))
-        
+
         ' GUILD
         .bGuildNews = CBool(Lector.GetValue("GUILD", "NEWS"))
         .bGldMsgConsole = CBool(Lector.GetValue("GUILD", "MESSAGES"))
         .bCantMsgs = CByte(Lector.GetValue("GUILD", "MAX_MESSAGES"))
-        
         ' FRAGSHOOTER
         .bDie = CBool(Lector.GetValue("FRAGSHOOTER", "DIE"))
         .bKill = CBool(Lector.GetValue("FRAGSHOOTER", "KILL"))
@@ -289,7 +290,7 @@ Public Sub LeerConfiguracion()
         .MostrarTips = CBool(Lector.GetValue("OTHER", "MOSTRAR_TIPS"))
         .MostrarBindKeysSelection = CBool(Lector.GetValue("OTHER", "MOSTRAR_BIND_KEYS_SELECTION"))
         .BloqueoMovimiento = CBool(Lector.GetValue("OTHER", "BLOQUEOMOV"))
-        
+
         Debug.Print "byMemory: " & .byMemory
         Debug.Print "bNoRes: " & .bNoRes
         Debug.Print "ProyectileEngine: " & .ProyectileEngine
@@ -313,7 +314,7 @@ Public Sub LeerConfiguracion()
         Debug.Print vbNullString
         
     End With
-  
+
   Exit Sub
   
 fileErr:
@@ -993,9 +994,13 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
             
         If .NumeroLuces > 0 Then
             ReDim Luces(1 To .NumeroLuces)
+            Dim p As Byte
             Get #fh, , Luces
+            For i = 1 To .NumeroLuces
+                Call Create_Light_To_Map(Luces(i).X, Luces(i).Y, Luces(i).range, Luces(i).r, Luces(i).g, Luces(i).b)
+            Next i
             
-            'Aca metes la carga de las luces...
+            Call LightRenderAll
         End If
             
         If .NumeroOBJs > 0 Then
@@ -1059,6 +1064,7 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
     mapInfo.Music = MapDat.music_number
     mapInfo.Ambient = MapDat.Ambient
     mapInfo.Zona = MapDat.zone
+    mapInfo.Terreno = MapDat.terrain
 
     DeleteFile Dir_Map
 ErrorHandler:

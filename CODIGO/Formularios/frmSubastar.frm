@@ -152,7 +152,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdSalir_Click()
-    Unload Me
+    Call WriteCancelarsubasta
 End Sub
 
 Private Sub cmdSubastar_Click()
@@ -196,7 +196,6 @@ Private Sub Form_Load()
 Dim i As Byte
 
     'Me.Picture = Set_Interface("VentanaSubasta")
-    
 
     '   Cargamos la lista, si no tiene nada agregamos un "Nada" para que se distinga.
     For i = 1 To MAX_INVENTORY_SLOTS

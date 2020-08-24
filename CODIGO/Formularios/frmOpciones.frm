@@ -681,7 +681,7 @@ Private Sub imgManual_Click()
 End Sub
 
 Private Sub imgMapa_Click()
-    Call frmMapa.Show(vbModal, Me)
+    frmMapa.Show vbModeless, Me
 End Sub
 
 Private Sub imgSalir_Click()

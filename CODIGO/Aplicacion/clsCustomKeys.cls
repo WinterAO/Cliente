@@ -50,7 +50,7 @@ Option Explicit
 
 ''
 'Number of Customizable Keys
-Private Const NUM_CUSTOM_KEYS As Byte = 29
+Private Const NUM_CUSTOM_KEYS As Byte = 30
 
 ''
 'Error Raised in case the key file doesn't exist
@@ -95,7 +95,8 @@ Private mappedKeys(1 To NUM_CUSTOM_KEYS) As Integer
 '@param mKeyChatPrivado Acceso rapido de chat privado
 '@param mKeyChatClan Acceso rapido de chat clan
 '@param mKeyChatGrupo Acceso rapido de chat grupo
-'@param mKeyChatGlobalAcceso rapido de chat global
+'@param mKeyChatGlobal Acceso rapido de chat global
+'@param mKeyQuests Acceso rapido al panel de Quests
 
 Public Enum eKeyType
     mKeyUp = 1
@@ -127,6 +128,7 @@ Public Enum eKeyType
     mKeyChatClan
     mKeyChatGrupo
     mKeyChatGlobal
+    mKeyQuests
 End Enum
 
 ''
@@ -393,6 +395,7 @@ Public Sub LoadDefaults(ByVal Clasica As Boolean)
     mappedKeys(eKeyType.mKeyShowOptions) = KeyCodeConstants.vbKeyI
     mappedKeys(eKeyType.mKeyExitGame) = KeyCodeConstants.vbKeyEscape
     mappedKeys(eKeyType.mKeyToggleFPS) = KeyCodeConstants.vbKeyMultiply
+    mappedKeys(eKeyType.mKeyQuests) = KeyCodeConstants.vbKeyQ
     
     mappedKeys(eKeyType.mKeyChatNormal) = KeyCodeConstants.vbKey1
     mappedKeys(eKeyType.mKeyChatGritar) = KeyCodeConstants.vbKey2

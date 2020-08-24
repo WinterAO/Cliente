@@ -928,6 +928,14 @@
             255
         ]
     },
+	"INICIA_GUI": {
+        "TEXTO": "Initializing GUI...",
+        "COLOR": [
+            255,
+            255,
+            255
+        ]
+    },
     "INICIA_FXS": {
         "TEXTO": "Creating extra animations...",
         "COLOR": [

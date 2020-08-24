@@ -249,6 +249,7 @@ Public Type mapInfo
     MapVersion As Integer
     Ambient As String
     Zona As String
+    Terreno As String
 End Type
 
 Public IniPath As String
@@ -325,7 +326,6 @@ Public Color_Invisibilidad As Long
 Public Color_Montura As Long
 
 '   Control de Lluvia
-Public bRain As Boolean
 Public bTecho       As Boolean 'hay techo?
 Public bFogata       As Boolean
 
@@ -355,12 +355,12 @@ Private Declare Function QueryPerformanceCounter Lib "kernel32" (lpPerformanceCo
 Public Declare Function SetPixel Lib "gdi32" (ByVal hDC As Long, ByVal X As Long, ByVal Y As Long, ByVal crColor As Long) As Long
 Public Declare Function GetPixel Lib "gdi32" (ByVal hDC As Long, ByVal X As Long, ByVal Y As Long) As Long
 
-Sub ConvertCPtoTP(ByVal viewPortX As Integer, ByVal viewPortY As Integer, ByRef TX As Byte, ByRef TY As Byte)
+Sub ConvertCPtoTP(ByVal viewPortX As Integer, ByVal viewPortY As Integer, ByRef tX As Byte, ByRef tY As Byte)
 '******************************************
 'Converts where the mouse is in the main window to a tile position. MUST be called eveytime the mouse moves.
 '******************************************
-    TX = UserPos.X + viewPortX \ TilePixelWidth - WindowTileWidth \ 2
-    TY = UserPos.Y + viewPortY \ TilePixelHeight - WindowTileHeight \ 2
+    tX = UserPos.X + viewPortX \ TilePixelWidth - WindowTileWidth \ 2
+    tY = UserPos.Y + viewPortY \ TilePixelHeight - WindowTileHeight \ 2
 End Sub
 
 Public Sub InitGrh(ByRef Grh As Grh, ByVal GrhIndex As Long, Optional ByVal Started As Byte = 2)
@@ -785,7 +785,7 @@ Sub RenderScreen(ByVal tilex As Integer, _
 
     If ClientSetup.ParticleEngine Then
         'Weather Update & Render - Aca se renderiza la lluvia, nieve, etc.
-        Call mDx8_Particulas.Engine_Weather_Update
+        Call mDx8_Clima.Engine_Weather_Update
     End If
 
     If ClientSetup.ProyectileEngine Then
@@ -799,7 +799,7 @@ Sub RenderScreen(ByVal tilex As Integer, _
                     Dim angle As Single
                     
                     'Update the position
-                    angle = DegreeToRadian * Engine_GetAngle(ProjectileList(j).X, ProjectileList(j).Y, ProjectileList(j).TX, ProjectileList(j).TY)
+                    angle = DegreeToRadian * Engine_GetAngle(ProjectileList(j).X, ProjectileList(j).Y, ProjectileList(j).tX, ProjectileList(j).tY)
                     ProjectileList(j).X = ProjectileList(j).X + (Sin(angle) * ElapsedTime * 0.8)
                     ProjectileList(j).Y = ProjectileList(j).Y - (Cos(angle) * ElapsedTime * 0.8)
                     
@@ -837,8 +837,8 @@ Sub RenderScreen(ByVal tilex As Integer, _
             For j = 1 To LastProjectile
 
                 If ProjectileList(j).Grh.GrhIndex Then
-                    If Abs(ProjectileList(j).X - ProjectileList(j).TX) < 20 Then
-                        If Abs(ProjectileList(j).Y - ProjectileList(j).TY) < 20 Then
+                    If Abs(ProjectileList(j).X - ProjectileList(j).tX) < 20 Then
+                        If Abs(ProjectileList(j).Y - ProjectileList(j).tY) < 20 Then
                             Call Engine_Projectile_Erase(j)
                         End If
                     End If
@@ -876,20 +876,6 @@ Sub RenderHUD()
         If Dialogos.NeedRender Then Call Dialogos.Render ' GSZAO
         Call DibujarCartel
         If DialogosClanes.Activo Then Call DialogosClanes.Draw ' GSZAO
-
-        '*********Tiempo restante para que termine el invi o el paralizar*********
-        If UserParalizado And UserParalizadoSegundosRestantes > 0 Then
-            Call DrawText(1, 25, UserParalizadoSegundosRestantes & " segundos restantes de Paralisis", Color_Paralisis)
-        End If
-
-        If UserInvisible And UserInvisibleSegundosRestantes > 0 Then
-            Call DrawText(1, 13, UserInvisibleSegundosRestantes & " segundos restantes de Invisibilidad", Color_Invisibilidad)
-        End If
-        
-        If Not UserEquitando And UserEquitandoSegundosRestantes > 0 Then
-            Call DrawText(1, 37, UserEquitandoSegundosRestantes & " segundos restantes para volver a montarte", Color_Montura)
-        End If
-        '*************************************************************************
 
         ' Calculamos los FPS y los mostramos
         Call Engine_Update_FPS
@@ -1037,6 +1023,7 @@ On Error GoTo 0
     Call CargarParticulas
     
     'Inicializamos el conectar renderizado
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_GUI").item("TEXTO"), 75)
     Call ModCnt.InicializarRndCNT
 
     Exit Sub

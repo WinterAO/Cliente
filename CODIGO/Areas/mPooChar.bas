@@ -757,7 +757,7 @@ Sub Char_CleanAll()
     '// Borramos los obj y char que esten
 
     Dim X         As Long, Y As Long
-    Dim CharIndex As Integer, obj As Integer
+    Dim CharIndex As Integer, obj As Long
     
     For X = XMinMapSize To XMaxMapSize
         For Y = YMinMapSize To YMaxMapSize

@@ -781,3 +781,30 @@ ErrOut:
 Exit Function
  
 End Function
+
+Public Sub Engine_Get_ARGB(Color As Long, data As D3DCOLORVALUE)
+'**************************************************************
+'Author: Standelf
+'Last Modify Date: 18/10/2012
+'**************************************************************
+    
+    Dim a As Long, r As Long, g As Long, b As Long
+        
+    If Color < 0 Then
+        a = ((Color And (&H7F000000)) / (2 ^ 24)) Or &H80&
+    Else
+        a = Color / (2 ^ 24)
+    End If
+    
+    r = (Color And &HFF0000) / (2 ^ 16)
+    g = (Color And &HFF00&) / (2 ^ 8)
+    b = (Color And &HFF&)
+    
+    With data
+        .a = a
+        .r = r
+        .g = g
+        .b = b
+    End With
+        
+End Sub

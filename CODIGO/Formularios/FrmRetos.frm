@@ -392,7 +392,6 @@ Private Sub Form_Load()
     Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaRetos.jpg")
     
     Call LoadTextsForm
-    Call LoadAOCustomControlsPictures(Me)
 
     Set picNegrita = LoadPicture(Carga.Path(Interfaces) & "OpcionPrendidaN.jpg")
     Set picCursiva = LoadPicture(Carga.Path(Interfaces) & "OpcionPrendidaC.jpg")

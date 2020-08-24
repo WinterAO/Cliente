@@ -1,7 +1,5 @@
 Attribute VB_Name = "mDx8_Particulas"
 '*************************************************************
-'ImperiumAO 1.4.6
-'*************************************************************
 'Este modulo contiene TODOS los procedimientos que conforma
 'el Sistema de Particulas ORE.
 '*************************************************************
@@ -152,13 +150,6 @@ Public TotalStreams As Integer
 Public StreamData() As Stream
 
 Public Const PI As Single = 3.14159265358979
-
-Private RainParticle As Long
-
-Public Enum eWeather
-    Rain
-    Snow
-End Enum
 
 Public Sub CargarParticulas()
     Dim loopc As Long
@@ -1019,77 +1010,3 @@ Private Sub Char_Particle_Group_Make(ByVal Particle_Group_Index As Long, ByVal c
     'plot particle group on char
     charlist(char_index).Particle_Group(particle_char_index) = Particle_Group_Index
 End Sub
-
-Public Sub Engine_Weather_Update()
-'*****************************************************************
-'Author: Lucas Recoaro (Recox)
-'Last Modify Date: 19/12/2019
-'Controla los climas, aqui se renderizan la lluvia, nieve, etc.
-'*****************************************************************
-    'TODO: Hay un bug no muy importante que hace que no se renderice la lluvia
-    'en caso que empiece a llover, tiro el comando /salir y vuelvo a entrar al juego
-    'Sin embargo al cambiar de mapa o al entrar y salir de un techo la particula se vuelve a cargar
-    'Este error NO pasa cuando esta lloviendo y recien abro el juego y entro, en ese caso la lluvia se ve bien (Recox)
-
-    If bRain And mapInfo.Zona <> "DUNGEON" Then
-        'Primero verificamos que las particulas de lluvia esten creadas en la coleccion de particulas
-        'Si estan creadas las renderizamos, sino las creamos
-        If RainParticle <= 0 Then
-            'Creamos las particulas de lluvia
-            Call mDx8_Particulas.LoadWeatherParticles(eWeather.Rain)
-        ElseIf RainParticle > 0 Then
-            Call mDx8_Particulas.Particle_Group_Render(RainParticle, 250, -1)
-        End If
-    Else
-        'Borramos las particulas de lluvia en caso de que pare la lluvia o nos escondamos en un techo
-        Call mDx8_Particulas.RemoveWeatherParticles(eWeather.Rain)
-    End If
-
-End Sub
-
-Public Sub LoadWeatherParticles(ByVal Weather As Byte)
-'*****************************************************************
-'Author: Lucas Recoaro (Recox)
-'Last Modify Date: 19/12/2019
-'Crea las particulas de clima.
-'*****************************************************************
-    Select Case Weather
-
-        Case eWeather.Rain
-            RainParticle = mDx8_Particulas.General_Particle_Create(8, -1, -1)
-
-    End Select
-End Sub
-
-Public Sub RemoveWeatherParticles(ByVal Weather As Byte)
-'*****************************************************************
-'Author: Lucas Recoaro (Recox)
-'Last Modify Date: 19/12/2019
-'Remueve las particulas de clima.
-'*****************************************************************
-    Select Case Weather
-
-        Case eWeather.Rain
-            Particle_Group_Remove (RainParticle)
-            RainParticle = 0
-
-    End Select
-End Sub
-
-Public Sub Load_Map_Particles(ByVal Map As Integer)
-'*****************************************************************
-'Author: Jopi
-'Para los que no tienen un World Editor con sistema de particulas
-'Crea las particulas al entrar en un mapa.
-'*****************************************************************
-    
-    ' Crea las particulas especificas para el mapa actual.
-    Select Case Map
-    
-        Case 1
-            Call General_Particle_Create(1, 45, 45)
-            
-    End Select
-    
-End Sub
-

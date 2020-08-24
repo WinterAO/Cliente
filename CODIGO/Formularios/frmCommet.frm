@@ -177,7 +177,6 @@ Private Sub Form_Load()
     Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaCommet.jpg")
     
     Call LoadTextsForm
-    Call LoadAOCustomControlsPictures(Me)
 End Sub
 
 Private Sub LoadTextsForm()
