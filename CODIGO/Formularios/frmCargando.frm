@@ -97,7 +97,7 @@ Private Const DEFAULT_STEP_BACKWARDS = -3
 
 Private Sub Form_Load()
     Me.Analizar
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaCargando.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("1.gif", False)
     ' Seteamos el caption
     Me.Caption = Form_Caption
 End Sub

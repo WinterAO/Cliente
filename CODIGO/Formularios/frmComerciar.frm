@@ -317,7 +317,7 @@ Private Sub Form_Load()
 
     
     'Cargamos la interfase
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaComercio.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("VentanaComercio.gif", False)
     
     Call LoadButtons
     Call LoadTextsForm
@@ -349,8 +349,8 @@ Private Sub LoadButtons()
     Set cBotonCruz = New clsGraphicalButton
     
     Call cBotonCruz.Initialize(imgCross, "", _
-                                    GrhPath & "BotonCruzApretadaComercio.jpg", _
-                                    GrhPath & "BotonCruzApretadaComercio.jpg", Me)
+                                    "BotonCruzApretadaComercio.gif", _
+                                    "BotonCruzApretadaComercio.gif", Me)
 
 End Sub
 

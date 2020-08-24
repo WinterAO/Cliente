@@ -177,57 +177,51 @@ Private Const LEADER_FORM_HEIGHT As Integer = 6015
 Private Const NORMAL_FORM_HEIGHT As Integer = 4455
 Private Const OFFSET_BUTTONS As Integer = 43 ' pixels
 
-
 Private Sub Form_Load()
-        ' Handles Form movement (drag and drop).
-        '<EhHeader>
-        On Error GoTo Form_Load_Err
-        '</EhHeader>
-100     Set clsFormulario = New clsFormMovementManager
-102     clsFormulario.Initialize Me
-    
-104     lstMembers.Clear
-        
-106     If EsPartyLeader Then
-            ' TODO: Traducir los textos de las imagenes via labels en visual basic, para que en el futuro si se quiere se pueda traducir a mas idiomas
-            ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
-            ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
-            If Language = "spanish" Then
-            Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaPartyLider_spanish.jpg")
-            Else
-            Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaPartyLider_english.jpg")
-            End If
+    ' Handles Form movement (drag and drop).
+On Error GoTo Form_Load_Err
 
-110         Me.Height = LEADER_FORM_HEIGHT
+    Set clsFormulario = New clsFormMovementManager
+    clsFormulario.Initialize Me
+    
+    lstMembers.Clear
+             
+    If EsPartyLeader Then
+        ' TODO: Traducir los textos de las imagenes via labels en visual basic, para que en el futuro si se quiere se pueda traducir a mas idiomas
+        ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
+        ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
+        If Language = "spanish" Then
+            Me.Picture = General_Load_Picture_From_Resource("VentanaPartyLider_spanish.gif", False)
         Else
-            If Language = "spanish" Then
-            Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaPartyMiembro_spanish.jpg")
-            Else
-            Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaPartyMiembro_english.jpg")
-            End If
-
-114         Me.Height = NORMAL_FORM_HEIGHT
+            Me.Picture = General_Load_Picture_From_Resource("VentanaPartyLider_english.gif", False)
         End If
-    
-116     Call LoadButtons
+        
+        Me.Height = LEADER_FORM_HEIGHT
+    Else
+        If Language = "spanish" Then
+            Me.Picture = General_Load_Picture_From_Resource("VentanaPartyMiembro_spanish.gif", False)
+        Else
+            Me.Picture = General_Load_Picture_From_Resource("VentanaPartyMiembro_english.gif", False)
+        End If
 
-118     MirandoParty = True
-        '<EhFooter>
-        Exit Sub
+        Me.Height = NORMAL_FORM_HEIGHT
+    End If
+    
+    Call LoadButtons
+
+    MirandoParty = True
+    Exit Sub
 
 Form_Load_Err:
-        MsgBox Err.Description & vbNewLine & _
+    MsgBox Err.Description & vbNewLine & _
                "in ARGENTUM.frmParty.Form_Load " & _
                "at line " & Erl, _
                vbExclamation + vbOKOnly, "Application Error"
         Resume Next
-        '</EhFooter>
+        
 End Sub
 
 Private Sub LoadButtons()
-    Dim GrhPath As String
-    
-    GrhPath = Carga.Path(Interfaces)
 
     Set cBotonAgregar = New clsGraphicalButton
     Set cBotonCerrar = New clsGraphicalButton
@@ -239,29 +233,29 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
     
     
-    Call cBotonAgregar.Initialize(imgAgregar, GrhPath & "BotonAgregarParty.jpg", _
-                                    GrhPath & "BotonAgregarRolloverParty.jpg", _
-                                    GrhPath & "BotonAgregarClickParty.jpg", Me)
+    Call cBotonAgregar.Initialize(imgAgregar, "BotonAgregarParty.gif", _
+                                    "BotonAgregarRolloverParty.gif", _
+                                    "BotonAgregarClickParty.gif", Me)
                                     
-    Call cBotonCerrar.Initialize(imgCerrar, GrhPath & "BotonCerrarParty.jpg", _
-                                    GrhPath & "BotonCerrarRolloverParty.jpg", _
-                                    GrhPath & "BotonCerrarClickParty.jpg", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "BotonCerrarParty.gif", _
+                                    "BotonCerrarRolloverParty.gif", _
+                                    "BotonCerrarClickParty.gif", Me)
                                     
-    Call cBotonDisolver.Initialize(imgDisolver, GrhPath & "BotonDisolverParty.jpg", _
-                                    GrhPath & "BotonDisolverRolloverParty.jpg", _
-                                    GrhPath & "BotonDisolverClickParty.jpg", Me)
+    Call cBotonDisolver.Initialize(imgDisolver, "BotonDisolverParty.gif", _
+                                    "BotonDisolverRolloverParty.gif", _
+                                    "BotonDisolverClickParty.gif", Me)
                                     
-    Call cBotonLiderGrupo.Initialize(imgLiderGrupo, GrhPath & "BotonLiderGrupoParty.jpg", _
-                                    GrhPath & "BotonLiderGrupoRolloverParty.jpg", _
-                                    GrhPath & "BotonLiderGrupoClickParty.jpg", Me)
+    Call cBotonLiderGrupo.Initialize(imgLiderGrupo, "BotonLiderGrupoParty.gif", _
+                                    "BotonLiderGrupoRolloverParty.gif", _
+                                    "BotonLiderGrupoClickParty.gif", Me)
                                     
-    Call cBotonExpulsar.Initialize(imgExpulsar, GrhPath & "BotonExpulsarParty.jpg", _
-                                    GrhPath & "BotonExpulsarRolloverParty.jpg", _
-                                    GrhPath & "BotonExpulsarClickParty.jpg", Me)
+    Call cBotonExpulsar.Initialize(imgExpulsar, "BotonExpulsarParty.gif", _
+                                    "BotonExpulsarRolloverParty.gif", _
+                                    "BotonExpulsarClickParty.gif", Me)
                                     
-    Call cBotonSalirParty.Initialize(imgSalirParty, GrhPath & "BotonSalirGrupoParty.jpg", _
-                                    GrhPath & "BotonSalirGrupoRolloverParty.jpg", _
-                                    GrhPath & "BotonSalirGrupoClickParty.jpg", Me)
+    Call cBotonSalirParty.Initialize(imgSalirParty, "BotonSalirGrupoParty.gif", _
+                                    "BotonSalirGrupoRolloverParty.gif", _
+                                    "BotonSalirGrupoClickParty.gif", Me)
                                     
     ' Botones visibles solo para el lider
     imgExpulsar.Visible = EsPartyLeader

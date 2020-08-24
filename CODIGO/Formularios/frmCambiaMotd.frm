@@ -395,12 +395,12 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaCambioMOTD.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("VentanaCambioMOTD.gif", False)
     
     Call LoadTextsForm
 
-    Set picNegrita = LoadPicture(Carga.Path(Interfaces) & "OpcionPrendidaN.jpg")
-    Set picCursiva = LoadPicture(Carga.Path(Interfaces) & "OpcionPrendidaC.jpg")
+    Set picNegrita = General_Load_Picture_From_Resource("OpcionPrendidaN.gif", False)
+    Set picCursiva = General_Load_Picture_From_Resource("OpcionPrendidaC.gif", False)
 End Sub
 
 Private Sub LoadTextsForm()

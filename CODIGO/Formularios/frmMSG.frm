@@ -139,27 +139,24 @@ Private Sub Form_Load()
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
     ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
     If Language = "spanish" Then
-      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaShowSos_spanish.jpg")
+      Me.Picture = General_Load_Picture_From_Resource("VentanaShowSos_spanish.gif", False)
     Else
-      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaShowSos_english.jpg")
+      Me.Picture = General_Load_Picture_From_Resource("VentanaShowSos_english.gif", False)
     End If
     
     Call LoadButtons
 End Sub
 
 Private Sub LoadButtons()
-    Dim GrhPath As String
-    
-    GrhPath = Carga.Path(Interfaces)
 
     Set cBotonCerrar = New clsGraphicalButton
     
     Set LastButtonPressed = New clsGraphicalButton
     
     
-    Call cBotonCerrar.Initialize(imgCerrar, GrhPath & "BotonCerrarShowSos.jpg", _
-                                    GrhPath & "BotonCerrarRolloverShowSos.jpg", _
-                                    GrhPath & "BotonCerrarClickShowSos.jpg", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "BotonCerrarShowSos.gif", _
+                                    "BotonCerrarRolloverShowSos.gif", _
+                                    "BotonCerrarClickShowSos.gif", Me)
 End Sub
 
 Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)

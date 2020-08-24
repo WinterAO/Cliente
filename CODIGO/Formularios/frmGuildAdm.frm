@@ -136,9 +136,9 @@ Private Sub Form_Load()
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
     ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
     If Language = "spanish" Then
-      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaListaClanes_spanish.jpg")
+      Me.Picture = General_Load_Picture_From_Resource("VentanaListaClanes_spanish.gif", False)
     Else
-      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaListaClanes_english.jpg")
+      Me.Picture = General_Load_Picture_From_Resource("VentanaListaClanes_english.gif", False)
     End If
     
     Call LoadButtons
@@ -146,9 +146,6 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub LoadButtons()
-    Dim GrhPath As String
-    
-    GrhPath = Carga.Path(Interfaces)
 
     Set cBotonCerrar = New clsGraphicalButton
     Set cBotonDetalles = New clsGraphicalButton
@@ -156,13 +153,13 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
     
     
-    Call cBotonCerrar.Initialize(imgCerrar, GrhPath & "BotonCerrarListaClanes.jpg", _
-                                    GrhPath & "BotonCerrarRolloverListaClanes.jpg", _
-                                    GrhPath & "BotonCerrarClickListaClanes.jpg", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "BotonCerrarListaClanes.gif", _
+                                    "BotonCerrarRolloverListaClanes.gif", _
+                                    "BotonCerrarClickListaClanes.gif", Me)
 
-    Call cBotonDetalles.Initialize(imgDetalles, GrhPath & "BotonDetallesListaClanes.jpg", _
-                                    GrhPath & "BotonDetallesRolloverListaClanes.jpg", _
-                                    GrhPath & "BotonDetallesClickListaClanes.jpg", Me)
+    Call cBotonDetalles.Initialize(imgDetalles, "BotonDetallesListaClanes.gif", _
+                                    "BotonDetallesRolloverListaClanes.gif", _
+                                    "BotonDetallesClickListaClanes.gif", Me)
 
 End Sub
 

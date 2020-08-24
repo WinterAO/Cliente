@@ -166,9 +166,9 @@ Private Sub Form_Load()
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
     ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
     If Language = "spanish" Then
-      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaMiembroClan_spanish.jpg")
+      Me.Picture = General_Load_Picture_From_Resource("VentanaMiembroClan_spanish.gif", False)
     Else
-      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaMiembroClan_english.jpg")
+      Me.Picture = General_Load_Picture_From_Resource("VentanaMiembroClan_english.gif", False)
     End If
 
     Call LoadButtons
@@ -176,9 +176,6 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub LoadButtons()
-    Dim GrhPath As String
-    
-    GrhPath = Carga.Path(Interfaces)
 
     Set cBotonNoticias = New clsGraphicalButton
     Set cBotonDetalles = New clsGraphicalButton
@@ -187,17 +184,17 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
     
     
-    Call cBotonDetalles.Initialize(imgDetalles, GrhPath & "BotonDetallesMiembroClan.jpg", _
-                                    GrhPath & "BotonDetallesRolloverMiembroClan.jpg", _
-                                    GrhPath & "BotonDetallesClickMiembroClan.jpg", Me)
+    Call cBotonDetalles.Initialize(imgDetalles, "BotonDetallesMiembroClan.gif", _
+                                    "BotonDetallesRolloverMiembroClan.gif", _
+                                    "BotonDetallesClickMiembroClan.gif", Me)
 
-    Call cBotonNoticias.Initialize(imgNoticias, GrhPath & "BotonNoticiasMiembroClan.jpg", _
-                                    GrhPath & "BotonNoticiasRolloverMiembroClan.jpg", _
-                                    GrhPath & "BotonNoticiasClickMiembroClan.jpg", Me)
+    Call cBotonNoticias.Initialize(imgNoticias, "BotonNoticiasMiembroClan.gif", _
+                                    "BotonNoticiasRolloverMiembroClan.gif", _
+                                    "BotonNoticiasClickMiembroClan.gif", Me)
 
-    Call cBotonCerrar.Initialize(imgCerrar, GrhPath & "BotonCerrarMimebroClan.jpg", _
-                                    GrhPath & "BotonCerrarRolloverMimebroClan.jpg", _
-                                    GrhPath & "BotonCerrarClickMimebroClan.jpg", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "BotonCerrarMimebroClan.gif", _
+                                    "BotonCerrarRolloverMimebroClan.gif", _
+                                    "BotonCerrarClickMimebroClan.gif", Me)
 
 End Sub
 

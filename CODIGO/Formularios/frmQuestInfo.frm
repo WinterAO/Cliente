@@ -111,7 +111,7 @@ Option Explicit
 
 Private Sub Form_Load()
     
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaQuest.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("VentanaQuest.gif", False)
     
     Call LoadTextsForm
 

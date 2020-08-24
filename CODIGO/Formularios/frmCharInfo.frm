@@ -792,7 +792,7 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaInfoPj.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("VentanaInfoPj.gif", False)
     
     Call LoadTextsForm
 End Sub

@@ -27,7 +27,6 @@ Begin VB.Form frmMain
    MaxButton       =   0   'False
    MinButton       =   0   'False
    PaletteMode     =   1  'UseZOrder
-   Picture         =   "frmMain.frx":1A041
    ScaleHeight     =   768
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   1024
@@ -95,7 +94,7 @@ Begin VB.Form frmMain
       BorderStyle     =   0  'None
       Height          =   1500
       Left            =   9450
-      MouseIcon       =   "frmMain.frx":6BAB2
+      MouseIcon       =   "frmMain.frx":1A041
       ScaleHeight     =   100
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   100
@@ -168,12 +167,11 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
       Appearance      =   0
-      TextRTF         =   $"frmMain.frx":6BC04
+      TextRTF         =   $"frmMain.frx":1A193
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Tahoma"
          Size            =   8.25
@@ -233,10 +231,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":6BC81
-            PICF            =   "frmMain.frx":6BC9D
-            PICH            =   "frmMain.frx":6BCB9
-            PICV            =   "frmMain.frx":6BCD5
+            PICE            =   "frmMain.frx":1A210
+            PICF            =   "frmMain.frx":1A22C
+            PICH            =   "frmMain.frx":1A248
+            PICV            =   "frmMain.frx":1A264
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -260,10 +258,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":6BCF1
-            PICF            =   "frmMain.frx":6BD0D
-            PICH            =   "frmMain.frx":6BD29
-            PICV            =   "frmMain.frx":6BD45
+            PICE            =   "frmMain.frx":1A280
+            PICF            =   "frmMain.frx":1A29C
+            PICH            =   "frmMain.frx":1A2B8
+            PICV            =   "frmMain.frx":1A2D4
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -287,10 +285,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":6BD61
-            PICF            =   "frmMain.frx":6BD7D
-            PICH            =   "frmMain.frx":6BD99
-            PICV            =   "frmMain.frx":6BDB5
+            PICE            =   "frmMain.frx":1A2F0
+            PICF            =   "frmMain.frx":1A30C
+            PICH            =   "frmMain.frx":1A328
+            PICV            =   "frmMain.frx":1A344
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -314,10 +312,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":6BDD1
-            PICF            =   "frmMain.frx":6BDED
-            PICH            =   "frmMain.frx":6BE09
-            PICV            =   "frmMain.frx":6BE25
+            PICE            =   "frmMain.frx":1A360
+            PICF            =   "frmMain.frx":1A37C
+            PICH            =   "frmMain.frx":1A398
+            PICV            =   "frmMain.frx":1A3B4
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -341,10 +339,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":6BE41
-            PICF            =   "frmMain.frx":6BE5D
-            PICH            =   "frmMain.frx":6BE79
-            PICV            =   "frmMain.frx":6BE95
+            PICE            =   "frmMain.frx":1A3D0
+            PICF            =   "frmMain.frx":1A3EC
+            PICH            =   "frmMain.frx":1A408
+            PICV            =   "frmMain.frx":1A424
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -368,10 +366,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":6BEB1
-            PICF            =   "frmMain.frx":6BECD
-            PICH            =   "frmMain.frx":6BEE9
-            PICV            =   "frmMain.frx":6BF05
+            PICE            =   "frmMain.frx":1A440
+            PICF            =   "frmMain.frx":1A45C
+            PICH            =   "frmMain.frx":1A478
+            PICV            =   "frmMain.frx":1A494
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -395,10 +393,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":6BF21
-            PICF            =   "frmMain.frx":6BF3D
-            PICH            =   "frmMain.frx":6BF59
-            PICV            =   "frmMain.frx":6BF75
+            PICE            =   "frmMain.frx":1A4B0
+            PICF            =   "frmMain.frx":1A4CC
+            PICH            =   "frmMain.frx":1A4E8
+            PICV            =   "frmMain.frx":1A504
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -425,7 +423,7 @@ Begin VB.Form frmMain
    Begin VB.Image btnShop 
       Height          =   360
       Left            =   11670
-      MouseIcon       =   "frmMain.frx":6BF91
+      MouseIcon       =   "frmMain.frx":1A520
       Tag             =   "1"
       Top             =   9720
       Width           =   1410
@@ -438,7 +436,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   255
       Left            =   240
-      MouseIcon       =   "frmMain.frx":6C0E3
+      MouseIcon       =   "frmMain.frx":1A672
       TabIndex        =   32
       Top             =   1980
       Width           =   1215
@@ -558,7 +556,7 @@ Begin VB.Form frmMain
       Height          =   585
       Index           =   2
       Left            =   14400
-      MouseIcon       =   "frmMain.frx":6C235
+      MouseIcon       =   "frmMain.frx":1A7C4
       Top             =   1920
       Width           =   495
    End
@@ -579,7 +577,7 @@ Begin VB.Form frmMain
    Begin VB.Image btnInfo 
       Height          =   495
       Left            =   13575
-      MouseIcon       =   "frmMain.frx":6C387
+      MouseIcon       =   "frmMain.frx":1A916
       MousePointer    =   99  'Custom
       Top             =   5940
       Visible         =   0   'False
@@ -588,7 +586,7 @@ Begin VB.Form frmMain
    Begin VB.Image btnLanzar 
       Height          =   540
       Left            =   11640
-      MouseIcon       =   "frmMain.frx":6C4D9
+      MouseIcon       =   "frmMain.frx":1AA68
       MousePointer    =   99  'Custom
       Top             =   5940
       Visible         =   0   'False
@@ -638,7 +636,7 @@ Begin VB.Form frmMain
    Begin VB.Image btnMenu 
       Height          =   360
       Left            =   11670
-      MouseIcon       =   "frmMain.frx":6C62B
+      MouseIcon       =   "frmMain.frx":1ABBA
       Tag             =   "1"
       Top             =   9240
       Width           =   1410
@@ -647,7 +645,7 @@ Begin VB.Form frmMain
       Height          =   600
       Index           =   1
       Left            =   12975
-      MouseIcon       =   "frmMain.frx":6C77D
+      MouseIcon       =   "frmMain.frx":1AD0C
       Top             =   1920
       Width           =   1380
    End
@@ -655,7 +653,7 @@ Begin VB.Form frmMain
       Height          =   600
       Index           =   0
       Left            =   11550
-      MouseIcon       =   "frmMain.frx":6C8CF
+      MouseIcon       =   "frmMain.frx":1AE5E
       Top             =   1920
       Width           =   1380
    End
@@ -730,7 +728,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   0
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":6CA21
+      MouseIcon       =   "frmMain.frx":1AFB0
       MousePointer    =   99  'Custom
       Top             =   2925
       Visible         =   0   'False
@@ -740,7 +738,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   1
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":6CB73
+      MouseIcon       =   "frmMain.frx":1B102
       MousePointer    =   99  'Custom
       Top             =   2580
       Visible         =   0   'False
@@ -844,7 +842,6 @@ Begin VB.Form frmMain
    Begin VB.Image InvEqu 
       Height          =   4530
       Left            =   11400
-      Picture         =   "frmMain.frx":6CCC5
       Top             =   1920
       Width           =   3645
    End
@@ -997,10 +994,10 @@ Call Sound.Sound_Play(SND_CLICK)
     Select Case Index
     
         Case 0 'Inventario
-            InvEqu.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\Centroinventario.jpg")
-            btnSolapa(0).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\invseleccionado.jpg")
-            btnSolapa(1).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\hechnoseleccionado.jpg")
-            btnSolapa(2).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
+            InvEqu.Picture = General_Load_Picture_From_Resource("4.gif", True)
+            btnSolapa(0).Picture = General_Load_Picture_From_Resource("7.gif", True)
+            btnSolapa(1).Picture = General_Load_Picture_From_Resource("10.gif", True)
+            btnSolapa(2).Picture = General_Load_Picture_From_Resource("12.gif", True)
             
             ' Activo controles de inventario
             PicInv.Visible = True
@@ -1021,12 +1018,12 @@ Call Sound.Sound_Play(SND_CLICK)
             Call Inventario.DrawInventory
         
         Case 1 'Hechizos
-            InvEqu.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\Centrohechizos.jpg")
-            btnSolapa(0).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\invnoseleccionado.jpg")
-            btnSolapa(1).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\hechseleccionado.jpg")
-            btnSolapa(2).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
-            btnLanzar.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\lanzar.jpg")
-            btnInfo.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\info.jpg")
+            InvEqu.Picture = General_Load_Picture_From_Resource("5.gif", True)
+            btnSolapa(0).Picture = General_Load_Picture_From_Resource("10.gif", True)
+            btnSolapa(1).Picture = General_Load_Picture_From_Resource("8.gif", True)
+            btnSolapa(2).Picture = General_Load_Picture_From_Resource("12.gif", True)
+            btnLanzar.Picture = General_Load_Picture_From_Resource("13.gif", True)
+            btnInfo.Picture = General_Load_Picture_From_Resource("14.gif", True)
             
             ' Activo controles de hechizos
             hlst.Visible = True
@@ -1044,10 +1041,10 @@ Call Sound.Sound_Play(SND_CLICK)
             BorrarAmigo.Visible = False
     
         Case 2 'Amigos
-            InvEqu.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\CentroAmigos.jpg")
-            btnSolapa(0).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\invnoseleccionado.jpg")
-            btnSolapa(1).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\hechnoseleccionado.jpg")
-            btnSolapa(2).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgseleccionado.jpg")
+            InvEqu.Picture = General_Load_Picture_From_Resource("6.gif", True)
+            btnSolapa(0).Picture = General_Load_Picture_From_Resource("10.gif", True)
+            btnSolapa(1).Picture = General_Load_Picture_From_Resource("11.gif", True)
+            btnSolapa(2).Picture = General_Load_Picture_From_Resource("9.gif", True)
             
             ListAmigos.Visible = True
             AgregarAmigo.Visible = True
@@ -1075,19 +1072,20 @@ End Sub
 Private Sub Form_Load()
     ClientSetup.SkinSeleccionado = GetVar(Carga.Path(Init) & CLIENT_FILE, "Parameters", "SkinSelected")
     
-    cmdMoverHechi(1).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\btnarriba.jpg")
-    cmdMoverHechi(0).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\btnabajo.jpg")
-    InvEqu.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\Centroinventario.jpg")
-    btnSolapa(0).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\invseleccionado.jpg")
-    btnSolapa(1).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\hechnoseleccionado.jpg")
-    btnSolapa(2).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
-    shpVida.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\vidabar.jpg")
-    shpMana.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\manabar.jpg")
-    shpEnergia.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\energiabar.jpg")
-    shpHambre.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\hambrebar.jpg")
-    shpSed.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\aguabar.jpg")
-    ShpFuerza.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\fuerzabar.jpg")
-    ShpAgilidad.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\agilidadbar.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("1.gif", True)
+    cmdMoverHechi(1).Picture = General_Load_Picture_From_Resource("2.gif", True)
+    cmdMoverHechi(0).Picture = General_Load_Picture_From_Resource("3.gif", True)
+    InvEqu.Picture = General_Load_Picture_From_Resource("4.gif", True)
+    btnSolapa(0).Picture = General_Load_Picture_From_Resource("7.gif", True)
+    btnSolapa(1).Picture = General_Load_Picture_From_Resource("11.gif", True)
+    btnSolapa(2).Picture = General_Load_Picture_From_Resource("12.gif", True)
+    shpVida.Picture = General_Load_Picture_From_Resource("15.gif", True)
+    shpMana.Picture = General_Load_Picture_From_Resource("16.gif", True)
+    shpEnergia.Picture = General_Load_Picture_From_Resource("17.gif", True)
+    shpHambre.Picture = General_Load_Picture_From_Resource("18.gif", True)
+    shpSed.Picture = General_Load_Picture_From_Resource("19.gif", True)
+    ShpFuerza.Picture = General_Load_Picture_From_Resource("20.gif", True)
+    ShpAgilidad.Picture = General_Load_Picture_From_Resource("21.gif", True)
     
     If Not ResolucionCambiada Then
         ' Handles Form movement (drag and drop).
@@ -1133,18 +1131,16 @@ Private Sub LoadButtons()
     lblCerrar.MouseIcon = picMouseIcon
     lblMinimizar.MouseIcon = picMouseIcon
     
-    GrhPath = Carga.Path(Skins) & ClientSetup.SkinSeleccionado
-    
     Set cBotonMenu = New clsGraphicalButton
     Set cBotonShop = New clsGraphicalButton
     
-    Call cBotonMenu.Initialize(btnMenu, GrhPath & "/btnmenu.jpg", _
-                                    GrhPath & "/btnmenulight.jpg", _
-                                    GrhPath & "/btnmenudown.jpg", Me)
+    Call cBotonMenu.Initialize(btnMenu, "22.gif", _
+                                     "23.gif", _
+                                     "24.gif", Me, , , , , True)
     
-    Call cBotonShop.Initialize(btnShop, GrhPath & "/btnshop.jpg", _
-                                    GrhPath & "/btnshoplight.jpg", _
-                                    GrhPath & "/btnshopdown.jpg", Me)
+    Call cBotonShop.Initialize(btnShop, "25.gif", _
+                                     "26.gif", _
+                                     "27.gif", Me, , , , , True)
 
 End Sub
 
@@ -2380,7 +2376,7 @@ End Sub
 
 Private Sub btnMenu_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If btnMenu.Tag = 1 Then
-        btnMenu.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "/btnmenudown.jpg")
+        btnMenu.Picture = General_Load_Picture_From_Resource("24.gif", True)
         btnMenu.Tag = 0
     End If
 
@@ -2388,7 +2384,7 @@ End Sub
 
 Private Sub btnShop_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If btnShop.Tag = 1 Then
-        btnShop.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "/btnshopdown.jpg")
+        btnShop.Picture = General_Load_Picture_From_Resource("27.gif", True)
         btnShop.Tag = 0
     End If
 

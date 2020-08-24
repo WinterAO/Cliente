@@ -318,10 +318,10 @@ Private Sub CargarImagenes()
     ' TODO: Traducir los textos de las imagenes via labels en visual basic, para que en el futuro si se quiere se pueda traducir a mas idiomas
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
     ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
-    Me.Picture = LoadPicture(ImgPath & "VentanaTrabajo.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("7.gif", False)
     
-    Set picRecuadroItem = LoadPicture(ImgPath & "RecuadroItems.jpg")
-    Set picRecuadroLingotes = LoadPicture(ImgPath & "RecuadroObj.jpg")
+    Set picRecuadroItem = General_Load_Picture_From_Resource("14.gif", False)
+    Set picRecuadroLingotes = General_Load_Picture_From_Resource("15.gif", False)
     
     For Index = 1 To MAX_LIST_ITEMS
         imgMarcoItem(Index).Picture = picRecuadroItem
@@ -336,11 +336,11 @@ Private Sub CargarImagenes()
 
     Set LastButtonPressed = New clsGraphicalButton
     
-    Call cPicCerrar.Initialize(imgCerrar, ImgPath & "BotonCerrarTrabajo.jpg", ImgPath & "BotonCerrarTrabajoRollover.jpg", ImgPath & "BotonCerrarTrabajoClick.jpg", Me)
-    Call cPicConstruir(0).Initialize(picConstruir0, ImgPath & "BotonConstruir.jpg", ImgPath & "BotonConstruirRollover.jpg", ImgPath & "BotonConstruirClick.jpg", Me)
-    Call cPicConstruir(1).Initialize(picConstruir1, ImgPath & "BotonConstruir.jpg", ImgPath & "BotonConstruirRollover.jpg", ImgPath & "BotonConstruirClick.jpg", Me)
-    Call cPicConstruir(2).Initialize(picConstruir2, ImgPath & "BotonConstruir.jpg", ImgPath & "BotonConstruirRollover.jpg", ImgPath & "BotonConstruirClick.jpg", Me)
-    Call cPicConstruir(3).Initialize(picConstruir3, ImgPath & "BotonConstruir.jpg", ImgPath & "BotonConstruirRollover.jpg", ImgPath & "BotonConstruirClick.jpg", Me)
+    Call cPicCerrar.Initialize(imgCerrar, ImgPath & "8.gif", ImgPath & "9.gif", ImgPath & "10.gif", Me)
+    Call cPicConstruir(0).Initialize(picConstruir0, ImgPath & "11.gif", ImgPath & "12.gif", ImgPath & "13.gif", Me)
+    Call cPicConstruir(1).Initialize(picConstruir1, ImgPath & "11.gif", ImgPath & "12.gif", ImgPath & "13.gif", Me)
+    Call cPicConstruir(2).Initialize(picConstruir2, ImgPath & "11.gif", ImgPath & "12.gif", ImgPath & "13.gif", Me)
+    Call cPicConstruir(3).Initialize(picConstruir3, ImgPath & "11.gif", ImgPath & "12.gif", ImgPath & "13.gif", Me)
     
     Me.MouseIcon = picMouseIcon
     

@@ -193,8 +193,8 @@ Attribute VB_Exposed = False
 
 Private Sub Form_Load()
    Call LoadTextsForm
-   imgAlternativeKeyboard.Picture = LoadPicture(Carga.Path(Interfaces) & "frmKeysConfigurationSelectAlternativeKeyboard.jpg")
-   imgNormalKeyboard.Picture = LoadPicture(Carga.Path(Interfaces) & "frmKeysConfigurationSelectNormalKeyboard.jpg")
+   imgAlternativeKeyboard.Picture = General_Load_Picture_From_Resource("19.gif", False)
+   imgNormalKeyboard.Picture = General_Load_Picture_From_Resource("20.gif", False)
 End Sub
 
 Private Sub LoadTextsForm()

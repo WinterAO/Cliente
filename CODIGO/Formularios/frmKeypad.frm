@@ -440,11 +440,9 @@ Private Sub Form_Load()
     ' Handles Form movement (drag and drop).
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
-    
-    Dim GrhPath As String
-    GrhPath = Carga.Path(Interfaces)
-    Set MinMayBack(0) = LoadPicture(GrhPath & "TecladoMinuscula.jpg")
-    Set MinMayBack(1) = LoadPicture(GrhPath & "TecladoMayuscula.jpg")
+
+    Set MinMayBack(0) = General_Load_Picture_From_Resource("TecladoMinuscula.gif", False)
+    Set MinMayBack(1) = General_Load_Picture_From_Resource("TecladoMayuscula.gif", False)
     
     Call LoadButtons
     
@@ -454,9 +452,6 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub LoadButtons()
-    Dim GrhPath As String
-    
-    GrhPath = Carga.Path(Interfaces)
 
     Set cBotonMin = New clsGraphicalButton
     Set cBotonMay = New clsGraphicalButton
@@ -464,13 +459,13 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
     
     
-    Call cBotonMin.Initialize(imgMay, GrhPath & "BotonMay.jpg", _
-                                    GrhPath & "BotonMayRollover.jpg", _
-                                    GrhPath & "BotonMayClick.jpg", Me)
+    Call cBotonMin.Initialize(imgMay, "BotonMay.gif", _
+                                    "BotonMayRollover.gif", _
+                                    "BotonMayClick.gif", Me)
 
-    Call cBotonMay.Initialize(imgMin, GrhPath & "BotonMin.jpg", _
-                                    GrhPath & "BotonMinRollover.jpg", _
-                                    GrhPath & "BotonMinClick.jpg", Me)
+    Call cBotonMay.Initialize(imgMin, "BotonMin.gif", _
+                                    "BotonMinRollover.gif", _
+                                    "BotonMinClick.gif", Me)
 
 End Sub
 
@@ -508,7 +503,7 @@ Private Sub imgMay_Click()
     If Modo = MAYUSCULA Then Exit Sub
     
     'Call Sound.Sound_Play(SND_CLICK)
-    Me.Picture = MinMayBack(e_modo_keypad.MAYUSCULA)  'LoadPicture(Carga.path(Interfaces) & "KeyPadMay.bmp")
+    Me.Picture = MinMayBack(e_modo_keypad.MAYUSCULA)  'General_Load_Picture_From_Resource( "KeyPadMay.bmp")
     Modo = MAYUSCULA
     Me.txtPassword.SetFocus
 End Sub
@@ -517,7 +512,7 @@ Private Sub imgMin_Click()
     If Modo = MINUSCULA Then Exit Sub
     
     'Call Sound.Sound_Play(SND_CLICK)
-    Me.Picture = MinMayBack(e_modo_keypad.MINUSCULA) 'LoadPicture(Carga.path(Interfaces) & "KeyPadMin.bmp")
+    Me.Picture = MinMayBack(e_modo_keypad.MINUSCULA) 'General_Load_Picture_From_Resource( "KeyPadMin.bmp")
     Modo = MINUSCULA
     Me.txtPassword.SetFocus
 End Sub

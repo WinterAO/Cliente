@@ -124,18 +124,15 @@ Private Sub Form_Load()
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
     ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
     If Language = "spanish" Then
-      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaIngreso_spanish.jpg")
+      Me.Picture = General_Load_Picture_From_Resource("VentanaIngreso_spanish.gif", False)
     Else
-      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaIngreso_english.jpg")
+      Me.Picture = General_Load_Picture_From_Resource("VentanaIngreso_english.gif", False)
     End If
     
     Call LoadButtons
 End Sub
 
 Private Sub LoadButtons()
-    Dim GrhPath As String
-    
-    GrhPath = Carga.Path(Interfaces)
 
     Set cBotonCerrar = New clsGraphicalButton
     Set cBotonEnviar = New clsGraphicalButton
@@ -143,13 +140,13 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
     
     
-    Call cBotonCerrar.Initialize(imgCerrar, GrhPath & "BotonCerrarIngreso.jpg", _
-                                    GrhPath & "BotonCerrarRolloverIngreso.jpg", _
-                                    GrhPath & "BotonCerrarClickIngreso.jpg", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "BotonCerrarIngreso.gif", _
+                                    "BotonCerrarRolloverIngreso.gif", _
+                                    "BotonCerrarClickIngreso.gif", Me)
 
-    Call cBotonEnviar.Initialize(imgEnviar, GrhPath & "BotonEnviarIngreso.jpg", _
-                                    GrhPath & "BotonEnviarRolloverIngreso.jpg", _
-                                    GrhPath & "BotonEnviarClickIngreso.jpg", Me)
+    Call cBotonEnviar.Initialize(imgEnviar, "BotonEnviarIngreso.gif", _
+                                    "BotonEnviarRolloverIngreso.gif", _
+                                    "BotonEnviarClickIngreso.gif", Me)
 End Sub
 
 Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)

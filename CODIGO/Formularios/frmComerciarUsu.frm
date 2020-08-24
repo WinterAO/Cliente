@@ -184,7 +184,6 @@ Begin VB.Form frmComerciarUsu
       _ExtentY        =   2858
       _Version        =   393217
       BackColor       =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -659,7 +658,7 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
 
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaComercioUsuario.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("VentanaComercioUsuario.gif", False)
     
     Call LoadTextsForm
     

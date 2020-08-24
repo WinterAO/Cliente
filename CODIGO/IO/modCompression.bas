@@ -31,6 +31,7 @@ Public Enum srcFileType
     Scripts
     Map
     Interface
+    Skin
     Fuentes
     Patch
 End Enum
@@ -43,6 +44,15 @@ Private Declare Function GetTempPath Lib "kernel32" Alias "GetTempPathA" (ByVal 
 
 Private Declare Function Compress Lib "zlib.dll" Alias "compress" (dest As Any, destLen As Any, src As Any, ByVal srcLen As Long) As Long
 Private Declare Function UnCompress Lib "zlib.dll" Alias "uncompress" (dest As Any, destLen As Any, src As Any, ByVal srcLen As Long) As Long
+
+'Loading pictures from byte arrays
+Private Declare Function CreateStreamOnHGlobal Lib "ole32" (ByVal hGlobal As Long, ByVal fDeleteOnRelease As Long, ppstm As Any) As Long
+Private Declare Function OleLoadPicture Lib "olepro32" (pStream As Any, ByVal lSize As Long, ByVal fRunmode As Long, riid As Any, ppvObj As Any) As Long
+Private Declare Function CLSIDFromString Lib "ole32" (ByVal lpsz As Any, pclsid As Any) As Long
+Private Declare Function GlobalAlloc Lib "kernel32" (ByVal uFlags As Long, ByVal dwBytes As Long) As Long
+Private Declare Function GlobalLock Lib "kernel32" (ByVal hMem As Long) As Long
+Private Declare Function GlobalUnlock Lib "kernel32" (ByVal hMem As Long) As Long
+Private Declare Sub MoveMemory Lib "kernel32" Alias "RtlMoveMemory" (pDest As Any, pSource As Any, ByVal dwLength As Long)
 
 Public Sub GenerateContra()
 '***************************************************
@@ -224,7 +234,7 @@ Public Function extractFiles(ByVal File_Type As srcFileType) As Boolean
     Dim SourceData() As Byte
     Dim FileHead As FILEHEADER
     Dim InfoHead() As INFOHEADER
-    Dim Handle As Integer
+    Dim handle As Integer
 
 On Local Error GoTo errhandler
 
@@ -315,14 +325,14 @@ On Local Error GoTo errhandler
         Decompress_Data SourceData, InfoHead(loopc).lngFileSizeUncompressed
         
         'Get a free handler
-        Handle = FreeFile
+        handle = FreeFile
 
         'Create a new file and put in the data
-        Open OutputFilePath & InfoHead(loopc).strFileName For Binary As Handle
+        Open OutputFilePath & InfoHead(loopc).strFileName For Binary As handle
         
-        Put Handle, , SourceData
+        Put handle, , SourceData
         
-        Close Handle
+        Close handle
         
         Erase SourceData
         
@@ -401,7 +411,7 @@ On Local Error GoTo errhandler
             OutputFilePath = App.Path & SrcPath & "Mapas" & Formato
             
         Case Interface
-            SourceFileExtension = ".jpg"
+            SourceFileExtension = ".gif"
             SourceFilePath = App.Path & "\EXTRAIDOS\Interfaces\"
             OutputFilePath = App.Path & SrcPath & "Interface" & Formato
             
@@ -552,7 +562,7 @@ Public Function extractFile(ByVal File_Type As srcFileType, ByVal file_name As S
     
     Dim SourceData() As Byte
     Dim InfoHead As INFOHEADER
-    Dim Handle As Integer
+    Dim handle As Integer
     
 'Set up the error handler
 On Local Error GoTo errhandler
@@ -607,8 +617,8 @@ On Local Error GoTo errhandler
     If InfoHead.strFileName = "" Or InfoHead.lngFileSize = 0 Then Exit Function
 
     'Open the binary file
-    Handle = FreeFile
-    Open SourceFilePath For Binary Access Read Lock Write As Handle
+    handle = FreeFile
+    Open SourceFilePath For Binary Access Read Lock Write As handle
     
     'Check the file for validity
     'If LOF(handle) <> InfoHead.lngFileSize Then
@@ -619,7 +629,7 @@ On Local Error GoTo errhandler
     
     'Make sure there is enough space in the HD
     If InfoHead.lngFileSizeUncompressed > General_Drive_Get_Free_Bytes(Left$(App.Path, 3)) Then
-        Close Handle
+        Close handle
         MsgBox "There is not enough drive space to extract the compressed file.", , "Error"
         Exit Function
     End If
@@ -630,22 +640,22 @@ On Local Error GoTo errhandler
     ReDim SourceData(InfoHead.lngFileSize - 1)
     
     'Get the data
-    Get Handle, InfoHead.lngFileStart, SourceData
+    Get handle, InfoHead.lngFileStart, SourceData
     
     'Decompress all data
     Decompress_Data SourceData, InfoHead.lngFileSizeUncompressed
     
     'Close the binary file
-    Close Handle
+    Close handle
     
     'Get a free handler
-    Handle = FreeFile
+    handle = FreeFile
     
-    Open OutputFilePath & InfoHead.strFileName For Binary As Handle
+    Open OutputFilePath & InfoHead.strFileName For Binary As handle
     
-    Put Handle, 1, SourceData
+    Put handle, 1, SourceData
     
-    Close Handle
+    Close handle
     
     Erase SourceData
         
@@ -653,7 +663,7 @@ On Local Error GoTo errhandler
 Exit Function
 
 errhandler:
-    Close Handle
+    Close handle
     Erase SourceData
     'Display an error message if it didn't work
     'MsgBox "Unable to decode binary file. Reason: " & Err.number & " : " & Err.Description, vbOKOnly, "Error"
@@ -669,11 +679,12 @@ Public Function Extract_File_Memory(ByVal File_Type As srcFileType, ByVal file_n
     Dim loopc As Long
     Dim SourceFilePath As String
     Dim InfoHead As INFOHEADER
-    Dim Handle As Integer
+    Dim handle As Integer
    
 On Local Error GoTo errhandler
    
     Select Case File_Type
+    
         Case Graphics
                 SourceFilePath = App.Path & SrcPath & "Graficos" & Formato
             
@@ -698,6 +709,9 @@ On Local Error GoTo errhandler
         Case Fuentes
                 SourceFilePath = App.Path & SrcPath & "Fuentes" & Formato
                 
+        Case Skin
+                SourceFilePath = App.Path & SrcPath & "Skins\" & ClientSetup.SkinSeleccionado & Formato
+                
         Case Else
             Exit Function
     End Select
@@ -706,11 +720,11 @@ On Local Error GoTo errhandler
    
     If InfoHead.strFileName = "" Or InfoHead.lngFileSize = 0 Then Exit Function
  
-    Handle = FreeFile
-    Open SourceFilePath For Binary Access Read Lock Write As Handle
+    handle = FreeFile
+    Open SourceFilePath For Binary Access Read Lock Write As handle
    
     If InfoHead.lngFileSizeUncompressed > General_Drive_Get_Free_Bytes(Left$(App.Path, 3)) Then
-        Close Handle
+        Close handle
         MsgBox "There is not enough drive space to extract the compressed file.", , "Error"
         Exit Function
     End If
@@ -718,15 +732,15 @@ On Local Error GoTo errhandler
    
     ReDim SourceData(InfoHead.lngFileSize - 1)
    
-    Get Handle, InfoHead.lngFileStart, SourceData
+    Get handle, InfoHead.lngFileStart, SourceData
         Decompress_Data SourceData, InfoHead.lngFileSizeUncompressed
-    Close Handle
+    Close handle
        
     Extract_File_Memory = True
 Exit Function
  
 errhandler:
-    Close Handle
+    Close handle
     Erase SourceData
 End Function
 
@@ -737,21 +751,21 @@ Public Sub DeleteFile(ByVal file_path As String)
 'Deletes a resource files
 '*****************************************************************
 
-    Dim Handle As Integer
+    Dim handle As Integer
     Dim Data() As Byte
     
     On Error GoTo ERROR_HANDLER
     
     'We open the file to delete
-    Handle = FreeFile
-    Open file_path For Binary Access Write Lock Read As Handle
+    handle = FreeFile
+    Open file_path For Binary Access Write Lock Read As handle
     
     'We replace all the bytes in it with 0s
-    ReDim Data(LOF(Handle) - 1)
-    Put Handle, 1, Data
+    ReDim Data(LOF(handle) - 1)
+    Put handle, 1, Data
     
     'We close the file
-    Close Handle
+    Close handle
     
     'Now we delete it, knowing that if they retrieve it (some antivirus may create backup copies of deleted files), it will be useless
     Kill file_path
@@ -845,7 +859,7 @@ On Error GoTo errhandler
     Open resource_file_path For Binary Access Read Lock Write As file_handler
    
     Get file_handler, 1, file_head
-    
+
     'Desencrypt File Header
     encryptHeaderFile file_head
    
@@ -884,4 +898,76 @@ errhandler:
     Close file_handler
     File_Find.strFileName = ""
     File_Find.lngFileSize = 0
+End Function
+
+Public Function General_Load_Picture_From_Resource(ByVal picture_file_name As String, Optional ByVal Skin As Boolean = False) As IPicture
+'*****************************************
+'Autor: Lorwik
+'Fecha: 24/08/2020
+'Descripción: Carga un archivo de interfaz de los recursos comprimidos
+'*****************************************
+
+On Error GoTo ErrorHandler
+
+    Dim bytArr() As Byte
+    
+    If Skin Then
+        If Extract_File_Memory(srcFileType.Skin, picture_file_name, bytArr()) Then
+            Set General_Load_Picture_From_Resource = General_Load_Picture_From_BArray(bytArr())
+        Else
+            Set General_Load_Picture_From_Resource = Nothing
+        End If
+        
+        Exit Function
+        
+    Else
+        If Extract_File_Memory(srcFileType.Interface, picture_file_name, bytArr()) Then
+            Set General_Load_Picture_From_Resource = General_Load_Picture_From_BArray(bytArr())
+        Else
+            Set General_Load_Picture_From_Resource = Nothing
+        End If
+        
+        Exit Function
+        
+    End If
+
+ErrorHandler:
+
+End Function
+
+Public Function General_Load_Picture_From_BArray(ByRef bytArr() As Byte) As IPicture
+'*****************************************
+'Autor: ???
+'Fecha: ?????
+'Descripción: Carga imagenes desde la memoria
+'*****************************************
+On Error GoTo ErrorHandler
+
+    Dim LowerBound As Long
+    Dim ByteCount As Long
+    Dim hMem As Long
+    Dim lpMem As Long
+    Dim IID_IPicture(15) As Long
+    Dim istm As stdole.IUnknown
+        
+    LowerBound = LBound(bytArr)
+    ByteCount = (UBound(bytArr) - LowerBound) + 1
+    hMem = GlobalAlloc(&H2, ByteCount)
+    If hMem <> 0 Then
+        lpMem = GlobalLock(hMem)
+        If lpMem <> 0 Then
+            MoveMemory ByVal lpMem, bytArr(LowerBound), ByteCount
+            Call GlobalUnlock(hMem)
+            If CreateStreamOnHGlobal(hMem, 1, istm) = 0 Then
+                If CLSIDFromString(StrPtr("{7BF80980-BF32-101A-8BBB-00AA00300CAB}"), IID_IPicture(0)) = 0 Then
+                    Call OleLoadPicture(ByVal ObjPtr(istm), ByteCount, 0, IID_IPicture(0), General_Load_Picture_From_BArray)
+                End If
+            End If
+        End If
+    End If
+    
+    Exit Function
+
+ErrorHandler:
+
 End Function
