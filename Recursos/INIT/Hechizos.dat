@@ -1,5 +1,5 @@
 [INIT]
-NUMHECHIZOS=51
+NUMHECHIZOS=53
 [HECHIZO1]
 Desc=Con este conjuro podrás mutar los fluidos tóxicos de tu cuerpo para detener su vil accionar, contrarrestando los efectos nocivos de todo tipo de ponzoñas y venenos. Se trata de un conjuro tan simple como necesario, puesto que, además de los magos que provocan envenenamiento, son varias las criaturas que lanzan veneno en estas tierras.
 PalabrasMagicas=NIHIL VED
@@ -496,3 +496,18 @@ HechizeroMsg=Comienzas abrir un portal al Vacio Abissal.
 MinSkill=100
 ManaRequerido=1100
 StaRequerido=500
+
+[HECHIZO52]
+Nombre=Bomba Electrica
+Desc=Éste es uno de los hechizos de daño más poderoso de todo el Argentum. Al controlarlo podrás manipular las fuerzas de la naturaleza de modo tal que del cielo mismo caiga una fuerte descarga de electricidad sobre el objetivo. El daño que provoca en sus vícitimas puede ser mortal frente a principiantes o aprendices.
+PalabrasMagicas=T'HY KOOOL AREA
+HechizeroMsg=Has lanzado una descarga eléctrica sobre 
+TargetMsg=ha lanzado una descarga eléctrica sobre ti.
+
+[HECHIZO53]
+Nombre=Palabra de los dioses
+Desc=Recitas una plegaria a los dioses para sanar a multiples objetivos
+PalabrasMagicas=EN CORP SANCTIS
+HechizeroMsg=Le has sanado a 
+TargetMsg=te ha sanado.
+PropioMsg=Te has sanado.
