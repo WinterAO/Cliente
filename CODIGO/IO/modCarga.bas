@@ -487,27 +487,41 @@ End Sub
 Public Sub CargarCabezas()
 On Error GoTo errhandler:
 
-    Dim N As Integer
-    Dim i As Integer
-    Dim LaCabecera As tCabecera
+    Dim buffer()    As Byte
+    Dim dLen        As Long
+    Dim InfoHead    As INFOHEADER
+    Dim i           As Integer
+    Dim LaCabecera  As tCabecera
+    Dim fileBuff  As clsByteBuffer
     
-    N = FreeFile()
-    Open Carga.Path(Script) & "Head.ind" For Binary Access Read As #N
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Head.ind"))
     
-        Get #N, , LaCabecera
+    If InfoHead.lngFileSize <> 0 Then
     
-        Get #N, , NumHeads   'cantidad de cabezas
-
+        Extract_File_Memory Scripts, LCase$("Head.ind"), buffer()
+        
+        Set fileBuff = New clsByteBuffer
+        
+        fileBuff.initializeReader buffer
+        
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
+        
+        NumHeads = fileBuff.getInteger()  'cantidad de cabezas
+    
         ReDim heads(0 To NumHeads) As tHead
-            
+                
         For i = 1 To NumHeads
-            Get #N, , heads(i).Std
-            Get #N, , heads(i).Texture
-            Get #N, , heads(i).startX
-            Get #N, , heads(i).startY
+            heads(i).Std = fileBuff.getByte()
+            heads(i).Texture = fileBuff.getInteger()
+            heads(i).startX = fileBuff.getInteger()
+            heads(i).startY = fileBuff.getInteger()
         Next i
-
-    Close #N
+        
+    End If
+    
+    Set fileBuff = Nothing
     
 errhandler:
     
@@ -525,28 +539,41 @@ End Sub
 Public Sub CargarCascos()
 On Error GoTo errhandler:
 
-    Dim N As Integer
-    Dim i As Integer
-    Dim LaCabecera As tCabecera
+    Dim buffer()    As Byte
+    Dim dLen        As Long
+    Dim InfoHead    As INFOHEADER
+    Dim i           As Integer
+    Dim LaCabecera  As tCabecera
+    Dim fileBuff  As clsByteBuffer
     
-    N = FreeFile()
-    Open Carga.Path(Script) & "Helmet.ind" For Binary Access Read As #N
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Helmet.ind"))
     
-        Get #N, , LaCabecera
+    If InfoHead.lngFileSize <> 0 Then
     
-        Get #N, , NumCascos   'cantidad de cascos
+        Extract_File_Memory Scripts, LCase$("Helmet.ind"), buffer()
+        
+        Set fileBuff = New clsByteBuffer
+        
+        fileBuff.initializeReader buffer
+        
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
+    
+        NumCascos = fileBuff.getInteger()   'cantidad de cascos
              
         ReDim Cascos(0 To NumCascos) As tHead
              
         For i = 1 To NumCascos
-            Get #N, , Cascos(i).Std
-            Get #N, , Cascos(i).Texture
-            Get #N, , Cascos(i).startX
-            Get #N, , Cascos(i).startY
-                
+            Cascos(i).Std = fileBuff.getByte()
+            Cascos(i).Texture = fileBuff.getInteger()
+            Cascos(i).startX = fileBuff.getInteger()
+            Cascos(i).startY = fileBuff.getInteger()
         Next i
          
-    Close #N
+    End If
+    
+    Set fileBuff = Nothing
     
 errhandler:
     
@@ -564,40 +591,58 @@ End Sub
 Sub CargarCuerpos()
 On Error GoTo errhandler:
 
-    Dim N As Integer
-    Dim i As Long
+    Dim buffer()    As Byte
+    Dim dLen        As Long
+    Dim InfoHead    As INFOHEADER
+    Dim i           As Long
     Dim NumCuerpos As Integer
     Dim MisCuerpos() As tIndiceCuerpo
     Dim LaCabecera As tCabecera
+    Dim fileBuff  As clsByteBuffer
     
-    N = FreeFile()
-    Open Carga.Path(Script) & "Personajes.ind" For Binary Access Read As #N
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Personajes.ind"))
     
-    'cabecera
-    Get #N, , LaCabecera
+    If InfoHead.lngFileSize <> 0 Then
     
-    'num de cabezas
-    Get #N, , NumCuerpos
-    
-    'Resize array
-    ReDim BodyData(0 To NumCuerpos) As BodyData
-    ReDim MisCuerpos(0 To NumCuerpos) As tIndiceCuerpo
-    
-    For i = 1 To NumCuerpos
-        Get #N, , MisCuerpos(i)
+        Extract_File_Memory Scripts, LCase$("Personajes.ind"), buffer()
         
-        If MisCuerpos(i).Body(1) Then
-            Call InitGrh(BodyData(i).Walk(1), MisCuerpos(i).Body(1), 0)
-            Call InitGrh(BodyData(i).Walk(2), MisCuerpos(i).Body(2), 0)
-            Call InitGrh(BodyData(i).Walk(3), MisCuerpos(i).Body(3), 0)
-            Call InitGrh(BodyData(i).Walk(4), MisCuerpos(i).Body(4), 0)
-            
-            BodyData(i).HeadOffset.X = MisCuerpos(i).HeadOffsetX
-            BodyData(i).HeadOffset.Y = MisCuerpos(i).HeadOffsetY
-        End If
-    Next i
+        Set fileBuff = New clsByteBuffer
+        
+        fileBuff.initializeReader buffer
+        
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
     
-    Close #N
+        'num de cabezas
+        NumCuerpos = fileBuff.getInteger()
+    
+        'Resize array
+        ReDim BodyData(0 To NumCuerpos) As BodyData
+        ReDim MisCuerpos(0 To NumCuerpos) As tIndiceCuerpo
+    
+        For i = 1 To NumCuerpos
+            MisCuerpos(i).Body(1) = fileBuff.getLong()
+            MisCuerpos(i).Body(2) = fileBuff.getLong()
+            MisCuerpos(i).Body(3) = fileBuff.getLong()
+            MisCuerpos(i).Body(4) = fileBuff.getLong()
+            MisCuerpos(i).HeadOffsetX = fileBuff.getInteger()
+            MisCuerpos(i).HeadOffsetY = fileBuff.getInteger()
+            
+            If MisCuerpos(i).Body(1) Then
+                Call InitGrh(BodyData(i).Walk(1), MisCuerpos(i).Body(1), 0)
+                Call InitGrh(BodyData(i).Walk(2), MisCuerpos(i).Body(2), 0)
+                Call InitGrh(BodyData(i).Walk(3), MisCuerpos(i).Body(3), 0)
+                Call InitGrh(BodyData(i).Walk(4), MisCuerpos(i).Body(4), 0)
+                
+                BodyData(i).HeadOffset.X = MisCuerpos(i).HeadOffsetX
+                BodyData(i).HeadOffset.Y = MisCuerpos(i).HeadOffsetY
+            End If
+        Next i
+    
+    End If
+    
+    Set fileBuff = Nothing
     
 errhandler:
     
@@ -615,28 +660,43 @@ End Sub
 Sub CargarFxs()
 On Error GoTo errhandler:
 
-    Dim N As Integer
-    Dim i As Long
-    Dim NumFxs As Integer
-    Dim LaCabecera As tCabecera
-
-    N = FreeFile
-    Open Carga.Path(Script) & "FXs.ind" For Binary Access Read As #N
+    Dim buffer()    As Byte
+    Dim dLen        As Long
+    Dim InfoHead    As INFOHEADER
+    Dim i           As Long
+    Dim NumFxs      As Integer
+    Dim LaCabecera  As tCabecera
+    Dim fileBuff  As clsByteBuffer
     
-    'cabecera
-    Get #N, , LaCabecera
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("FXs.ind"))
     
-    'num de cabezas
-    Get #N, , NumFxs
+    If InfoHead.lngFileSize <> 0 Then
     
-    'Resize array
-    ReDim FxData(1 To NumFxs) As tIndiceFx
+        Extract_File_Memory Scripts, LCase$("FXs.ind"), buffer()
+        
+        Set fileBuff = New clsByteBuffer
+        
+        fileBuff.initializeReader buffer
+        
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
     
-    For i = 1 To NumFxs
-        Get #N, , FxData(i)
-    Next i
+        'num de Fxs
+        NumFxs = fileBuff.getInteger()
+        
+        'Resize array
+        ReDim FxData(1 To NumFxs) As tIndiceFx
+        
+        For i = 1 To NumFxs
+            FxData(i).Animacion = fileBuff.getLong()
+            FxData(i).OffsetX = fileBuff.getInteger()
+            FxData(i).OffsetY = fileBuff.getInteger()
+        Next i
     
-    Close #N
+    End If
+    
+    Set fileBuff = Nothing
 
 errhandler:
     
@@ -677,37 +737,53 @@ End Sub
 Sub CargarAnimArmas()
 On Error GoTo errhandler:
 
-    Dim N As Integer
+    Dim buffer()    As Byte
+    Dim dLen        As Long
+    Dim InfoHead    As INFOHEADER
     Dim i As Long
     Dim LaCabecera As tCabecera
+    Dim fileBuff  As clsByteBuffer
     
-    N = FreeFile
-    Open Carga.Path(Script) & "Armas.ind" For Binary Access Read As #N
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Armas.ind"))
     
-    'cabecera
-    Get #N, , LaCabecera
+    If InfoHead.lngFileSize <> 0 Then
     
-    'num de cabezas
-    Get #N, , NumWeaponAnims
-    
-    'Resize array
-    ReDim WeaponAnimData(1 To NumWeaponAnims) As WeaponAnimData
-    ReDim Weapons(1 To NumWeaponAnims) As tIndiceArmas
-    
-    For i = 1 To NumWeaponAnims
-        Get #N, , Weapons(i)
+        Extract_File_Memory Scripts, LCase$("Armas.ind"), buffer()
         
-        If Weapons(i).weapon(1) Then
+        Set fileBuff = New clsByteBuffer
         
-            Call InitGrh(WeaponAnimData(i).WeaponWalk(1), Weapons(i).weapon(1), 0)
-            Call InitGrh(WeaponAnimData(i).WeaponWalk(2), Weapons(i).weapon(2), 0)
-            Call InitGrh(WeaponAnimData(i).WeaponWalk(3), Weapons(i).weapon(3), 0)
-            Call InitGrh(WeaponAnimData(i).WeaponWalk(4), Weapons(i).weapon(4), 0)
+        fileBuff.initializeReader buffer
         
-        End If
-    Next i
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
     
-    Close #N
+        'num de armas
+        NumWeaponAnims = fileBuff.getInteger()
+        
+        'Resize array
+        ReDim WeaponAnimData(1 To NumWeaponAnims) As WeaponAnimData
+        ReDim Weapons(1 To NumWeaponAnims) As tIndiceArmas
+        
+        For i = 1 To NumWeaponAnims
+            Weapons(i).weapon(1) = fileBuff.getLong()
+            Weapons(i).weapon(2) = fileBuff.getLong()
+            Weapons(i).weapon(3) = fileBuff.getLong()
+            Weapons(i).weapon(4) = fileBuff.getLong()
+            
+            If Weapons(i).weapon(1) Then
+            
+                Call InitGrh(WeaponAnimData(i).WeaponWalk(1), Weapons(i).weapon(1), 0)
+                Call InitGrh(WeaponAnimData(i).WeaponWalk(2), Weapons(i).weapon(2), 0)
+                Call InitGrh(WeaponAnimData(i).WeaponWalk(3), Weapons(i).weapon(3), 0)
+                Call InitGrh(WeaponAnimData(i).WeaponWalk(4), Weapons(i).weapon(4), 0)
+            
+            End If
+        Next i
+    
+    End If
+    
+    Set fileBuff = Nothing
 
 errhandler:
     
@@ -766,37 +842,53 @@ End Sub
 Sub CargarAnimEscudos()
 On Error GoTo errhandler:
 
-    Dim N As Integer
+    Dim buffer()    As Byte
+    Dim dLen        As Long
+    Dim InfoHead    As INFOHEADER
     Dim i As Long
     Dim LaCabecera As tCabecera
+    Dim fileBuff  As clsByteBuffer
     
-    N = FreeFile
-    Open Carga.Path(Script) & "Escudos.ind" For Binary Access Read As #N
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Escudos.ind"))
     
-    'cabecera
-    Get #N, , LaCabecera
+    If InfoHead.lngFileSize <> 0 Then
     
-    'num de cabezas
-    Get #N, , NumEscudosAnims
-    
-    'Resize array
-    ReDim ShieldAnimData(1 To NumWeaponAnims) As ShieldAnimData
-    ReDim Shields(1 To NumWeaponAnims) As tIndiceEscudos
-    
-    For i = 1 To NumEscudosAnims
-        Get #N, , Shields(i)
+        Extract_File_Memory Scripts, LCase$("Escudos.ind"), buffer()
         
-        If Shields(i).shield(1) Then
+        Set fileBuff = New clsByteBuffer
         
-            Call InitGrh(ShieldAnimData(i).ShieldWalk(1), Shields(i).shield(1), 0)
-            Call InitGrh(ShieldAnimData(i).ShieldWalk(2), Shields(i).shield(2), 0)
-            Call InitGrh(ShieldAnimData(i).ShieldWalk(3), Shields(i).shield(3), 0)
-            Call InitGrh(ShieldAnimData(i).ShieldWalk(4), Shields(i).shield(4), 0)
+        fileBuff.initializeReader buffer
         
-        End If
-    Next i
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
     
-    Close #N
+        'num de escudos
+        NumEscudosAnims = fileBuff.getInteger()
+        
+        'Resize array
+        ReDim ShieldAnimData(1 To NumWeaponAnims) As ShieldAnimData
+        ReDim Shields(1 To NumWeaponAnims) As tIndiceEscudos
+        
+        For i = 1 To NumEscudosAnims
+            Shields(i).shield(1) = fileBuff.getLong()
+            Shields(i).shield(2) = fileBuff.getLong()
+            Shields(i).shield(3) = fileBuff.getLong()
+            Shields(i).shield(4) = fileBuff.getLong()
+            
+            If Shields(i).shield(1) Then
+            
+                Call InitGrh(ShieldAnimData(i).ShieldWalk(1), Shields(i).shield(1), 0)
+                Call InitGrh(ShieldAnimData(i).ShieldWalk(2), Shields(i).shield(2), 0)
+                Call InitGrh(ShieldAnimData(i).ShieldWalk(3), Shields(i).shield(3), 0)
+                Call InitGrh(ShieldAnimData(i).ShieldWalk(4), Shields(i).shield(4), 0)
+            
+            End If
+        Next i
+    
+    End If
+    
+    Set fileBuff = Nothing
 
 errhandler:
     
