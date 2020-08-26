@@ -374,12 +374,12 @@ Sub SwitchMap(ByVal Map As Integer)
 'Descripción: Intentamos descomprimir el mapa, si existe lo cargamos
 '**********************************************************************************
     
-    Dim Dir_Map As String
-    Dim bytArr() As Byte
+    Dim bytArr()    As Byte
+    Dim InfoHead    As INFOHEADER
     
-    Dir_Map = Get_Extract(srcFileType.Map, "Mapa" & Map & ".csm")
-
-    If FileExist(Dir_Map, vbArchive) Then
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Mapas.WAO", LCase$("Mapa" & Map & ".csm"))
+    
+    If InfoHead.lngFileSize <> 0 Then
 
         'Limpieza adicional del mapa. PARCHE: Solucion a bug de clones. [Gracias Yhunja]
         'EDIT: cambio el rango de valores en x y para solucionar otro bug con respecto al cambio de mapas
@@ -395,7 +395,7 @@ Sub SwitchMap(ByVal Map As Integer)
         Call LightRemoveAll
         
         'Cargamos el mapa.
-        Call Carga.CargarMapa(Map, Dir_Map)
+        Call Carga.CargarMapa(Map)
         
         'Dibujamos el Mini-Mapa'
         If Extract_File_Memory(srcFileType.Minimap, Map & ".bmp", bytArr()) Then

@@ -969,7 +969,7 @@ errorH:
 
 End Sub
 
-Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
+Sub CargarMapa(ByVal Map As Integer)
 
     On Error GoTo ErrorHandler
 
@@ -994,75 +994,154 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
     Dim j            As Long
 
     Dim LaCabecera   As tCabecera
-
+    
+    Dim buffer()     As Byte
+    Dim fileBuff     As clsByteBuffer
+    
     DoEvents
     
-    fh = FreeFile
-    Open Dir_Map For Binary Access Read As fh
+    Extract_File_Memory srcFileType.Map, LCase$("Mapa" & Map & ".csm"), buffer()
     
-    Get #fh, , LaCabecera
+    Set fileBuff = New clsByteBuffer
+        
+    fileBuff.initializeReader buffer
     
-    Get #fh, , MH
-    Get #fh, , MapSize
+    With LaCabecera
+        .Desc = fileBuff.getString(Len(.Desc))
+        .CRC = fileBuff.getLong
+        .MagicWord = fileBuff.getLong
+    End With
     
-    Get #fh, , MapDat
+    With MH
+        .NumeroBloqueados = fileBuff.getLong()
+        .NumeroLayers(2) = fileBuff.getLong()
+        .NumeroLayers(3) = fileBuff.getLong()
+        .NumeroLayers(4) = fileBuff.getLong()
+        .NumeroTriggers = fileBuff.getLong()
+        .NumeroLuces = fileBuff.getLong()
+        .NumeroParticulas = fileBuff.getLong()
+        .NumeroNPCs = fileBuff.getLong()
+        .NumeroOBJs = fileBuff.getLong()
+        .NumeroTE = fileBuff.getLong()
+    End With
+    
+    With MapSize
+        .XMax = fileBuff.getInteger()
+        .XMin = fileBuff.getInteger()
+        .YMax = fileBuff.getInteger()
+        .YMin = fileBuff.getInteger()
+    End With
+
+    With MapDat
+        .map_name = fileBuff.getString()
+        .battle_mode = fileBuff.getBoolean()
+        .backup_mode = fileBuff.getBoolean()
+        .restrict_mode = fileBuff.getString()
+        .music_number = fileBuff.getString()
+        .zone = fileBuff.getString()
+        .terrain = fileBuff.getString()
+        .Ambient = fileBuff.getString()
+        .lvlMinimo = fileBuff.getString()
+        .RoboNpcsPermitido = fileBuff.getBoolean()
+        .InvocarSinEfecto = fileBuff.getBoolean()
+        .OcultarSinEfecto = fileBuff.getBoolean()
+        .ResuSinEfecto = fileBuff.getBoolean()
+        .MagiaSinEfecto = fileBuff.getBoolean()
+        .InviSinEfecto = fileBuff.getBoolean()
+        .NoEncriptarMP = fileBuff.getBoolean()
+        .version = fileBuff.getLong()
+    End With
     
     With MapSize
         ReDim MapData(.XMin To .XMax, .YMin To .YMax)
         ReDim L1(.XMin To .XMax, .YMin To .YMax)
     End With
-    
-    Get #fh, , L1
+
+    For j = MapSize.YMin To MapSize.YMax
+        For i = MapSize.XMin To MapSize.XMax
+
+            L1(i, j) = fileBuff.getLong()
+            
+            If L1(i, j) > 0 Then
+                Call InitGrh(MapData(i, j).Graphic(1), L1(i, j))
+            End If
+
+        Next i
+    Next j
     
     With MH
 
         If .NumeroBloqueados > 0 Then
             ReDim Blqs(1 To .NumeroBloqueados)
-            Get #fh, , Blqs
 
             For i = 1 To .NumeroBloqueados
-                MapData(Blqs(i).X, Blqs(i).Y).Blocked = 1
+                With Blqs(i)
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+                    MapData(.X, .Y).Blocked = 1
+                End With
             Next i
 
         End If
         
         If .NumeroLayers(2) > 0 Then
             ReDim L2(1 To .NumeroLayers(2))
-            Get #fh, , L2
-
+            
             For i = 1 To .NumeroLayers(2)
-                Call InitGrh(MapData(L2(i).X, L2(i).Y).Graphic(2), L2(i).GrhIndex)
+            
+                With L2(i)
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+                    .GrhIndex = fileBuff.getLong()
+                
+                    Call InitGrh(MapData(.X, .Y).Graphic(2), .GrhIndex)
+                End With
             Next i
 
         End If
         
         If .NumeroLayers(3) > 0 Then
             ReDim L3(1 To .NumeroLayers(3))
-            Get #fh, , L3
 
             For i = 1 To .NumeroLayers(3)
-                Call InitGrh(MapData(L3(i).X, L3(i).Y).Graphic(3), L3(i).GrhIndex)
+            
+                With L3(i)
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+                    .GrhIndex = fileBuff.getLong()
+                
+                    Call InitGrh(MapData(.X, .Y).Graphic(3), .GrhIndex)
+                End With
             Next i
 
         End If
         
         If .NumeroLayers(4) > 0 Then
             ReDim L4(1 To .NumeroLayers(4))
-            Get #fh, , L4
-
+            
             For i = 1 To .NumeroLayers(4)
-                Call InitGrh(MapData(L4(i).X, L4(i).Y).Graphic(4), L4(i).GrhIndex)
+            
+                With L4(i)
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+                    .GrhIndex = fileBuff.getLong()
+  
+                    Call InitGrh(MapData(.X, .Y).Graphic(4), .GrhIndex)
+                End With
             Next i
 
         End If
         
         If .NumeroTriggers > 0 Then
             ReDim Triggers(1 To .NumeroTriggers)
-            Get #fh, , Triggers
-
+            
             For i = 1 To .NumeroTriggers
                 
                 With Triggers(i)
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+                    .Trigger = fileBuff.getInteger()
+                
                     MapData(.X, .Y).Trigger = .Trigger
                 End With
                 
@@ -1072,11 +1151,14 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
         
         If .NumeroParticulas > 0 Then
             ReDim Particulas(1 To .NumeroParticulas)
-            Get #fh, , Particulas
-            
+
             For i = 1 To .NumeroParticulas
 
                 With Particulas(i)
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+                    .Particula = fileBuff.getLong()
+                
                     MapData(.X, .Y).Particle_Group_Index = General_Particle_Create(.Particula, .X, .Y)
                 End With
 
@@ -1087,9 +1169,18 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
         If .NumeroLuces > 0 Then
             ReDim Luces(1 To .NumeroLuces)
             Dim p As Byte
-            Get #fh, , Luces
+            
             For i = 1 To .NumeroLuces
-                Call Create_Light_To_Map(Luces(i).X, Luces(i).Y, Luces(i).range, Luces(i).r, Luces(i).g, Luces(i).b)
+                With Luces(i)
+                    .r = fileBuff.getInteger()
+                    .g = fileBuff.getInteger()
+                    .b = fileBuff.getInteger()
+                    .range = fileBuff.getByte()
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+
+                    Call Create_Light_To_Map(.X, .Y, .range, .r, .g, .b)
+                End With
             Next i
             
             Call LightRenderAll
@@ -1097,56 +1188,25 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
             
         If .NumeroOBJs > 0 Then
             ReDim Objetos(1 To .NumeroOBJs)
-            Get #fh, , Objetos
             
             For i = 1 To .NumeroOBJs
-                'Erase OBJs
-                MapData(Objetos(i).X, Objetos(i).Y).ObjGrh.GrhIndex = 0
-            Next i
-            
-        End If
-            
-        If .NumeroNPCs > 0 Then
-            ReDim NPCs(1 To .NumeroNPCs)
-            Get #fh, , NPCs
-            
-            For i = 1 To .NumeroNPCs
-                MapData(NPCs(i).X, NPCs(i).Y).NPCIndex = NPCs(i).NPCIndex
-            Next
-                
-        End If
 
-        If .NumeroTE > 0 Then
-            ReDim TEs(1 To .NumeroTE)
-            Get #fh, , TEs
-
-            For i = 1 To .NumeroTE
+                With Objetos(i)
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+                    .objindex = fileBuff.getInteger()
+                    .ObjAmmount = fileBuff.getInteger()
                 
-                With TEs(i)
-                
-                    MapData(.X, .Y).TileExit.Map = .DestM
-                    MapData(.X, .Y).TileExit.X = .DestX
-                    MapData(.X, .Y).TileExit.Y = .DestY
-                
+                    'Erase OBJs
+                    MapData(.X, .Y).ObjGrh.GrhIndex = 0
                 End With
-                
             Next i
-
+            
         End If
         
     End With
-
-    Close fh
-
-    For j = MapSize.YMin To MapSize.YMax
-        For i = MapSize.XMin To MapSize.XMax
-
-            If L1(i, j) > 0 Then
-                Call InitGrh(MapData(i, j).Graphic(1), L1(i, j))
-            End If
-
-        Next i
-    Next j
+    
+    Set fileBuff = Nothing
     
     '*******************************
     'INFORMACION DEL MAPA
@@ -1158,7 +1218,6 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
     mapInfo.Zona = MapDat.zone
     mapInfo.Terreno = MapDat.terrain
 
-    DeleteFile Dir_Map
 ErrorHandler:
     
     If fh <> 0 Then Close fh
