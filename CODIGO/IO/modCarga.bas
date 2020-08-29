@@ -387,32 +387,42 @@ End Sub
 Public Sub LoadGrhData()
 On Error GoTo ErrorHandler:
 
-    Dim Grh As Long
-    Dim Frame As Long
-    Dim grhCount As Long
-    Dim handle As Integer
+    Dim Grh         As Long
+    Dim Frame       As Long
+    Dim grhCount    As Long
     Dim fileVersion As Long
-    Dim LaCabecera As tCabecera
+    Dim LaCabecera  As tCabecera
+    Dim fileBuff    As clsByteBuffer
+    Dim InfoHead    As INFOHEADER
+    Dim buffer()    As Byte
     
-    'Open files
-    handle = FreeFile()
-    Open IniPath & "Graficos.ind" For Binary Access Read As #handle
-        
-        Get handle, , LaCabecera
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Graficos.ind"))
     
-        Get handle, , fileVersion
+    If InfoHead.lngFileSize <> 0 Then
+    
+        Extract_File_Memory Scripts, LCase$("Graficos.ind"), buffer()
         
-        Get handle, , grhCount
+        Set fileBuff = New clsByteBuffer
+        
+        fileBuff.initializeReader buffer
+        
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
+    
+        fileVersion = fileBuff.getLong
+        
+        grhCount = fileBuff.getLong
         
         ReDim GrhData(0 To grhCount) As GrhData
         
         While Grh < grhCount
-            Get handle, , Grh
+            Grh = fileBuff.getLong
 
             With GrhData(Grh)
             
                 '.active = True
-                Get handle, , .NumFrames
+                .NumFrames = fileBuff.getInteger
                 If .NumFrames <= 0 Then GoTo ErrorHandler
                 
                 ReDim .Frames(1 To .NumFrames)
@@ -420,11 +430,11 @@ On Error GoTo ErrorHandler:
                 If .NumFrames > 1 Then
                 
                     For Frame = 1 To .NumFrames
-                        Get handle, , .Frames(Frame)
+                        .Frames(Frame) = fileBuff.getLong
                         If .Frames(Frame) <= 0 Or .Frames(Frame) > grhCount Then GoTo ErrorHandler
                     Next Frame
                     
-                    Get handle, , .speed
+                    .speed = fileBuff.getSingle
                     If .speed <= 0 Then GoTo ErrorHandler
                     
                     .pixelHeight = GrhData(.Frames(1)).pixelHeight
@@ -441,19 +451,19 @@ On Error GoTo ErrorHandler:
                     
                 Else
                     
-                    Get handle, , .FileNum
+                    .FileNum = fileBuff.getLong
                     If .FileNum <= 0 Then GoTo ErrorHandler
                     
-                    Get handle, , .pixelWidth
+                    .pixelWidth = fileBuff.getInteger
                     If .pixelWidth <= 0 Then GoTo ErrorHandler
                     
-                    Get handle, , .pixelHeight
+                    .pixelHeight = fileBuff.getInteger
                     If .pixelHeight <= 0 Then GoTo ErrorHandler
                     
-                    Get handle, , GrhData(Grh).sX
+                    .sX = fileBuff.getInteger
                     If .sX < 0 Then GoTo ErrorHandler
                     
-                    Get handle, , .sY
+                    .sY = fileBuff.getInteger
                     If .sY < 0 Then GoTo ErrorHandler
                     
                     .TileWidth = .pixelWidth / TilePixelHeight
@@ -467,7 +477,9 @@ On Error GoTo ErrorHandler:
             
         Wend
     
-    Close handle
+    End If
+    
+    Set fileBuff = Nothing
     
 Exit Sub
 
@@ -488,7 +500,6 @@ Public Sub CargarCabezas()
 On Error GoTo errhandler:
 
     Dim buffer()    As Byte
-    Dim dLen        As Long
     Dim InfoHead    As INFOHEADER
     Dim i           As Integer
     Dim LaCabecera  As tCabecera

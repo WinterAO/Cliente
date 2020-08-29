@@ -118,9 +118,9 @@ Private Sub Form_Load()
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
     ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
     If Language = "spanish" Then
-      Me.Picture = General_Load_Picture_From_Resource("VentanaNombreClan_spanish.gif", False)
+      Me.Picture = General_Load_Picture_From_Resource("89.gif", False)
     Else
-      Me.Picture = General_Load_Picture_From_Resource("VentanaNombreClan_english.gif", False)
+      Me.Picture = General_Load_Picture_From_Resource("90.gif", False)
     End If
         
     Call LoadButtons
@@ -145,13 +145,13 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
     
     
-    Call cBotonSiguiente.Initialize(imgSiguiente, "BotonSiguienteNombreClan.gif", _
-                                    "BotonSiguienteRolloverNombreClan.gif", _
-                                    "BotonSiguienteClickNombreClan.gif", Me)
+    Call cBotonSiguiente.Initialize(imgSiguiente, "86.gif", _
+                                    "87.gif", _
+                                    "88.gif", Me)
 
-    Call cBotonCancelar.Initialize(imgCancelar, "BotonCancelarNombreClan.gif", _
-                                    "BotonCancelarRolloverNombreClan.gif", _
-                                    "BotonCancelarClickNombreClan.gif", Me)
+    Call cBotonCancelar.Initialize(imgCancelar, "85.gif", _
+                                    "84.gif", _
+                                    "83.gif", Me)
 
 End Sub
 

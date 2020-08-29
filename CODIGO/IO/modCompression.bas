@@ -365,26 +365,10 @@ On Local Error GoTo errhandler
         Case Music
             SourceFilePath = App.Path & SrcPath & "Music" & Formato
             OutputFilePath = App.Path & "\EXTRAIDOS\Musica\"
-            
-        Case Wav
-            SourceFilePath = App.Path & SrcPath & "Sounds" & Formato
-            OutputFilePath = App.Path & "\EXTRAIDOS\Wav\"
-            
+
         Case Scripts
             SourceFilePath = App.Path & SrcPath & "Scripts" & Formato
             OutputFilePath = App.Path & "\EXTRAIDOS\Init\"
-            
-        Case Map
-            SourceFilePath = App.Path & SrcPath & "Mapas" & Formato
-            OutputFilePath = App.Path & "\EXTRAIDOS\Mapas\"
-            
-        Case Fuentes
-            SourceFilePath = App.Path & SrcPath & "Fuentes" & Formato
-            OutputFilePath = App.Path & "\EXTRAIDOS\Fuentes\"
-            
-        Case Patch
-            SourceFilePath = App.Path & SrcPath & "Patch" & Formato
-            OutputFilePath = App.Path & "\EXTRAIDOS\Patch\"
         
         Case Else
             Exit Function

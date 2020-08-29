@@ -42,11 +42,10 @@ Public Type Stream
     move_x2 As Long
     move_y1 As Long
     move_y2 As Long
-    grh_list() As Long
-    colortint(0 To 3) As RGB
-    
     speed As Single
     life_counter As Long
+    grh_list() As Long
+    colortint(0 To 3) As RGB
 End Type
 
 Private Type Particle

@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin VB.Form frmMSG 
    BorderStyle     =   0  'None
-   ClientHeight    =   3270
+   ClientHeight    =   3150
    ClientLeft      =   120
    ClientTop       =   45
-   ClientWidth     =   2445
+   ClientWidth     =   2505
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    BeginProperty Font 
@@ -19,11 +19,19 @@ Begin VB.Form frmMSG
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   218
+   ScaleHeight     =   210
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   163
+   ScaleWidth      =   167
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
+   Begin VB.CommandButton imgCerrar 
+      Caption         =   "Cerrar"
+      Height          =   360
+      Left            =   240
+      TabIndex        =   1
+      Top             =   2520
+      Width           =   1890
+   End
    Begin VB.ListBox List1 
       Appearance      =   0  'Flat
       BackColor       =   &H00000000&
@@ -42,13 +50,6 @@ Begin VB.Form frmMSG
       TabIndex        =   0
       Top             =   615
       Width           =   1845
-   End
-   Begin VB.Image imgCerrar 
-      Height          =   420
-      Left            =   375
-      Tag             =   "1"
-      Top             =   2640
-      Width           =   1710
    End
    Begin VB.Menu menU_usuario 
       Caption         =   "Usuario"
@@ -105,10 +106,6 @@ Option Explicit
 
 Private clsFormulario As clsFormMovementManager
 
-Private cBotonCerrar As clsGraphicalButton
-
-Public LastButtonPressed As clsGraphicalButton
-
 Private Const MAX_GM_MSG = 300
 
 Private MisMSG(0 To MAX_GM_MSG) As String
@@ -135,32 +132,6 @@ Private Sub Form_Load()
     
     List1.Clear
     
-    ' TODO: Traducir los textos de las imagenes via labels en visual basic, para que en el futuro si se quiere se pueda traducir a mas idiomas
-    ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
-    ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
-    If Language = "spanish" Then
-      Me.Picture = General_Load_Picture_From_Resource("VentanaShowSos_spanish.gif", False)
-    Else
-      Me.Picture = General_Load_Picture_From_Resource("VentanaShowSos_english.gif", False)
-    End If
-    
-    Call LoadButtons
-End Sub
-
-Private Sub LoadButtons()
-
-    Set cBotonCerrar = New clsGraphicalButton
-    
-    Set LastButtonPressed = New clsGraphicalButton
-    
-    
-    Call cBotonCerrar.Initialize(imgCerrar, "BotonCerrarShowSos.gif", _
-                                    "BotonCerrarRolloverShowSos.gif", _
-                                    "BotonCerrarClickShowSos.gif", Me)
-End Sub
-
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    LastButtonPressed.ToggleToNormal
 End Sub
 
 Private Sub imgCerrar_Click()
@@ -178,10 +149,6 @@ Private Sub List1_MouseDown(Button As Integer, Shift As Integer, X As Single, Y 
         PopupMenu menU_usuario
     End If
 
-End Sub
-
-Private Sub List1_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    LastButtonPressed.ToggleToNormal
 End Sub
 
 Private Sub mnuBorrar_Click()

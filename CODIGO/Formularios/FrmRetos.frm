@@ -389,12 +389,12 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     Call clsFormulario.Initialize(Me)
     
-    Me.Picture = General_Load_Picture_From_Resource("VentanaRetos.gif", False)
+    Me.Picture = General_Load_Picture_From_Resource("131.gif", False)
     
     Call LoadTextsForm
 
-    Set picNegrita = General_Load_Picture_From_Resource("OpcionPrendidaN.gif", False)
-    Set picCursiva = General_Load_Picture_From_Resource("OpcionPrendidaC.gif", False)
+    Set picNegrita = General_Load_Picture_From_Resource("129.gif", False)
+    Set picCursiva = General_Load_Picture_From_Resource("130.gif", False)
 
 End Sub
 

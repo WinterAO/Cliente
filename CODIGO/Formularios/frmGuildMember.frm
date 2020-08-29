@@ -166,9 +166,9 @@ Private Sub Form_Load()
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
     ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
     If Language = "spanish" Then
-      Me.Picture = General_Load_Picture_From_Resource("VentanaMiembroClan_spanish.gif", False)
+      Me.Picture = General_Load_Picture_From_Resource("120.gif", False)
     Else
-      Me.Picture = General_Load_Picture_From_Resource("VentanaMiembroClan_english.gif", False)
+      Me.Picture = General_Load_Picture_From_Resource("121.gif", False)
     End If
 
     Call LoadButtons
@@ -184,17 +184,17 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
     
     
-    Call cBotonDetalles.Initialize(imgDetalles, "BotonDetallesMiembroClan.gif", _
-                                    "BotonDetallesRolloverMiembroClan.gif", _
-                                    "BotonDetallesClickMiembroClan.gif", Me)
+    Call cBotonDetalles.Initialize(imgDetalles, "117.gif", _
+                                    "118.gif", _
+                                    "119.gif", Me)
 
-    Call cBotonNoticias.Initialize(imgNoticias, "BotonNoticiasMiembroClan.gif", _
-                                    "BotonNoticiasRolloverMiembroClan.gif", _
-                                    "BotonNoticiasClickMiembroClan.gif", Me)
+    Call cBotonNoticias.Initialize(imgNoticias, "114.gif", _
+                                    "115.gif", _
+                                    "116.gif", Me)
 
-    Call cBotonCerrar.Initialize(imgCerrar, "BotonCerrarMimebroClan.gif", _
-                                    "BotonCerrarRolloverMimebroClan.gif", _
-                                    "BotonCerrarClickMimebroClan.gif", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "113.gif", _
+                                    "112.gif", _
+                                    "111.gif", Me)
 
 End Sub
 

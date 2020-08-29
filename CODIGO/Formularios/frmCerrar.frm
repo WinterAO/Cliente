@@ -151,7 +151,7 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     Call clsFormulario.Initialize(Me)
     
-    Me.Picture = General_Load_Picture_From_Resource("frmCerrar.gif", False)
+    Me.Picture = General_Load_Picture_From_Resource("91.gif", False)
 
     Call LoadFormTexts
 End Sub

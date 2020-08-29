@@ -121,9 +121,9 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
     
     
-    Call cBotonAceptar.Initialize(imgAceptar, "BotonAceptarUrl.gif", _
-                                    "BotonAceptaRolloverrUrl.gif", _
-                                    "BotonAceptarClickUrl.gif", Me)
+    Call cBotonAceptar.Initialize(imgAceptar, "32.gif", _
+                                    "31.gif", _
+                                    "30.gif", Me)
 
 End Sub
 

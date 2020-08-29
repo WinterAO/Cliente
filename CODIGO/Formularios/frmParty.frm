@@ -191,17 +191,17 @@ On Error GoTo Form_Load_Err
         ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
         ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
         If Language = "spanish" Then
-            Me.Picture = General_Load_Picture_From_Resource("VentanaPartyLider_spanish.gif", False)
+            Me.Picture = General_Load_Picture_From_Resource("79.gif", False)
         Else
-            Me.Picture = General_Load_Picture_From_Resource("VentanaPartyLider_english.gif", False)
+            Me.Picture = General_Load_Picture_From_Resource("80.gif", False)
         End If
         
         Me.Height = LEADER_FORM_HEIGHT
     Else
         If Language = "spanish" Then
-            Me.Picture = General_Load_Picture_From_Resource("VentanaPartyMiembro_spanish.gif", False)
+            Me.Picture = General_Load_Picture_From_Resource("81.gif", False)
         Else
-            Me.Picture = General_Load_Picture_From_Resource("VentanaPartyMiembro_english.gif", False)
+            Me.Picture = General_Load_Picture_From_Resource("82.gif", False)
         End If
 
         Me.Height = NORMAL_FORM_HEIGHT
@@ -233,29 +233,29 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
     
     
-    Call cBotonAgregar.Initialize(imgAgregar, "BotonAgregarParty.gif", _
-                                    "BotonAgregarRolloverParty.gif", _
-                                    "BotonAgregarClickParty.gif", Me)
+    Call cBotonAgregar.Initialize(imgAgregar, "62.gif", _
+                                    "63.gif", _
+                                    "61.gif", Me)
                                     
-    Call cBotonCerrar.Initialize(imgCerrar, "BotonCerrarParty.gif", _
-                                    "BotonCerrarRolloverParty.gif", _
-                                    "BotonCerrarClickParty.gif", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "64.gif", _
+                                    "65.gif", _
+                                    "66.gif", Me)
                                     
-    Call cBotonDisolver.Initialize(imgDisolver, "BotonDisolverParty.gif", _
-                                    "BotonDisolverRolloverParty.gif", _
-                                    "BotonDisolverClickParty.gif", Me)
+    Call cBotonDisolver.Initialize(imgDisolver, "67.gif", _
+                                    "68.gif", _
+                                    "69.gif", Me)
                                     
-    Call cBotonLiderGrupo.Initialize(imgLiderGrupo, "BotonLiderGrupoParty.gif", _
-                                    "BotonLiderGrupoRolloverParty.gif", _
-                                    "BotonLiderGrupoClickParty.gif", Me)
+    Call cBotonLiderGrupo.Initialize(imgLiderGrupo, "70.gif", _
+                                    "71.gif", _
+                                    "72.gif", Me)
                                     
-    Call cBotonExpulsar.Initialize(imgExpulsar, "BotonExpulsarParty.gif", _
-                                    "BotonExpulsarRolloverParty.gif", _
-                                    "BotonExpulsarClickParty.gif", Me)
+    Call cBotonExpulsar.Initialize(imgExpulsar, "73.gif", _
+                                    "74.gif", _
+                                    "75.gif", Me)
                                     
-    Call cBotonSalirParty.Initialize(imgSalirParty, "BotonSalirGrupoParty.gif", _
-                                    "BotonSalirGrupoRolloverParty.gif", _
-                                    "BotonSalirGrupoClickParty.gif", Me)
+    Call cBotonSalirParty.Initialize(imgSalirParty, "76.gif", _
+                                    "77.gif", _
+                                    "78.gif", Me)
                                     
     ' Botones visibles solo para el lider
     imgExpulsar.Visible = EsPartyLeader

@@ -441,8 +441,8 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
 
-    Set MinMayBack(0) = General_Load_Picture_From_Resource("TecladoMinuscula.gif", False)
-    Set MinMayBack(1) = General_Load_Picture_From_Resource("TecladoMayuscula.gif", False)
+    Set MinMayBack(0) = General_Load_Picture_From_Resource("128.gif", False)
+    Set MinMayBack(1) = General_Load_Picture_From_Resource("127.gif", False)
     
     Call LoadButtons
     

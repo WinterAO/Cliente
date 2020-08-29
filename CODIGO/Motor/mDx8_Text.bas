@@ -5,8 +5,8 @@ Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" _
     (Destination As Any, Source As Any, ByVal Length As Long)
     
 Private Type CharVA
-    x As Integer
-    y As Integer
+    X As Integer
+    Y As Integer
     W As Integer
     h As Integer
     
@@ -17,8 +17,8 @@ Private Type CharVA
 End Type
 
 Private Type POINTAPI
-    x As Long
-    y As Long
+    X As Long
+    Y As Long
 End Type
 
 Private Type VFH
@@ -54,18 +54,18 @@ End Type
 Private cfonts(1 To 2) As CustomFont ' _Default2 As CustomFont
 
 Public Function ColorToDX8(ByVal long_color As Long) As Long
-    Dim temp_color As String
+    Dim TEMP_COLOR As String
     Dim Red As Integer, Blue As Integer, Green As Integer
     
-    temp_color = Hex$(long_color)
-    If Len(temp_color) < 6 Then
+    TEMP_COLOR = Hex$(long_color)
+    If Len(TEMP_COLOR) < 6 Then
         'Give is 6 digits for easy RGB conversion.
-        temp_color = String$(6 - Len(temp_color), "0") + temp_color
+        TEMP_COLOR = String$(6 - Len(TEMP_COLOR), "0") + TEMP_COLOR
     End If
     
-    Red = CLng("&H" + mid$(temp_color, 1, 2))
-    Green = CLng("&H" + mid$(temp_color, 3, 2))
-    Blue = CLng("&H" + mid$(temp_color, 5, 2))
+    Red = CLng("&H" + mid$(TEMP_COLOR, 1, 2))
+    Green = CLng("&H" + mid$(TEMP_COLOR, 3, 2))
+    Blue = CLng("&H" + mid$(TEMP_COLOR, 5, 2))
     
     ColorToDX8 = D3DColorXRGB(Red, Green, Blue)
 
@@ -99,8 +99,8 @@ End Function ' GSZAO
 Private Sub Engine_Render_Text(ByRef Batch As clsBatch, _
                                 ByRef UseFont As CustomFont, _
                                 ByVal Text As String, _
-                                ByVal x As Long, _
-                                ByVal y As Long, _
+                                ByVal X As Long, _
+                                ByVal Y As Long, _
                                 ByRef Color() As Long, _
                                 Optional ByVal Center As Boolean = False, _
                                 Optional ByVal Alpha As Byte = 255, _
@@ -161,7 +161,7 @@ Private Sub Engine_Render_Text(ByRef Batch As clsBatch, _
     Call Batch.SetTexture(UseFont.Texture)
     
     If Center Then
-        x = x - CInt(Engine_GetTextWidth(cfonts(Font), Text) * 0.5)
+        X = X - CInt(Engine_GetTextWidth(cfonts(Font), Text) * 0.5)
     End If
     
     'Loop through each line if there are line breaks (vbCrLf)
@@ -178,8 +178,8 @@ Private Sub Engine_Render_Text(ByRef Batch As clsBatch, _
 
                 Call CopyMemory(TempVA, UseFont.HeaderInfo.CharVA(ascii(j - 1)), 24) 'this number represents the size of "CharVA" struct
                 
-                TempVA.x = x + Count
-                TempVA.y = y + yOffset
+                TempVA.X = X + Count
+                TempVA.Y = Y + yOffset
                 
                 'Set the colors
                 If Es_Emoticon(ascii(j - 1)) Then ' GSZAO los colores no afectan a los emoticones!
@@ -190,7 +190,7 @@ Private Sub Engine_Render_Text(ByRef Batch As clsBatch, _
                     
                 End If
                 Call Batch.SetAlpha(False)
-                Call Batch.Draw(TempVA.x, TempVA.y, TempVA.W, TempVA.h, Color, TempVA.Tx1, TempVA.Ty1, TempVA.Tx2, TempVA.Ty2)
+                Call Batch.Draw(TempVA.X, TempVA.Y, TempVA.W, TempVA.h, Color, TempVA.Tx1, TempVA.Ty1, TempVA.Tx2, TempVA.Ty2)
 
                 'Shift over the the position to render the next character
                 Count = Count + UseFont.HeaderInfo.CharWidth(ascii(j - 1))
@@ -206,26 +206,26 @@ Public Function ARGBtoD3DCOLORVALUE(ByVal ARGB As Long, ByRef Color As D3DCOLORV
     Dim dest(3) As Byte
     CopyMemory dest(0), ARGB, 4
     Color.a = dest(3)
-    Color.R = dest(2)
-    Color.G = dest(1)
-    Color.B = dest(0)
+    Color.r = dest(2)
+    Color.g = dest(1)
+    Color.b = dest(0)
 End Function
 
-Public Function ARGB(ByVal R As Long, ByVal G As Long, ByVal B As Long, ByVal a As Long) As Long
+Public Function ARGB(ByVal r As Long, ByVal g As Long, ByVal b As Long, ByVal a As Long) As Long
         
     Dim c As Long
         
     If a > 127 Then
         a = a - 128
         c = a * 2 ^ 24 Or &H80000000
-        c = c Or R * 2 ^ 16
-        c = c Or G * 2 ^ 8
-        c = c Or B
+        c = c Or r * 2 ^ 16
+        c = c Or g * 2 ^ 8
+        c = c Or b
     Else
         c = a * 2 ^ 24
-        c = c Or R * 2 ^ 16
-        c = c Or G * 2 ^ 8
-        c = c Or B
+        c = c Or r * 2 ^ 16
+        c = c Or g * 2 ^ 8
+        c = c Or b
     End If
     
     ARGB = c
@@ -310,8 +310,8 @@ Sub Engine_Init_FontTextures()
         End If
         
         'Store the size of the texture
-        cfonts(i).TextureSize.x = TexInfo.Width
-        cfonts(i).TextureSize.y = TexInfo.Height
+        cfonts(i).TextureSize.X = TexInfo.Width
+        cfonts(i).TextureSize.Y = TexInfo.Height
     Next
     
     Exit Sub
@@ -332,61 +332,79 @@ Sub Engine_Init_FontSettings()
     'Init the custom font settings
     'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_Init_FontSettings
     '*****************************************************************
-    Dim FileNum  As Byte
-    Dim LoopChar As Long
-    Dim Row      As Single
-    Dim u        As Single
-    Dim v        As Single
-    Dim i As Long
-    Dim File As String
+    Dim LoopChar  As Long
+    Dim Row       As Single
+    Dim u         As Single
+    Dim v         As Single
+    Dim i         As Long
+    Dim j         As Integer
+    Dim fileBuff  As clsByteBuffer
+    Dim InfoHead  As INFOHEADER
+    Dim buffer()  As Byte
     
     '*** Default font ***
-
-    'Load the header information
-    FileNum = FreeFile
     
     For i = 1 To UBound(cfonts)
     
-        File = Get_Extract(srcFileType.Fuentes, "Font" & i & ".dat")
-        
-        Open File For Binary As #FileNum
-            Get #FileNum, , cfonts(i).HeaderInfo
-        Close #FileNum
-        
-        DeleteFile File
-        
-        'Calculate some common values
-        cfonts(i).CharHeight = cfonts(i).HeaderInfo.CellHeight - 4
-        cfonts(i).RowPitch = cfonts(i).HeaderInfo.BitmapWidth \ cfonts(i).HeaderInfo.CellWidth
-        cfonts(i).ColFactor = cfonts(i).HeaderInfo.CellWidth / cfonts(i).HeaderInfo.BitmapWidth
-        cfonts(i).RowFactor = cfonts(i).HeaderInfo.CellHeight / cfonts(i).HeaderInfo.BitmapHeight
-        
-        'Cache the verticies used to draw the character (only requires setting the color and adding to the X/Y values)
-        For LoopChar = 0 To 255
-            
-            'tU and tV value (basically tU = BitmapXPosition / BitmapWidth, and height for tV)
-            Row = (LoopChar - cfonts(i).HeaderInfo.BaseCharOffset) \ cfonts(i).RowPitch
-            u = ((LoopChar - cfonts(i).HeaderInfo.BaseCharOffset) - (Row * cfonts(i).RowPitch)) * cfonts(i).ColFactor
-            v = Row * cfonts(i).RowFactor
+        'Load the header information
+        InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Fuentes.WAO", LCase$("Font" & i & ".dat"))
     
-            'Set the verticies
-            With cfonts(i).HeaderInfo.CharVA(LoopChar)
-                .x = 0
-                .y = 0
-                .W = cfonts(i).HeaderInfo.CellWidth
-                .h = cfonts(i).HeaderInfo.CellHeight
-                .Tx1 = u
-                .Ty1 = v
-                .Tx2 = u + cfonts(i).ColFactor
-                .Ty2 = v + cfonts(i).RowFactor
+        If InfoHead.lngFileSize <> 0 Then
+        
+            Extract_File_Memory srcFileType.Fuentes, LCase$("Font" & i & ".dat"), buffer()
+        
+            Set fileBuff = New clsByteBuffer
+            
+            fileBuff.initializeReader buffer
+        
+            With cfonts(i).HeaderInfo
+                .BitmapWidth = fileBuff.getLong()
+                .BitmapHeight = fileBuff.getLong()
+                .CellWidth = fileBuff.getLong()
+                .CellHeight = fileBuff.getLong()
+                .BaseCharOffset = fileBuff.getByte()
+                
+                For j = 0 To 255
+                    .CharWidth(j) = fileBuff.getByte()
+                Next j
+            
             End With
             
-        Next LoopChar
+            'Calculate some common values
+            cfonts(i).CharHeight = cfonts(i).HeaderInfo.CellHeight - 4
+            cfonts(i).RowPitch = cfonts(i).HeaderInfo.BitmapWidth \ cfonts(i).HeaderInfo.CellWidth
+            cfonts(i).ColFactor = cfonts(i).HeaderInfo.CellWidth / cfonts(i).HeaderInfo.BitmapWidth
+            cfonts(i).RowFactor = cfonts(i).HeaderInfo.CellHeight / cfonts(i).HeaderInfo.BitmapHeight
+            
+            'Cache the verticies used to draw the character (only requires setting the color and adding to the X/Y values)
+            For LoopChar = 0 To 255
+                
+                'tU and tV value (basically tU = BitmapXPosition / BitmapWidth, and height for tV)
+                Row = (LoopChar - cfonts(i).HeaderInfo.BaseCharOffset) \ cfonts(i).RowPitch
+                u = ((LoopChar - cfonts(i).HeaderInfo.BaseCharOffset) - (Row * cfonts(i).RowPitch)) * cfonts(i).ColFactor
+                v = Row * cfonts(i).RowFactor
+        
+                'Set the verticies
+                With cfonts(i).HeaderInfo.CharVA(LoopChar)
+                    .X = 0
+                    .Y = 0
+                    .W = cfonts(i).HeaderInfo.CellWidth
+                    .h = cfonts(i).HeaderInfo.CellHeight
+                    .Tx1 = u
+                    .Ty1 = v
+                    .Tx2 = u + cfonts(i).ColFactor
+                    .Ty2 = v + cfonts(i).RowFactor
+                End With
+                
+            Next LoopChar
+            
+            Set fileBuff = Nothing
+        End If
     Next i
 End Sub
 
-Public Sub DrawText(ByVal x As Integer, _
-                    ByVal y As Integer, _
+Public Sub DrawText(ByVal X As Integer, _
+                    ByVal Y As Integer, _
                     ByVal Text As String, _
                     ByVal Color As Long, _
                     Optional Center As Boolean = False, _
@@ -395,7 +413,7 @@ Public Sub DrawText(ByVal x As Integer, _
     Dim aux(3) As Long
 
     Call Engine_Long_To_RGB_List(aux(), Color)
-    Call Engine_Render_Text(SpriteBatch, cfonts(Font), Text, x, y, aux(), Center, , , Font)
+    Call Engine_Render_Text(SpriteBatch, cfonts(Font), Text, X, Y, aux(), Center, , , Font)
 
 End Sub
 
