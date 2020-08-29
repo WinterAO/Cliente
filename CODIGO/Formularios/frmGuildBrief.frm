@@ -492,7 +492,7 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = General_Load_Picture_From_Resource("VentanaDetallesClan.gif", False)
+    Me.Picture = General_Load_Picture_From_Resource("147.gif", False)
     
     Call LoadButtons
     
@@ -509,25 +509,25 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
     
     
-    Call cBotonGuerra.Initialize(imgDeclararGuerra, "BotonDeclararGuerra.gif", _
-                                    "BotonDeclararGuerraRollover.gif", _
-                                    "BotonDeclararGuerraClick.gif", Me)
+    Call cBotonGuerra.Initialize(imgDeclararGuerra, "144.gif", _
+                                    "145.gif", _
+                                    "146.gif", Me)
 
-    Call cBotonAlianza.Initialize(imgOfrecerAlianza, "BotonOfrecerAlianza.gif", _
-                                    "BotonOfrecerAlianzaRollover.gif", _
-                                    "BotonOfrecerAlianzaClick.gif", Me)
+    Call cBotonAlianza.Initialize(imgOfrecerAlianza, "141.gif", _
+                                    "142.gif", _
+                                    "143.gif", Me)
 
-    Call cBotonPaz.Initialize(imgOfrecerPaz, "BotonOfrecerPaz.gif", _
-                                    "BotonOfrecerPazRollover.gif", _
-                                    "BotonOfrecerPazClick.gif", Me)
+    Call cBotonPaz.Initialize(imgOfrecerPaz, "138.gif", _
+                                    "140.gif", _
+                                    "139.gif", Me)
 
-    Call cBotonSolicitarIngreso.Initialize(imgSolicitarIngreso, "BotonSolicitarIngreso.gif", _
-                                    "BotonSolicitarIngresoRollover.gif", _
-                                    "BotonSolicitarIngresoClick.gif", Me)
+    Call cBotonSolicitarIngreso.Initialize(imgSolicitarIngreso, "135.gif", _
+                                    "136.gif", _
+                                    "137.gif", Me)
 
-    Call cBotonCerrar.Initialize(imgCerrar, "BotonCerrarDetallesClan.gif", _
-                                    "BotonCerrarRolloverDetallesClan.gif", _
-                                    "BotonCerrarClickDetallesClan.gif", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "132.gif", _
+                                    "133.gif", _
+                                    "134.gif", Me)
 
 
     If Not EsLeader Then

@@ -185,9 +185,9 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
     Set cBotonCerrar = New clsGraphicalButton
     
-    Call cBotonCerrar.Initialize(imgCerrar, "Cerrar.gif", _
-                                "cerrar_hover.gif", _
-                                "cerrar_click.gif", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "197.gif", _
+                                "198.gif", _
+                                "199.gif", Me)
     
 End Sub
 
@@ -201,7 +201,7 @@ End Sub
 
 Private Sub imgCerrar_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If imgCerrar.Tag = 1 Then
-        imgCerrar.Picture = General_Load_Picture_From_Resource("cerrar_click.gif", False)
+        imgCerrar.Picture = General_Load_Picture_From_Resource("199.gif", False)
         imgCerrar.Tag = 0
     End If
 

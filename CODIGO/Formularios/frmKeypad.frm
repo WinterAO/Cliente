@@ -459,13 +459,13 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
     
     
-    Call cBotonMin.Initialize(imgMay, "BotonMay.gif", _
-                                    "BotonMayRollover.gif", _
-                                    "BotonMayClick.gif", Me)
+    Call cBotonMin.Initialize(imgMay, "203.gif", _
+                                    "204.gif", _
+                                    "205.gif", Me)
 
-    Call cBotonMay.Initialize(imgMin, "BotonMin.gif", _
-                                    "BotonMinRollover.gif", _
-                                    "BotonMinClick.gif", Me)
+    Call cBotonMay.Initialize(imgMin, "206.gif", _
+                                    "207.gif", _
+                                    "208.gif", Me)
 
 End Sub
 

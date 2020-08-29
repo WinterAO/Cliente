@@ -106,9 +106,9 @@ Private Sub Form_Load()
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
     ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
     If Language = "spanish" Then
-      Me.Picture = General_Load_Picture_From_Resource("VentanaUrlClan_spanish.gif", False)
+      Me.Picture = General_Load_Picture_From_Resource("193.gif", False)
     Else
-      Me.Picture = General_Load_Picture_From_Resource("VentanaUrlClan_english.gif", False)
+      Me.Picture = General_Load_Picture_From_Resource("194.gif", False)
     End If
     
     Call LoadButtons

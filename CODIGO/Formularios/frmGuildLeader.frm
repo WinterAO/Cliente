@@ -340,9 +340,9 @@ Private Sub LoadButtons()
                                     "49.gif", _
                                     "50.gif", Me)
 
-    Call cBotonEditarURL.Initialize(imgEditarURL, "BotonEditarURL.gif", _
-                                    "BotonEditarURLRollover.gif", _
-                                    "BotonEditarURLClick.gif", Me)
+    Call cBotonEditarURL.Initialize(imgEditarURL, "200.gif", _
+                                    "201.gif", _
+                                    "202.gif", Me)
 
     Call cBotonPropuestasPaz.Initialize(imgPropuestasPaz, "51.gif", _
                                     "52.gif", _
@@ -383,8 +383,8 @@ End Sub
 Private Sub imgDetallesClan_Click()
     frmGuildBrief.EsLeader = True
     
-    If LenB(GuildsList.List(GuildsList.ListIndex)) <> 0 Then
-        Call WriteGuildRequestDetails(GuildsList.List(GuildsList.ListIndex))
+    If LenB(guildslist.List(guildslist.ListIndex)) <> 0 Then
+        Call WriteGuildRequestDetails(guildslist.List(guildslist.ListIndex))
     End If
     
 End Sub

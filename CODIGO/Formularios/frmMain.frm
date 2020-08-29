@@ -167,6 +167,7 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -995,9 +996,9 @@ Call Sound.Sound_Play(SND_CLICK)
     
         Case 0 'Inventario
             InvEqu.Picture = General_Load_Picture_From_Resource("4.gif", True)
-            btnSolapa(0).Picture = General_Load_Picture_From_Resource("7.gif", True)
-            btnSolapa(1).Picture = General_Load_Picture_From_Resource("10.gif", True)
-            btnSolapa(2).Picture = General_Load_Picture_From_Resource("12.gif", True)
+            'btnSolapa(0).Picture = General_Load_Picture_From_Resource("7.gif", True)
+            'btnSolapa(1).Picture = General_Load_Picture_From_Resource("10.gif", True)
+            'btnSolapa(2).Picture = General_Load_Picture_From_Resource("12.gif", True)
             
             ' Activo controles de inventario
             PicInv.Visible = True
@@ -1019,11 +1020,11 @@ Call Sound.Sound_Play(SND_CLICK)
         
         Case 1 'Hechizos
             InvEqu.Picture = General_Load_Picture_From_Resource("5.gif", True)
-            btnSolapa(0).Picture = General_Load_Picture_From_Resource("10.gif", True)
-            btnSolapa(1).Picture = General_Load_Picture_From_Resource("8.gif", True)
-            btnSolapa(2).Picture = General_Load_Picture_From_Resource("12.gif", True)
-            btnLanzar.Picture = General_Load_Picture_From_Resource("13.gif", True)
-            btnInfo.Picture = General_Load_Picture_From_Resource("14.gif", True)
+            'btnSolapa(0).Picture = General_Load_Picture_From_Resource("10.gif", True)
+            'btnSolapa(1).Picture = General_Load_Picture_From_Resource("8.gif", True)
+            'btnSolapa(2).Picture = General_Load_Picture_From_Resource("12.gif", True)
+            'btnLanzar.Picture = General_Load_Picture_From_Resource("13.gif", True)
+            'btnInfo.Picture = General_Load_Picture_From_Resource("14.gif", True)
             
             ' Activo controles de hechizos
             hlst.Visible = True
@@ -1042,9 +1043,9 @@ Call Sound.Sound_Play(SND_CLICK)
     
         Case 2 'Amigos
             InvEqu.Picture = General_Load_Picture_From_Resource("6.gif", True)
-            btnSolapa(0).Picture = General_Load_Picture_From_Resource("10.gif", True)
-            btnSolapa(1).Picture = General_Load_Picture_From_Resource("11.gif", True)
-            btnSolapa(2).Picture = General_Load_Picture_From_Resource("9.gif", True)
+            'btnSolapa(0).Picture = General_Load_Picture_From_Resource("10.gif", True)
+            'btnSolapa(1).Picture = General_Load_Picture_From_Resource("11.gif", True)
+            'btnSolapa(2).Picture = General_Load_Picture_From_Resource("9.gif", True)
             
             ListAmigos.Visible = True
             AgregarAmigo.Visible = True
@@ -1075,6 +1076,8 @@ Private Sub Form_Load()
     Me.Picture = General_Load_Picture_From_Resource("1.gif", True)
     cmdMoverHechi(1).Picture = General_Load_Picture_From_Resource("2.gif", True)
     cmdMoverHechi(0).Picture = General_Load_Picture_From_Resource("3.gif", True)
+    btnLanzar.Picture = General_Load_Picture_From_Resource("13.gif", True)
+    btnInfo.Picture = General_Load_Picture_From_Resource("14.gif", True)
     InvEqu.Picture = General_Load_Picture_From_Resource("4.gif", True)
     btnSolapa(0).Picture = General_Load_Picture_From_Resource("7.gif", True)
     btnSolapa(1).Picture = General_Load_Picture_From_Resource("11.gif", True)

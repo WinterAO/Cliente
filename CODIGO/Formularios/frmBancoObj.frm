@@ -475,7 +475,7 @@ Private Sub Form_Load()
     clsFormulario.Initialize Me
 
     'Cargamos la interfase
-    Me.Picture = General_Load_Picture_From_Resource("Boveda.gif", False)
+    Me.Picture = General_Load_Picture_From_Resource("180.gif", False)
         
     Call LoadTextsForm
     Call LoadButtons
@@ -526,9 +526,9 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
 
 
-    Call cBotonDepositarOro.Initialize(imgDepositarOro, "", "BotonDepositaOroApretado.gif", "BotonDepositaOroApretado.gif", Me)
-    Call cBotonRetirarOro.Initialize(imgRetirarOro, "", "BotonRetirarOroApretado.gif", "BotonRetirarOroApretado.gif", Me)
-    Call cBotonCerrar.Initialize(imgCerrar, "", "xPrendida.gif", "xPrendida.gif", Me)
+    Call cBotonDepositarOro.Initialize(imgDepositarOro, "", "181.gif", "180.gif", Me)
+    Call cBotonRetirarOro.Initialize(imgRetirarOro, "", "182.gif", "182.gif", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "", "183.gif", "183.gif", Me)
     
     Image1(0).MouseIcon = picMouseIcon
     Image1(1).MouseIcon = picMouseIcon

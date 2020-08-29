@@ -1453,8 +1453,7 @@ Public Sub Iniciar_Labels()
 End Sub
 
 Private Sub Form_Load()
-    Dim i As Byte
-    
+
     ' Handles Form movement (drag and drop).
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
@@ -1493,6 +1492,11 @@ Public Sub MostrarAsignacion()
         For i = 1 To 13
             masskill(i).Visible = True
             menoskill(i).Visible = True
+        Next i
+        
+        For i = 1 To 13
+            menoskill(i).Picture = General_Load_Picture_From_Resource("195.gif", False)
+            masskill(i).Picture = General_Load_Picture_From_Resource("196.gif", False)
         Next i
         
     Else
@@ -1534,7 +1538,7 @@ End Sub
 Private Sub imgCerrar_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
 
     If imgCerrar.Tag = 1 Then
-        imgCerrar.Picture = General_Load_Picture_From_Resource("BotonCerrar.gif", False)
+        imgCerrar.Picture = General_Load_Picture_From_Resource("25.gif", False)
         imgCerrar.Tag = 0
     End If
 
