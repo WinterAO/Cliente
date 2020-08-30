@@ -11,6 +11,15 @@ Attribute VB_Name = "ModCnt"
 
 Option Explicit
 
+'Conectar renderizado
+Private Type tMapaConnect
+    Map As Integer
+    X As Integer
+    Y As Integer
+End Type
+Public MapaConnect() As tMapaConnect
+Public NumConnectMap As Byte 'Numero total de mapas cargados
+
 'Indica que mapa vamos a renderizar en el conectar
 Private SelectConnectMap As Byte
 
@@ -89,53 +98,78 @@ Public Sub InicializarRndCNT()
 'como las posiciones donde se van a mostrar los PJ, pantalla, etc...
 '********************************************
     
-    Dim Leer As New clsIniManager
+    Dim buffer()    As Byte
+    Dim InfoHead    As INFOHEADER
+    Dim LaCabecera  As tCabecera
+    Dim fileBuff  As clsByteBuffer
     Dim i As Integer
     Dim j As Byte
     Dim NumButtons As Integer
-    
-    'Cargamos los mapas que mostraremos
-    Call CargarConnectMaps
 
-    Call Leer.Initialize(Path(Script) & "GUI.dat")
-
-    'Posiciones de los PJ
-    For i = 1 To MAXPJACCOUNTS
-        PJPos(i).X = Leer.GetValue("PJPos" & i, "X")
-        PJPos(i).Y = Leer.GetValue("PJPos" & i, "Y")
-    Next i
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("GUI.ind"))
     
-    NumButtons = Val(Leer.GetValue("INIT", "NumButtons"))
+    If InfoHead.lngFileSize <> 0 Then
+    
+        Extract_File_Memory Scripts, LCase$("GUI.ind"), buffer()
         
-    ReDim ButtonGUI(1 To NumButtons) As tButtonsGUI
+        Set fileBuff = New clsByteBuffer
+        
+        fileBuff.initializeReader buffer
+        
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
+
+        'INIT
+        NumButtons = fileBuff.getInteger
+        NumConnectMap = fileBuff.getByte
+        ReDim Preserve MapaConnect(NumConnectMap) As tMapaConnect
+        
+        'Mapas de GUI
+        For i = 1 To NumConnectMap
+            MapaConnect(i).Map = fileBuff.getInteger
+            MapaConnect(i).X = fileBuff.getInteger
+            MapaConnect(i).Y = fileBuff.getInteger
+        Next i
     
-    'Posiciones de los botones
-    For i = 1 To NumButtons
-        With ButtonGUI(i)
-            
-            .X = Val(Leer.GetValue("BUTTON" & i, "X"))
-            .Y = Val(Leer.GetValue("BUTTON" & i, "Y"))
-            .PosX = Val(Leer.GetValue("BUTTON" & i, "PosX"))
-            .PosY = Val(Leer.GetValue("BUTTON" & i, "PosY"))
-            .GrhNormal = Val(Leer.GetValue("BUTTON" & i, "GrhNormal"))
-            .GrhClarito = Val(Leer.GetValue("BUTTON" & i, "GrhClarito"))
-            
-            For j = 0 To 3
-                .Color(j) = Normal_RGBList(j)
-            Next j
-            
-        End With
-    Next i
+        'Posiciones de los PJ
+        For i = 1 To MAXPJACCOUNTS
+            PJPos(i).X = fileBuff.getInteger
+            PJPos(i).Y = fileBuff.getInteger
+        Next i
+        
+        ReDim ButtonGUI(1 To NumButtons) As tButtonsGUI
+        
+        'Posiciones de los botones
+        For i = 1 To NumButtons
+            With ButtonGUI(i)
+                .X = fileBuff.getInteger
+                .Y = fileBuff.getInteger
+                .PosX = fileBuff.getInteger
+                .PosY = fileBuff.getInteger
+                .GrhNormal = fileBuff.getLong
+                
+                For j = 0 To 3
+                    .Color(j) = Normal_RGBList(j)
+                Next j
+            End With
+        Next i
+        
+        Set fileBuff = Nothing
+        
+        Pantalla = PConnect 'Establecemos la pantalla en el conectar
+        TextSelected = 1 ' Establecemos el cursor de texto en Nombre
+        
+        SexoSelect(1) = JsonLanguage.item("FRM_CREARPJ_HOMBRE").item("TEXTO")
+        SexoSelect(2) = JsonLanguage.item("FRM_CREARPJ_MUJER").item("TEXTO")
+        
+        Call InitGrh(GRHFX_PJ_Selecionado, FX_PJ_Seleccionado)
+        
+    Else
     
-    Set Leer = Nothing
-    
-    Pantalla = PConnect 'Establecemos la pantalla en el conectar
-    TextSelected = 1 ' Establecemos el cursor de texto en Nombre
-    
-    SexoSelect(1) = JsonLanguage.item("FRM_CREARPJ_HOMBRE").item("TEXTO")
-    SexoSelect(2) = JsonLanguage.item("FRM_CREARPJ_MUJER").item("TEXTO")
-    
-    Call InitGrh(GRHFX_PJ_Selecionado, FX_PJ_Seleccionado)
+        Call MostrarMensaje("No se ha podido inicializar la GUI, si el problema persiste reinstale el juego.")
+        Call CloseClient
+    End If
     
 End Sub
 

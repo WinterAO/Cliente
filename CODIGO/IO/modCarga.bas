@@ -183,15 +183,6 @@ Public MapDat As tMapDat
 'END - Load Map with .CSM format
 '********************************
 
-'Conectar renderizado
-Private Type tMapaConnect
-    Map As Byte
-    X As Byte
-    Y As Byte
-End Type
-Public MapaConnect() As tMapaConnect
-Public NumConnectMap As Byte 'Numero total de mapas cargados
-
 Private FileManager As clsIniManager
 
 Public NumHeads As Integer
@@ -1278,55 +1269,6 @@ ErrorHandler:
     If Err.number <> 0 Then
         'Call LogError(Err.number, Err.Description, "modCarga.CargarMapa")
         Call MsgBox("err: " & Err.number, "desc: " & Err.Description)
-    End If
-
-End Sub
-
-Public Sub CargarConnectMaps()
-'********************************
-'Author: Lorwik
-'Last Modification: 13/05/2020
-'Cargamos los mapas del conectar renderizado
-'********************************
-On Error GoTo errorH
-    Dim i As Byte
-    
-    Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Carga.Path(Script) & "GUI.dat")
-    
-    NumConnectMap = Val(FileManager.GetValue("INIT", "NumMaps"))
-    
-    ReDim Preserve MapaConnect(NumConnectMap) As tMapaConnect
-    
-    For i = 1 To NumConnectMap
-    
-        MapaConnect(i).Map = Val(FileManager.GetValue("MAPA" & i, "Map"))
-        MapaConnect(i).X = Val(FileManager.GetValue("MAPA" & i, "X"))
-        MapaConnect(i).Y = Val(FileManager.GetValue("MAPA" & i, "Y"))
-        
-    Next i
-    
-    Set FileManager = Nothing
-    
-    Exit Sub
- 
-errorH:
-
-    If Err.number <> 0 Then
-        
-        Select Case Err.number
-            
-            Case 9
-                Call MsgBox("Error cargando el archivo de Mapas. Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , Form_Caption)
-                Call LogError(Err.number, Err.Description, "CargarHechizos")
-            
-            Case 53
-                Call MsgBox("El archivo de configuracion de Mapas no existe. Por favor, reinstale el juego.", , Form_Caption)
-        
-        End Select
-        
-        Call CloseClient
-
     End If
 
 End Sub
