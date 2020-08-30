@@ -52,7 +52,7 @@ Private Disabled As Boolean 'Indicates wether it's enabled or not
 Public Sub Initialize(ByRef imgButton As Image, ByVal imgNormalPath As String, _
             ByVal imgRollOverPath As String, ByVal imgClickPath As String, ByRef Formulario As Form, _
             Optional ByVal imgDisabledPath As String, Optional ByVal StartDisabled As Boolean = False, _
-            Optional ByVal MakeClickSound As Boolean = True, Optional ByVal ShowHandPointer As Boolean = True)
+            Optional ByVal MakeClickSound As Boolean = True, Optional ByVal ShowHandPointer As Boolean = True, Optional ByVal Skin As Boolean = False)
 '***************************************************
 'Author: ZaMa
 'Last Modify Date: 22/12/09
@@ -61,10 +61,10 @@ Public Sub Initialize(ByRef imgButton As Image, ByVal imgNormalPath As String, _
     Set ButtonHolder = imgButton
     Set FormActual = Formulario
     
-    Set RollOverButtonImage = LoadPicture(imgRollOverPath)
-    Set NormalButtonImage = LoadPicture(imgNormalPath)
-    Set ClickButtonImage = LoadPicture(imgClickPath)
-    Set DisabledButtonImage = LoadPicture(imgDisabledPath)
+    Set RollOverButtonImage = General_Load_Picture_From_Resource(imgRollOverPath, Skin)
+    Set NormalButtonImage = General_Load_Picture_From_Resource(imgNormalPath, Skin)
+    Set ClickButtonImage = General_Load_Picture_From_Resource(imgClickPath, Skin)
+    Set DisabledButtonImage = General_Load_Picture_From_Resource(imgDisabledPath, Skin)
     
     SoundClick = MakeClickSound
     

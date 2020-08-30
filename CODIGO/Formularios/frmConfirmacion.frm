@@ -78,7 +78,7 @@ Private Sub Form_Load()
     ' TODO: Traducir los textos de las imagenes via labels en visual basic, para que en el futuro si se quiere se pueda traducir a mas idiomas
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
     ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaMsj.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("124.gif", False)
     
     Call LoadButtons
 End Sub
@@ -99,25 +99,25 @@ Private Sub LoadButtons()
     
     
     If Language = "spanish" Then
-        boton = "btnaceptar.jpg"
+        boton = "btnaceptar.gif"
     Else
-        boton = "btnaccept.jpg"
+        boton = "btnaccept.gif"
     End If
     
     Call cBotonAceptar.Initialize(imgAceptar, Carga.Path(Interfaces) & boton, _
-                                     Carga.Path(Interfaces) & "BotonCerrarRolloverMsj.jpg", _
-                                     Carga.Path(Interfaces) & "BotonCerrarClickMsj.jpg", Me)
+                                     Carga.Path(Interfaces) & "123.gif", _
+                                     Carga.Path(Interfaces) & "122.gif", Me)
                                      
                                      
     If Language = "spanish" Then
-        boton = "btncancelar.jpg"
+        boton = "btncancelar.gif"
     Else
-        boton = "btncancel.jpg"
+        boton = "btncancel.gif"
     End If
                                      
     Call cBotonCancelar.Initialize(imgCancelar, Carga.Path(Interfaces) & boton, _
-                                     Carga.Path(Interfaces) & "BotonCerrarRolloverMsj.jpg", _
-                                     Carga.Path(Interfaces) & "BotonCerrarClickMsj.jpg", Me)
+                                     Carga.Path(Interfaces) & "125.gif", _
+                                     Carga.Path(Interfaces) & "126.gif", Me)
 End Sub
 
 Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)

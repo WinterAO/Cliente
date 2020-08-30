@@ -321,20 +321,17 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub LoadButtons()
-
-    Dim GrhPath As String
-    GrhPath = Carga.Path(Interfaces)
     
     ' Load pictures
-    Set FondosListaMsg(eForumType.ieGeneral) = LoadPicture(GrhPath & "ForoGeneral.jpg")
-    Set FondosListaMsg(eForumType.ieREAL) = LoadPicture(GrhPath & "ForoReal.jpg")
-    Set FondosListaMsg(eForumType.ieCAOS) = LoadPicture(GrhPath & "ForoCaos.jpg")
+    Set FondosListaMsg(eForumType.ieGeneral) = General_Load_Picture_From_Resource("158.gif", False)
+    Set FondosListaMsg(eForumType.ieREAL) = General_Load_Picture_From_Resource("159.gif", False)
+    Set FondosListaMsg(eForumType.ieCAOS) = General_Load_Picture_From_Resource("160.gif", False)
     
-    Set FondosDejarMsg(eForumType.ieGeneral) = LoadPicture(GrhPath & "ForoMsgGeneral.jpg")
-    Set FondosDejarMsg(eForumType.ieREAL) = LoadPicture(GrhPath & "ForoMsgReal.jpg")
-    Set FondosDejarMsg(eForumType.ieCAOS) = LoadPicture(GrhPath & "ForoMsgCaos.jpg")
+    Set FondosDejarMsg(eForumType.ieGeneral) = General_Load_Picture_From_Resource("161.gif", False)
+    Set FondosDejarMsg(eForumType.ieREAL) = General_Load_Picture_From_Resource("162.gif", False)
+    Set FondosDejarMsg(eForumType.ieCAOS) = General_Load_Picture_From_Resource("163.gif", False)
     
-    imgMarcoTexto.Picture = LoadPicture(GrhPath & "MarcoTextBox.jpg")
+    imgMarcoTexto.Picture = General_Load_Picture_From_Resource("164.gif", False)
 
     Set cBotonDejarAnuncio = New clsGraphicalButton
     Set cBotonDejarMsg = New clsGraphicalButton
@@ -344,22 +341,22 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
 
     ' Initialize buttons
-    Call cBotonDejarAnuncio.Initialize(imgDejarAnuncio, GrhPath & "BotonDejarAnuncioForo.jpg", _
-                                            GrhPath & "BotonDejarAnuncioRolloverForo.jpg", _
-                                            GrhPath & "BotonDejarAnuncioClickForo.jpg", Me)
+    Call cBotonDejarAnuncio.Initialize(imgDejarAnuncio, "155.gif", _
+                                            "156.gif", _
+                                            "157.gif", Me)
                                             
-    Call cBotonDejarMsg.Initialize(imgDejarMsg, GrhPath & "BotonDejarMsgForo.jpg", _
-                                            GrhPath & "BotonDejarMsgRolloverForo.jpg", _
-                                            GrhPath & "BotonDejarMsgClickForo.jpg", Me, _
-                                            GrhPath & "BotonDejarMsgDisabledForo.jpg")
+    Call cBotonDejarMsg.Initialize(imgDejarMsg, "151.gif", _
+                                            "152.gif", _
+                                            "153.gif", Me, _
+                                            "154.gif")
                                             
-    Call cBotonCerrar.Initialize(imgCerrar, GrhPath & "BotonCerrarForo.jpg", _
-                                            GrhPath & "BotonCerrarRolloverForo.jpg", _
-                                            GrhPath & "BotonCerrarClickForo.jpg", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "148.gif", _
+                                            "149.gif", _
+                                            "150.gif", Me)
                                             
-    Call cBotonListaMsg.Initialize(imgListaMsg, GrhPath & "BotonListaMsgForo.jpg", _
-                                            GrhPath & "BotonListaMsgRolloverForo.jpg", _
-                                            GrhPath & "BotonListaMsgClickForo.jpg", Me)
+    Call cBotonListaMsg.Initialize(imgListaMsg, "165.gif", _
+                                            "166.gif", _
+                                            "167.gif", Me)
 
 End Sub
 

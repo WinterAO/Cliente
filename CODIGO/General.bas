@@ -374,11 +374,12 @@ Sub SwitchMap(ByVal Map As Integer)
 'Descripción: Intentamos descomprimir el mapa, si existe lo cargamos
 '**********************************************************************************
     
-    Dim Dir_Map As String
+    Dim bytArr()    As Byte
+    Dim InfoHead    As INFOHEADER
     
-    Dir_Map = Get_Extract(srcFileType.Map, "Mapa" & Map & ".csm")
-
-    If FileExist(Dir_Map, vbArchive) Then
+    InfoHead = File_Find(Carga.Path(ePath.Recursos) & "\Mapas.WAO", LCase$("Mapa" & Map & ".csm"))
+    
+    If InfoHead.lngFileSize <> 0 Then
 
         'Limpieza adicional del mapa. PARCHE: Solucion a bug de clones. [Gracias Yhunja]
         'EDIT: cambio el rango de valores en x y para solucionar otro bug con respecto al cambio de mapas
@@ -394,11 +395,13 @@ Sub SwitchMap(ByVal Map As Integer)
         Call LightRemoveAll
         
         'Cargamos el mapa.
-        Call Carga.CargarMapa(Map, Dir_Map)
+        Call Carga.CargarMapa(Map)
         
-        'Dibujamos el Mini-Mapa
-        If FileExist(Carga.Path(Graficos) & "MiniMapa\" & Map & ".bmp", vbArchive) Then
-            frmMain.MiniMapa.Picture = LoadPicture(Carga.Path(Graficos) & "MiniMapa\" & Map & ".bmp")
+        'Dibujamos el Mini-Mapa'
+        If Extract_File_Memory(srcFileType.Minimap, Map & ".bmp", bytArr()) Then
+            frmMain.MiniMapa.Picture = General_Load_Picture_From_BArray(bytArr())
+        Else
+            frmMain.MiniMapa.Picture = Nothing
         End If
         
         CurMap = Map
@@ -496,8 +499,6 @@ Sub Main()
     
     'Load client configurations.
     Call Carga.LeerConfiguracion
-
-    Call CargarHechizos
 
     #If Desarrollo = 0 Then
         If Application.FindPreviousInstance Then
@@ -600,7 +601,7 @@ Private Sub LoadInitialConfig()
     'Si es 0 cargamos el por defecto
     If ClientSetup.MouseBaston > 0 Then
         ' Mouse Pointer and Mouse Icon (Loaded before opening any form with buttons in it)
-        Set picMouseIcon = LoadPicture(Carga.Path(Graficos) & "MouseIcons\Baston" & ClientSetup.MouseBaston & ".ico")
+        Set picMouseIcon = LoadPicture(App.Path & "\Recursos\MouseIcons\Baston" & ClientSetup.MouseBaston & ".ico")
     End If
 
     ' Mouse Icon to use in the rest of the game this one is animated
@@ -611,7 +612,7 @@ Private Sub LoadInitialConfig()
     
     'Si es 0 cargamos el por defecto
     If ClientSetup.MouseGeneral > 0 Then
-        CursorAniDir = Carga.Path(Graficos) & "MouseIcons\General" & ClientSetup.MouseGeneral & ".ani"
+        CursorAniDir = App.Path & "\Recursos\MouseIcons\General" & ClientSetup.MouseGeneral & ".ani"
         hSwapCursor = SetClassLong(frmMain.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
         hSwapCursor = SetClassLong(frmMain.MainViewPic.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
         hSwapCursor = SetClassLong(frmMain.hlst.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
@@ -645,7 +646,7 @@ Private Sub LoadInitialConfig()
     Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_SONIDO").item("TEXTO"), 30)
     
     'Inicializamos el sonido
-    If Sound.Initialize_Engine(frmMain.hWnd, Path(ePath.recursos), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
+    If Sound.Initialize_Engine(frmMain.hWnd, Path(ePath.Recursos), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
         'frmCargando.picLoad.Width = 300
     Else
         MsgBox "¡No se ha logrado iniciar el engine de DirectSound! Reinstale los últimos controladores de DirectX. No habrá soporte de audio en el juego.", vbCritical, "Advertencia"
@@ -1247,28 +1248,6 @@ Public Sub ResetAllInfoAccounts()
     End If
 End Sub
 
-Public Function DevolverNombreHechizo(ByVal Index As Byte) As String
-Dim i As Long
- 
-    For i = 1 To NumHechizos
-        If i = Index Then
-            DevolverNombreHechizo = Hechizos(i).Nombre
-            Exit Function
-        End If
-    Next i
-End Function
-
-Public Function DevolverIndexHechizo(ByVal Nombre As String) As Byte
-Dim i As Long
- 
-    For i = 1 To NumHechizos
-        If Hechizos(i).Nombre = Nombre Then
-            DevolverIndexHechizo = i
-            Exit Function
-        End If
-    Next i
-End Function
-
 ' USO: If ArrayInitialized(Not ArrayName) Then ...
 Public Function ArrayInitialized(ByVal TheArray As Long) As Boolean
 '***************************************************
@@ -1279,30 +1258,6 @@ Public Function ArrayInitialized(ByVal TheArray As Long) As Boolean
     
     ArrayInitialized = Not (TheArray = -1&)
 
-End Function
-
-Function ImgRequest(ByVal sFile As String) As String
-    '***************************************************
-    'Author: RecoX
-    'Last Modify Date: 17/10/2019
-    'Funcion para cargar imagenes de forma segura, ya que si no existe el programa no explota, extraido de gs-ao
-    '***************************************************
-    Dim RespondMsgBox As Byte
-
-    If LenB(Dir(sFile, vbArchive)) = 0 Then
-        RespondMsgBox = MsgBox("ERROR: Imagen no encontrada..." & vbCrLf & sFile, vbCritical + vbRetryCancel)
-
-        If RespondMsgBox = vbRetry Then
-            sFile = ImgRequest(sFile)
-        Else
-            Call MsgBox("ADVERTENCIA: El juego seguira funcionando sin alguna imagen!", vbInformation + vbOKOnly)
-            sFile = Carga.Path(Interfaces) & "blank.bmp"
-        End If
-        
-    End If
-    
-    ImgRequest = sFile
-    
 End Function
 
 Public Sub SetSpeedUsuario()

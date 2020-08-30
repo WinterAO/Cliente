@@ -709,7 +709,7 @@ End Sub
 
 Private Sub LoadSkinsInComboBox()
     Dim sFileName As String
-    sFileName = Dir$(Carga.Path(Graficos) & "\Skins\", vbDirectory)
+    sFileName = Dir$(Carga.Path(skins), vbArchive)
     
     Do While sFileName > vbNullString
         Call cmdSkinsComboBox.AddItem(sFileName)
@@ -718,7 +718,7 @@ Private Sub LoadSkinsInComboBox()
     
     'Boorramos los 2 primeros items por que son . y ..
     Call cmdSkinsComboBox.RemoveItem(0)
-    Call cmdSkinsComboBox.RemoveItem(0)
+'    Call cmdSkinsComboBox.RemoveItem(0)
 End Sub
 
 Private Sub LoadLenguajesInComboBox()

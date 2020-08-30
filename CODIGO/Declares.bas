@@ -227,9 +227,9 @@ Public Enum eCabezas
     VAMPIRO_M_CUERPO_DESNUDO = 634
 End Enum
 
-Public ColoresPJ(0 To 50) As Long
-
-Public ColoresDano(51 To 56) As Long
+'Colores
+Public Const MAXCOLORES As Byte = 56
+Public ColoresPJ(0 To MAXCOLORES) As Long
 
 Public CreandoClan As Boolean
 Public ClanName As String
@@ -1048,24 +1048,6 @@ Public Enum eMoveType
     Inventory = 1
     Bank
 End Enum
-
-'/////OPTIMIZACION DE STRINGS////////
-Public NumHechizos As Byte
-Public Hechizos() As tHechizos
- 
-Public Type tHechizos
-    Nombre As String
-    Desc As String
-    PalabrasMagicas As String
-    ManaRequerida As Integer
-    SkillRequerido As Byte
-    EnergiaRequerida As Integer
- 
-    '//Mensajes
-    HechiceroMsg As String
-    PropioMsg As String
-    TargetMsg As String
-End Type
 
 'MundoSeleccionado desde la propiedad Mundo en sinfo.dat / World selected from sinfo.dat file
 Public MundoSeleccionado As String

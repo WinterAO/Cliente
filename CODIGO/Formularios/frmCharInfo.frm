@@ -70,7 +70,7 @@ Begin VB.Form frmCharInfo
       Top             =   4695
       Width           =   5730
    End
-   Begin WinterAO.uAOButton imgCerrar 
+   Begin WinterAOR_Client.uAOButton imgCerrar 
       Height          =   495
       Left            =   120
       TabIndex        =   15
@@ -96,7 +96,7 @@ Begin VB.Form frmCharInfo
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgEchar 
+   Begin WinterAOR_Client.uAOButton imgEchar 
       Height          =   495
       Left            =   1320
       TabIndex        =   16
@@ -122,7 +122,7 @@ Begin VB.Form frmCharInfo
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgPeticion 
+   Begin WinterAOR_Client.uAOButton imgPeticion 
       Height          =   495
       Left            =   2640
       TabIndex        =   17
@@ -148,7 +148,7 @@ Begin VB.Form frmCharInfo
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgRechazar 
+   Begin WinterAOR_Client.uAOButton imgRechazar 
       Height          =   495
       Left            =   3960
       TabIndex        =   18
@@ -174,7 +174,7 @@ Begin VB.Form frmCharInfo
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgAceptar 
+   Begin WinterAOR_Client.uAOButton imgAceptar 
       Height          =   495
       Left            =   5160
       TabIndex        =   19
@@ -792,7 +792,7 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaInfoPj.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("192.gif", False)
     
     Call LoadTextsForm
 End Sub

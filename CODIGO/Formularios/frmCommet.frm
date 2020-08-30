@@ -45,7 +45,7 @@ Begin VB.Form frmCommet
       Top             =   480
       Width           =   4575
    End
-   Begin WinterAO.uAOButton imgEnviar 
+   Begin WinterAOR_Client.uAOButton imgEnviar 
       Height          =   495
       Left            =   1080
       TabIndex        =   1
@@ -71,7 +71,7 @@ Begin VB.Form frmCommet
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgCerrar 
+   Begin WinterAOR_Client.uAOButton imgCerrar 
       Height          =   495
       Left            =   2880
       TabIndex        =   2
@@ -174,7 +174,7 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaCommet.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("191.gif", False)
     
     Call LoadTextsForm
 End Sub

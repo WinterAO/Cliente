@@ -15,7 +15,7 @@ Begin VB.Form frmKeysConfigurationSelect
    ScaleWidth      =   9330
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
-   Begin WinterAO.uAOButton btnNormalKeys 
+   Begin WinterAOR_Client.uAOButton btnNormalKeys 
       Height          =   495
       Left            =   840
       TabIndex        =   0
@@ -41,7 +41,7 @@ Begin VB.Form frmKeysConfigurationSelect
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton btnAlternativeKeys 
+   Begin WinterAOR_Client.uAOButton btnAlternativeKeys 
       Height          =   495
       Left            =   6360
       TabIndex        =   1
@@ -193,8 +193,8 @@ Attribute VB_Exposed = False
 
 Private Sub Form_Load()
    Call LoadTextsForm
-   imgAlternativeKeyboard.Picture = LoadPicture(Carga.Path(Interfaces) & "frmKeysConfigurationSelectAlternativeKeyboard.jpg")
-   imgNormalKeyboard.Picture = LoadPicture(Carga.Path(Interfaces) & "frmKeysConfigurationSelectNormalKeyboard.jpg")
+   imgAlternativeKeyboard.Picture = General_Load_Picture_From_Resource("19.gif", False)
+   imgNormalKeyboard.Picture = General_Load_Picture_From_Resource("20.gif", False)
 End Sub
 
 Private Sub LoadTextsForm()

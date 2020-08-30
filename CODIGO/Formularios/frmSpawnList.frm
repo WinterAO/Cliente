@@ -35,7 +35,7 @@ Begin VB.Form frmSpawnList
       Top             =   480
       Width           =   2475
    End
-   Begin WinterAO.uAOButton imgSalir 
+   Begin WinterAOR_Client.uAOButton imgSalir 
       Height          =   375
       Left            =   360
       TabIndex        =   2
@@ -61,7 +61,7 @@ Begin VB.Form frmSpawnList
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgInvocar 
+   Begin WinterAOR_Client.uAOButton imgInvocar 
       Height          =   375
       Left            =   1800
       TabIndex        =   3
@@ -153,7 +153,7 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaInvocar.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("185.gif", False)
     
     Call LoadTextsForm
 End Sub

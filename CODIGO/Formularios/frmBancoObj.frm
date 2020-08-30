@@ -423,15 +423,15 @@ Public LastIndex2 As Integer
 Public NoPuedeMover As Boolean
 Private Shifteando As Boolean
 
-Private Sub Form_KeyDown(KeyCode As Integer, shift As Integer)
+Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 
-    If shift = 1 Then Shifteando = True
+    If Shift = 1 Then Shifteando = True
     
 End Sub
 
-Private Sub Form_KeyUp(KeyCode As Integer, shift As Integer)
+Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
 
-    If shift <> 1 Then Shifteando = False
+    If Shift <> 1 Then Shifteando = False
     
 End Sub
 
@@ -475,7 +475,7 @@ Private Sub Form_Load()
     clsFormulario.Initialize Me
 
     'Cargamos la interfase
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "Boveda.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("180.gif", False)
         
     Call LoadTextsForm
     Call LoadButtons
@@ -497,7 +497,7 @@ On Error Resume Next
 
 End Sub
 
-Private Sub Form_MouseUp(Button As Integer, shift As Integer, X As Single, Y As Single)
+Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
 On Error Resume Next
 
     InvBanco(0).DrawInventory
@@ -516,12 +516,8 @@ Private Sub LoadTextsForm()
 End Sub
 
 Private Sub LoadButtons()
-
-    Dim GrhPath As String
-    
-    GrhPath = Carga.Path(Interfaces)
-    'CmdMoverBov(1).Picture = LoadPicture(Carga.path(Interfaces) & "FlechaSubirObjeto.jpg")
-    'CmdMoverBov(0).Picture = LoadPicture(Carga.path(Interfaces) & "FlechaBajarObjeto.jpg")
+    'CmdMoverBov(1).Picture = General_Load_Picture_From_Resource( "FlechaSubirObjeto.gif", false)
+    'CmdMoverBov(0).Picture = General_Load_Picture_From_Resource( "FlechaBajarObjeto.gif", false)
     
     Set cBotonRetirarOro = New clsGraphicalButton
     Set cBotonDepositarOro = New clsGraphicalButton
@@ -530,15 +526,15 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
 
 
-    Call cBotonDepositarOro.Initialize(imgDepositarOro, "", GrhPath & "BotonDepositaOroApretado.jpg", GrhPath & "BotonDepositaOroApretado.jpg", Me)
-    Call cBotonRetirarOro.Initialize(imgRetirarOro, "", GrhPath & "BotonRetirarOroApretado.jpg", GrhPath & "BotonRetirarOroApretado.jpg", Me)
-    Call cBotonCerrar.Initialize(imgCerrar, "", GrhPath & "xPrendida.bmp", GrhPath & "xPrendida.bmp", Me)
+    Call cBotonDepositarOro.Initialize(imgDepositarOro, "", "181.gif", "180.gif", Me)
+    Call cBotonRetirarOro.Initialize(imgRetirarOro, "", "182.gif", "182.gif", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "", "183.gif", "183.gif", Me)
     
     Image1(0).MouseIcon = picMouseIcon
     Image1(1).MouseIcon = picMouseIcon
 End Sub
 
-Private Sub Form_MouseMove(Button As Integer, shift As Integer, X As Single, Y As Single)
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     Call LastButtonPressed.ToggleToNormal
 End Sub
 
@@ -615,7 +611,7 @@ Private Sub PicBancoInv_Click()
 
 End Sub
 
-Private Sub PicBancoInv_MouseMove(Button As Integer, shift As Integer, X As Single, Y As Single)
+Private Sub PicBancoInv_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     Call LastButtonPressed.ToggleToNormal
 End Sub
 
@@ -639,7 +635,7 @@ Private Sub PicInv_Click()
                     Label1(1).Visible = True
                     Label1(2).Visible = True
                     
-                Case eObjType.otCasco, eObjType.otArmadura, eObjType.otEscudo ' 3, 16, 17
+                Case eObjType.otcasco, eObjType.otArmadura, eObjType.otescudo ' 3, 16, 17
                     Label1(1).Caption = "Max " & JsonLanguage.item("DEFENSA").item("TEXTO") & ":" & .MaxDef(InvBanco(1).SelectedItem)
                     Label1(2).Caption = "Min " & JsonLanguage.item("DEFENSA").item("TEXTO") & ":" & .MinDef(InvBanco(1).SelectedItem)
                     Label1(1).Visible = True
@@ -659,7 +655,7 @@ Private Sub PicInv_Click()
     End If
 End Sub
 
-Private Sub PicInv_MouseMove(Button As Integer, shift As Integer, X As Single, Y As Single)
+Private Sub PicInv_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     Call LastButtonPressed.ToggleToNormal
 End Sub
 

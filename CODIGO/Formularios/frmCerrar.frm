@@ -15,7 +15,7 @@ Begin VB.Form frmCerrar
    ScaleWidth      =   335
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
-   Begin WinterAO.uAOButton cRegresar 
+   Begin WinterAOR_Client.uAOButton cRegresar 
       Height          =   615
       Left            =   360
       TabIndex        =   0
@@ -41,7 +41,7 @@ Begin VB.Form frmCerrar
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton cSalir 
+   Begin WinterAOR_Client.uAOButton cSalir 
       CausesValidation=   0   'False
       Height          =   615
       Left            =   360
@@ -68,7 +68,7 @@ Begin VB.Form frmCerrar
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton cCancelQuit 
+   Begin WinterAOR_Client.uAOButton cCancelQuit 
       CausesValidation=   0   'False
       Height          =   375
       Left            =   3600
@@ -151,7 +151,7 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     Call clsFormulario.Initialize(Me)
     
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "frmCerrar.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("91.gif", False)
 
     Call LoadFormTexts
 End Sub

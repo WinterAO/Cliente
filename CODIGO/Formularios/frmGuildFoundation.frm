@@ -118,9 +118,9 @@ Private Sub Form_Load()
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
     ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
     If Language = "spanish" Then
-      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaNombreClan_spanish.jpg")
+      Me.Picture = General_Load_Picture_From_Resource("89.gif", False)
     Else
-      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaNombreClan_english.jpg")
+      Me.Picture = General_Load_Picture_From_Resource("90.gif", False)
     End If
         
     Call LoadButtons
@@ -138,9 +138,6 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub LoadButtons()
-    Dim GrhPath As String
-    
-    GrhPath = Carga.Path(Interfaces)
 
     Set cBotonSiguiente = New clsGraphicalButton
     Set cBotonCancelar = New clsGraphicalButton
@@ -148,13 +145,13 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
     
     
-    Call cBotonSiguiente.Initialize(imgSiguiente, GrhPath & "BotonSiguienteNombreClan.jpg", _
-                                    GrhPath & "BotonSiguienteRolloverNombreClan.jpg", _
-                                    GrhPath & "BotonSiguienteClickNombreClan.jpg", Me)
+    Call cBotonSiguiente.Initialize(imgSiguiente, "86.gif", _
+                                    "87.gif", _
+                                    "88.gif", Me)
 
-    Call cBotonCancelar.Initialize(imgCancelar, GrhPath & "BotonCancelarNombreClan.jpg", _
-                                    GrhPath & "BotonCancelarRolloverNombreClan.jpg", _
-                                    GrhPath & "BotonCancelarClickNombreClan.jpg", Me)
+    Call cBotonCancelar.Initialize(imgCancelar, "85.gif", _
+                                    "84.gif", _
+                                    "83.gif", Me)
 
 End Sub
 

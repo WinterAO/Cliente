@@ -163,8 +163,8 @@ On Error GoTo Error
     Call LoadButtons
         
     'Cargamos las imagenes de los mapas
-    Set picMaps(eMaps.ieGeneral) = LoadPicture(Carga.Path(Interfaces) & "mapa1.jpg")
-    Set picMaps(eMaps.ieDungeon) = LoadPicture(Carga.Path(Interfaces) & "mapa2.jpg")
+    Set picMaps(eMaps.ieGeneral) = General_Load_Picture_From_Resource("17.gif", False)
+    Set picMaps(eMaps.ieDungeon) = General_Load_Picture_From_Resource("18.gif", False)
     
     ' Imagen de fondo
     CurrentMap = eMaps.ieGeneral
@@ -181,16 +181,13 @@ Error:
 End Sub
 
 Private Sub LoadButtons()
-    Dim GrhPath As String
-    
-    GrhPath = Carga.Path(Interfaces)
 
     Set LastButtonPressed = New clsGraphicalButton
     Set cBotonCerrar = New clsGraphicalButton
     
-    Call cBotonCerrar.Initialize(imgCerrar, GrhPath & "Cerrar.jpg", _
-                                GrhPath & "cerrar_hover.jpg", _
-                                GrhPath & "cerrar_click.jpg", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "197.gif", _
+                                "198.gif", _
+                                "199.gif", Me)
     
 End Sub
 
@@ -204,7 +201,7 @@ End Sub
 
 Private Sub imgCerrar_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If imgCerrar.Tag = 1 Then
-        imgCerrar.Picture = LoadPicture(Carga.Path(Interfaces) & "cerrar_click.jpg")
+        imgCerrar.Picture = General_Load_Picture_From_Resource("199.gif", False)
         imgCerrar.Tag = 0
     End If
 

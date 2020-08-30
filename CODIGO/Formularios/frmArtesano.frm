@@ -292,7 +292,7 @@ Private Sub Form_Load()
     
     Scroll.value = 0
     
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaArtesano.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("16.gif", False)
     
     Call LoadButtons
     
@@ -309,13 +309,10 @@ On Error Resume Next
 End Sub
 
 Private Sub LoadButtons()
-    Dim GrhPath As String
     Dim Index   As Long
 
-    GrhPath = Carga.Path(Interfaces)
-
-    Set picRecuadroItem = LoadPicture(GrhPath & "RecuadroItems.jpg")
-    Set picRecuadroReqItems = LoadPicture(GrhPath & "RecuadroObj.jpg")
+    Set picRecuadroItem = General_Load_Picture_From_Resource("14.gif", False)
+    Set picRecuadroReqItems = General_Load_Picture_From_Resource("15.gif", False)
 
     For Index = 1 To MAX_LIST_ITEMS
         imgMarcoItem(Index).Picture = picRecuadroItem
@@ -330,12 +327,12 @@ Private Sub LoadButtons()
 
     Set LastButtonPressed = New clsGraphicalButton
 
-    Call cBotonCerrar.Initialize(imgCerrar, GrhPath & "BotonCerrarTrabajo.jpg", GrhPath & "BotonCerrarTrabajoRollover.jpg", GrhPath & "BotonCerrarTrabajoClick.jpg", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "8.gif", "9.gif", "10.gif", Me)
 
-    Call cBotonConstruir(0).Initialize(imgConstruir0, GrhPath & "BotonConstruir.jpg", GrhPath & "BotonConstruirRollover.jpg", GrhPath & "BotonConstruirClick.jpg", Me)
-    Call cBotonConstruir(1).Initialize(imgConstruir1, GrhPath & "BotonConstruir.jpg", GrhPath & "BotonConstruirRollover.jpg", GrhPath & "BotonConstruirClick.jpg", Me)
-    Call cBotonConstruir(2).Initialize(imgConstruir2, GrhPath & "BotonConstruir.jpg", GrhPath & "BotonConstruirRollover.jpg", GrhPath & "BotonConstruirClick.jpg", Me)
-    Call cBotonConstruir(3).Initialize(imgConstruir3, GrhPath & "BotonConstruir.jpg", GrhPath & "BotonConstruirRollover.jpg", GrhPath & "BotonConstruirClick.jpg", Me)
+    Call cBotonConstruir(0).Initialize(imgConstruir0, "11.gif", "12.gif", "13.gif", Me)
+    Call cBotonConstruir(1).Initialize(imgConstruir1, "11.gif", "12.gif", "13.gif", Me)
+    Call cBotonConstruir(2).Initialize(imgConstruir2, "11.gif", "12.gif", "13.gif", Me)
+    Call cBotonConstruir(3).Initialize(imgConstruir3, "11.gif", "12.gif", "13.gif", Me)
 
     Costo.Caption = Format$(ArtesaniaCosto, "##,##")
 
