@@ -221,127 +221,7 @@ Public Function General_Get_Temp_Dir() As String
    General_Get_Temp_Dir = IIf(c > 0, Left$(s, c), "")
 End Function
 
-Public Function extractFiles(ByVal File_Type As srcFileType) As Boolean
-'*****************************************************************
-'Author: Juan Martín Dotuyo Dodero
-'Last Modify Date: 10/13/2004
-'Extracts all files from a resource file
-'*****************************************************************
-
-    Dim loopc As Long
-    Dim SourceFilePath As String
-    Dim OutputFilePath As String
-    Dim SourceFile As Integer
-    Dim SourceData() As Byte
-    Dim FileHead As FILEHEADER
-    Dim InfoHead() As INFOHEADER
-    Dim handle As Integer
-
-On Local Error GoTo errhandler
-
-    Select Case File_Type
-
-        Case Music
-            SourceFilePath = App.Path & SrcPath & "Music" & Formato
-            OutputFilePath = App.Path & "\EXTRAIDOS\Musica\"
-            
-        Case Wav
-            SourceFilePath = App.Path & SrcPath & "Sounds" & Formato
-            OutputFilePath = App.Path & "\EXTRAIDOS\Wav\"
-            
-        Case Scripts
-            SourceFilePath = App.Path & SrcPath & "Scripts" & Formato
-            OutputFilePath = App.Path & "\EXTRAIDOS\Init\"
-            
-        Case Map
-            SourceFilePath = App.Path & SrcPath & "Mapas" & Formato
-            OutputFilePath = App.Path & "\EXTRAIDOS\Mapas\"
-            
-        Case Patch
-            SourceFilePath = App.Path & SrcPath & "Patch" & Formato
-            OutputFilePath = App.Path & "\EXTRAIDOS\Patch\"
-        
-        Case Else
-            Exit Function
-    End Select
-        
-    
-    'Open the binary file
-    SourceFile = FreeFile
-    Open SourceFilePath For Binary Access Read Lock Write As SourceFile
-    
-    'Extract the FILEHEADER
-    Get SourceFile, 1, FileHead
-    
-    'Desencrypt FILEHEADER
-    encryptHeaderFile FileHead
-    
-    'Check the file for validity
-    If LOF(SourceFile) <> FileHead.lngFileSize Then ' - Pass1.lngFileSize - 1 Then
-         MsgBox "El archivo de recursos " & SourceFilePath & " esta corrupto.", , "Error"
-        Close SourceFile
-        Erase InfoHead
-        Exit Function
-    End If
-    
-    'Size the InfoHead array
-    ReDim InfoHead(FileHead.lngNumFiles - 1)
-
-    'Extract the INFOHEADER
-    Get SourceFile, , InfoHead
-
-    'Extract all of the files from the binary file
-    For loopc = 0 To UBound(InfoHead)
-        'Desencrypt each INFOHEADER befWO accessing the data
-        encryptHeaderInfo InfoHead(loopc)
-        
-        'Check if there is enough memory
-        If InfoHead(loopc).lngFileSizeUncompressed > General_Drive_Get_Free_Bytes(Left(App.Path, 3)) Then
-            MsgBox "No tienes suficiente espacio en el disco para seguir descomprimiendo archivos."
-            Exit Function
-        End If
-
-        'Resize the byte data array
-        ReDim SourceData(InfoHead(loopc).lngFileSize - 1)
-        
-        'Get the data
-        Get SourceFile, InfoHead(loopc).lngFileStart, SourceData
-        
-        'Decompress all data
-        Decompress_Data SourceData, InfoHead(loopc).lngFileSizeUncompressed
-        
-        'Get a free handler
-        handle = FreeFile
-
-        'Create a new file and put in the data
-        Open OutputFilePath & InfoHead(loopc).strFileName For Binary As handle
-        
-        Put handle, , SourceData
-        
-        Close handle
-        
-        Erase SourceData
-        
-        DoEvents
-    Next loopc
-    
-    'Close the binary file
-    Close SourceFile
-    
-    Erase InfoHead
-    
-    extractFiles = True
-Exit Function
-
-errhandler:
-    Close SourceFile
-    Erase SourceData
-    Erase InfoHead
-    'Display an error message if it didn't work
-    MsgBox "Unable to decode binary file. Reason: " & Err.number & " : " & Err.Description, vbOKOnly, "Error"
-End Function
-
-Public Function extractFile(ByVal File_Type As srcFileType, ByVal file_name As String, Optional ByVal TempDir As Boolean = False) As Boolean
+Public Function extractMusic(ByVal file_name As String, Optional ByVal TempDir As Boolean = False) As Boolean
 '*****************************************************************
 'Author: Juan Martín Dotuyo Dodero
 'Last Modify Date: 10/13/2004
@@ -360,25 +240,14 @@ Public Function extractFile(ByVal File_Type As srcFileType, ByVal file_name As S
 'Set up the error handler
 On Local Error GoTo errhandler
     
-    Select Case File_Type
-            
-        Case Music
-            SourceFilePath = App.Path & SrcPath & "Music" & Formato
-            OutputFilePath = App.Path & "\EXTRAIDOS\Musica\"
-
-        Case Scripts
-            SourceFilePath = App.Path & SrcPath & "Scripts" & Formato
-            OutputFilePath = App.Path & "\EXTRAIDOS\Init\"
-        
-        Case Else
-            Exit Function
-    End Select
+    SourceFilePath = App.Path & SrcPath & "Music" & Formato
+    OutputFilePath = App.Path & "\EXTRAIDOS\Musica\"
     
     '¿Queremos descomprimir en la carpeta temporal?
     If TempDir Then OutputFilePath = Windows_Temp_Dir
     
     'Find the Info Head of the desired file
-    InfoHead = File_Find(SourceFilePath, file_name)
+    InfoHead = File_Find(SourceFilePath, file_name & ".mp3")
     
     If InfoHead.strFileName = "" Or InfoHead.lngFileSize = 0 Then Exit Function
 
@@ -425,7 +294,7 @@ On Local Error GoTo errhandler
     
     Erase SourceData
         
-    extractFile = True
+    extractMusic = True
 Exit Function
 
 errhandler:
@@ -592,17 +461,6 @@ Public Sub General_Quick_Sort(ByRef SortArray As Variant, ByVal First As Long, B
     If First < High Then General_Quick_Sort SortArray, First, High
     If Low < Last Then General_Quick_Sort SortArray, Low, Last
 End Sub
-
-Public Function Get_Extract(ByVal File_Type As srcFileType, ByVal file_name As String) As String
- '********************************************
-'Author: ???
-'Last Modify Date: ???
-'Extra archivos en memoria
-'*********************************************
-
-    extractFile File_Type, LCase$(file_name), True
-    Get_Extract = Windows_Temp_Dir & LCase$(file_name)
-End Function
 
 Public Function File_Find(ByVal resource_file_path As String, ByVal file_name As String) As INFOHEADER
  '********************************************

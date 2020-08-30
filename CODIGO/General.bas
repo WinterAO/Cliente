@@ -377,7 +377,7 @@ Sub SwitchMap(ByVal Map As Integer)
     Dim bytArr()    As Byte
     Dim InfoHead    As INFOHEADER
     
-    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Mapas.WAO", LCase$("Mapa" & Map & ".csm"))
+    InfoHead = File_Find(Carga.Path(ePath.Recursos) & "\Mapas.WAO", LCase$("Mapa" & Map & ".csm"))
     
     If InfoHead.lngFileSize <> 0 Then
 
@@ -499,8 +499,6 @@ Sub Main()
     
     'Load client configurations.
     Call Carga.LeerConfiguracion
-
-    Call CargarHechizos
 
     #If Desarrollo = 0 Then
         If Application.FindPreviousInstance Then
@@ -648,7 +646,7 @@ Private Sub LoadInitialConfig()
     Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_SONIDO").item("TEXTO"), 30)
     
     'Inicializamos el sonido
-    If Sound.Initialize_Engine(frmMain.hWnd, Path(ePath.recursos), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
+    If Sound.Initialize_Engine(frmMain.hWnd, Path(ePath.Recursos), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
         'frmCargando.picLoad.Width = 300
     Else
         MsgBox "¡No se ha logrado iniciar el engine de DirectSound! Reinstale los últimos controladores de DirectX. No habrá soporte de audio en el juego.", vbCritical, "Advertencia"
@@ -1249,28 +1247,6 @@ Public Sub ResetAllInfoAccounts()
         
     End If
 End Sub
-
-Public Function DevolverNombreHechizo(ByVal Index As Byte) As String
-Dim i As Long
- 
-    For i = 1 To NumHechizos
-        If i = Index Then
-            DevolverNombreHechizo = Hechizos(i).Nombre
-            Exit Function
-        End If
-    Next i
-End Function
-
-Public Function DevolverIndexHechizo(ByVal Nombre As String) As Byte
-Dim i As Long
- 
-    For i = 1 To NumHechizos
-        If Hechizos(i).Nombre = Nombre Then
-            DevolverIndexHechizo = i
-            Exit Function
-        End If
-    Next i
-End Function
 
 ' USO: If ArrayInitialized(Not ArrayName) Then ...
 Public Function ArrayInitialized(ByVal TheArray As Long) As Boolean

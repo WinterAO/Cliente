@@ -88,7 +88,7 @@ Begin VB.Form frmComerciar
       Top             =   1965
       Width           =   2400
    End
-   Begin WinterAO.uAOButton imgComprar 
+   Begin WinterAOR_Client.uAOButton imgComprar 
       Height          =   495
       Left            =   480
       TabIndex        =   7
@@ -114,7 +114,7 @@ Begin VB.Form frmComerciar
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgVender 
+   Begin WinterAOR_Client.uAOButton imgVender 
       Height          =   495
       Left            =   3840
       TabIndex        =   8
@@ -372,12 +372,12 @@ Private Function CalculateSellPrice(ByRef objValue As Single, ByVal objAmount As
 'Last modified: 19/08/2008
 'Last modify by: Franco Zeoli (Noich)
 '*************************************************
-    On Error GoTo Error
+    On Error GoTo error
     'We get a Single value from the server, when vb uses it, by approaching, it can diff with the server value, so we do (Value * 100000) and get the entire part, to discard the unwanted floating values.
     CalculateSellPrice = CCur(objValue * 1000000) / 1000000 * objAmount + 0.5
     
     Exit Function
-Error:
+error:
     MsgBox Err.Description, vbExclamation, "Error: " & Err.number
 End Function
 ''
@@ -392,12 +392,12 @@ Private Function CalculateBuyPrice(ByRef objValue As Single, ByVal objAmount As 
 'Last modified: 19/08/2008
 'Last modify by: Franco Zeoli (Noich)
 '*************************************************
-    On Error GoTo Error
+    On Error GoTo error
     'We get a Single value from the server, when vb uses it, by approaching, it can diff with the server value, so we do (Value * 100000) and get the entire part, to discard the unwanted floating values.
     CalculateBuyPrice = Fix(CCur(objValue * 1000000) / 1000000 * objAmount)
     
     Exit Function
-Error:
+error:
     MsgBox Err.Description, vbExclamation, "Error: " & Err.number
 End Function
 

@@ -44,7 +44,7 @@ Begin VB.Form frmPeaceProp
       Top             =   600
       Width           =   4620
    End
-   Begin WinterAO.uAOButton imgCerrar 
+   Begin WinterAOR_Client.uAOButton imgCerrar 
       CausesValidation=   0   'False
       Height          =   375
       Left            =   240
@@ -71,7 +71,7 @@ Begin VB.Form frmPeaceProp
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgDetalle 
+   Begin WinterAOR_Client.uAOButton imgDetalle 
       CausesValidation=   0   'False
       Height          =   375
       Left            =   1440
@@ -98,7 +98,7 @@ Begin VB.Form frmPeaceProp
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgAceptar 
+   Begin WinterAOR_Client.uAOButton imgAceptar 
       CausesValidation=   0   'False
       Height          =   375
       Left            =   2640
@@ -125,7 +125,7 @@ Begin VB.Form frmPeaceProp
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgRechazar 
+   Begin WinterAOR_Client.uAOButton imgRechazar 
       CausesValidation=   0   'False
       Height          =   375
       Left            =   3840

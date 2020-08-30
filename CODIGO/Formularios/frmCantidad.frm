@@ -37,7 +37,7 @@ Begin VB.Form frmCantidad
       Top             =   450
       Width           =   2250
    End
-   Begin WinterAO.uAOButton imgTirar 
+   Begin WinterAOR_Client.uAOButton imgTirar 
       Height          =   375
       Left            =   240
       TabIndex        =   1
@@ -63,7 +63,7 @@ Begin VB.Form frmCantidad
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgTirarTodo 
+   Begin WinterAOR_Client.uAOButton imgTirarTodo 
       Height          =   375
       Left            =   1680
       TabIndex        =   2
@@ -197,7 +197,7 @@ Private Sub imgTirarTodo_Click()
 End Sub
 
 Private Sub txtCantidad_Change()
-On Error GoTo errhandler
+On Error GoTo ErrHandler
     If Val(txtCantidad.Text) < 0 Then
         txtCantidad.Text = "1"
     End If
@@ -208,7 +208,7 @@ On Error GoTo errhandler
     
     Exit Sub
     
-errhandler:
+ErrHandler:
     'If we got here the user may have pasted (Shift + Insert) a REALLY large number, causing an overflow, so we set amount back to 1
     txtCantidad.Text = "1"
 End Sub

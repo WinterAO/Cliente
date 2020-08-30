@@ -1049,24 +1049,6 @@ Public Enum eMoveType
     Bank
 End Enum
 
-'/////OPTIMIZACION DE STRINGS////////
-Public NumHechizos As Byte
-Public Hechizos() As tHechizos
- 
-Public Type tHechizos
-    Nombre As String
-    Desc As String
-    PalabrasMagicas As String
-    ManaRequerida As Integer
-    SkillRequerido As Byte
-    EnergiaRequerida As Integer
- 
-    '//Mensajes
-    HechiceroMsg As String
-    PropioMsg As String
-    TargetMsg As String
-End Type
-
 'MundoSeleccionado desde la propiedad Mundo en sinfo.dat / World selected from sinfo.dat file
 Public MundoSeleccionado As String
 

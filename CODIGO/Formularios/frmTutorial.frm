@@ -12,7 +12,7 @@ Begin VB.Form frmTutorial
    ScaleWidth      =   583
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
-   Begin WinterAO.uAOButton imgSiguiente 
+   Begin WinterAOR_Client.uAOButton imgSiguiente 
       Height          =   375
       Left            =   6840
       TabIndex        =   5
@@ -38,7 +38,7 @@ Begin VB.Form frmTutorial
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgAnterior 
+   Begin WinterAOR_Client.uAOButton imgAnterior 
       Height          =   375
       Left            =   600
       TabIndex        =   6

@@ -14,7 +14,7 @@ Begin VB.Form frmEligeAlineacion
    ScaleHeight     =   5265
    ScaleWidth      =   6720
    StartUpPosition =   1  'CenterOwner
-   Begin WinterAO.uAOButton imgSalir 
+   Begin WinterAOR_Client.uAOButton imgSalir 
       Height          =   375
       Left            =   5640
       TabIndex        =   0

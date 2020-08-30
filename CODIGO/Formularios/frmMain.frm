@@ -67,7 +67,7 @@ Begin VB.Form frmMain
       Visible         =   0   'False
       Width           =   2535
    End
-   Begin WinterAO.uAOProgress uAOProgressExperienceLevel 
+   Begin WinterAOR_Client.uAOProgress uAOProgressExperienceLevel 
       Height          =   180
       Left            =   11520
       TabIndex        =   13
@@ -79,7 +79,7 @@ Begin VB.Form frmMain
       BackColor       =   8421376
       BorderColor     =   0
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Arial"
+         Name            =   "Tahoma"
          Size            =   8.25
          Charset         =   0
          Weight          =   400
@@ -167,7 +167,6 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -219,7 +218,7 @@ Begin VB.Form frmMain
          Top             =   5640
          Visible         =   0   'False
          Width           =   1575
-         Begin WinterAO.uAOButton btnMapa 
+         Begin WinterAOR_Client.uAOButton btnMapa 
             Height          =   255
             Left            =   120
             TabIndex        =   17
@@ -246,7 +245,7 @@ Begin VB.Form frmMain
                Strikethrough   =   0   'False
             EndProperty
          End
-         Begin WinterAO.uAOButton btnGrupo 
+         Begin WinterAOR_Client.uAOButton btnGrupo 
             Height          =   255
             Left            =   120
             TabIndex        =   18
@@ -273,7 +272,7 @@ Begin VB.Form frmMain
                Strikethrough   =   0   'False
             EndProperty
          End
-         Begin WinterAO.uAOButton btnEstadisticas 
+         Begin WinterAOR_Client.uAOButton btnEstadisticas 
             Height          =   255
             Left            =   120
             TabIndex        =   19
@@ -300,7 +299,7 @@ Begin VB.Form frmMain
                Strikethrough   =   0   'False
             EndProperty
          End
-         Begin WinterAO.uAOButton btnClanes 
+         Begin WinterAOR_Client.uAOButton btnClanes 
             Height          =   255
             Left            =   120
             TabIndex        =   20
@@ -327,7 +326,7 @@ Begin VB.Form frmMain
                Strikethrough   =   0   'False
             EndProperty
          End
-         Begin WinterAO.uAOButton btnRetos 
+         Begin WinterAOR_Client.uAOButton btnRetos 
             Height          =   255
             Left            =   120
             TabIndex        =   21
@@ -354,7 +353,7 @@ Begin VB.Form frmMain
                Strikethrough   =   0   'False
             EndProperty
          End
-         Begin WinterAO.uAOButton btnOpciones 
+         Begin WinterAOR_Client.uAOButton btnOpciones 
             Height          =   255
             Left            =   120
             TabIndex        =   22
@@ -381,7 +380,7 @@ Begin VB.Form frmMain
                Strikethrough   =   0   'False
             EndProperty
          End
-         Begin WinterAO.uAOButton btnQuest 
+         Begin WinterAOR_Client.uAOButton btnQuest 
             Height          =   255
             Left            =   120
             TabIndex        =   31
@@ -1114,7 +1113,8 @@ Private Sub Form_Load()
     Call EnableURLDetect(RecTxt.hWnd, Me.hWnd)
     
     ' Make the console transparent
-    Call SetWindowLong(RecTxt.hWnd, -20, &H20&)
+    'Call SetWindowLong(RecTxt.hWnd, -20, &H20&)
+    RecTxt.BackColor = RGB(24, 23, 21)
     
     CtrlMaskOn = False
     
@@ -1685,15 +1685,9 @@ End Sub
 Private Sub btnInfo_Click()
     
     If hlst.ListIndex <> -1 Then
-        Dim Index As Integer
-        Index = DevolverIndexHechizo(hlst.List(hlst.ListIndex))
-        Dim Msj As String
-     
-        If Index <> 0 Then Msj = "%%%%%%%%%%%% " & JsonLanguage.item("MENSAJE_INFO_HECHIZOS").item("TEXTO").item(1) & " %%%%%%%%%%%%" & vbCrLf & JsonLanguage.item("MENSAJE_INFO_HECHIZOS").item("TEXTO").item(2) & ": " & Hechizos(Index).Nombre & vbCrLf & JsonLanguage.item("MENSAJE_INFO_HECHIZOS").item("TEXTO").item(3) & ": " & Hechizos(Index).Desc & vbCrLf & JsonLanguage.item("MENSAJE_INFO_HECHIZOS").item("TEXTO").item(4) & ": " & Hechizos(Index).SkillRequerido & vbCrLf & JsonLanguage.item("MENSAJE_INFO_HECHIZOS").item("TEXTO").item(5) & ": " & Hechizos(Index).ManaRequerida & vbCrLf & JsonLanguage.item("MENSAJE_INFO_HECHIZOS").item("TEXTO").item(6) & ": " & Hechizos(Index).EnergiaRequerida & vbCrLf & "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-                                             
-        Call ShowConsoleMsg(Msj, JsonLanguage.item("MENSAJE_INFO_HECHIZOS").item("COLOR").item(1), JsonLanguage.item("MENSAJE_INFO_HECHIZOS").item("COLOR").item(2), JsonLanguage.item("MENSAJE_INFO_HECHIZOS").item("COLOR").item(3))
-        
+        Call WriteSpellInfo(hlst.ListIndex + 1)
     End If
+    
 End Sub
 
 Private Sub AgregarAmigo_Click()

@@ -43,7 +43,7 @@ Begin VB.Form frmEntrenador
       Top             =   675
       Width           =   2355
    End
-   Begin WinterAO.uAOButton imgSalir 
+   Begin WinterAOR_Client.uAOButton imgSalir 
       Height          =   375
       Left            =   2160
       TabIndex        =   3
@@ -69,7 +69,7 @@ Begin VB.Form frmEntrenador
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgLuchar 
+   Begin WinterAOR_Client.uAOButton imgLuchar 
       Height          =   375
       Left            =   600
       TabIndex        =   1

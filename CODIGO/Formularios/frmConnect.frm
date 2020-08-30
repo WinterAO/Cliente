@@ -109,7 +109,7 @@ Begin VB.Form frmConnect
       TabStop         =   0   'False
       Top             =   0
       Width           =   15360
-      Begin WinterAO.uAOCheckbox chkRecordar 
+      Begin WinterAOR_Client.uAOCheckbox chkRecordar 
          Height          =   345
          Left            =   6000
          TabIndex        =   3

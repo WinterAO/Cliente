@@ -36,7 +36,7 @@ Begin VB.Form frmCambiaMotd
       Top             =   840
       Width           =   4290
    End
-   Begin WinterAO.uAOButton imgAceptar 
+   Begin WinterAOR_Client.uAOButton imgAceptar 
       Height          =   375
       Left            =   480
       TabIndex        =   2
@@ -62,7 +62,7 @@ Begin VB.Form frmCambiaMotd
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgAzul 
+   Begin WinterAOR_Client.uAOButton imgAzul 
       Height          =   375
       Left            =   480
       TabIndex        =   5
@@ -88,7 +88,7 @@ Begin VB.Form frmCambiaMotd
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgRojo 
+   Begin WinterAOR_Client.uAOButton imgRojo 
       Height          =   375
       Left            =   1560
       TabIndex        =   6
@@ -114,7 +114,7 @@ Begin VB.Form frmCambiaMotd
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgBlanco 
+   Begin WinterAOR_Client.uAOButton imgBlanco 
       Height          =   375
       Left            =   2640
       TabIndex        =   7
@@ -140,7 +140,7 @@ Begin VB.Form frmCambiaMotd
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgGris 
+   Begin WinterAOR_Client.uAOButton imgGris 
       Height          =   375
       Left            =   3720
       TabIndex        =   8
@@ -166,7 +166,7 @@ Begin VB.Form frmCambiaMotd
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgMarron 
+   Begin WinterAOR_Client.uAOButton imgMarron 
       Height          =   375
       Left            =   3720
       TabIndex        =   9
@@ -192,7 +192,7 @@ Begin VB.Form frmCambiaMotd
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgVerde 
+   Begin WinterAOR_Client.uAOButton imgVerde 
       Height          =   375
       Left            =   2640
       TabIndex        =   10
@@ -218,7 +218,7 @@ Begin VB.Form frmCambiaMotd
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgMorado 
+   Begin WinterAOR_Client.uAOButton imgMorado 
       Height          =   375
       Left            =   1560
       TabIndex        =   11
@@ -244,7 +244,7 @@ Begin VB.Form frmCambiaMotd
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgAmarillo 
+   Begin WinterAOR_Client.uAOButton imgAmarillo 
       Height          =   375
       Left            =   480
       TabIndex        =   12

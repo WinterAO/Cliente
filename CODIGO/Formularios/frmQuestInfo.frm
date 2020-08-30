@@ -28,7 +28,7 @@ Begin VB.Form frmQuestInfo
       Top             =   1320
       Width           =   4695
    End
-   Begin WinterAO.uAOButton Aceptar 
+   Begin WinterAOR_Client.uAOButton Aceptar 
       Height          =   615
       Left            =   840
       TabIndex        =   1
@@ -55,7 +55,7 @@ Begin VB.Form frmQuestInfo
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton Rechazar 
+   Begin WinterAOR_Client.uAOButton Rechazar 
       Height          =   615
       Left            =   3840
       TabIndex        =   2

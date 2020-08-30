@@ -16,7 +16,7 @@ Public Enum ePath
     Init
     Graficos
     Interfaces
-    Skins
+    skins
     Sounds
     Musica
     Mapas
@@ -202,9 +202,6 @@ End Sub
 Public Function Path(ByVal PathType As ePath) As String
 
     Select Case PathType
-        
-        Case ePath.Script
-            Path = App.Path & "\Recursos\INIT\"
             
         Case ePath.Init
             Path = App.Path & "\INIT\"
@@ -212,24 +209,12 @@ Public Function Path(ByVal PathType As ePath) As String
         Case ePath.Graficos
             Path = App.Path & "\Recursos\Graficos\"
         
-        Case ePath.Skins
-            Path = App.Path & "\Recursos\Graficos\Skins\"
-            
-        Case ePath.Interfaces
-            Path = App.Path & "\Recursos\Graficos\Interfaces\"
+        Case ePath.skins
+            Path = App.Path & "\Recursos\Skins\"
             
         Case ePath.Lenguajes
             Path = App.Path & "\Recursos\Lenguajes\"
-            
-        Case ePath.Mapas
-            Path = App.Path & "\Recursos\Mapas\"
-            
-        Case ePath.Musica
-            Path = App.Path & "\Recursos\MP3\"
-            
-        Case ePath.Sounds
-            Path = App.Path & "\Recursos\WAV\"
-            
+               
         Case ePath.recursos
             Path = App.Path & "\Recursos"
     
@@ -326,15 +311,15 @@ Public Sub GuardarConfiguracion()
         
         ' VIDEO
         Call Lector.ChangeValue("VIDEO", "DynamicMemory", .byMemory)
-        Call Lector.ChangeValue("VIDEO", "DisableResolutionChange", IIf(.bNoRes, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ProyectileEngine, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "PartyMembers", IIf(.PartyMembers, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "Sombras", IIf(.UsarSombras, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "Reflejos", IIf(.UsarReflejos, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "Auras", IIf(.UsarAuras, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ParticleEngine, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "LimitarFPS", IIf(.LimiteFPS, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "HUD", IIf(.HUD, "True", "False"))
+        Call Lector.ChangeValue("VIDEO", "DisableResolutionChange", IIf(.bNoRes, "1", "0"))
+        Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ProyectileEngine, "1", "0"))
+        Call Lector.ChangeValue("VIDEO", "PartyMembers", IIf(.PartyMembers, "1", "0"))
+        Call Lector.ChangeValue("VIDEO", "Sombras", IIf(.UsarSombras, "1", "0"))
+        Call Lector.ChangeValue("VIDEO", "Reflejos", IIf(.UsarReflejos, "1", "0"))
+        Call Lector.ChangeValue("VIDEO", "Auras", IIf(.UsarAuras, "1", "0"))
+        Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ParticleEngine, "1", "0"))
+        Call Lector.ChangeValue("VIDEO", "LimitarFPS", IIf(.LimiteFPS, "1", "0"))
+        Call Lector.ChangeValue("VIDEO", "HUD", IIf(.HUD, "1", "0"))
         Call Lector.ChangeValue("VIDEO", "VertexProcessingOverride", .OverrideVertexProcess)
         
         ' AUDIO
@@ -346,21 +331,21 @@ Public Sub GuardarConfiguracion()
         Call Lector.ChangeValue("AUDIO", "VOLAMBIENT", .AmbientVol)
         
         ' GUILD
-        Call Lector.ChangeValue("GUILD", "NEWS", IIf(.bGuildNews, "True", "False"))
-        Call Lector.ChangeValue("GUILD", "MESSAGES", IIf(DialogosClanes.Activo, "True", "False"))
+        Call Lector.ChangeValue("GUILD", "NEWS", IIf(.bGuildNews, "1", "0"))
+        Call Lector.ChangeValue("GUILD", "MESSAGES", IIf(DialogosClanes.Activo, "1", "0"))
         Call Lector.ChangeValue("GUILD", "MAX_MESSAGES", CByte(DialogosClanes.CantidadDialogos))
         
         ' FRAGSHOOTER
-        Call Lector.ChangeValue("FRAGSHOOTER", "DIE", IIf(.bDie, "True", "False"))
-        Call Lector.ChangeValue("FRAGSHOOTER", "KILL", IIf(.bKill, "True", "False"))
+        Call Lector.ChangeValue("FRAGSHOOTER", "DIE", IIf(.bDie, "1", "0"))
+        Call Lector.ChangeValue("FRAGSHOOTER", "KILL", IIf(.bKill, "1", "0"))
         Call Lector.ChangeValue("FRAGSHOOTER", "MURDERED_LEVEL", CByte(.byMurderedLevel))
-        Call Lector.ChangeValue("FRAGSHOOTER", "ACTIVE", IIf(.bActive, "True", "False"))
+        Call Lector.ChangeValue("FRAGSHOOTER", "ACTIVE", IIf(.bActive, "1", "0"))
         
         ' OTHER
         ' Lo comento por que no tiene por que setearse aqui esto.
         ' Al menos no al hacer click en el boton Salir del formulario opciones (Recox)
         ' Call Lector.ChangeValue("OTHER", "MOSTRAR_TIPS", CBool(.MostrarTips))
-        Call Lector.ChangeValue("OTHER", "BLOQUEOMOV", CBool(.BloqueoMovimiento))
+        Call Lector.ChangeValue("OTHER", "BLOQUEOMOV", IIf(.bActive, "1", "0"))
     End With
     
     Call Lector.DumpFile(Carga.Path(Init) & CLIENT_FILE)
@@ -945,72 +930,6 @@ errhandler:
         
     End If
     
-End Sub
-
-Public Sub CargarHechizos()
-'********************************
-'Author: Shak
-'Last Modification:
-'Cargamos los hechizos del juego. [Solo datos necesarios]
-'********************************
-On Error GoTo errorH
-
-    Dim j As Long
-    
-    Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Carga.Path(Script) & "Hechizos.dat")
-
-    NumHechizos = Val(FileManager.GetValue("INIT", "NumHechizos"))
- 
-    ReDim Hechizos(1 To NumHechizos) As tHechizos
-    
-    For j = 1 To NumHechizos
-        
-        With Hechizos(j)
-            .Desc = FileManager.GetValue("HECHIZO" & j, "Desc")
-            .PalabrasMagicas = FileManager.GetValue("HECHIZO" & j, "PalabrasMagicas")
-            .Nombre = FileManager.GetValue("HECHIZO" & j, "Nombre")
-            .SkillRequerido = Val(FileManager.GetValue("HECHIZO" & j, "MinSkill"))
-         
-            If j <> 38 And j <> 39 Then
-                
-                .EnergiaRequerida = Val(FileManager.GetValue("HECHIZO" & j, "StaRequerido"))
-                 
-                .HechiceroMsg = FileManager.GetValue("HECHIZO" & j, "HechizeroMsg")
-                .ManaRequerida = Val(FileManager.GetValue("HECHIZO" & j, "ManaRequerido"))
-             
-                .PropioMsg = FileManager.GetValue("HECHIZO" & j, "PropioMsg")
-                .TargetMsg = FileManager.GetValue("HECHIZO" & j, "TargetMsg")
-                
-            End If
-            
-        End With
-        
-    Next j
-    
-    Set FileManager = Nothing
-    
-Exit Sub
- 
-errorH:
-
-    If Err.number <> 0 Then
-        
-        Select Case Err.number
-            
-            Case 9
-                Call MsgBox("Error cargando el archivo Hechizos.dat (Hechizo " & j & "). Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , Form_Caption)
-                Call LogError(Err.number, Err.Description, "CargarHechizos")
-            
-            Case 53
-                Call MsgBox("El archivo Hechizos.dat no existe. Por favor, reinstale el juego.", , Form_Caption)
-        
-        End Select
-        
-        Call CloseClient
-
-    End If
-
 End Sub
 
 Sub CargarMapa(ByVal Map As Integer)

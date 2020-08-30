@@ -42,7 +42,7 @@ Begin VB.Form frmUserRequest
       Top             =   405
       Width           =   4185
    End
-   Begin WinterAO.uAOButton imgCerrar 
+   Begin WinterAOR_Client.uAOButton imgCerrar 
       Height          =   375
       Left            =   960
       TabIndex        =   1

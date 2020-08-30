@@ -135,7 +135,7 @@ Begin VB.Form FrmRetos
       Visible         =   0   'False
       Width           =   1815
    End
-   Begin WinterAO.uAOButton Comenzar 
+   Begin WinterAOR_Client.uAOButton Comenzar 
       Height          =   615
       Left            =   5400
       TabIndex        =   12
@@ -162,7 +162,7 @@ Begin VB.Form FrmRetos
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton Salir 
+   Begin WinterAOR_Client.uAOButton Salir 
       Height          =   615
       Left            =   7200
       TabIndex        =   13

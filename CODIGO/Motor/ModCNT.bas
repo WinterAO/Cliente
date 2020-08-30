@@ -830,10 +830,10 @@ Private Sub btnConectar()
     frmMain.hlst.Clear
 
     If frmConnect.chkRecordar.Checked = False Then
-        Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Remember", "False")
+        Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Remember", "0")
         Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "UserName", vbNullString)
     Else
-        Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Remember", "True")
+        Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Remember", "1")
         Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "UserName", AccountName)
     End If
 
