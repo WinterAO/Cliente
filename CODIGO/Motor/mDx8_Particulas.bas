@@ -1,7 +1,5 @@
 Attribute VB_Name = "mDx8_Particulas"
 '*************************************************************
-'ImperiumAO 1.4.6
-'*************************************************************
 'Este modulo contiene TODOS los procedimientos que conforma
 'el Sistema de Particulas ORE.
 '*************************************************************
@@ -44,11 +42,10 @@ Public Type Stream
     move_x2 As Long
     move_y1 As Long
     move_y2 As Long
-    grh_list() As Long
-    colortint(0 To 3) As RGB
-    
     speed As Single
     life_counter As Long
+    grh_list() As Long
+    colortint(0 To 3) As RGB
 End Type
 
 Private Type Particle
@@ -153,83 +150,87 @@ Public StreamData() As Stream
 
 Public Const PI As Single = 3.14159265358979
 
-Private RainParticle As Long
-
-Public Enum eWeather
-    Rain
-    Snow
-End Enum
-
 Public Sub CargarParticulas()
+    Dim buffer()    As Byte
+    Dim InfoHead    As INFOHEADER
     Dim loopc As Long
     Dim i As Long
-    Dim GrhListing As String
-    Dim TempSet As String
     Dim ColorSet As Long
-    Dim Leer As New clsIniManager
-
-    Call Leer.Initialize(Path(Script) & "Particulas.ini")
-
-    TotalStreams = Val(Leer.GetValue("INIT", "Total"))
+    Dim LaCabecera  As tCabecera
+    Dim fileBuff  As clsByteBuffer
     
-    'resize StreamData array
-    ReDim StreamData(1 To TotalStreams) As Stream
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Particulas.ind"))
     
-    'fill StreamData array with info from Particles.ini
-    For loopc = 1 To TotalStreams
-        With StreamData(loopc)
-            .name = Leer.GetValue(Val(loopc), "Name")
-            .NumOfParticles = Leer.GetValue(Val(loopc), "NumOfParticles")
-            .x1 = Leer.GetValue(Val(loopc), "X1")
-            .y1 = Leer.GetValue(Val(loopc), "Y1")
-            .x2 = Leer.GetValue(Val(loopc), "X2")
-            .y2 = Leer.GetValue(Val(loopc), "Y2")
-            .angle = Leer.GetValue(Val(loopc), "Angle")
-            .vecx1 = Leer.GetValue(Val(loopc), "VecX1")
-            .vecx2 = Leer.GetValue(Val(loopc), "VecX2")
-            .vecy1 = Leer.GetValue(Val(loopc), "VecY1")
-            .vecy2 = Leer.GetValue(Val(loopc), "VecY2")
-            .life1 = Leer.GetValue(Val(loopc), "Life1")
-            .life2 = Leer.GetValue(Val(loopc), "Life2")
-            .friction = Leer.GetValue(Val(loopc), "Friction")
-            .spin = Leer.GetValue(Val(loopc), "Spin")
-            .spin_speedL = Leer.GetValue(Val(loopc), "Spin_SpeedL")
-            .spin_speedH = Leer.GetValue(Val(loopc), "Spin_SpeedH")
-            .alphaBlend = Leer.GetValue(Val(loopc), "AlphaBlend")
-            .gravity = Leer.GetValue(Val(loopc), "Gravity")
-            .grav_strength = Leer.GetValue(Val(loopc), "Grav_Strength")
-            .bounce_strength = Leer.GetValue(Val(loopc), "Bounce_Strength")
-            .XMove = Leer.GetValue(Val(loopc), "XMove")
-            .YMove = Leer.GetValue(Val(loopc), "YMove")
-            .move_x1 = Leer.GetValue(Val(loopc), "move_x1")
-            .move_x2 = Leer.GetValue(Val(loopc), "move_x2")
-            .move_y1 = Leer.GetValue(Val(loopc), "move_y1")
-            .move_y2 = Leer.GetValue(Val(loopc), "move_y2")
-            .life_counter = Leer.GetValue(Val(loopc), "life_counter")
-            .speed = Val(Leer.GetValue(Val(loopc), "Speed"))
-            
-            .NumGrhs = Leer.GetValue(Val(loopc), "NumGrhs")
-            
-            ReDim .grh_list(1 To .NumGrhs)
-            GrhListing = Leer.GetValue(Val(loopc), "Grh_List")
-            
-            For i = 1 To .NumGrhs
-                .grh_list(i) = ReadField(i, GrhListing, Asc(","))
-            Next i
-            
-            .grh_list(i - 1) = .grh_list(i - 1)
-            
-            For ColorSet = 1 To 4
-                TempSet = Leer.GetValue(Val(loopc), "ColorSet" & ColorSet)
-                .colortint(ColorSet - 1).r = ReadField(1, TempSet, Asc(","))
-                .colortint(ColorSet - 1).g = ReadField(2, TempSet, Asc(","))
-                .colortint(ColorSet - 1).b = ReadField(3, TempSet, Asc(","))
-            Next ColorSet
+    If InfoHead.lngFileSize <> 0 Then
+    
+        Extract_File_Memory Scripts, LCase$("Particulas.ind"), buffer()
+        
+        Set fileBuff = New clsByteBuffer
+        
+        fileBuff.initializeReader buffer
+        
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
 
-        End With
-    Next loopc
+        TotalStreams = fileBuff.getInteger
+        
+        'resize StreamData array
+        ReDim StreamData(1 To TotalStreams) As Stream
+        
+        'fill StreamData array with info from Particles.ini
+        For loopc = 1 To TotalStreams
+            With StreamData(loopc)
+
+                .NumOfParticles = fileBuff.getLong
+                .NumGrhs = fileBuff.getLong
+                .id = fileBuff.getLong
+                .x1 = fileBuff.getLong
+                .y1 = fileBuff.getLong
+                .x2 = fileBuff.getLong
+                .y2 = fileBuff.getLong
+                .angle = fileBuff.getLong
+                .vecx1 = fileBuff.getLong
+                .vecx2 = fileBuff.getLong
+                .vecy1 = fileBuff.getLong
+                .vecy2 = fileBuff.getLong
+                .life1 = fileBuff.getLong
+                .life2 = fileBuff.getLong
+                .friction = fileBuff.getLong
+                .spin = fileBuff.getByte
+                .spin_speedL = fileBuff.getSingle
+                .spin_speedH = fileBuff.getSingle
+                .alphaBlend = fileBuff.getByte
+                .gravity = fileBuff.getByte
+                .grav_strength = fileBuff.getLong
+                .bounce_strength = fileBuff.getLong
+                .XMove = fileBuff.getByte
+                .YMove = fileBuff.getByte
+                .move_x1 = fileBuff.getLong
+                .move_x2 = fileBuff.getLong
+                .move_y1 = fileBuff.getLong
+                .move_y2 = fileBuff.getLong
+                .speed = fileBuff.getSingle
+                .life_counter = fileBuff.getLong
+                
+                ReDim .grh_list(1 To .NumGrhs)
+                
+                For i = 1 To .NumGrhs
+                    .grh_list(i) = fileBuff.getLong
+                Next i
+                
+                For ColorSet = 1 To 4
+                    .colortint(ColorSet - 1).r = fileBuff.getLong
+                    .colortint(ColorSet - 1).g = fileBuff.getLong
+                    .colortint(ColorSet - 1).b = fileBuff.getLong
+                Next ColorSet
     
-    Set Leer = Nothing
+            End With
+        Next loopc
+    
+    End If
+    
+    Set fileBuff = Nothing
 
 End Sub
 
@@ -1019,77 +1020,3 @@ Private Sub Char_Particle_Group_Make(ByVal Particle_Group_Index As Long, ByVal c
     'plot particle group on char
     charlist(char_index).Particle_Group(particle_char_index) = Particle_Group_Index
 End Sub
-
-Public Sub Engine_Weather_Update()
-'*****************************************************************
-'Author: Lucas Recoaro (Recox)
-'Last Modify Date: 19/12/2019
-'Controla los climas, aqui se renderizan la lluvia, nieve, etc.
-'*****************************************************************
-    'TODO: Hay un bug no muy importante que hace que no se renderice la lluvia
-    'en caso que empiece a llover, tiro el comando /salir y vuelvo a entrar al juego
-    'Sin embargo al cambiar de mapa o al entrar y salir de un techo la particula se vuelve a cargar
-    'Este error NO pasa cuando esta lloviendo y recien abro el juego y entro, en ese caso la lluvia se ve bien (Recox)
-
-    If bRain And Not bTecho Then
-        'Primero verificamos que las particulas de lluvia esten creadas en la coleccion de particulas
-        'Si estan creadas las renderizamos, sino las creamos
-        If RainParticle <= 0 Then
-            'Creamos las particulas de lluvia
-            Call mDx8_Particulas.LoadWeatherParticles(eWeather.Rain)
-        ElseIf RainParticle > 0 Then
-            Call mDx8_Particulas.Particle_Group_Render(RainParticle, 250, -1)
-        End If
-    Else
-        'Borramos las particulas de lluvia en caso de que pare la lluvia o nos escondamos en un techo
-        Call mDx8_Particulas.RemoveWeatherParticles(eWeather.Rain)
-    End If
-
-End Sub
-
-Public Sub LoadWeatherParticles(ByVal Weather As Byte)
-'*****************************************************************
-'Author: Lucas Recoaro (Recox)
-'Last Modify Date: 19/12/2019
-'Crea las particulas de clima.
-'*****************************************************************
-    Select Case Weather
-
-        Case eWeather.Rain
-            RainParticle = mDx8_Particulas.General_Particle_Create(8, -1, -1)
-
-    End Select
-End Sub
-
-Public Sub RemoveWeatherParticles(ByVal Weather As Byte)
-'*****************************************************************
-'Author: Lucas Recoaro (Recox)
-'Last Modify Date: 19/12/2019
-'Remueve las particulas de clima.
-'*****************************************************************
-    Select Case Weather
-
-        Case eWeather.Rain
-            Particle_Group_Remove (RainParticle)
-            RainParticle = 0
-
-    End Select
-End Sub
-
-Public Sub Load_Map_Particles(ByVal Map As Integer)
-'*****************************************************************
-'Author: Jopi
-'Para los que no tienen un World Editor con sistema de particulas
-'Crea las particulas al entrar en un mapa.
-'*****************************************************************
-    
-    ' Crea las particulas especificas para el mapa actual.
-    Select Case Map
-    
-        Case 1
-            Call General_Particle_Create(1, 45, 45)
-            
-    End Select
-    
-End Sub
-

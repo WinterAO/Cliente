@@ -28,7 +28,7 @@ Begin VB.Form frmArtesano
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
       TabIndex        =   8
-      Top             =   3975
+      Top             =   3855
       Visible         =   0   'False
       Width           =   480
    End
@@ -43,7 +43,7 @@ Begin VB.Form frmArtesano
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   128
       TabIndex        =   7
-      Top             =   3975
+      Top             =   3855
       Visible         =   0   'False
       Width           =   1920
    End
@@ -59,7 +59,7 @@ Begin VB.Form frmArtesano
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
       TabIndex        =   6
-      Top             =   3180
+      Top             =   3060
       Visible         =   0   'False
       Width           =   480
    End
@@ -74,7 +74,7 @@ Begin VB.Form frmArtesano
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   128
       TabIndex        =   5
-      Top             =   3180
+      Top             =   3060
       Visible         =   0   'False
       Width           =   1920
    End
@@ -90,7 +90,7 @@ Begin VB.Form frmArtesano
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
       TabIndex        =   4
-      Top             =   2385
+      Top             =   2265
       Visible         =   0   'False
       Width           =   480
    End
@@ -105,15 +105,15 @@ Begin VB.Form frmArtesano
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   128
       TabIndex        =   3
-      Top             =   2385
+      Top             =   2265
       Visible         =   0   'False
       Width           =   1920
    End
    Begin VB.VScrollBar Scroll 
       Height          =   3135
-      Left            =   420
+      Left            =   360
       TabIndex        =   2
-      Top             =   1455
+      Top             =   1320
       Visible         =   0   'False
       Width           =   255
    End
@@ -128,7 +128,7 @@ Begin VB.Form frmArtesano
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   128
       TabIndex        =   1
-      Top             =   1590
+      Top             =   1470
       Visible         =   0   'False
       Width           =   1920
    End
@@ -144,55 +144,54 @@ Begin VB.Form frmArtesano
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   32
       TabIndex        =   0
-      Top             =   1590
+      Top             =   1470
       Visible         =   0   'False
       Width           =   480
    End
    Begin VB.Label Costo 
-      Alignment       =   2  'Center
       BackStyle       =   0  'Transparent
       Caption         =   "999.999.999"
       BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   12
+         Name            =   "Tahoma"
+         Size            =   9.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      ForeColor       =   &H0000C0C0&
+      ForeColor       =   &H00FFFFFF&
       Height          =   255
-      Left            =   4725
+      Left            =   4680
       TabIndex        =   9
-      Top             =   1125
+      Top             =   4740
       Width           =   1545
    End
    Begin VB.Image imgConstruir0 
       Height          =   420
       Left            =   4200
-      Top             =   1635
+      Top             =   1515
       Visible         =   0   'False
       Width           =   1710
    End
    Begin VB.Image imgConstruir1 
       Height          =   420
       Left            =   4200
-      Top             =   2445
+      Top             =   2325
       Visible         =   0   'False
       Width           =   1710
    End
    Begin VB.Image imgConstruir2 
       Height          =   420
       Left            =   4200
-      Top             =   3255
+      Top             =   3135
       Visible         =   0   'False
       Width           =   1710
    End
    Begin VB.Image imgConstruir3 
       Height          =   420
       Left            =   4200
-      Top             =   4035
+      Top             =   3915
       Visible         =   0   'False
       Width           =   1710
    End
@@ -200,7 +199,7 @@ Begin VB.Form frmArtesano
       Height          =   780
       Index           =   1
       Left            =   690
-      Top             =   1440
+      Top             =   1320
       Visible         =   0   'False
       Width           =   780
    End
@@ -208,7 +207,7 @@ Begin VB.Form frmArtesano
       Height          =   780
       Index           =   2
       Left            =   690
-      Top             =   2235
+      Top             =   2115
       Visible         =   0   'False
       Width           =   780
    End
@@ -216,7 +215,7 @@ Begin VB.Form frmArtesano
       Height          =   780
       Index           =   3
       Left            =   690
-      Top             =   3030
+      Top             =   2910
       Visible         =   0   'False
       Width           =   780
    End
@@ -224,7 +223,7 @@ Begin VB.Form frmArtesano
       Height          =   780
       Index           =   4
       Left            =   690
-      Top             =   3825
+      Top             =   3705
       Visible         =   0   'False
       Width           =   780
    End
@@ -232,7 +231,7 @@ Begin VB.Form frmArtesano
       Height          =   780
       Index           =   1
       Left            =   1590
-      Top             =   1440
+      Top             =   1320
       Visible         =   0   'False
       Width           =   2190
    End
@@ -240,7 +239,7 @@ Begin VB.Form frmArtesano
       Height          =   780
       Index           =   2
       Left            =   1590
-      Top             =   2235
+      Top             =   2115
       Visible         =   0   'False
       Width           =   2190
    End
@@ -248,7 +247,7 @@ Begin VB.Form frmArtesano
       Height          =   780
       Index           =   3
       Left            =   1590
-      Top             =   3030
+      Top             =   2910
       Visible         =   0   'False
       Width           =   2190
    End
@@ -256,14 +255,14 @@ Begin VB.Form frmArtesano
       Height          =   780
       Index           =   4
       Left            =   1590
-      Top             =   3825
+      Top             =   3705
       Visible         =   0   'False
       Width           =   2190
    End
    Begin VB.Image imgCerrar 
       Height          =   360
-      Left            =   2640
-      Top             =   4680
+      Left            =   720
+      Top             =   4605
       Width           =   1455
    End
 End
@@ -293,7 +292,7 @@ Private Sub Form_Load()
     
     Scroll.value = 0
     
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaArtesano.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("16.gif", False)
     
     Call LoadButtons
     
@@ -310,13 +309,10 @@ On Error Resume Next
 End Sub
 
 Private Sub LoadButtons()
-    Dim GrhPath As String
     Dim Index   As Long
 
-    GrhPath = Carga.Path(Interfaces)
-
-    Set picRecuadroItem = LoadPicture(GrhPath & "RecuadroItemsArtesano.jpg")
-    Set picRecuadroReqItems = LoadPicture(GrhPath & "RecuadroObjArtesano.jpg")
+    Set picRecuadroItem = General_Load_Picture_From_Resource("14.gif", False)
+    Set picRecuadroReqItems = General_Load_Picture_From_Resource("15.gif", False)
 
     For Index = 1 To MAX_LIST_ITEMS
         imgMarcoItem(Index).Picture = picRecuadroItem
@@ -331,12 +327,12 @@ Private Sub LoadButtons()
 
     Set LastButtonPressed = New clsGraphicalButton
 
-    Call cBotonCerrar.Initialize(imgCerrar, GrhPath & "BotonCerrarArtesano.jpg", GrhPath & "BotonCerrarRolloverArtesano.jpg", GrhPath & "BotonCerrarClickArtesano.jpg", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "8.gif", "9.gif", "10.gif", Me)
 
-    Call cBotonConstruir(0).Initialize(imgConstruir0, GrhPath & "BotonConstruirArtesano.jpg", GrhPath & "BotonConstruirRolloverArtesano.jpg", GrhPath & "BotonConstruirClickArtesano.jpg", Me)
-    Call cBotonConstruir(1).Initialize(imgConstruir1, GrhPath & "BotonConstruirArtesano.jpg", GrhPath & "BotonConstruirRolloverArtesano.jpg", GrhPath & "BotonConstruirClickArtesano.jpg", Me)
-    Call cBotonConstruir(2).Initialize(imgConstruir2, GrhPath & "BotonConstruirArtesano.jpg", GrhPath & "BotonConstruirRolloverArtesano.jpg", GrhPath & "BotonConstruirClickArtesano.jpg", Me)
-    Call cBotonConstruir(3).Initialize(imgConstruir3, GrhPath & "BotonConstruirArtesano.jpg", GrhPath & "BotonConstruirRolloverArtesano.jpg", GrhPath & "BotonConstruirClickArtesano.jpg", Me)
+    Call cBotonConstruir(0).Initialize(imgConstruir0, "11.gif", "12.gif", "13.gif", Me)
+    Call cBotonConstruir(1).Initialize(imgConstruir1, "11.gif", "12.gif", "13.gif", Me)
+    Call cBotonConstruir(2).Initialize(imgConstruir2, "11.gif", "12.gif", "13.gif", Me)
+    Call cBotonConstruir(3).Initialize(imgConstruir3, "11.gif", "12.gif", "13.gif", Me)
 
     Costo.Caption = Format$(ArtesaniaCosto, "##,##")
 
@@ -376,7 +372,7 @@ Public Sub HideExtraControls(ByVal NumItems As Integer)
     
     If NumItems > MAX_LIST_ITEMS Then
         Scroll.Visible = True
-        Scroll.max = NumItems - MAX_LIST_ITEMS
+        Scroll.Max = NumItems - MAX_LIST_ITEMS
     Else
         Scroll.Visible = False
     End If

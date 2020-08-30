@@ -14,7 +14,7 @@ Begin VB.Form frmEligeAlineacion
    ScaleHeight     =   5265
    ScaleWidth      =   6720
    StartUpPosition =   1  'CenterOwner
-   Begin WinterAO.uAOButton imgSalir 
+   Begin WinterAOR_Client.uAOButton imgSalir 
       Height          =   375
       Left            =   5640
       TabIndex        =   0
@@ -272,10 +272,9 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
 
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaFundarClan.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("184.gif", False)
     
     Call LoadTextsForm
-    Call LoadAOCustomControlsPictures(Me)
 End Sub
 
 Private Sub LoadTextsForm()

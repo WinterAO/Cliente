@@ -79,7 +79,7 @@ Begin VB.Form frmOpciones
       Height          =   1215
       Left            =   3960
       TabIndex        =   28
-      Top             =   2160
+      Top             =   2040
       Width           =   3735
       Begin VB.TextBox txtCantMensajes 
          Alignment       =   2  'Center
@@ -187,21 +187,30 @@ Begin VB.Form frmOpciones
       Top             =   120
       Width           =   3735
       Begin VB.CheckBox chkop 
-         Caption         =   "Desactivar Reflejos"
+         Caption         =   "Activar Auras"
+         Height          =   195
+         Index           =   13
+         Left            =   240
+         TabIndex        =   39
+         Top             =   1420
+         Width           =   2055
+      End
+      Begin VB.CheckBox chkop 
+         Caption         =   "Activar Reflejos"
          Height          =   195
          Index           =   12
          Left            =   240
          TabIndex        =   38
-         Top             =   1080
+         Top             =   1150
          Width           =   2055
       End
       Begin VB.CheckBox chkop 
-         Caption         =   "Desactivar Sombras"
+         Caption         =   "Activar Sombras"
          Height          =   195
          Index           =   11
          Left            =   240
          TabIndex        =   37
-         Top             =   840
+         Top             =   880
          Width           =   2055
       End
       Begin VB.CheckBox chkop 
@@ -210,7 +219,7 @@ Begin VB.Form frmOpciones
          Index           =   5
          Left            =   240
          TabIndex        =   22
-         Top             =   600
+         Top             =   620
          Width           =   1335
       End
       Begin VB.CheckBox chkop 
@@ -286,7 +295,7 @@ Begin VB.Form frmOpciones
          Index           =   3
          Left            =   120
          TabIndex        =   11
-         Top             =   1320
+         Top             =   1240
          Width           =   2985
       End
       Begin VB.HScrollBar scrAmbient 
@@ -348,7 +357,7 @@ Begin VB.Form frmOpciones
       Height          =   3135
       Left            =   3960
       TabIndex        =   0
-      Top             =   3480
+      Top             =   3360
       Width           =   3735
       Begin VB.ComboBox cmdLenguajesComboBox 
          BackColor       =   &H00FFFFFF&
@@ -554,6 +563,9 @@ Private Sub chkop_MouseUp(Index As Integer, Button As Integer, Shift As Integer,
         Case 12 'Reflejos
             ClientSetup.UsarReflejos = Not ClientSetup.UsarReflejos
             
+        Case 13 'Auras
+            ClientSetup.UsarAuras = Not ClientSetup.UsarAuras
+            
     End Select
 End Sub
 
@@ -669,7 +681,7 @@ Private Sub imgManual_Click()
 End Sub
 
 Private Sub imgMapa_Click()
-    Call frmMapa.Show(vbModal, Me)
+    frmMapa.Show vbModeless, Me
 End Sub
 
 Private Sub imgSalir_Click()
@@ -697,7 +709,7 @@ End Sub
 
 Private Sub LoadSkinsInComboBox()
     Dim sFileName As String
-    sFileName = Dir$(Carga.Path(Graficos) & "\Skins\", vbDirectory)
+    sFileName = Dir$(Carga.Path(skins), vbArchive)
     
     Do While sFileName > vbNullString
         Call cmdSkinsComboBox.AddItem(sFileName)
@@ -706,7 +718,7 @@ Private Sub LoadSkinsInComboBox()
     
     'Boorramos los 2 primeros items por que son . y ..
     Call cmdSkinsComboBox.RemoveItem(0)
-    Call cmdSkinsComboBox.RemoveItem(0)
+'    Call cmdSkinsComboBox.RemoveItem(0)
 End Sub
 
 Private Sub LoadLenguajesInComboBox()
@@ -808,6 +820,12 @@ Private Sub LoadUserConfig()
         chkop(12).value = vbChecked
     Else
         chkop(12).value = vbUnchecked
+    End If
+    
+    If ClientSetup.UsarAuras Then
+        chkop(13).value = vbChecked
+    Else
+        chkop(13).value = vbUnchecked
     End If
     
     txtCantMensajes.Text = CStr(DialogosClanes.CantidadDialogos)

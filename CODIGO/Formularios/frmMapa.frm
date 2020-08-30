@@ -2,20 +2,38 @@ VERSION 5.00
 Begin VB.Form frmMapa 
    BackColor       =   &H00000000&
    BorderStyle     =   0  'None
-   Caption         =   "Form1"
-   ClientHeight    =   8850
+   Caption         =   "Mapa"
+   ClientHeight    =   12165
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   8595
-   ClipControls    =   0   'False
+   ClientWidth     =   12735
+   BeginProperty Font 
+      Name            =   "Tahoma"
+      Size            =   8.25
+      Charset         =   0
+      Weight          =   400
+      Underline       =   0   'False
+      Italic          =   0   'False
+      Strikethrough   =   0   'False
+   EndProperty
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   8850
-   ScaleWidth      =   8595
+   Picture         =   "frmMapa.frx":0000
+   ScaleHeight     =   811
+   ScaleMode       =   3  'Pixel
+   ScaleWidth      =   849
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
+   Begin VB.Image imgCerrar 
+      Height          =   345
+      Left            =   12240
+      MouseIcon       =   "frmMapa.frx":7C3A1
+      Tag             =   "1"
+      Top             =   165
+      Width           =   345
+   End
    Begin VB.Image imgToogleMap 
       Height          =   255
       Index           =   1
@@ -31,33 +49,6 @@ Begin VB.Form frmMapa
       MousePointer    =   99  'Custom
       Top             =   7560
       Width           =   735
-   End
-   Begin VB.Image imgCerrar 
-      Height          =   255
-      Left            =   8040
-      MousePointer    =   99  'Custom
-      Top             =   240
-      Width           =   255
-   End
-   Begin VB.Label lblTexto 
-      Alignment       =   2  'Center
-      BackStyle       =   0  'Transparent
-      Caption         =   $"frmMapa.frx":0000
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   12
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   975
-      Left            =   0
-      TabIndex        =   0
-      Top             =   7920
-      Width           =   8175
    End
 End
 Attribute VB_Name = "frmMapa"
@@ -88,9 +79,11 @@ Private Enum eMaps
     ieDungeon
 End Enum
 
-Private picMaps(1) As Picture
+Private picMaps(1)           As Picture
+Private cBotonCerrar         As clsGraphicalButton
+Public LastButtonPressed     As clsGraphicalButton
 
-Private CurrentMap As eMaps
+Private CurrentMap           As eMaps
 
 ''
 ' This form is used to show the world map.
@@ -121,6 +114,10 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
             Unload Me
     End Select
     
+End Sub
+
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    LastButtonPressed.ToggleToNormal
 End Sub
 
 ''
@@ -163,9 +160,11 @@ On Error GoTo Error
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
         
+    Call LoadButtons
+        
     'Cargamos las imagenes de los mapas
-    Set picMaps(eMaps.ieGeneral) = LoadPicture(Carga.Path(Interfaces) & "mapa1.jpg")
-    Set picMaps(eMaps.ieDungeon) = LoadPicture(Carga.Path(Interfaces) & "mapa2.jpg")
+    Set picMaps(eMaps.ieGeneral) = General_Load_Picture_From_Resource("17.gif", False)
+    Set picMaps(eMaps.ieDungeon) = General_Load_Picture_From_Resource("18.gif", False)
     
     ' Imagen de fondo
     CurrentMap = eMaps.ieGeneral
@@ -181,10 +180,29 @@ Error:
     Unload Me
 End Sub
 
+Private Sub LoadButtons()
+
+    Set LastButtonPressed = New clsGraphicalButton
+    Set cBotonCerrar = New clsGraphicalButton
+    
+    Call cBotonCerrar.Initialize(imgCerrar, "197.gif", _
+                                "198.gif", _
+                                "199.gif", Me)
+    
+End Sub
+
 Private Sub imgCerrar_Click()
     Unload Me
 End Sub
 
 Private Sub imgToogleMap_Click(Index As Integer)
     ToggleImgMaps
+End Sub
+
+Private Sub imgCerrar_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If imgCerrar.Tag = 1 Then
+        imgCerrar.Picture = General_Load_Picture_From_Resource("199.gif", False)
+        imgCerrar.Tag = 0
+    End If
+
 End Sub

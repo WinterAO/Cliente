@@ -32,6 +32,9 @@ Attribute VB_Name = "Mod_Declaraciones"
 
 Option Explicit
 
+'Caption de los Forms del proyecto
+Public Form_Caption As String
+
 'Indicadores de equipo
 Public lblWeapon As String
 Public lblArmor As String
@@ -79,11 +82,12 @@ Public InvComNpc As clsGraphicalInventory  ' Inventario con los items que ofrece
 
 'Inventarios de herreria
 Public Const MAX_LIST_ITEMS As Byte = 4
-Public InvLingosHerreria(1 To MAX_LIST_ITEMS) As clsGraphicalInventory
-Public InvMaderasCarpinteria(1 To MAX_LIST_ITEMS) As clsGraphicalInventory
+Public InvMaterialTrabajo(1 To MAX_LIST_ITEMS) As clsGraphicalInventory
 Public InvObjArtesano(1 To MAX_LIST_ITEMS) As clsGraphicalInventory
 
 Public Const MAX_ITEMS_CRAFTEO As Byte = 4
+
+Public Const MAXMATERIALES As Byte = 4 '4 materiales maximo para construir un item
 
 Public CustomKeys As clsCustomKeys
 
@@ -129,11 +133,19 @@ Public Const SND_NAVEGANDO As String = 50
 Public Const SND_MSG As String = 84
 Public Const SND_FUEGO As Integer = 79
 Public Const GRH_FOGATA As Integer = 1521
+Public Const SND_RELAMPAGO As Byte = 97
 
 'Musicas
 Public Const MUS_Inicio As String = "1"
 Public Const MUS_VolverInicio As String = "2"
 Public Const MUS_CrearPersonaje As String = "3"
+
+'Ambiental
+Public Const SND_LLUVIAIN As Byte = 17
+Public Const SND_LLUVIAOUT As Byte = 18
+Public Const SND_VIENTO As Byte = 14
+Public Const SND_AMBIENTE_NOCHE As Byte = 7
+Public Const SND_AMBIENTE_NOCHE_CIU As Byte = 3
 
 ' Constantes de intervalo
 Public Enum eIntervalos
@@ -215,9 +227,9 @@ Public Enum eCabezas
     VAMPIRO_M_CUERPO_DESNUDO = 634
 End Enum
 
-Public ColoresPJ(0 To 50) As Long
-
-Public ColoresDano(51 To 56) As Long
+'Colores
+Public Const MAXCOLORES As Byte = 56
+Public ColoresPJ(0 To MAXCOLORES) As Long
 
 Public CreandoClan As Boolean
 Public ClanName As String
@@ -240,11 +252,7 @@ Public Enum ePartesCuerpo
     bTorso = 6
 End Enum
 
-Public ArmasHerrero() As tItemsConstruibles
-Public ArmadurasHerrero() As tItemsConstruibles
-Public ObjCarpintero() As tItemsConstruibles
-Public CarpinteroMejorar() As tItemsConstruibles
-Public HerreroMejorar() As tItemsConstruibles
+Public ObjetoTrabajo() As tItemsConstruibles
 Public ObjArtesano() As tItemArtesano
 
 Public UsaMacro As Boolean
@@ -325,19 +333,23 @@ Public Enum eSkill
     Apunalar = 6
     Ocultarse = 7
     Supervivencia = 8
-    Talar = 9
-    Comerciar = 10
-    Defensa = 11
-    Pesca = 12
-    Mineria = 13
-    Carpinteria = 14
-    Herreria = 15
-    Liderazgo = 16
-    Domar = 17
-    Proyectiles = 18
-    Wrestling = 19
-    Navegacion = 20
-    Equitacion = 21
+    Defensa = 9
+    Proyectiles = 10
+    Wrestling = 11
+    Comerciar = 12
+    Domar = 13
+    '<--Fijos-->
+    Liderazgo = 14
+    Navegacion = 15
+    Equitacion = 16
+    Talar = 17
+    pesca = 18
+    Mineria = 19
+    Carpinteria = 20
+    Herreria = 21
+    Sastreria = 22
+    Herboristeria = 23
+    Alquimia = 24
 End Enum
 
 Public Enum eAtributos
@@ -365,6 +377,7 @@ Public Enum PlayerType
 End Enum
 
 Public Enum eObjType
+
     otUseOnce = 1
     otWeapon = 2
     otArmadura = 3
@@ -400,10 +413,12 @@ Public Enum eObjType
     otBotellaVacia = 33
     otBotellaLlena = 34
     otManuales = 35
-    otArbolElfico = 36
+    otPasajes = 36
     otMochilas = 37
     otYacimientoPez = 38
+    otPiedraHogar = 39
     otCualquiera = 1000
+
 End Enum
 
 Public MaxInventorySlots As Byte
@@ -472,7 +487,7 @@ Public Enum eGMCommands
     GuildOnlineMembers      '/ONCLAN
     TeleportCreate          '/CT
     TeleportDestroy         '/DT
-    RainToggle              '/LLUVIA
+    MeteoToggle             '/METEO
     SetCharDescription      '/SETDESC
     ForceMUSICToMap          '/FORCEMUSICMAP
     ForceWAVEToMap          '/FORCEWAVMAP
@@ -633,6 +648,7 @@ Type Inventory
     MinDef As Integer 'Budi
     MaxHit As Integer
     MinHit As Integer
+    NoUsa As Boolean
 End Type
 
 Type NpCinV
@@ -646,6 +662,7 @@ Type NpCinV
     MinDef As Integer
     MaxHit As Integer
     MinHit As Integer
+    NoUsa As Boolean
     C1 As String
     C2 As String
     C3 As String
@@ -679,14 +696,9 @@ Type tItemsConstruibles
     name As String
     objindex As Integer
     GrhIndex As Long
-    LinH As Integer
-    LinP As Integer
-    LinO As Integer
-    Madera As Integer
-    MaderaElfica As Integer
-    Upgrade As Integer
-    UpgradeName As String
-    UpgradeGrhIndex As Long
+    Materiales(1 To 4) As Integer
+    CantMateriales(1 To 4) As Integer
+    NameMateriales(1 To 4) As String
 End Type
 
 Type tItemCrafteo
@@ -777,8 +789,7 @@ Public MirandoForo As Boolean
 Public MirandoAsignarSkills As Boolean
 Public MirandoEstadisticas As Boolean
 Public MirandoParty As Boolean
-Public MirandoCarpinteria As Boolean
-Public MirandoHerreria As Boolean
+Public MirandoTrabajo As Byte
 '<-------------------------NUEVO-------------------------->
 
 Public UserClase As eClass
@@ -787,7 +798,7 @@ Public UserRaza As eRaza
 Public UserEmail As String
 
 Public Const NUMCIUDADES As Byte = 5
-Public Const NUMSKILLS As Byte = 21
+Public Const NUMSKILLS As Byte = 24
 Public Const NUMATRIBUTOS As Byte = 5
 Public Const NUMCLASES As Byte = 12
 Public Const NUMRAZAS As Byte = 7
@@ -806,6 +817,7 @@ Public Ciudades(1 To NUMCIUDADES) As String
 Public ListaRazas(1 To NUMRAZAS) As String
 Public ListaClases(1 To NUMCLASES) As String
 
+Public SkillPoints As Integer
 Public Alocados As Integer
 Public flags() As Integer
 
@@ -1005,9 +1017,6 @@ Public FragShooterCapturePending As Boolean
 Public FragShooterNickname As String
 Public FragShooterKilledSomeone As Boolean
 
-
-Public Traveling As Boolean
-
 Public bShowGuildNews As Boolean
 Public GuildNames() As String
 Public GuildMembers() As String
@@ -1040,34 +1049,9 @@ Public Enum eMoveType
     Bank
 End Enum
 
-'/////OPTIMIZACION DE STRINGS////////
-Public NumHechizos As Byte
-Public Hechizos() As tHechizos
- 
-Public Type tHechizos
-    Nombre As String
-    Desc As String
-    PalabrasMagicas As String
-    ManaRequerida As Integer
-    SkillRequerido As Byte
-    EnergiaRequerida As Integer
- 
-    '//Mensajes
-    HechiceroMsg As String
-    PropioMsg As String
-    TargetMsg As String
-End Type
-
 'MundoSeleccionado desde la propiedad Mundo en sinfo.dat / World selected from sinfo.dat file
 Public MundoSeleccionado As String
 
-' * Configuracion de estilos de controles
-Public Const uAOButton_bEsquina As String = "bEsquina.bmp"
-Public Const uAOButton_bFondo As String = "bFondo.bmp"
-Public Const uAOButton_bHorizontal As String = "bHorizontal.bmp"
-Public Const uAOButton_bVertical As String = "bVertical.bmp"
-Public Const uAOButton_cCheckbox As String = "cCheckbox.bmp" ' Grande
-Public Const uAOButton_cCheckboxSmall As String = "cCheckboxSmall.bmp" ' Chico
 ' * Configuracion de estilo de controles
 
 Public JsonTips As Object
@@ -1077,9 +1061,4 @@ Public Const STAT_MAXELV As Byte = 50
 Public IntervaloParalizado As Integer
 Public IntervaloInvisible As Integer
 
-Public UserParalizadoSegundosRestantes As Integer
-Public UserInvisibleSegundosRestantes As Integer
-Public UserEquitandoSegundosRestantes As Long
-
-Public QuantityServers As Integer
-Public IpApiEnabled As Boolean
+Public Security As New clsSecurity

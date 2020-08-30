@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "Richtx32.ocx"
 Begin VB.Form frmComerciarUsu 
    BorderStyle     =   0  'None
    ClientHeight    =   8850
@@ -184,7 +184,6 @@ Begin VB.Form frmComerciarUsu
       _ExtentY        =   2858
       _Version        =   393217
       BackColor       =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -199,7 +198,7 @@ Begin VB.Form frmComerciarUsu
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgCancelar 
+   Begin WinterAOR_Client.uAOButton imgCancelar 
       Height          =   375
       Left            =   480
       TabIndex        =   9
@@ -225,7 +224,7 @@ Begin VB.Form frmComerciarUsu
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgConfirmar 
+   Begin WinterAOR_Client.uAOButton imgConfirmar 
       Height          =   375
       Left            =   7440
       TabIndex        =   10
@@ -251,7 +250,7 @@ Begin VB.Form frmComerciarUsu
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgAceptar 
+   Begin WinterAOR_Client.uAOButton imgAceptar 
       Height          =   375
       Left            =   6720
       TabIndex        =   11
@@ -277,7 +276,7 @@ Begin VB.Form frmComerciarUsu
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton imgRechazar 
+   Begin WinterAOR_Client.uAOButton imgRechazar 
       Height          =   375
       Left            =   8280
       TabIndex        =   12
@@ -549,7 +548,7 @@ Private Sub imgAgregar_Click()
                     Call InvOfferComUsu(0).SetItem(OfferSlot, .objindex(InvSlot), _
                                                     Amount, 0, .GrhIndex(InvSlot), .OBJType(InvSlot), _
                                                     .MaxHit(InvSlot), .MinHit(InvSlot), .MaxDef(InvSlot), .MinDef(InvSlot), _
-                                                    .valor(InvSlot), .ItemName(InvSlot))
+                                                    .valor(InvSlot), .ItemName(InvSlot), .NoUsa(InvSlot))
                 End If
             End If
         End If
@@ -659,10 +658,9 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
 
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaComercioUsuario.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("172.gif", False)
     
     Call LoadTextsForm
-    Call LoadAOCustomControlsPictures(Me)
     
     Call PrintCommerceMsg("> " & JsonLanguage.item("MENSAJE_COMM_INFO").item("TEXTO").item(1), FontTypeNames.FONTTYPE_GUILDMSG)
     Call PrintCommerceMsg("> " & JsonLanguage.item("MENSAJE_COMM_INFO").item("TEXTO").item(2), FontTypeNames.FONTTYPE_GUILDMSG)
@@ -712,7 +710,7 @@ Private Sub LoadTextsForm()
     lblTuOferta.Caption = JsonLanguage.item("FRM_COMERCIARUSU_LBLTUOFERTA").item("TEXTO")
     lblAgregar.Caption = JsonLanguage.item("FRM_COMERCIARUSU_AGREGAR").item("TEXTO")
     lblQuitar.Caption = JsonLanguage.item("FRM_COMERCIARUSU_QUITAR").item("TEXTO")
-    lblChat.Caption = JsonLanguage.item("FRM_COMERCIARUSU_CHAT").item("TEXTO")
+    LbLChat.Caption = JsonLanguage.item("FRM_COMERCIARUSU_CHAT").item("TEXTO")
     lblSuOferta.Caption = JsonLanguage.item("FRM_COMERCIARUSU_LBLSUOFERTA").item("TEXTO")
     imgRechazar.Caption = JsonLanguage.item("FRM_COMERCIARUSU_RECHAZAR").item("TEXTO")
     imgAceptar.Caption = JsonLanguage.item("FRM_COMERCIARUSU_ACEPTAR").item("TEXTO")
@@ -756,7 +754,7 @@ Private Sub SendTxt_Change()
 'Author: Unknown
 'Last Modify Date: 03/10/2009
 '**************************************************************
-    If Len(SendTxt.Text) > 160 Then
+    If Len(Sendtxt.Text) > 160 Then
         sCommerceChat = JsonLanguage.item("MENSAJE_SOY_CHEATER")
     Else
         'Make sure only valid chars are inserted (with Shift + Insert they can paste illegal chars)
@@ -764,20 +762,20 @@ Private Sub SendTxt_Change()
         Dim tempstr As String
         Dim CharAscii As Integer
         
-        For i = 1 To Len(SendTxt.Text)
-            CharAscii = Asc(mid$(SendTxt.Text, i, 1))
+        For i = 1 To Len(Sendtxt.Text)
+            CharAscii = Asc(mid$(Sendtxt.Text, i, 1))
             If CharAscii >= vbKeySpace And CharAscii <= 250 Then
                 tempstr = tempstr & Chr$(CharAscii)
             End If
         Next i
         
-        If tempstr <> SendTxt.Text Then
+        If tempstr <> Sendtxt.Text Then
             'We only set it if it's different, otherwise the event will be raised
             'constantly and the client will crush
-            SendTxt.Text = tempstr
+            Sendtxt.Text = tempstr
         End If
         
-        sCommerceChat = SendTxt.Text
+        sCommerceChat = Sendtxt.Text
     End If
 End Sub
 
@@ -793,7 +791,7 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         If LenB(sCommerceChat) <> 0 Then Call WriteCommerceChat(sCommerceChat)
         
         sCommerceChat = vbNullString
-        SendTxt.Text = vbNullString
+        Sendtxt.Text = vbNullString
         KeyCode = 0
     End If
 End Sub

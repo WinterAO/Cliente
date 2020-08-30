@@ -136,9 +136,9 @@ Private Sub Form_Load()
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
     ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
     If Language = "spanish" Then
-      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaListaClanes_spanish.jpg")
+      Me.Picture = General_Load_Picture_From_Resource("109.gif", False)
     Else
-      Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaListaClanes_english.jpg")
+      Me.Picture = General_Load_Picture_From_Resource("110.gif", False)
     End If
     
     Call LoadButtons
@@ -146,9 +146,6 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub LoadButtons()
-    Dim GrhPath As String
-    
-    GrhPath = Carga.Path(Interfaces)
 
     Set cBotonCerrar = New clsGraphicalButton
     Set cBotonDetalles = New clsGraphicalButton
@@ -156,13 +153,13 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
     
     
-    Call cBotonCerrar.Initialize(imgCerrar, GrhPath & "BotonCerrarListaClanes.jpg", _
-                                    GrhPath & "BotonCerrarRolloverListaClanes.jpg", _
-                                    GrhPath & "BotonCerrarClickListaClanes.jpg", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "105.gif", _
+                                    "104.gif", _
+                                    "103.gif", Me)
 
-    Call cBotonDetalles.Initialize(imgDetalles, GrhPath & "BotonDetallesListaClanes.jpg", _
-                                    GrhPath & "BotonDetallesRolloverListaClanes.jpg", _
-                                    GrhPath & "BotonDetallesClickListaClanes.jpg", Me)
+    Call cBotonDetalles.Initialize(imgDetalles, "106.gif", _
+                                    "107.gif", _
+                                    "108.gif", Me)
 
 End Sub
 
@@ -182,8 +179,8 @@ End Sub
 Private Sub imgDetalles_Click()
     frmGuildBrief.EsLeader = False
     
-    If LenB(guildslist.List(guildslist.ListIndex)) <> 0 Then
-        Call WriteGuildRequestDetails(guildslist.List(guildslist.ListIndex))
+    If LenB(GuildsList.List(GuildsList.ListIndex)) <> 0 Then
+        Call WriteGuildRequestDetails(GuildsList.List(GuildsList.ListIndex))
     End If
 End Sub
 
@@ -204,7 +201,7 @@ Public Sub FiltrarListaClanes(ByRef sCompare As String)
     
     If UBound(GuildNames) <> 0 Then
 
-        With guildslist
+        With GuildsList
             'Limpio la lista
             .Clear
             .Visible = False

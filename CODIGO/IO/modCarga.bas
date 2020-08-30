@@ -16,7 +16,7 @@ Public Enum ePath
     Init
     Graficos
     Interfaces
-    Skins
+    skins
     Sounds
     Musica
     Mapas
@@ -33,17 +33,18 @@ End Enum
 Public Type tSetupMods
 
     ' VIDEO
-    Aceleracion As Byte
     byMemory    As Integer
     ProyectileEngine As Boolean
     PartyMembers As Boolean
     UsarSombras As Boolean
     UsarReflejos As Boolean
+    UsarAuras As Boolean
     ParticleEngine As Boolean
     HUD As Boolean
     LimiteFPS As Boolean
     bNoRes      As Boolean
     FPSShow      As Boolean
+    OverrideVertexProcess As Byte
     
     ' AUDIO
     bMusic    As E_SISTEMA_MUSICA
@@ -68,6 +69,7 @@ Public Type tSetupMods
     ' OTHER
     MostrarTips As Byte
     MostrarBindKeysSelection As Byte
+    BloqueoMovimiento As Boolean
     
     'MOUSE
     MouseGeneral As Byte
@@ -113,10 +115,12 @@ Private Type tDatosTrigger
 End Type
 
 Private Type tDatosLuces
+    r As Integer
+    g As Integer
+    b As Integer
+    range As Byte
     X As Integer
     Y As Integer
-    light_value(3) As Long
-    base_light(0 To 3) As Boolean 'Indica si el tile tiene luz propia.
 End Type
 
 Private Type tDatosParticulas
@@ -179,15 +183,6 @@ Public MapDat As tMapDat
 'END - Load Map with .CSM format
 '********************************
 
-'Conectar renderizado
-Private Type tMapaConnect
-    Map As Byte
-    X As Byte
-    Y As Byte
-End Type
-Public MapaConnect() As tMapaConnect
-Public NumConnectMap As Byte 'Numero total de mapas cargados
-
 Private FileManager As clsIniManager
 
 Public NumHeads As Integer
@@ -207,9 +202,6 @@ End Sub
 Public Function Path(ByVal PathType As ePath) As String
 
     Select Case PathType
-        
-        Case ePath.Script
-            Path = App.Path & "\Recursos\INIT\"
             
         Case ePath.Init
             Path = App.Path & "\INIT\"
@@ -217,24 +209,12 @@ Public Function Path(ByVal PathType As ePath) As String
         Case ePath.Graficos
             Path = App.Path & "\Recursos\Graficos\"
         
-        Case ePath.Skins
-            Path = App.Path & "\Recursos\Graficos\Skins\"
-            
-        Case ePath.Interfaces
-            Path = App.Path & "\Recursos\Graficos\Interfaces\"
+        Case ePath.skins
+            Path = App.Path & "\Recursos\Skins\"
             
         Case ePath.Lenguajes
             Path = App.Path & "\Recursos\Lenguajes\"
-            
-        Case ePath.Mapas
-            Path = App.Path & "\Recursos\Mapas\"
-            
-        Case ePath.Musica
-            Path = App.Path & "\Recursos\MP3\"
-            
-        Case ePath.Sounds
-            Path = App.Path & "\Recursos\WAV\"
-            
+               
         Case ePath.recursos
             Path = App.Path & "\Recursos"
     
@@ -244,24 +224,25 @@ End Function
 
 Public Sub LeerConfiguracion()
     On Local Error GoTo fileErr:
-    
+
     Call IniciarCabecera
-    
+
     Set Lector = New clsIniManager
     Call Lector.Initialize(Carga.Path(Init) & CLIENT_FILE)
-    
+
     With ClientSetup
         ' VIDEO
-        .Aceleracion = Lector.GetValue("VIDEO", "RenderMode")
         .byMemory = Lector.GetValue("VIDEO", "DynamicMemory")
         .bNoRes = CBool(Lector.GetValue("VIDEO", "DisableResolutionChange"))
         .ProyectileEngine = CBool(Lector.GetValue("VIDEO", "ProjectileEngine"))
         .PartyMembers = CBool(Lector.GetValue("VIDEO", "PartyMembers"))
         .UsarSombras = CBool(Lector.GetValue("VIDEO", "Sombras"))
         .UsarReflejos = CBool(Lector.GetValue("VIDEO", "Reflejos"))
+        .UsarAuras = CBool(Lector.GetValue("VIDEO", "Auras"))
         .ParticleEngine = CBool(Lector.GetValue("VIDEO", "ParticleEngine"))
         .LimiteFPS = CBool(Lector.GetValue("VIDEO", "LimitarFPS"))
         .HUD = CBool(Lector.GetValue("VIDEO", "HUD"))
+        .OverrideVertexProcess = CByte(Lector.GetValue("VIDEO", "VertexProcessingOverride"))
         
         ' AUDIO
         .bMusic = CByte(Lector.GetValue("AUDIO", "MUSICA"))
@@ -270,12 +251,11 @@ Public Sub LeerConfiguracion()
         .MusicVolume = CLng(Lector.GetValue("AUDIO", "VOLMUSICA"))
         .SoundVolume = CLng(Lector.GetValue("AUDIO", "VOLAUDIO"))
         .AmbientVol = CLng(Lector.GetValue("AUDIO", "VOLAMBIENT"))
-        
+
         ' GUILD
         .bGuildNews = CBool(Lector.GetValue("GUILD", "NEWS"))
         .bGldMsgConsole = CBool(Lector.GetValue("GUILD", "MESSAGES"))
         .bCantMsgs = CByte(Lector.GetValue("GUILD", "MAX_MESSAGES"))
-        
         ' FRAGSHOOTER
         .bDie = CBool(Lector.GetValue("FRAGSHOOTER", "DIE"))
         .bKill = CBool(Lector.GetValue("FRAGSHOOTER", "KILL"))
@@ -285,14 +265,15 @@ Public Sub LeerConfiguracion()
         ' OTHER
         .MostrarTips = CBool(Lector.GetValue("OTHER", "MOSTRAR_TIPS"))
         .MostrarBindKeysSelection = CBool(Lector.GetValue("OTHER", "MOSTRAR_BIND_KEYS_SELECTION"))
-        
-        Debug.Print "Modo de Renderizado: " & IIf(.Aceleracion = 1, "Mixto (Hardware + Software)", "Hardware")
+        .BloqueoMovimiento = CBool(Lector.GetValue("OTHER", "BLOQUEOMOV"))
+
         Debug.Print "byMemory: " & .byMemory
         Debug.Print "bNoRes: " & .bNoRes
         Debug.Print "ProyectileEngine: " & .ProyectileEngine
         Debug.Print "PartyMembers: " & .PartyMembers
         Debug.Print "UsarSombras: " & .UsarSombras
         Debug.Print "UsarReflejos: " & .UsarReflejos
+        Debug.Print "UsarAuras: " & .UsarAuras
         Debug.Print "ParticleEngine: " & .ParticleEngine
         Debug.Print "LimitarFPS: " & .LimiteFPS
         Debug.Print "bMusic: " & .bMusic
@@ -309,6 +290,8 @@ Public Sub LeerConfiguracion()
         Debug.Print vbNullString
         
     End With
+
+  Exit Sub
   
 fileErr:
 
@@ -327,16 +310,17 @@ Public Sub GuardarConfiguracion()
     With ClientSetup
         
         ' VIDEO
-        Call Lector.ChangeValue("VIDEO", "RenderMode", .Aceleracion)
         Call Lector.ChangeValue("VIDEO", "DynamicMemory", .byMemory)
-        Call Lector.ChangeValue("VIDEO", "DisableResolutionChange", IIf(.bNoRes, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ProyectileEngine, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "PartyMembers", IIf(.PartyMembers, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "Sombras", IIf(.UsarSombras, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "Reflejos", IIf(.UsarReflejos, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ParticleEngine, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "LimitarFPS", IIf(.LimiteFPS, "True", "False"))
-        Call Lector.ChangeValue("VIDEO", "HUD", IIf(.HUD, "True", "False"))
+        Call Lector.ChangeValue("VIDEO", "DisableResolutionChange", IIf(.bNoRes, "1", "0"))
+        Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ProyectileEngine, "1", "0"))
+        Call Lector.ChangeValue("VIDEO", "PartyMembers", IIf(.PartyMembers, "1", "0"))
+        Call Lector.ChangeValue("VIDEO", "Sombras", IIf(.UsarSombras, "1", "0"))
+        Call Lector.ChangeValue("VIDEO", "Reflejos", IIf(.UsarReflejos, "1", "0"))
+        Call Lector.ChangeValue("VIDEO", "Auras", IIf(.UsarAuras, "1", "0"))
+        Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ParticleEngine, "1", "0"))
+        Call Lector.ChangeValue("VIDEO", "LimitarFPS", IIf(.LimiteFPS, "1", "0"))
+        Call Lector.ChangeValue("VIDEO", "HUD", IIf(.HUD, "1", "0"))
+        Call Lector.ChangeValue("VIDEO", "VertexProcessingOverride", .OverrideVertexProcess)
         
         ' AUDIO
         Call Lector.ChangeValue("AUDIO", "MUSICA", .bMusic)
@@ -347,20 +331,21 @@ Public Sub GuardarConfiguracion()
         Call Lector.ChangeValue("AUDIO", "VOLAMBIENT", .AmbientVol)
         
         ' GUILD
-        Call Lector.ChangeValue("GUILD", "NEWS", IIf(.bGuildNews, "True", "False"))
-        Call Lector.ChangeValue("GUILD", "MESSAGES", IIf(DialogosClanes.Activo, "True", "False"))
+        Call Lector.ChangeValue("GUILD", "NEWS", IIf(.bGuildNews, "1", "0"))
+        Call Lector.ChangeValue("GUILD", "MESSAGES", IIf(DialogosClanes.Activo, "1", "0"))
         Call Lector.ChangeValue("GUILD", "MAX_MESSAGES", CByte(DialogosClanes.CantidadDialogos))
         
         ' FRAGSHOOTER
-        Call Lector.ChangeValue("FRAGSHOOTER", "DIE", IIf(.bDie, "True", "False"))
-        Call Lector.ChangeValue("FRAGSHOOTER", "KILL", IIf(.bKill, "True", "False"))
+        Call Lector.ChangeValue("FRAGSHOOTER", "DIE", IIf(.bDie, "1", "0"))
+        Call Lector.ChangeValue("FRAGSHOOTER", "KILL", IIf(.bKill, "1", "0"))
         Call Lector.ChangeValue("FRAGSHOOTER", "MURDERED_LEVEL", CByte(.byMurderedLevel))
-        Call Lector.ChangeValue("FRAGSHOOTER", "ACTIVE", IIf(.bActive, "True", "False"))
+        Call Lector.ChangeValue("FRAGSHOOTER", "ACTIVE", IIf(.bActive, "1", "0"))
         
         ' OTHER
         ' Lo comento por que no tiene por que setearse aqui esto.
         ' Al menos no al hacer click en el boton Salir del formulario opciones (Recox)
         ' Call Lector.ChangeValue("OTHER", "MOSTRAR_TIPS", CBool(.MostrarTips))
+        Call Lector.ChangeValue("OTHER", "BLOQUEOMOV", IIf(.bActive, "1", "0"))
     End With
     
     Call Lector.DumpFile(Carga.Path(Init) & CLIENT_FILE)
@@ -376,34 +361,49 @@ End Sub
 '
 
 Public Sub LoadGrhData()
+'*************************************
+'Autor: Lorwik
+'Fecha: ???
+'Descripción: Carga el index de Graficos
+'*************************************
 On Error GoTo ErrorHandler:
 
-    Dim Grh As Long
-    Dim Frame As Long
-    Dim grhCount As Long
-    Dim Handle As Integer
+    Dim Grh         As Long
+    Dim Frame       As Long
+    Dim grhCount    As Long
     Dim fileVersion As Long
-    Dim LaCabecera As tCabecera
+    Dim LaCabecera  As tCabecera
+    Dim fileBuff    As clsByteBuffer
+    Dim InfoHead    As INFOHEADER
+    Dim buffer()    As Byte
     
-    'Open files
-    Handle = FreeFile()
-    Open IniPath & "Graficos.ind" For Binary Access Read As Handle
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Graficos.ind"))
     
-        Get Handle, , LaCabecera
+    If InfoHead.lngFileSize <> 0 Then
     
-        Get Handle, , fileVersion
+        Extract_File_Memory Scripts, LCase$("Graficos.ind"), buffer()
         
-        Get Handle, , grhCount
+        Set fileBuff = New clsByteBuffer
+        
+        fileBuff.initializeReader buffer
+        
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
+    
+        fileVersion = fileBuff.getLong
+        
+        grhCount = fileBuff.getLong
         
         ReDim GrhData(0 To grhCount) As GrhData
         
-        While Not EOF(Handle)
-            Get Handle, , Grh
-            
+        While Grh < grhCount
+            Grh = fileBuff.getLong
+
             With GrhData(Grh)
             
                 '.active = True
-                Get Handle, , .NumFrames
+                .NumFrames = fileBuff.getInteger
                 If .NumFrames <= 0 Then GoTo ErrorHandler
                 
                 ReDim .Frames(1 To .NumFrames)
@@ -411,11 +411,11 @@ On Error GoTo ErrorHandler:
                 If .NumFrames > 1 Then
                 
                     For Frame = 1 To .NumFrames
-                        Get Handle, , .Frames(Frame)
+                        .Frames(Frame) = fileBuff.getLong
                         If .Frames(Frame) <= 0 Or .Frames(Frame) > grhCount Then GoTo ErrorHandler
                     Next Frame
                     
-                    Get Handle, , .speed
+                    .speed = fileBuff.getSingle
                     If .speed <= 0 Then GoTo ErrorHandler
                     
                     .pixelHeight = GrhData(.Frames(1)).pixelHeight
@@ -432,19 +432,19 @@ On Error GoTo ErrorHandler:
                     
                 Else
                     
-                    Get Handle, , .FileNum
+                    .FileNum = fileBuff.getLong
                     If .FileNum <= 0 Then GoTo ErrorHandler
                     
-                    Get Handle, , .pixelWidth
+                    .pixelWidth = fileBuff.getInteger
                     If .pixelWidth <= 0 Then GoTo ErrorHandler
                     
-                    Get Handle, , .pixelHeight
+                    .pixelHeight = fileBuff.getInteger
                     If .pixelHeight <= 0 Then GoTo ErrorHandler
                     
-                    Get Handle, , GrhData(Grh).sX
+                    .sX = fileBuff.getInteger
                     If .sX < 0 Then GoTo ErrorHandler
                     
-                    Get Handle, , .sY
+                    .sY = fileBuff.getInteger
                     If .sY < 0 Then GoTo ErrorHandler
                     
                     .TileWidth = .pixelWidth / TilePixelHeight
@@ -458,7 +458,9 @@ On Error GoTo ErrorHandler:
             
         Wend
     
-    Close Handle
+    End If
+    
+    Set fileBuff = Nothing
     
 Exit Sub
 
@@ -467,7 +469,7 @@ ErrorHandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Graficos.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Graficos.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -476,36 +478,54 @@ ErrorHandler:
 End Sub
 
 Public Sub CargarCabezas()
+'*************************************
+'Autor: Lorwik
+'Fecha: ???
+'Descripción: Carga el index de Cabezas
+'*************************************
 On Error GoTo errhandler:
 
-    Dim N As Integer
-    Dim i As Integer
-    Dim LaCabecera As tCabecera
+    Dim buffer()    As Byte
+    Dim InfoHead    As INFOHEADER
+    Dim i           As Integer
+    Dim LaCabecera  As tCabecera
+    Dim fileBuff  As clsByteBuffer
     
-    N = FreeFile()
-    Open Carga.Path(Script) & "Head.ind" For Binary Access Read As #N
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Head.ind"))
     
-        Get #N, , LaCabecera
+    If InfoHead.lngFileSize <> 0 Then
     
-        Get #N, , NumHeads   'cantidad de cabezas
-
+        Extract_File_Memory Scripts, LCase$("Head.ind"), buffer()
+        
+        Set fileBuff = New clsByteBuffer
+        
+        fileBuff.initializeReader buffer
+        
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
+        
+        NumHeads = fileBuff.getInteger()  'cantidad de cabezas
+    
         ReDim heads(0 To NumHeads) As tHead
-            
+                
         For i = 1 To NumHeads
-            Get #N, , heads(i).Std
-            Get #N, , heads(i).Texture
-            Get #N, , heads(i).startX
-            Get #N, , heads(i).startY
+            heads(i).Std = fileBuff.getByte()
+            heads(i).Texture = fileBuff.getInteger()
+            heads(i).startX = fileBuff.getInteger()
+            heads(i).startY = fileBuff.getInteger()
         Next i
-
-    Close #N
+        
+    End If
+    
+    Set fileBuff = Nothing
     
 errhandler:
     
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Head.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Head.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -514,37 +534,55 @@ errhandler:
 End Sub
 
 Public Sub CargarCascos()
+'*************************************
+'Autor: Lorwik
+'Fecha: ???
+'Descripción: Carga el index de Cascos
+'*************************************
 On Error GoTo errhandler:
 
-    Dim N As Integer
-    Dim i As Integer
-    Dim LaCabecera As tCabecera
+    Dim buffer()    As Byte
+    Dim dLen        As Long
+    Dim InfoHead    As INFOHEADER
+    Dim i           As Integer
+    Dim LaCabecera  As tCabecera
+    Dim fileBuff  As clsByteBuffer
     
-    N = FreeFile()
-    Open Carga.Path(Script) & "Helmet.ind" For Binary Access Read As #N
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Helmet.ind"))
     
-        Get #N, , LaCabecera
+    If InfoHead.lngFileSize <> 0 Then
     
-        Get #N, , NumCascos   'cantidad de cascos
+        Extract_File_Memory Scripts, LCase$("Helmet.ind"), buffer()
+        
+        Set fileBuff = New clsByteBuffer
+        
+        fileBuff.initializeReader buffer
+        
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
+    
+        NumCascos = fileBuff.getInteger()   'cantidad de cascos
              
         ReDim Cascos(0 To NumCascos) As tHead
              
         For i = 1 To NumCascos
-            Get #N, , Cascos(i).Std
-            Get #N, , Cascos(i).Texture
-            Get #N, , Cascos(i).startX
-            Get #N, , Cascos(i).startY
-                
+            Cascos(i).Std = fileBuff.getByte()
+            Cascos(i).Texture = fileBuff.getInteger()
+            Cascos(i).startX = fileBuff.getInteger()
+            Cascos(i).startY = fileBuff.getInteger()
         Next i
          
-    Close #N
+    End If
+    
+    Set fileBuff = Nothing
     
 errhandler:
     
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Helmet.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Helmet.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -553,49 +591,72 @@ errhandler:
 End Sub
 
 Sub CargarCuerpos()
+'*************************************
+'Autor: Lorwik
+'Fecha: ???
+'Descripción: Carga el index de Cuerpos
+'*************************************
 On Error GoTo errhandler:
 
-    Dim N As Integer
-    Dim i As Long
+    Dim buffer()    As Byte
+    Dim dLen        As Long
+    Dim InfoHead    As INFOHEADER
+    Dim i           As Long
     Dim NumCuerpos As Integer
     Dim MisCuerpos() As tIndiceCuerpo
     Dim LaCabecera As tCabecera
+    Dim fileBuff  As clsByteBuffer
     
-    N = FreeFile()
-    Open Carga.Path(Script) & "Personajes.ind" For Binary Access Read As #N
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Personajes.ind"))
     
-    'cabecera
-    Get #N, , LaCabecera
+    If InfoHead.lngFileSize <> 0 Then
     
-    'num de cabezas
-    Get #N, , NumCuerpos
-    
-    'Resize array
-    ReDim BodyData(0 To NumCuerpos) As BodyData
-    ReDim MisCuerpos(0 To NumCuerpos) As tIndiceCuerpo
-    
-    For i = 1 To NumCuerpos
-        Get #N, , MisCuerpos(i)
+        Extract_File_Memory Scripts, LCase$("Personajes.ind"), buffer()
         
-        If MisCuerpos(i).Body(1) Then
-            Call InitGrh(BodyData(i).Walk(1), MisCuerpos(i).Body(1), 0)
-            Call InitGrh(BodyData(i).Walk(2), MisCuerpos(i).Body(2), 0)
-            Call InitGrh(BodyData(i).Walk(3), MisCuerpos(i).Body(3), 0)
-            Call InitGrh(BodyData(i).Walk(4), MisCuerpos(i).Body(4), 0)
-            
-            BodyData(i).HeadOffset.X = MisCuerpos(i).HeadOffsetX
-            BodyData(i).HeadOffset.Y = MisCuerpos(i).HeadOffsetY
-        End If
-    Next i
+        Set fileBuff = New clsByteBuffer
+        
+        fileBuff.initializeReader buffer
+        
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
     
-    Close #N
+        'num de cabezas
+        NumCuerpos = fileBuff.getInteger()
+    
+        'Resize array
+        ReDim BodyData(0 To NumCuerpos) As BodyData
+        ReDim MisCuerpos(0 To NumCuerpos) As tIndiceCuerpo
+    
+        For i = 1 To NumCuerpos
+            MisCuerpos(i).Body(1) = fileBuff.getLong()
+            MisCuerpos(i).Body(2) = fileBuff.getLong()
+            MisCuerpos(i).Body(3) = fileBuff.getLong()
+            MisCuerpos(i).Body(4) = fileBuff.getLong()
+            MisCuerpos(i).HeadOffsetX = fileBuff.getInteger()
+            MisCuerpos(i).HeadOffsetY = fileBuff.getInteger()
+            
+            If MisCuerpos(i).Body(1) Then
+                Call InitGrh(BodyData(i).Walk(1), MisCuerpos(i).Body(1), 0)
+                Call InitGrh(BodyData(i).Walk(2), MisCuerpos(i).Body(2), 0)
+                Call InitGrh(BodyData(i).Walk(3), MisCuerpos(i).Body(3), 0)
+                Call InitGrh(BodyData(i).Walk(4), MisCuerpos(i).Body(4), 0)
+                
+                BodyData(i).HeadOffset.X = MisCuerpos(i).HeadOffsetX
+                BodyData(i).HeadOffset.Y = MisCuerpos(i).HeadOffsetY
+            End If
+        Next i
+    
+    End If
+    
+    Set fileBuff = Nothing
     
 errhandler:
     
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Personajes.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Personajes.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -604,37 +665,57 @@ errhandler:
 End Sub
 
 Sub CargarFxs()
+'*************************************
+'Autor: Lorwik
+'Fecha: ???
+'Descripción: Carga el index de Fxs
+'*************************************
 On Error GoTo errhandler:
 
-    Dim N As Integer
-    Dim i As Long
-    Dim NumFxs As Integer
-    Dim LaCabecera As tCabecera
-
-    N = FreeFile
-    Open Carga.Path(Script) & "FXs.ind" For Binary Access Read As #N
+    Dim buffer()    As Byte
+    Dim dLen        As Long
+    Dim InfoHead    As INFOHEADER
+    Dim i           As Long
+    Dim NumFxs      As Integer
+    Dim LaCabecera  As tCabecera
+    Dim fileBuff  As clsByteBuffer
     
-    'cabecera
-    Get #N, , LaCabecera
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("FXs.ind"))
     
-    'num de cabezas
-    Get #N, , NumFxs
+    If InfoHead.lngFileSize <> 0 Then
     
-    'Resize array
-    ReDim FxData(1 To NumFxs) As tIndiceFx
+        Extract_File_Memory Scripts, LCase$("FXs.ind"), buffer()
+        
+        Set fileBuff = New clsByteBuffer
+        
+        fileBuff.initializeReader buffer
+        
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
     
-    For i = 1 To NumFxs
-        Get #N, , FxData(i)
-    Next i
+        'num de Fxs
+        NumFxs = fileBuff.getInteger()
+        
+        'Resize array
+        ReDim FxData(1 To NumFxs) As tIndiceFx
+        
+        For i = 1 To NumFxs
+            FxData(i).Animacion = fileBuff.getLong()
+            FxData(i).OffsetX = fileBuff.getInteger()
+            FxData(i).OffsetY = fileBuff.getInteger()
+        Next i
     
-    Close #N
+    End If
+    
+    Set fileBuff = Nothing
 
 errhandler:
     
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Fxs.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Fxs.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -649,7 +730,7 @@ Public Sub CargarTips()
 On Error GoTo errhandler:
     
     Dim TipFile As String
-        TipFile = FileToString(Carga.Path(Script) & "tips_" & Language & ".json")
+        TipFile = FileToString(Carga.Path(Lenguajes) & "tips_" & Language & ".json")
     
     Set JsonTips = JSON.parse(TipFile)
 
@@ -658,7 +739,7 @@ errhandler:
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo" & "tips_" & Language & ".json no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo" & "tips_" & Language & ".json no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -666,46 +747,67 @@ errhandler:
 End Sub
 
 Sub CargarAnimArmas()
+'*************************************
+'Autor: Lorwik
+'Fecha: ???
+'Descripción: Carga el index de Armas
+'*************************************
 On Error GoTo errhandler:
 
-    Dim N As Integer
+    Dim buffer()    As Byte
+    Dim dLen        As Long
+    Dim InfoHead    As INFOHEADER
     Dim i As Long
     Dim LaCabecera As tCabecera
+    Dim fileBuff  As clsByteBuffer
     
-    N = FreeFile
-    Open Carga.Path(Script) & "Armas.ind" For Binary Access Read As #N
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Armas.ind"))
     
-    'cabecera
-    Get #N, , LaCabecera
+    If InfoHead.lngFileSize <> 0 Then
     
-    'num de cabezas
-    Get #N, , NumWeaponAnims
-    
-    'Resize array
-    ReDim WeaponAnimData(1 To NumWeaponAnims) As WeaponAnimData
-    ReDim Weapons(1 To NumWeaponAnims) As tIndiceArmas
-    
-    For i = 1 To NumWeaponAnims
-        Get #N, , Weapons(i)
+        Extract_File_Memory Scripts, LCase$("Armas.ind"), buffer()
         
-        If Weapons(i).weapon(1) Then
+        Set fileBuff = New clsByteBuffer
         
-            Call InitGrh(WeaponAnimData(i).WeaponWalk(1), Weapons(i).weapon(1), 0)
-            Call InitGrh(WeaponAnimData(i).WeaponWalk(2), Weapons(i).weapon(2), 0)
-            Call InitGrh(WeaponAnimData(i).WeaponWalk(3), Weapons(i).weapon(3), 0)
-            Call InitGrh(WeaponAnimData(i).WeaponWalk(4), Weapons(i).weapon(4), 0)
+        fileBuff.initializeReader buffer
         
-        End If
-    Next i
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
     
-    Close #N
+        'num de armas
+        NumWeaponAnims = fileBuff.getInteger()
+        
+        'Resize array
+        ReDim WeaponAnimData(1 To NumWeaponAnims) As WeaponAnimData
+        ReDim Weapons(1 To NumWeaponAnims) As tIndiceArmas
+        
+        For i = 1 To NumWeaponAnims
+            Weapons(i).weapon(1) = fileBuff.getLong()
+            Weapons(i).weapon(2) = fileBuff.getLong()
+            Weapons(i).weapon(3) = fileBuff.getLong()
+            Weapons(i).weapon(4) = fileBuff.getLong()
+            
+            If Weapons(i).weapon(1) Then
+            
+                Call InitGrh(WeaponAnimData(i).WeaponWalk(1), Weapons(i).weapon(1), 0)
+                Call InitGrh(WeaponAnimData(i).WeaponWalk(2), Weapons(i).weapon(2), 0)
+                Call InitGrh(WeaponAnimData(i).WeaponWalk(3), Weapons(i).weapon(3), 0)
+                Call InitGrh(WeaponAnimData(i).WeaponWalk(4), Weapons(i).weapon(4), 0)
+            
+            End If
+        Next i
+    
+    End If
+    
+    Set fileBuff = Nothing
 
 errhandler:
     
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Armas.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Armas.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -713,88 +815,116 @@ errhandler:
 
 End Sub
 
-
 Public Sub CargarColores()
+'*************************************
+'Autor: Lorwik
+'Fecha: 30/08/2020
+'Descripción: Carga los colores
+'*************************************
 On Error GoTo errhandler:
+    Dim buffer()    As Byte
+    Dim InfoHead    As INFOHEADER
+    Dim LaCabecera  As tCabecera
+    Dim fileBuff    As clsByteBuffer
+    Dim i           As Long
+    
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Colores.ind"))
+    
+    If InfoHead.lngFileSize <> 0 Then
+    
+        Extract_File_Memory Scripts, LCase$("Colores.ind"), buffer()
+        
+        Set fileBuff = New clsByteBuffer
+        
+        fileBuff.initializeReader buffer
+        
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
+        
+        For i = 0 To MAXCOLORES
+        
+            ColoresPJ(i) = fileBuff.getLong
+        
+        Next i
+        
+    End If
+    
+    Set fileBuff = Nothing
 
-    Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Carga.Path(Script) & "colores.dat")
-    
-    Dim i As Long
-    
-    For i = 0 To 47 '48, 49 y 50 reservados para atacables, ciudadano y criminal
-        ColoresPJ(i) = D3DColorXRGB(FileManager.GetValue(CStr(i), "R"), FileManager.GetValue(CStr(i), "G"), FileManager.GetValue(CStr(i), "B"))
-    Next i
-    
-    '   Crimi
-    ColoresPJ(50) = D3DColorXRGB(FileManager.GetValue("CR", "R"), FileManager.GetValue("CR", "G"), FileManager.GetValue("CR", "B"))
-
-    '   Ciuda
-    ColoresPJ(49) = D3DColorXRGB(FileManager.GetValue("CI", "R"), FileManager.GetValue("CI", "G"), FileManager.GetValue("CI", "B"))
-    
-    '   Atacable TODO: hay que implementar un color para los atacables y hacer que funcione.
-    'ColoresPJ(48) = D3DColorXRGB(FileManager.GetValue("AT", "R"), FileManager.GetValue("AT", "G"), FileManager.GetValue("AT", "B"))
-    
-    For i = 51 To 56 'Colores reservados para la renderizacion de dano
-        ColoresDano(i) = D3DColorXRGB(FileManager.GetValue(CStr(i), "R"), FileManager.GetValue(CStr(i), "G"), FileManager.GetValue(CStr(i), "B"))
-    Next i
-    
-    Set FileManager = Nothing
-    
 errhandler:
     
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo colores.dat no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Colores.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
     End If
-    
 End Sub
 
 Sub CargarAnimEscudos()
+'*************************************
+'Autor: Lorwik
+'Fecha: ???
+'Descripción: Carga el index de Escudos
+'*************************************
 On Error GoTo errhandler:
 
-    Dim N As Integer
+    Dim buffer()    As Byte
+    Dim InfoHead    As INFOHEADER
     Dim i As Long
     Dim LaCabecera As tCabecera
+    Dim fileBuff  As clsByteBuffer
     
-    N = FreeFile
-    Open Carga.Path(Script) & "Escudos.ind" For Binary Access Read As #N
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Escudos.ind"))
     
-    'cabecera
-    Get #N, , LaCabecera
+    If InfoHead.lngFileSize <> 0 Then
     
-    'num de cabezas
-    Get #N, , NumEscudosAnims
-    
-    'Resize array
-    ReDim ShieldAnimData(1 To NumWeaponAnims) As ShieldAnimData
-    ReDim Shields(1 To NumWeaponAnims) As tIndiceEscudos
-    
-    For i = 1 To NumEscudosAnims
-        Get #N, , Shields(i)
+        Extract_File_Memory Scripts, LCase$("Escudos.ind"), buffer()
         
-        If Shields(i).shield(1) Then
+        Set fileBuff = New clsByteBuffer
         
-            Call InitGrh(ShieldAnimData(i).ShieldWalk(1), Shields(i).shield(1), 0)
-            Call InitGrh(ShieldAnimData(i).ShieldWalk(2), Shields(i).shield(2), 0)
-            Call InitGrh(ShieldAnimData(i).ShieldWalk(3), Shields(i).shield(3), 0)
-            Call InitGrh(ShieldAnimData(i).ShieldWalk(4), Shields(i).shield(4), 0)
+        fileBuff.initializeReader buffer
         
-        End If
-    Next i
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
     
-    Close #N
+        'num de escudos
+        NumEscudosAnims = fileBuff.getInteger()
+        
+        'Resize array
+        ReDim ShieldAnimData(1 To NumWeaponAnims) As ShieldAnimData
+        ReDim Shields(1 To NumWeaponAnims) As tIndiceEscudos
+        
+        For i = 1 To NumEscudosAnims
+            Shields(i).shield(1) = fileBuff.getLong()
+            Shields(i).shield(2) = fileBuff.getLong()
+            Shields(i).shield(3) = fileBuff.getLong()
+            Shields(i).shield(4) = fileBuff.getLong()
+            
+            If Shields(i).shield(1) Then
+            
+                Call InitGrh(ShieldAnimData(i).ShieldWalk(1), Shields(i).shield(1), 0)
+                Call InitGrh(ShieldAnimData(i).ShieldWalk(2), Shields(i).shield(2), 0)
+                Call InitGrh(ShieldAnimData(i).ShieldWalk(3), Shields(i).shield(3), 0)
+                Call InitGrh(ShieldAnimData(i).ShieldWalk(4), Shields(i).shield(4), 0)
+            
+            End If
+        Next i
+    
+    End If
+    
+    Set fileBuff = Nothing
 
 errhandler:
     
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo Escudos.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            Call MsgBox("El archivo Escudos.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
@@ -802,73 +932,7 @@ errhandler:
     
 End Sub
 
-Public Sub CargarHechizos()
-'********************************
-'Author: Shak
-'Last Modification:
-'Cargamos los hechizos del juego. [Solo datos necesarios]
-'********************************
-On Error GoTo errorH
-
-    Dim j As Long
-    
-    Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Carga.Path(Script) & "Hechizos.dat")
-
-    NumHechizos = Val(FileManager.GetValue("INIT", "NumHechizos"))
- 
-    ReDim Hechizos(1 To NumHechizos) As tHechizos
-    
-    For j = 1 To NumHechizos
-        
-        With Hechizos(j)
-            .Desc = FileManager.GetValue("HECHIZO" & j, "Desc")
-            .PalabrasMagicas = FileManager.GetValue("HECHIZO" & j, "PalabrasMagicas")
-            .Nombre = FileManager.GetValue("HECHIZO" & j, "Nombre")
-            .SkillRequerido = Val(FileManager.GetValue("HECHIZO" & j, "MinSkill"))
-         
-            If j <> 38 And j <> 39 Then
-                
-                .EnergiaRequerida = Val(FileManager.GetValue("HECHIZO" & j, "StaRequerido"))
-                 
-                .HechiceroMsg = FileManager.GetValue("HECHIZO" & j, "HechizeroMsg")
-                .ManaRequerida = Val(FileManager.GetValue("HECHIZO" & j, "ManaRequerido"))
-             
-                .PropioMsg = FileManager.GetValue("HECHIZO" & j, "PropioMsg")
-                .TargetMsg = FileManager.GetValue("HECHIZO" & j, "TargetMsg")
-                
-            End If
-            
-        End With
-        
-    Next j
-    
-    Set FileManager = Nothing
-    
-Exit Sub
- 
-errorH:
-
-    If Err.number <> 0 Then
-        
-        Select Case Err.number
-            
-            Case 9
-                Call MsgBox("Error cargando el archivo Hechizos.dat (Hechizo " & j & "). Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , "Winter AO Resurrection")
-                Call LogError(Err.number, Err.Description, "CargarHechizos")
-            
-            Case 53
-                Call MsgBox("El archivo Hechizos.dat no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
-        
-        End Select
-        
-        Call CloseClient
-
-    End If
-
-End Sub
-
-Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
+Sub CargarMapa(ByVal Map As Integer)
 
     On Error GoTo ErrorHandler
 
@@ -893,75 +957,154 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
     Dim j            As Long
 
     Dim LaCabecera   As tCabecera
-
+    
+    Dim buffer()     As Byte
+    Dim fileBuff     As clsByteBuffer
+    
     DoEvents
     
-    fh = FreeFile
-    Open Dir_Map For Binary Access Read As fh
+    Extract_File_Memory srcFileType.Map, LCase$("Mapa" & Map & ".csm"), buffer()
     
-    Get #fh, , LaCabecera
+    Set fileBuff = New clsByteBuffer
+        
+    fileBuff.initializeReader buffer
     
-    Get #fh, , MH
-    Get #fh, , MapSize
+    With LaCabecera
+        .Desc = fileBuff.getString(Len(.Desc))
+        .CRC = fileBuff.getLong
+        .MagicWord = fileBuff.getLong
+    End With
     
-    Get #fh, , MapDat
+    With MH
+        .NumeroBloqueados = fileBuff.getLong()
+        .NumeroLayers(2) = fileBuff.getLong()
+        .NumeroLayers(3) = fileBuff.getLong()
+        .NumeroLayers(4) = fileBuff.getLong()
+        .NumeroTriggers = fileBuff.getLong()
+        .NumeroLuces = fileBuff.getLong()
+        .NumeroParticulas = fileBuff.getLong()
+        .NumeroNPCs = fileBuff.getLong()
+        .NumeroOBJs = fileBuff.getLong()
+        .NumeroTE = fileBuff.getLong()
+    End With
+    
+    With MapSize
+        .XMax = fileBuff.getInteger()
+        .XMin = fileBuff.getInteger()
+        .YMax = fileBuff.getInteger()
+        .YMin = fileBuff.getInteger()
+    End With
+
+    With MapDat
+        .map_name = fileBuff.getString()
+        .battle_mode = fileBuff.getBoolean()
+        .backup_mode = fileBuff.getBoolean()
+        .restrict_mode = fileBuff.getString()
+        .music_number = fileBuff.getString()
+        .zone = fileBuff.getString()
+        .terrain = fileBuff.getString()
+        .Ambient = fileBuff.getString()
+        .lvlMinimo = fileBuff.getString()
+        .RoboNpcsPermitido = fileBuff.getBoolean()
+        .InvocarSinEfecto = fileBuff.getBoolean()
+        .OcultarSinEfecto = fileBuff.getBoolean()
+        .ResuSinEfecto = fileBuff.getBoolean()
+        .MagiaSinEfecto = fileBuff.getBoolean()
+        .InviSinEfecto = fileBuff.getBoolean()
+        .NoEncriptarMP = fileBuff.getBoolean()
+        .version = fileBuff.getLong()
+    End With
     
     With MapSize
         ReDim MapData(.XMin To .XMax, .YMin To .YMax)
         ReDim L1(.XMin To .XMax, .YMin To .YMax)
     End With
-    
-    Get #fh, , L1
+
+    For j = MapSize.YMin To MapSize.YMax
+        For i = MapSize.XMin To MapSize.XMax
+
+            L1(i, j) = fileBuff.getLong()
+            
+            If L1(i, j) > 0 Then
+                Call InitGrh(MapData(i, j).Graphic(1), L1(i, j))
+            End If
+
+        Next i
+    Next j
     
     With MH
 
         If .NumeroBloqueados > 0 Then
             ReDim Blqs(1 To .NumeroBloqueados)
-            Get #fh, , Blqs
 
             For i = 1 To .NumeroBloqueados
-                MapData(Blqs(i).X, Blqs(i).Y).Blocked = 1
+                With Blqs(i)
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+                    MapData(.X, .Y).Blocked = 1
+                End With
             Next i
 
         End If
         
         If .NumeroLayers(2) > 0 Then
             ReDim L2(1 To .NumeroLayers(2))
-            Get #fh, , L2
-
+            
             For i = 1 To .NumeroLayers(2)
-                Call InitGrh(MapData(L2(i).X, L2(i).Y).Graphic(2), L2(i).GrhIndex)
+            
+                With L2(i)
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+                    .GrhIndex = fileBuff.getLong()
+                
+                    Call InitGrh(MapData(.X, .Y).Graphic(2), .GrhIndex)
+                End With
             Next i
 
         End If
         
         If .NumeroLayers(3) > 0 Then
             ReDim L3(1 To .NumeroLayers(3))
-            Get #fh, , L3
 
             For i = 1 To .NumeroLayers(3)
-                Call InitGrh(MapData(L3(i).X, L3(i).Y).Graphic(3), L3(i).GrhIndex)
+            
+                With L3(i)
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+                    .GrhIndex = fileBuff.getLong()
+                
+                    Call InitGrh(MapData(.X, .Y).Graphic(3), .GrhIndex)
+                End With
             Next i
 
         End If
         
         If .NumeroLayers(4) > 0 Then
             ReDim L4(1 To .NumeroLayers(4))
-            Get #fh, , L4
-
+            
             For i = 1 To .NumeroLayers(4)
-                Call InitGrh(MapData(L4(i).X, L4(i).Y).Graphic(4), L4(i).GrhIndex)
+            
+                With L4(i)
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+                    .GrhIndex = fileBuff.getLong()
+  
+                    Call InitGrh(MapData(.X, .Y).Graphic(4), .GrhIndex)
+                End With
             Next i
 
         End If
         
         If .NumeroTriggers > 0 Then
             ReDim Triggers(1 To .NumeroTriggers)
-            Get #fh, , Triggers
-
+            
             For i = 1 To .NumeroTriggers
                 
                 With Triggers(i)
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+                    .Trigger = fileBuff.getInteger()
+                
                     MapData(.X, .Y).Trigger = .Trigger
                 End With
                 
@@ -971,11 +1114,14 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
         
         If .NumeroParticulas > 0 Then
             ReDim Particulas(1 To .NumeroParticulas)
-            Get #fh, , Particulas
-            
+
             For i = 1 To .NumeroParticulas
 
                 With Particulas(i)
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+                    .Particula = fileBuff.getLong()
+                
                     MapData(.X, .Y).Particle_Group_Index = General_Particle_Create(.Particula, .X, .Y)
                 End With
 
@@ -985,63 +1131,45 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
             
         If .NumeroLuces > 0 Then
             ReDim Luces(1 To .NumeroLuces)
-            Get #fh, , Luces
+            Dim p As Byte
             
-            'Aca metes la carga de las luces...
+            For i = 1 To .NumeroLuces
+                With Luces(i)
+                    .r = fileBuff.getInteger()
+                    .g = fileBuff.getInteger()
+                    .b = fileBuff.getInteger()
+                    .range = fileBuff.getByte()
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+
+                    Call Create_Light_To_Map(.X, .Y, .range, .r, .g, .b)
+                End With
+            Next i
+            
+            Call LightRenderAll
         End If
             
         If .NumeroOBJs > 0 Then
             ReDim Objetos(1 To .NumeroOBJs)
-            Get #fh, , Objetos
             
             For i = 1 To .NumeroOBJs
-                'Erase OBJs
-                MapData(Objetos(i).X, Objetos(i).Y).ObjGrh.GrhIndex = 0
-            Next i
-            
-        End If
-            
-        If .NumeroNPCs > 0 Then
-            ReDim NPCs(1 To .NumeroNPCs)
-            Get #fh, , NPCs
-            
-            For i = 1 To .NumeroNPCs
-                MapData(NPCs(i).X, NPCs(i).Y).NPCIndex = NPCs(i).NPCIndex
-            Next
-                
-        End If
 
-        If .NumeroTE > 0 Then
-            ReDim TEs(1 To .NumeroTE)
-            Get #fh, , TEs
-
-            For i = 1 To .NumeroTE
+                With Objetos(i)
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+                    .objindex = fileBuff.getInteger()
+                    .ObjAmmount = fileBuff.getInteger()
                 
-                With TEs(i)
-                
-                    MapData(.X, .Y).TileExit.Map = .DestM
-                    MapData(.X, .Y).TileExit.X = .DestX
-                    MapData(.X, .Y).TileExit.Y = .DestY
-                
+                    'Erase OBJs
+                    MapData(.X, .Y).ObjGrh.GrhIndex = 0
                 End With
-                
             Next i
-
+            
         End If
         
     End With
-
-    Close fh
-
-    For j = MapSize.YMin To MapSize.YMax
-        For i = MapSize.XMin To MapSize.XMax
-
-            If L1(i, j) > 0 Then
-                Call InitGrh(MapData(i, j).Graphic(1), L1(i, j))
-            End If
-
-        Next i
-    Next j
+    
+    Set fileBuff = Nothing
     
     '*******************************
     'INFORMACION DEL MAPA
@@ -1050,8 +1178,9 @@ Sub CargarMapa(ByVal Map As Integer, ByVal Dir_Map As String)
     mapInfo.name = MapDat.map_name
     mapInfo.Music = MapDat.music_number
     mapInfo.Ambient = MapDat.Ambient
+    mapInfo.Zona = MapDat.zone
+    mapInfo.Terreno = MapDat.terrain
 
-    DeleteFile Dir_Map
 ErrorHandler:
     
     If fh <> 0 Then Close fh
@@ -1059,55 +1188,6 @@ ErrorHandler:
     If Err.number <> 0 Then
         'Call LogError(Err.number, Err.Description, "modCarga.CargarMapa")
         Call MsgBox("err: " & Err.number, "desc: " & Err.Description)
-    End If
-
-End Sub
-
-Public Sub CargarConnectMaps()
-'********************************
-'Author: Lorwik
-'Last Modification: 13/05/2020
-'Cargamos los mapas del conectar renderizado
-'********************************
-On Error GoTo errorH
-    Dim i As Byte
-    
-    Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Carga.Path(Script) & "Maps.ini")
-    
-    NumConnectMap = Val(FileManager.GetValue("INIT", "NumMaps"))
-    
-    ReDim Preserve MapaConnect(NumConnectMap) As tMapaConnect
-    
-    For i = 1 To NumConnectMap
-    
-        MapaConnect(i).Map = Val(FileManager.GetValue("MAPA" & i, "Map"))
-        MapaConnect(i).X = Val(FileManager.GetValue("MAPA" & i, "X"))
-        MapaConnect(i).Y = Val(FileManager.GetValue("MAPA" & i, "Y"))
-        
-    Next i
-    
-    Set FileManager = Nothing
-    
-    Exit Sub
- 
-errorH:
-
-    If Err.number <> 0 Then
-        
-        Select Case Err.number
-            
-            Case 9
-                Call MsgBox("Error cargando el archivo de Mapas. Por favor, avise a los administradores enviandoles el archivo Errores.log que se encuentra en la carpeta del cliente.", , "Winter AO Resurrection")
-                Call LogError(Err.number, Err.Description, "CargarHechizos")
-            
-            Case 53
-                Call MsgBox("El archivo de configuracion de Mapas no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
-        
-        End Select
-        
-        Call CloseClient
-
     End If
 
 End Sub

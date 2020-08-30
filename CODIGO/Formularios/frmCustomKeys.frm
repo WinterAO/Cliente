@@ -24,6 +24,14 @@ Begin VB.Form frmCustomKeys
    ScaleWidth      =   679
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
+   Begin VB.CheckBox chkBloquearMovimiento 
+      Caption         =   "Bloquear movimiento al escribir"
+      Height          =   375
+      Left            =   3240
+      TabIndex        =   64
+      Top             =   4800
+      Width           =   3495
+   End
    Begin VB.CommandButton imgGuardar 
       Caption         =   "Guardar"
       Height          =   480
@@ -51,11 +59,30 @@ Begin VB.Form frmCustomKeys
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   4095
+      Height          =   4455
       Left            =   3360
       TabIndex        =   41
       Top             =   0
       Width           =   3495
+      Begin VB.TextBox Text1 
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   285
+         Index           =   30
+         Left            =   1680
+         TabIndex        =   65
+         Top             =   3960
+         Width           =   1620
+      End
       Begin VB.TextBox Text1 
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
@@ -246,7 +273,19 @@ Begin VB.Form frmCustomKeys
          Top             =   1800
          Width           =   1620
       End
-      Begin VB.Label lblSeguroDe 
+      Begin VB.Label lblAbrirQuests 
+         Alignment       =   1  'Right Justify
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Abrir Quests"
+         Height          =   195
+         Index           =   0
+         Left            =   240
+         TabIndex        =   66
+         Top             =   3960
+         Width           =   1320
+      End
+      Begin VB.Label lblAbrirQuests 
          Alignment       =   1  'Right Justify
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
@@ -1021,6 +1060,10 @@ Option Explicit
 
 Private clsFormulario As clsFormMovementManager
 
+Private Sub chkBloquearMovimiento_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    ClientSetup.BloqueoMovimiento = Not ClientSetup.BloqueoMovimiento
+End Sub
+
 Private Sub Form_Load()
     Dim i As Long
     
@@ -1033,6 +1076,13 @@ Private Sub Form_Load()
     For i = 1 To CustomKeys.KeyCount
         Text1(i).Text = CustomKeys.ReadableName(CustomKeys.BindedKey(i))
     Next i
+    
+    If ClientSetup.BloqueoMovimiento Then
+        chkBloquearMovimiento.value = vbChecked
+    Else
+        chkBloquearMovimiento.value = vbUnchecked
+    End If
+    
 End Sub
 
 Private Sub LoadTextsForm()
@@ -1052,10 +1102,12 @@ Private Sub imgGuardar_Click()
     
     For i = 1 To CustomKeys.KeyCount
         If LenB(Text1(i).Text) = 0 Then
-            Call MsgBox(JsonLanguage.item("CUSTOMKEYS_TECLA_INVALIDA").item("TEXTO"), vbCritical Or vbOKOnly Or vbApplicationModal Or vbDefaultButton1, "Winter AO Resurrection")
+            Call MsgBox(JsonLanguage.item("CUSTOMKEYS_TECLA_INVALIDA").item("TEXTO"), vbCritical Or vbOKOnly Or vbApplicationModal Or vbDefaultButton1, Form_Caption)
             Exit Sub
         End If
     Next i
+    
+    Call Carga.GuardarConfiguracion
     
     Unload Me
 End Sub

@@ -403,14 +403,6 @@
             255
         ]
     },
-    "MENSAJE_HOGAR_CANCEL": {
-        "TEXTO": "The travel to your home was cancelled.",
-        "COLOR": [
-            255,
-            0,
-            0
-        ]
-    },
     "MENSAJE_USER_MUERTO": {
         "TEXTO": [
             "You're Dead!!!",
@@ -432,14 +424,6 @@
     },
     "MENSAJE_DAMAGE_NPC": {
         "TEXTO": "You've taken VAR_DANO health points of the creature!!",
-        "COLOR": [
-            255,
-            0,
-            0
-        ]
-    },
-    "MENSAJE_ESTAS_A_MAPAS_DE_DURACION_VIAJE": {
-        "TEXTO": "You will find VAR_DISTANCIA_MAPAS maps VAR_MAPA_DESTINO, this trip will last ",
         "COLOR": [
             255,
             0,
@@ -627,7 +611,7 @@
         "TEXTO": "Error in the maps, some file has been modified or is damaged."
     },
     "MENSAJE_FUNDAR_CLAN": {
-        "TEXTO": "To found a clan you have to be level 25 and have 90 skills in leadership."
+        "TEXTO": "To found a clan, you must first be level 40 and have 90 skill points in Leadership."
     },
     "ERROR_CONN_LOST": {
         "TEXTO": "Error: has lost the connection with the server."
@@ -918,7 +902,7 @@
         "TEXTO": "Your version is not current, do you Want to run the updater?."
     },
     "OTRO_CLIENTE_ABIERTO": {
-        "TEXTO": "Argentum Online is already running! It is not possible to run another instance of the game. Click Ok to exit."
+        "TEXTO": "WinterAO is already running! It is not possible to run another instance of the game. Click Ok to exit."
     },
     "BUSCA_SERVIDORES": {
         "TEXTO": "Looking for servers...",
@@ -938,6 +922,14 @@
     },
     "INICIA_MOTOR_GRAFICO": {
         "TEXTO": "Initializing graphic engine...",
+        "COLOR": [
+            255,
+            255,
+            255
+        ]
+    },
+	"INICIA_GUI": {
+        "TEXTO": "Initializing GUI...",
         "COLOR": [
             255,
             255,
@@ -969,7 +961,7 @@
         ]
     },
     "BIENVENIDO": {
-        "TEXTO": "Welcome to Argentum Online!",
+        "TEXTO": "Welcome to WinterAO!",
         "COLOR": [
             255,
             255,
@@ -1037,7 +1029,7 @@
         "TEXTO": "It is extremely important that you enter a valid e-mail address, as in the case of losing the password of your character, will be sent to you when you need it, to that address."
     },
     "AYUDA_CREARPJ_NOMBREPJ": {
-        "TEXTO": "Argentum is a role-playing game, a world that is magical and fantastic, if you select a name that is obscene or with political connotation, the administrators can delete your character."
+        "TEXTO": "WinterAO is a role-playing game, a world that is magical and fantastic, if you select a name that is obscene or with political connotation, the administrators can delete your character."
     },
     "AYUDA_CREARPJ_ATRIBUTOS": {
         "TEXTO": "Are the qualities that define your character. Usually called the [DICE]. (See Roll)"
@@ -1156,6 +1148,9 @@
     },
     "LBL_ESTADISTICAS": {
         "TEXTO": "Statistics"
+    },
+	"LBL_QUEST": {
+        "TEXTO": "Quest"
     },
     "LBL_CLANES": {
         "TEXTO": "Guilds"

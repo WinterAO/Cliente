@@ -44,7 +44,7 @@ Option Explicit
 
 
 Private Type WAV_DB_ENTRY
-    filename As Integer
+    filename As String
     UltimoAcceso As Long
     buffer As DirectSoundSecondaryBuffer8
 End Type
@@ -109,7 +109,7 @@ Public Property Let Path(ByVal inString As String)
     WavPath = inString
 End Property
 
-Public Sub GetBuffer(ByVal filename As Integer, ByRef tBuff As DirectSoundSecondaryBuffer8, tipo As srcFileType)
+Public Sub GetBuffer(ByVal filename As String, ByRef tBuff As DirectSoundSecondaryBuffer8, tipo As srcFileType)
 '**************************************************************
 'Author: Juan Martín Sotuyo Dodero
 'Modified by Augusto José Rando
@@ -165,7 +165,7 @@ CrearNuevoBuffer:
     
 End Sub
 
-Private Function ObtenerIndice(ByVal filename As Integer) As Integer
+Private Function ObtenerIndice(ByVal filename As String) As Integer
 '**************************************************************
 'Author: Juan Martín Sotuyo Dodero
 'Last Modify Date: 5/04/2005
@@ -306,7 +306,7 @@ Public Function Borrar(ByVal filename As Integer) As Integer
     ReDim Preserve mBuffers(1 To mCantidadBuffers)
 End Function
 
-Private Function CrearBuffer(ByVal Archivo As Integer, ByVal Index As Integer, ByVal tipo As srcFileType) As Integer
+Private Function CrearBuffer(ByVal Archivo As String, ByVal Index As Integer, ByVal tipo As srcFileType) As Integer
 '**************************************************************
 'Author: Juan Martín Sotuyo Dodero
 'Last Modify Date: 5/04/2005
@@ -347,68 +347,7 @@ errhandler:
     
 End Function
 
-Private Function CreateBufferFromFile(ByVal file_name As Integer, ByVal buffer_index As Integer, Optional ByVal Ambient As Boolean = False) As Boolean
-    '**************************************************************
-    'Author: Augusto José Rando
-    'Last Modify Date: 3/04/2007
-    'Creación de buffers desde archivo (despreciado)
-    '**************************************************************
-    
-    Dim dsbd As DSBUFFERDESC, dsbcap As DSBCAPS
-    
-    dsbd.lFlags = DSBCAPS_CTRLFREQUENCY Or DSBCAPS_CTRLPAN Or DSBCAPS_CTRLVOLUME
-    
-    With dsbd.fxFormat
-        .nFormatTag = WAVE_FORMAT_PCM
-        .nChannels = 2
-        .lSamplesPerSec = 22050
-        .nBitsPerSample = 16
-        .nBlockAlign = dsbd.fxFormat.nBitsPerSample / 8 * dsbd.fxFormat.nChannels
-        .lAvgBytesPerSec = dsbd.fxFormat.lSamplesPerSec * dsbd.fxFormat.nBlockAlign
-    End With
-    
-    
-    '¿Es un sonido ambiental?
-    If Ambient Then
-    
-        If extractFile(Ambient, file_name & ".amb", True) Then
-            Set mBuffers(buffer_index).buffer = mDS.CreateSoundBufferFromFile(Windows_Temp_Dir & file_name & ".amb", dsbd)
-            DeleteFile Windows_Temp_Dir & file_name & ".amb"
-            CreateBufferFromFile = True
-        End If
-        
-    Else '¿O es un sonido comun?
-    
-        If extractFile(Wav, file_name & ".wav", True) Then
-            Set mBuffers(buffer_index).buffer = mDS.CreateSoundBufferFromFile(Windows_Temp_Dir & file_name & ".wav", dsbd)
-            DeleteFile Windows_Temp_Dir & file_name & ".wav"
-            CreateBufferFromFile = True
-        End If
-        
-    End If
-    
-    Exit Function
-
-errhandler:
-    'Ocurrió un error, la causa más probable es que el archivo no exista
-    
-    If Ambient Then
-    
-        If FileExist(Windows_Temp_Dir & file_name & ".amb", vbNormal) Then
-            DeleteFile Windows_Temp_Dir & file_name & ".amb"
-        End If
-
-    Else
-        
-        If FileExist(Windows_Temp_Dir & file_name & ".wav", vbNormal) Then
-            DeleteFile Windows_Temp_Dir & file_name & ".wav"
-        End If
-        
-    End If
-
-End Function
-
-Private Function CreateBufferFromFile_Ex(ByVal file_name As Integer, ByVal buffer_index, ByVal tipo As srcFileType) As Boolean
+Private Function CreateBufferFromFile_Ex(ByVal file_name As String, ByVal buffer_index, ByVal tipo As srcFileType) As Boolean
 '**************************************************************
 'Author: Augusto José Rando
 'Last Modify Date: 3/04/2007
@@ -425,18 +364,20 @@ On Error GoTo ErrorHandler
     
     Dim tB(1 To 4) As Byte
     
+    Dim InfoHead As INFOHEADER
+    
     Dim glngChunkSize As Long
     Dim lngOffset As Long
     
     Dim udtBufferDesc As DSBUFFERDESC
     
     If tipo = Ambient Then
-        extension = ".amb"
+        InfoHead = File_Find(App.Path & "\recursos\Ambient.WAO", CStr(file_name))
     Else
-        extension = ".wav"
+        InfoHead = File_Find(App.Path & "\recursos\Sounds.WAO", CStr(file_name))
     End If
     
-    If tipo = Ambient Then Debug.Print "Tipo: " & tipo & " Extension: " & extension & " WavPath: " & WavPath & " file_Name: " & file_name
+    If InfoHead.lngFileSize = 0 Then Exit Function
     
     If Extract_File_Memory(tipo, file_name & extension, btArr) Then
         
@@ -599,7 +540,7 @@ Public Sub BorraTimerProc()
     mCantidadBuffers = mCantidadBuffers - offset
 End Sub
 
-Public Function CargarBuffer(ByVal filename As Integer, ByVal tipo As srcFileType) As Boolean
+Public Function CargarBuffer(ByVal filename As String, ByVal tipo As srcFileType) As Boolean
 '**************************************************************
 'Author: Augusto José Rando
 'Last Modify Date: 17/08/2005
@@ -626,7 +567,7 @@ Public Function CargarBuffer(ByVal filename As Integer, ByVal tipo As srcFileTyp
     
 End Function
 
-Public Function Reproducir(ByVal file_name As Integer, play_format As CONST_DSBPLAYFLAGS, ByVal Volume As Long, ByVal pan As Long) As Boolean
+Public Function Reproducir(ByVal file_name As String, play_format As CONST_DSBPLAYFLAGS, ByVal Volume As Long, ByVal pan As Long) As Boolean
 '**************************************************************
 'Author: Augusto José Rando
 'Last Modify Date: 17/08/2005
@@ -657,7 +598,7 @@ ErrorHandler:
 
 End Function
 
-Public Function Detener(ByVal file_name As Integer) As Boolean
+Public Function Detener(ByVal file_name As String) As Boolean
 '**************************************************************
 'Author: Augusto José Rando
 'Last Modify Date: 17/08/2005
@@ -685,7 +626,7 @@ ErrorHandler:
 
 End Function
 
-Public Function CambiarVolumen(ByVal file_name As Integer, ByVal volumen As Long) As Boolean
+Public Function CambiarVolumen(ByVal file_name As String, ByVal volumen As Long) As Boolean
 '**************************************************************
 'Author: Augusto José Rando
 'Last Modify Date: 17/08/2005
@@ -713,7 +654,7 @@ ErrorHandler:
 
 End Function
 
-Public Function CambiarPan(ByVal file_name As Integer, ByVal pan As Long) As Boolean
+Public Function CambiarPan(ByVal file_name As String, ByVal pan As Long) As Boolean
 '**************************************************************
 'Author: Augusto José Rando
 'Last Modify Date: 17/08/2005
@@ -741,7 +682,7 @@ ErrorHandler:
 
 End Function
 
-Public Function PlayingCheck(ByVal file_name As Integer, Optional ByVal IndiceObtenido As Integer = -1) As Boolean
+Public Function PlayingCheck(ByVal file_name As String, Optional ByVal IndiceObtenido As Integer = -1) As Boolean
 '**************************************************************
 'Author: Augusto José Rando
 'Last Modify Date: 17/08/2005

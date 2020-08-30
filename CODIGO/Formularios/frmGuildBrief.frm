@@ -492,16 +492,13 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaDetallesClan.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("147.gif", False)
     
     Call LoadButtons
     
 End Sub
 
 Private Sub LoadButtons()
-    Dim GrhPath As String
-    
-    GrhPath = Carga.Path(Interfaces)
 
     Set cBotonGuerra = New clsGraphicalButton
     Set cBotonAlianza = New clsGraphicalButton
@@ -512,25 +509,25 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
     
     
-    Call cBotonGuerra.Initialize(imgDeclararGuerra, GrhPath & "BotonDeclararGuerra.jpg", _
-                                    GrhPath & "BotonDeclararGuerraRollover.jpg", _
-                                    GrhPath & "BotonDeclararGuerraClick.jpg", Me)
+    Call cBotonGuerra.Initialize(imgDeclararGuerra, "144.gif", _
+                                    "145.gif", _
+                                    "146.gif", Me)
 
-    Call cBotonAlianza.Initialize(imgOfrecerAlianza, GrhPath & "BotonOfrecerAlianza.jpg", _
-                                    GrhPath & "BotonOfrecerAlianzaRollover.jpg", _
-                                    GrhPath & "BotonOfrecerAlianzaClick.jpg", Me)
+    Call cBotonAlianza.Initialize(imgOfrecerAlianza, "141.gif", _
+                                    "142.gif", _
+                                    "143.gif", Me)
 
-    Call cBotonPaz.Initialize(imgOfrecerPaz, GrhPath & "BotonOfrecerPaz.jpg", _
-                                    GrhPath & "BotonOfrecerPazRollover.jpg", _
-                                    GrhPath & "BotonOfrecerPazClick.jpg", Me)
+    Call cBotonPaz.Initialize(imgOfrecerPaz, "138.gif", _
+                                    "140.gif", _
+                                    "139.gif", Me)
 
-    Call cBotonSolicitarIngreso.Initialize(imgSolicitarIngreso, GrhPath & "BotonSolicitarIngreso.jpg", _
-                                    GrhPath & "BotonSolicitarIngresoRollover.jpg", _
-                                    GrhPath & "BotonSolicitarIngresoClick.jpg", Me)
+    Call cBotonSolicitarIngreso.Initialize(imgSolicitarIngreso, "135.gif", _
+                                    "136.gif", _
+                                    "137.gif", Me)
 
-    Call cBotonCerrar.Initialize(imgCerrar, GrhPath & "BotonCerrarDetallesClan.jpg", _
-                                    GrhPath & "BotonCerrarRolloverDetallesClan.jpg", _
-                                    GrhPath & "BotonCerrarClickDetallesClan.jpg", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "132.gif", _
+                                    "133.gif", _
+                                    "134.gif", Me)
 
 
     If Not EsLeader Then

@@ -2,7 +2,6 @@ VERSION 5.00
 Begin VB.Form frmConnect 
    BackColor       =   &H00E0E0E0&
    BorderStyle     =   0  'None
-   Caption         =   "WinterAO Resurrection"
    ClientHeight    =   11520
    ClientLeft      =   0
    ClientTop       =   0
@@ -110,7 +109,7 @@ Begin VB.Form frmConnect
       TabStop         =   0   'False
       Top             =   0
       Width           =   15360
-      Begin WinterAO.uAOCheckbox chkRecordar 
+      Begin WinterAOR_Client.uAOCheckbox chkRecordar 
          Height          =   345
          Left            =   6000
          TabIndex        =   3
@@ -139,9 +138,7 @@ Public MouseX              As Long
 Public MouseY              As Long
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
-    If KeyCode = 27 Then
-        Call CloseClient
-    End If
+    Call ModCnt.TeclaEvent(KeyCode)
 End Sub
 
 Private Sub Renderer_Click()
@@ -170,8 +167,15 @@ Private Sub Renderer_MouseMove(Button As Integer, Shift As Integer, X As Single,
         MouseY = Renderer.Height
     End If
     
+    Call MouseMove_Event(X, Y)
+    
 End Sub
 
 Private Sub txtPasswd_KeyPress(KeyAscii As Integer)
   '  If KeyAscii = vbKeyReturn Then btnConectarse_Click
+End Sub
+
+Private Sub Form_Load()
+    ' Seteamos el caption
+    Me.Caption = Form_Caption
 End Sub

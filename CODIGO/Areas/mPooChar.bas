@@ -46,9 +46,6 @@ Public Sub Char_Erase(ByVal CharIndex As Integer)
         'Remove char's dialog
         Call Dialogos.RemoveDialog(CharIndex)
                 
-        'Remove particles
-        Call Char_Particle_Group_Remove_All(CharIndex)
-                
         'Update NumChars
         NumChars = NumChars - 1
  
@@ -67,7 +64,7 @@ Private Sub Char_ResetInfo(ByVal CharIndex As Integer)
     '*****************************************************************
 
     With charlist(CharIndex)
-
+        'Remove particles
         Call Char_Particle_Group_Remove_All(CharIndex)
             
         .active = 0
@@ -476,6 +473,24 @@ Public Sub Char_SetFx(ByVal CharIndex As Integer, ByVal fX As Integer, ByVal Loo
    
 End Sub
  
+Public Sub Char_SetAura(ByVal CharIndex As Integer, ByVal AuraAnim As Long, ByVal AuraColor As Long)
+    '***************************************************
+    'Autor: Lorwik
+    'Fecha: 20/06/2020
+    '***************************************************
+    
+        If (Char_Check(CharIndex)) Then
+        
+        With charlist(CharIndex)
+                        
+            Call InitGrh(.AuraAnim, AuraAnim)
+            .AuraColor = AuraColor
+                                
+        End With
+        
+    End If
+End Sub
+ 
 Public Sub Char_Make(ByVal CharIndex As Integer, _
                      ByVal Body As Integer, _
                      ByVal Head As Integer, _
@@ -484,7 +499,9 @@ Public Sub Char_Make(ByVal CharIndex As Integer, _
                      ByVal Y As Integer, _
                      ByVal Arma As Integer, _
                      ByVal Escudo As Integer, _
-                     ByVal Casco As Integer)
+                     ByVal Casco As Integer, _
+                     ByVal AuraAnim As Long, _
+                     ByVal AuraColor As Long)
  
     'Apuntamos al ultimo Char
  
@@ -512,6 +529,9 @@ Public Sub Char_Make(ByVal CharIndex As Integer, _
         .Arma = WeaponAnimData(Arma)
         .Escudo = ShieldAnimData(Escudo)
         .Casco = Casco
+
+        Call InitGrh(.AuraAnim, AuraAnim)
+        .AuraColor = AuraColor
         
         .Heading = Heading
          
@@ -526,8 +546,6 @@ Public Sub Char_Make(ByVal CharIndex As Integer, _
         'Update position
         .Pos.X = X
         .Pos.Y = Y
-        
-        .ColorChar = 250
            
     End With
    
@@ -739,7 +757,7 @@ Sub Char_CleanAll()
     '// Borramos los obj y char que esten
 
     Dim X         As Long, Y As Long
-    Dim CharIndex As Integer, obj As Integer
+    Dim CharIndex As Integer, obj As Long
     
     For X = XMinMapSize To XMaxMapSize
         For Y = YMinMapSize To YMaxMapSize

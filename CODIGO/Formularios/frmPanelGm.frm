@@ -361,7 +361,7 @@ Begin VB.Form frmPanelGm
    Begin VB.Menu mnuWorld 
       Caption         =   "World"
       Begin VB.Menu cmdLLUVIA 
-         Caption         =   "Lluvia"
+         Caption         =   "Meteo"
       End
       Begin VB.Menu cmdLIMPIAR 
          Caption         =   "Limpiar"
@@ -426,6 +426,9 @@ Begin VB.Form frmPanelGm
    End
    Begin VB.Menu mnuAdmin 
       Caption         =   "Admin"
+      Begin VB.Menu cmdVERPROCESOS 
+         Caption         =   "VERPROCESOS"
+      End
       Begin VB.Menu cmdIP2NICK 
          Caption         =   "IP2NICK"
       End
@@ -1083,9 +1086,14 @@ Private Sub cmdLIMPIAR_Click()
     Call WriteLimpiarMundo
 End Sub
 
-Private Sub cmdLLUVIA_Click()
-    '/LLUVIA
-    Call WriteRainToggle
+Private Sub cmdMETEO_Click()
+    '/METEO
+    Dim tBte As Byte
+    
+    tBte = InputBox("Escriba el fenomeno, 0: Random, 1: Lluvia, 2: Niebla, 3: Niebla + Lluvia.", "Seleccion meteorologico")
+    
+    If Val(tBte) < 0 And Val(tBte) > 250 Then _
+        Call WriteMeteoToggle(Val(tBte))
 End Sub
 
 Private Sub cmdMASSDEST_Click()
@@ -1416,6 +1424,17 @@ Private Sub cmdUNBANIP_Click()
     If LenB(tStr) <> 0 Then _
         If MsgBox("Seguro desea unbanear la ip " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then _
             Call ParseUserCommand("/UNBANIP " & tStr) 'We use the Parser to control the command format
+End Sub
+
+Private Sub cmdVERPROCESOS_Click()
+    '/LOOKPROCESS
+    
+    Dim Nick As String
+
+    Nick = cboListaUsus.Text
+    
+    If LenB(Nick) <> 0 Then _
+        Call WriteLookProcess(Nick)
 End Sub
 
 Private Sub Form_Load()

@@ -260,13 +260,13 @@ Public Property Get Amount(ByVal slot As Byte) As Long
     End If
 End Property
 
-Public Property Get ObjIndex(ByVal slot As Byte) As Integer
+Public Property Get objindex(ByVal slot As Byte) As Integer
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modify Date: 27/07/04
 'Retrieves the selected item's object index
 '***************************************************
-    ObjIndex = Inventory(slot).ObjIndex
+    objindex = Inventory(slot).objindex
 End Property
 
 Public Property Get OBJType(ByVal slot As Byte) As Integer
@@ -294,6 +294,15 @@ Public Property Get Equipped(ByVal slot As Byte) As Boolean
 'Retrieves True if the item at the given pos is eqiupped
 '***************************************************
     Equipped = Inventory(slot).Equipped
+End Property
+
+Public Property Get NoUsa(ByVal slot As Byte) As Boolean
+'***************************************************
+'Author: Lorwik
+'Last Modify Date: 14/07/2020
+'Devuelve True o False si el usuario puede usar el objeto
+'***************************************************
+    NoUsa = Inventory(slot).NoUsa
 End Property
 
 Public Property Get MaxObjs() As Byte
@@ -345,7 +354,7 @@ End Sub
 
 Public Sub SetItem(ByVal slot As Byte, ByVal eOBJIndex As Integer, ByVal eAmount As Long, ByVal eEquipped As Byte, _
                         ByVal eGrhIndex As Long, ByVal eObjType As Integer, ByVal eMaxHit As Integer, ByVal eMinHit As Integer, _
-                        ByVal MaxDef As Integer, ByVal MinDef As Integer, ByVal eValor As Single, ByVal eName As String)
+                        ByVal MaxDef As Integer, ByVal MinDef As Integer, ByVal eValor As Single, ByVal eName As String, Optional ByVal eNoUsa As Boolean = False)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modify Date: 12/04/06
@@ -362,9 +371,10 @@ Public Sub SetItem(ByVal slot As Byte, ByVal eOBJIndex As Integer, ByVal eAmount
         .MaxHit = eMaxHit
         .MinHit = eMinHit
         .name = eName
-        .ObjIndex = eOBJIndex
+        .objindex = eOBJIndex
         .OBJType = eObjType
         .valor = eValor
+        .NoUsa = eNoUsa
     End With
     
     'If InventoryWindow.Visible = False Then InventoryWindow.Visible = True
@@ -417,7 +427,9 @@ Public Sub DrawInventory()
     Dim DestRect     As RECT
     Dim Inv_Color(3) As Long
     Dim Sel_Color(3) As Long
-
+    Dim ColorFinal(0 To 3) As Long
+    Dim i As Byte
+    
     With DestRect
         .Bottom = InventoryWindow.Height
         .Right = InventoryWindow.Width
@@ -449,6 +461,16 @@ Public Sub DrawInventory()
             Call Draw_GrhIndex(GRH_SLOT_INVENTARIO_NEGRO, startdX, startdY, 0, Normal_RGBList(), 0, False) 'Dibuja el fondo
         End If
 
+        'Si el usuario no puede usar este item por su raza, sexo o clase, dibujamos una "X"
+        If Inventory(loopc).NoUsa Then
+            For i = 0 To 3
+                ColorFinal(i) = NoUsa_RGBList(i)
+            Next i
+        Else
+            For i = 0 To 3
+                ColorFinal(i) = Normal_RGBList(i)
+            Next i
+        End If
             
         If Inventory(loopc).GrhIndex Then
 
@@ -460,13 +482,12 @@ Public Sub DrawInventory()
 
                 End If
 
-                Call Draw_GrhIndex(Inventory(loopc).GrhIndex, startdX, startdY, 0, Normal_RGBList())
+                'Dibujamos el item
+                Call Draw_GrhIndex(Inventory(loopc).GrhIndex, startdX, startdY, 0, ColorFinal())
 
                 'If equipped we render "E"
-                If Inventory(loopc).Equipped Then
+                If Inventory(loopc).Equipped Then _
                     Call DrawText(startdX + 20, startdY + 20, "E", -1)
-
-                End If
                     
                 Call DrawText(startdX, startdY, Inventory(loopc).Amount, -1)
 
@@ -477,7 +498,7 @@ Public Sub DrawInventory()
     Next loopc
 
     If DragItem <> 0 And Drag = 1 And isInventory Then
-        Call Draw_GrhIndex(Inventory(DragItem).GrhIndex, MouseX - 16, MouseY - 16, 0, Normal_RGBList())
+        Call Draw_GrhIndex(Inventory(DragItem).GrhIndex, MouseX - 16, MouseY - 16, 0, ColorFinal())
         
         ' Si estamos arrastrando un item, dibujamos normal
         InventoryWindow.AutoRedraw = False

@@ -67,7 +67,7 @@ Public Sub Map_DestroyObject(ByVal X As Byte, ByVal Y As Byte)
 
 End Sub
 
-Public Function Map_PosExitsObject(ByVal X As Byte, ByVal Y As Byte) As Integer
+Public Function Map_PosExitsObject(ByVal X As Byte, ByVal Y As Byte) As Long
  
       '*****************************************************************
       'Checks to see if a tile position has a char_index and return it

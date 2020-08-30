@@ -41,6 +41,17 @@ Private m_FileName         As String
 
 Private keysMovementPressedQueue As clsArrayList
 
+'Remove Title Bar
+Public Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long) As Long
+Public Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Private Const GWL_STYLE = (-16)
+Private Const WS_CAPTION = &HC00000
+Private Const SWP_FRAMECHANGED = &H20
+Private Const SWP_NOMOVE = &H2
+Private Const SWP_NOZORDER = &H4
+Private Const SWP_NOSIZE = &H1
+
 Public Function RandomNumber(ByVal LowerBound As Long, ByVal UpperBound As Long) As Long
     'Initialize randomizer
     Randomize Timer
@@ -243,9 +254,12 @@ Sub SetConnected()
     keysMovementPressedQueue.Clear
 
     frmMain.lblName.Caption = UserName
+    frmMain.lblMapName.Caption = mapInfo.name
     
     'Load main form
     frmMain.Visible = True
+    
+    ModCnt.Conectando = True
 
     FPSFLAG = True
 
@@ -301,12 +315,9 @@ Private Sub CheckKeys()
     If MirandoForo Then Exit Sub
     'If game is paused, abort movement.
     If pausa Then Exit Sub
-    
-    'TODO: Deberia informarle por consola?
-    If Traveling Then Exit Sub
 
     'Si esta chateando, no mover el pj, tanto para chat de clanes y normal
-    If frmMain.SendTxt.Visible Then Exit Sub
+    If frmMain.SendTxt.Visible And ClientSetup.BloqueoMovimiento Then Exit Sub
 
     'Don't allow any these keys during movement..
     If UserMoving = 0 Then
@@ -354,11 +365,6 @@ Private Sub CheckKeys()
 
     End If
     
-    ' Activamos el sistema DiaNoche
-    ' Lo comento hasta que el DiaNoche sea estable por que se hace de noche en dungeons
-    ' Y el dia entero dura unos 4/5 minutos, hay que arreglarlo.
-    'Call DiaNoche
-    
 End Sub
 
 Sub SwitchMap(ByVal Map As Integer)
@@ -368,28 +374,34 @@ Sub SwitchMap(ByVal Map As Integer)
 'Descripción: Intentamos descomprimir el mapa, si existe lo cargamos
 '**********************************************************************************
     
-    Dim Dir_Map As String
+    Dim bytArr()    As Byte
+    Dim InfoHead    As INFOHEADER
     
-    Dir_Map = Get_Extract(srcFileType.Map, "Mapa" & Map & ".csm")
-
-    If FileExist(Dir_Map, vbArchive) Then
+    InfoHead = File_Find(Carga.Path(ePath.Recursos) & "\Mapas.WAO", LCase$("Mapa" & Map & ".csm"))
+    
+    If InfoHead.lngFileSize <> 0 Then
 
         'Limpieza adicional del mapa. PARCHE: Solucion a bug de clones. [Gracias Yhunja]
         'EDIT: cambio el rango de valores en x y para solucionar otro bug con respecto al cambio de mapas
         Call Char_CleanAll
         
+        'Borramos las particulas de lluvia
+        Call mDx8_Clima.RemoveWeatherParticlesAll
+        
         'Borramos las particulas activas en el mapa.
         Call Particle_Group_Remove_All
         
-        'Borramos las particulas de lluvia
-        Call mDx8_Particulas.RemoveWeatherParticles(eWeather.Rain)
+        'Borramos todas las luces
+        Call LightRemoveAll
         
         'Cargamos el mapa.
-        Call Carga.CargarMapa(Map, Dir_Map)
+        Call Carga.CargarMapa(Map)
         
-        'Dibujamos el Mini-Mapa
-        If FileExist(Carga.Path(Graficos) & "MiniMapa\" & Map & ".bmp", vbArchive) Then
-            frmMain.MiniMapa.Picture = LoadPicture(Carga.Path(Graficos) & "MiniMapa\" & Map & ".bmp")
+        'Dibujamos el Mini-Mapa'
+        If Extract_File_Memory(srcFileType.Minimap, Map & ".bmp", bytArr()) Then
+            frmMain.MiniMapa.Picture = General_Load_Picture_From_BArray(bytArr())
+        Else
+            frmMain.MiniMapa.Picture = Nothing
         End If
         
         CurMap = Map
@@ -482,17 +494,12 @@ Sub Main()
     Static lastFlush As Long
     ' Detecta el idioma del sistema (TRUE) y carga las traducciones
     Call SetLanguageApplication
-    
+
     Call GenerateContra
     
     'Load client configurations.
     Call Carga.LeerConfiguracion
-    
-    Call CargarHechizos
-    
-    'Inicializamos el conectar renderizado
-    Call ModCnt.InicializarRndCNT
-    
+
     #If Desarrollo = 0 Then
         If Application.FindPreviousInstance Then
             Call MsgBox(JsonLanguage.item("OTRO_CLIENTE_ABIERTO").item("TEXTO"), vbApplicationModal + vbInformation + vbOKOnly, "Error al ejecutar")
@@ -505,11 +512,12 @@ Sub Main()
     Call LeerLineaComandos
     
     'usaremos esto para ayudar en los parches
-    Call SaveSetting("ArgentumOnlineCliente", "Init", "Path", App.Path & "\")
+    Call SaveSetting("WinterAOCliente", "Init", "Path", App.Path & "\")
     
     ChDrive App.Path
     ChDir App.Path
     Windows_Temp_Dir = General_Get_Temp_Dir
+    Form_Caption = "WinterAO Resurrection v" & App.Major & "." & App.Minor & "." & App.Revision
     
     'Set resolution BEFORE the loading form is displayed, therefore it will be centered.
     Call Resolution.SetResolution(1024, 768)
@@ -593,7 +601,7 @@ Private Sub LoadInitialConfig()
     'Si es 0 cargamos el por defecto
     If ClientSetup.MouseBaston > 0 Then
         ' Mouse Pointer and Mouse Icon (Loaded before opening any form with buttons in it)
-        Set picMouseIcon = LoadPicture(Carga.Path(Graficos) & "MouseIcons\Baston" & ClientSetup.MouseBaston & ".ico")
+        Set picMouseIcon = LoadPicture(App.Path & "\Recursos\MouseIcons\Baston" & ClientSetup.MouseBaston & ".ico")
     End If
 
     ' Mouse Icon to use in the rest of the game this one is animated
@@ -604,7 +612,7 @@ Private Sub LoadInitialConfig()
     
     'Si es 0 cargamos el por defecto
     If ClientSetup.MouseGeneral > 0 Then
-        CursorAniDir = Carga.Path(Graficos) & "MouseIcons\General" & ClientSetup.MouseGeneral & ".ani"
+        CursorAniDir = App.Path & "\Recursos\MouseIcons\General" & ClientSetup.MouseGeneral & ".ani"
         hSwapCursor = SetClassLong(frmMain.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
         hSwapCursor = SetClassLong(frmMain.MainViewPic.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
         hSwapCursor = SetClassLong(frmMain.hlst.hWnd, GLC_HCURSOR, LoadCursorFromFile(CursorAniDir))
@@ -615,12 +623,7 @@ Private Sub LoadInitialConfig()
     
     '#######
     ' CLASES
-    Call AddtoRichTextBox(frmCargando.status, _
-                            JsonLanguage.item("INICIA_CLASES").item("TEXTO"), _
-                            JsonLanguage.item("INICIA_CLASES").item("COLOR").item(1), _
-                            JsonLanguage.item("INICIA_CLASES").item("COLOR").item(2), _
-                            JsonLanguage.item("INICIA_CLASES").item("COLOR").item(3), _
-                            True, False, True, rtfCenter)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_CLASES").item("TEXTO"), 10)
                             
     Set Dialogos = New clsDialogs
     Set Sound = New clsSoundEngine
@@ -636,24 +639,14 @@ Private Sub LoadInitialConfig()
     Set keysMovementPressedQueue = New clsArrayList
     Call keysMovementPressedQueue.Initialize(1, 4)
 
-    Call AddtoRichTextBox(frmCargando.status, _
-                            "   " & JsonLanguage.item("HECHO").item("TEXTO"), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(1), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(2), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(3), _
-                            True, False, False, rtfLeft)
-    
+    Call frmCargando.ActualizarCarga(frmCargando.Caption = JsonLanguage.item("HECHO").item("TEXTO"), 20)
+
     '#############
     ' DIRECT SOUND
-    Call AddtoRichTextBox(frmCargando.status, _
-                            JsonLanguage.item("INICIA_SONIDO").item("TEXTO"), _
-                            JsonLanguage.item("INICIA_SONIDO").item("COLOR").item(1), _
-                            JsonLanguage.item("INICIA_SONIDO").item("COLOR").item(2), _
-                            JsonLanguage.item("INICIA_SONIDO").item("COLOR").item(3), _
-                            True, False, True, rtfCenter)
-                            
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_SONIDO").item("TEXTO"), 30)
+    
     'Inicializamos el sonido
-    If Sound.Initialize_Engine(frmMain.hWnd, Path(ePath.recursos), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
+    If Sound.Initialize_Engine(frmMain.hWnd, Path(ePath.Recursos), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
         'frmCargando.picLoad.Width = 300
     Else
         MsgBox "¡No se ha logrado iniciar el engine de DirectSound! Reinstale los últimos controladores de DirectX. No habrá soporte de audio en el juego.", vbCritical, "Advertencia"
@@ -666,22 +659,12 @@ Private Sub LoadInitialConfig()
         Sound.Sound_Render
     End If
 
-    Call AddtoRichTextBox(frmCargando.status, _
-                            "   " & JsonLanguage.item("HECHO").item("TEXTO"), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(1), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(2), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(3), _
-                            True, False, False, rtfLeft)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 40)
     
     '###########
     ' CONSTANTES
-    Call AddtoRichTextBox(frmCargando.status, _
-                            JsonLanguage.item("INICIA_CONSTANTES").item("TEXTO"), _
-                            JsonLanguage.item("INICIA_CONSTANTES").item("COLOR").item(1), _
-                            JsonLanguage.item("INICIA_CONSTANTES").item("COLOR").item(2), _
-                            JsonLanguage.item("INICIA_CONSTANTES").item("COLOR").item(3), _
-                            True, False, True, rtfCenter)
-                            
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_CONSTANTES").item("TEXTO"), 50)
+    
     Call InicializarNombres
     
     ' Initialize FONTTYPES
@@ -689,75 +672,39 @@ Private Sub LoadInitialConfig()
  
     UserMap = 1
     
-    Call AddtoRichTextBox(frmCargando.status, _
-                            "   " & JsonLanguage.item("HECHO").item("TEXTO"), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(1), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(2), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(3), _
-                            True, False, False, rtfLeft)
-    
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 60)
 
     '##############
     ' MOTOR GRAFICO
-    Call AddtoRichTextBox(frmCargando.status, _
-                            JsonLanguage.item("INICIA_MOTOR_GRAFICO").item("TEXTO"), _
-                            JsonLanguage.item("INICIA_MOTOR_GRAFICO").item("COLOR").item(1), _
-                            JsonLanguage.item("INICIA_MOTOR_GRAFICO").item("COLOR").item(2), _
-                            JsonLanguage.item("INICIA_MOTOR_GRAFICO").item("COLOR").item(3), _
-                            True, False, True, rtfCenter)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_MOTOR_GRAFICO").item("TEXTO"), 70)
     
-    '     Iniciamos el Engine de DirectX 8
-    If Not Engine_DirectX8_Init Then
-        Call CloseClient
-    End If
+    'Iniciamos el Engine de DirectX 8
+    Call mDx8_Engine.Engine_DirectX8_Init
           
-    '     Tile Engine
-    If Not InitTileEngine(frmMain.hWnd, 32, 32, 8, 8) Then
-        Call CloseClient
-    End If
+    'Tile Engine
+    Call InitTileEngine(frmMain.hWnd, 32, 32, 8, 8)
     
     Call mDx8_Engine.Engine_DirectX8_Aditional_Init
 
-    Call AddtoRichTextBox(frmCargando.status, _
-                            "   " & JsonLanguage.item("HECHO").item("TEXTO"), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(1), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(2), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(3), _
-                            True, False, False, rtfLeft)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 80)
     
     '###################
     ' ANIMACIONES EXTRAS
-    Call AddtoRichTextBox(frmCargando.status, _
-                            JsonLanguage.item("INICIA_FXS").item("TEXTO"), _
-                            JsonLanguage.item("INICIA_FXS").item("COLOR").item(1), _
-                            JsonLanguage.item("INICIA_FXS").item("COLOR").item(2), _
-                            JsonLanguage.item("INICIA_FXS").item("COLOR").item(3), _
-                            True, False, True, rtfCenter)
-                            
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_FXS").item("TEXTO"), 90)
+    
     Call CargarTips
     Call CargarAnimArmas
     Call CargarAnimEscudos
     Call CargarColores
     Call CargarPasos
     
-    Call AddtoRichTextBox(frmCargando.status, _
-                            "   " & JsonLanguage.item("HECHO").item("TEXTO"), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(1), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(2), _
-                            JsonLanguage.item("HECHO").item("COLOR").item(3), _
-                            True, False, False, rtfLeft)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 95)
     
     'Inicializamos el inventario grafico
-    Call Inventario.Initialize(DirectD3D8, frmMain.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call Inventario.Initialize(DirectD3D8, frmMain.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     'Set cKeys = New Collection
-    Call AddtoRichTextBox(frmCargando.status, _
-                            JsonLanguage.item("BIENVENIDO").item("TEXTO"), _
-                            JsonLanguage.item("BIENVENIDO").item("COLOR").item(1), _
-                            JsonLanguage.item("BIENVENIDO").item("COLOR").item(2), _
-                            JsonLanguage.item("BIENVENIDO").item("COLOR").item(3), _
-                            True, False, True, rtfCenter)
-                            
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("BIENVENIDO").item("TEXTO"), 100)
 
     Unload frmCargando
     
@@ -865,14 +812,36 @@ End Function
 
 'TODO : como todo lo relativo a mapas, no tiene nada que hacer aca....
 Function HayAgua(ByVal X As Integer, ByVal Y As Integer) As Boolean
-    'Si las coordenadas son invalidad salimos
-    If X <= 0 Or Y = 0 Then Exit Function
-    
-    HayAgua = ((MapData(X, Y).Graphic(1).GrhIndex >= 1505 And MapData(X, Y).Graphic(1).GrhIndex <= 1520) Or _
-            (MapData(X, Y).Graphic(1).GrhIndex >= 5665 And MapData(X, Y).Graphic(1).GrhIndex <= 5680) Or _
-            (MapData(X, Y).Graphic(1).GrhIndex >= 13547 And MapData(X, Y).Graphic(1).GrhIndex <= 13562)) And _
-                MapData(X, Y).Graphic(2).GrhIndex = 0
+    '*******************************************
+    'Author: Unknown
+    'Last Modification: -
+    '
+    '*******************************************
+
+    If X > XMinMapSize And X < XMaxMapSize + 1 And Y > YMinMapSize And Y < YMaxMapSize + 1 Then
+
+        With MapData(X, Y)
+
+            If ((.Graphic(1).GrhIndex >= 1505 And .Graphic(1).GrhIndex <= 1520) Or _
+                (.Graphic(1).GrhIndex >= 12439 And .Graphic(1).GrhIndex <= 12454) Or _
+                (.Graphic(1).GrhIndex >= 5665 And .Graphic(1).GrhIndex <= 5680) Or _
+                (.Graphic(1).GrhIndex >= 13547 And .Graphic(1).GrhIndex <= 13562)) And _
+                .Graphic(2).GrhIndex = 0 Then
                 
+                HayAgua = True
+            
+            Else
+                HayAgua = False
+
+            End If
+
+        End With
+
+    Else
+        HayAgua = False
+
+    End If
+
 End Function
 
 ''
@@ -942,7 +911,7 @@ Private Sub InicializarNombres()
     SkillsNames(eSkill.Talar) = JsonLanguage.item("HABILIDADES").item("TALAR").item("TEXTO")
     SkillsNames(eSkill.Comerciar) = JsonLanguage.item("HABILIDADES").item("COMERCIO").item("TEXTO")
     SkillsNames(eSkill.Defensa) = JsonLanguage.item("HABILIDADES").item("DEFENSA_CON_ESCUDOS").item("TEXTO")
-    SkillsNames(eSkill.Pesca) = JsonLanguage.item("HABILIDADES").item("PESCA").item("TEXTO")
+    SkillsNames(eSkill.pesca) = JsonLanguage.item("HABILIDADES").item("PESCA").item("TEXTO")
     SkillsNames(eSkill.Mineria) = JsonLanguage.item("HABILIDADES").item("MINERIA").item("TEXTO")
     SkillsNames(eSkill.Carpinteria) = JsonLanguage.item("HABILIDADES").item("CARPINTERIA").item("TEXTO")
     SkillsNames(eSkill.Herreria) = JsonLanguage.item("HABILIDADES").item("HERRERIA").item("TEXTO")
@@ -1185,20 +1154,17 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     UserCiego = False
     UserDescansar = False
     UserParalizado = False
-    Traveling = False
     UserNavegando = False
     UserEvento = False
     bFogata = False
-    bRain = False
     bFogata = False
     Comerciando = False
     bShowTutorial = False
     
     MirandoAsignarSkills = False
-    MirandoCarpinteria = False
     MirandoEstadisticas = False
     MirandoForo = False
-    MirandoHerreria = False
+    MirandoTrabajo = 0
     MirandoParty = False
     
     'Delete all kind of dialogs
@@ -1208,6 +1174,7 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     Dim i As Long
     For i = 1 To LastChar
         charlist(i).invisible = False
+
     Next i
 
     ' Reset stats
@@ -1218,11 +1185,15 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     UserELO = 0
     Alocados = 0
     UserEquitando = 0
+    Alocados = 0
+    SkillPoints = 0
     
     lblHelm = "0/0"
     lblWeapon = "0/0"
     lblArmor = "0/0"
     lblShielder = "0/0"
+    
+    Call Actualizar_Estado(e_estados.MedioDia)
 
     Call SetSpeedUsuario
 
@@ -1268,7 +1239,7 @@ Public Sub ResetAllInfoAccounts()
                 .Gold = 0
                 .Criminal = False
                 .Dead = False
-
+                
                 .GameMaster = False
             End With
             
@@ -1276,28 +1247,6 @@ Public Sub ResetAllInfoAccounts()
         
     End If
 End Sub
-
-Public Function DevolverNombreHechizo(ByVal Index As Byte) As String
-Dim i As Long
- 
-    For i = 1 To NumHechizos
-        If i = Index Then
-            DevolverNombreHechizo = Hechizos(i).Nombre
-            Exit Function
-        End If
-    Next i
-End Function
-
-Public Function DevolverIndexHechizo(ByVal Nombre As String) As Byte
-Dim i As Long
- 
-    For i = 1 To NumHechizos
-        If Hechizos(i).Nombre = Nombre Then
-            DevolverIndexHechizo = i
-            Exit Function
-        End If
-    Next i
-End Function
 
 ' USO: If ArrayInitialized(Not ArrayName) Then ...
 Public Function ArrayInitialized(ByVal TheArray As Long) As Boolean
@@ -1310,56 +1259,6 @@ Public Function ArrayInitialized(ByVal TheArray As Long) As Boolean
     ArrayInitialized = Not (TheArray = -1&)
 
 End Function
-
-Function ImgRequest(ByVal sFile As String) As String
-    '***************************************************
-    'Author: RecoX
-    'Last Modify Date: 17/10/2019
-    'Funcion para cargar imagenes de forma segura, ya que si no existe el programa no explota, extraido de gs-ao
-    '***************************************************
-    Dim RespondMsgBox As Byte
-
-    If LenB(Dir(sFile, vbArchive)) = 0 Then
-        RespondMsgBox = MsgBox("ERROR: Imagen no encontrada..." & vbCrLf & sFile, vbCritical + vbRetryCancel)
-
-        If RespondMsgBox = vbRetry Then
-            sFile = ImgRequest(sFile)
-        Else
-            Call MsgBox("ADVERTENCIA: El juego seguira funcionando sin alguna imagen!", vbInformation + vbOKOnly)
-            sFile = Carga.Path(Interfaces) & "blank.bmp"
-        End If
-        
-    End If
-    
-    ImgRequest = sFile
-    
-End Function
-
-Public Sub LoadAOCustomControlsPictures(ByRef tForm As Form)
-    '***************************************************
-    'Author: RecoX
-    'Last Modify Date: 17/10/2019
-    'Cargamos las imagenes de los uAOControls en los formularios.
-    '***************************************************
-    Dim DirButtons As String
-        DirButtons = Carga.Path(Graficos) & "\Botones\"
-
-    Dim cControl As Control
-
-    For Each cControl In tForm.Controls
-
-        If TypeOf cControl Is uAOButton Then
-            cControl.PictureEsquina = LoadPicture(ImgRequest(DirButtons & uAOButton_bEsquina))
-            cControl.PictureFondo = LoadPicture(ImgRequest(DirButtons & uAOButton_bFondo))
-            cControl.PictureHorizontal = LoadPicture(ImgRequest(DirButtons & uAOButton_bHorizontal))
-            cControl.PictureVertical = LoadPicture(ImgRequest(DirButtons & uAOButton_bVertical))
-        ElseIf TypeOf cControl Is uAOCheckbox Then
-            cControl.Picture = LoadPicture(ImgRequest(DirButtons & uAOButton_cCheckboxSmall))
-        End If
-        
-    Next
-    
-End Sub
 
 Public Sub SetSpeedUsuario()
     If UserEquitando Then
@@ -1448,3 +1347,16 @@ Public Function General_Distance_Get(ByVal x1 As Integer, ByVal y1 As Integer, B
     General_Distance_Get = Abs(x1 - x2) + Abs(y1 - y2)
 
 End Function
+
+Public Sub Form_RemoveTitleBar(F As Form)
+    Dim Style As Long
+    ' Get window's current style bits.
+    Style = GetWindowLong(F.hWnd, GWL_STYLE)
+    ' Set the style bit for the title off.
+    Style = Style And Not WS_CAPTION
+
+    ' Send the new style to the window.
+    SetWindowLong F.hWnd, GWL_STYLE, Style
+    ' Repaint the window.
+    'SetWindowPos f.hwnd, 0, 0, 0, 0, 0, SWP_FRAMECHANGED Or SWP_NOMOVE Or SWP_NOZORDER Or SWP_NOSIZE
+End Sub

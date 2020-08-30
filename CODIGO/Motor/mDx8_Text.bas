@@ -54,18 +54,18 @@ End Type
 Private cfonts(1 To 2) As CustomFont ' _Default2 As CustomFont
 
 Public Function ColorToDX8(ByVal long_color As Long) As Long
-    Dim temp_color As String
+    Dim TEMP_COLOR As String
     Dim Red As Integer, Blue As Integer, Green As Integer
     
-    temp_color = Hex$(long_color)
-    If Len(temp_color) < 6 Then
+    TEMP_COLOR = Hex$(long_color)
+    If Len(TEMP_COLOR) < 6 Then
         'Give is 6 digits for easy RGB conversion.
-        temp_color = String$(6 - Len(temp_color), "0") + temp_color
+        TEMP_COLOR = String$(6 - Len(TEMP_COLOR), "0") + TEMP_COLOR
     End If
     
-    Red = CLng("&H" + mid$(temp_color, 1, 2))
-    Green = CLng("&H" + mid$(temp_color, 3, 2))
-    Blue = CLng("&H" + mid$(temp_color, 5, 2))
+    Red = CLng("&H" + mid$(TEMP_COLOR, 1, 2))
+    Green = CLng("&H" + mid$(TEMP_COLOR, 3, 2))
+    Blue = CLng("&H" + mid$(TEMP_COLOR, 5, 2))
     
     ColorToDX8 = D3DColorXRGB(Red, Green, Blue)
 
@@ -332,56 +332,74 @@ Sub Engine_Init_FontSettings()
     'Init the custom font settings
     'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_Init_FontSettings
     '*****************************************************************
-    Dim FileNum  As Byte
-    Dim LoopChar As Long
-    Dim Row      As Single
-    Dim u        As Single
-    Dim v        As Single
-    Dim i As Long
-    Dim File As String
+    Dim LoopChar  As Long
+    Dim Row       As Single
+    Dim u         As Single
+    Dim v         As Single
+    Dim i         As Long
+    Dim j         As Integer
+    Dim fileBuff  As clsByteBuffer
+    Dim InfoHead  As INFOHEADER
+    Dim buffer()  As Byte
     
     '*** Default font ***
-
-    'Load the header information
-    FileNum = FreeFile
     
     For i = 1 To UBound(cfonts)
     
-        File = Get_Extract(srcFileType.Fuentes, "Font" & i & ".dat")
-        
-        Open File For Binary As #FileNum
-            Get #FileNum, , cfonts(i).HeaderInfo
-        Close #FileNum
-        
-        DeleteFile File
-        
-        'Calculate some common values
-        cfonts(i).CharHeight = cfonts(i).HeaderInfo.CellHeight - 4
-        cfonts(i).RowPitch = cfonts(i).HeaderInfo.BitmapWidth \ cfonts(i).HeaderInfo.CellWidth
-        cfonts(i).ColFactor = cfonts(i).HeaderInfo.CellWidth / cfonts(i).HeaderInfo.BitmapWidth
-        cfonts(i).RowFactor = cfonts(i).HeaderInfo.CellHeight / cfonts(i).HeaderInfo.BitmapHeight
-        
-        'Cache the verticies used to draw the character (only requires setting the color and adding to the X/Y values)
-        For LoopChar = 0 To 255
-            
-            'tU and tV value (basically tU = BitmapXPosition / BitmapWidth, and height for tV)
-            Row = (LoopChar - cfonts(i).HeaderInfo.BaseCharOffset) \ cfonts(i).RowPitch
-            u = ((LoopChar - cfonts(i).HeaderInfo.BaseCharOffset) - (Row * cfonts(i).RowPitch)) * cfonts(i).ColFactor
-            v = Row * cfonts(i).RowFactor
+        'Load the header information
+        InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Fuentes.WAO", LCase$("Font" & i & ".dat"))
     
-            'Set the verticies
-            With cfonts(i).HeaderInfo.CharVA(LoopChar)
-                .X = 0
-                .Y = 0
-                .W = cfonts(i).HeaderInfo.CellWidth
-                .h = cfonts(i).HeaderInfo.CellHeight
-                .Tx1 = u
-                .Ty1 = v
-                .Tx2 = u + cfonts(i).ColFactor
-                .Ty2 = v + cfonts(i).RowFactor
+        If InfoHead.lngFileSize <> 0 Then
+        
+            Extract_File_Memory srcFileType.Fuentes, LCase$("Font" & i & ".dat"), buffer()
+        
+            Set fileBuff = New clsByteBuffer
+            
+            fileBuff.initializeReader buffer
+        
+            With cfonts(i).HeaderInfo
+                .BitmapWidth = fileBuff.getLong()
+                .BitmapHeight = fileBuff.getLong()
+                .CellWidth = fileBuff.getLong()
+                .CellHeight = fileBuff.getLong()
+                .BaseCharOffset = fileBuff.getByte()
+                
+                For j = 0 To 255
+                    .CharWidth(j) = fileBuff.getByte()
+                Next j
+            
             End With
             
-        Next LoopChar
+            'Calculate some common values
+            cfonts(i).CharHeight = cfonts(i).HeaderInfo.CellHeight - 4
+            cfonts(i).RowPitch = cfonts(i).HeaderInfo.BitmapWidth \ cfonts(i).HeaderInfo.CellWidth
+            cfonts(i).ColFactor = cfonts(i).HeaderInfo.CellWidth / cfonts(i).HeaderInfo.BitmapWidth
+            cfonts(i).RowFactor = cfonts(i).HeaderInfo.CellHeight / cfonts(i).HeaderInfo.BitmapHeight
+            
+            'Cache the verticies used to draw the character (only requires setting the color and adding to the X/Y values)
+            For LoopChar = 0 To 255
+                
+                'tU and tV value (basically tU = BitmapXPosition / BitmapWidth, and height for tV)
+                Row = (LoopChar - cfonts(i).HeaderInfo.BaseCharOffset) \ cfonts(i).RowPitch
+                u = ((LoopChar - cfonts(i).HeaderInfo.BaseCharOffset) - (Row * cfonts(i).RowPitch)) * cfonts(i).ColFactor
+                v = Row * cfonts(i).RowFactor
+        
+                'Set the verticies
+                With cfonts(i).HeaderInfo.CharVA(LoopChar)
+                    .X = 0
+                    .Y = 0
+                    .W = cfonts(i).HeaderInfo.CellWidth
+                    .h = cfonts(i).HeaderInfo.CellHeight
+                    .Tx1 = u
+                    .Ty1 = v
+                    .Tx2 = u + cfonts(i).ColFactor
+                    .Ty2 = v + cfonts(i).RowFactor
+                End With
+                
+            Next LoopChar
+            
+            Set fileBuff = Nothing
+        End If
     Next i
 End Sub
 

@@ -118,7 +118,7 @@ Public Sub SetResolution(ByRef newWidth As Integer, ByRef newHeight As Integer)
     If oldResWidth <> newWidth Or oldResHeight <> newHeight Then
 
         ' Si no es igual, pregunto si quiere cambiarla.
-        If MsgBox(JsonLanguage.item("PANTALLA_COMPLETA").item("TEXTO"), vbYesNo, "Winter AO Resurrection") = vbYes Then
+        If MsgBox(JsonLanguage.item("PANTALLA_COMPLETA").item("TEXTO"), vbYesNo, Form_Caption) = vbYes Then
             
             ' Maximizo la vantana
             frmMain.WindowState = vbMaximized
@@ -141,9 +141,9 @@ Public Sub SetResolution(ByRef newWidth As Integer, ByRef newHeight As Integer)
 
         Else
             
-            ' Maximizo la vantana
+              ' Maximizo la vantana
             frmMain.WindowState = vbNormal
-                        
+            
             ' No se cambio la resolucion
             ResolucionCambiada = False
 

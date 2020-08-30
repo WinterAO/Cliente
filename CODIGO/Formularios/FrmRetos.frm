@@ -135,7 +135,7 @@ Begin VB.Form FrmRetos
       Visible         =   0   'False
       Width           =   1815
    End
-   Begin WinterAO.uAOButton Comenzar 
+   Begin WinterAOR_Client.uAOButton Comenzar 
       Height          =   615
       Left            =   5400
       TabIndex        =   12
@@ -162,7 +162,7 @@ Begin VB.Form FrmRetos
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton Salir 
+   Begin WinterAOR_Client.uAOButton Salir 
       Height          =   615
       Left            =   7200
       TabIndex        =   13
@@ -389,13 +389,12 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     Call clsFormulario.Initialize(Me)
     
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaRetos.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("131.gif", False)
     
     Call LoadTextsForm
-    Call LoadAOCustomControlsPictures(Me)
 
-    Set picNegrita = LoadPicture(Carga.Path(Interfaces) & "OpcionPrendidaN.jpg")
-    Set picCursiva = LoadPicture(Carga.Path(Interfaces) & "OpcionPrendidaC.jpg")
+    Set picNegrita = General_Load_Picture_From_Resource("129.gif", False)
+    Set picCursiva = General_Load_Picture_From_Resource("130.gif", False)
 
 End Sub
 

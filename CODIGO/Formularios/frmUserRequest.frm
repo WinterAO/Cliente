@@ -42,7 +42,7 @@ Begin VB.Form frmUserRequest
       Top             =   405
       Width           =   4185
    End
-   Begin WinterAO.uAOButton imgCerrar 
+   Begin WinterAOR_Client.uAOButton imgCerrar 
       Height          =   375
       Left            =   960
       TabIndex        =   1
@@ -141,10 +141,9 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaPeticion.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("189.gif", False)
 
     Call LoadTextsForm
-    Call LoadAOCustomControlsPictures(Me)
 
 End Sub
 

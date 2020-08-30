@@ -21,6 +21,14 @@ Public DirectD3D As Direct3D8
 ' use the same object no matter what it is
 Public DirectDevice As Direct3DDevice8
 
+' The D3DDISPLAYMODE type structure that holds
+' the information about your current display adapter.
+Public DispMode  As D3DDISPLAYMODE
+    
+' The D3DPRESENT_PARAMETERS type holds a description of the way
+' in which DirectX will display it's rendering.
+Public D3DWindow As D3DPRESENT_PARAMETERS
+
 Public SurfaceDB As New clsTextureManager
 Public SpriteBatch As New clsBatch
 
@@ -53,82 +61,53 @@ End Type
 
 Private EndTime As Long
 
-Public Function Engine_DirectX8_Init() As Boolean
-    
-    'Establecemos cual va a ser el tamano del render.
-    ScreenWidth = frmConnect.Renderer.ScaleWidth
-    ScreenHeight = frmConnect.Renderer.ScaleHeight
-    
-    Dim D3DWindow As D3DPRESENT_PARAMETERS
-    
-    ' The D3DDISPLAYMODE type structure that holds
-    ' the information about your current display adapter.
-    Dim DispMode  As D3DDISPLAYMODE
-    
+Public Sub Engine_DirectX8_Init()
+    On Error GoTo EngineHandler:
+
     ' Initialize all DirectX objects.
     Set DirectX = New DirectX8
     Set DirectD3D = DirectX.Direct3DCreate
     Set DirectD3D8 = New D3DX8
-
-    ' Retrieve the information about your current display adapter.
-    Call DirectD3D.GetAdapterDisplayMode(D3DADAPTER_DEFAULT, DispMode)
     
-    ' Fill the D3DPRESENT_PARAMETERS type, describing how DirectX should
-    ' display it's renders.
-    With D3DWindow
-        .Windowed = True
+    If ClientSetup.OverrideVertexProcess > 0 Then
         
-        ' The swap effect determines how the graphics get from the backbuffer to the screen.
-        ' D3DSWAPEFFECT_DISCARD:
-        '   Means that every time the render is presented, the backbuffer
-        '   image is destroyed, so everything must be rendered again.
-        .SwapEffect = D3DSWAPEFFECT_DISCARD
-        
-        .BackBufferFormat = DispMode.Format
-        .BackBufferWidth = ScreenWidth
-        .BackBufferHeight = ScreenHeight
-        .hDeviceWindow = frmMain.MainViewPic.hWnd
-    End With
-    
-    ' Create the rendering device.
-    ' Here we request a Hardware or Mixed rasterization.
-    ' If your computer does not have this, the request may fail, so use
-    ' D3DDEVTYPE_REF instead of D3DDEVTYPE_HAL if this happens. A real
-    ' program would be able to detect an error and automatically switch device.
-    ' We also request software vertex processing, which means the CPU has to
-    ' transform and light our geometry.
-    Select Case ClientSetup.Aceleracion
-
-        Case 0 '   Hardware
-            Set DirectDevice = DirectD3D.CreateDevice(D3DADAPTER_DEFAULT, _
-                                                      D3DDEVTYPE_HAL, _
-                                                      D3DWindow.hDeviceWindow, _
-                                                      D3DCREATE_HARDWARE_VERTEXPROCESSING, _
-                                                      D3DWindow)
-
-        Case 1 '   Mixed
-            Set DirectDevice = DirectD3D.CreateDevice(D3DADAPTER_DEFAULT, _
-                                                      D3DDEVTYPE_HAL, _
-                                                      D3DWindow.hDeviceWindow, _
-                                                      D3DCREATE_MIXED_VERTEXPROCESSING, _
-                                                      D3DWindow)
-                                                      
-       Case 2 '   Software
-            Set DirectDevice = DirectD3D.CreateDevice(D3DADAPTER_DEFAULT, _
-                                                      D3DDEVTYPE_HAL, _
-                                                      D3DWindow.hDeviceWindow, _
-                                                      D3DCREATE_SOFTWARE_VERTEXPROCESSING, _
-                                                      D3DWindow)
-
-        Case Else 'Si no hay opcion entramos en Hardware para asegurarnos que funcione el cliente.
-            Set DirectDevice = DirectD3D.CreateDevice(D3DADAPTER_DEFAULT, _
-                                                      D3DDEVTYPE_HAL, _
-                                                      D3DWindow.hDeviceWindow, _
-                                                      D3DCREATE_HARDWARE_VERTEXPROCESSING, _
-                                                      D3DWindow)
+        Select Case ClientSetup.OverrideVertexProcess
             
-    End Select
-    
+            Case 1:
+                If Not Engine_Init_DirectDevice(D3DCREATE_HARDWARE_VERTEXPROCESSING) Then
+                    Call MsgBox(JsonLanguage.item("ERROR_DIRECTX_INIT").item("TEXTO"))
+                    End
+                End If
+            
+            
+            Case 2:
+                If Not Engine_Init_DirectDevice(D3DCREATE_MIXED_VERTEXPROCESSING) Then
+                    Call MsgBox(JsonLanguage.item("ERROR_DIRECTX_INIT").item("TEXTO"))
+                    End
+                End If
+
+            
+            Case 3:
+                If Not Engine_Init_DirectDevice(D3DCREATE_SOFTWARE_VERTEXPROCESSING) Then
+                    Call MsgBox(JsonLanguage.item("ERROR_DIRECTX_INIT").item("TEXTO"))
+                    End
+                End If
+        End Select
+        
+    Else
+        'Detectamos el modo de renderizado mas compatible con tu PC.
+        If Not Engine_Init_DirectDevice(D3DCREATE_HARDWARE_VERTEXPROCESSING) Then
+            If Not Engine_Init_DirectDevice(D3DCREATE_MIXED_VERTEXPROCESSING) Then
+                If Not Engine_Init_DirectDevice(D3DCREATE_SOFTWARE_VERTEXPROCESSING) Then
+            
+                    Call MsgBox(JsonLanguage.item("ERROR_DIRECTX_INIT").item("TEXTO"))
+                    End
+                
+                End If
+            End If
+        End If
+    End If
+
     'Seteamos la matriz de proyeccion.
     Call D3DXMatrixOrthoOffCenterLH(Projection, 0, ScreenWidth, ScreenHeight, 0, -1#, 1#)
     Call D3DXMatrixIdentity(View)
@@ -145,25 +124,87 @@ Public Function Engine_DirectX8_Init() As Boolean
     Set SpriteBatch = New clsBatch
     Call SpriteBatch.Initialise(2000)
     
+    'Inicializamos el resto de sistemas.
+    Call Engine_DirectX8_Aditional_Init
+    
     EndTime = timeGetTime
+    
+    Exit Sub
+EngineHandler:
+    
+    Call LogError(Err.number, Err.Description, "mDx8_Engine.Engine_DirectX8_Init")
+    
+    Call CloseClient
+End Sub
 
-    If Err Then
-        MsgBox JsonLanguage.item("ERROR_DIRECTX_INIT").item("TEXTO")
-        Engine_DirectX8_Init = False
-        Exit Function
+Private Function Engine_Init_DirectDevice(D3DCREATEFLAGS As CONST_D3DCREATEFLAGS) As Boolean
+
+    'Establecemos cual va a ser el tamano del render.
+    ScreenWidth = frmConnect.Renderer.ScaleWidth
+    ScreenHeight = frmConnect.Renderer.ScaleHeight
+    
+    ' Retrieve the information about your current display adapter.
+    Call DirectD3D.GetAdapterDisplayMode(D3DADAPTER_DEFAULT, DispMode)
+    
+        ' Fill the D3DPRESENT_PARAMETERS type, describing how DirectX should
+    ' display it's renders.
+    With D3DWindow
+        .Windowed = True
+        
+        ' The swap effect determines how the graphics get from the backbuffer to the screen.
+        ' D3DSWAPEFFECT_DISCARD:
+        '   Means that every time the render is presented, the backbuffer
+        '   image is destroyed, so everything must be rendered again.
+        .SwapEffect = D3DSWAPEFFECT_DISCARD
+        
+        .BackBufferFormat = DispMode.Format
+        .BackBufferWidth = ScreenWidth
+        .BackBufferHeight = ScreenHeight
+        .hDeviceWindow = frmMain.MainViewPic.hWnd
+    End With
+    
+    If Not DirectDevice Is Nothing Then
+        Set DirectDevice = Nothing
     End If
     
-    If DirectDevice Is Nothing Then
-        MsgBox JsonLanguage.item("ERROR_DIRECTDEVICE_INIT").item("TEXTO")
-        Engine_DirectX8_Init = False
-        Exit Function
-    End If
+    ' Create the rendering device.
+    ' Here we request a Hardware or Mixed rasterization.
+    ' If your computer does not have this, the request may fail, so use
+    ' D3DDEVTYPE_REF instead of D3DDEVTYPE_HAL if this happens. A real
+    ' program would be able to detect an error and automatically switch device.
+    ' We also request software vertex processing, which means the CPU has to
+    Set DirectDevice = DirectD3D.CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DWindow.hDeviceWindow, D3DCREATEFLAGS, D3DWindow)
     
-    Engine_DirectX8_Init = True
+    'Lo pongo xq es bueno saberlo...
+    Select Case D3DCREATEFLAGS
+    
+        Case D3DCREATE_MIXED_VERTEXPROCESSING
+            Debug.Print "Modo de Renderizado: MIXED"
+        
+        Case D3DCREATE_HARDWARE_VERTEXPROCESSING
+            Debug.Print "Modo de Renderizado: HARDWARE"
+            
+        Case D3DCREATE_SOFTWARE_VERTEXPROCESSING
+            Debug.Print "Modo de Renderizado: SOFTWARE"
+            
+    End Select
+    
+    'Everything was successful
+    Engine_Init_DirectDevice = True
+    
+    Exit Function
+    
+ErrorDevice:
+    
+    'Destroy the D3DDevice so it can be remade
+    Set DirectDevice = Nothing
+
+    'Return a failure
+    Engine_Init_DirectDevice = False
     
 End Function
 
-Public Sub Engine_Init_RenderStates()
+Private Sub Engine_Init_RenderStates()
 
     'Set the render states
     With DirectDevice
@@ -221,9 +262,6 @@ Public Sub Engine_DirectX8_Aditional_Init()
 
     FPS = 101
     FramesPerSecCounter = 101
-    
-    ColorTecho = 250
-    colorRender = 240
 
     TileBufferSize = Areas.TilesBuffer
     
@@ -235,22 +273,32 @@ Public Sub Engine_DirectX8_Aditional_Init()
         .Bottom = frmMain.MainViewPic.ScaleHeight
         .Right = frmMain.MainViewPic.ScaleWidth
     End With
-    
-    ' Seteamos algunos colores por adelantado y unica vez.
-    Call Engine_Long_To_RGB_List(Normal_RGBList(), -1)
-    Call Engine_Long_To_RGB_List(Color_Shadow(), D3DColorARGB(50, 0, 0, 0))
-    Color_Paralisis = D3DColorARGB(180, 230, 230, 250)
-    Color_Invisibilidad = D3DColorARGB(180, 236, 136, 66)
-    Color_Montura = D3DColorARGB(180, 15, 230, 40)
-    
-    ' Inicializamos otros sistemas.
+
+    'Inicializamos y cargamos los graficos de las Fonts.
     Call mDx8_Text.Engine_Init_FontTextures
-    Call mDx8_Text.Engine_Init_FontSettings
-    Call mDx8_Clima.Init_MeteoEngine
-    Call mDx8_Dibujado.Damage_Initialize
     
-    ' Inicializa DIB surface, un buffer usado para dejar imagenes estaticas en PictureBox
-    Call PrepareDrawBuffer
+    If Not prgRun Then
+    
+        ColorTecho = 250
+        colorRender = 240
+        
+        ' Seteamos algunos colores por adelantado y unica vez.
+        Call Engine_Long_To_RGB_List(Normal_RGBList(), -1)
+        Call Engine_Long_To_RGB_List(Color_Shadow(), D3DColorARGB(50, 0, 0, 0))
+        Call Engine_Long_To_RGB_List(NoUsa_RGBList(), D3DColorARGB(255, 200, 30, 30))
+        Color_Paralisis = D3DColorARGB(180, 230, 230, 250)
+        Color_Invisibilidad = D3DColorARGB(180, 236, 136, 66)
+        Color_Montura = D3DColorARGB(180, 15, 230, 40)
+        
+        ' Inicializamos otros sistemas.
+        Call mDx8_Text.Engine_Init_FontSettings
+        Call mDx8_Clima.Init_MeteoEngine
+        Call mDx8_Dibujado.Damage_Initialize
+        
+        ' Inicializa DIB surface, un buffer usado para dejar imagenes estaticas en PictureBox
+        Call PrepareDrawBuffer
+        
+    End If
     
 End Sub
 
@@ -544,15 +592,30 @@ Public Sub Engine_EndScene(ByRef DestRect As RECT, Optional ByVal hWndDest As Lo
 'Last Modification: 29/12/10
 'Blisse-AO | DD EndScene & Present
 '***************************************************
-    
+On Error GoTo DeviceHandler:
+
     Call SpriteBatch.Flush
     
     Call DirectDevice.EndScene
         
     If hWndDest = 0 Then
         Call DirectDevice.Present(DestRect, ByVal 0&, ByVal 0&, ByVal 0&)
+    
     Else
         Call DirectDevice.Present(DestRect, ByVal 0, hWndDest, ByVal 0)
+    
+    End If
+    
+    Exit Sub
+    
+DeviceHandler:
+
+    If DirectDevice.TestCooperativeLevel = D3DERR_DEVICENOTRESET Then
+
+        Call mDx8_Engine.Engine_DirectX8_Init
+
+        Call LoadGraphics
+
     End If
     
 End Sub
@@ -718,3 +781,30 @@ ErrOut:
 Exit Function
  
 End Function
+
+Public Sub Engine_Get_ARGB(Color As Long, data As D3DCOLORVALUE)
+'**************************************************************
+'Author: Standelf
+'Last Modify Date: 18/10/2012
+'**************************************************************
+    
+    Dim a As Long, r As Long, g As Long, b As Long
+        
+    If Color < 0 Then
+        a = ((Color And (&H7F000000)) / (2 ^ 24)) Or &H80&
+    Else
+        a = Color / (2 ^ 24)
+    End If
+    
+    r = (Color And &HFF0000) / (2 ^ 16)
+    g = (Color And &HFF00&) / (2 ^ 8)
+    b = (Color And &HFF&)
+    
+    With data
+        .a = a
+        .r = r
+        .g = g
+        .b = b
+    End With
+        
+End Sub

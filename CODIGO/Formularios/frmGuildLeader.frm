@@ -295,15 +295,12 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaAdministrarClan.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("60.gif", False)
     
     Call LoadButtons
 End Sub
 
 Private Sub LoadButtons()
-    Dim GrhPath As String
-    
-    GrhPath = Carga.Path(Interfaces)
 
     Set cBotonElecciones = New clsGraphicalButton
     Set cBotonActualizar = New clsGraphicalButton
@@ -319,45 +316,45 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
     
     
-    Call cBotonElecciones.Initialize(imgElecciones, GrhPath & "BotonElecciones.jpg", _
-                                    GrhPath & "BotonEleccionesRollover.jpg", _
-                                    GrhPath & "BotonEleccionesClick.jpg", Me)
+    Call cBotonElecciones.Initialize(imgElecciones, "36.gif", _
+                                    "37.gif", _
+                                    "38.gif", Me)
 
-    Call cBotonActualizar.Initialize(imgActualizar, GrhPath & "BotonActualizar.jpg", _
-                                    GrhPath & "BotonActualizarRollover.jpg", _
-                                    GrhPath & "BotonActualizarClick.jpg", Me)
+    Call cBotonActualizar.Initialize(imgActualizar, "33.gif", _
+                                    "34.gif", _
+                                    "35.gif", Me)
 
-    Call cBotonDetallesClan.Initialize(imgDetallesClan, GrhPath & "BotonDetallesAdministrarClan.jpg", _
-                                    GrhPath & "BotonDetallesRolloverAdministrarClan.jpg", _
-                                    GrhPath & "BotonDetallesClickAdministrarClan.jpg", Me)
+    Call cBotonDetallesClan.Initialize(imgDetallesClan, "39.gif", _
+                                    "40.gif", _
+                                    "41.gif", Me)
 
-    Call cBotonDetallesMiembros.Initialize(imgDetallesMiembros, GrhPath & "BotonDetallesAdministrarClan.jpg", _
-                                    GrhPath & "BotonDetallesRolloverAdministrarClan.jpg", _
-                                    GrhPath & "BotonDetallesClickAdministrarClan.jpg", Me)
+    Call cBotonDetallesMiembros.Initialize(imgDetallesMiembros, "42.gif", _
+                                    "43.gif", _
+                                    "44.gif", Me)
                                     
-    Call cBotonDetallesSolicitudes.Initialize(imgDetallesSolicitudes, GrhPath & "BotonDetallesAdministrarClan.jpg", _
-                                    GrhPath & "BotonDetallesRolloverAdministrarClan.jpg", _
-                                    GrhPath & "BotonDetallesClickAdministrarClan.jpg", Me)
+    Call cBotonDetallesSolicitudes.Initialize(imgDetallesSolicitudes, "45.gif", _
+                                    "46.gif", _
+                                    "47.gif", Me)
 
-    Call cBotonEditarCodex.Initialize(imgEditarCodex, GrhPath & "BotonEditarCodex.jpg", _
-                                    GrhPath & "BotonEditarCodexRollover.jpg", _
-                                    GrhPath & "BotonEditarCodexClick.jpg", Me)
+    Call cBotonEditarCodex.Initialize(imgEditarCodex, "48.gif", _
+                                    "49.gif", _
+                                    "50.gif", Me)
 
-    Call cBotonEditarURL.Initialize(imgEditarURL, GrhPath & "BotonEditarURL.jpg", _
-                                    GrhPath & "BotonEditarURLRollover.jpg", _
-                                    GrhPath & "BotonEditarURLClick.jpg", Me)
+    Call cBotonEditarURL.Initialize(imgEditarURL, "200.gif", _
+                                    "201.gif", _
+                                    "202.gif", Me)
 
-    Call cBotonPropuestasPaz.Initialize(imgPropuestasPaz, GrhPath & "BotonPropuestaPaz.jpg", _
-                                    GrhPath & "BotonPropuestaPazRollover.jpg", _
-                                    GrhPath & "BotonPropuestaPazClick.jpg", Me)
+    Call cBotonPropuestasPaz.Initialize(imgPropuestasPaz, "51.gif", _
+                                    "52.gif", _
+                                    "53.gif", Me)
 
-    Call cBotonPropuestasAlianzas.Initialize(imgPropuestasAlianzas, GrhPath & "BotonPropuestasAlianzas.jpg", _
-                                    GrhPath & "BotonPropuestasAlianzasRollover.jpg", _
-                                    GrhPath & "BotonPropuestasAlianzasClick.jpg", Me)
+    Call cBotonPropuestasAlianzas.Initialize(imgPropuestasAlianzas, "54.gif", _
+                                    "55.gif", _
+                                    "56.gif", Me)
 
-    Call cBotonCerrar.Initialize(imgCerrar, GrhPath & "BotonCerrarAdministrarClan.jpg", _
-                                    GrhPath & "BotonCerrarRolloverAdministrarClan.jpg", _
-                                    GrhPath & "BotonCerrarClickAdministrarClan.jpg", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "57.gif", _
+                                    "58.gif", _
+                                    "59.gif", Me)
 
 
 End Sub

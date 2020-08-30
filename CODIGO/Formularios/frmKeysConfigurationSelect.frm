@@ -1,22 +1,21 @@
 VERSION 5.00
 Begin VB.Form frmKeysConfigurationSelect 
-   BackColor       =   &H80000012&
-   BorderStyle     =   0  'None
+   BorderStyle     =   4  'Fixed ToolWindow
    Caption         =   "Configuracion Controles / Config Keys"
-   ClientHeight    =   8850
-   ClientLeft      =   0
-   ClientTop       =   0
-   ClientWidth     =   10185
+   ClientHeight    =   8205
+   ClientLeft      =   45
+   ClientTop       =   390
+   ClientWidth     =   9330
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   8850
-   ScaleWidth      =   10185
+   ScaleHeight     =   8205
+   ScaleWidth      =   9330
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
-   Begin WinterAO.uAOButton btnNormalKeys 
+   Begin WinterAOR_Client.uAOButton btnNormalKeys 
       Height          =   495
       Left            =   840
       TabIndex        =   0
@@ -42,7 +41,7 @@ Begin VB.Form frmKeysConfigurationSelect
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin WinterAO.uAOButton btnAlternativeKeys 
+   Begin WinterAOR_Client.uAOButton btnAlternativeKeys 
       Height          =   495
       Left            =   6360
       TabIndex        =   1
@@ -73,7 +72,7 @@ Begin VB.Form frmKeysConfigurationSelect
       BackStyle       =   0  'Transparent
       Caption         =   "Titulo Alternativo"
       BeginProperty Font 
-         Name            =   "MS Sans Serif"
+         Name            =   "Tahoma"
          Size            =   17.25
          Charset         =   0
          Weight          =   400
@@ -81,7 +80,7 @@ Begin VB.Form frmKeysConfigurationSelect
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      ForeColor       =   &H00C0C0FF&
+      ForeColor       =   &H000000FF&
       Height          =   1215
       Left            =   5640
       TabIndex        =   6
@@ -93,7 +92,7 @@ Begin VB.Form frmKeysConfigurationSelect
       BackStyle       =   0  'Transparent
       Caption         =   "Titulo Normal"
       BeginProperty Font 
-         Name            =   "MS Sans Serif"
+         Name            =   "Tahoma"
          Size            =   17.25
          Charset         =   0
          Weight          =   400
@@ -101,7 +100,7 @@ Begin VB.Form frmKeysConfigurationSelect
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      ForeColor       =   &H00C0C0FF&
+      ForeColor       =   &H000000FF&
       Height          =   1575
       Left            =   360
       TabIndex        =   5
@@ -109,9 +108,9 @@ Begin VB.Form frmKeysConfigurationSelect
       Width           =   3975
    End
    Begin VB.Line Line1 
-      BorderColor     =   &H8000000B&
-      X1              =   4920
-      X2              =   4920
+      BorderColor     =   &H00000000&
+      X1              =   4560
+      X2              =   4560
       Y1              =   1800
       Y2              =   8040
    End
@@ -119,7 +118,7 @@ Begin VB.Form frmKeysConfigurationSelect
       BackStyle       =   0  'Transparent
       Caption         =   "Legacy (Directional Arrows) "
       BeginProperty Font 
-         Name            =   "MS UI Gothic"
+         Name            =   "Tahoma"
          Size            =   12
          Charset         =   0
          Weight          =   400
@@ -127,7 +126,7 @@ Begin VB.Form frmKeysConfigurationSelect
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      ForeColor       =   &H0000FFFF&
+      ForeColor       =   &H000080FF&
       Height          =   1695
       Left            =   5520
       TabIndex        =   4
@@ -138,7 +137,7 @@ Begin VB.Form frmKeysConfigurationSelect
       BackStyle       =   0  'Transparent
       Caption         =   "Label1"
       BeginProperty Font 
-         Name            =   "MS UI Gothic"
+         Name            =   "Tahoma"
          Size            =   12
          Charset         =   0
          Weight          =   400
@@ -146,7 +145,7 @@ Begin VB.Form frmKeysConfigurationSelect
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      ForeColor       =   &H0000FFFF&
+      ForeColor       =   &H000080FF&
       Height          =   1455
       Left            =   360
       TabIndex        =   3
@@ -170,7 +169,7 @@ Begin VB.Form frmKeysConfigurationSelect
       BackStyle       =   0  'Transparent
       Caption         =   $"frmKeysConfigurationSelect.frx":00E0
       BeginProperty Font 
-         Name            =   "MS UI Gothic"
+         Name            =   "Tahoma"
          Size            =   14.25
          Charset         =   0
          Weight          =   700
@@ -180,7 +179,7 @@ Begin VB.Form frmKeysConfigurationSelect
       EndProperty
       ForeColor       =   &H0000C000&
       Height          =   1335
-      Left            =   960
+      Left            =   720
       TabIndex        =   2
       Top             =   240
       Width           =   7575
@@ -194,9 +193,8 @@ Attribute VB_Exposed = False
 
 Private Sub Form_Load()
    Call LoadTextsForm
-   Call LoadAOCustomControlsPictures(Me)
-   imgAlternativeKeyboard.Picture = LoadPicture(Carga.Path(Interfaces) & "frmKeysConfigurationSelectAlternativeKeyboard.jpg")
-   imgNormalKeyboard.Picture = LoadPicture(Carga.Path(Interfaces) & "frmKeysConfigurationSelectNormalKeyboard.jpg")
+   imgAlternativeKeyboard.Picture = General_Load_Picture_From_Resource("19.gif", False)
+   imgNormalKeyboard.Picture = General_Load_Picture_From_Resource("20.gif", False)
 End Sub
 
 Private Sub LoadTextsForm()

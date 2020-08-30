@@ -1,8 +1,6 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "Richtx32.ocx"
 Begin VB.Form frmMain 
-   Appearance      =   0  'Flat
-   BackColor       =   &H80000005&
    BorderStyle     =   0  'None
    ClientHeight    =   11520
    ClientLeft      =   360
@@ -22,13 +20,13 @@ Begin VB.Form frmMain
       Italic          =   0   'False
       Strikethrough   =   0   'False
    EndProperty
-   FontTransparent =   0   'False
    ForeColor       =   &H00004080&
    Icon            =   "frmMain.frx":0000
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
+   MaxButton       =   0   'False
+   MinButton       =   0   'False
    PaletteMode     =   1  'UseZOrder
-   Picture         =   "frmMain.frx":1A041
    ScaleHeight     =   768
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   1024
@@ -69,13 +67,7 @@ Begin VB.Form frmMain
       Visible         =   0   'False
       Width           =   2535
    End
-   Begin VB.Timer timerPasarSegundo 
-      Enabled         =   0   'False
-      Interval        =   1000
-      Left            =   960
-      Top             =   2880
-   End
-   Begin WinterAO.uAOProgress uAOProgressExperienceLevel 
+   Begin WinterAOR_Client.uAOProgress uAOProgressExperienceLevel 
       Height          =   180
       Left            =   11520
       TabIndex        =   13
@@ -87,7 +79,7 @@ Begin VB.Form frmMain
       BackColor       =   8421376
       BorderColor     =   0
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Arial"
+         Name            =   "Tahoma"
          Size            =   8.25
          Charset         =   0
          Weight          =   400
@@ -102,6 +94,7 @@ Begin VB.Form frmMain
       BorderStyle     =   0  'None
       Height          =   1500
       Left            =   9450
+      MouseIcon       =   "frmMain.frx":1A041
       ScaleHeight     =   100
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   100
@@ -174,11 +167,12 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
       Appearance      =   0
-      TextRTF         =   $"frmMain.frx":6BAB2
+      TextRTF         =   $"frmMain.frx":1A193
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Tahoma"
          Size            =   8.25
@@ -225,7 +219,7 @@ Begin VB.Form frmMain
          Top             =   5640
          Visible         =   0   'False
          Width           =   1575
-         Begin WinterAO.uAOButton btnMapa 
+         Begin WinterAOR_Client.uAOButton btnMapa 
             Height          =   255
             Left            =   120
             TabIndex        =   17
@@ -238,10 +232,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":6BB2F
-            PICF            =   "frmMain.frx":6BB4B
-            PICH            =   "frmMain.frx":6BB67
-            PICV            =   "frmMain.frx":6BB83
+            PICE            =   "frmMain.frx":1A210
+            PICF            =   "frmMain.frx":1A22C
+            PICH            =   "frmMain.frx":1A248
+            PICV            =   "frmMain.frx":1A264
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -252,7 +246,7 @@ Begin VB.Form frmMain
                Strikethrough   =   0   'False
             EndProperty
          End
-         Begin WinterAO.uAOButton btnGrupo 
+         Begin WinterAOR_Client.uAOButton btnGrupo 
             Height          =   255
             Left            =   120
             TabIndex        =   18
@@ -265,10 +259,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":6BB9F
-            PICF            =   "frmMain.frx":6BBBB
-            PICH            =   "frmMain.frx":6BBD7
-            PICV            =   "frmMain.frx":6BBF3
+            PICE            =   "frmMain.frx":1A280
+            PICF            =   "frmMain.frx":1A29C
+            PICH            =   "frmMain.frx":1A2B8
+            PICV            =   "frmMain.frx":1A2D4
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -279,7 +273,7 @@ Begin VB.Form frmMain
                Strikethrough   =   0   'False
             EndProperty
          End
-         Begin WinterAO.uAOButton btnEstadisticas 
+         Begin WinterAOR_Client.uAOButton btnEstadisticas 
             Height          =   255
             Left            =   120
             TabIndex        =   19
@@ -292,10 +286,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":6BC0F
-            PICF            =   "frmMain.frx":6BC2B
-            PICH            =   "frmMain.frx":6BC47
-            PICV            =   "frmMain.frx":6BC63
+            PICE            =   "frmMain.frx":1A2F0
+            PICF            =   "frmMain.frx":1A30C
+            PICH            =   "frmMain.frx":1A328
+            PICV            =   "frmMain.frx":1A344
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -306,7 +300,7 @@ Begin VB.Form frmMain
                Strikethrough   =   0   'False
             EndProperty
          End
-         Begin WinterAO.uAOButton btnClanes 
+         Begin WinterAOR_Client.uAOButton btnClanes 
             Height          =   255
             Left            =   120
             TabIndex        =   20
@@ -319,10 +313,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":6BC7F
-            PICF            =   "frmMain.frx":6BC9B
-            PICH            =   "frmMain.frx":6BCB7
-            PICV            =   "frmMain.frx":6BCD3
+            PICE            =   "frmMain.frx":1A360
+            PICF            =   "frmMain.frx":1A37C
+            PICH            =   "frmMain.frx":1A398
+            PICV            =   "frmMain.frx":1A3B4
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -333,7 +327,7 @@ Begin VB.Form frmMain
                Strikethrough   =   0   'False
             EndProperty
          End
-         Begin WinterAO.uAOButton btnRetos 
+         Begin WinterAOR_Client.uAOButton btnRetos 
             Height          =   255
             Left            =   120
             TabIndex        =   21
@@ -346,10 +340,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":6BCEF
-            PICF            =   "frmMain.frx":6BD0B
-            PICH            =   "frmMain.frx":6BD27
-            PICV            =   "frmMain.frx":6BD43
+            PICE            =   "frmMain.frx":1A3D0
+            PICF            =   "frmMain.frx":1A3EC
+            PICH            =   "frmMain.frx":1A408
+            PICV            =   "frmMain.frx":1A424
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -360,7 +354,7 @@ Begin VB.Form frmMain
                Strikethrough   =   0   'False
             EndProperty
          End
-         Begin WinterAO.uAOButton btnOpciones 
+         Begin WinterAOR_Client.uAOButton btnOpciones 
             Height          =   255
             Left            =   120
             TabIndex        =   22
@@ -373,10 +367,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":6BD5F
-            PICF            =   "frmMain.frx":6BD7B
-            PICH            =   "frmMain.frx":6BD97
-            PICV            =   "frmMain.frx":6BDB3
+            PICE            =   "frmMain.frx":1A440
+            PICF            =   "frmMain.frx":1A45C
+            PICH            =   "frmMain.frx":1A478
+            PICV            =   "frmMain.frx":1A494
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -387,7 +381,7 @@ Begin VB.Form frmMain
                Strikethrough   =   0   'False
             EndProperty
          End
-         Begin WinterAO.uAOButton btnQuest 
+         Begin WinterAOR_Client.uAOButton btnQuest 
             Height          =   255
             Left            =   120
             TabIndex        =   31
@@ -400,10 +394,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":6BDCF
-            PICF            =   "frmMain.frx":6BDEB
-            PICH            =   "frmMain.frx":6BE07
-            PICV            =   "frmMain.frx":6BE23
+            PICE            =   "frmMain.frx":1A4B0
+            PICF            =   "frmMain.frx":1A4CC
+            PICH            =   "frmMain.frx":1A4E8
+            PICV            =   "frmMain.frx":1A504
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -416,6 +410,25 @@ Begin VB.Form frmMain
          End
       End
    End
+   Begin VB.Label lblHour 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "00:00"
+      ForeColor       =   &H00FFFFFF&
+      Height          =   195
+      Left            =   13905
+      TabIndex        =   34
+      Top             =   9975
+      Width           =   465
+   End
+   Begin VB.Image btnShop 
+      Height          =   360
+      Left            =   11670
+      MouseIcon       =   "frmMain.frx":1A520
+      Tag             =   "1"
+      Top             =   9720
+      Width           =   1410
+   End
    Begin VB.Label LbLChat 
       Alignment       =   2  'Center
       AutoSize        =   -1  'True
@@ -424,6 +437,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   255
       Left            =   240
+      MouseIcon       =   "frmMain.frx":1A672
       TabIndex        =   32
       Top             =   1980
       Width           =   1215
@@ -543,6 +557,7 @@ Begin VB.Form frmMain
       Height          =   585
       Index           =   2
       Left            =   14400
+      MouseIcon       =   "frmMain.frx":1A7C4
       Top             =   1920
       Width           =   495
    End
@@ -563,13 +578,19 @@ Begin VB.Form frmMain
    Begin VB.Image btnInfo 
       Height          =   495
       Left            =   13575
+      MouseIcon       =   "frmMain.frx":1A916
+      MousePointer    =   99  'Custom
       Top             =   5940
+      Visible         =   0   'False
       Width           =   1095
    End
    Begin VB.Image btnLanzar 
       Height          =   540
-      Left            =   11700
+      Left            =   11640
+      MouseIcon       =   "frmMain.frx":1AA68
+      MousePointer    =   99  'Custom
       Top             =   5940
+      Visible         =   0   'False
       Width           =   1710
    End
    Begin VB.Label lblHambre 
@@ -614,8 +635,10 @@ Begin VB.Form frmMain
       Width           =   105
    End
    Begin VB.Image btnMenu 
-      Height          =   330
-      Left            =   11640
+      Height          =   360
+      Left            =   11670
+      MouseIcon       =   "frmMain.frx":1ABBA
+      Tag             =   "1"
       Top             =   9240
       Width           =   1410
    End
@@ -623,6 +646,7 @@ Begin VB.Form frmMain
       Height          =   600
       Index           =   1
       Left            =   12975
+      MouseIcon       =   "frmMain.frx":1AD0C
       Top             =   1920
       Width           =   1380
    End
@@ -630,6 +654,7 @@ Begin VB.Form frmMain
       Height          =   600
       Index           =   0
       Left            =   11550
+      MouseIcon       =   "frmMain.frx":1AE5E
       Top             =   1920
       Width           =   1380
    End
@@ -704,7 +729,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   0
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":6BE3F
+      MouseIcon       =   "frmMain.frx":1AFB0
       MousePointer    =   99  'Custom
       Top             =   2925
       Visible         =   0   'False
@@ -714,7 +739,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   1
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":6BF91
+      MouseIcon       =   "frmMain.frx":1B102
       MousePointer    =   99  'Custom
       Top             =   2580
       Visible         =   0   'False
@@ -818,7 +843,6 @@ Begin VB.Form frmMain
    Begin VB.Image InvEqu 
       Height          =   4530
       Left            =   11400
-      Picture         =   "frmMain.frx":6C0E3
       Top             =   1920
       Width           =   3645
    End
@@ -915,8 +939,8 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
-Public TX                  As Byte
-Public TY                  As Byte
+Public tX                  As Byte
+Public tY                  As Byte
 Public MouseX              As Long
 Public MouseY              As Long
 Public MouseBoton          As Long
@@ -925,6 +949,8 @@ Private clicX              As Long
 Private clicY              As Long
 
 Private clsFormulario      As clsFormMovementManager
+Private cBotonShop         As clsGraphicalButton
+Private cBotonMenu         As clsGraphicalButton
 
 Public LastButtonPressed   As clsGraphicalButton
 
@@ -969,13 +995,13 @@ Call Sound.Sound_Play(SND_CLICK)
     Select Case Index
     
         Case 0 'Inventario
-            InvEqu.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\Centroinventario.jpg")
-            btnSolapa(0).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\invseleccionado.jpg")
-            btnSolapa(1).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\hechnoseleccionado.jpg")
-            btnSolapa(2).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
+            InvEqu.Picture = General_Load_Picture_From_Resource("4.gif", True)
+            'btnSolapa(0).Picture = General_Load_Picture_From_Resource("7.gif", True)
+            'btnSolapa(1).Picture = General_Load_Picture_From_Resource("10.gif", True)
+            'btnSolapa(2).Picture = General_Load_Picture_From_Resource("12.gif", True)
             
             ' Activo controles de inventario
-            PicInv.Visible = True
+            picInv.Visible = True
         
             ' Desactivo controles de hechizo y amigos
             hlst.Visible = False
@@ -993,12 +1019,12 @@ Call Sound.Sound_Play(SND_CLICK)
             Call Inventario.DrawInventory
         
         Case 1 'Hechizos
-            InvEqu.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\Centrohechizos.jpg")
-            btnSolapa(0).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\invnoseleccionado.jpg")
-            btnSolapa(1).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\hechseleccionado.jpg")
-            btnSolapa(2).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
-            btnLanzar.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\lanzar.jpg")
-            btnInfo.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\info.jpg")
+            InvEqu.Picture = General_Load_Picture_From_Resource("5.gif", True)
+            'btnSolapa(0).Picture = General_Load_Picture_From_Resource("10.gif", True)
+            'btnSolapa(1).Picture = General_Load_Picture_From_Resource("8.gif", True)
+            'btnSolapa(2).Picture = General_Load_Picture_From_Resource("12.gif", True)
+            'btnLanzar.Picture = General_Load_Picture_From_Resource("13.gif", True)
+            'btnInfo.Picture = General_Load_Picture_From_Resource("14.gif", True)
             
             ' Activo controles de hechizos
             hlst.Visible = True
@@ -1009,24 +1035,24 @@ Call Sound.Sound_Play(SND_CLICK)
             cmdMoverHechi(1).Visible = True
             
             ' Desactivo controles de inventario y amigos
-            PicInv.Visible = False
+            picInv.Visible = False
             
             ListAmigos.Visible = False
             AgregarAmigo.Visible = False
             BorrarAmigo.Visible = False
     
         Case 2 'Amigos
-            InvEqu.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\CentroAmigos.jpg")
-            btnSolapa(0).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\invnoseleccionado.jpg")
-            btnSolapa(1).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\hechnoseleccionado.jpg")
-            btnSolapa(2).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgseleccionado.jpg")
+            InvEqu.Picture = General_Load_Picture_From_Resource("6.gif", True)
+            'btnSolapa(0).Picture = General_Load_Picture_From_Resource("10.gif", True)
+            'btnSolapa(1).Picture = General_Load_Picture_From_Resource("11.gif", True)
+            'btnSolapa(2).Picture = General_Load_Picture_From_Resource("9.gif", True)
             
             ListAmigos.Visible = True
             AgregarAmigo.Visible = True
             BorrarAmigo.Visible = True
             
             ' Desactivo controles de inventario y hechizos
-            PicInv.Visible = False
+            picInv.Visible = False
             
             hlst.Visible = False
             btnInfo.Visible = False
@@ -1047,19 +1073,22 @@ End Sub
 Private Sub Form_Load()
     ClientSetup.SkinSeleccionado = GetVar(Carga.Path(Init) & CLIENT_FILE, "Parameters", "SkinSelected")
     
-    cmdMoverHechi(1).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\btnarriba.jpg")
-    cmdMoverHechi(0).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\btnabajo.jpg")
-    InvEqu.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\Centroinventario.jpg")
-    btnSolapa(0).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\invseleccionado.jpg")
-    btnSolapa(1).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\hechnoseleccionado.jpg")
-    btnSolapa(2).Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\amgnoseleccionado.jpg")
-    shpVida.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\vidabar.jpg")
-    shpMana.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\manabar.jpg")
-    shpEnergia.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\energiabar.jpg")
-    shpHambre.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\hambrebar.jpg")
-    shpSed.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\aguabar.jpg")
-    ShpFuerza.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\fuerzabar.jpg")
-    ShpAgilidad.Picture = LoadPicture(Carga.Path(Skins) & ClientSetup.SkinSeleccionado & "\agilidadbar.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("1.gif", True)
+    cmdMoverHechi(1).Picture = General_Load_Picture_From_Resource("2.gif", True)
+    cmdMoverHechi(0).Picture = General_Load_Picture_From_Resource("3.gif", True)
+    btnLanzar.Picture = General_Load_Picture_From_Resource("13.gif", True)
+    btnInfo.Picture = General_Load_Picture_From_Resource("14.gif", True)
+    InvEqu.Picture = General_Load_Picture_From_Resource("4.gif", True)
+    btnSolapa(0).Picture = General_Load_Picture_From_Resource("7.gif", True)
+    btnSolapa(1).Picture = General_Load_Picture_From_Resource("11.gif", True)
+    btnSolapa(2).Picture = General_Load_Picture_From_Resource("12.gif", True)
+    shpVida.Picture = General_Load_Picture_From_Resource("15.gif", True)
+    shpMana.Picture = General_Load_Picture_From_Resource("16.gif", True)
+    shpEnergia.Picture = General_Load_Picture_From_Resource("17.gif", True)
+    shpHambre.Picture = General_Load_Picture_From_Resource("18.gif", True)
+    shpSed.Picture = General_Load_Picture_From_Resource("19.gif", True)
+    ShpFuerza.Picture = General_Load_Picture_From_Resource("20.gif", True)
+    ShpAgilidad.Picture = General_Load_Picture_From_Resource("21.gif", True)
     
     If Not ResolucionCambiada Then
         ' Handles Form movement (drag and drop).
@@ -1069,21 +1098,24 @@ Private Sub Form_Load()
         
     Call LoadButtons
     
-    With Me
-        'Lo hardcodeo porque de lo contrario se ve un borde blanco.
-        .Height = 11550
-    End With
+    ' Seteamos el caption
+    Me.Caption = Form_Caption
+    
+    ' Removemos la barra de titulo pero conservando el caption para la barra de tareas
+    Call Form_RemoveTitleBar(Me)
+
+    ' Reseteamos el tamanio de la ventana para que no queden bordes blancos
+    Me.Width = 15360
+    Me.Height = 11520
 
     Call LoadTextsForm
-    'Call LoadAOCustomControlsPictures(Me)
-    'Todo: Poner la carga de botones como en el frmCambiaMotd.frm para mantener coherencia con el resto de la aplicacion
-    'y poder borrar los frx de este archivo
         
     ' Detect links in console
     Call EnableURLDetect(RecTxt.hWnd, Me.hWnd)
     
     ' Make the console transparent
-    Call SetWindowLong(RecTxt.hWnd, -20, &H20&)
+    'Call SetWindowLong(RecTxt.hWnd, -20, &H20&)
+    RecTxt.BackColor = RGB(24, 23, 21)
     
     CtrlMaskOn = False
     
@@ -1092,17 +1124,9 @@ Private Sub Form_Load()
     
 End Sub
 
-Private Sub LoadTextsForm()
-    btnMapa.Caption = JsonLanguage.item("LBL_MAPA").item("TEXTO")
-    btnGrupo.Caption = JsonLanguage.item("LBL_GRUPO").item("TEXTO")
-    fMenu.Caption = JsonLanguage.item("LBL_GRUPO").item("TEXTO")
-    btnOpciones.Caption = JsonLanguage.item("LBL_OPCIONES").item("TEXTO")
-    btnEstadisticas.Caption = JsonLanguage.item("LBL_ESTADISTICAS").item("TEXTO")
-    btnClanes.Caption = JsonLanguage.item("LBL_CLANES").item("TEXTO")
-    btnRetos.Caption = JsonLanguage.item("LBL_RETOS").item("TEXTO")
-End Sub
-
 Private Sub LoadButtons()
+    
+    Dim GrhPath As String
     Dim i As Integer
 
     Set LastButtonPressed = New clsGraphicalButton
@@ -1110,9 +1134,30 @@ Private Sub LoadButtons()
     lblDropGold.MouseIcon = picMouseIcon
     lblCerrar.MouseIcon = picMouseIcon
     lblMinimizar.MouseIcon = picMouseIcon
+    
+    Set cBotonMenu = New clsGraphicalButton
+    Set cBotonShop = New clsGraphicalButton
+    
+    Call cBotonMenu.Initialize(btnMenu, "22.gif", _
+                                     "23.gif", _
+                                     "24.gif", Me, , , , , True)
+    
+    Call cBotonShop.Initialize(btnShop, "25.gif", _
+                                     "26.gif", _
+                                     "27.gif", Me, , , , , True)
 
 End Sub
 
+Private Sub LoadTextsForm()
+    btnMapa.Caption = JsonLanguage.item("LBL_MAPA").item("TEXTO")
+    btnGrupo.Caption = JsonLanguage.item("LBL_GRUPO").item("TEXTO")
+    fMenu.Caption = JsonLanguage.item("LBL_GRUPO").item("TEXTO")
+    btnOpciones.Caption = JsonLanguage.item("LBL_OPCIONES").item("TEXTO")
+    btnEstadisticas.Caption = JsonLanguage.item("LBL_ESTADISTICAS").item("TEXTO")
+    btnQuest.Caption = JsonLanguage.item("LBL_QUEST").item("TEXTO")
+    btnClanes.Caption = JsonLanguage.item("LBL_CLANES").item("TEXTO")
+    btnRetos.Caption = JsonLanguage.item("LBL_RETOS").item("TEXTO")
+End Sub
 Private Sub cmdMoverHechi_Click(Index As Integer)
 
     If hlst.Visible = True Then
@@ -1157,7 +1202,7 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
     '18/11/2009: ZaMa - Ahora se pueden poner comandos en los mensajes personalizados (execpto guildchat y privados)
     '18/11/2010: Amraphen - Agregue el handle correspondiente para las nuevas configuraciones de teclas (CTRL+0..9).
     '***************************************************
-    If (Not SendTxt.Visible) Then
+    If (Not Sendtxt.Visible) Then
         
         If KeyCode = vbKeyControl Then
 
@@ -1195,6 +1240,9 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                 
                 Case CustomKeys.BindedKey(eKeyType.mKeyToggleNames)
                     Nombres = Not Nombres
+                    
+                Case CustomKeys.BindedKey(eKeyType.mKeyQuests)
+                    Call WriteQuestListRequest
                 
                 Case CustomKeys.BindedKey(eKeyType.mKeyTamAnimal)
 
@@ -1259,39 +1307,39 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
         Select Case KeyCode
             Case CustomKeys.BindedKey(eKeyType.mKeyChatNormal)
                 SendingType = 1
-                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
-                lblChat.Caption = "1.Normal"
+                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
+                LbLChat.Caption = "1.Normal"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatGritar)
                 SendingType = 2
-                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
-                lblChat.Caption = "2.Gritar"
+                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
+                LbLChat.Caption = "2.Gritar"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatPrivado)
                 sndPrivateTo = InputBox("Nombre del destinatario:", vbNullString)
     
                 If sndPrivateTo <> vbNullString Then
                     SendingType = 3
-                    If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+                    If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
                 Else
                     MsgBox "¡Escribe un nombre."
                 End If
-                lblChat.Caption = "3.Privado"
+                LbLChat.Caption = "3.Privado"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatClan)
                 SendingType = 4
-                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
-                lblChat.Caption = "4.Clan"
+                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
+                LbLChat.Caption = "4.Clan"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatGrupo)
                 SendingType = 5
-                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
-                lblChat.Caption = "5.Party"
+                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
+                LbLChat.Caption = "5.Party"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatGlobal)
                 SendingType = 6
-                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
-                lblChat.Caption = "6.Global"
+                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
+                LbLChat.Caption = "6.Global"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyTakeScreenShot)
                 Call Mod_General.Client_Screenshot(frmMain.hDC, 1024, 768)
@@ -1323,8 +1371,8 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                 
                 If (Not Comerciando) And (Not MirandoAsignarSkills) And (Not frmMSG.Visible) And (Not MirandoForo) And (Not frmEstadisticas.Visible) And (Not frmCantidad.Visible) Then
                     Call CompletarEnvioMensajes
-                    SendTxt.Visible = True
-                    SendTxt.SetFocus
+                    Sendtxt.Visible = True
+                    Sendtxt.SetFocus
                 Else
                     Call Enviar_SendTxt
                 End If
@@ -1377,11 +1425,18 @@ Private Sub btnEstadisticas_Click()
     Do While Not LlegaronSkills Or Not LlegaronAtrib Or Not LlegoFama
         DoEvents 'esperamos a que lleguen y mantenemos la interfaz viva
     Loop
+    
+    Alocados = SkillPoints
+    frmEstadisticas.lblLibres.Caption = SkillPoints
+    
+    Call frmEstadisticas.MostrarAsignacion
+    
     frmEstadisticas.Iniciar_Labels
     frmEstadisticas.Show , frmMain
     LlegaronAtrib = False
     LlegaronSkills = False
     LlegoFama = False
+    
 End Sub
 
 Private Sub btnMapa_Click()
@@ -1430,8 +1485,8 @@ Private Sub MensajeAmigo_Click()
         Exit Sub
     End If
     
-    SendTxt.Visible = True
-    SendTxt.Text = ("\" & ListAmigos.List(ListAmigos.ListIndex) & " ")
+    Sendtxt.Visible = True
+    Sendtxt.Text = ("\" & ListAmigos.List(ListAmigos.ListIndex) & " ")
 End Sub
 
 Private Sub mnuEquipar_Click()
@@ -1439,12 +1494,12 @@ Private Sub mnuEquipar_Click()
 End Sub
 
 Private Sub mnuNPCComerciar_Click()
-    Call WriteLeftClick(TX, TY)
+    Call WriteLeftClick(tX, tY)
     Call WriteCommerceStart
 End Sub
 
 Private Sub mnuNpcDesc_Click()
-    Call WriteLeftClick(TX, TY)
+    Call WriteLeftClick(tX, tY)
 End Sub
 
 Private Sub mnuTirar_Click()
@@ -1494,10 +1549,10 @@ End Sub
 Private Sub SendTxt_KeyDown(KeyCode As Integer, Shift As Integer)
     ' Para borrar el mensaje de fondo
     If FirstTimeChat Then
-        SendTxt.Text = vbNullString
+        Sendtxt.Text = vbNullString
         FirstTimeChat = False
         ' Cambiamos el color de texto al original
-        SendTxt.ForeColor = &HE0E0E0
+        Sendtxt.ForeColor = &HE0E0E0
     End If
     
 errhandler:
@@ -1511,12 +1566,12 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         If LenB(stxtbuffer) <> 0 Then Call ParseUserCommand(stxtbuffer)
         
         stxtbuffer = vbNullString
-        SendTxt.Text = vbNullString
+        Sendtxt.Text = vbNullString
         KeyCode = 0
-        SendTxt.Visible = False
+        Sendtxt.Visible = False
         
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
         ElseIf hlst.Visible Then
             hlst.SetFocus
         Else
@@ -1528,6 +1583,8 @@ End Sub
 Private Sub Second_Timer()
 
     If Not DialogosClanes Is Nothing Then DialogosClanes.PassTimer
+    
+    Call ActualizarHora
 End Sub
 
 '[END]'
@@ -1629,15 +1686,9 @@ End Sub
 Private Sub btnInfo_Click()
     
     If hlst.ListIndex <> -1 Then
-        Dim Index As Integer
-        Index = DevolverIndexHechizo(hlst.List(hlst.ListIndex))
-        Dim Msj As String
-     
-        If Index <> 0 Then Msj = "%%%%%%%%%%%% " & JsonLanguage.item("MENSAJE_INFO_HECHIZOS").item("TEXTO").item(1) & " %%%%%%%%%%%%" & vbCrLf & JsonLanguage.item("MENSAJE_INFO_HECHIZOS").item("TEXTO").item(2) & ": " & Hechizos(Index).Nombre & vbCrLf & JsonLanguage.item("MENSAJE_INFO_HECHIZOS").item("TEXTO").item(3) & ": " & Hechizos(Index).Desc & vbCrLf & JsonLanguage.item("MENSAJE_INFO_HECHIZOS").item("TEXTO").item(4) & ": " & Hechizos(Index).SkillRequerido & vbCrLf & JsonLanguage.item("MENSAJE_INFO_HECHIZOS").item("TEXTO").item(5) & ": " & Hechizos(Index).ManaRequerida & vbCrLf & JsonLanguage.item("MENSAJE_INFO_HECHIZOS").item("TEXTO").item(6) & ": " & Hechizos(Index).EnergiaRequerida & vbCrLf & "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-                                             
-        Call ShowConsoleMsg(Msj, JsonLanguage.item("MENSAJE_INFO_HECHIZOS").item("COLOR").item(1), JsonLanguage.item("MENSAJE_INFO_HECHIZOS").item("COLOR").item(2), JsonLanguage.item("MENSAJE_INFO_HECHIZOS").item("COLOR").item(3))
-        
+        Call WriteSpellInfo(hlst.ListIndex + 1)
     End If
+    
 End Sub
 
 Private Sub AgregarAmigo_Click()
@@ -1685,7 +1736,7 @@ Private Sub MainViewPic_MouseDown(Button As Integer, _
     '¿Hizo click derecho?
     If Button = 2 Then
         If Not MirandoForo And Not Comerciando Then 'frmComerciar.Visible And Not frmBancoObj.Visible Then
-            Call WriteAccionClick(TX, TY)
+            Call WriteAccionClick(tX, tY)
         End If
     End If
     
@@ -1715,7 +1766,7 @@ Private Sub MainViewPic_DblClick()
     '12/28/2007: ByVal - Chequea que la ventana de comercio y boveda no este abierta al hacer doble clic a un comerciante, sobrecarga la lista de items.
     '**************************************************************
     If Not MirandoForo And Not Comerciando Then 'frmComerciar.Visible And Not frmBancoObj.Visible Then
-        Call WriteAccionClick(TX, TY)
+        Call WriteAccionClick(tX, tY)
     End If
     
 End Sub
@@ -1728,7 +1779,7 @@ Private Sub MainViewPic_Click()
     Dim VAR_LANZANDO        As String
     
     If Not Comerciando Then
-        Call ConvertCPtoTP(MouseX, MouseY, TX, TY)
+        Call ConvertCPtoTP(MouseX, MouseY, tX, tY)
         
         If Not InGameArea() Then Exit Sub
         
@@ -1748,7 +1799,7 @@ Private Sub MainViewPic_Click()
 
                 '[/ybarra]
                 If UsingSkill = 0 Then
-                    Call WriteLeftClick(TX, TY)
+                    Call WriteLeftClick(tX, tY)
                 Else
                     
                     If Not MainTimer.Check(TimersIndex.Arrows, False) Then 'Check if arrows interval has finished.
@@ -1817,7 +1868,7 @@ Private Sub MainViewPic_Click()
                     End If
                     
                     'Splitted because VB isn't lazy!
-                    If (UsingSkill = Pesca Or UsingSkill = Robar Or UsingSkill = Talar Or UsingSkill = Mineria Or UsingSkill = FundirMetal) Then
+                    If (UsingSkill = pesca Or UsingSkill = Robar Or UsingSkill = Talar Or UsingSkill = Mineria Or UsingSkill = FundirMetal) Then
                         If Not MainTimer.Check(TimersIndex.Work) Then
                             frmMain.MousePointer = vbDefault
                             UsingSkill = 0
@@ -1828,7 +1879,7 @@ Private Sub MainViewPic_Click()
                     If frmMain.MousePointer <> 2 Then Exit Sub 'Parcheo porque a veces tira el hechizo sin tener el cursor (NicoNZ)
                     
                     frmMain.MousePointer = vbDefault
-                    Call WriteWorkLeftClick(TX, TY, UsingSkill)
+                    Call WriteWorkLeftClick(tX, tY, UsingSkill)
                     UsingSkill = 0
                 End If
             Else
@@ -1839,7 +1890,7 @@ Private Sub MainViewPic_Click()
 
             If Not CustomKeys.KeyAssigned(KeyCodeConstants.vbKeyShift) Then
                 If MouseBoton = vbLeftButton Then
-                    Call WriteWarpChar("YO", UserMap, TX, TY)
+                    Call WriteWarpChar("YO", UserMap, tX, tY)
                 End If
             End If
         End If
@@ -1854,7 +1905,7 @@ Private Sub Form_DblClick()
     '12/28/2007: ByVal - Chequea que la ventana de comercio y boveda no este abierta al hacer doble clic a un comerciante, sobrecarga la lista de items.
     '**************************************************************
     If Not MirandoForo And Not Comerciando Then 'frmComerciar.Visible And Not frmBancoObj.Visible Then
-        Call WriteAccionClick(TX, TY)
+        Call WriteAccionClick(tX, tY)
     End If
 End Sub
 
@@ -1907,34 +1958,19 @@ Private Sub lblDropGold_Click()
 End Sub
 
 Private Sub picInv_DblClick()
-
+'**********************************************
+'Autor: Lorwik
+'Fecha: 14/07/2020
+'Descripcion: DobleClick sobre el inventario
+'**********************************************
     'Esta validacion es para que el juego no rompa si hacemos doble click
-    'En un slot vacio (Recox)
-    If Inventario.SelectedItem = 0 Then Exit Sub
-    If MirandoCarpinteria Or MirandoHerreria Then Exit Sub
+    If MirandoTrabajo > 0 Then Exit Sub
     If Not MainTimer.Check(TimersIndex.UseItemWithDblClick) Then Exit Sub
     
-    Select Case Inventario.OBJType(Inventario.SelectedItem)
-        
-        Case eObjType.otcasco
-            Call EquiparItem
-    
-        Case eObjType.otArmadura
-            Call EquiparItem
-
-        Case eObjType.otescudo
-            Call EquiparItem
-        
-        Case eObjType.otWeapon
-            Call EquiparItem
-        
-        Case eObjType.otAnillo
-            Call EquiparItem
-        
-        Case Else
-            Call UsarItem
-            
-    End Select
+    '¿Es un slot valido?
+    If (Inventario.SelectedItem > 0) And (Inventario.SelectedItem < MAX_INVENTORY_SLOTS + 1) Then
+        Call WriteAccionInventario(Inventario.SelectedItem)
+    End If
     
 End Sub
 
@@ -1948,8 +1984,8 @@ Private Sub RecTxt_Change()
 
     If Not Application.IsAppActive() Then Exit Sub
     
-    If SendTxt.Visible Then
-        SendTxt.SetFocus
+    If Sendtxt.Visible Then
+        Sendtxt.SetFocus
     
     ElseIf (Not Comerciando) And _
            (Not MirandoAsignarSkills) And _
@@ -1959,8 +1995,8 @@ Private Sub RecTxt_Change()
            (Not frmCantidad.Visible) And _
            (Not MirandoParty) Then
 
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
                         
         ElseIf hlst.Visible Then
             hlst.SetFocus
@@ -1973,8 +2009,8 @@ End Sub
 
 Private Sub RecTxt_KeyDown(KeyCode As Integer, Shift As Integer)
 
-    If PicInv.Visible Then
-        PicInv.SetFocus
+    If picInv.Visible Then
+        picInv.SetFocus
     Else
         hlst.SetFocus
     End If
@@ -1988,7 +2024,7 @@ Private Sub SendTxt_Change()
     'Last Modify Date: 3/06/2006
     '3/06/2006: Maraxus - impedi se inserten caracteres no imprimibles
     '**************************************************************
-    If Len(SendTxt.Text) > 160 Then
+    If Len(Sendtxt.Text) > 160 Then
         stxtbuffer = JsonLanguage.item("MENSAJE_SOY_CHEATER").item("TEXTO")
     Else
         'Make sure only valid chars are inserted (with Shift + Insert they can paste illegal chars)
@@ -1996,21 +2032,21 @@ Private Sub SendTxt_Change()
         Dim tempstr   As String
         Dim CharAscii As Integer
         
-        For i = 1 To Len(SendTxt.Text)
-            CharAscii = Asc(mid$(SendTxt.Text, i, 1))
+        For i = 1 To Len(Sendtxt.Text)
+            CharAscii = Asc(mid$(Sendtxt.Text, i, 1))
 
             If CharAscii >= vbKeySpace And CharAscii <= 250 Then
                 tempstr = tempstr & Chr$(CharAscii)
             End If
         Next i
         
-        If tempstr <> SendTxt.Text Then
+        If tempstr <> Sendtxt.Text Then
             'We only set it if it's different, otherwise the event will be raised
             'constantly and the client will crush
-            SendTxt.Text = tempstr
+            Sendtxt.Text = tempstr
         End If
         
-        stxtbuffer = SendTxt.Text
+        stxtbuffer = Sendtxt.Text
     End If
 End Sub
 
@@ -2023,21 +2059,21 @@ Private Sub CompletarEnvioMensajes()
 
     Select Case SendingType
         Case 1
-            SendTxt.Text = vbNullString
+            Sendtxt.Text = vbNullString
         Case 2
-            SendTxt.Text = "-"
+            Sendtxt.Text = "-"
         Case 3
-            SendTxt.Text = ("\" & sndPrivateTo & " ")
+            Sendtxt.Text = ("\" & sndPrivateTo & " ")
         Case 4
-            SendTxt.Text = "/CMSG "
+            Sendtxt.Text = "/CMSG "
         Case 5
-            SendTxt.Text = "/PMSG "
+            Sendtxt.Text = "/PMSG "
         Case 6
-            SendTxt.Text = "; "
+            Sendtxt.Text = "; "
     End Select
     
-    stxtbuffer = SendTxt.Text
-    SendTxt.SelStart = Len(SendTxt.Text)
+    stxtbuffer = Sendtxt.Text
+    Sendtxt.SelStart = Len(Sendtxt.Text)
 
 End Sub
 
@@ -2077,8 +2113,8 @@ Private Sub Enviar_SendTxt()
     End If
 
     stxtbuffer = vbNullString
-    SendTxt.Text = vbNullString
-    SendTxt.Visible = False
+    Sendtxt.Text = vbNullString
+    Sendtxt.Visible = False
     
 End Sub
 
@@ -2086,10 +2122,10 @@ Private Sub AbrirMenuViewPort()
     'TODO: No usar variable de compilacion y acceder a esto desde el config.ini
     #If (ConMenuseConextuales = 1) Then
 
-        If TX >= MinXBorder And TY >= MinYBorder And TY <= MaxYBorder And TX <= MaxXBorder Then
+        If tX >= MinXBorder And tY >= MinYBorder And tY <= MaxYBorder And tX <= MaxXBorder Then
 
-            If MapData(TX, TY).CharIndex > 0 Then
-                If charlist(MapData(TX, TY).CharIndex).invisible = False Then
+            If MapData(tX, tY).CharIndex > 0 Then
+                If charlist(MapData(tX, tY).CharIndex).invisible = False Then
         
                     Dim m As frmMenuseFashion
                     Set m = New frmMenuseFashion
@@ -2099,8 +2135,8 @@ Private Sub AbrirMenuViewPort()
                     m.SetMenuId 1
                     m.ListaInit 2, False
             
-                    If LenB(charlist(MapData(TX, TY).CharIndex).Nombre) <> 0 Then
-                        m.ListaSetItem 0, charlist(MapData(TX, TY).CharIndex).Nombre, True
+                    If LenB(charlist(MapData(tX, tY).CharIndex).Nombre) <> 0 Then
+                        m.ListaSetItem 0, charlist(MapData(tX, tY).CharIndex).Nombre, True
                     Else
                         m.ListaSetItem 0, "<NPC>", True
                     End If
@@ -2146,10 +2182,10 @@ Public Sub CallbackMenuFashion(ByVal MenuId As Long, ByVal Sel As Long)
             Select Case Sel
 
                 Case 0 'Nombre
-                    Call WriteLeftClick(TX, TY)
+                    Call WriteLeftClick(tX, tY)
         
                 Case 1 'Comerciar
-                    Call WriteLeftClick(TX, TY)
+                    Call WriteLeftClick(tX, tY)
                     Call WriteCommerceStart
             End Select
     End Select
@@ -2165,6 +2201,9 @@ Private Sub Client_Connect()
     Call outgoingData.ReadASCIIStringFixed(outgoingData.Length)
     
     Second.Enabled = True
+    
+    'Actualizams la hora
+    Call ActualizarHora
     
     Select Case EstadoLogin
 
@@ -2199,6 +2238,7 @@ Private Sub Client_CloseSck()
 
     If frmMain.Visible = True Then frmMain.Visible = False
     Call ResetAllInfo
+    ModCnt.Conectando = True
     Call MostrarConnect(True)
 End Sub
 
@@ -2217,7 +2257,8 @@ Private Sub Client_Error(ByVal number As Integer, _
     Second.Enabled = False
  
     If Client.State <> sckClosed Then Client.CloseSck
-
+    
+    ModCnt.Conectando = True
     Call MostrarConnect
  
 End Sub
@@ -2267,10 +2308,6 @@ Private Sub hlst_DblClick()
 
 End Sub
 
-    'Incorporado por ReyarB
-    'Last Modify Date: 21/03/2020 (ReyarB)
-    'Ajustadas las coordenadas (ReyarB)
-    '***************************************************
 Private Sub Minimapa_MouseDown(Button As Integer, _
                                Shift As Integer, _
                                X As Single, _
@@ -2279,7 +2316,12 @@ Private Sub Minimapa_MouseDown(Button As Integer, _
     If Button = vbRightButton Then
         Call WriteWarpChar("YO", UserMap, CByte(X - 1), CByte(Y - 1))
         Call ActualizarMiniMapa
+        
+    ElseIf Button = vbLeftButton Then
+        frmMapa.Show vbModeless, Me
+        
     End If
+    
 End Sub
     'fin Incorporado ReyarB
 
@@ -2297,23 +2339,6 @@ Public Sub ActualizarMiniMapa()
     Me.UserAreaMinimap.Left = UserPos.X - 13
     Me.UserAreaMinimap.Top = UserPos.Y - 11
     Me.MiniMapa.Refresh
-End Sub
-
-Private Sub timerPasarSegundo_Timer()
-
-    If UserInvisible And UserInvisibleSegundosRestantes > 0 Then
-        UserInvisibleSegundosRestantes = UserInvisibleSegundosRestantes - 1
-    End If
-
-    If UserParalizado And UserParalizadoSegundosRestantes > 0 Then
-        UserParalizadoSegundosRestantes = UserParalizadoSegundosRestantes - 1
-    End If
-
-    If Not UserEquitando And UserEquitandoSegundosRestantes > 0 Then
-        UserEquitandoSegundosRestantes = UserEquitandoSegundosRestantes - 1
-    End If
-
-    If UserInvisibleSegundosRestantes <= 0 And UserParalizadoSegundosRestantes <= 0 And UserEquitandoSegundosRestantes <= 0 Then timerPasarSegundo.Enabled = False
 End Sub
 
 Public Sub UpdateProgressExperienceLevelBar(ByVal UserExp As Long)
@@ -2345,4 +2370,33 @@ End Sub
 
 Private Sub btnRetos_Click()
     Call FrmRetos.Show(vbModeless, frmMain)
+End Sub
+
+Private Sub btnMenu_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If btnMenu.Tag = 1 Then
+        btnMenu.Picture = General_Load_Picture_From_Resource("24.gif", True)
+        btnMenu.Tag = 0
+    End If
+
+End Sub
+
+Private Sub btnShop_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If btnShop.Tag = 1 Then
+        btnShop.Picture = General_Load_Picture_From_Resource("27.gif", True)
+        btnShop.Tag = 0
+    End If
+
+End Sub
+
+Public Sub ActualizarHora()
+'**********************************
+'Autor: Lorwik
+'Fecha: 11/08/2020
+'Descripcion: Actualiza la hora del lbl del frmmain
+'**********************************
+
+    If ReadField(1, lblHour.Caption, Asc(":")) <> Minute(Now) Then
+        lblHour.Caption = Hour(Now) & ":" & Minute(Now)
+    End If
+        
 End Sub

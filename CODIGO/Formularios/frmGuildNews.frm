@@ -143,21 +143,18 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "VentanaGuildNews.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("29.gif", False)
     
     LoadButtons
 End Sub
 
 Private Sub LoadButtons()
-    Dim GrhPath As String
-    
-    GrhPath = Carga.Path(Interfaces)
 
     Set cBotonAceptar = New clsGraphicalButton
     Set LastButtonPressed = New clsGraphicalButton
     
-    Call cBotonAceptar.Initialize(imgAceptar, GrhPath & "BotonAceptarGuildNews.jpg", GrhPath & "BotonAceptarRolloverGuildNews.jpg", _
-                                    GrhPath & "BotonAceptarClickGuildNews.jpg", Me)
+    Call cBotonAceptar.Initialize(imgAceptar, "27.gif", "28.gif", _
+                                    "26.gif", Me)
    
 End Sub
 

@@ -9,6 +9,7 @@ Begin VB.Form frmBancoObj
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    ForeColor       =   &H8000000F&
+   KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
@@ -420,6 +421,19 @@ Public LasActionBuy As Boolean
 Public LastIndex1 As Integer
 Public LastIndex2 As Integer
 Public NoPuedeMover As Boolean
+Private Shifteando As Boolean
+
+Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
+
+    If Shift = 1 Then Shifteando = True
+    
+End Sub
+
+Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
+
+    If Shift <> 1 Then Shifteando = False
+    
+End Sub
 
 Private Sub cantidad_Change()
 
@@ -461,7 +475,7 @@ Private Sub Form_Load()
     clsFormulario.Initialize Me
 
     'Cargamos la interfase
-    Me.Picture = LoadPicture(Carga.Path(Interfaces) & "Boveda.jpg")
+    Me.Picture = General_Load_Picture_From_Resource("180.gif", False)
         
     Call LoadTextsForm
     Call LoadButtons
@@ -502,12 +516,8 @@ Private Sub LoadTextsForm()
 End Sub
 
 Private Sub LoadButtons()
-
-    Dim GrhPath As String
-    
-    GrhPath = Carga.Path(Interfaces)
-    'CmdMoverBov(1).Picture = LoadPicture(Carga.path(Interfaces) & "FlechaSubirObjeto.jpg")
-    'CmdMoverBov(0).Picture = LoadPicture(Carga.path(Interfaces) & "FlechaBajarObjeto.jpg")
+    'CmdMoverBov(1).Picture = General_Load_Picture_From_Resource( "FlechaSubirObjeto.gif", false)
+    'CmdMoverBov(0).Picture = General_Load_Picture_From_Resource( "FlechaBajarObjeto.gif", false)
     
     Set cBotonRetirarOro = New clsGraphicalButton
     Set cBotonDepositarOro = New clsGraphicalButton
@@ -516,9 +526,9 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
 
 
-    Call cBotonDepositarOro.Initialize(imgDepositarOro, "", GrhPath & "BotonDepositaOroApretado.jpg", GrhPath & "BotonDepositaOroApretado.jpg", Me)
-    Call cBotonRetirarOro.Initialize(imgRetirarOro, "", GrhPath & "BotonRetirarOroApretado.jpg", GrhPath & "BotonRetirarOroApretado.jpg", Me)
-    Call cBotonCerrar.Initialize(imgCerrar, "", GrhPath & "xPrendida.bmp", GrhPath & "xPrendida.bmp", Me)
+    Call cBotonDepositarOro.Initialize(imgDepositarOro, "", "181.gif", "180.gif", Me)
+    Call cBotonRetirarOro.Initialize(imgRetirarOro, "", "182.gif", "182.gif", Me)
+    Call cBotonCerrar.Initialize(imgCerrar, "", "183.gif", "183.gif", Me)
     
     Image1(0).MouseIcon = picMouseIcon
     Image1(1).MouseIcon = picMouseIcon
@@ -562,6 +572,13 @@ End Sub
 Private Sub PicBancoInv_Click()
 
     If InvBanco(0).SelectedItem <> 0 Then
+
+        If Shifteando Then
+            LasActionBuy = True
+            Call WriteBankExtractItem(InvBanco(0).SelectedItem, 10000)
+            Exit Sub
+        End If
+        
         With UserBancoInventory(InvBanco(0).SelectedItem)
             Label1(0).Caption = .name
             
@@ -601,6 +618,13 @@ End Sub
 Private Sub PicInv_Click()
     
     If InvBanco(1).SelectedItem <> 0 Then
+
+        If Shifteando Then
+            LasActionBuy = False
+            Call WriteBankDeposit(InvBanco(1).SelectedItem, 10000)
+            Exit Sub
+        End If
+        
         With Inventario
             Label1(0).Caption = .ItemName(InvBanco(1).SelectedItem)
             

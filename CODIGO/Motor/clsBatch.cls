@@ -26,8 +26,8 @@ Private Type TYPE_VERTEX
  
     Colour  As Long
    
-    TX      As Single
-    TY      As Single
+    tX      As Single
+    tY      As Single
  
 End Type
  
@@ -135,8 +135,8 @@ Public Sub Draw(ByVal X As Long, _
     m_Data(m_Position).Y = Y
     m_Data(m_Position).Z = 0
     m_Data(m_Position).Colour = Color(0)
-    m_Data(m_Position).TX = Tx1
-    m_Data(m_Position).TY = Ty1
+    m_Data(m_Position).tX = Tx1
+    m_Data(m_Position).tY = Ty1
    
     If angle > 0 And angle <= 360 Then
    
@@ -154,8 +154,8 @@ Public Sub Draw(ByVal X As Long, _
     m_Data(m_Position).Y = Y + Height
     m_Data(m_Position).Z = 0
     m_Data(m_Position).Colour = Color(1)
-    m_Data(m_Position).TX = Tx1
-    m_Data(m_Position).TY = Ty2
+    m_Data(m_Position).tX = Tx1
+    m_Data(m_Position).tY = Ty2
  
     If angle > 0 And angle <= 360 Then
    
@@ -173,8 +173,8 @@ Public Sub Draw(ByVal X As Long, _
     m_Data(m_Position).Y = Y + Height
     m_Data(m_Position).Z = 0
     m_Data(m_Position).Colour = Color(2)
-    m_Data(m_Position).TX = Tx2
-    m_Data(m_Position).TY = Ty2
+    m_Data(m_Position).tX = Tx2
+    m_Data(m_Position).tY = Ty2
  
     If angle > 0 And angle <= 360 Then
    
@@ -192,8 +192,8 @@ Public Sub Draw(ByVal X As Long, _
     m_Data(m_Position).Y = Y
     m_Data(m_Position).Z = 0
     m_Data(m_Position).Colour = Color(3)
-    m_Data(m_Position).TX = Tx2
-    m_Data(m_Position).TY = Ty1
+    m_Data(m_Position).tX = Tx2
+    m_Data(m_Position).tY = Ty1
  
     If angle > 0 And angle <= 360 Then
    
@@ -263,20 +263,19 @@ Public Sub Initialise(ByVal Capacity As Long)
    
     ReDim lpIndices(0 To Capacity * 6 - 1) As Integer
    
-    Dim i As Long, J As Integer
+    Dim i As Long, j As Integer
    
     For i = 0 To UBound(lpIndices) Step 6
-        lpIndices(i) = J
-        lpIndices(i + 1) = J + 1
-        lpIndices(i + 2) = J + 2
-        lpIndices(i + 3) = J + 2
-        lpIndices(i + 4) = J + 3
-        lpIndices(i + 5) = J
+        lpIndices(i) = j
+        lpIndices(i + 1) = j + 1
+        lpIndices(i + 2) = j + 2
+        lpIndices(i + 3) = j + 2
+        lpIndices(i + 4) = j + 3
+        lpIndices(i + 5) = j
        
-        J = J + 4
+        j = j + 4
     Next
    
     Call D3DIndexBuffer8SetData(m_IBuffer, 0, UBound(lpIndices), 0, lpIndices(0))
        
 End Sub
-
