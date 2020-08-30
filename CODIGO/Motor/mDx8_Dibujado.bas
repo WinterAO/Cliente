@@ -200,19 +200,19 @@ Function Damage_ModifyColour(ByVal DamageType As Byte) As Long
     Select Case DamageType
                    
         Case EDType.edPunal
-            Damage_ModifyColour = ColoresDano(52)
+            Damage_ModifyColour = ColoresPJ(52)
             
         Case EDType.edFallo
-            Damage_ModifyColour = ColoresDano(54)
+            Damage_ModifyColour = ColoresPJ(54)
             
         Case EDType.edCurar
-            Damage_ModifyColour = ColoresDano(55)
+            Damage_ModifyColour = ColoresPJ(55)
         
         Case EDType.edTrabajo
-            Damage_ModifyColour = ColoresDano(56)
+            Damage_ModifyColour = ColoresPJ(56)
             
         Case Else 'EDType.edNormal
-            Damage_ModifyColour = ColoresDano(51)
+            Damage_ModifyColour = ColoresPJ(51)
             
     End Select
  

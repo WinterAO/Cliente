@@ -385,6 +385,11 @@ End Sub
 '
 
 Public Sub LoadGrhData()
+'*************************************
+'Autor: Lorwik
+'Fecha: ???
+'Descripción: Carga el index de Graficos
+'*************************************
 On Error GoTo ErrorHandler:
 
     Dim Grh         As Long
@@ -497,6 +502,11 @@ ErrorHandler:
 End Sub
 
 Public Sub CargarCabezas()
+'*************************************
+'Autor: Lorwik
+'Fecha: ???
+'Descripción: Carga el index de Cabezas
+'*************************************
 On Error GoTo errhandler:
 
     Dim buffer()    As Byte
@@ -548,6 +558,11 @@ errhandler:
 End Sub
 
 Public Sub CargarCascos()
+'*************************************
+'Autor: Lorwik
+'Fecha: ???
+'Descripción: Carga el index de Cascos
+'*************************************
 On Error GoTo errhandler:
 
     Dim buffer()    As Byte
@@ -600,6 +615,11 @@ errhandler:
 End Sub
 
 Sub CargarCuerpos()
+'*************************************
+'Autor: Lorwik
+'Fecha: ???
+'Descripción: Carga el index de Cuerpos
+'*************************************
 On Error GoTo errhandler:
 
     Dim buffer()    As Byte
@@ -669,6 +689,11 @@ errhandler:
 End Sub
 
 Sub CargarFxs()
+'*************************************
+'Autor: Lorwik
+'Fecha: ???
+'Descripción: Carga el index de Fxs
+'*************************************
 On Error GoTo errhandler:
 
     Dim buffer()    As Byte
@@ -729,7 +754,7 @@ Public Sub CargarTips()
 On Error GoTo errhandler:
     
     Dim TipFile As String
-        TipFile = FileToString(Carga.Path(Script) & "tips_" & Language & ".json")
+        TipFile = FileToString(Carga.Path(Lenguajes) & "tips_" & Language & ".json")
     
     Set JsonTips = JSON.parse(TipFile)
 
@@ -746,6 +771,11 @@ errhandler:
 End Sub
 
 Sub CargarAnimArmas()
+'*************************************
+'Autor: Lorwik
+'Fecha: ???
+'Descripción: Carga el index de Armas
+'*************************************
 On Error GoTo errhandler:
 
     Dim buffer()    As Byte
@@ -809,52 +839,64 @@ errhandler:
 
 End Sub
 
-
 Public Sub CargarColores()
+'*************************************
+'Autor: Lorwik
+'Fecha: 30/08/2020
+'Descripción: Carga los colores
+'*************************************
 On Error GoTo errhandler:
+    Dim buffer()    As Byte
+    Dim InfoHead    As INFOHEADER
+    Dim LaCabecera  As tCabecera
+    Dim fileBuff    As clsByteBuffer
+    Dim i           As Long
+    
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Colores.ind"))
+    
+    If InfoHead.lngFileSize <> 0 Then
+    
+        Extract_File_Memory Scripts, LCase$("Colores.ind"), buffer()
+        
+        Set fileBuff = New clsByteBuffer
+        
+        fileBuff.initializeReader buffer
+        
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
+        
+        For i = 0 To MAXCOLORES
+        
+            ColoresPJ(i) = fileBuff.getLong
+        
+        Next i
+        
+    End If
+    
+    Set fileBuff = Nothing
 
-    Set FileManager = New clsIniManager
-    Call FileManager.Initialize(Carga.Path(Script) & "colores.dat")
-    
-    Dim i As Long
-    
-    For i = 0 To 47 '48, 49 y 50 reservados para atacables, ciudadano y criminal
-        ColoresPJ(i) = D3DColorXRGB(FileManager.GetValue(CStr(i), "R"), FileManager.GetValue(CStr(i), "G"), FileManager.GetValue(CStr(i), "B"))
-    Next i
-    
-    '   Crimi
-    ColoresPJ(50) = D3DColorXRGB(FileManager.GetValue("CR", "R"), FileManager.GetValue("CR", "G"), FileManager.GetValue("CR", "B"))
-
-    '   Ciuda
-    ColoresPJ(49) = D3DColorXRGB(FileManager.GetValue("CI", "R"), FileManager.GetValue("CI", "G"), FileManager.GetValue("CI", "B"))
-    
-    '   Atacable TODO: hay que implementar un color para los atacables y hacer que funcione.
-    'ColoresPJ(48) = D3DColorXRGB(FileManager.GetValue("AT", "R"), FileManager.GetValue("AT", "G"), FileManager.GetValue("AT", "B"))
-    
-    For i = 51 To 56 'Colores reservados para la renderizacion de dano
-        ColoresDano(i) = D3DColorXRGB(FileManager.GetValue(CStr(i), "R"), FileManager.GetValue(CStr(i), "G"), FileManager.GetValue(CStr(i), "B"))
-    Next i
-    
-    Set FileManager = Nothing
-    
 errhandler:
     
     If Err.number <> 0 Then
         
         If Err.number = 53 Then
-            Call MsgBox("El archivo colores.dat no existe. Por favor, reinstale el juego.", , Form_Caption)
+            Call MsgBox("El archivo Colores.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
             Call CloseClient
         End If
         
     End If
-    
 End Sub
 
 Sub CargarAnimEscudos()
+'*************************************
+'Autor: Lorwik
+'Fecha: ???
+'Descripción: Carga el index de Escudos
+'*************************************
 On Error GoTo errhandler:
 
     Dim buffer()    As Byte
-    Dim dLen        As Long
     Dim InfoHead    As INFOHEADER
     Dim i As Long
     Dim LaCabecera As tCabecera

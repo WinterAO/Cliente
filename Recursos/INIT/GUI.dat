@@ -1,3 +1,7 @@
+[INIT]
+NumButtons=29
+NumMaps=4
+
 [PJPos1]
 X=468
 Y=462
@@ -28,10 +32,6 @@ Y=550
 [PJPos10]
 X=637
 Y=627
-
-[INIT]
-NumButtons=29
-NumMaps=4
 
 [MAPA1] 'Crear PJ
 Map=13

@@ -227,9 +227,9 @@ Public Enum eCabezas
     VAMPIRO_M_CUERPO_DESNUDO = 634
 End Enum
 
-Public ColoresPJ(0 To 50) As Long
-
-Public ColoresDano(51 To 56) As Long
+'Colores
+Public Const MAXCOLORES As Byte = 56
+Public ColoresPJ(0 To MAXCOLORES) As Long
 
 Public CreandoClan As Boolean
 Public ClanName As String

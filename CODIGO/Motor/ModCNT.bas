@@ -1258,7 +1258,7 @@ Private Sub LoadCharInfo()
 
     Dim Lector As clsIniManager
     Set Lector = New clsIniManager
-    Call Lector.Initialize(Carga.Path(Script) & "CharInfo_" & Language & ".dat")
+    Call Lector.Initialize(Carga.Path(Lenguajes) & "CharInfo_" & Language & ".dat")
     
     'Modificadores de Raza
     For i = 1 To NUMRAZAS
