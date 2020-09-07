@@ -113,6 +113,7 @@ Form=CODIGO\Formularios\frmShowProcess.frm
 Form=CODIGO\Formularios\frmSubastar.frm
 Form=CODIGO\Formularios\frmConfirmacion.frm
 Form=CODIGO\Formularios\frmTrabajos.frm
+Form=CODIGO\Formularios\frmAvisoBeta.frm
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""

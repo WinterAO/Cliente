@@ -377,7 +377,7 @@ Sub SwitchMap(ByVal Map As Integer)
     Dim bytArr()    As Byte
     Dim InfoHead    As INFOHEADER
     
-    InfoHead = File_Find(Carga.Path(ePath.Recursos) & "\Mapas.WAO", LCase$("Mapa" & Map & ".csm"))
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Mapas.WAO", LCase$("Mapa" & Map & ".csm"))
     
     If InfoHead.lngFileSize <> 0 Then
 
@@ -530,6 +530,7 @@ Sub Main()
     ServIndSel = 0
   
     Call MostrarConnect(True)
+    frmAvisoBeta.Show vbModeless, frmConnect
     
     'Inicializacion de variables globales
     prgRun = True
@@ -557,7 +558,7 @@ Sub Main()
             Call CheckKeys
             
         ElseIf frmConnect.Visible = True Then
-        
+
             'Renderizado del Conectar
             Call RenderConnect
             
@@ -646,7 +647,7 @@ Private Sub LoadInitialConfig()
     Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_SONIDO").item("TEXTO"), 30)
     
     'Inicializamos el sonido
-    If Sound.Initialize_Engine(frmMain.hWnd, Path(ePath.Recursos), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
+    If Sound.Initialize_Engine(frmMain.hWnd, Path(ePath.recursos), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
         'frmCargando.picLoad.Width = 300
     Else
         MsgBox "¡No se ha logrado iniciar el engine de DirectSound! Reinstale los últimos controladores de DirectX. No habrá soporte de audio en el juego.", vbCritical, "Advertencia"

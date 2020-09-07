@@ -173,12 +173,12 @@ Private Type tMapDat
     ResuSinEfecto As Boolean
     MagiaSinEfecto As Boolean
     InviSinEfecto As Boolean
-    NoEncriptarMP As Boolean
+    LuzBase As Long
     version As Long
 End Type
 
 Public MapSize As tMapSize
-Public MapDat As tMapDat
+Private MapDat As tMapDat
 '********************************
 'END - Load Map with .CSM format
 '********************************
@@ -457,7 +457,8 @@ On Error GoTo ErrorHandler:
             End With
             
         Wend
-    
+        
+        Erase buffer
     End If
     
     Set fileBuff = Nothing
@@ -516,6 +517,7 @@ On Error GoTo errhandler:
             heads(i).startY = fileBuff.getInteger()
         Next i
         
+        Erase buffer
     End If
     
     Set fileBuff = Nothing
@@ -573,6 +575,7 @@ On Error GoTo errhandler:
             Cascos(i).startY = fileBuff.getInteger()
         Next i
          
+        Erase buffer
     End If
     
     Set fileBuff = Nothing
@@ -647,6 +650,7 @@ On Error GoTo errhandler:
             End If
         Next i
     
+        Erase buffer
     End If
     
     Set fileBuff = Nothing
@@ -706,6 +710,7 @@ On Error GoTo errhandler:
             FxData(i).OffsetY = fileBuff.getInteger()
         Next i
     
+        Erase buffer
     End If
     
     Set fileBuff = Nothing
@@ -798,6 +803,7 @@ On Error GoTo errhandler:
             End If
         Next i
     
+        Erase buffer
     End If
     
     Set fileBuff = Nothing
@@ -848,6 +854,7 @@ On Error GoTo errhandler:
         
         Next i
         
+        Erase buffer
     End If
     
     Set fileBuff = Nothing
@@ -915,6 +922,7 @@ On Error GoTo errhandler:
             End If
         Next i
     
+        Erase buffer
     End If
     
     Set fileBuff = Nothing
@@ -1011,7 +1019,7 @@ Sub CargarMapa(ByVal Map As Integer)
         .ResuSinEfecto = fileBuff.getBoolean()
         .MagiaSinEfecto = fileBuff.getBoolean()
         .InviSinEfecto = fileBuff.getBoolean()
-        .NoEncriptarMP = fileBuff.getBoolean()
+        .LuzBase = fileBuff.getLong()
         .version = fileBuff.getLong()
     End With
     
@@ -1169,6 +1177,7 @@ Sub CargarMapa(ByVal Map As Integer)
         
     End With
     
+    Erase buffer
     Set fileBuff = Nothing
     
     '*******************************
@@ -1180,6 +1189,7 @@ Sub CargarMapa(ByVal Map As Integer)
     mapInfo.Ambient = MapDat.Ambient
     mapInfo.Zona = MapDat.zone
     mapInfo.Terreno = MapDat.terrain
+    mapInfo.LuzBase = MapDat.LuzBase
 
 ErrorHandler:
     

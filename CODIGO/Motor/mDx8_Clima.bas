@@ -49,62 +49,55 @@ Public Sub Init_MeteoEngine()
 '***************************************************
     With Estados(e_estados.Amanecer)
         .a = 255
-        .r = 230
-        .g = 200
-        .b = 200
+        .R = 230
+        .G = 200
+        .B = 200
     End With
     
     With Estados(e_estados.MedioDia)
         .a = 255
-        .r = 255
-        .g = 255
-        .b = 255
+        .R = 255
+        .G = 255
+        .B = 255
     End With
     
     With Estados(e_estados.Tarde)
         .a = 255
-        .r = 200
-        .g = 200
-        .b = 200
+        .R = 200
+        .G = 200
+        .B = 200
     End With
   
     With Estados(e_estados.Noche)
         .a = 255
-        .r = 165
-        .g = 165
-        .b = 165
+        .R = 165
+        .G = 165
+        .B = 165
     End With
     
     With Estados(e_estados.Lluvia)
         .a = 255
-        .r = 200
-        .g = 200
-        .b = 200
+        .R = 200
+        .G = 200
+        .B = 200
     End With
     
     With Estados(e_estados.Niebla)
         .a = 255
-        .r = 200
-        .g = 200
-        .b = 200
+        .R = 200
+        .G = 200
+        .B = 200
     End With
     
     With Estados(e_estados.FogLluvia)
         .a = 255
-        .r = 200
-        .g = 200
-        .b = 200
+        .R = 200
+        .G = 200
+        .B = 200
     End With
     
     Estado_Actual_Date = 1
     
-End Sub
-
-Public Sub Set_AmbientColor()
-    Estado_Actual.a = 255
-    Estado_Actual.b = CurMapAmbient.OwnAmbientLight.b
-    Estado_Actual.g = CurMapAmbient.OwnAmbientLight.g
-    Estado_Actual.r = CurMapAmbient.OwnAmbientLight.r
 End Sub
 
 Public Sub Actualizar_Estado(ByVal Estado As Byte)
@@ -113,15 +106,28 @@ Public Sub Actualizar_Estado(ByVal Estado As Byte)
 'Last Modification: 09/08/2020
 'Actualiza el estado del clima y del dia
 '***************************************************
-    If Estado < 0 Or Estado > 8 Then Exit Sub
-    
-    If Estado = 0 Then Estado = e_estados.MedioDia
+    Dim X As Byte, Y As Byte
+
+    '¿El mapa tiene su propia luz?
+    If mapInfo.LuzBase <> -1 Then
+        
+        For X = XMinMapSize To XMaxMapSize
+            For Y = YMinMapSize To YMaxMapSize
+                Call Engine_Long_To_RGB_List(MapData(X, Y).Engine_Light(), mapInfo.LuzBase)
+            Next Y
+        Next X
+        
+        Call LightRenderAll
+        
+        Exit Sub
+    End If
+
+    '¿Es un estado invalido?
+    If Estado < 0 Or Estado > 8 Then Estado = e_estados.MedioDia
         
     Estado_Actual = Estados(Estado)
     Estado_Actual_Date = Estado
         
-    Dim X As Byte, Y As Byte
-    
     For X = XMinMapSize To XMaxMapSize
         For Y = YMinMapSize To YMaxMapSize
             Call Engine_D3DColor_To_RGB_List(MapData(X, Y).Engine_Light(), Estado_Actual)
@@ -148,7 +154,7 @@ Public Sub Start_Rampage()
 'Init Rampage
 '***************************************************
     Dim X As Byte, Y As Byte, TempColor As D3DCOLORVALUE
-    TempColor.a = 255: TempColor.b = 255: TempColor.r = 255: TempColor.g = 255
+    TempColor.a = 255: TempColor.B = 255: TempColor.R = 255: TempColor.G = 255
     
         For X = XMinMapSize To XMaxMapSize
             For Y = YMinMapSize To YMaxMapSize
@@ -337,7 +343,7 @@ Public Sub RemoveWeatherParticles(ByVal Weather As Byte)
     End Select
 End Sub
 
-Sub Engine_Weather_UpdateFog(ByVal a As Byte, ByVal r As Byte, ByVal g As Byte, ByVal b As Byte)
+Sub Engine_Weather_UpdateFog(ByVal a As Byte, ByVal R As Byte, ByVal G As Byte, ByVal B As Byte)
 '*****************************************************************
 'Autor: ????
 'Fecha: ????
@@ -394,7 +400,7 @@ Sub Engine_Weather_UpdateFog(ByVal a As Byte, ByVal r As Byte, ByVal g As Byte, 
         X = 2
         Y = -1
         For i = 0 To 3
-            FogColor(i) = D3DColorARGB(a, r, g, b)
+            FogColor(i) = D3DColorARGB(a, R, G, B)
         Next i
         
         For i = 1 To WeatherFogCount

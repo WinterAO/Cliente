@@ -398,6 +398,8 @@ Sub Engine_Init_FontSettings()
                 
             Next LoopChar
             
+            Erase buffer
+            
             Set fileBuff = Nothing
         End If
     Next i

@@ -228,6 +228,7 @@ Public Sub CargarParticulas()
             End With
         Next loopc
     
+        Erase buffer
     End If
     
     Set fileBuff = Nothing
