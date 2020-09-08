@@ -167,6 +167,7 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -1771,6 +1772,9 @@ Private Sub MainViewPic_DblClick()
 End Sub
 
 Private Sub MainViewPic_Click()
+
+    'Si el menu esta abierto, lo cerramos.
+    If fMenu.Visible Then fMenu.Visible = False
 
     If Cartel Then Cartel = False
     
