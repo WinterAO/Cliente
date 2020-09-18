@@ -167,7 +167,6 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -1376,6 +1375,55 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                 Else
                     Call Enviar_SendTxt
                 End If
+                
+            Case CustomKeys.BindedKey(eKeyType.mKeyFuncionUno)
+                If Len(ClientSetup.Funcion(1)) > 0 Then _
+                    Call ParseUserCommand(ClientSetup.Funcion(1))
+                
+            Case CustomKeys.BindedKey(eKeyType.mKeyFuncionDos)
+                If Len(ClientSetup.Funcion(2)) > 0 Then _
+                    Call ParseUserCommand(ClientSetup.Funcion(2))
+                
+            Case CustomKeys.BindedKey(eKeyType.mKeyFuncionTres)
+                If Len(ClientSetup.Funcion(3)) > 0 Then _
+                    Call ParseUserCommand(ClientSetup.Funcion(3))
+                
+            Case CustomKeys.BindedKey(eKeyType.mKeyFuncionCuatro)
+                If Len(ClientSetup.Funcion(4)) > 0 Then _
+                    Call ParseUserCommand(ClientSetup.Funcion(4))
+                
+            Case CustomKeys.BindedKey(eKeyType.mKeyFuncionCinco)
+                If Len(ClientSetup.Funcion(5)) > 0 Then _
+                    Call ParseUserCommand(ClientSetup.Funcion(5))
+                
+            Case CustomKeys.BindedKey(eKeyType.mKeyFuncionSeis)
+                If Len(ClientSetup.Funcion(6)) > 0 Then _
+                    Call ParseUserCommand(ClientSetup.Funcion(6))
+                
+            Case CustomKeys.BindedKey(eKeyType.mKeyFuncionSiete)
+                If Len(ClientSetup.Funcion(7)) > 0 Then _
+                    Call ParseUserCommand(ClientSetup.Funcion(7))
+                
+            Case CustomKeys.BindedKey(eKeyType.mKeyFuncionOcho)
+                If Len(ClientSetup.Funcion(8)) > 0 Then _
+                    Call ParseUserCommand(ClientSetup.Funcion(8))
+                
+            Case CustomKeys.BindedKey(eKeyType.mKeyFuncionNueve)
+                If Len(ClientSetup.Funcion(9)) > 0 Then _
+                    Call ParseUserCommand(ClientSetup.Funcion(9))
+                
+            Case CustomKeys.BindedKey(eKeyType.mKeyFuncionDiez)
+                If Len(ClientSetup.Funcion(10)) > 0 Then _
+                    Call ParseUserCommand(ClientSetup.Funcion(10))
+                
+            Case CustomKeys.BindedKey(eKeyType.mKeyFuncionOnce)
+                If Len(ClientSetup.Funcion(11)) > 0 Then _
+                    Call ParseUserCommand(ClientSetup.Funcion(11))
+                
+            Case CustomKeys.BindedKey(eKeyType.mKeyFuncionDoce)
+                If Len(ClientSetup.Funcion(12)) > 0 Then _
+                    Call ParseUserCommand(ClientSetup.Funcion(12))
+                
                 
         End Select
      End If

@@ -50,7 +50,7 @@ Option Explicit
 
 ''
 'Number of Customizable Keys
-Private Const NUM_CUSTOM_KEYS As Byte = 30
+Private Const NUM_CUSTOM_KEYS As Byte = 42
 
 ''
 'Error Raised in case the key file doesn't exist
@@ -129,6 +129,18 @@ Public Enum eKeyType
     mKeyChatGrupo
     mKeyChatGlobal
     mKeyQuests
+    mKeyFuncionUno
+    mKeyFuncionDos
+    mKeyFuncionTres
+    mKeyFuncionCuatro
+    mKeyFuncionCinco
+    mKeyFuncionSeis
+    mKeyFuncionSiete
+    mKeyFuncionOcho
+    mKeyFuncionNueve
+    mKeyFuncionDiez
+    mKeyFuncionOnce
+    mKeyFuncionDoce
 End Enum
 
 ''
@@ -248,6 +260,7 @@ Public Function ReadableName(ByVal KeyCode As Integer) As String
             'In all other cases, key is considered not valid.
             ReadableName = Constants.vbNullString
     End Select
+    
 End Function
 
 ''
@@ -403,6 +416,19 @@ Public Sub LoadDefaults(ByVal Clasica As Boolean)
     mappedKeys(eKeyType.mKeyChatClan) = KeyCodeConstants.vbKey4
     mappedKeys(eKeyType.mKeyChatGrupo) = KeyCodeConstants.vbKey5
     mappedKeys(eKeyType.mKeyChatGlobal) = KeyCodeConstants.vbKey6
+    
+    mappedKeys(eKeyType.mKeyFuncionUno) = KeyCodeConstants.vbKeyF1
+    mappedKeys(eKeyType.mKeyFuncionDos) = KeyCodeConstants.vbKeyF2
+    mappedKeys(eKeyType.mKeyFuncionTres) = KeyCodeConstants.vbKeyF3
+    mappedKeys(eKeyType.mKeyFuncionCuatro) = KeyCodeConstants.vbKeyF4
+    mappedKeys(eKeyType.mKeyFuncionCinco) = KeyCodeConstants.vbKeyF5
+    mappedKeys(eKeyType.mKeyFuncionSeis) = KeyCodeConstants.vbKeyF6
+    mappedKeys(eKeyType.mKeyFuncionSiete) = KeyCodeConstants.vbKeyF7
+    mappedKeys(eKeyType.mKeyFuncionOcho) = KeyCodeConstants.vbKeyF8
+    mappedKeys(eKeyType.mKeyFuncionNueve) = KeyCodeConstants.vbKeyF9
+    mappedKeys(eKeyType.mKeyFuncionDiez) = KeyCodeConstants.vbKeyF10
+    mappedKeys(eKeyType.mKeyFuncionOnce) = KeyCodeConstants.vbKeyF11
+    mappedKeys(eKeyType.mKeyFuncionDoce) = KeyCodeConstants.vbKeyF12
     
 End Sub
 

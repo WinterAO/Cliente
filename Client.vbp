@@ -126,7 +126,7 @@ Description="argentum online libre cliente"
 CompatibleMode="0"
 MajorVer=5
 MinorVer=0
-RevisionVer=19
+RevisionVer=20
 AutoIncrementVer=0
 ServerSupportFiles=0
 VersionComments="http://winterao.com.ar"
@@ -134,7 +134,7 @@ VersionCompanyName="WinterAO"
 VersionLegalCopyright="Argentum idea Pablo Ignacio Marquez - Copyright 2003  -  Code pieces are copyright of their respective authors."
 VersionLegalTrademarks="http://www.WinterAO.com.ar"
 VersionProductName="WinterAO Resurrection"
-CondComp="Desarrollo = 1 : ConMenuseConextuales = 0 : LightEngine = 1"
+CondComp="Desarrollo = 0 : ConMenuseConextuales = 0 : LightEngine = 1"
 CompilationType=0
 OptimizationType=0
 FavorPentiumPro(tm)=0
