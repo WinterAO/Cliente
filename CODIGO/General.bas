@@ -501,9 +501,11 @@ Sub Main()
     Call Carga.LeerConfiguracion
 
     #If Desarrollo = 0 Then
-        If (GetVar(Carga.Path(Init) & CLIENT_FILE, "PARAMETERS", "LAUCH")) <> 1 Then
+        If GetVar(Carga.Path(Init) & CLIENT_FILE, "PARAMETERS", "LAUCH") <> 1 Then
             Call MsgBox("Para iniciar WinterAO debes hacerlo desde el Launcher.", vbCritical)
             End
+        Else
+            Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "PARAMETERS", "LAUCH", "0")
         End If
     
         If Application.FindPreviousInstance Then
