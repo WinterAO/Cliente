@@ -513,7 +513,7 @@ Sub Main()
             End
         End If
     #End If
-
+    
     'Read command line. Do it AFTER config file is loaded to prevent this from
     'canceling the effects of "/nores" option.
     Call LeerLineaComandos
@@ -535,6 +535,14 @@ Sub Main()
     'Busca y pre-selecciona un server.
     Call ListarServidores
     ServIndSel = 0
+    
+    '¿Actualizaciones para el Launcher?
+    If FileExist(App.Path & "\WinterAOLauncher.exe.up", vbNormal) Then
+    
+        If FileExist(App.Path & "\WinterAOLauncher.exe", vbNormal) Then Kill App.Path & "\WinterAOLauncher.exe"
+        Name "WinterAOLauncher.exe.up" As "WinterAOLauncher.exe"
+    
+    End If
   
     Call MostrarConnect(True)
     frmAvisoBeta.Show vbModeless, frmConnect
