@@ -541,6 +541,10 @@ Sub Main()
     
         If FileExist(App.Path & "\WinterAOLauncher.exe", vbNormal) Then Kill App.Path & "\WinterAOLauncher.exe"
         Name "WinterAOLauncher.exe.up" As "WinterAOLauncher.exe"
+        
+        MsgBox "Se ha encontrado una actualización del Launcher. WinterAO se reiniciara."
+        Call Shell(App.Path & "\WinterAOLauncher.exe", vbNormalFocus)
+        Call CloseClient
     
     End If
   
@@ -1084,7 +1088,7 @@ Public Function getCharIndexByName(ByVal name As String) As Integer
 
     For i = 1 To LastChar
 
-        If charlist(i).Nombre = name Then
+        If charlist(i).nombre = name Then
             getCharIndexByName = i
             Exit Function
         End If
@@ -1242,7 +1246,7 @@ Public Sub ResetAllInfoAccounts()
         For loopc = 1 To NumberOfCharacters
         
             With cPJ(loopc)
-                .Nombre = vbNullString
+                .nombre = vbNullString
                 .Body = 0
                 .Head = 0
                 .weapon = 0
