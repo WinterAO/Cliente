@@ -79,7 +79,6 @@ Module=mDx8_Dibujado; CODIGO\Motor\mDx8_Dibujado.bas
 Module=JSON; CODIGO\IO\JSON.bas
 Class=cStringBuilder; CODIGO\Dialogos\cStringBuilder.cls
 Class=clsByteBuffer; CODIGO\IO\clsByteBuffer.cls
-Form=CODIGO\Formularios\frmCerrar.frm
 Module=modPing; CODIGO\Red\modPing.bas
 Module=ModLenguaje; CODIGO\IO\modLenguaje.bas
 Form=CODIGO\Formularios\frmBuscar.frm

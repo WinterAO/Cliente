@@ -1509,7 +1509,19 @@ End Sub
 
 Private Sub lblCerrar_Click()
     Call Sound.Sound_Play(SND_CLICK)
-    frmCerrar.Show vbModal, Me
+    
+    If UserParalizado Then 'Inmo
+
+        With FontTypes(FontTypeNames.FONTTYPE_WARNING)
+            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_NO_SALIR").item("TEXTO"), .Red, .Green, .Blue, .bold, .italic)
+        End With
+        
+        Exit Sub
+        
+    End If
+    
+    ' Nos desconectamos y lo mando al Panel de la Cuenta
+    Call WriteQuit
 End Sub
 
 Private Sub LbLChat_Click()
