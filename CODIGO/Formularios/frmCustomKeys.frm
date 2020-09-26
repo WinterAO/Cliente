@@ -2,11 +2,12 @@ VERSION 5.00
 Begin VB.Form frmCustomKeys 
    BorderStyle     =   4  'Fixed ToolWindow
    Caption         =   "Configuración de Controles"
-   ClientHeight    =   5310
+   ClientHeight    =   5220
    ClientLeft      =   45
    ClientTop       =   390
-   ClientWidth     =   10185
+   ClientWidth     =   12090
    ClipControls    =   0   'False
+   ControlBox      =   0   'False
    BeginProperty Font 
       Name            =   "Tahoma"
       Size            =   8.25
@@ -19,34 +20,558 @@ Begin VB.Form frmCustomKeys
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   354
+   ScaleHeight     =   348
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   679
+   ScaleWidth      =   806
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
+   Begin VB.CommandButton cmdSalir 
+      Caption         =   "Salir"
+      Height          =   480
+      Left            =   120
+      TabIndex        =   105
+      Top             =   4680
+      Width           =   2085
+   End
+   Begin VB.Frame FraComandosRapidos 
+      Caption         =   "Comandos Rapidos"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   5175
+      Left            =   7680
+      TabIndex        =   67
+      Top             =   0
+      Width           =   4335
+      Begin VB.TextBox txtComando 
+         Appearance      =   0  'Flat
+         Height          =   285
+         Index           =   12
+         Left            =   2280
+         TabIndex        =   103
+         Top             =   4560
+         Width           =   1815
+      End
+      Begin VB.TextBox txtComando 
+         Appearance      =   0  'Flat
+         Height          =   285
+         Index           =   11
+         Left            =   2280
+         TabIndex        =   102
+         Top             =   4200
+         Width           =   1815
+      End
+      Begin VB.TextBox txtComando 
+         Appearance      =   0  'Flat
+         Height          =   285
+         Index           =   10
+         Left            =   2280
+         TabIndex        =   101
+         Top             =   3840
+         Width           =   1815
+      End
+      Begin VB.TextBox txtComando 
+         Appearance      =   0  'Flat
+         Height          =   285
+         Index           =   9
+         Left            =   2280
+         TabIndex        =   100
+         Top             =   3480
+         Width           =   1815
+      End
+      Begin VB.TextBox txtComando 
+         Appearance      =   0  'Flat
+         Height          =   285
+         Index           =   8
+         Left            =   2280
+         TabIndex        =   99
+         Top             =   3120
+         Width           =   1815
+      End
+      Begin VB.TextBox txtComando 
+         Appearance      =   0  'Flat
+         Height          =   285
+         Index           =   7
+         Left            =   2280
+         TabIndex        =   98
+         Top             =   2760
+         Width           =   1815
+      End
+      Begin VB.TextBox txtComando 
+         Appearance      =   0  'Flat
+         Height          =   285
+         Index           =   6
+         Left            =   2280
+         TabIndex        =   97
+         Top             =   2400
+         Width           =   1815
+      End
+      Begin VB.TextBox txtComando 
+         Appearance      =   0  'Flat
+         Height          =   285
+         Index           =   5
+         Left            =   2280
+         TabIndex        =   96
+         Top             =   2040
+         Width           =   1815
+      End
+      Begin VB.TextBox txtComando 
+         Appearance      =   0  'Flat
+         Height          =   285
+         Index           =   4
+         Left            =   2280
+         TabIndex        =   95
+         Top             =   1680
+         Width           =   1815
+      End
+      Begin VB.TextBox txtComando 
+         Appearance      =   0  'Flat
+         Height          =   285
+         Index           =   3
+         Left            =   2280
+         TabIndex        =   94
+         Top             =   1320
+         Width           =   1815
+      End
+      Begin VB.TextBox txtComando 
+         Appearance      =   0  'Flat
+         Height          =   285
+         Index           =   2
+         Left            =   2280
+         TabIndex        =   93
+         Top             =   960
+         Width           =   1815
+      End
+      Begin VB.TextBox txtComando 
+         Appearance      =   0  'Flat
+         Height          =   285
+         Index           =   1
+         Left            =   2280
+         TabIndex        =   92
+         Top             =   600
+         Width           =   1815
+      End
+      Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   285
+         Index           =   42
+         Left            =   1080
+         TabIndex        =   91
+         Top             =   4560
+         Width           =   975
+      End
+      Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   285
+         Index           =   41
+         Left            =   1080
+         TabIndex        =   90
+         Top             =   4200
+         Width           =   975
+      End
+      Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   285
+         Index           =   40
+         Left            =   1080
+         TabIndex        =   89
+         Top             =   3840
+         Width           =   975
+      End
+      Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   285
+         Index           =   39
+         Left            =   1080
+         TabIndex        =   88
+         Top             =   3480
+         Width           =   975
+      End
+      Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   285
+         Index           =   38
+         Left            =   1080
+         TabIndex        =   87
+         Top             =   3120
+         Width           =   975
+      End
+      Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   285
+         Index           =   37
+         Left            =   1080
+         TabIndex        =   86
+         Top             =   2760
+         Width           =   975
+      End
+      Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   285
+         Index           =   36
+         Left            =   1080
+         TabIndex        =   85
+         Top             =   2400
+         Width           =   975
+      End
+      Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   285
+         Index           =   35
+         Left            =   1080
+         TabIndex        =   84
+         Top             =   2040
+         Width           =   975
+      End
+      Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   285
+         Index           =   34
+         Left            =   1080
+         TabIndex        =   83
+         Top             =   1680
+         Width           =   975
+      End
+      Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   285
+         Index           =   33
+         Left            =   1080
+         TabIndex        =   82
+         Top             =   1320
+         Width           =   975
+      End
+      Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   285
+         Index           =   32
+         Left            =   1080
+         TabIndex        =   81
+         Top             =   960
+         Width           =   975
+      End
+      Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   285
+         Index           =   31
+         Left            =   1080
+         TabIndex        =   80
+         Top             =   600
+         Width           =   975
+      End
+      Begin VB.Label lblComando 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Comandos:"
+         Height          =   195
+         Left            =   2280
+         TabIndex        =   104
+         Top             =   360
+         Width           =   810
+      End
+      Begin VB.Label lblFuncion8 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Funcion 8"
+         Height          =   195
+         Index           =   0
+         Left            =   240
+         TabIndex        =   79
+         Top             =   4575
+         Width           =   735
+      End
+      Begin VB.Label lblFuncion7 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Funcion 7"
+         Height          =   195
+         Index           =   1
+         Left            =   240
+         TabIndex        =   78
+         Top             =   4215
+         Width           =   735
+      End
+      Begin VB.Label lblFuncion6 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Funcion 6"
+         Height          =   195
+         Index           =   1
+         Left            =   240
+         TabIndex        =   77
+         Top             =   3855
+         Width           =   735
+      End
+      Begin VB.Label lblFuncion5 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Funcion 5"
+         Height          =   195
+         Index           =   0
+         Left            =   240
+         TabIndex        =   76
+         Top             =   3495
+         Width           =   735
+      End
+      Begin VB.Label lblFuncion8 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Funcion 8"
+         Height          =   195
+         Index           =   1
+         Left            =   240
+         TabIndex        =   75
+         Top             =   3135
+         Width           =   735
+      End
+      Begin VB.Label lblFuncion7 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Funcion 7"
+         Height          =   195
+         Index           =   0
+         Left            =   240
+         TabIndex        =   74
+         Top             =   2775
+         Width           =   735
+      End
+      Begin VB.Label lblFuncion6 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Funcion 6"
+         Height          =   195
+         Index           =   0
+         Left            =   240
+         TabIndex        =   73
+         Top             =   2415
+         Width           =   735
+      End
+      Begin VB.Label lblFuncion5 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Funcion 5"
+         Height          =   195
+         Index           =   1
+         Left            =   240
+         TabIndex        =   72
+         Top             =   2070
+         Width           =   735
+      End
+      Begin VB.Label lblFuncion4 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Funcion 4"
+         Height          =   195
+         Index           =   0
+         Left            =   240
+         TabIndex        =   71
+         Top             =   1695
+         Width           =   735
+      End
+      Begin VB.Label lblFuncion3 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Funcion 3"
+         Height          =   195
+         Index           =   1
+         Left            =   240
+         TabIndex        =   70
+         Top             =   1335
+         Width           =   735
+      End
+      Begin VB.Label lblFuncion2 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Funcion 2"
+         Height          =   195
+         Index           =   1
+         Left            =   240
+         TabIndex        =   69
+         Top             =   975
+         Width           =   735
+      End
+      Begin VB.Label lblFuncion1 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Funcion 1"
+         Height          =   195
+         Index           =   0
+         Left            =   240
+         TabIndex        =   68
+         Top             =   600
+         Width           =   735
+      End
+   End
    Begin VB.CheckBox chkBloquearMovimiento 
       Caption         =   "Bloquear movimiento al escribir"
       Height          =   375
-      Left            =   3240
+      Left            =   2520
       TabIndex        =   64
-      Top             =   4800
-      Width           =   3495
+      Top             =   4560
+      Width           =   2655
    End
    Begin VB.CommandButton imgGuardar 
       Caption         =   "Guardar"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   480
-      Left            =   600
+      Left            =   120
       TabIndex        =   63
-      Top             =   4440
-      Width           =   2130
+      Top             =   4080
+      Width           =   2085
    End
    Begin VB.CommandButton imgDefaultKeys 
       Caption         =   "Teclas por Defecto"
       Height          =   480
-      Left            =   600
+      Left            =   120
       TabIndex        =   62
-      Top             =   3720
-      Width           =   2130
+      Top             =   3480
+      Width           =   2085
    End
    Begin VB.Frame FraMiscelanea 
       Caption         =   "Miscelanea"
@@ -60,11 +585,12 @@ Begin VB.Form frmCustomKeys
          Strikethrough   =   0   'False
       EndProperty
       Height          =   4455
-      Left            =   3360
+      Left            =   2400
       TabIndex        =   41
       Top             =   0
-      Width           =   3495
+      Width           =   2895
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -81,9 +607,10 @@ Begin VB.Form frmCustomKeys
          Left            =   1680
          TabIndex        =   65
          Top             =   3960
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -100,9 +627,10 @@ Begin VB.Form frmCustomKeys
          Left            =   1680
          TabIndex        =   58
          Top             =   3240
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -119,9 +647,10 @@ Begin VB.Form frmCustomKeys
          Left            =   1680
          TabIndex        =   57
          Top             =   3600
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -138,9 +667,10 @@ Begin VB.Form frmCustomKeys
          Left            =   1680
          TabIndex        =   56
          Top             =   2880
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -157,9 +687,10 @@ Begin VB.Form frmCustomKeys
          Left            =   1680
          TabIndex        =   54
          Top             =   2520
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -176,9 +707,10 @@ Begin VB.Form frmCustomKeys
          Left            =   1680
          TabIndex        =   53
          Top             =   2160
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -195,9 +727,10 @@ Begin VB.Form frmCustomKeys
          Left            =   1680
          TabIndex        =   46
          Top             =   360
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -214,9 +747,10 @@ Begin VB.Form frmCustomKeys
          Left            =   1680
          TabIndex        =   45
          Top             =   1080
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -233,9 +767,10 @@ Begin VB.Form frmCustomKeys
          Left            =   1680
          TabIndex        =   44
          Top             =   1440
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -252,9 +787,10 @@ Begin VB.Form frmCustomKeys
          Left            =   1680
          TabIndex        =   43
          Top             =   720
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -271,7 +807,7 @@ Begin VB.Form frmCustomKeys
          Left            =   1680
          TabIndex        =   42
          Top             =   1800
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.Label lblAbrirQuests 
          Alignment       =   1  'Right Justify
@@ -411,11 +947,12 @@ Begin VB.Form frmCustomKeys
          Strikethrough   =   0   'False
       EndProperty
       Height          =   3375
-      Left            =   120
+      Left            =   0
       TabIndex        =   22
-      Top             =   120
-      Width           =   3135
+      Top             =   0
+      Width           =   2295
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -432,9 +969,10 @@ Begin VB.Form frmCustomKeys
          Left            =   960
          TabIndex        =   30
          Top             =   2880
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -451,9 +989,10 @@ Begin VB.Form frmCustomKeys
          Left            =   960
          TabIndex        =   29
          Top             =   2520
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -470,9 +1009,10 @@ Begin VB.Form frmCustomKeys
          Left            =   960
          TabIndex        =   28
          Top             =   2160
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -489,9 +1029,10 @@ Begin VB.Form frmCustomKeys
          Left            =   960
          TabIndex        =   27
          Top             =   1800
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -508,9 +1049,10 @@ Begin VB.Form frmCustomKeys
          Left            =   960
          TabIndex        =   26
          Top             =   1440
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -527,9 +1069,10 @@ Begin VB.Form frmCustomKeys
          Left            =   960
          TabIndex        =   25
          Top             =   1080
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -546,9 +1089,10 @@ Begin VB.Form frmCustomKeys
          Left            =   960
          TabIndex        =   24
          Top             =   720
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -565,7 +1109,7 @@ Begin VB.Form frmCustomKeys
          Left            =   960
          TabIndex        =   23
          Top             =   360
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.Label lblAtacar 
          AutoSize        =   -1  'True
@@ -668,11 +1212,12 @@ Begin VB.Form frmCustomKeys
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1935
-      Left            =   6960
+      Left            =   5400
       TabIndex        =   13
       Top             =   3240
-      Width           =   3135
+      Width           =   2175
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -689,9 +1234,10 @@ Begin VB.Form frmCustomKeys
          Left            =   960
          TabIndex        =   17
          Top             =   1440
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -708,9 +1254,10 @@ Begin VB.Form frmCustomKeys
          Left            =   960
          TabIndex        =   16
          Top             =   1080
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -727,9 +1274,10 @@ Begin VB.Form frmCustomKeys
          Left            =   960
          TabIndex        =   15
          Top             =   720
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -746,7 +1294,7 @@ Begin VB.Form frmCustomKeys
          Left            =   960
          TabIndex        =   14
          Top             =   360
-         Width           =   1620
+         Width           =   975
       End
       Begin VB.Label lblDerecha 
          AutoSize        =   -1  'True
@@ -805,11 +1353,12 @@ Begin VB.Form frmCustomKeys
          Strikethrough   =   0   'False
       EndProperty
       Height          =   3135
-      Left            =   6960
+      Left            =   5400
       TabIndex        =   0
       Top             =   0
-      Width           =   3135
+      Width           =   2175
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -826,9 +1375,10 @@ Begin VB.Form frmCustomKeys
          Left            =   840
          TabIndex        =   39
          Top             =   480
-         Width           =   1695
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BeginProperty Font 
             Name            =   "Tahoma"
             Size            =   8.25
@@ -843,9 +1393,10 @@ Begin VB.Form frmCustomKeys
          Left            =   840
          TabIndex        =   6
          Top             =   840
-         Width           =   1695
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BeginProperty Font 
             Name            =   "Tahoma"
             Size            =   8.25
@@ -860,9 +1411,10 @@ Begin VB.Form frmCustomKeys
          Left            =   840
          TabIndex        =   5
          Top             =   1200
-         Width           =   1695
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BeginProperty Font 
             Name            =   "Tahoma"
             Size            =   8.25
@@ -877,9 +1429,10 @@ Begin VB.Form frmCustomKeys
          Left            =   840
          TabIndex        =   4
          Top             =   1560
-         Width           =   1695
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BeginProperty Font 
             Name            =   "Tahoma"
             Size            =   8.25
@@ -894,9 +1447,10 @@ Begin VB.Form frmCustomKeys
          Left            =   840
          TabIndex        =   3
          Top             =   1920
-         Width           =   1695
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BeginProperty Font 
             Name            =   "Tahoma"
             Size            =   8.25
@@ -911,9 +1465,10 @@ Begin VB.Form frmCustomKeys
          Left            =   840
          TabIndex        =   2
          Top             =   2280
-         Width           =   1695
+         Width           =   975
       End
       Begin VB.TextBox Text1 
+         Appearance      =   0  'Flat
          BeginProperty Font 
             Name            =   "Tahoma"
             Size            =   8.25
@@ -928,7 +1483,7 @@ Begin VB.Form frmCustomKeys
          Left            =   840
          TabIndex        =   1
          Top             =   2640
-         Width           =   1695
+         Width           =   975
       End
       Begin VB.Label lblHablar 
          AutoSize        =   -1  'True
@@ -1014,7 +1569,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
 'Argentum Online 0.11.6
 '
 'Copyright (C) 2002 Marquez Pablo Ignacio
@@ -1064,6 +1618,10 @@ Private Sub chkBloquearMovimiento_MouseUp(Button As Integer, Shift As Integer, X
     ClientSetup.BloqueoMovimiento = Not ClientSetup.BloqueoMovimiento
 End Sub
 
+Private Sub cmdSalir_Click()
+    Unload Me
+End Sub
+
 Private Sub Form_Load()
     Dim i As Long
     
@@ -1075,6 +1633,10 @@ Private Sub Form_Load()
 
     For i = 1 To CustomKeys.KeyCount
         Text1(i).Text = CustomKeys.ReadableName(CustomKeys.BindedKey(i))
+    Next i
+    
+    For i = 1 To 12
+        txtComando(i).Text = CStr(ClientSetup.Funcion(i))
     Next i
     
     If ClientSetup.BloqueoMovimiento Then
@@ -1107,7 +1669,12 @@ Private Sub imgGuardar_Click()
         End If
     Next i
     
+    For i = 1 To 12
+        ClientSetup.Funcion(i) = Trim$(frmCustomKeys.txtComando(i).Text)
+    Next i
+    
     Call Carga.GuardarConfiguracion
+    Call Carga.GuardarFunciones
     
     Unload Me
 End Sub
@@ -1117,7 +1684,6 @@ Private Sub Text1_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer
 
     If LenB(CustomKeys.ReadableName(KeyCode)) = 0 Then Exit Sub
     'If key is not valid, we exit
-    Debug.Print "3"
     Text1(Index).Text = CustomKeys.ReadableName(KeyCode)
     Text1(Index).SelStart = Len(Text1(Index).Text)
 

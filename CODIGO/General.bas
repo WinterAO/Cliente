@@ -377,7 +377,7 @@ Sub SwitchMap(ByVal Map As Integer)
     Dim bytArr()    As Byte
     Dim InfoHead    As INFOHEADER
     
-    InfoHead = File_Find(Carga.Path(ePath.Recursos) & "\Mapas.WAO", LCase$("Mapa" & Map & ".csm"))
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Mapas.WAO", LCase$("Mapa" & Map & ".csm"))
     
     If InfoHead.lngFileSize <> 0 Then
 
@@ -501,12 +501,19 @@ Sub Main()
     Call Carga.LeerConfiguracion
 
     #If Desarrollo = 0 Then
+        If GetVar(Carga.Path(Init) & CLIENT_FILE, "PARAMETERS", "LAUCH") <> 1 Then
+            Call MsgBox("Para iniciar WinterAO debes hacerlo desde el Launcher.", vbCritical)
+            End
+        Else
+            Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "PARAMETERS", "LAUCH", "0")
+        End If
+    
         If Application.FindPreviousInstance Then
             Call MsgBox(JsonLanguage.item("OTRO_CLIENTE_ABIERTO").item("TEXTO"), vbApplicationModal + vbInformation + vbOKOnly, "Error al ejecutar")
             End
         End If
     #End If
-
+    
     'Read command line. Do it AFTER config file is loaded to prevent this from
     'canceling the effects of "/nores" option.
     Call LeerLineaComandos
@@ -528,8 +535,21 @@ Sub Main()
     'Busca y pre-selecciona un server.
     Call ListarServidores
     ServIndSel = 0
+    
+    '¿Actualizaciones para el Launcher?
+    If FileExist(App.Path & "\WinterAOLauncher.exe.up", vbNormal) Then
+    
+        If FileExist(App.Path & "\WinterAOLauncher.exe", vbNormal) Then Kill App.Path & "\WinterAOLauncher.exe"
+        Name "WinterAOLauncher.exe.up" As "WinterAOLauncher.exe"
+        
+        MsgBox "Se ha encontrado una actualización del Launcher. WinterAO se reiniciara."
+        Call Shell(App.Path & "\WinterAOLauncher.exe", vbNormalFocus)
+        Call CloseClient
+    
+    End If
   
     Call MostrarConnect(True)
+    frmAvisoBeta.Show vbModeless, frmConnect
     
     'Inicializacion de variables globales
     prgRun = True
@@ -557,7 +577,7 @@ Sub Main()
             Call CheckKeys
             
         ElseIf frmConnect.Visible = True Then
-        
+
             'Renderizado del Conectar
             Call RenderConnect
             
@@ -646,7 +666,7 @@ Private Sub LoadInitialConfig()
     Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_SONIDO").item("TEXTO"), 30)
     
     'Inicializamos el sonido
-    If Sound.Initialize_Engine(frmMain.hWnd, Path(ePath.Recursos), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
+    If Sound.Initialize_Engine(frmMain.hWnd, Path(ePath.recursos), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
         'frmCargando.picLoad.Width = 300
     Else
         MsgBox "¡No se ha logrado iniciar el engine de DirectSound! Reinstale los últimos controladores de DirectX. No habrá soporte de audio en el juego.", vbCritical, "Advertencia"
@@ -1068,7 +1088,7 @@ Public Function getCharIndexByName(ByVal name As String) As Integer
 
     For i = 1 To LastChar
 
-        If charlist(i).Nombre = name Then
+        If charlist(i).nombre = name Then
             getCharIndexByName = i
             Exit Function
         End If
@@ -1226,7 +1246,7 @@ Public Sub ResetAllInfoAccounts()
         For loopc = 1 To NumberOfCharacters
         
             With cPJ(loopc)
-                .Nombre = vbNullString
+                .nombre = vbNullString
                 .Body = 0
                 .Head = 0
                 .weapon = 0

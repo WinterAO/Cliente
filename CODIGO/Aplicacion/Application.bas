@@ -76,15 +76,15 @@ Private Function CreateNamedMutex(ByRef mutexName As String) As Boolean
 'Last Modification: 01/04/07
 'Last Modified by: Juan Martin Sotuyo Dodero (Maraxus) - Changed Security Atributes to make it work in all OS
 '***************************************************
-    Dim sa As SECURITY_ATTRIBUTES
+    Dim SA As SECURITY_ATTRIBUTES
     
-    With sa
+    With SA
         .bInheritHandle = 0
         .lpSecurityDescriptor = 0
-        .nLength = LenB(sa)
+        .nLength = LenB(SA)
     End With
     
-    mutexHID = CreateMutex(sa, False, "Global\" & mutexName)
+    mutexHID = CreateMutex(SA, False, "Global\" & mutexName)
     
     CreateNamedMutex = Not (Err.LastDllError = ERROR_ALREADY_EXISTS) 'check if the mutex already existed
 End Function
@@ -126,23 +126,23 @@ Public Sub LogError(ByVal Numero As Long, ByVal Descripcion As String, ByVal Com
 'Author: Jopi
 'Guarda una descripcion detallada del error en Errores.log
 '**********************************************************
-    Dim file As Integer
-        file = FreeFile
+    Dim File As Integer
+        File = FreeFile
         
-    Open App.path & "\Errores.log" For Append As #file
+    Open App.Path & "\logs\Errores.log" For Append As #File
     
-        Print #file, "Error: " & Numero
-        Print #file, "Descripcion: " & Descripcion
+        Print #File, "Error: " & Numero
+        Print #File, "Descripcion: " & Descripcion
         
         If LenB(Linea) <> 0 Then
-            Print #file, "Linea: " & Linea
+            Print #File, "Linea: " & Linea
         End If
         
-        Print #file, "Componente: " & Componente
-        Print #file, "Fecha y Hora: " & Date$ & "-" & Time$
-        Print #file, vbNullString
+        Print #File, "Componente: " & Componente
+        Print #File, "Fecha y Hora: " & Date$ & "-" & Time$
+        Print #File, vbNullString
         
-    Close #file
+    Close #File
     
     Debug.Print "Error: " & Numero & vbNewLine & _
                 "Descripcion: " & Descripcion & vbNewLine & _

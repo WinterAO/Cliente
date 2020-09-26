@@ -250,6 +250,7 @@ Public Type mapInfo
     Ambient As String
     Zona As String
     Terreno As String
+    LuzBase As Long
 End Type
 
 Public IniPath As String

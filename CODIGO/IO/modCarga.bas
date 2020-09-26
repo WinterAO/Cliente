@@ -75,6 +75,9 @@ Public Type tSetupMods
     MouseGeneral As Byte
     MouseBaston As Byte
     SkinSeleccionado As String
+    
+    'Funciones
+    Funcion(1 To 12) As String
 End Type
 
 Public ClientSetup As tSetupMods
@@ -173,12 +176,12 @@ Private Type tMapDat
     ResuSinEfecto As Boolean
     MagiaSinEfecto As Boolean
     InviSinEfecto As Boolean
-    NoEncriptarMP As Boolean
+    LuzBase As Long
     version As Long
 End Type
 
 Public MapSize As tMapSize
-Public MapDat As tMapDat
+Private MapDat As tMapDat
 '********************************
 'END - Load Map with .CSM format
 '********************************
@@ -224,6 +227,8 @@ End Function
 
 Public Sub LeerConfiguracion()
     On Local Error GoTo fileErr:
+    
+    Dim i As Byte
 
     Call IniciarCabecera
 
@@ -266,6 +271,11 @@ Public Sub LeerConfiguracion()
         .MostrarTips = CBool(Lector.GetValue("OTHER", "MOSTRAR_TIPS"))
         .MostrarBindKeysSelection = CBool(Lector.GetValue("OTHER", "MOSTRAR_BIND_KEYS_SELECTION"))
         .BloqueoMovimiento = CBool(Lector.GetValue("OTHER", "BLOQUEOMOV"))
+        
+        ' FUNCION
+        For i = 1 To 12
+            .Funcion(i) = Trim$(CStr(Lector.GetValue("FUNCION", "F" & i)))
+        Next i
 
         Debug.Print "byMemory: " & .byMemory
         Debug.Print "bNoRes: " & .bNoRes
@@ -353,6 +363,32 @@ fileErr:
 
     If Err.number <> 0 Then
         MsgBox ("Ha ocurrido un error al guardar la configuracion del cliente. Error " & Err.number & " : " & Err.Description)
+    End If
+End Sub
+
+Public Sub GuardarFunciones()
+'*************************************
+'Autor: Lorwik
+'Fecha: 13/09/2020
+'Descripción: Guarda la configuración de funciones
+'*************************************
+
+    On Local Error GoTo fileErr:
+    
+    Dim i As Byte
+    
+    Set Lector = New clsIniManager
+    Call Lector.Initialize(Carga.Path(Init) & CLIENT_FILE)
+    
+    For i = 1 To 12
+        Call Lector.ChangeValue("FUNCION", "F" & i, ClientSetup.Funcion(i))
+    Next i
+    
+    Call Lector.DumpFile(Carga.Path(Init) & CLIENT_FILE)
+fileErr:
+
+    If Err.number <> 0 Then
+        MsgBox ("Ha ocurrido un error al guardar la configuracion de funciones del cliente. Error " & Err.number & " : " & Err.Description)
     End If
 End Sub
 
@@ -457,7 +493,8 @@ On Error GoTo ErrorHandler:
             End With
             
         Wend
-    
+        
+        Erase buffer
     End If
     
     Set fileBuff = Nothing
@@ -516,6 +553,7 @@ On Error GoTo errhandler:
             heads(i).startY = fileBuff.getInteger()
         Next i
         
+        Erase buffer
     End If
     
     Set fileBuff = Nothing
@@ -573,6 +611,7 @@ On Error GoTo errhandler:
             Cascos(i).startY = fileBuff.getInteger()
         Next i
          
+        Erase buffer
     End If
     
     Set fileBuff = Nothing
@@ -647,6 +686,7 @@ On Error GoTo errhandler:
             End If
         Next i
     
+        Erase buffer
     End If
     
     Set fileBuff = Nothing
@@ -706,6 +746,7 @@ On Error GoTo errhandler:
             FxData(i).OffsetY = fileBuff.getInteger()
         Next i
     
+        Erase buffer
     End If
     
     Set fileBuff = Nothing
@@ -798,6 +839,7 @@ On Error GoTo errhandler:
             End If
         Next i
     
+        Erase buffer
     End If
     
     Set fileBuff = Nothing
@@ -848,6 +890,7 @@ On Error GoTo errhandler:
         
         Next i
         
+        Erase buffer
     End If
     
     Set fileBuff = Nothing
@@ -915,6 +958,7 @@ On Error GoTo errhandler:
             End If
         Next i
     
+        Erase buffer
     End If
     
     Set fileBuff = Nothing
@@ -1011,7 +1055,7 @@ Sub CargarMapa(ByVal Map As Integer)
         .ResuSinEfecto = fileBuff.getBoolean()
         .MagiaSinEfecto = fileBuff.getBoolean()
         .InviSinEfecto = fileBuff.getBoolean()
-        .NoEncriptarMP = fileBuff.getBoolean()
+        .LuzBase = fileBuff.getLong()
         .version = fileBuff.getLong()
     End With
     
@@ -1169,6 +1213,7 @@ Sub CargarMapa(ByVal Map As Integer)
         
     End With
     
+    Erase buffer
     Set fileBuff = Nothing
     
     '*******************************
@@ -1180,6 +1225,7 @@ Sub CargarMapa(ByVal Map As Integer)
     mapInfo.Ambient = MapDat.Ambient
     mapInfo.Zona = MapDat.zone
     mapInfo.Terreno = MapDat.terrain
+    mapInfo.LuzBase = MapDat.LuzBase
 
 ErrorHandler:
     

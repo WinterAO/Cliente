@@ -771,7 +771,7 @@ Public Function Ambient_General_Load(ByVal Volume As Long)
 
     If (ClientSetup.bAmbient = 0) Or (Engine_Initialized = False) Then Exit Function
     
-    Call Buffers.GetBuffer(SND_FUEGO, ambient_fire_buffer, Ambient)
+    Call Buffers.GetBuffer(SND_FUEGO, ambient_fire_buffer, Wav)
     
     If Volume < -4000 Then Volume = -4000
     

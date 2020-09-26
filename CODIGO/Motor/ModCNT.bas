@@ -392,7 +392,7 @@ Private Sub RenderConnectGUI()
             Next i
             
             'Server
-            Call DrawText(480, 340, "Server: " & Servidor(ServIndSel).Nombre, -1, False)
+            Call DrawText(480, 340, Servidor(ServIndSel).Nombre, -1, False)
 
         Case 1 'Cuenta
         
