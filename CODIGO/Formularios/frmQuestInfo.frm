@@ -10,41 +10,41 @@ Begin VB.Form frmQuestInfo
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   Picture         =   "frmQuestInfo.frx":0000
-   ScaleHeight     =   5640
-   ScaleWidth      =   6525
+   ScaleHeight     =   376
+   ScaleMode       =   3  'Pixel
+   ScaleWidth      =   435
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
    Begin VB.TextBox txtInfo 
       BackColor       =   &H00000000&
       BorderStyle     =   0  'None
       ForeColor       =   &H00FFFFFF&
-      Height          =   3375
-      Left            =   840
+      Height          =   3495
+      Left            =   885
       Locked          =   -1  'True
       MultiLine       =   -1  'True
       ScrollBars      =   2  'Vertical
       TabIndex        =   0
-      Top             =   1320
-      Width           =   4695
+      Top             =   1500
+      Width           =   4815
    End
    Begin WinterAOR_Client.uAOButton Aceptar 
-      Height          =   615
-      Left            =   840
+      Height          =   375
+      Left            =   960
       TabIndex        =   1
       TabStop         =   0   'False
-      Top             =   4880
+      Top             =   5115
       Width           =   1695
       _ExtentX        =   2990
-      _ExtentY        =   1085
+      _ExtentY        =   661
       TX              =   ""
       ENAB            =   -1  'True
       FCOL            =   16777215
       OCOL            =   16777215
-      PICE            =   "frmQuestInfo.frx":1E9ED
-      PICF            =   "frmQuestInfo.frx":1EA09
-      PICH            =   "frmQuestInfo.frx":1EA25
-      PICV            =   "frmQuestInfo.frx":1EA41
+      PICE            =   "frmQuestInfo.frx":0000
+      PICF            =   "frmQuestInfo.frx":001C
+      PICH            =   "frmQuestInfo.frx":0038
+      PICV            =   "frmQuestInfo.frx":0054
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Arial"
          Size            =   9.75
@@ -56,22 +56,22 @@ Begin VB.Form frmQuestInfo
       EndProperty
    End
    Begin WinterAOR_Client.uAOButton Rechazar 
-      Height          =   615
+      Height          =   375
       Left            =   3840
       TabIndex        =   2
       TabStop         =   0   'False
-      Top             =   4880
+      Top             =   5115
       Width           =   1695
       _ExtentX        =   2990
-      _ExtentY        =   1085
+      _ExtentY        =   661
       TX              =   ""
       ENAB            =   -1  'True
       FCOL            =   16777215
       OCOL            =   16777215
-      PICE            =   "frmQuestInfo.frx":1EA5D
-      PICF            =   "frmQuestInfo.frx":1EA79
-      PICH            =   "frmQuestInfo.frx":1EA95
-      PICV            =   "frmQuestInfo.frx":1EAB1
+      PICE            =   "frmQuestInfo.frx":0070
+      PICF            =   "frmQuestInfo.frx":008C
+      PICH            =   "frmQuestInfo.frx":00A8
+      PICV            =   "frmQuestInfo.frx":00C4
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Arial"
          Size            =   9.75
@@ -86,8 +86,8 @@ Begin VB.Form frmQuestInfo
       BackStyle       =   0  'Transparent
       Caption         =   "Informacion de la mision:"
       BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   13.5
+         Name            =   "Tahoma"
+         Size            =   14.25
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -98,7 +98,7 @@ Begin VB.Form frmQuestInfo
       Height          =   375
       Left            =   480
       TabIndex        =   3
-      Top             =   375
+      Top             =   600
       Width           =   3615
    End
 End

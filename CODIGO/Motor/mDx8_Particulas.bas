@@ -259,6 +259,8 @@ Public Function General_Particle_Create(ByVal ParticulaInd As Long, _
                                         Optional ByVal particle_life As Long = 0) As Long
 
     Dim rgb_list(0 To 3) As Long
+    
+    If ParticulaInd = 0 Then Exit Function
 
     With StreamData(ParticulaInd)
         rgb_list(0) = RGB(.colortint(0).r, .colortint(0).g, .colortint(0).b)
