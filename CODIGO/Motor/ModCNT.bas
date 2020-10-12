@@ -494,7 +494,10 @@ Private Sub RenderPJ()
                         Call DrawText(PJPos(Index).X + 16, PJPos(Index).Y + 30, .Nombre, -1, True)
                         
                         'Nombre de la cuenta
-                        Call DrawText(500, 15, AccountName, -1, True, 2)
+                        Call DrawText(500, 25, AccountName, -1, True, 2)
+                        
+                        'Nombre del servidor
+                        Call DrawText(30, 25, "Servidor " & Servidor(ServIndSel).Nombre, -1, False)
                         
                     End If
                 
