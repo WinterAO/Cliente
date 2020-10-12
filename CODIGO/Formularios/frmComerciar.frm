@@ -89,13 +89,13 @@ Begin VB.Form frmComerciar
       Width           =   2400
    End
    Begin WinterAOR_Client.uAOButton imgComprar 
-      Height          =   495
+      Height          =   375
       Left            =   480
       TabIndex        =   7
-      Top             =   6000
+      Top             =   6120
       Width           =   2655
       _ExtentX        =   4683
-      _ExtentY        =   873
+      _ExtentY        =   661
       TX              =   ""
       ENAB            =   -1  'True
       FCOL            =   16777215
@@ -115,13 +115,13 @@ Begin VB.Form frmComerciar
       EndProperty
    End
    Begin WinterAOR_Client.uAOButton imgVender 
-      Height          =   495
+      Height          =   375
       Left            =   3840
       TabIndex        =   8
-      Top             =   6000
+      Top             =   6120
       Width           =   2655
       _ExtentX        =   4683
-      _ExtentY        =   873
+      _ExtentY        =   661
       TX              =   ""
       ENAB            =   -1  'True
       FCOL            =   16777215
@@ -142,11 +142,11 @@ Begin VB.Form frmComerciar
    End
    Begin VB.Image imgCross 
       Height          =   450
-      Left            =   6075
+      Left            =   6060
       MousePointer    =   99  'Custom
       Tag             =   "1"
       Top             =   360
-      Width           =   450
+      Width           =   465
    End
    Begin VB.Label Label1 
       AutoSize        =   -1  'True
@@ -207,7 +207,7 @@ Begin VB.Form frmComerciar
       Index           =   1
       Left            =   2160
       TabIndex        =   1
-      Top             =   1050
+      Top             =   1080
       Width           =   75
    End
    Begin VB.Label Label1 
@@ -227,7 +227,7 @@ Begin VB.Form frmComerciar
       Index           =   0
       Left            =   2160
       TabIndex        =   0
-      Top             =   720
+      Top             =   840
       Width           =   75
    End
 End
@@ -372,12 +372,12 @@ Private Function CalculateSellPrice(ByRef objValue As Single, ByVal objAmount As
 'Last modified: 19/08/2008
 'Last modify by: Franco Zeoli (Noich)
 '*************************************************
-    On Error GoTo error
+    On Error GoTo Error
     'We get a Single value from the server, when vb uses it, by approaching, it can diff with the server value, so we do (Value * 100000) and get the entire part, to discard the unwanted floating values.
     CalculateSellPrice = CCur(objValue * 1000000) / 1000000 * objAmount + 0.5
     
     Exit Function
-error:
+Error:
     MsgBox Err.Description, vbExclamation, "Error: " & Err.number
 End Function
 ''
@@ -392,12 +392,12 @@ Private Function CalculateBuyPrice(ByRef objValue As Single, ByVal objAmount As 
 'Last modified: 19/08/2008
 'Last modify by: Franco Zeoli (Noich)
 '*************************************************
-    On Error GoTo error
+    On Error GoTo Error
     'We get a Single value from the server, when vb uses it, by approaching, it can diff with the server value, so we do (Value * 100000) and get the entire part, to discard the unwanted floating values.
     CalculateBuyPrice = Fix(CCur(objValue * 1000000) / 1000000 * objAmount)
     
     Exit Function
-error:
+Error:
     MsgBox Err.Description, vbExclamation, "Error: " & Err.number
 End Function
 
