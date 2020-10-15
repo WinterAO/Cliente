@@ -8,6 +8,15 @@ Begin VB.Form frmMensaje
    ClientWidth     =   3990
    ClipControls    =   0   'False
    ControlBox      =   0   'False
+   BeginProperty Font 
+      Name            =   "Tahoma"
+      Size            =   8.25
+      Charset         =   0
+      Weight          =   400
+      Underline       =   0   'False
+      Italic          =   0   'False
+      Strikethrough   =   0   'False
+   EndProperty
    LinkTopic       =   "Form1"
    ScaleHeight     =   212
    ScaleMode       =   3  'Pixel

@@ -7134,13 +7134,20 @@ End Sub
 '
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteGMRequest()
+Public Sub WriteGMRequest(ByVal Tipo As Byte, ByVal Message As String)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
 'Writes the "GMRequest" message to the outgoing data buffer
 '***************************************************
-    Call outgoingData.WriteByte(ClientPacketID.GMRequest)
+
+    With outgoingData
+        Call .WriteByte(ClientPacketID.GMRequest)
+        
+        Call .WriteByte(Tipo)
+        Call .WriteASCIIString(Message)
+    End With
+    
 End Sub
 
 ''
