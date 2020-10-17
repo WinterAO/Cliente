@@ -950,7 +950,7 @@ Public Sub HandleMultiMessage()
 
     Dim SpellIndex As Integer
 
-    Dim Nombre     As String
+    Dim nombre     As String
     
     With incomingData
         Call .ReadByte
@@ -1093,7 +1093,7 @@ Public Sub HandleMultiMessage()
         
             Case eMessages.UserAttackedSwing
                 Call AddtoRichTextBox(frmMain.RecTxt, _
-                    charlist(incomingData.ReadInteger()).Nombre & JsonLanguage.item("MENSAJE_ATAQUE_FALLO").item("TEXTO"), _
+                    charlist(incomingData.ReadInteger()).nombre & JsonLanguage.item("MENSAJE_ATAQUE_FALLO").item("TEXTO"), _
                     JsonLanguage.item("MENSAJE_ATAQUE_FALLO").item("COLOR").item(1), _
                     JsonLanguage.item("MENSAJE_ATAQUE_FALLO").item("COLOR").item(2), _
                     JsonLanguage.item("MENSAJE_ATAQUE_FALLO").item("COLOR").item(3), _
@@ -1103,7 +1103,7 @@ Public Sub HandleMultiMessage()
 
                 Dim AttackerName As String
             
-                AttackerName = GetRawName(charlist(incomingData.ReadInteger()).Nombre)
+                AttackerName = GetRawName(charlist(incomingData.ReadInteger()).nombre)
                 BodyPart = incomingData.ReadByte()
                 Dano = incomingData.ReadInteger()
             
@@ -1163,7 +1163,7 @@ Public Sub HandleMultiMessage()
 
                 Dim VictimName As String
             
-                VictimName = GetRawName(charlist(incomingData.ReadInteger()).Nombre)
+                VictimName = GetRawName(charlist(incomingData.ReadInteger()).nombre)
                 BodyPart = incomingData.ReadByte()
                 Dano = incomingData.ReadInteger()
             
@@ -1289,7 +1289,7 @@ Public Sub HandleMultiMessage()
                 EXP = .ReadLong
             
                 Call ShowConsoleMsg( _
-                    JsonLanguage.item("MENSAJE_HAS_MATADO_A").item("TEXTO") & charlist(KilledUser).Nombre & MENSAJE_22, _
+                    JsonLanguage.item("MENSAJE_HAS_MATADO_A").item("TEXTO") & charlist(KilledUser).nombre & MENSAJE_22, _
                     JsonLanguage.item("MENSAJE_HAS_MATADO_A").item("COLOR").item(1), _
                     JsonLanguage.item("MENSAJE_HAS_MATADO_A").item("COLOR").item(2), _
                     JsonLanguage.item("MENSAJE_HAS_MATADO_A").item("COLOR").item(3), _
@@ -1308,7 +1308,7 @@ Public Sub HandleMultiMessage()
                 'Sacamos un screenshot si esta activado el FragShooter:
                 If ClientSetup.bKill And ClientSetup.bActive Then
                     If EXP \ 2 > ClientSetup.byMurderedLevel Then
-                        FragShooterNickname = charlist(KilledUser).Nombre
+                        FragShooterNickname = charlist(KilledUser).nombre
                         FragShooterKilledSomeone = True
                     
                         FragShooterCapturePending = True
@@ -1323,7 +1323,7 @@ Public Sub HandleMultiMessage()
             
                 KillerUser = .ReadInteger
             
-                Call ShowConsoleMsg(charlist(KillerUser).Nombre & JsonLanguage.item("MENSAJE_TE_HA_MATADO").item("TEXTO"), _
+                Call ShowConsoleMsg(charlist(KillerUser).nombre & JsonLanguage.item("MENSAJE_TE_HA_MATADO").item("TEXTO"), _
                                     JsonLanguage.item("MENSAJE_TE_HA_MATADO").item("COLOR").item(1), _
                                     JsonLanguage.item("MENSAJE_TE_HA_MATADO").item("COLOR").item(2), _
                                     JsonLanguage.item("MENSAJE_TE_HA_MATADO").item("COLOR").item(3), _
@@ -1331,7 +1331,7 @@ Public Sub HandleMultiMessage()
             
                 'Sacamos un screenshot si esta activado el FragShooter:
                 If ClientSetup.bDie And ClientSetup.bActive Then
-                    FragShooterNickname = charlist(KillerUser).Nombre
+                    FragShooterNickname = charlist(KillerUser).nombre
                     FragShooterKilledSomeone = False
                 
                     FragShooterCapturePending = True
@@ -2070,16 +2070,16 @@ Private Sub WriteChatOverHeadInConsole(ByVal CharIndex As Integer, ByVal ChatTex
         End If
 
         Dim Pos As Integer
-        Pos = InStr(.Nombre, "<")
+        Pos = InStr(.nombre, "<")
             
-        If Pos = 0 Then Pos = LenB(.Nombre) + 2
+        If Pos = 0 Then Pos = LenB(.nombre) + 2
         
         Dim name As String
-        name = Left$(.Nombre, Pos - 2)
+        name = Left$(.nombre, Pos - 2)
        
         'Si el npc tiene nombre lo escribimos en la consola
         ChatText = Trim$(ChatText)
-        If LenB(.Nombre) <> 0 And LenB(ChatText) > 0 Then
+        If LenB(.nombre) <> 0 And LenB(ChatText) > 0 Then
             Call AddtoRichTextBox(frmMain.RecTxt, name & "> ", NameRed, NameGreen, NameBlue, True, False, True, rtfLeft)
             Call AddtoRichTextBox(frmMain.RecTxt, ChatText, Red, Green, Blue, True, False, False, rtfLeft)
         End If
@@ -2097,7 +2097,7 @@ Private Sub HandleChatOverHead()
 'Last Modification: 05/17/06
 '
 '***************************************************
-    If incomingData.Length < 8 Then
+    If incomingData.Length < 10 Then
         Err.Raise incomingData.NotEnoughDataErrCode
         Exit Sub
     End If
@@ -2112,12 +2112,14 @@ On Error GoTo errhandler
     
     Dim chat As String
     Dim CharIndex As Integer
+    Dim Spell As Boolean
     Dim Red As Byte
     Dim Green As Byte
     Dim Blue As Byte
     
     chat = buffer.ReadASCIIString()
     CharIndex = buffer.ReadInteger()
+    Spell = buffer.ReadBoolean()
     
     Red = buffer.ReadByte()
     Green = buffer.ReadByte()
@@ -2128,7 +2130,7 @@ On Error GoTo errhandler
         Call Dialogos.CreateDialog(Trim$(chat), CharIndex, RGB(Red, Green, Blue))
 
         'Aqui escribimos el texto que aparece sobre la cabeza en la consola.
-        Call WriteChatOverHeadInConsole(CharIndex, chat, Red, Green, Blue)
+        If Spell = False Then Call WriteChatOverHeadInConsole(CharIndex, chat, Red, Green, Blue)
     End If
     
     'If we got here then packet is complete, copy data back to original queue
@@ -2512,8 +2514,8 @@ On Error GoTo errhandler
     With charlist(CharIndex)
         Call Char_SetFx(CharIndex, buffer.ReadInteger(), buffer.ReadInteger())
 
-        .Nombre = buffer.ReadASCIIString()
-        .Clan = mid$(.Nombre, getTagPosition(.Nombre))
+        .nombre = buffer.ReadASCIIString()
+        .Clan = mid$(.nombre, getTagPosition(.nombre))
         NickColor = buffer.ReadByte()
 
         If (NickColor And eNickColor.ieCriminal) <> 0 Then
@@ -2929,14 +2931,14 @@ On Error GoTo errhandler
     
     With frmGuildAdm
         'Clear guild's list
-        .guildslist.Clear
+        .GuildsList.Clear
         
         GuildNames = Split(buffer.ReadASCIIString(), SEPARATOR)
         
         Dim i As Long
         For i = 0 To UBound(GuildNames())
             If LenB(GuildNames(i)) <> 0 Then
-                Call .guildslist.AddItem(GuildNames(i))
+                Call .GuildsList.AddItem(GuildNames(i))
             End If
         Next i
         
@@ -4351,7 +4353,7 @@ On Error GoTo errhandler
             .imgPeticion.Visible = True
         End If
         
-        .Nombre.Caption = buffer.ReadASCIIString()
+        .nombre.Caption = buffer.ReadASCIIString()
         .Raza.Caption = ListaRazas(buffer.ReadByte())
         .Clase.Caption = ListaClases(buffer.ReadByte())
         
@@ -4445,11 +4447,11 @@ On Error GoTo errhandler
         GuildNames = Split(buffer.ReadASCIIString(), SEPARATOR)
         
         'Empty the list
-        Call .guildslist.Clear
+        Call .GuildsList.Clear
         
         For i = 0 To UBound(GuildNames())
             If LenB(GuildNames(i)) <> 0 Then
-                Call .guildslist.AddItem(GuildNames(i))
+                Call .GuildsList.AddItem(GuildNames(i))
             End If
         Next i
         
@@ -4521,7 +4523,7 @@ On Error GoTo errhandler
         .imgOfrecerAlianza.Visible = .EsLeader
         .imgOfrecerPaz.Visible = .EsLeader
         
-        .Nombre.Caption = buffer.ReadASCIIString()
+        .nombre.Caption = buffer.ReadASCIIString()
         .fundador.Caption = buffer.ReadASCIIString()
         .creacion.Caption = buffer.ReadASCIIString()
         .lider.Caption = buffer.ReadASCIIString()
@@ -5217,8 +5219,8 @@ On Error GoTo errhandler
         
         .Atacable = (NickColor And eNickColor.ieAtacable) <> 0
         
-        .Nombre = UserTag
-        .Clan = mid$(.Nombre, getTagPosition(.Nombre))
+        .nombre = UserTag
+        .Clan = mid$(.nombre, getTagPosition(.nombre))
     End With
     
     'If we got here then packet is complete, copy data back to original queue
@@ -7134,7 +7136,7 @@ End Sub
 '
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteGMRequest(ByVal Tipo As Byte, ByVal Message As String)
+Public Sub WriteGMRequest(ByVal tipo As Byte, ByVal Message As String)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -7144,7 +7146,7 @@ Public Sub WriteGMRequest(ByVal Tipo As Byte, ByVal Message As String)
     With outgoingData
         Call .WriteByte(ClientPacketID.GMRequest)
         
-        Call .WriteByte(Tipo)
+        Call .WriteByte(tipo)
         Call .WriteASCIIString(Message)
     End With
     
@@ -10476,7 +10478,7 @@ Private Sub HandleAccountLogged()
         For loopc = 1 To NumberOfCharacters
         
             With cPJ(loopc)
-                .Nombre = buffer.ReadASCIIString
+                .nombre = buffer.ReadASCIIString
                 .Body = buffer.ReadInteger
                 .Head = buffer.ReadInteger
                 .weapon = buffer.ReadInteger
