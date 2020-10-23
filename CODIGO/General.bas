@@ -1088,7 +1088,7 @@ Public Function getCharIndexByName(ByVal name As String) As Integer
 
     For i = 1 To LastChar
 
-        If charlist(i).nombre = name Then
+        If charlist(i).Nombre = name Then
             getCharIndexByName = i
             Exit Function
         End If
@@ -1246,7 +1246,7 @@ Public Sub ResetAllInfoAccounts()
         For loopc = 1 To NumberOfCharacters
         
             With cPJ(loopc)
-                .nombre = vbNullString
+                .Nombre = vbNullString
                 .Body = 0
                 .Head = 0
                 .weapon = 0

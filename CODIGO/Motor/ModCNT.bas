@@ -494,7 +494,10 @@ Private Sub RenderPJ()
                         Call DrawText(PJPos(Index).X + 16, PJPos(Index).Y + 30, .Nombre, -1, True)
                         
                         'Nombre de la cuenta
-                        Call DrawText(500, 15, AccountName, -1, True, 2)
+                        Call DrawText(500, 25, AccountName, -1, True, 2)
+                        
+                        'Nombre del servidor
+                        Call DrawText(30, 25, "Servidor " & Servidor(ServIndSel).Nombre, -1, False)
                         
                     End If
                 
@@ -875,7 +878,7 @@ On Error Resume Next
     
     Set Inet = New clsInet
     
-    responseServer = Inet.OpenRequest("https://winterao.com.ar/update/server-list.txt", "GET")
+    responseServer = Inet.OpenRequest("https://winterao.com.ar/updates/server-list.txt", "GET")
     responseServer = Inet.Execute
     responseServer = Inet.GetResponseAsString
     

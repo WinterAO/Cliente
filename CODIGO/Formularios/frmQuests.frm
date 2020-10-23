@@ -10,7 +10,6 @@ Begin VB.Form frmQuests
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   Picture         =   "frmQuests.frx":0000
    ScaleHeight     =   352
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   557
@@ -21,7 +20,7 @@ Begin VB.Form frmQuests
       BorderStyle     =   0  'None
       ForeColor       =   &H00FFFFFF&
       Height          =   4035
-      Left            =   2640
+      Left            =   2700
       Locked          =   -1  'True
       MultiLine       =   -1  'True
       ScrollBars      =   2  'Vertical
@@ -52,10 +51,10 @@ Begin VB.Form frmQuests
       ENAB            =   -1  'True
       FCOL            =   16777215
       OCOL            =   16777215
-      PICE            =   "frmQuests.frx":22306
-      PICF            =   "frmQuests.frx":22322
-      PICH            =   "frmQuests.frx":2233E
-      PICV            =   "frmQuests.frx":2235A
+      PICE            =   "frmQuests.frx":0000
+      PICF            =   "frmQuests.frx":001C
+      PICH            =   "frmQuests.frx":0038
+      PICV            =   "frmQuests.frx":0054
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Arial"
          Size            =   9.75
@@ -79,10 +78,10 @@ Begin VB.Form frmQuests
       ENAB            =   -1  'True
       FCOL            =   16777215
       OCOL            =   16777215
-      PICE            =   "frmQuests.frx":22376
-      PICF            =   "frmQuests.frx":22392
-      PICH            =   "frmQuests.frx":223AE
-      PICV            =   "frmQuests.frx":223CA
+      PICE            =   "frmQuests.frx":0070
+      PICF            =   "frmQuests.frx":008C
+      PICH            =   "frmQuests.frx":00A8
+      PICV            =   "frmQuests.frx":00C4
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Arial"
          Size            =   9.75

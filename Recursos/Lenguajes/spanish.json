@@ -1643,5 +1643,10 @@
     },
 	"MENSAJE_NO_AMIGOS": {
         "TEXTO": "Selecciona a un amigo..."
-    }
+    },
+	"VENTANAGM": {
+        "SOPORTE": "Si necesita la asistencia de un GM adjunte un mensaje explicando el motivo. Por favor, comprende que los GM podrian estar muy ocupados por lo que se pide que solo se les contacte en caso de ser necesario. Los llamados con mensajes invalidos seran ignorados. Recuerda que si desea reportar un Bug o una sugerencia para la mejor del servidor, puede hacerlo seleccionando otras categorias.", 
+		"BUG": "Explique de la forma mas detallada posible el modo de repetir el error, puede adjuntar enlaces de fotos o videos. El staff de WinterAO estudiara el caso lo antes posible. Recuerda que si el reporte esta fuerda de la categoria seleccionada (reporte de bug), podrias ser sancionado. Si su reporte es de otro tipo, por favor explore otras opciones de reporte.",
+		"SUGERENCIA": "Si tiene alguna sugerencia para mejorar la experiencia de juego, cambios en algun sistema, clase, personaje, etc. Explique de la forma mas detallada posible sus sugerencias El staff de WinterAO estudiara el caso lo antes posible.  Recuerda que si el reporte esta fuerda de la categoria seleccionada (sugerencia), podrias ser sancionado. Si su reporte es de otro tipo, por favor explore otras opciones de reporte."
+	}
 }

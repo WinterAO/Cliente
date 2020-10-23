@@ -602,7 +602,7 @@ Public Enum eMessages
     NPCSwing
     NPCKillUser
     BlockedWithShieldUser
-    BlockedWithShieldOther
+    BlockedWithShieldother
     UserSwing
     SafeModeOn
     SafeModeOff
@@ -619,14 +619,12 @@ Public Enum eMessages
     HaveKilledUser
     UserKill
     EarnExp
-    GoHome
-    CancelGoHome
+    Home
     FinishHome
     
-    '//Nuevos mensajes
+    '//Mensajes nuevos
     UserMuerto
     NpcInmune
-    
     Hechizo_HechiceroMSG_NOMBRE
     Hechizo_HechiceroMSG_ALGUIEN
     Hechizo_HechiceroMSG_CRIATURA
