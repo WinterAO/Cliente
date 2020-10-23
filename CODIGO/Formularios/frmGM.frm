@@ -24,54 +24,90 @@ Begin VB.Form frmGM
    StartUpPosition =   1  'CenterOwner
    Begin VB.OptionButton optConsulta 
       BackColor       =   &H00000000&
+      Caption         =   "Sugerencia"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
       Height          =   195
       Index           =   2
-      Left            =   3350
+      Left            =   3120
       TabIndex        =   3
-      Top             =   2640
-      Width           =   255
+      Top             =   2760
+      Width           =   1335
    End
    Begin VB.OptionButton optConsulta 
       BackColor       =   &H00000000&
+      Caption         =   "Reporte de Bug"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
       Height          =   195
       Index           =   1
-      Left            =   1840
+      Left            =   1440
       TabIndex        =   2
-      Top             =   2640
-      Width           =   255
+      Top             =   2760
+      Width           =   1695
    End
    Begin VB.OptionButton optConsulta 
       BackColor       =   &H00000000&
+      Caption         =   "Soporte"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
       Height          =   195
       Index           =   0
       Left            =   360
       TabIndex        =   1
-      Top             =   2640
+      Top             =   2760
       Value           =   -1  'True
-      Width           =   195
+      Width           =   1275
    End
    Begin VB.TextBox TXTMessage 
       BackColor       =   &H00000000&
       BorderStyle     =   0  'None
       ForeColor       =   &H00FFFFFF&
       Height          =   1575
-      Left            =   270
+      Left            =   300
       MultiLine       =   -1  'True
       TabIndex        =   0
-      Top             =   2910
+      Top             =   3075
       Width           =   4215
+   End
+   Begin VB.Label lblInfo 
+      BackStyle       =   0  'Transparent
+      ForeColor       =   &H00FFFFFF&
+      Height          =   1875
+      Left            =   315
+      TabIndex        =   4
+      Top             =   600
+      Width           =   4170
    End
    Begin VB.Image CMDSalir 
       Height          =   255
       Left            =   2400
       Top             =   5400
       Width           =   1455
-   End
-   Begin VB.Image ADV 
-      Height          =   1905
-      Left            =   240
-      Top             =   510
-      Width           =   4275
    End
    Begin VB.Image CMDEnviar 
       Height          =   255
@@ -120,18 +156,18 @@ Private Sub CMDSalir_Click()
 End Sub
 
 Private Sub Form_Load()
-    Me.Picture = General_Load_Picture_From_Resource("93.gif")
-    ADV.Picture = General_Load_Picture_From_Resource("16.gif")
+    Me.Picture = General_Load_Picture_From_Resource("210.gif")
+    lblInfo.Caption = JsonLanguage.item("VENTANAGM").item("SOPORTE")
 End Sub
 
 Private Sub optConsulta_Click(Index As Integer)
     Select Case Index
         Case 0
-            ADV.Picture = General_Load_Picture_From_Resource("16.gif")
+            lblInfo.Caption = JsonLanguage.item("VENTANAGM").item("SOPORTE")
         Case 1
-            ADV.Picture = General_Load_Picture_From_Resource("94.gif")
+            lblInfo.Caption = JsonLanguage.item("VENTANAGM").item("BUG")
         Case 2
-            ADV.Picture = General_Load_Picture_From_Resource("15.gif")
+            lblInfo.Caption = JsonLanguage.item("VENTANAGM").item("SUGERENCIA")
     End Select
 End Sub
 
