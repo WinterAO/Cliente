@@ -821,17 +821,17 @@ Begin VB.Form frmCustomKeys
          Top             =   3960
          Width           =   1320
       End
-      Begin VB.Label lblAbrirQuests 
+      Begin VB.Label lblCombate 
          Alignment       =   1  'Right Justify
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "Seguro de Resu..."
+         Caption         =   "Modo Combate"
          Height          =   195
          Index           =   1
-         Left            =   225
+         Left            =   465
          TabIndex        =   61
          Top             =   3600
-         Width           =   1320
+         Width           =   1080
       End
       Begin VB.Label lblSalir 
          Alignment       =   1  'Right Justify
@@ -1618,7 +1618,7 @@ Private Sub chkBloquearMovimiento_MouseUp(Button As Integer, Shift As Integer, X
     ClientSetup.BloqueoMovimiento = Not ClientSetup.BloqueoMovimiento
 End Sub
 
-Private Sub cmdSalir_Click()
+Private Sub CMDSalir_Click()
     Unload Me
 End Sub
 

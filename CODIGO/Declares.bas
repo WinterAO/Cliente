@@ -602,12 +602,12 @@ Public Enum eMessages
     NPCSwing
     NPCKillUser
     BlockedWithShieldUser
-    BlockedWithShieldother
+    BlockedWithShieldOther
     UserSwing
     SafeModeOn
     SafeModeOff
-    ResuscitationSafeOff
-    ResuscitationSafeOn
+    CombatSafeOff
+    CombatSafeOn
     NobilityLost
     CantUseWhileMeditating
     NPCHitUser

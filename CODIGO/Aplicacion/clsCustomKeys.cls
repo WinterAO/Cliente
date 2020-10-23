@@ -81,7 +81,7 @@ Private mappedKeys(1 To NUM_CUSTOM_KEYS) As Integer
 '@param mKeyTamAnimal Key for taming animals
 '@param mKeySteal Key for Stealing other users' gold or objects
 '@param mKeyToggleSafeMode Key for toggling Safe Mode
-'@param mKeyToggleResuscitationSafe Key for toggling Resuscitation Safe
+'@param mKeyToggleCombatSafe Key for toggling Resuscitation Safe
 '@param mKeyHide Key for hiding the character
 '@param mKeyDropObject Key for dropping inventory objects
 '@param mKeyUseObject Key for using inventory objects
@@ -112,7 +112,7 @@ Public Enum eKeyType
     mKeyTamAnimal
     mKeySteal
     mKeyToggleSafeMode
-    mKeyToggleResuscitationSafe
+    mKeyToggleCombatSafe
     mKeyHide
     mKeyDropObject
     mKeyUseObject
@@ -382,6 +382,8 @@ Public Sub LoadDefaults(ByVal Clasica As Boolean)
         mappedKeys(eKeyType.mKeyDropObject) = KeyCodeConstants.vbKeyT
         mappedKeys(eKeyType.mKeyUseObject) = KeyCodeConstants.vbKeyU
         mappedKeys(eKeyType.mKeyAttack) = KeyCodeConstants.vbKeyControl
+        mappedKeys(eKeyType.mKeyToggleCombatSafe) = KeyCodeConstants.vbKeyS
+        
     Else 'Configuracion con AWSD
         mappedKeys(eKeyType.mKeyUp) = KeyCodeConstants.vbKeyW
         mappedKeys(eKeyType.mKeyDown) = KeyCodeConstants.vbKeyS
@@ -391,6 +393,8 @@ Public Sub LoadDefaults(ByVal Clasica As Boolean)
         mappedKeys(eKeyType.mKeyTamAnimal) = KeyCodeConstants.vbKeyP
         mappedKeys(eKeyType.mKeyUseObject) = KeyCodeConstants.vbKeySpace
         mappedKeys(eKeyType.mKeyAttack) = KeyCodeConstants.vbKeyF
+        mappedKeys(eKeyType.mKeyToggleCombatSafe) = KeyCodeConstants.vbKeyV
+        
     End If
     
     mappedKeys(eKeyType.mKeyToggleMusic) = KeyCodeConstants.vbKeyM
@@ -399,8 +403,7 @@ Public Sub LoadDefaults(ByVal Clasica As Boolean)
     mappedKeys(eKeyType.mKeyToggleNames) = KeyCodeConstants.vbKeyN
     mappedKeys(eKeyType.mKeyEquipObject) = KeyCodeConstants.vbKeyE
     mappedKeys(eKeyType.mKeySteal) = KeyCodeConstants.vbKeyR
-    mappedKeys(eKeyType.mKeyToggleSafeMode) = KeyCodeConstants.vbKeyC
-    mappedKeys(eKeyType.mKeyToggleResuscitationSafe) = KeyCodeConstants.vbKeyV
+    mappedKeys(eKeyType.mKeyToggleCombatSafe) = KeyCodeConstants.vbKeyC
     mappedKeys(eKeyType.mKeyHide) = KeyCodeConstants.vbKeyO
     mappedKeys(eKeyType.mKeyDropObject) = KeyCodeConstants.vbKeyT
     mappedKeys(eKeyType.mKeyTalk) = KeyCodeConstants.vbKeyReturn
