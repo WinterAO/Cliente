@@ -114,6 +114,7 @@ Form=CODIGO\Formularios\frmConfirmacion.frm
 Form=CODIGO\Formularios\frmTrabajos.frm
 Form=CODIGO\Formularios\frmAvisoBeta.frm
 Form=CODIGO\Formularios\frmGM.frm
+Form=CODIGO\Formularios\frmResu.frm
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""

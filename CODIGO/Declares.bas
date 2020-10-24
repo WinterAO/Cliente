@@ -860,6 +860,7 @@ Public Enum eEditOptions
     eo_Level
     eo_Class
     eo_Skills
+    eo_SkillPointsLeft
     eo_Nobleza
     eo_Asesino
     eo_Sex
@@ -867,6 +868,7 @@ Public Enum eEditOptions
     eo_addGold
     eo_Vida
     eo_Poss
+    eo_Speed
 End Enum
 
 ''
@@ -1060,3 +1062,5 @@ Public IntervaloParalizado As Integer
 Public IntervaloInvisible As Integer
 
 Public Security As New clsSecurity
+
+Public Const SPEED_NORMAL As Double = 0.018

@@ -173,6 +173,7 @@ Private Enum ServerPacketID
     CharParticle
     IniciarSubastaConsulta
     ConfirmarInstruccion
+    SetSpeed
 End Enum
 
 Private Enum ClientPacketID
@@ -921,6 +922,9 @@ On Error Resume Next
             
         Case ServerPacketID.ConfirmarInstruccion
             Call HandleConfirmarInstruccion
+            
+        Case ServerPacketID.SetSpeed
+            Call HandleSetSpeed
 
         Case Else
             'ERROR : Abort!
@@ -1614,7 +1618,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -1826,8 +1830,6 @@ Private Sub HandleUpdateHP()
         UserEstado = 1
     
         UserEquitando = 0
-        'Reseteo el Speed
-        Call SetSpeedUsuario
     Else
         UserEstado = 0
     End If
@@ -10930,13 +10932,13 @@ Private Sub HandleEquitandoToggle()
 'Author: Lorwik
 'Last Modification: 06/04/2020
 '06/04/2020: FrankoH298 - Recibimos el contador para volver a equiparnos la montura.
+'23/10/2020: Lorwik - Ahora recibe la velocidad
 '***************************************************
+
     'Remove packet ID
     Call incomingData.ReadByte
     
     UserEquitando = Not UserEquitando
-    
-    Call SetSpeedUsuario
 End Sub
 
 Public Sub WriteAddAmigo(ByVal UserName As String, ByVal Index As Byte)
@@ -11342,5 +11344,24 @@ Public Sub WriteRespuestaInstruccion(ByVal Acepto As Boolean)
     With outgoingData
         Call .WriteByte(ClientPacketID.RespuestaInstruccion)
         Call .WriteBoolean(Acepto)
+    End With
+End Sub
+
+Private Sub HandleSetSpeed()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 23/10/2020
+'Setea la nueva velocidad recibida por el server
+'***************************************************
+
+    Dim Speed As Double
+    
+    With incomingData
+        Call .ReadByte
+        
+        Speed = .ReadDouble
+        
+        Call SetSpeedUsuario(Speed)
+        
     End With
 End Sub
