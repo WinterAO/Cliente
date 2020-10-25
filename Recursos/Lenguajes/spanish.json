@@ -80,16 +80,16 @@
             0
         ]
     },
-    "MENSAJE_SEGURO_RESU_ON": {
-        "TEXTO": "Seguro de Resurreccion activado",
+    "MENSAJE_SEGURO_COMBAT_ON": {
+        "TEXTO": "Modo combate activado",
         "COLOR": [
             0,
             255,
             0
         ]
     },
-    "MENSAJE_SEGURO_RESU_OFF": {
-        "TEXTO": "Seguro de Resurreccion desactivado",
+    "MENSAJE_SEGURO_COMBAT_OFF": {
+        "TEXTO": "Modo combate desactivado",
         "COLOR": [
             255,
             0,

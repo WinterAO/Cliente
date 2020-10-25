@@ -80,16 +80,16 @@
             0
         ]
     },
-    "MENSAJE_SEGURO_RESU_ON": {
-        "TEXTO": "Resurrection Insurance activated",
+    "MENSAJE_SEGURO_COMBAT_ON": {
+        "TEXTO": "Combat mode activated",
         "COLOR": [
             255,
             0,
             0
         ]
     },
-    "MENSAJE_SEGURO_RESU_OFF": {
-        "TEXTO": "Resurrection Insurance deactivated",
+    "MENSAJE_SEGURO_COMBAT_OFF": {
+        "TEXTO": "Combat mode deactivated",
         "COLOR": [
             255,
             0,

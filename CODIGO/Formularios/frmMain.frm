@@ -27,6 +27,7 @@ Begin VB.Form frmMain
    MaxButton       =   0   'False
    MinButton       =   0   'False
    PaletteMode     =   1  'UseZOrder
+   Picture         =   "frmMain.frx":1A041
    ScaleHeight     =   768
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   1024
@@ -94,7 +95,7 @@ Begin VB.Form frmMain
       BorderStyle     =   0  'None
       Height          =   1500
       Left            =   9450
-      MouseIcon       =   "frmMain.frx":1A041
+      MouseIcon       =   "frmMain.frx":427C9
       ScaleHeight     =   100
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   100
@@ -167,12 +168,11 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
       Appearance      =   0
-      TextRTF         =   $"frmMain.frx":1A193
+      TextRTF         =   $"frmMain.frx":4291B
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Tahoma"
          Size            =   8.25
@@ -232,10 +232,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":1A210
-            PICF            =   "frmMain.frx":1A22C
-            PICH            =   "frmMain.frx":1A248
-            PICV            =   "frmMain.frx":1A264
+            PICE            =   "frmMain.frx":42998
+            PICF            =   "frmMain.frx":429B4
+            PICH            =   "frmMain.frx":429D0
+            PICV            =   "frmMain.frx":429EC
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -259,10 +259,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":1A280
-            PICF            =   "frmMain.frx":1A29C
-            PICH            =   "frmMain.frx":1A2B8
-            PICV            =   "frmMain.frx":1A2D4
+            PICE            =   "frmMain.frx":42A08
+            PICF            =   "frmMain.frx":42A24
+            PICH            =   "frmMain.frx":42A40
+            PICV            =   "frmMain.frx":42A5C
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -286,10 +286,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":1A2F0
-            PICF            =   "frmMain.frx":1A30C
-            PICH            =   "frmMain.frx":1A328
-            PICV            =   "frmMain.frx":1A344
+            PICE            =   "frmMain.frx":42A78
+            PICF            =   "frmMain.frx":42A94
+            PICH            =   "frmMain.frx":42AB0
+            PICV            =   "frmMain.frx":42ACC
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -313,10 +313,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":1A360
-            PICF            =   "frmMain.frx":1A37C
-            PICH            =   "frmMain.frx":1A398
-            PICV            =   "frmMain.frx":1A3B4
+            PICE            =   "frmMain.frx":42AE8
+            PICF            =   "frmMain.frx":42B04
+            PICH            =   "frmMain.frx":42B20
+            PICV            =   "frmMain.frx":42B3C
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -340,10 +340,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":1A3D0
-            PICF            =   "frmMain.frx":1A3EC
-            PICH            =   "frmMain.frx":1A408
-            PICV            =   "frmMain.frx":1A424
+            PICE            =   "frmMain.frx":42B58
+            PICF            =   "frmMain.frx":42B74
+            PICH            =   "frmMain.frx":42B90
+            PICV            =   "frmMain.frx":42BAC
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -367,10 +367,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":1A440
-            PICF            =   "frmMain.frx":1A45C
-            PICH            =   "frmMain.frx":1A478
-            PICV            =   "frmMain.frx":1A494
+            PICE            =   "frmMain.frx":42BC8
+            PICF            =   "frmMain.frx":42BE4
+            PICH            =   "frmMain.frx":42C00
+            PICV            =   "frmMain.frx":42C1C
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -394,10 +394,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":1A4B0
-            PICF            =   "frmMain.frx":1A4CC
-            PICH            =   "frmMain.frx":1A4E8
-            PICV            =   "frmMain.frx":1A504
+            PICE            =   "frmMain.frx":42C38
+            PICF            =   "frmMain.frx":42C54
+            PICH            =   "frmMain.frx":42C70
+            PICV            =   "frmMain.frx":42C8C
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -410,6 +410,32 @@ Begin VB.Form frmMain
          End
       End
    End
+   Begin VB.Image imgClima 
+      Height          =   360
+      Left            =   13545
+      Top             =   8850
+      Width           =   1140
+   End
+   Begin VB.Image imgPVP 
+      Height          =   855
+      Left            =   13800
+      Top             =   9480
+      Width           =   735
+   End
+   Begin VB.Image picSM 
+      Height          =   345
+      Index           =   1
+      Left            =   12420
+      Top             =   8880
+      Width           =   375
+   End
+   Begin VB.Image picSM 
+      Height          =   345
+      Index           =   0
+      Left            =   11955
+      Top             =   8880
+      Width           =   375
+   End
    Begin VB.Label lblHour 
       AutoSize        =   -1  'True
       BackStyle       =   0  'Transparent
@@ -418,15 +444,15 @@ Begin VB.Form frmMain
       Height          =   195
       Left            =   13905
       TabIndex        =   34
-      Top             =   9975
+      Top             =   9180
       Width           =   465
    End
    Begin VB.Image btnShop 
       Height          =   360
       Left            =   11670
-      MouseIcon       =   "frmMain.frx":1A520
+      MouseIcon       =   "frmMain.frx":42CA8
       Tag             =   "1"
-      Top             =   9720
+      Top             =   9795
       Width           =   1410
    End
    Begin VB.Label LbLChat 
@@ -437,7 +463,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   255
       Left            =   240
-      MouseIcon       =   "frmMain.frx":1A672
+      MouseIcon       =   "frmMain.frx":42DFA
       TabIndex        =   32
       Top             =   1980
       Width           =   1215
@@ -457,13 +483,13 @@ Begin VB.Form frmMain
       Height          =   210
       Left            =   13440
       TabIndex        =   30
-      Top             =   8145
+      Top             =   7875
       Width           =   1290
    End
    Begin VB.Image ShpAgilidad 
       Height          =   165
       Left            =   13410
-      Top             =   8160
+      Top             =   7905
       Width           =   1380
    End
    Begin VB.Label lblStrg 
@@ -475,25 +501,25 @@ Begin VB.Form frmMain
       Height          =   210
       Left            =   13440
       TabIndex        =   29
-      Top             =   7590
+      Top             =   7320
       Width           =   1290
    End
    Begin VB.Image ShpFuerza 
       Height          =   165
       Left            =   13425
-      Top             =   7605
+      Top             =   7335
       Width           =   1380
    End
    Begin VB.Image shpSed 
       Height          =   330
       Left            =   13755
-      Top             =   8430
+      Top             =   8175
       Width           =   120
    End
    Begin VB.Image shpHambre 
       Height          =   300
       Left            =   14100
-      Top             =   8430
+      Top             =   8175
       Width           =   465
    End
    Begin VB.Label lblEnergia 
@@ -506,13 +532,13 @@ Begin VB.Form frmMain
       Height          =   180
       Left            =   11760
       TabIndex        =   28
-      Top             =   8775
+      Top             =   8505
       Width           =   1335
    End
    Begin VB.Image shpEnergia 
       Height          =   165
       Left            =   11700
-      Top             =   8790
+      Top             =   8520
       Width           =   1380
    End
    Begin VB.Label lblMana 
@@ -525,13 +551,13 @@ Begin VB.Form frmMain
       Height          =   180
       Left            =   11760
       TabIndex        =   27
-      Top             =   8205
+      Top             =   7935
       Width           =   1335
    End
    Begin VB.Image shpMana 
       Height          =   165
       Left            =   11700
-      Top             =   8220
+      Top             =   7965
       Width           =   1380
    End
    Begin VB.Label lblVida 
@@ -544,20 +570,20 @@ Begin VB.Form frmMain
       Height          =   180
       Left            =   11760
       TabIndex        =   26
-      Top             =   7650
+      Top             =   7380
       Width           =   1335
    End
    Begin VB.Image shpVida 
       Height          =   165
       Left            =   11700
-      Top             =   7665
+      Top             =   7410
       Width           =   1380
    End
    Begin VB.Image btnSolapa 
       Height          =   585
       Index           =   2
       Left            =   14400
-      MouseIcon       =   "frmMain.frx":1A7C4
+      MouseIcon       =   "frmMain.frx":42F4C
       Top             =   1920
       Width           =   495
    End
@@ -578,7 +604,7 @@ Begin VB.Form frmMain
    Begin VB.Image btnInfo 
       Height          =   495
       Left            =   13575
-      MouseIcon       =   "frmMain.frx":1A916
+      MouseIcon       =   "frmMain.frx":4309E
       MousePointer    =   99  'Custom
       Top             =   5940
       Visible         =   0   'False
@@ -587,7 +613,7 @@ Begin VB.Form frmMain
    Begin VB.Image btnLanzar 
       Height          =   540
       Left            =   11640
-      MouseIcon       =   "frmMain.frx":1AA68
+      MouseIcon       =   "frmMain.frx":431F0
       MousePointer    =   99  'Custom
       Top             =   5940
       Visible         =   0   'False
@@ -611,7 +637,7 @@ Begin VB.Form frmMain
       Height          =   165
       Left            =   14175
       TabIndex        =   24
-      Top             =   8790
+      Top             =   8550
       Width           =   465
    End
    Begin VB.Label lblGems 
@@ -637,16 +663,16 @@ Begin VB.Form frmMain
    Begin VB.Image btnMenu 
       Height          =   360
       Left            =   11670
-      MouseIcon       =   "frmMain.frx":1ABBA
+      MouseIcon       =   "frmMain.frx":43342
       Tag             =   "1"
-      Top             =   9240
+      Top             =   9315
       Width           =   1410
    End
    Begin VB.Image btnSolapa 
       Height          =   600
       Index           =   1
       Left            =   12975
-      MouseIcon       =   "frmMain.frx":1AD0C
+      MouseIcon       =   "frmMain.frx":43494
       Top             =   1920
       Width           =   1380
    End
@@ -654,7 +680,7 @@ Begin VB.Form frmMain
       Height          =   600
       Index           =   0
       Left            =   11550
-      MouseIcon       =   "frmMain.frx":1AE5E
+      MouseIcon       =   "frmMain.frx":435E6
       Top             =   1920
       Width           =   1380
    End
@@ -729,7 +755,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   0
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":1AFB0
+      MouseIcon       =   "frmMain.frx":43738
       MousePointer    =   99  'Custom
       Top             =   2925
       Visible         =   0   'False
@@ -739,7 +765,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   1
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":1B102
+      MouseIcon       =   "frmMain.frx":4388A
       MousePointer    =   99  'Custom
       Top             =   2580
       Visible         =   0   'False
@@ -864,7 +890,7 @@ Begin VB.Form frmMain
       Height          =   165
       Left            =   13560
       TabIndex        =   2
-      Top             =   8790
+      Top             =   8550
       Width           =   465
    End
    Begin VB.Menu mnuObj 
@@ -1497,6 +1523,11 @@ Private Sub btnOpciones_Click()
     Call frmOpciones.Show(vbModeless, frmMain)
 End Sub
 
+Private Sub imgPVP_Click()
+    Call AddtoRichTextBox(frmMain.RecTxt, "Esta caracteristica aun no esta disponible.", 255, 1, 1, _
+                                      True, False, True)
+End Sub
+
 Private Sub InvEqu_MouseMove(Button As Integer, _
                              Shift As Integer, _
                              X As Single, _
@@ -1585,6 +1616,18 @@ Private Sub Coord_Click()
                                           JsonLanguage.item("MENSAJE_INFO_COORDENADAS").item("COLOR").item(2), _
                                           JsonLanguage.item("MENSAJE_INFO_COORDENADAS").item("COLOR").item(3), _
                           False, False, True)
+End Sub
+
+Private Sub picSM_Click(Index As Integer)
+    Select Case Index
+    
+        Case 0 'Modo combate
+            Call WriteCombatToggle
+            
+        Case 1 'Seguro
+            Call WriteSafeToggle
+    
+    End Select
 End Sub
 
 Private Sub RecTxt_MouseMove(Button As Integer, _
@@ -2450,4 +2493,60 @@ Public Sub ActualizarHora()
         lblHour.Caption = Hour(Now) & ":" & Minute(Now)
     End If
         
+End Sub
+
+Public Sub ControlSM(ByVal Index As Byte, ByVal Mostrar As Boolean)
+    
+    Select Case Index
+    
+        Case eSMType.sCombatMode
+            If Mostrar Then
+                Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_SEGURO_COMBAT_ON").item("TEXTO"), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_COMBAT_ON").item("COLOR").item(1), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_COMBAT_ON").item("COLOR").item(2), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_COMBAT_ON").item("COLOR").item(3), _
+                                     True, False, True)
+                                        
+                picSM(Index).ToolTipText = JsonLanguage.item("MENSAJE_SEGURO_COMBAT_ON").item("TEXTO")
+                
+                picSM(Index).Picture = General_Load_Picture_From_Resource("221.gif")
+            Else
+                Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_SEGURO_COMBAT_OFF").item("TEXTO"), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_COMBAT_OFF").item("COLOR").item(1), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_COMBAT_OFF").item("COLOR").item(2), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_COMBAT_OFF").item("COLOR").item(3), _
+                                     True, False, True)
+                                        
+                picSM(Index).ToolTipText = JsonLanguage.item("MENSAJE_SEGURO_COMBAT_ON").item("TEXTO")
+                
+                picSM(Index).Picture = General_Load_Picture_From_Resource("223.gif")
+            End If
+            
+        Case eSMType.sSafemode
+            
+            If Mostrar Then
+                Call AddtoRichTextBox(frmMain.RecTxt, UCase$(JsonLanguage.item("MENSAJE_SEGURO_ACTIVADO").item("TEXTO").item(1)), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_ACTIVADO").item("COLOR").item(1), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_ACTIVADO").item("COLOR").item(2), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_ACTIVADO").item("COLOR").item(3), _
+                                      True, False, True)
+                                        
+                picSM(Index).ToolTipText = JsonLanguage.item("MENSAJE_SEGURO_ACTIVADO").item("TEXTO").item(2)
+                
+                picSM(Index).Picture = General_Load_Picture_From_Resource("222.gif")
+                
+            Else
+                Call AddtoRichTextBox(frmMain.RecTxt, UCase$(JsonLanguage.item("MENSAJE_SEGURO_DESACTIVADO").item("TEXTO").item(1)), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_DESACTIVADO").item("COLOR").item(1), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_DESACTIVADO").item("COLOR").item(2), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_DESACTIVADO").item("COLOR").item(3), _
+                                      True, False, True)
+                                        
+                picSM(Index).ToolTipText = JsonLanguage.item("MENSAJE_SEGURO_DESACTIVADO").item("TEXTO").item(2)
+                
+                picSM(Index).Picture = General_Load_Picture_From_Resource("224.gif")
+            End If
+        
+    End Select
+    
 End Sub

@@ -358,9 +358,11 @@ Public Enum FontTypeNames
     FONTTYPE_CONSE = 19
     FONTTYPE_DIOS = 20
     FONTTYPE_CRIMINAL = 21
+    FONTTYPE_EXP = 22
+    
 End Enum
 
-Public FontTypes(21) As tFont
+Public FontTypes(22) As tFont
 
 Public Sub Connect(ByVal Modo As E_MODO)
     '*********************************************************************
@@ -543,6 +545,14 @@ Public Sub InitFonts()
         .Blue = 17
         .bold = 1
     End With
+    
+    With FontTypes(FontTypeNames.FONTTYPE_EXP)
+        .Red = 0
+        .Green = 162
+        .Blue = 232
+        .bold = 1
+    End With
+    
 End Sub
 
 ''
@@ -1002,16 +1012,16 @@ Public Sub HandleMultiMessage()
                     True, False, True)
         
             Case eMessages.SafeModeOn
-                'Call frmMain.ControlSM(eSMType.sSafemode, True)
+                Call frmMain.ControlSM(eSMType.sSafemode, True)
         
             Case eMessages.SafeModeOff
-                'Call frmMain.ControlSM(eSMType.sSafemode, False)
+                Call frmMain.ControlSM(eSMType.sSafemode, False)
         
             Case eMessages.CombatSafeOff
-                'Call frmMain.ControlSM(eSMType.sResucitation, False)
+                Call frmMain.ControlSM(eSMType.sCombatMode, False)
          
             Case eMessages.CombatSafeOn
-                'Call frmMain.ControlSM(eSMType.sResucitation, True)
+                Call frmMain.ControlSM(eSMType.sCombatMode, True)
         
             Case eMessages.NobilityLost
                 Call AddtoRichTextBox(frmMain.RecTxt, _
@@ -1618,7 +1628,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -11354,14 +11364,14 @@ Private Sub HandleSetSpeed()
 'Setea la nueva velocidad recibida por el server
 '***************************************************
 
-    Dim Speed As Double
+    Dim speed As Double
     
     With incomingData
         Call .ReadByte
         
-        Speed = .ReadDouble
+        speed = .ReadDouble
         
-        Call SetSpeedUsuario(Speed)
+        Call SetSpeedUsuario(speed)
         
     End With
 End Sub

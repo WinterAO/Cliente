@@ -16,7 +16,7 @@ Public Enum e_estados
     Noche
     Lluvia
     Niebla
-    FogLluvia 'Niebla mas lluvia
+    foglluvia 'Niebla mas lluvia
 End Enum
 
 Public Estados(0 To 8) As D3DCOLORVALUE
@@ -49,51 +49,51 @@ Public Sub Init_MeteoEngine()
 '***************************************************
     With Estados(e_estados.Amanecer)
         .a = 255
-        .R = 230
-        .G = 200
-        .B = 200
+        .r = 230
+        .g = 200
+        .b = 200
     End With
     
     With Estados(e_estados.MedioDia)
         .a = 255
-        .R = 255
-        .G = 255
-        .B = 255
+        .r = 255
+        .g = 255
+        .b = 255
     End With
     
     With Estados(e_estados.Tarde)
         .a = 255
-        .R = 200
-        .G = 200
-        .B = 200
+        .r = 200
+        .g = 200
+        .b = 200
     End With
   
     With Estados(e_estados.Noche)
         .a = 255
-        .R = 165
-        .G = 165
-        .B = 165
+        .r = 165
+        .g = 165
+        .b = 165
     End With
     
     With Estados(e_estados.Lluvia)
         .a = 255
-        .R = 200
-        .G = 200
-        .B = 200
+        .r = 200
+        .g = 200
+        .b = 200
     End With
     
     With Estados(e_estados.Niebla)
         .a = 255
-        .R = 200
-        .G = 200
-        .B = 200
+        .r = 200
+        .g = 200
+        .b = 200
     End With
     
-    With Estados(e_estados.FogLluvia)
+    With Estados(e_estados.foglluvia)
         .a = 255
-        .R = 200
-        .G = 200
-        .B = 200
+        .r = 200
+        .g = 200
+        .b = 200
     End With
     
     Estado_Actual_Date = 1
@@ -107,6 +107,9 @@ Public Sub Actualizar_Estado(ByVal Estado As Byte)
 'Actualiza el estado del clima y del dia
 '***************************************************
     Dim X As Byte, Y As Byte
+
+    'Primero actualizamos la imagen del frmmain
+    Call ActualizarImgClima(Estado)
 
     '¿El mapa tiene su propia luz?
     If mapInfo.LuzBase <> -1 Then
@@ -136,7 +139,7 @@ Public Sub Actualizar_Estado(ByVal Estado As Byte)
         
     Call LightRenderAll
     
-    If Estado = (e_estados.Lluvia Or e_estados.FogLluvia) Then
+    If Estado = (e_estados.Lluvia Or e_estados.foglluvia) Then
         If Not InMapBounds(UserPos.X, UserPos.Y) Then Exit Sub
     
         bTecho = (MapData(UserPos.X, UserPos.Y).Trigger = eTrigger.BAJOTECHO Or _
@@ -144,7 +147,36 @@ Public Sub Actualizar_Estado(ByVal Estado As Byte)
             MapData(UserPos.X, UserPos.Y).Trigger = eTrigger.ZONASEGURA)
         
     End If
+
+End Sub
+
+Private Sub ActualizarImgClima(ByVal Estado As Byte)
+
+    Select Case Estado
     
+        Case e_estados.Amanecer
+            frmMain.imgClima.Picture = General_Load_Picture_From_Resource("226.gif")
+        
+        Case e_estados.MedioDia
+            frmMain.imgClima.Picture = General_Load_Picture_From_Resource("226.gif")
+            
+        Case e_estados.Tarde
+            frmMain.imgClima.Picture = General_Load_Picture_From_Resource("225.gif")
+        
+        Case e_estados.Noche
+            frmMain.imgClima.Picture = General_Load_Picture_From_Resource("227.gif")
+        
+        Case e_estados.Lluvia
+            frmMain.imgClima.Picture = General_Load_Picture_From_Resource("227.gif")
+        
+        Case e_estados.Niebla
+            frmMain.imgClima.Picture = General_Load_Picture_From_Resource("227.gif")
+        
+        Case e_estados.foglluvia
+            frmMain.imgClima.Picture = General_Load_Picture_From_Resource("227.gif")
+    
+    End Select
+
 End Sub
 
 Public Sub Start_Rampage()
@@ -154,7 +186,7 @@ Public Sub Start_Rampage()
 'Init Rampage
 '***************************************************
     Dim X As Byte, Y As Byte, TempColor As D3DCOLORVALUE
-    TempColor.a = 255: TempColor.B = 255: TempColor.R = 255: TempColor.G = 255
+    TempColor.a = 255: TempColor.b = 255: TempColor.r = 255: TempColor.g = 255
     
         For X = XMinMapSize To XMaxMapSize
             For Y = YMinMapSize To YMaxMapSize
@@ -193,7 +225,7 @@ Public Function bRain() As Boolean
 'Devuelve un True o un False si hay lluvia
 '*****************************************************************
 
-    If Estado_Actual_Date = e_estados.FogLluvia Or Estado_Actual_Date = e_estados.Lluvia Then
+    If Estado_Actual_Date = e_estados.foglluvia Or Estado_Actual_Date = e_estados.Lluvia Then
         bRain = True
         Exit Function
     End If
@@ -343,14 +375,14 @@ Public Sub RemoveWeatherParticles(ByVal Weather As Byte)
     End Select
 End Sub
 
-Sub Engine_Weather_UpdateFog(ByVal a As Byte, ByVal R As Byte, ByVal G As Byte, ByVal B As Byte)
+Sub Engine_Weather_UpdateFog(ByVal a As Byte, ByVal r As Byte, ByVal g As Byte, ByVal b As Byte)
 '*****************************************************************
 'Autor: ????
 'Fecha: ????
 'Descripción: Renderiza la niebla.
 '*****************************************************************
 
-    If Estado_Actual_Date = e_estados.Niebla Or Estado_Actual_Date = e_estados.FogLluvia Then
+    If Estado_Actual_Date = e_estados.Niebla Or Estado_Actual_Date = e_estados.foglluvia Then
     
         Dim TempGrh As Grh
         Dim i As Long
@@ -400,7 +432,7 @@ Sub Engine_Weather_UpdateFog(ByVal a As Byte, ByVal R As Byte, ByVal G As Byte, 
         X = 2
         Y = -1
         For i = 0 To 3
-            FogColor(i) = D3DColorARGB(a, R, G, B)
+            FogColor(i) = D3DColorARGB(a, r, g, b)
         Next i
         
         For i = 1 To WeatherFogCount

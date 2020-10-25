@@ -1024,10 +1024,8 @@ Public GuildMembers() As String
 Public Const OFFSET_HEAD As Integer = -34
 
 Public Enum eSMType
-    sResucitation
+    sCombatMode = 0
     sSafemode
-    mSpells
-    mWork
 End Enum
 
 'Hardcoded grhs and items
