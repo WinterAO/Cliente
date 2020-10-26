@@ -241,7 +241,7 @@ Public Sub Engine_Weather_Update()
 '*****************************************************************
 
     '¿Esta lloviendo y no esta en dungeon?
-    If bRain And mapInfo.Zona <> "DUNGEON" Then
+    If MeterologiaEnDungeon Then
             
         'Particula segun el terreno...
         Select Case mapInfo.Terreno
@@ -382,7 +382,7 @@ Sub Engine_Weather_UpdateFog(ByVal a As Byte, ByVal r As Byte, ByVal g As Byte, 
 'Descripción: Renderiza la niebla.
 '*****************************************************************
 
-    If Estado_Actual_Date = e_estados.Niebla Or Estado_Actual_Date = e_estados.foglluvia Then
+    If MeterologiaEnDungeon Then
     
         Dim TempGrh As Grh
         Dim i As Long
@@ -460,3 +460,23 @@ Sub Engine_Weather_UpdateFog(ByVal a As Byte, ByVal r As Byte, ByVal g As Byte, 
     End If
 
 End Sub
+
+Public Function MeterologiaEnDungeon() As Boolean
+'*********************************************
+'Autor: Lorwik
+'Fecha: 26/10/2020
+'Descripcion: Comprueba si hay algun fenomeno meteorologico activo y si esta en dungeon
+''*********************************************
+    If Estado_Actual_Date = e_estados.Lluvia Or _
+        Estado_Actual_Date = e_estados.Niebla Or _
+        Estado_Actual_Date = e_estados.foglluvia And mapInfo.Zona <> "DUNGEON" Then
+        
+        MeterologiaEnDungeon = True
+        
+    Else
+    
+        MeterologiaEnDungeon = False
+    
+    End If
+            
+End Function

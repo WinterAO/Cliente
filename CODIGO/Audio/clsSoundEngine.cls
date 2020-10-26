@@ -1061,7 +1061,7 @@ Private Function Ambient_Calculate() As Integer
     intSound = Val(mapInfo.Ambient)
     
     '¿Esta lloviendo? Y NO ES DUNGEON!
-    If Estado_Actual_Date = e_estados.FogLluvia Or Estado_Actual_Date = e_estados.Lluvia And mapInfo.Zona <> "DUNGEON" Then
+    If MeterologiaEnDungeon Then
     
         'Mapas de tipo bosque, sonido de lluvia
         If mapInfo.Terreno = "BOSQUE" Then
