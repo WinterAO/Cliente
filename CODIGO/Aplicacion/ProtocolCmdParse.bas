@@ -408,14 +408,6 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
             Case "/GM"
                 frmGM.Show vbModeless, frmMain
                 
-            Case "/_BUG"
-                If notNullArguments Then
-                    Call WriteBugReport(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_BUG").item("TEXTO"))
-                End If
-            
             Case "/DESC"
                 If UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)

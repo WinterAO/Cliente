@@ -278,7 +278,6 @@ Private Enum ClientPacketID
     CouncilMessage                  '/BMSG
     RoleMasterRequest               '/ROL
     GMRequest                       '/GM
-    bugReport                       '/_BUG
     ChangeDescription               '/DESC
     GuildVote                       '/VOTO
     Punishments                     '/PENAS
@@ -7162,25 +7161,6 @@ Public Sub WriteGMRequest(ByVal tipo As Byte, ByVal Message As String)
         Call .WriteASCIIString(Message)
     End With
     
-End Sub
-
-''
-' Writes the "BugReport" message to the outgoing data buffer.
-'
-' @param    message The message explaining the reported bug.
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WriteBugReport(ByVal Message As String)
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'Writes the "BugReport" message to the outgoing data buffer
-'***************************************************
-    With outgoingData
-        Call .WriteByte(ClientPacketID.bugReport)
-        
-        Call .WriteASCIIString(Message)
-    End With
 End Sub
 
 ''
