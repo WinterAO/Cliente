@@ -358,10 +358,11 @@ Public Enum FontTypeNames
     FONTTYPE_DIOS = 20
     FONTTYPE_CRIMINAL = 21
     FONTTYPE_EXP = 22
+    FONTTYPE_PRIVADO = 23
     
 End Enum
 
-Public FontTypes(22) As tFont
+Public FontTypes(23) As tFont
 
 Public Sub Connect(ByVal Modo As E_MODO)
     '*********************************************************************
@@ -550,6 +551,12 @@ Public Sub InitFonts()
         .Green = 162
         .Blue = 232
         .bold = 1
+    End With
+    
+    With FontTypes(FontTypeNames.FONTTYPE_PRIVADO)
+        .Red = 182
+        .Green = 226
+        .Blue = 29
     End With
     
 End Sub
@@ -2123,14 +2130,14 @@ On Error GoTo errhandler
     
     Dim chat As String
     Dim CharIndex As Integer
-    Dim Spell As Boolean
+    Dim NoConsole As Boolean
     Dim Red As Byte
     Dim Green As Byte
     Dim Blue As Byte
     
     chat = buffer.ReadASCIIString()
     CharIndex = buffer.ReadInteger()
-    Spell = buffer.ReadBoolean()
+    NoConsole = buffer.ReadBoolean()
     
     Red = buffer.ReadByte()
     Green = buffer.ReadByte()
@@ -2141,7 +2148,7 @@ On Error GoTo errhandler
         Call Dialogos.CreateDialog(Trim$(chat), CharIndex, RGB(Red, Green, Blue))
 
         'Aqui escribimos el texto que aparece sobre la cabeza en la consola.
-        If Spell = False Then Call WriteChatOverHeadInConsole(CharIndex, chat, Red, Green, Blue)
+        If NoConsole = False Then Call WriteChatOverHeadInConsole(CharIndex, chat, Red, Green, Blue)
     End If
     
     'If we got here then packet is complete, copy data back to original queue
