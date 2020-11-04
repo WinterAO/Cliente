@@ -174,6 +174,7 @@ Private Enum ServerPacketID
     IniciarSubastaConsulta
     ConfirmarInstruccion
     SetSpeed
+    AtaqueNPC
 End Enum
 
 Private Enum ClientPacketID
@@ -941,6 +942,9 @@ On Error Resume Next
             
         Case ServerPacketID.SetSpeed
             Call HandleSetSpeed
+            
+        Case ServerPacketID.AtaqueNPC
+            Call HandleAtaqueNPC
 
         Case Else
             'ERROR : Abort!
@@ -1634,7 +1638,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -2514,6 +2518,7 @@ On Error GoTo errhandler
     Dim weapon As Integer
     Dim shield As Integer
     Dim helmet As Integer
+    Dim Ataque As Integer
     Dim privs As Integer
     Dim NickColor As Byte
     Dim AuraAnim As Long
@@ -2528,6 +2533,7 @@ On Error GoTo errhandler
     weapon = buffer.ReadInteger()
     shield = buffer.ReadInteger()
     helmet = buffer.ReadInteger()
+    Ataque = buffer.ReadInteger()
 
     With charlist(CharIndex)
         Call Char_SetFx(CharIndex, buffer.ReadInteger(), buffer.ReadInteger())
@@ -2576,7 +2582,7 @@ On Error GoTo errhandler
         .EstadoQuest = buffer.ReadByte()
     End With
     
-    Call Char_Make(CharIndex, Body, Head, Heading, X, Y, weapon, shield, helmet, AuraAnim, AuraColor)
+    Call Char_Make(CharIndex, Body, Head, Heading, X, Y, weapon, shield, helmet, Ataque, AuraAnim, AuraColor)
     
     'If we got here then packet is complete, copy data back to original queue
     Call incomingData.CopyBuffer(buffer)
@@ -2711,7 +2717,7 @@ Private Sub HandleCharacterChange()
 '25/08/2009: ZaMa - Changed a variable used incorrectly.
 '21/09/2010: C4b3z0n - Added code for FragShooter. If its waiting for the death of certain UserIndex, and it dies, then the capture of the screen will occur.
 '***************************************************
-    If incomingData.Length < 17 Then
+    If incomingData.Length < 18 Then
         Err.Raise incomingData.NotEnoughDataErrCode
         Exit Sub
     End If
@@ -2743,6 +2749,9 @@ Private Sub HandleCharacterChange()
     
     '// Char Aura
     Call Char_SetAura(CharIndex, incomingData.ReadLong(), incomingData.ReadLong())
+    
+    'Quest
+    charlist(CharIndex).EstadoQuest = incomingData.ReadByte()
     
 End Sub
 
@@ -11360,5 +11369,22 @@ Private Sub HandleSetSpeed()
         
         Call SetSpeedUsuario(speed)
         
+    End With
+End Sub
+
+Private Sub HandleAtaqueNPC()
+
+    Dim NPCAtaqueIndex As Integer
+
+    'Remove packet ID
+    Call incomingData.ReadByte
+
+    NPCAtaqueIndex = incomingData.ReadInteger()
+
+    With charlist(NPCAtaqueIndex)
+            
+        MapData(.Pos.X, .Pos.Y).CharIndex = NPCAtaqueIndex
+        .Ataque.AtaqueWalk(.Heading).Started = 1
+        .NPCAttack = True
     End With
 End Sub

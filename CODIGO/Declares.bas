@@ -152,7 +152,7 @@ Public Enum eIntervalos
     INT_ATTACK = 1400        'Atacar
     INT_ARROWS = 900        'Flechas
     INT_CAST_SPELL = 500    'Hechizos
-    INT_CAST_ATTACK = 600   'Combo
+    INT_CAST_ATTACK = 580   'Combo
     INT_WORK = 700
     INT_USEITEMU = 250      'Usar Item
     INT_USEITEMDCK = 250    'Usar Item dobleclick
@@ -946,6 +946,12 @@ Public heads() As tHead
 Public Cascos() As tHead
 
 Public Type tIndiceCuerpo
+    Body(1 To 4) As Long
+    HeadOffsetX As Integer
+    HeadOffsetY As Integer
+End Type
+
+Public Type tIndiceAtaque
     Body(1 To 4) As Long
     HeadOffsetX As Integer
     HeadOffsetY As Integer

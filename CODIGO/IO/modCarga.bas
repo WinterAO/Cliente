@@ -191,6 +191,7 @@ Private FileManager As clsIniManager
 Public NumHeads As Integer
 Public NumCascos As Integer
 Public NumEscudosAnims As Integer
+Public NumAtaques As Integer
 
 Public Sub IniciarCabecera()
 
@@ -683,6 +684,81 @@ On Error GoTo errhandler:
                 
                 BodyData(i).HeadOffset.X = MisCuerpos(i).HeadOffsetX
                 BodyData(i).HeadOffset.Y = MisCuerpos(i).HeadOffsetY
+            End If
+        Next i
+    
+        Erase buffer
+    End If
+    
+    Set fileBuff = Nothing
+    
+errhandler:
+    
+    If Err.number <> 0 Then
+        
+        If Err.number = 53 Then
+            Call MsgBox("El archivo Personajes.ind no existe. Por favor, reinstale el juego.", , Form_Caption)
+            Call CloseClient
+        End If
+        
+    End If
+    
+End Sub
+
+Sub CargarAtaques()
+'*************************************
+'Autor: Lorwik
+'Fecha:03/11/2020
+'Descripción: Carga el index de Cuerpos
+'*************************************
+On Error GoTo errhandler:
+
+    Dim buffer()    As Byte
+    Dim dLen        As Long
+    Dim InfoHead    As INFOHEADER
+    Dim i           As Long
+    Dim NumCuerpos As Integer
+    Dim MisCuerpos() As tIndiceCuerpo
+    Dim LaCabecera As tCabecera
+    Dim fileBuff  As clsByteBuffer
+    
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Ataques.ind"))
+    
+    If InfoHead.lngFileSize <> 0 Then
+    
+        Extract_File_Memory Scripts, LCase$("Ataques.ind"), buffer()
+        
+        Set fileBuff = New clsByteBuffer
+        
+        fileBuff.initializeReader buffer
+        
+        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
+        LaCabecera.CRC = fileBuff.getLong
+        LaCabecera.MagicWord = fileBuff.getLong
+    
+        'num de cabezas
+        NumAtaques = fileBuff.getInteger()
+    
+        'Resize array
+        ReDim MisAtaques(0 To NumAtaques) As tIndiceAtaque
+        ReDim AtaqueData(0 To NumAtaques) As AtaqueAnimData
+    
+        For i = 1 To NumCuerpos
+            MisAtaques(i).Body(1) = fileBuff.getLong()
+            MisAtaques(i).Body(2) = fileBuff.getLong()
+            MisAtaques(i).Body(3) = fileBuff.getLong()
+            MisAtaques(i).Body(4) = fileBuff.getLong()
+            MisAtaques(i).HeadOffsetX = fileBuff.getInteger()
+            MisAtaques(i).HeadOffsetY = fileBuff.getInteger()
+            
+            If MisCuerpos(i).Body(1) Then
+                Call InitGrh(AtaqueData(i).AtaqueWalk(1), MisAtaques(i).Body(1), 0)
+                Call InitGrh(AtaqueData(i).AtaqueWalk(2), MisAtaques(i).Body(2), 0)
+                Call InitGrh(AtaqueData(i).AtaqueWalk(3), MisAtaques(i).Body(3), 0)
+                Call InitGrh(AtaqueData(i).AtaqueWalk(4), MisAtaques(i).Body(4), 0)
+                
+                AtaqueData(i).HeadOffset.X = MisAtaques(i).HeadOffsetX
+                AtaqueData(i).HeadOffset.Y = MisAtaques(i).HeadOffsetY
             End If
         Next i
     

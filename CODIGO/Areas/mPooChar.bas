@@ -81,6 +81,7 @@ Private Sub Char_ResetInfo(ByVal CharIndex As Integer)
         .Pos.Y = 0
         .UsandoArma = False
         .attacking = False
+        .NPCAttack = False
             
     End With
  
@@ -500,6 +501,7 @@ Public Sub Char_Make(ByVal CharIndex As Integer, _
                      ByVal Arma As Integer, _
                      ByVal Escudo As Integer, _
                      ByVal Casco As Integer, _
+                     ByVal Ataque As Integer, _
                      ByVal AuraAnim As Long, _
                      ByVal AuraColor As Long)
  
@@ -529,6 +531,7 @@ Public Sub Char_Make(ByVal CharIndex As Integer, _
         .Arma = WeaponAnimData(Arma)
         .Escudo = ShieldAnimData(Escudo)
         .Casco = Casco
+        .Ataque = AtaqueData(Ataque)
 
         Call InitGrh(.AuraAnim, AuraAnim)
         .AuraColor = AuraColor
@@ -542,6 +545,7 @@ Public Sub Char_Make(ByVal CharIndex As Integer, _
                 
         'attack state
         .attacking = False
+        .NPCAttack = False
        
         'Update position
         .Pos.X = X
@@ -633,8 +637,8 @@ Sub Char_MoveScreen(ByVal nHeading As E_Heading)
 
     Dim X  As Integer
     Dim Y  As Integer
-    Dim TX As Integer
-    Dim TY As Integer
+    Dim tX As Integer
+    Dim tY As Integer
     
     'Figure out which way to move
 
@@ -655,11 +659,11 @@ Sub Char_MoveScreen(ByVal nHeading As E_Heading)
     End Select
     
     'Fill temp pos
-    TX = UserPos.X + X
-    TY = UserPos.Y + Y
+    tX = UserPos.X + X
+    tY = UserPos.Y + Y
 
     'Check to see if its out of bounds
-    If (TX < MinXBorder) Or (TX > MaxXBorder) Or (TY < MinYBorder) Or (TY > MaxYBorder) Then
+    If (tX < MinXBorder) Or (tX > MaxXBorder) Or (tY < MinYBorder) Or (tY > MaxYBorder) Then
 
         Exit Sub
 
@@ -667,9 +671,9 @@ Sub Char_MoveScreen(ByVal nHeading As E_Heading)
         
         'Start moving... MainLoop does the rest
         AddtoUserPos.X = X
-        UserPos.X = TX
+        UserPos.X = tX
         AddtoUserPos.Y = Y
-        UserPos.Y = TY
+        UserPos.Y = tY
         UserMoving = 1
                 
         bTecho = Char_Techo

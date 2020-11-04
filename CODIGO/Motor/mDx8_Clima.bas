@@ -16,7 +16,7 @@ Public Enum e_estados
     Noche
     Lluvia
     Niebla
-    foglluvia 'Niebla mas lluvia
+    FogLluvia 'Niebla mas lluvia
 End Enum
 
 Public Estados(0 To 8) As D3DCOLORVALUE
@@ -89,7 +89,7 @@ Public Sub Init_MeteoEngine()
         .b = 200
     End With
     
-    With Estados(e_estados.foglluvia)
+    With Estados(e_estados.FogLluvia)
         .a = 255
         .r = 200
         .g = 200
@@ -139,7 +139,7 @@ Public Sub Actualizar_Estado(ByVal Estado As Byte)
         
     Call LightRenderAll
     
-    If Estado = (e_estados.Lluvia Or e_estados.foglluvia) Then
+    If Estado = (e_estados.Lluvia Or e_estados.FogLluvia) Then
         If Not InMapBounds(UserPos.X, UserPos.Y) Then Exit Sub
     
         bTecho = (MapData(UserPos.X, UserPos.Y).Trigger = eTrigger.BAJOTECHO Or _
@@ -172,7 +172,7 @@ Private Sub ActualizarImgClima(ByVal Estado As Byte)
         Case e_estados.Niebla
             frmMain.imgClima.Picture = General_Load_Picture_From_Resource("227.gif")
         
-        Case e_estados.foglluvia
+        Case e_estados.FogLluvia
             frmMain.imgClima.Picture = General_Load_Picture_From_Resource("227.gif")
     
     End Select
@@ -225,7 +225,7 @@ Public Function bRain() As Boolean
 'Devuelve un True o un False si hay lluvia
 '*****************************************************************
 
-    If Estado_Actual_Date = e_estados.foglluvia Or Estado_Actual_Date = e_estados.Lluvia Then
+    If Estado_Actual_Date = e_estados.FogLluvia Or Estado_Actual_Date = e_estados.Lluvia Then
         bRain = True
         Exit Function
     End If
@@ -241,7 +241,7 @@ Public Sub Engine_Weather_Update()
 '*****************************************************************
 
     '¿Esta lloviendo y no esta en dungeon?
-    If MeterologiaEnDungeon Then
+    If bRain And MeterologiaEnDungeon Then
             
         'Particula segun el terreno...
         Select Case mapInfo.Terreno
@@ -382,7 +382,9 @@ Sub Engine_Weather_UpdateFog(ByVal a As Byte, ByVal r As Byte, ByVal g As Byte, 
 'Descripción: Renderiza la niebla.
 '*****************************************************************
 
-    If MeterologiaEnDungeon Then
+    If MeterologiaEnDungeon = False Then Exit Sub
+    
+    If Estado_Actual_Date = e_estados.Niebla Or Estado_Actual_Date = e_estados.FogLluvia Then
     
         Dim TempGrh As Grh
         Dim i As Long
@@ -456,9 +458,9 @@ Sub Engine_Weather_UpdateFog(ByVal a As Byte, ByVal r As Byte, ByVal g As Byte, 
                 Y = Y + 1
             End If
         Next i
-        
-    End If
 
+    End If
+    
 End Sub
 
 Public Function MeterologiaEnDungeon() As Boolean
@@ -467,9 +469,8 @@ Public Function MeterologiaEnDungeon() As Boolean
 'Fecha: 26/10/2020
 'Descripcion: Comprueba si hay algun fenomeno meteorologico activo y si esta en dungeon
 ''*********************************************
-    If Estado_Actual_Date = e_estados.Lluvia Or _
-        Estado_Actual_Date = e_estados.Niebla Or _
-        Estado_Actual_Date = e_estados.foglluvia And mapInfo.Zona <> "DUNGEON" Then
+    If (Estado_Actual_Date = e_estados.Niebla Or _
+        bRain) And mapInfo.Zona <> "DUNGEON" Then
         
         MeterologiaEnDungeon = True
         
