@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin VB.Form frmBorrarPJ 
    BorderStyle     =   0  'None
-   ClientHeight    =   2445
+   ClientHeight    =   1650
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   7320
+   ClientWidth     =   5985
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    BeginProperty Font 
@@ -17,51 +17,18 @@ Begin VB.Form frmBorrarPJ
       Strikethrough   =   0   'False
    EndProperty
    LinkTopic       =   "Form1"
-   ScaleHeight     =   163
+   ScaleHeight     =   110
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   488
+   ScaleWidth      =   399
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
-   Begin VB.CommandButton cmdVolver 
-      Caption         =   "Volver"
-      Height          =   360
-      Left            =   600
-      TabIndex        =   4
-      Top             =   1920
-      Width           =   1815
-   End
-   Begin VB.CommandButton cmdBorrar 
-      Caption         =   "Borrar"
-      Height          =   360
-      Left            =   4920
-      TabIndex        =   3
-      Top             =   1920
-      Width           =   1710
-   End
    Begin VB.TextBox txtconfirmacion 
+      Alignment       =   2  'Center
+      BackColor       =   &H00000000&
       BorderStyle     =   0  'None
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   375
-      Left            =   840
-      TabIndex        =   2
-      Top             =   1320
-      Width           =   5535
-   End
-   Begin VB.Label lblATENCIÓNESTAS 
-      AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "¡ATENCIÓN ESTAS A PUNTO DE BORRAR UN PERSONAJE!"
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   12
+         Size            =   9.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -69,11 +36,43 @@ Begin VB.Form frmBorrarPJ
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H000000FF&
-      Height          =   285
-      Left            =   120
+      Height          =   255
+      Left            =   360
+      TabIndex        =   2
+      Top             =   780
+      Width           =   5295
+   End
+   Begin VB.Image cmdBorrar 
+      Height          =   540
+      Left            =   3480
+      Top             =   1050
+      Width           =   1725
+   End
+   Begin VB.Image cmdVolver 
+      Height          =   540
+      Left            =   840
+      Top             =   1050
+      Width           =   1725
+   End
+   Begin VB.Label lblATENCIÓNESTAS 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "¡ATENCIÓN ESTAS A PUNTO DE BORRAR UN PERSONAJE!"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H000000FF&
+      Height          =   240
+      Left            =   360
       TabIndex        =   1
-      Top             =   120
-      Width           =   7035
+      Top             =   240
+      Width           =   5220
    End
    Begin VB.Label lblEstasSeguro 
       AutoSize        =   -1  'True
@@ -81,18 +80,19 @@ Begin VB.Form frmBorrarPJ
       Caption         =   "Escribe ""BORRAR XXXXX"" para eliminarlo"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   14.25
+         Size            =   9.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   345
-      Left            =   720
+      ForeColor       =   &H00FFFFFF&
+      Height          =   240
+      Left            =   960
       TabIndex        =   0
-      Top             =   600
-      Width           =   5955
+      Top             =   480
+      Width           =   3960
    End
 End
 Attribute VB_Name = "frmBorrarPJ"
@@ -101,6 +101,13 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
+
+Private clsFormulario As clsFormMovementManager
+
+Private cBotonCancelar As clsGraphicalButton
+Private cBotonBorrar As clsGraphicalButton
+
+Public LastButtonPressed As clsGraphicalButton
 
 Private Sub cmdBorrar_Click()
 '*************************************
@@ -119,16 +126,16 @@ Private Sub cmdBorrar_Click()
             Call WriteDeleteChar
             
             'Salimos del form
-            Call cmdVolver_Click
+            Call CMDVolver_Click
             
         Case vbNo
-            cmdVolver_Click
+            CMDVolver_Click
             Exit Sub
             
     End Select
 End Sub
 
-Private Sub cmdVolver_Click()
+Private Sub CMDVolver_Click()
 '*************************************
 'Autor: Lorwik
 'Fecha: 21/05/2020
@@ -165,5 +172,52 @@ Private Function CheckBorrarData() As Boolean
 End Function
 
 Private Sub Form_Load()
+    ' Handles Form movement (drag and drop).
+    Set clsFormulario = New clsFormMovementManager
+    clsFormulario.Initialize Me
+    
     lblEstasSeguro.Caption = "Escribe 'BORRAR " & cPJ(PJAccSelected).Nombre & "' para eliminarlo"
+    
+    Me.Picture = General_Load_Picture_From_Resource("215.gif", False)
+    
+    Call LoadButtons
+    
 End Sub
+
+Private Sub LoadButtons()
+
+   ' GrhPath = Carga.path(Interfaces)
+
+    Set cBotonCancelar = New clsGraphicalButton
+    Set cBotonBorrar = New clsGraphicalButton
+    
+    Set LastButtonPressed = New clsGraphicalButton
+    
+    If Language = "spanish" Then
+
+        Call cBotonCancelar.Initialize(cmdVolver, "4.gif", _
+                                          "216.gif", _
+                                          "217.gif", Me)
+                                          
+        Call cBotonBorrar.Initialize(cmdBorrar, "3.gif", _
+                                          "213.gif", _
+                                          "214.gif", Me)
+    Else
+    
+        Call cBotonCancelar.Initialize(cmdVolver, "6.gif", _
+                                          "218.gif", _
+                                          "219.gif", Me)
+                                          
+        Call cBotonBorrar.Initialize(cmdBorrar, "5.gif", _
+                                          "211.gif", _
+                                          "212.gif", Me)
+        
+    End If
+    
+End Sub
+
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    LastButtonPressed.ToggleToNormal
+End Sub
+
+
