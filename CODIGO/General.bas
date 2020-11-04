@@ -1159,7 +1159,6 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     
     If UnloadForms Then
         ' Return to connection screen
-        Call MostrarConnect
         frmMain.Visible = False
     End If
     
@@ -1256,7 +1255,6 @@ Public Sub ResetAllInfoAccounts()
                 .Race = 0
                 .Map = 0
                 .Level = 0
-                .Gold = 0
                 .Criminal = False
                 .Dead = False
                 
@@ -1280,8 +1278,8 @@ Public Function ArrayInitialized(ByVal TheArray As Long) As Boolean
 
 End Function
 
-Public Sub SetSpeedUsuario(ByVal Speed As Double)
-    Engine_BaseSpeed = Speed
+Public Sub SetSpeedUsuario(ByVal speed As Double)
+    Engine_BaseSpeed = speed
 End Sub
 
 Public Function CheckIfIpIsNumeric(CurrentIp As String) As String

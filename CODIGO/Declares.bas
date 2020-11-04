@@ -730,7 +730,6 @@ Public Type PjCuenta
     Race        As Byte
     Map         As Integer
     Level       As Byte
-    Gold        As Long
     Criminal    As Boolean
     Dead        As Boolean
     GameMaster  As Boolean

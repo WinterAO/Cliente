@@ -17,7 +17,6 @@ Begin VB.Form frmGM
       Strikethrough   =   0   'False
    EndProperty
    LinkTopic       =   "Form1"
-   Picture         =   "frmGM.frx":0000
    ScaleHeight     =   404
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   320
@@ -208,6 +207,3 @@ Private Sub CMDVolver_Click()
     Unload Me
 End Sub
 
-Private Sub OptDenuncia_Click(Index As Integer)
-
-End Sub

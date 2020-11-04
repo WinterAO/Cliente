@@ -156,7 +156,7 @@ Private Enum ServerPacketID
     CancelOfferItem
     PlayAttackAnim
     FXtoMap
-    AccountLogged                'CHOTS | Accounts
+    EnviarPJUserAccount
     SearchList
     QuestDetails
     QuestListSend
@@ -837,9 +837,8 @@ On Error Resume Next
         Case ServerPacketID.FXtoMap
             Call HandleFXtoMap
         
-        'CHOTS | Accounts
-        Case ServerPacketID.AccountLogged
-            Call HandleAccountLogged
+        Case ServerPacketID.EnviarPJUserAccount
+            Call HandleEnviarPJUserAccount
             
         Case ServerPacketID.SearchList              '/BUSCAR
             Call HandleSearchList
@@ -10446,7 +10445,7 @@ Private Sub HandleFXtoMap()
 
 End Sub
 
-Private Sub HandleAccountLogged()
+Private Sub HandleEnviarPJUserAccount()
 
     If incomingData.Length < 9 Then
         Err.Raise incomingData.NotEnoughDataErrCode
@@ -10462,20 +10461,13 @@ Private Sub HandleAccountLogged()
 
     'Remove packet ID
     Call buffer.ReadByte
-    
-    Dim Refresh As Boolean
-    
+
     Security.Redundance = buffer.ReadByte
-    Refresh = buffer.ReadBoolean
     AccountName = buffer.ReadASCIIString
     NumberOfCharacters = buffer.ReadByte
 
-    If Refresh Then
-        Call ResetAllInfoAccounts
-    Else
-        'Cambiamos al modo cuenta
-        Call ModCnt.MostrarCuenta(Not frmConnect.Visible)
-    End If
+    'Cambiamos al modo cuenta
+    Call ModCnt.MostrarCuenta(Not frmConnect.Visible)
 
     If NumberOfCharacters > 0 Then
     
@@ -10496,7 +10488,6 @@ Private Sub HandleAccountLogged()
                 .Race = buffer.ReadByte
                 .Map = buffer.ReadInteger
                 .Level = buffer.ReadByte
-                .Gold = buffer.ReadLong
                 .Criminal = buffer.ReadBoolean
                 .Dead = buffer.ReadBoolean
                 
