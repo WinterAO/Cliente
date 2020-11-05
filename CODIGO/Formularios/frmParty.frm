@@ -277,13 +277,13 @@ Private Sub imgDisolver_Click()
 End Sub
 
 Private Sub imgExpulsar_Click()
-   
+  
     If lstMembers.ListIndex < 0 Then Exit Sub
-    
+
     Dim fName As String
     fName = GetName
-    
-    If Len(fName) = 0 Then
+
+    If Len(fName) > 0 Then
         Call WritePartyKick(fName)
         Unload Me
         
