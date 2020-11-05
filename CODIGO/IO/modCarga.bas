@@ -178,6 +178,7 @@ Private Type tMapDat
     InviSinEfecto As Boolean
     LuzBase As Long
     version As Long
+    NoTirarItems As Boolean
 End Type
 
 Public MapSize As tMapSize
@@ -1133,6 +1134,7 @@ Sub CargarMapa(ByVal Map As Integer)
         .InviSinEfecto = fileBuff.getBoolean()
         .LuzBase = fileBuff.getLong()
         .version = fileBuff.getLong()
+        .NoTirarItems = fileBuff.getBoolean()
     End With
     
     With MapSize
