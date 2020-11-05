@@ -271,8 +271,6 @@ Private Enum ClientPacketID
     RequestMOTD                     '/MOTD
     UpTime                          '/UPTIME
     PartyLeave                      '/SALIRPARTY
-    PartyCreate                     '/CREARPARTY
-    PartyJoin                       '/PARTY
     Inquiry                         '/ENCUESTA ( with no params )
     GuildMessage                    '/CMSG
     PartyMessage                    '/PMSG
@@ -7037,34 +7035,6 @@ Public Sub WritePartyLeave()
 'Writes the "PartyLeave" message to the outgoing data buffer
 '***************************************************
     Call outgoingData.WriteByte(ClientPacketID.PartyLeave)
-End Sub
-
-''
-' Writes the "PartyCreate" message to the outgoing data buffer.
-'
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WritePartyCreate()
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'Writes the "PartyCreate" message to the outgoing data buffer
-'***************************************************
-    Call outgoingData.WriteByte(ClientPacketID.PartyCreate)
-End Sub
-
-''
-' Writes the "PartyJoin" message to the outgoing data buffer.
-'
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WritePartyJoin()
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'Writes the "PartyJoin" message to the outgoing data buffer
-'***************************************************
-    Call outgoingData.WriteByte(ClientPacketID.PartyJoin)
 End Sub
 
 ''

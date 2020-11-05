@@ -302,26 +302,8 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
             Case "/UPTIME"
                 Call WriteUpTime
                 
-            Case "/SALIRPARTY"
+            Case "/SALIRGRUPO"
                 Call WritePartyLeave
-                
-            Case "/CREARPARTY"
-                If UserEstado = 1 Then 'Muerto
-                    With FontTypes(FontTypeNames.FONTTYPE_INFO)
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
-                    End With
-                    Exit Sub
-                End If
-                Call WritePartyCreate
-                
-            Case "/PARTY"
-                If UserEstado = 1 Then 'Muerto
-                    With FontTypes(FontTypeNames.FONTTYPE_INFO)
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
-                    End With
-                    Exit Sub
-                End If
-                Call WritePartyJoin
             
             Case "/COMPARTIRNPC"
                 If UserEstado = 1 Then 'Muerto
