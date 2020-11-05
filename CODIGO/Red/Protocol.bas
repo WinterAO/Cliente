@@ -147,6 +147,7 @@ Private Enum ServerPacketID
     
     ShowGuildAlign
     ShowPartyForm
+    PeticionInvitarParty
     UpdateStrenghtAndDexterity
     UpdateStrenght
     UpdateDexterity
@@ -211,6 +212,7 @@ Private Enum ClientPacketID
     CraftearItem
     WorkClose
     WorkLeftClick                   'WLC
+    InvitarPartyClick
     CreateNewGuild                  'CIG
     SpellInfo                       'INFS
     EquipItem                       'EQUI
@@ -881,6 +883,9 @@ On Error Resume Next
         
         Case ServerPacketID.ShowPartyForm
             Call HandleShowPartyForm
+            
+        Case ServerPacketID.PeticionInvitarParty
+            Call HandlePeticionInvitarParty
         
         Case ServerPacketID.UpdateStrenghtAndDexterity
             Call HandleUpdateStrenghtAndDexterity
@@ -1637,7 +1642,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -4987,6 +4992,26 @@ On Error GoTo 0
         Err.Raise Error
 End Sub
 
+Private Sub HandlePeticionInvitarParty()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 05/11/2020
+'
+'***************************************************
+
+    Call incomingData.ReadByte
+    
+    frmMain.MousePointer = 2 'vbCrosshair
+    
+    InvitandoParty = True
+    
+    Call AddtoRichTextBox(frmMain.RecTxt, _
+        JsonLanguage.item("MENSAJE_INVITAR_PARTY").item("TEXTO"), _
+        JsonLanguage.item("MENSAJE_INVITAR_PARTY").item("COLOR").item(1), _
+        JsonLanguage.item("MENSAJE_INVITAR_PARTY").item("COLOR").item(2), _
+        JsonLanguage.item("MENSAJE_INVITAR_PARTY").item("COLOR").item(3))
+
+End Sub
 
 
 ''
@@ -5529,13 +5554,15 @@ Public Sub WriteRequestGuildLeaderInfo()
     Call outgoingData.WriteByte(ClientPacketID.RequestGuildLeaderInfo)
 End Sub
 
-Public Sub WriteRequestPartyForm()
+Public Sub WriteRequestPartyForm(Optional ByVal LiderInvita As Boolean = False)
 '***************************************************
 'Author: Budi
 'Last Modification: 11/26/09
 'Writes the "RequestPartyForm" message to the outgoing data buffer
 '***************************************************
     Call outgoingData.WriteByte(ClientPacketID.RequestPartyForm)
+    
+    Call outgoingData.WriteBoolean(LiderInvita)
 
 End Sub
 
@@ -5877,7 +5904,6 @@ Public Sub WriteShowGuildNews()
      outgoingData.WriteByte (ClientPacketID.ShowGuildNews)
 End Sub
 
-
 ''
 ' Writes the "WorkLeftClick" message to the outgoing data buffer.
 '
@@ -5899,6 +5925,28 @@ Public Sub WriteWorkLeftClick(ByVal X As Byte, ByVal Y As Byte, ByVal Skill As e
         Call .WriteByte(Y)
         
         Call .WriteByte(Skill)
+    End With
+End Sub
+
+''
+' Writes the "InvitarPartyClick" message to the outgoing data buffer.
+'
+' @param    x Tile coord in the x-axis in which the user clicked.
+' @param    y Tile coord in the y-axis in which the user clicked.
+' @remarks  The data is not actually sent until the buffer is properly flushed.
+
+Public Sub WriteInvitarPartyClick(ByVal X As Byte, ByVal Y As Byte)
+'***************************************************
+'Author: Juan Martin Sotuyo Dodero (Maraxus)
+'Last Modification: 05/17/06
+'Writes the "WorkLeftClick" message to the outgoing data buffer
+'***************************************************
+    With outgoingData
+        Call .WriteByte(ClientPacketID.InvitarPartyClick)
+        
+        Call .WriteByte(X)
+        Call .WriteByte(Y)
+        
     End With
 End Sub
 
@@ -7431,8 +7479,7 @@ Public Sub WritePartyAcceptMember(ByVal UserName As String)
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.PartyAcceptMember)
-        
-        Call .WriteASCIIString(UserName)
+
     End With
 End Sub
 

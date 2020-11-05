@@ -1,12 +1,13 @@
 VERSION 5.00
 Begin VB.Form frmParty 
    BorderStyle     =   0  'None
-   ClientHeight    =   6420
+   ClientHeight    =   6075
    ClientLeft      =   0
    ClientTop       =   -75
    ClientWidth     =   5640
    LinkTopic       =   "Form1"
-   ScaleHeight     =   428
+   Picture         =   "frmParty.frx":0000
+   ScaleHeight     =   405
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   376
    ShowInTaskbar   =   0   'False
@@ -28,31 +29,11 @@ Begin VB.Form frmParty
       Left            =   555
       MaxLength       =   160
       MultiLine       =   -1  'True
-      TabIndex        =   2
+      TabIndex        =   1
       TabStop         =   0   'False
       ToolTipText     =   "Chat"
-      Top             =   720
+      Top             =   960
       Width           =   4530
-   End
-   Begin VB.TextBox txtToAdd 
-      BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   240
-      Left            =   1530
-      MaxLength       =   20
-      TabIndex        =   1
-      Top             =   4365
-      Width           =   2580
    End
    Begin VB.ListBox lstMembers 
       Appearance      =   0  'Flat
@@ -88,7 +69,7 @@ Begin VB.Form frmParty
       ForeColor       =   &H00FFFFFF&
       Height          =   255
       Left            =   3075
-      TabIndex        =   3
+      TabIndex        =   2
       Top             =   3150
       Width           =   1335
    End
@@ -260,7 +241,6 @@ Private Sub LoadButtons()
     ' Botones visibles solo para el lider
     imgExpulsar.Visible = EsPartyLeader
     imgLiderGrupo.Visible = EsPartyLeader
-    txtToAdd.Visible = EsPartyLeader
     imgAgregar.Visible = EsPartyLeader
     
     imgDisolver.Visible = EsPartyLeader
@@ -282,13 +262,9 @@ Private Sub Form_Unload(Cancel As Integer)
 End Sub
 
 Private Sub imgAgregar_Click()
-    If Len(txtToAdd) > 0 Then
-        If Not IsNumeric(txtToAdd) Then
-            Call WritePartyAcceptMember(Trim$(txtToAdd.Text))
-            Unload Me
-            Call WriteRequestPartyForm
-        End If
-    End If
+    Call WriteRequestPartyForm(True)
+    'Call WritePartyAcceptMember
+    Unload Me
 End Sub
 
 Private Sub imgCerrar_Click()
@@ -403,19 +379,3 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         SendTxt.SetFocus
     End If
 End Sub
-
-Private Sub txtToAdd_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    LastButtonPressed.ToggleToNormal
-End Sub
-
-Private Sub txtToAdd_KeyPress(KeyAscii As Integer)
-    If Not (KeyAscii = vbKeyBack) And _
-       Not (KeyAscii >= vbKeySpace And KeyAscii <= 250) Then _
-        KeyAscii = 0
-End Sub
-
-Private Sub txtToAdd_KeyUp(KeyCode As Integer, Shift As Integer)
-    If KeyCode = vbKeyReturn Then imgAgregar_Click
-End Sub
-
-

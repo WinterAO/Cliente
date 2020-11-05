@@ -267,6 +267,14 @@
             0
         ]
     },
+	"MENSAJE_INVITAR_PARTY": {
+        "TEXTO": "Click on the user you want to invite...",
+        "COLOR": [
+            255,
+            0,
+            0
+        ]
+    },
     "MENSAJE_TRABAJO_PESCA": {
         "TEXTO": "Click on the site where you want to fish...",
         "COLOR": [

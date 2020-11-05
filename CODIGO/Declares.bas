@@ -819,6 +819,7 @@ Public Alocados As Integer
 Public flags() As Integer
 
 Public UsingSkill As Integer
+Public InvitandoParty As Boolean
 
 Public pingTime As Long
 
