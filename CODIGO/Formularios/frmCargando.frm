@@ -19,11 +19,10 @@ Begin VB.Form frmCargando
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Begin VB.Image imgProgress 
-      Height          =   390
+      Height          =   600
       Left            =   3480
-      Picture         =   "frmCargando.frx":0000
-      Top             =   1800
-      Width           =   8700
+      Top             =   1755
+      Width           =   8490
    End
    Begin VB.Label lblstatus 
       Alignment       =   2  'Center
@@ -98,6 +97,7 @@ Private Const DEFAULT_STEP_BACKWARDS = -3
 Private Sub Form_Load()
     Me.Analizar
     Me.Picture = General_Load_Picture_From_Resource("1.gif", False)
+    imgProgress.Picture = General_Load_Picture_From_Resource("220.gif", False)
     ' Seteamos el caption
     Me.Caption = Form_Caption
 End Sub
@@ -180,3 +180,4 @@ Public Sub ActualizarCarga(ByVal Mensaje As String, ByVal Progreso As Byte)
     lblstatus.Refresh
     Call progresoConDelay(Progreso)
 End Sub
+

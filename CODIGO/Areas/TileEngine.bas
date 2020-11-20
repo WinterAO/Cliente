@@ -155,6 +155,12 @@ Type ShieldAnimData
     ShieldWalk(E_Heading.SOUTH To E_Heading.EAST) As Grh
 End Type
 
+'Lista de las animaciones de ataque
+Type AtaqueAnimData
+    AtaqueWalk(E_Heading.SOUTH To E_Heading.EAST) As Grh
+    HeadOffset As Position
+End Type
+
 Public Enum eStatusQuest
     NoAceptada = 0
     EnCurso = 1
@@ -177,6 +183,7 @@ Public Type Char
     Casco As Integer
     Arma As WeaponAnimData
     Escudo As ShieldAnimData
+    Ataque As AtaqueAnimData
     UsandoArma As Boolean
     AuraAnim As Grh
     AuraColor As Long
@@ -209,6 +216,7 @@ Public Type Char
     Particle_Group() As Long
     
     NoShadow As Byte 'No emite sombra
+    NPCAttack As Boolean
     EstadoQuest As eStatusQuest
 End Type
 
@@ -312,6 +320,7 @@ Public FxData() As tIndiceFx
 Public WeaponAnimData() As WeaponAnimData
 Public ShieldAnimData() As ShieldAnimData
 Public CascoAnimData() As HeadData
+Public AtaqueData() As AtaqueAnimData
 '?????????????????????????
 
 '?????????Mapa????????????
@@ -1017,6 +1026,7 @@ On Error GoTo 0
     'TODO: No usar variable de compilacion y acceder a esto desde el config.ini
     Call LoadGrhData
     Call CargarCuerpos
+    Call CargarAtaques
     Call CargarCabezas
     Call CargarCascos
     Call CargarFxs
@@ -1208,6 +1218,7 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
         End If
         
         If .Heading = 0 Then Exit Sub
+        
         'if is attacking we set the attack anim
         If .attacking And .Arma.WeaponWalk(.Heading).Started = 0 Then
             .Arma.WeaponWalk(.Heading).Started = 1
@@ -1239,7 +1250,15 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
 
             End If
             
+            If .NPCAttack = False Then
+                .Ataque.AtaqueWalk(.Heading).Started = 0
+                .Ataque.AtaqueWalk(.Heading).FrameCounter = 1
+            End If
+            
             .Moving = False
+            
+        Else
+            .NPCAttack = False
 
         End If
         
@@ -1284,11 +1303,15 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
                 Call Draw_Grh(.AuraAnim, PixelOffsetX, PixelOffsetY + 35, 1, AuraColorFinal(), 1, True)
             End If
             
-            'Draw Body
-            If .Body.Walk(.Heading).GrhIndex Then
-                Call Draw_Grh(.Body.Walk(.Heading), PixelOffsetX, PixelOffsetY, 1, ColorFinal, 1)
-            End If
+            If .NPCAttack = True And .Ataque.AtaqueWalk(.Heading).GrhIndex > 0 Then
+                Call Draw_Grh(.Ataque.AtaqueWalk(.Heading), PixelOffsetX, PixelOffsetY, 1, ColorFinal, 1)
                 
+            Else
+                If .Body.Walk(.Heading).GrhIndex Then _
+                    Call Draw_Grh(.Body.Walk(.Heading), PixelOffsetX, PixelOffsetY, 1, ColorFinal, 1)
+                    
+            End If
+            
             'Draw name when navigating
             If Len(.Nombre) > 0 Then
                 If Nombres Then
@@ -1316,7 +1339,6 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
                 Call Draw_Grh(.Escudo.ShieldWalk(.Heading), PixelOffsetX, PixelOffsetY, 1, ColorFinal(), 1)
             End If
             
-
             If ClientSetup.ParticleEngine Then
 
                 Call RenderCharParticles(CharIndex, PixelOffsetX + 17, PixelOffsetY + 10)

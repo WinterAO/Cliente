@@ -27,6 +27,7 @@ Begin VB.Form frmMain
    MaxButton       =   0   'False
    MinButton       =   0   'False
    PaletteMode     =   1  'UseZOrder
+   Picture         =   "frmMain.frx":1A041
    ScaleHeight     =   768
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   1024
@@ -74,11 +75,19 @@ Begin VB.Form frmMain
       ToolTipText     =   "Experiencia necesaria para pasar de nivel"
       Top             =   1080
       Width           =   3375
-      _extentx        =   5953
-      _extenty        =   318
-      backcolor       =   8421376
-      bordercolor     =   0
-      font            =   "frmMain.frx":1A041
+      _ExtentX        =   5953
+      _ExtentY        =   318
+      BackColor       =   8421376
+      BorderColor     =   0
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin VB.PictureBox MiniMapa 
       AutoRedraw      =   -1  'True
@@ -86,7 +95,7 @@ Begin VB.Form frmMain
       BorderStyle     =   0  'None
       Height          =   1500
       Left            =   9450
-      MouseIcon       =   "frmMain.frx":1A069
+      MouseIcon       =   "frmMain.frx":427C9
       ScaleHeight     =   100
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   100
@@ -159,11 +168,12 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
       Appearance      =   0
-      TextRTF         =   $"frmMain.frx":1A1BB
+      TextRTF         =   $"frmMain.frx":4291B
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Tahoma"
          Size            =   8.25
@@ -217,17 +227,25 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   120
             Width           =   1335
-            _extentx        =   2355
-            _extenty        =   450
-            tx              =   ""
-            enab            =   -1  'True
-            fcol            =   16777215
-            ocol            =   16777215
-            pice            =   "frmMain.frx":1A238
-            picf            =   "frmMain.frx":1A254
-            pich            =   "frmMain.frx":1A270
-            picv            =   "frmMain.frx":1A28C
-            font            =   "frmMain.frx":1A2A8
+            _ExtentX        =   2355
+            _ExtentY        =   450
+            TX              =   ""
+            ENAB            =   -1  'True
+            FCOL            =   16777215
+            OCOL            =   16777215
+            PICE            =   "frmMain.frx":42998
+            PICF            =   "frmMain.frx":429B4
+            PICH            =   "frmMain.frx":429D0
+            PICV            =   "frmMain.frx":429EC
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Arial"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin WinterAOR_Client.uAOButton btnGrupo 
             Height          =   255
@@ -236,17 +254,25 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   480
             Width           =   1335
-            _extentx        =   2355
-            _extenty        =   450
-            tx              =   ""
-            enab            =   -1  'True
-            fcol            =   16777215
-            ocol            =   16777215
-            pice            =   "frmMain.frx":1A2CC
-            picf            =   "frmMain.frx":1A2E8
-            pich            =   "frmMain.frx":1A304
-            picv            =   "frmMain.frx":1A320
-            font            =   "frmMain.frx":1A33C
+            _ExtentX        =   2355
+            _ExtentY        =   450
+            TX              =   ""
+            ENAB            =   -1  'True
+            FCOL            =   16777215
+            OCOL            =   16777215
+            PICE            =   "frmMain.frx":42A08
+            PICF            =   "frmMain.frx":42A24
+            PICH            =   "frmMain.frx":42A40
+            PICV            =   "frmMain.frx":42A5C
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Arial"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin WinterAOR_Client.uAOButton btnEstadisticas 
             Height          =   255
@@ -255,17 +281,25 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   840
             Width           =   1335
-            _extentx        =   2355
-            _extenty        =   450
-            tx              =   ""
-            enab            =   -1  'True
-            fcol            =   16777215
-            ocol            =   16777215
-            pice            =   "frmMain.frx":1A360
-            picf            =   "frmMain.frx":1A37C
-            pich            =   "frmMain.frx":1A398
-            picv            =   "frmMain.frx":1A3B4
-            font            =   "frmMain.frx":1A3D0
+            _ExtentX        =   2355
+            _ExtentY        =   450
+            TX              =   ""
+            ENAB            =   -1  'True
+            FCOL            =   16777215
+            OCOL            =   16777215
+            PICE            =   "frmMain.frx":42A78
+            PICF            =   "frmMain.frx":42A94
+            PICH            =   "frmMain.frx":42AB0
+            PICV            =   "frmMain.frx":42ACC
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Arial"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin WinterAOR_Client.uAOButton btnClanes 
             Height          =   255
@@ -274,17 +308,25 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   1200
             Width           =   1335
-            _extentx        =   2355
-            _extenty        =   450
-            tx              =   ""
-            enab            =   -1  'True
-            fcol            =   16777215
-            ocol            =   16777215
-            pice            =   "frmMain.frx":1A3F4
-            picf            =   "frmMain.frx":1A410
-            pich            =   "frmMain.frx":1A42C
-            picv            =   "frmMain.frx":1A448
-            font            =   "frmMain.frx":1A464
+            _ExtentX        =   2355
+            _ExtentY        =   450
+            TX              =   ""
+            ENAB            =   -1  'True
+            FCOL            =   16777215
+            OCOL            =   16777215
+            PICE            =   "frmMain.frx":42AE8
+            PICF            =   "frmMain.frx":42B04
+            PICH            =   "frmMain.frx":42B20
+            PICV            =   "frmMain.frx":42B3C
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Arial"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin WinterAOR_Client.uAOButton btnRetos 
             Height          =   255
@@ -293,17 +335,25 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   1920
             Width           =   1335
-            _extentx        =   2355
-            _extenty        =   450
-            tx              =   ""
-            enab            =   -1  'True
-            fcol            =   16777215
-            ocol            =   16777215
-            pice            =   "frmMain.frx":1A488
-            picf            =   "frmMain.frx":1A4A4
-            pich            =   "frmMain.frx":1A4C0
-            picv            =   "frmMain.frx":1A4DC
-            font            =   "frmMain.frx":1A4F8
+            _ExtentX        =   2355
+            _ExtentY        =   450
+            TX              =   ""
+            ENAB            =   -1  'True
+            FCOL            =   16777215
+            OCOL            =   16777215
+            PICE            =   "frmMain.frx":42B58
+            PICF            =   "frmMain.frx":42B74
+            PICH            =   "frmMain.frx":42B90
+            PICV            =   "frmMain.frx":42BAC
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Arial"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin WinterAOR_Client.uAOButton btnOpciones 
             Height          =   255
@@ -312,17 +362,25 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   2280
             Width           =   1335
-            _extentx        =   2355
-            _extenty        =   450
-            tx              =   ""
-            enab            =   -1  'True
-            fcol            =   16777215
-            ocol            =   16777215
-            pice            =   "frmMain.frx":1A51C
-            picf            =   "frmMain.frx":1A538
-            pich            =   "frmMain.frx":1A554
-            picv            =   "frmMain.frx":1A570
-            font            =   "frmMain.frx":1A58C
+            _ExtentX        =   2355
+            _ExtentY        =   450
+            TX              =   ""
+            ENAB            =   -1  'True
+            FCOL            =   16777215
+            OCOL            =   16777215
+            PICE            =   "frmMain.frx":42BC8
+            PICF            =   "frmMain.frx":42BE4
+            PICH            =   "frmMain.frx":42C00
+            PICV            =   "frmMain.frx":42C1C
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Arial"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin WinterAOR_Client.uAOButton btnQuest 
             Height          =   255
@@ -331,19 +389,53 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   1560
             Width           =   1335
-            _extentx        =   2355
-            _extenty        =   450
-            tx              =   ""
-            enab            =   -1  'True
-            fcol            =   16777215
-            ocol            =   16777215
-            pice            =   "frmMain.frx":1A5B0
-            picf            =   "frmMain.frx":1A5CC
-            pich            =   "frmMain.frx":1A5E8
-            picv            =   "frmMain.frx":1A604
-            font            =   "frmMain.frx":1A620
+            _ExtentX        =   2355
+            _ExtentY        =   450
+            TX              =   ""
+            ENAB            =   -1  'True
+            FCOL            =   16777215
+            OCOL            =   16777215
+            PICE            =   "frmMain.frx":42C38
+            PICF            =   "frmMain.frx":42C54
+            PICH            =   "frmMain.frx":42C70
+            PICV            =   "frmMain.frx":42C8C
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Arial"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
       End
+   End
+   Begin VB.Image imgClima 
+      Height          =   360
+      Left            =   13545
+      Top             =   8850
+      Width           =   1140
+   End
+   Begin VB.Image imgPVP 
+      Height          =   855
+      Left            =   13800
+      Top             =   9480
+      Width           =   735
+   End
+   Begin VB.Image picSM 
+      Height          =   345
+      Index           =   1
+      Left            =   12420
+      Top             =   8880
+      Width           =   375
+   End
+   Begin VB.Image picSM 
+      Height          =   345
+      Index           =   0
+      Left            =   11955
+      Top             =   8880
+      Width           =   375
    End
    Begin VB.Label lblHour 
       AutoSize        =   -1  'True
@@ -353,15 +445,15 @@ Begin VB.Form frmMain
       Height          =   195
       Left            =   13905
       TabIndex        =   34
-      Top             =   9975
+      Top             =   9180
       Width           =   465
    End
    Begin VB.Image btnShop 
       Height          =   360
       Left            =   11670
-      MouseIcon       =   "frmMain.frx":1A644
+      MouseIcon       =   "frmMain.frx":42CA8
       Tag             =   "1"
-      Top             =   9720
+      Top             =   9795
       Width           =   1410
    End
    Begin VB.Label LbLChat 
@@ -372,7 +464,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   255
       Left            =   240
-      MouseIcon       =   "frmMain.frx":1A796
+      MouseIcon       =   "frmMain.frx":42DFA
       TabIndex        =   32
       Top             =   1980
       Width           =   1215
@@ -392,13 +484,13 @@ Begin VB.Form frmMain
       Height          =   210
       Left            =   13440
       TabIndex        =   30
-      Top             =   8145
+      Top             =   7875
       Width           =   1290
    End
    Begin VB.Image ShpAgilidad 
       Height          =   165
       Left            =   13410
-      Top             =   8160
+      Top             =   7905
       Width           =   1380
    End
    Begin VB.Label lblStrg 
@@ -410,25 +502,25 @@ Begin VB.Form frmMain
       Height          =   210
       Left            =   13440
       TabIndex        =   29
-      Top             =   7590
+      Top             =   7320
       Width           =   1290
    End
    Begin VB.Image ShpFuerza 
       Height          =   165
       Left            =   13425
-      Top             =   7605
+      Top             =   7335
       Width           =   1380
    End
    Begin VB.Image shpSed 
       Height          =   330
       Left            =   13755
-      Top             =   8430
+      Top             =   8175
       Width           =   120
    End
    Begin VB.Image shpHambre 
       Height          =   300
       Left            =   14100
-      Top             =   8430
+      Top             =   8175
       Width           =   465
    End
    Begin VB.Label lblEnergia 
@@ -441,13 +533,13 @@ Begin VB.Form frmMain
       Height          =   180
       Left            =   11760
       TabIndex        =   28
-      Top             =   8775
+      Top             =   8505
       Width           =   1335
    End
    Begin VB.Image shpEnergia 
       Height          =   165
       Left            =   11700
-      Top             =   8790
+      Top             =   8520
       Width           =   1380
    End
    Begin VB.Label lblMana 
@@ -460,13 +552,13 @@ Begin VB.Form frmMain
       Height          =   180
       Left            =   11760
       TabIndex        =   27
-      Top             =   8205
+      Top             =   7935
       Width           =   1335
    End
    Begin VB.Image shpMana 
       Height          =   165
       Left            =   11700
-      Top             =   8220
+      Top             =   7965
       Width           =   1380
    End
    Begin VB.Label lblVida 
@@ -479,20 +571,20 @@ Begin VB.Form frmMain
       Height          =   180
       Left            =   11760
       TabIndex        =   26
-      Top             =   7650
+      Top             =   7380
       Width           =   1335
    End
    Begin VB.Image shpVida 
       Height          =   165
       Left            =   11700
-      Top             =   7665
+      Top             =   7410
       Width           =   1380
    End
    Begin VB.Image btnSolapa 
       Height          =   585
       Index           =   2
       Left            =   14400
-      MouseIcon       =   "frmMain.frx":1A8E8
+      MouseIcon       =   "frmMain.frx":42F4C
       Top             =   1920
       Width           =   495
    End
@@ -513,7 +605,7 @@ Begin VB.Form frmMain
    Begin VB.Image btnInfo 
       Height          =   495
       Left            =   13575
-      MouseIcon       =   "frmMain.frx":1AA3A
+      MouseIcon       =   "frmMain.frx":4309E
       MousePointer    =   99  'Custom
       Top             =   5940
       Visible         =   0   'False
@@ -522,7 +614,7 @@ Begin VB.Form frmMain
    Begin VB.Image btnLanzar 
       Height          =   540
       Left            =   11640
-      MouseIcon       =   "frmMain.frx":1AB8C
+      MouseIcon       =   "frmMain.frx":431F0
       MousePointer    =   99  'Custom
       Top             =   5940
       Visible         =   0   'False
@@ -546,7 +638,7 @@ Begin VB.Form frmMain
       Height          =   165
       Left            =   14175
       TabIndex        =   24
-      Top             =   8790
+      Top             =   8550
       Width           =   465
    End
    Begin VB.Label lblGems 
@@ -572,16 +664,16 @@ Begin VB.Form frmMain
    Begin VB.Image btnMenu 
       Height          =   360
       Left            =   11670
-      MouseIcon       =   "frmMain.frx":1ACDE
+      MouseIcon       =   "frmMain.frx":43342
       Tag             =   "1"
-      Top             =   9240
+      Top             =   9315
       Width           =   1410
    End
    Begin VB.Image btnSolapa 
       Height          =   600
       Index           =   1
       Left            =   12975
-      MouseIcon       =   "frmMain.frx":1AE30
+      MouseIcon       =   "frmMain.frx":43494
       Top             =   1920
       Width           =   1380
    End
@@ -589,7 +681,7 @@ Begin VB.Form frmMain
       Height          =   600
       Index           =   0
       Left            =   11550
-      MouseIcon       =   "frmMain.frx":1AF82
+      MouseIcon       =   "frmMain.frx":435E6
       Top             =   1920
       Width           =   1380
    End
@@ -664,7 +756,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   0
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":1B0D4
+      MouseIcon       =   "frmMain.frx":43738
       MousePointer    =   99  'Custom
       Top             =   2925
       Visible         =   0   'False
@@ -674,7 +766,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   1
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":1B226
+      MouseIcon       =   "frmMain.frx":4388A
       MousePointer    =   99  'Custom
       Top             =   2580
       Visible         =   0   'False
@@ -799,7 +891,7 @@ Begin VB.Form frmMain
       Height          =   165
       Left            =   13560
       TabIndex        =   2
-      Top             =   8790
+      Top             =   8550
       Width           =   465
    End
    Begin VB.Menu mnuObj 
@@ -1231,8 +1323,8 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                 Case CustomKeys.BindedKey(eKeyType.mKeyToggleSafeMode)
                     Call WriteSafeToggle
 
-                Case CustomKeys.BindedKey(eKeyType.mKeyToggleResuscitationSafe)
-                    Call WriteResuscitationToggle
+                Case CustomKeys.BindedKey(eKeyType.mKeyToggleCombatSafe)
+                    Call WriteCombatToggle
                     
             End Select
             
@@ -1432,6 +1524,11 @@ Private Sub btnOpciones_Click()
     Call frmOpciones.Show(vbModeless, frmMain)
 End Sub
 
+Private Sub imgPVP_Click()
+    Call AddtoRichTextBox(frmMain.RecTxt, "Esta caracteristica aun no esta disponible.", 255, 1, 1, _
+                                      True, False, True)
+End Sub
+
 Private Sub InvEqu_MouseMove(Button As Integer, _
                              Shift As Integer, _
                              X As Single, _
@@ -1522,16 +1619,15 @@ Private Sub Coord_Click()
                           False, False, True)
 End Sub
 
-Private Sub picSM_DblClick(Index As Integer)
-
+Private Sub picSM_Click(Index As Integer)
     Select Case Index
-
-        Case eSMType.sResucitation
-            Call WriteResuscitationToggle
-        
-        Case eSMType.sSafemode
+    
+        Case 0 'Modo combate
+            Call WriteCombatToggle
+            
+        Case 1 'Seguro
             Call WriteSafeToggle
-        
+    
     End Select
 End Sub
 
@@ -1796,6 +1892,14 @@ Private Sub MainViewPic_Click()
                     UsaMacro = False
                 End If
 
+                'Invitando party
+                If InvitandoParty = True Then
+                    frmMain.MousePointer = vbDefault
+                    Call WriteInvitarPartyClick(tX, tY)
+                    InvitandoParty = False
+                    Exit Sub
+                End If
+    
                 '[/ybarra]
                 If UsingSkill = 0 Then
                     Call WriteLeftClick(tX, tY)
@@ -2398,4 +2502,60 @@ Public Sub ActualizarHora()
         lblHour.Caption = Hour(Now) & ":" & Minute(Now)
     End If
         
+End Sub
+
+Public Sub ControlSM(ByVal Index As Byte, ByVal Mostrar As Boolean)
+    
+    Select Case Index
+    
+        Case eSMType.sCombatMode
+            If Mostrar Then
+                Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_SEGURO_COMBAT_ON").item("TEXTO"), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_COMBAT_ON").item("COLOR").item(1), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_COMBAT_ON").item("COLOR").item(2), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_COMBAT_ON").item("COLOR").item(3), _
+                                     True, False, True)
+                                        
+                picSM(Index).ToolTipText = JsonLanguage.item("MENSAJE_SEGURO_COMBAT_ON").item("TEXTO")
+                
+                picSM(Index).Picture = General_Load_Picture_From_Resource("221.gif")
+            Else
+                Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_SEGURO_COMBAT_OFF").item("TEXTO"), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_COMBAT_OFF").item("COLOR").item(1), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_COMBAT_OFF").item("COLOR").item(2), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_COMBAT_OFF").item("COLOR").item(3), _
+                                     True, False, True)
+                                        
+                picSM(Index).ToolTipText = JsonLanguage.item("MENSAJE_SEGURO_COMBAT_ON").item("TEXTO")
+                
+                picSM(Index).Picture = General_Load_Picture_From_Resource("223.gif")
+            End If
+            
+        Case eSMType.sSafemode
+            
+            If Mostrar Then
+                Call AddtoRichTextBox(frmMain.RecTxt, UCase$(JsonLanguage.item("MENSAJE_SEGURO_ACTIVADO").item("TEXTO").item(1)), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_ACTIVADO").item("COLOR").item(1), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_ACTIVADO").item("COLOR").item(2), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_ACTIVADO").item("COLOR").item(3), _
+                                      True, False, True)
+                                        
+                picSM(Index).ToolTipText = JsonLanguage.item("MENSAJE_SEGURO_ACTIVADO").item("TEXTO").item(2)
+                
+                picSM(Index).Picture = General_Load_Picture_From_Resource("222.gif")
+                
+            Else
+                Call AddtoRichTextBox(frmMain.RecTxt, UCase$(JsonLanguage.item("MENSAJE_SEGURO_DESACTIVADO").item("TEXTO").item(1)), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_DESACTIVADO").item("COLOR").item(1), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_DESACTIVADO").item("COLOR").item(2), _
+                                                      JsonLanguage.item("MENSAJE_SEGURO_DESACTIVADO").item("COLOR").item(3), _
+                                      True, False, True)
+                                        
+                picSM(Index).ToolTipText = JsonLanguage.item("MENSAJE_SEGURO_DESACTIVADO").item("TEXTO").item(2)
+                
+                picSM(Index).Picture = General_Load_Picture_From_Resource("224.gif")
+            End If
+        
+    End Select
+    
 End Sub

@@ -23,10 +23,10 @@ Begin VB.Form frmAvisoBeta
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
    Begin VB.Image imgCerrar 
-      Height          =   525
-      Left            =   1800
+      Height          =   405
+      Left            =   1680
       Tag             =   "1"
-      Top             =   4680
+      Top             =   4695
       Width           =   1695
    End
 End
@@ -58,8 +58,7 @@ Private Sub imgCerrar_Click()
 End Sub
 
 Private Sub LoadButtons()
-    Dim boton As String
-    
+
    ' GrhPath = Carga.path(Interfaces)
 
     Set cBotonCerrar = New clsGraphicalButton
@@ -67,14 +66,18 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
     
     If Language = "spanish" Then
-        boton = "3.gif"
+
+        Call cBotonCerrar.Initialize(imgCerrar, "3.gif", _
+                                          "213.gif", _
+                                          "214.gif", Me)
     Else
-        boton = "5.gif"
+    
+        Call cBotonCerrar.Initialize(imgCerrar, "5.gif", _
+                                          "211.gif", _
+                                          "212.gif", Me)
+        
     End If
     
-    Call cBotonCerrar.Initialize(imgCerrar, boton, _
-                                      "BotonCerrarRolloverMsj.gif", _
-                                      "BotonCerrarClickMsj.gif", Me)
 End Sub
 
 Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)

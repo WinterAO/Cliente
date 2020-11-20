@@ -147,6 +147,7 @@ Private Enum ServerPacketID
     
     ShowGuildAlign
     ShowPartyForm
+    PeticionInvitarParty
     UpdateStrenghtAndDexterity
     UpdateStrenght
     UpdateDexterity
@@ -156,7 +157,7 @@ Private Enum ServerPacketID
     CancelOfferItem
     PlayAttackAnim
     FXtoMap
-    AccountLogged                'CHOTS | Accounts
+    EnviarPJUserAccount
     SearchList
     QuestDetails
     QuestListSend
@@ -173,6 +174,8 @@ Private Enum ServerPacketID
     CharParticle
     IniciarSubastaConsulta
     ConfirmarInstruccion
+    SetSpeed
+    AtaqueNPC
 End Enum
 
 Private Enum ClientPacketID
@@ -186,7 +189,7 @@ Private Enum ClientPacketID
     Attack                          'AT
     PickUp                          'AG
     SafeToggle                      '/SEG & SEG  (SEG's behaviour has to be coded in the client)
-    ResuscitationSafeToggle
+    CombatSafeToggle
     RequestGuildLeaderInfo          'GLINFO
     RequestAtributes                'ATR
     RequestFame                     'FAMA
@@ -209,6 +212,7 @@ Private Enum ClientPacketID
     CraftearItem
     WorkClose
     WorkLeftClick                   'WLC
+    InvitarPartyClick
     CreateNewGuild                  'CIG
     SpellInfo                       'INFS
     EquipItem                       'EQUI
@@ -267,8 +271,6 @@ Private Enum ClientPacketID
     RequestMOTD                     '/MOTD
     UpTime                          '/UPTIME
     PartyLeave                      '/SALIRPARTY
-    PartyCreate                     '/CREARPARTY
-    PartyJoin                       '/PARTY
     Inquiry                         '/ENCUESTA ( with no params )
     GuildMessage                    '/CMSG
     PartyMessage                    '/PMSG
@@ -277,7 +279,6 @@ Private Enum ClientPacketID
     CouncilMessage                  '/BMSG
     RoleMasterRequest               '/ROL
     GMRequest                       '/GM
-    bugReport                       '/_BUG
     ChangeDescription               '/DESC
     GuildVote                       '/VOTO
     Punishments                     '/PENAS
@@ -357,9 +358,12 @@ Public Enum FontTypeNames
     FONTTYPE_CONSE = 19
     FONTTYPE_DIOS = 20
     FONTTYPE_CRIMINAL = 21
+    FONTTYPE_EXP = 22
+    FONTTYPE_PRIVADO = 23
+    
 End Enum
 
-Public FontTypes(21) As tFont
+Public FontTypes(23) As tFont
 
 Public Sub Connect(ByVal Modo As E_MODO)
     '*********************************************************************
@@ -542,6 +546,20 @@ Public Sub InitFonts()
         .Blue = 17
         .bold = 1
     End With
+    
+    With FontTypes(FontTypeNames.FONTTYPE_EXP)
+        .Red = 0
+        .Green = 162
+        .Blue = 232
+        .bold = 1
+    End With
+    
+    With FontTypes(FontTypeNames.FONTTYPE_PRIVADO)
+        .Red = 182
+        .Green = 226
+        .Blue = 29
+    End With
+    
 End Sub
 
 ''
@@ -819,9 +837,8 @@ On Error Resume Next
         Case ServerPacketID.FXtoMap
             Call HandleFXtoMap
         
-        'CHOTS | Accounts
-        Case ServerPacketID.AccountLogged
-            Call HandleAccountLogged
+        Case ServerPacketID.EnviarPJUserAccount
+            Call HandleEnviarPJUserAccount
             
         Case ServerPacketID.SearchList              '/BUSCAR
             Call HandleSearchList
@@ -864,6 +881,9 @@ On Error Resume Next
         
         Case ServerPacketID.ShowPartyForm
             Call HandleShowPartyForm
+            
+        Case ServerPacketID.PeticionInvitarParty
+            Call HandlePeticionInvitarParty
         
         Case ServerPacketID.UpdateStrenghtAndDexterity
             Call HandleUpdateStrenghtAndDexterity
@@ -921,6 +941,12 @@ On Error Resume Next
             
         Case ServerPacketID.ConfirmarInstruccion
             Call HandleConfirmarInstruccion
+            
+        Case ServerPacketID.SetSpeed
+            Call HandleSetSpeed
+            
+        Case ServerPacketID.AtaqueNPC
+            Call HandleAtaqueNPC
 
         Case Else
             'ERROR : Abort!
@@ -950,7 +976,7 @@ Public Sub HandleMultiMessage()
 
     Dim SpellIndex As Integer
 
-    Dim nombre     As String
+    Dim Nombre     As String
     
     With incomingData
         Call .ReadByte
@@ -998,16 +1024,16 @@ Public Sub HandleMultiMessage()
                     True, False, True)
         
             Case eMessages.SafeModeOn
-                'Call frmMain.ControlSM(eSMType.sSafemode, True)
+                Call frmMain.ControlSM(eSMType.sSafemode, True)
         
             Case eMessages.SafeModeOff
-                'Call frmMain.ControlSM(eSMType.sSafemode, False)
+                Call frmMain.ControlSM(eSMType.sSafemode, False)
         
-            Case eMessages.ResuscitationSafeOff
-                'Call frmMain.ControlSM(eSMType.sResucitation, False)
+            Case eMessages.CombatSafeOff
+                Call frmMain.ControlSM(eSMType.sCombatMode, False)
          
-            Case eMessages.ResuscitationSafeOn
-                'Call frmMain.ControlSM(eSMType.sResucitation, True)
+            Case eMessages.CombatSafeOn
+                Call frmMain.ControlSM(eSMType.sCombatMode, True)
         
             Case eMessages.NobilityLost
                 Call AddtoRichTextBox(frmMain.RecTxt, _
@@ -1093,7 +1119,7 @@ Public Sub HandleMultiMessage()
         
             Case eMessages.UserAttackedSwing
                 Call AddtoRichTextBox(frmMain.RecTxt, _
-                    charlist(incomingData.ReadInteger()).nombre & JsonLanguage.item("MENSAJE_ATAQUE_FALLO").item("TEXTO"), _
+                    charlist(incomingData.ReadInteger()).Nombre & JsonLanguage.item("MENSAJE_ATAQUE_FALLO").item("TEXTO"), _
                     JsonLanguage.item("MENSAJE_ATAQUE_FALLO").item("COLOR").item(1), _
                     JsonLanguage.item("MENSAJE_ATAQUE_FALLO").item("COLOR").item(2), _
                     JsonLanguage.item("MENSAJE_ATAQUE_FALLO").item("COLOR").item(3), _
@@ -1103,7 +1129,7 @@ Public Sub HandleMultiMessage()
 
                 Dim AttackerName As String
             
-                AttackerName = GetRawName(charlist(incomingData.ReadInteger()).nombre)
+                AttackerName = GetRawName(charlist(incomingData.ReadInteger()).Nombre)
                 BodyPart = incomingData.ReadByte()
                 Dano = incomingData.ReadInteger()
             
@@ -1163,7 +1189,7 @@ Public Sub HandleMultiMessage()
 
                 Dim VictimName As String
             
-                VictimName = GetRawName(charlist(incomingData.ReadInteger()).nombre)
+                VictimName = GetRawName(charlist(incomingData.ReadInteger()).Nombre)
                 BodyPart = incomingData.ReadByte()
                 Dano = incomingData.ReadInteger()
             
@@ -1289,7 +1315,7 @@ Public Sub HandleMultiMessage()
                 EXP = .ReadLong
             
                 Call ShowConsoleMsg( _
-                    JsonLanguage.item("MENSAJE_HAS_MATADO_A").item("TEXTO") & charlist(KilledUser).nombre & MENSAJE_22, _
+                    JsonLanguage.item("MENSAJE_HAS_MATADO_A").item("TEXTO") & charlist(KilledUser).Nombre & MENSAJE_22, _
                     JsonLanguage.item("MENSAJE_HAS_MATADO_A").item("COLOR").item(1), _
                     JsonLanguage.item("MENSAJE_HAS_MATADO_A").item("COLOR").item(2), _
                     JsonLanguage.item("MENSAJE_HAS_MATADO_A").item("COLOR").item(3), _
@@ -1308,7 +1334,7 @@ Public Sub HandleMultiMessage()
                 'Sacamos un screenshot si esta activado el FragShooter:
                 If ClientSetup.bKill And ClientSetup.bActive Then
                     If EXP \ 2 > ClientSetup.byMurderedLevel Then
-                        FragShooterNickname = charlist(KilledUser).nombre
+                        FragShooterNickname = charlist(KilledUser).Nombre
                         FragShooterKilledSomeone = True
                     
                         FragShooterCapturePending = True
@@ -1323,7 +1349,7 @@ Public Sub HandleMultiMessage()
             
                 KillerUser = .ReadInteger
             
-                Call ShowConsoleMsg(charlist(KillerUser).nombre & JsonLanguage.item("MENSAJE_TE_HA_MATADO").item("TEXTO"), _
+                Call ShowConsoleMsg(charlist(KillerUser).Nombre & JsonLanguage.item("MENSAJE_TE_HA_MATADO").item("TEXTO"), _
                                     JsonLanguage.item("MENSAJE_TE_HA_MATADO").item("COLOR").item(1), _
                                     JsonLanguage.item("MENSAJE_TE_HA_MATADO").item("COLOR").item(2), _
                                     JsonLanguage.item("MENSAJE_TE_HA_MATADO").item("COLOR").item(3), _
@@ -1331,7 +1357,7 @@ Public Sub HandleMultiMessage()
             
                 'Sacamos un screenshot si esta activado el FragShooter:
                 If ClientSetup.bDie And ClientSetup.bActive Then
-                    FragShooterNickname = charlist(KillerUser).nombre
+                    FragShooterNickname = charlist(KillerUser).Nombre
                     FragShooterKilledSomeone = False
                 
                     FragShooterCapturePending = True
@@ -1826,8 +1852,6 @@ Private Sub HandleUpdateHP()
         UserEstado = 1
     
         UserEquitando = 0
-        'Reseteo el Speed
-        Call SetSpeedUsuario
     Else
         UserEstado = 0
     End If
@@ -2070,16 +2094,16 @@ Private Sub WriteChatOverHeadInConsole(ByVal CharIndex As Integer, ByVal ChatTex
         End If
 
         Dim Pos As Integer
-        Pos = InStr(.nombre, "<")
+        Pos = InStr(.Nombre, "<")
             
-        If Pos = 0 Then Pos = LenB(.nombre) + 2
+        If Pos = 0 Then Pos = LenB(.Nombre) + 2
         
         Dim name As String
-        name = Left$(.nombre, Pos - 2)
+        name = Left$(.Nombre, Pos - 2)
        
         'Si el npc tiene nombre lo escribimos en la consola
         ChatText = Trim$(ChatText)
-        If LenB(.nombre) <> 0 And LenB(ChatText) > 0 Then
+        If LenB(.Nombre) <> 0 And LenB(ChatText) > 0 Then
             Call AddtoRichTextBox(frmMain.RecTxt, name & "> ", NameRed, NameGreen, NameBlue, True, False, True, rtfLeft)
             Call AddtoRichTextBox(frmMain.RecTxt, ChatText, Red, Green, Blue, True, False, False, rtfLeft)
         End If
@@ -2112,14 +2136,14 @@ On Error GoTo errhandler
     
     Dim chat As String
     Dim CharIndex As Integer
-    Dim Spell As Boolean
+    Dim NoConsole As Boolean
     Dim Red As Byte
     Dim Green As Byte
     Dim Blue As Byte
     
     chat = buffer.ReadASCIIString()
     CharIndex = buffer.ReadInteger()
-    Spell = buffer.ReadBoolean()
+    NoConsole = buffer.ReadBoolean()
     
     Red = buffer.ReadByte()
     Green = buffer.ReadByte()
@@ -2130,7 +2154,7 @@ On Error GoTo errhandler
         Call Dialogos.CreateDialog(Trim$(chat), CharIndex, RGB(Red, Green, Blue))
 
         'Aqui escribimos el texto que aparece sobre la cabeza en la consola.
-        If Spell = False Then Call WriteChatOverHeadInConsole(CharIndex, chat, Red, Green, Blue)
+        If NoConsole = False Then Call WriteChatOverHeadInConsole(CharIndex, chat, Red, Green, Blue)
     End If
     
     'If we got here then packet is complete, copy data back to original queue
@@ -2496,6 +2520,7 @@ On Error GoTo errhandler
     Dim weapon As Integer
     Dim shield As Integer
     Dim helmet As Integer
+    Dim Ataque As Integer
     Dim privs As Integer
     Dim NickColor As Byte
     Dim AuraAnim As Long
@@ -2510,12 +2535,13 @@ On Error GoTo errhandler
     weapon = buffer.ReadInteger()
     shield = buffer.ReadInteger()
     helmet = buffer.ReadInteger()
+    Ataque = buffer.ReadInteger()
 
     With charlist(CharIndex)
         Call Char_SetFx(CharIndex, buffer.ReadInteger(), buffer.ReadInteger())
 
-        .nombre = buffer.ReadASCIIString()
-        .Clan = mid$(.nombre, getTagPosition(.nombre))
+        .Nombre = buffer.ReadASCIIString()
+        .Clan = mid$(.Nombre, getTagPosition(.Nombre))
         NickColor = buffer.ReadByte()
 
         If (NickColor And eNickColor.ieCriminal) <> 0 Then
@@ -2558,7 +2584,7 @@ On Error GoTo errhandler
         .EstadoQuest = buffer.ReadByte()
     End With
     
-    Call Char_Make(CharIndex, Body, Head, Heading, X, Y, weapon, shield, helmet, AuraAnim, AuraColor)
+    Call Char_Make(CharIndex, Body, Head, Heading, X, Y, weapon, shield, helmet, Ataque, AuraAnim, AuraColor)
     
     'If we got here then packet is complete, copy data back to original queue
     Call incomingData.CopyBuffer(buffer)
@@ -2693,7 +2719,7 @@ Private Sub HandleCharacterChange()
 '25/08/2009: ZaMa - Changed a variable used incorrectly.
 '21/09/2010: C4b3z0n - Added code for FragShooter. If its waiting for the death of certain UserIndex, and it dies, then the capture of the screen will occur.
 '***************************************************
-    If incomingData.Length < 17 Then
+    If incomingData.Length < 18 Then
         Err.Raise incomingData.NotEnoughDataErrCode
         Exit Sub
     End If
@@ -2725,6 +2751,9 @@ Private Sub HandleCharacterChange()
     
     '// Char Aura
     Call Char_SetAura(CharIndex, incomingData.ReadLong(), incomingData.ReadLong())
+    
+    'Quest
+    charlist(CharIndex).EstadoQuest = incomingData.ReadByte()
     
 End Sub
 
@@ -2931,14 +2960,14 @@ On Error GoTo errhandler
     
     With frmGuildAdm
         'Clear guild's list
-        .GuildsList.Clear
+        .guildslist.Clear
         
         GuildNames = Split(buffer.ReadASCIIString(), SEPARATOR)
         
         Dim i As Long
         For i = 0 To UBound(GuildNames())
             If LenB(GuildNames(i)) <> 0 Then
-                Call .GuildsList.AddItem(GuildNames(i))
+                Call .guildslist.AddItem(GuildNames(i))
             End If
         Next i
         
@@ -4353,7 +4382,7 @@ On Error GoTo errhandler
             .imgPeticion.Visible = True
         End If
         
-        .nombre.Caption = buffer.ReadASCIIString()
+        .Nombre.Caption = buffer.ReadASCIIString()
         .Raza.Caption = ListaRazas(buffer.ReadByte())
         .Clase.Caption = ListaClases(buffer.ReadByte())
         
@@ -4447,11 +4476,11 @@ On Error GoTo errhandler
         GuildNames = Split(buffer.ReadASCIIString(), SEPARATOR)
         
         'Empty the list
-        Call .GuildsList.Clear
+        Call .guildslist.Clear
         
         For i = 0 To UBound(GuildNames())
             If LenB(GuildNames(i)) <> 0 Then
-                Call .GuildsList.AddItem(GuildNames(i))
+                Call .guildslist.AddItem(GuildNames(i))
             End If
         Next i
         
@@ -4523,7 +4552,7 @@ On Error GoTo errhandler
         .imgOfrecerAlianza.Visible = .EsLeader
         .imgOfrecerPaz.Visible = .EsLeader
         
-        .nombre.Caption = buffer.ReadASCIIString()
+        .Nombre.Caption = buffer.ReadASCIIString()
         .fundador.Caption = buffer.ReadASCIIString()
         .creacion.Caption = buffer.ReadASCIIString()
         .lider.Caption = buffer.ReadASCIIString()
@@ -4961,6 +4990,26 @@ On Error GoTo 0
         Err.Raise Error
 End Sub
 
+Private Sub HandlePeticionInvitarParty()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 05/11/2020
+'
+'***************************************************
+
+    Call incomingData.ReadByte
+    
+    frmMain.MousePointer = 2 'vbCrosshair
+    
+    InvitandoParty = True
+    
+    Call AddtoRichTextBox(frmMain.RecTxt, _
+        JsonLanguage.item("MENSAJE_INVITAR_PARTY").item("TEXTO"), _
+        JsonLanguage.item("MENSAJE_INVITAR_PARTY").item("COLOR").item(1), _
+        JsonLanguage.item("MENSAJE_INVITAR_PARTY").item("COLOR").item(2), _
+        JsonLanguage.item("MENSAJE_INVITAR_PARTY").item("COLOR").item(3))
+
+End Sub
 
 
 ''
@@ -5219,8 +5268,8 @@ On Error GoTo errhandler
         
         .Atacable = (NickColor And eNickColor.ieAtacable) <> 0
         
-        .nombre = UserTag
-        .Clan = mid$(.nombre, getTagPosition(.nombre))
+        .Nombre = UserTag
+        .Clan = mid$(.Nombre, getTagPosition(.Nombre))
     End With
     
     'If we got here then packet is complete, copy data back to original queue
@@ -5476,17 +5525,17 @@ Public Sub WriteSafeToggle()
 End Sub
 
 ''
-' Writes the "ResuscitationSafeToggle" message to the outgoing data buffer.
+' Writes the "CombatSafeToggle" message to the outgoing data buffer.
 '
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteResuscitationToggle()
+Public Sub WriteCombatToggle()
 '**************************************************************
 'Author: Rapsodius
 'Creation Date: 10/10/07
-'Writes the Resuscitation safe toggle packet to the outgoing data buffer.
+'Writes the Combat safe toggle packet to the outgoing data buffer.
 '**************************************************************
-    Call outgoingData.WriteByte(ClientPacketID.ResuscitationSafeToggle)
+    Call outgoingData.WriteByte(ClientPacketID.CombatSafeToggle)
 End Sub
 
 ''
@@ -5503,13 +5552,15 @@ Public Sub WriteRequestGuildLeaderInfo()
     Call outgoingData.WriteByte(ClientPacketID.RequestGuildLeaderInfo)
 End Sub
 
-Public Sub WriteRequestPartyForm()
+Public Sub WriteRequestPartyForm(Optional ByVal LiderInvita As Boolean = False)
 '***************************************************
 'Author: Budi
 'Last Modification: 11/26/09
 'Writes the "RequestPartyForm" message to the outgoing data buffer
 '***************************************************
     Call outgoingData.WriteByte(ClientPacketID.RequestPartyForm)
+    
+    Call outgoingData.WriteBoolean(LiderInvita)
 
 End Sub
 
@@ -5851,7 +5902,6 @@ Public Sub WriteShowGuildNews()
      outgoingData.WriteByte (ClientPacketID.ShowGuildNews)
 End Sub
 
-
 ''
 ' Writes the "WorkLeftClick" message to the outgoing data buffer.
 '
@@ -5873,6 +5923,28 @@ Public Sub WriteWorkLeftClick(ByVal X As Byte, ByVal Y As Byte, ByVal Skill As e
         Call .WriteByte(Y)
         
         Call .WriteByte(Skill)
+    End With
+End Sub
+
+''
+' Writes the "InvitarPartyClick" message to the outgoing data buffer.
+'
+' @param    x Tile coord in the x-axis in which the user clicked.
+' @param    y Tile coord in the y-axis in which the user clicked.
+' @remarks  The data is not actually sent until the buffer is properly flushed.
+
+Public Sub WriteInvitarPartyClick(ByVal X As Byte, ByVal Y As Byte)
+'***************************************************
+'Author: Juan Martin Sotuyo Dodero (Maraxus)
+'Last Modification: 05/17/06
+'Writes the "WorkLeftClick" message to the outgoing data buffer
+'***************************************************
+    With outgoingData
+        Call .WriteByte(ClientPacketID.InvitarPartyClick)
+        
+        Call .WriteByte(X)
+        Call .WriteByte(Y)
+        
     End With
 End Sub
 
@@ -6966,34 +7038,6 @@ Public Sub WritePartyLeave()
 End Sub
 
 ''
-' Writes the "PartyCreate" message to the outgoing data buffer.
-'
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WritePartyCreate()
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'Writes the "PartyCreate" message to the outgoing data buffer
-'***************************************************
-    Call outgoingData.WriteByte(ClientPacketID.PartyCreate)
-End Sub
-
-''
-' Writes the "PartyJoin" message to the outgoing data buffer.
-'
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WritePartyJoin()
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'Writes the "PartyJoin" message to the outgoing data buffer
-'***************************************************
-    Call outgoingData.WriteByte(ClientPacketID.PartyJoin)
-End Sub
-
-''
 ' Writes the "Inquiry" message to the outgoing data buffer.
 '
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
@@ -7150,25 +7194,6 @@ Public Sub WriteGMRequest(ByVal tipo As Byte, ByVal Message As String)
         Call .WriteASCIIString(Message)
     End With
     
-End Sub
-
-''
-' Writes the "BugReport" message to the outgoing data buffer.
-'
-' @param    message The message explaining the reported bug.
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WriteBugReport(ByVal Message As String)
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'Writes the "BugReport" message to the outgoing data buffer
-'***************************************************
-    With outgoingData
-        Call .WriteByte(ClientPacketID.bugReport)
-        
-        Call .WriteASCIIString(Message)
-    End With
 End Sub
 
 ''
@@ -7424,8 +7449,7 @@ Public Sub WritePartyAcceptMember(ByVal UserName As String)
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.PartyAcceptMember)
-        
-        Call .WriteASCIIString(UserName)
+
     End With
 End Sub
 
@@ -10438,7 +10462,7 @@ Private Sub HandleFXtoMap()
 
 End Sub
 
-Private Sub HandleAccountLogged()
+Private Sub HandleEnviarPJUserAccount()
 
     If incomingData.Length < 9 Then
         Err.Raise incomingData.NotEnoughDataErrCode
@@ -10454,20 +10478,13 @@ Private Sub HandleAccountLogged()
 
     'Remove packet ID
     Call buffer.ReadByte
-    
-    Dim Refresh As Boolean
-    
+
     Security.Redundance = buffer.ReadByte
-    Refresh = buffer.ReadBoolean
     AccountName = buffer.ReadASCIIString
     NumberOfCharacters = buffer.ReadByte
 
-    If Refresh Then
-        Call ResetAllInfoAccounts
-    Else
-        'Cambiamos al modo cuenta
-        Call ModCnt.MostrarCuenta(Not frmConnect.Visible)
-    End If
+    'Cambiamos al modo cuenta
+    Call ModCnt.MostrarCuenta(Not frmConnect.Visible)
 
     If NumberOfCharacters > 0 Then
     
@@ -10478,7 +10495,7 @@ Private Sub HandleAccountLogged()
         For loopc = 1 To NumberOfCharacters
         
             With cPJ(loopc)
-                .nombre = buffer.ReadASCIIString
+                .Nombre = buffer.ReadASCIIString
                 .Body = buffer.ReadInteger
                 .Head = buffer.ReadInteger
                 .weapon = buffer.ReadInteger
@@ -10488,7 +10505,6 @@ Private Sub HandleAccountLogged()
                 .Race = buffer.ReadByte
                 .Map = buffer.ReadInteger
                 .Level = buffer.ReadByte
-                .Gold = buffer.ReadLong
                 .Criminal = buffer.ReadBoolean
                 .Dead = buffer.ReadBoolean
                 
@@ -10930,13 +10946,13 @@ Private Sub HandleEquitandoToggle()
 'Author: Lorwik
 'Last Modification: 06/04/2020
 '06/04/2020: FrankoH298 - Recibimos el contador para volver a equiparnos la montura.
+'23/10/2020: Lorwik - Ahora recibe la velocidad
 '***************************************************
+
     'Remove packet ID
     Call incomingData.ReadByte
     
     UserEquitando = Not UserEquitando
-    
-    Call SetSpeedUsuario
 End Sub
 
 Public Sub WriteAddAmigo(ByVal UserName As String, ByVal Index As Byte)
@@ -11342,5 +11358,41 @@ Public Sub WriteRespuestaInstruccion(ByVal Acepto As Boolean)
     With outgoingData
         Call .WriteByte(ClientPacketID.RespuestaInstruccion)
         Call .WriteBoolean(Acepto)
+    End With
+End Sub
+
+Private Sub HandleSetSpeed()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 23/10/2020
+'Setea la nueva velocidad recibida por el server
+'***************************************************
+
+    Dim speed As Double
+    
+    With incomingData
+        Call .ReadByte
+        
+        speed = .ReadDouble
+        
+        Call SetSpeedUsuario(speed)
+        
+    End With
+End Sub
+
+Private Sub HandleAtaqueNPC()
+
+    Dim NPCAtaqueIndex As Integer
+
+    'Remove packet ID
+    Call incomingData.ReadByte
+
+    NPCAtaqueIndex = incomingData.ReadInteger()
+
+    With charlist(NPCAtaqueIndex)
+            
+        MapData(.Pos.X, .Pos.Y).CharIndex = NPCAtaqueIndex
+        .Ataque.AtaqueWalk(.Heading).Started = 1
+        .NPCAttack = True
     End With
 End Sub

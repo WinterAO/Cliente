@@ -168,8 +168,8 @@ Private Const LB_ITEMFROMPOINT = &H1A9
 Private MensajeBusqueda As Boolean
 Private BusquedaObjetos As Boolean
 
-Public Sub AddItem(ByVal num As Integer, ByVal obj As Boolean, data As String)
-    Resultados.AddItem data
+Public Sub AddItem(ByVal num As Integer, ByVal obj As Boolean, Data As String)
+    Resultados.AddItem Data
     Resultados.ItemData(Resultados.ListCount - 1) = num
     
     If Not Info.Visible Or obj <> BusquedaObjetos Then

@@ -721,7 +721,7 @@ Private Sub LoadInitialConfig()
     Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 95)
     
     'Inicializamos el inventario grafico
-    Call Inventario.Initialize(DirectD3D8, frmMain.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call Inventario.Initialize(DirectD3D8, frmMain.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     'Set cKeys = New Collection
     Call frmCargando.ActualizarCarga(JsonLanguage.item("BIENVENIDO").item("TEXTO"), 100)
@@ -1159,7 +1159,6 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     
     If UnloadForms Then
         ' Return to connection screen
-        Call MostrarConnect
         frmMain.Visible = False
     End If
     
@@ -1215,7 +1214,7 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     
     Call Actualizar_Estado(e_estados.MedioDia)
 
-    Call SetSpeedUsuario
+    Call SetSpeedUsuario(SPEED_NORMAL)
 
     ' Reset skills
     For i = 1 To NUMSKILLS
@@ -1256,7 +1255,6 @@ Public Sub ResetAllInfoAccounts()
                 .Race = 0
                 .Map = 0
                 .Level = 0
-                .Gold = 0
                 .Criminal = False
                 .Dead = False
                 
@@ -1280,12 +1278,8 @@ Public Function ArrayInitialized(ByVal TheArray As Long) As Boolean
 
 End Function
 
-Public Sub SetSpeedUsuario()
-    If UserEquitando Then
-        Engine_BaseSpeed = 0.024
-    Else
-        Engine_BaseSpeed = 0.018
-    End If
+Public Sub SetSpeedUsuario(ByVal speed As Double)
+    Engine_BaseSpeed = speed
 End Sub
 
 Public Function CheckIfIpIsNumeric(CurrentIp As String) As String

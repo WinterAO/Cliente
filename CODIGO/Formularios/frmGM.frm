@@ -22,6 +22,26 @@ Begin VB.Form frmGM
    ScaleWidth      =   320
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
+   Begin VB.OptionButton OptDenuncia 
+      BackColor       =   &H00000000&
+      Caption         =   "Denuncia"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   195
+      Index           =   3
+      Left            =   3330
+      TabIndex        =   5
+      Top             =   2760
+      Width           =   1095
+   End
    Begin VB.OptionButton optConsulta 
       BackColor       =   &H00000000&
       Caption         =   "Sugerencia"
@@ -37,14 +57,14 @@ Begin VB.Form frmGM
       ForeColor       =   &H00FFFFFF&
       Height          =   195
       Index           =   2
-      Left            =   3120
+      Left            =   2055
       TabIndex        =   3
       Top             =   2760
       Width           =   1335
    End
    Begin VB.OptionButton optConsulta 
       BackColor       =   &H00000000&
-      Caption         =   "Reporte de Bug"
+      Caption         =   " Bug"
       BeginProperty Font 
          Name            =   "Tahoma"
          Size            =   8.25
@@ -57,10 +77,10 @@ Begin VB.Form frmGM
       ForeColor       =   &H00FFFFFF&
       Height          =   195
       Index           =   1
-      Left            =   1440
+      Left            =   1320
       TabIndex        =   2
       Top             =   2760
-      Width           =   1695
+      Width           =   735
    End
    Begin VB.OptionButton optConsulta 
       BackColor       =   &H00000000&
@@ -77,7 +97,7 @@ Begin VB.Form frmGM
       ForeColor       =   &H00FFFFFF&
       Height          =   195
       Index           =   0
-      Left            =   360
+      Left            =   330
       TabIndex        =   1
       Top             =   2760
       Value           =   -1  'True
@@ -139,15 +159,24 @@ Private Sub CMDEnviar_Click()
         Call WriteGMRequest(0, TXTMessage.Text)
         Unload Me
         Exit Sub
+        
     ElseIf optConsulta(1).value = True Then
         Call WriteGMRequest(1, TXTMessage.Text)
         Unload Me
         Exit Sub
+        
     ElseIf optConsulta(2).value = True Then
         Call WriteGMRequest(2, TXTMessage.Text)
         Unload Me
         Exit Sub
+        
+    ElseIf optConsulta(3).value = True Then
+        Call WriteGMRequest(3, TXTMessage.Text)
+        Unload Me
+        Exit Sub
     End If
+    
+    
 End Sub
 
 Private Sub CMDSalir_Click()
@@ -168,9 +197,13 @@ Private Sub optConsulta_Click(Index As Integer)
             lblInfo.Caption = JsonLanguage.item("VENTANAGM").item("BUG")
         Case 2
             lblInfo.Caption = JsonLanguage.item("VENTANAGM").item("SUGERENCIA")
+        Case 3
+            lblInfo.Caption = JsonLanguage.item("VENTANAGM").item("DENUNCIA")
     End Select
+
 End Sub
 
 Private Sub CMDVolver_Click()
     Unload Me
 End Sub
+

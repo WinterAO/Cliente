@@ -152,7 +152,7 @@ Public Enum eIntervalos
     INT_ATTACK = 1400        'Atacar
     INT_ARROWS = 900        'Flechas
     INT_CAST_SPELL = 500    'Hechizos
-    INT_CAST_ATTACK = 600   'Combo
+    INT_CAST_ATTACK = 580   'Combo
     INT_WORK = 700
     INT_USEITEMU = 250      'Usar Item
     INT_USEITEMDCK = 250    'Usar Item dobleclick
@@ -602,12 +602,12 @@ Public Enum eMessages
     NPCSwing
     NPCKillUser
     BlockedWithShieldUser
-    BlockedWithShieldother
+    BlockedWithShieldOther
     UserSwing
     SafeModeOn
     SafeModeOff
-    ResuscitationSafeOff
-    ResuscitationSafeOn
+    CombatSafeOff
+    CombatSafeOn
     NobilityLost
     CantUseWhileMeditating
     NPCHitUser
@@ -730,7 +730,6 @@ Public Type PjCuenta
     Race        As Byte
     Map         As Integer
     Level       As Byte
-    Gold        As Long
     Criminal    As Boolean
     Dead        As Boolean
     GameMaster  As Boolean
@@ -820,6 +819,7 @@ Public Alocados As Integer
 Public flags() As Integer
 
 Public UsingSkill As Integer
+Public InvitandoParty As Boolean
 
 Public pingTime As Long
 
@@ -860,6 +860,7 @@ Public Enum eEditOptions
     eo_Level
     eo_Class
     eo_Skills
+    eo_SkillPointsLeft
     eo_Nobleza
     eo_Asesino
     eo_Sex
@@ -867,6 +868,7 @@ Public Enum eEditOptions
     eo_addGold
     eo_Vida
     eo_Poss
+    eo_Speed
 End Enum
 
 ''
@@ -949,6 +951,12 @@ Public Type tIndiceCuerpo
     HeadOffsetY As Integer
 End Type
 
+Public Type tIndiceAtaque
+    Body(1 To 4) As Long
+    HeadOffsetX As Integer
+    HeadOffsetY As Integer
+End Type
+
 Public Type tIndiceFx
     Animacion As Long
     OffsetX As Integer
@@ -1022,10 +1030,8 @@ Public GuildMembers() As String
 Public Const OFFSET_HEAD As Integer = -34
 
 Public Enum eSMType
-    sResucitation
+    sCombatMode = 0
     sSafemode
-    mSpells
-    mWork
 End Enum
 
 'Hardcoded grhs and items
@@ -1060,3 +1066,5 @@ Public IntervaloParalizado As Integer
 Public IntervaloInvisible As Integer
 
 Public Security As New clsSecurity
+
+Public Const SPEED_NORMAL As Double = 0.018

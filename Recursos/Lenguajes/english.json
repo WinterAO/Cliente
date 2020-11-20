@@ -80,16 +80,16 @@
             0
         ]
     },
-    "MENSAJE_SEGURO_RESU_ON": {
-        "TEXTO": "Resurrection Insurance activated",
+    "MENSAJE_SEGURO_COMBAT_ON": {
+        "TEXTO": "Combat mode activated",
         "COLOR": [
             255,
             0,
             0
         ]
     },
-    "MENSAJE_SEGURO_RESU_OFF": {
-        "TEXTO": "Resurrection Insurance deactivated",
+    "MENSAJE_SEGURO_COMBAT_OFF": {
+        "TEXTO": "Combat mode deactivated",
         "COLOR": [
             255,
             0,
@@ -261,6 +261,14 @@
     },
     "MENSAJE_TRABAJO_MAGIA": {
         "TEXTO": "Click on the target...",
+        "COLOR": [
+            255,
+            0,
+            0
+        ]
+    },
+	"MENSAJE_INVITAR_PARTY": {
+        "TEXTO": "Click on the user you want to invite...",
         "COLOR": [
             255,
             0,
@@ -1650,6 +1658,7 @@
 	"VENTANAGM": {
         "SOPORTE": "If you need the assistance of a GM, attach a message explaining why. Please understand that GMs can be very busy so it is requested that they only be contacted if necessary. Calls with invalid messages will be ignored. Remember that if you want to report a Bug or a suggestion for the best of the server, you can do so by selecting other categories.", 
 		"BUG": "Explain in the most detailed way possible how to repeat the error, you can attach links to photos or videos. The WinterAO staff will study the case as soon as possible. Remember that if the report is from the selected category (bug report), you could be penalized. If your report is of another type, please explore other reporting options.",
-		"SUGERENCIA": "If you have any suggestions to improve the game experience, changes in any system, class, character, etc. Explain your suggestions in as much detail as possible. The WinterAO staff will study the case as soon as possible. Remember that if the report is from the selected category (suggestion), you could be sanctioned. If your report is of another type, please explore other reporting options."
+		"SUGERENCIA": "If you have any suggestions to improve the game experience, changes in any system, class, character, etc. Explain your suggestions in as much detail as possible. The WinterAO staff will study the case as soon as possible. Remember that if the report is from the selected category (suggestion), you could be sanctioned. If your report is of another type, please explore other reporting options.",
+		"DENUNCIA": "To report bad behavior by a player, or possible use of external programming. Photo or video links can be attached. Explain in the most detailed way possible, the WinterAO staff will study the case as soon as possible. Remember that if the report is from the selected category (suggestion), you could be sanctioned. If your report is of another type, please explore other reporting options."
 	}
 }

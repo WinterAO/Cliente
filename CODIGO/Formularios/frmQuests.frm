@@ -137,26 +137,26 @@ Option Explicit
 
 Private Sub Abandonar_Click()
 
-            If lstQuests.ListCount = 0 Then
-                MsgBox "No tienes ninguna mision!", vbOKOnly + vbExclamation
-                Exit Sub
-            End If
+    If lstQuests.ListCount = 0 Then
+        MsgBox "No tienes ninguna mision!", vbOKOnly + vbExclamation
+        Exit Sub
+    End If
             
-            'Chequeamos si tiene algun item seleccionado.
-            If lstQuests.ListIndex < 0 Then
-                MsgBox "Primero debes seleccionar una mision!", vbOKOnly + vbExclamation
-                Exit Sub
-            End If
+    'Chequeamos si tiene algun item seleccionado.
+    If lstQuests.ListIndex < 0 Then
+        MsgBox "Primero debes seleccionar una mision!", vbOKOnly + vbExclamation
+        Exit Sub
+    End If
             
-            Select Case MsgBox("Estas seguro que deseas abandonar la mision?", vbYesNo + vbExclamation)
-                Case vbYes  'Boton Si.
-                    'Enviamos el paquete para abandonar la quest
-                    Call WriteQuestAbandon(lstQuests.ListIndex + 1)
+    Select Case MsgBox("Estas seguro que deseas abandonar la mision?", vbYesNo + vbExclamation)
+        Case vbYes  'Boton Si.
+            'Enviamos el paquete para abandonar la quest
+            Call WriteQuestAbandon(lstQuests.ListIndex + 1)
                     
-                Case vbNo   'Boton NO.
-                    'Como selecciono que no, no hace nada.
-                    Exit Sub
-            End Select
+        Case vbNo   'Boton NO.
+            'Como selecciono que no, no hace nada.
+            Exit Sub
+    End Select
             
 End Sub
 
