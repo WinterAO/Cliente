@@ -242,7 +242,7 @@ Begin VB.Form frmOpciones
       Width           =   3735
       Begin VB.HScrollBar scrMusic 
          Height          =   315
-         LargeChange     =   15
+         LargeChange     =   1000
          Left            =   120
          Max             =   0
          Min             =   -4000
@@ -253,7 +253,7 @@ Begin VB.Form frmOpciones
       End
       Begin VB.HScrollBar scrVolume 
          Height          =   315
-         LargeChange     =   15
+         LargeChange     =   1000
          Left            =   120
          Max             =   0
          Min             =   -4000
@@ -300,7 +300,7 @@ Begin VB.Form frmOpciones
       End
       Begin VB.HScrollBar scrAmbient 
          Height          =   315
-         LargeChange     =   15
+         LargeChange     =   1000
          Left            =   120
          Max             =   0
          Min             =   -4000
