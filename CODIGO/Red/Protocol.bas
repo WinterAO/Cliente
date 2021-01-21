@@ -52,42 +52,42 @@ End Type
 
 Private Enum ServerPacketID
     logged = 1                  ' LOGGED
-    RemoveDialogs = 2           ' QTDL
-    RemoveCharDialog = 3        ' QDL
-    NavigateToggle = 4          ' NAVEG
-    Disconnect = 5              ' FINOK
-    CommerceEnd = 6             ' FINCOMOK
-    BankEnd = 7                 ' FINBANOK
-    CommerceInit = 8            ' INITCOM
-    BankInit = 9                ' INITBANCO
-    UserCommerceInit = 10        ' INITCOMUSU
-    UserCommerceEnd = 11         ' FINCOMUSUOK
-    UserOfferConfirm = 12
-    CommerceChat = 13
-    UpdateSta = 14               ' ASS
-    UpdateMana = 15             ' ASM
-    UpdateHP = 16                ' ASH
-    UpdateGold = 17              ' ASG
-    UpdateBankGold = 18
-    UpdateExp = 19               ' ASE
-    ChangeMap = 20               ' CM
-    PosUpdate = 21              ' PU
-    ChatOverHead = 22            ' ||
-    ConsoleMsg = 23              ' || - Beware!! its the same as above, but it was properly splitted
-    GuildChat = 24               ' |+
-    ShowMessageBox = 25          ' !!
-    UserIndexInServer = 26       ' IU
-    UserCharIndexInServer = 27   ' IP
-    CharacterCreate = 28         ' CC
-    CharacterRemove = 29         ' BP
-    CharacterChangeNick = 30
-    CharacterMove = 31           ' MP, +, * and _ '
-    ForceCharMove = 32
-    CharacterChange = 33         ' CP
-    HeadingChange = 34
-    ObjectCreate = 35            ' HO
-    ObjectDelete = 36            ' BO
-    BlockPosition = 37           ' BQ
+    RemoveDialogs               ' QTDL
+    RemoveCharDialog            ' QDL
+    NavigateToggle              ' NAVEG
+    Disconnect                  ' FINOK
+    CommerceEnd                 ' FINCOMOK
+    BankEnd                     ' FINBANOK
+    CommerceInit                ' INITCOM
+    BankInit                    ' INITBANCO
+    CommerceChat
+    UpdateSta                   ' ASS
+    UpdateMana                  ' ASM
+    UpdateHP                    ' ASH
+    UpdateGold                  ' ASG
+    UpdateBankGold
+    UpdateExp                   ' ASE
+    ChangeMap                   ' CM
+    PosUpdate                   ' PU
+    ChatOverHead                ' ||
+    ConsoleMsg                  ' || - Beware!! its the same as above, but it was properly splitted
+    GuildChat                   ' |+
+    ShowMessageBox              ' !!
+    UserIndexInServer           ' IU
+    UserCharIndexInServer       ' IP
+    CharacterCreate             ' CC
+    CharacterRemove             ' BP
+    CharacterChangeNick
+    CharacterMove               ' MP, +, * and _ '
+    ForceCharMove
+    CharacterChange             ' CP
+    HeadingChange
+    ObjectCreate                ' HO
+    ObjectDelete                ' BO
+    BlockPosition               ' BQ
+    UserCommerceInit            ' INITCOMUSU
+    UserCommerceEnd             ' FINCOMUSUOK
+    UserOfferConfirm
     PlayMUSIC                    ' TM
     PlayWave                     ' TW
     guildList                    ' GL
@@ -185,6 +185,7 @@ Private Enum ClientPacketID
     Yell                            '-
     Whisper                         '\
     Walk                            'M
+    UseItem                         'USA
     RequestPositionUpdate           'RPU
     Attack                          'AT
     PickUp                          'AG
@@ -208,7 +209,6 @@ Private Enum ClientPacketID
     AccionClick                     'RC
     Work                            'UK
     UseSpellMacro                   'UMH
-    UseItem                         'USA
     CraftearItem
     WorkClose
     WorkLeftClick                   'WLC
@@ -295,7 +295,6 @@ Private Enum ClientPacketID
     PartyAcceptMember               '/ACCEPTPARTY
     Ping                            '/PING
     RequestPartyForm
-    GMCommands
     Home
     ShowGuildNews
     ShareNpc                        '/COMPARTIR
@@ -333,6 +332,7 @@ Private Enum ClientPacketID
     OfertarSubasta
     ConsultaSubasta
     RespuestaInstruccion
+    GMCommands
 End Enum
 
 Public Enum FontTypeNames
@@ -609,15 +609,6 @@ On Error Resume Next
         Case ServerPacketID.BankInit                ' INITBANCO
             Call HandleBankInit
         
-        Case ServerPacketID.UserCommerceInit        ' INITCOMUSU
-            Call HandleUserCommerceInit
-        
-        Case ServerPacketID.UserCommerceEnd         ' FINCOMUSUOK
-            Call HandleUserCommerceEnd
-            
-        Case ServerPacketID.UserOfferConfirm
-            Call HandleUserOfferConfirm
-
         Case ServerPacketID.UpdateSta               ' ASS
             Call HandleUpdateSta
         
@@ -689,6 +680,15 @@ On Error Resume Next
         
         Case ServerPacketID.BlockPosition           ' BQ
             Call HandleBlockPosition
+            
+        Case ServerPacketID.UserCommerceInit        ' INITCOMUSU
+            Call HandleUserCommerceInit
+        
+        Case ServerPacketID.UserCommerceEnd         ' FINCOMUSUOK
+            Call HandleUserCommerceEnd
+            
+        Case ServerPacketID.UserOfferConfirm
+            Call HandleUserOfferConfirm
         
         Case ServerPacketID.PlayMUSIC                ' TM
             Call HandlePlayMUSIC
