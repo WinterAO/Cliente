@@ -32,6 +32,8 @@ Attribute VB_Name = "Mod_Declaraciones"
 
 Option Explicit
 
+Public Inet As clsInet
+
 'Caption de los Forms del proyecto
 Public Form_Caption As String
 
@@ -41,8 +43,7 @@ Public lblArmor As String
 Public lblShielder As String
 Public lblHelm As String
 
-Public Inet As clsInet
-
+'Selección de servidores
 Public CurServerIp As String
 Public CurServerPort As Integer
 
@@ -63,7 +64,7 @@ Public renderFont As Integer
 Public colorRender As Byte
 Public render_msg(3) As Long
 
-'//Caminata fluida
+'Caminata fluida
 Public Movement_Speed As Single
 
 'Objetos publicos
