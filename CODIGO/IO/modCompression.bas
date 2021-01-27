@@ -66,7 +66,7 @@ Public Sub GenerateContra()
     Dim Contra As String
     Dim loopc As Byte
     
-    Contra = "T5lTCWm2m1rR7#SMgq!cazNv"
+    Contra = "$FlLrjB3JoliHdAPKA8&YaJR5"
     
     Erase PkContra
     
@@ -153,13 +153,11 @@ Public Sub Decompress_Data(ByRef Data() As Byte, ByVal OrigSize As Long)
 End Sub
 
 Private Sub encryptHeaderFile(ByRef FileHead As FILEHEADER)
-
     'Each different variable is encrypted with a different key for extra security
     With FileHead
         .lngNumFiles = .lngNumFiles Xor 37816
         .lngFileSize = .lngFileSize Xor 245378169
     End With
-    
 End Sub
 
 Private Sub encryptHeaderInfo(ByRef InfoHead As INFOHEADER)
@@ -176,9 +174,9 @@ Private Sub encryptHeaderInfo(ByRef InfoHead As INFOHEADER)
     
     'Each different variable is encrypted with a different key for extra security
     With InfoHead
-        .lngFileSize = .lngFileSize Xor 341278569
-        .lngFileSizeUncompressed = .lngFileSizeUncompressed Xor 647215839
-        .lngFileStart = .lngFileStart Xor 152398467
+        .lngFileSize = .lngFileSize Xor 221872469
+        .lngFileSizeUncompressed = .lngFileSizeUncompressed Xor 447915732
+        .lngFileStart = .lngFileStart Xor 172379447
         .strFileName = EncryptedFileName
     End With
 End Sub
@@ -240,7 +238,7 @@ Public Function extractMusic(ByVal file_name As String, Optional ByVal TempDir A
 'Set up the error handler
 On Local Error GoTo errhandler
     
-    SourceFilePath = App.Path & SrcPath & "Music" & Formato
+    SourceFilePath = App.Path & SrcPath & "Musica" & Formato
     OutputFilePath = App.Path & "\EXTRAIDOS\Musica\"
     
     '¿Queremos descomprimir en la carpeta temporal?
@@ -324,7 +322,7 @@ On Local Error GoTo errhandler
                 SourceFilePath = App.Path & SrcPath & "Graficos" & Formato
             
         Case Music
-                SourceFilePath = App.Path & SrcPath & "Musics" & Formato
+                SourceFilePath = App.Path & SrcPath & "Musica" & Formato
         
         Case Wav
                 SourceFilePath = App.Path & SrcPath & "Sounds" & Formato
