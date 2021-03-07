@@ -2728,8 +2728,12 @@ Private Sub HandleCharacterChange()
     Call incomingData.ReadByte
     
     Dim CharIndex As Integer
+    Dim Heading As E_Heading
     
     CharIndex = incomingData.ReadInteger()
+    Heading = incomingData.ReadByte()
+    
+    charlist(CharIndex).Heading = Heading
     
     '// Char Body
     Call Char_SetBody(CharIndex, incomingData.ReadInteger())
