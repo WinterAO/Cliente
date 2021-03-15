@@ -2027,7 +2027,6 @@ Private Sub HandleChangeMap()
     Call incomingData.ReadByte
     
     UserMap = incomingData.ReadInteger()
-    nameMap = incomingData.ReadASCIIString
     
     'TODO: Once on-the-fly editor is implemented check for map version before loading....
     'For now we just drop it
