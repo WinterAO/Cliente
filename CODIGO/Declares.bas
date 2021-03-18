@@ -897,7 +897,6 @@ Public stxtbuffer As String 'Holds temp raw data from server
 Public stxtbuffercmsg As String 'Holds temp raw data from server
 Public Connected As Boolean 'True when connected to server
 Public UserMap As Integer
-Public nameMap As String
 
 'Control
 Public prgRun As Boolean 'When true the program ends

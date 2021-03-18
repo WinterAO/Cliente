@@ -376,6 +376,7 @@ Sub SwitchMap(ByVal Map As Integer)
     
     Dim bytArr()    As Byte
     Dim InfoHead    As INFOHEADER
+    Dim Musica      As String
     
     InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Mapas.WAO", LCase$("Mapa" & Map & ".csm"))
     
@@ -394,6 +395,8 @@ Sub SwitchMap(ByVal Map As Integer)
         'Borramos todas las luces
         Call LightRemoveAll
         
+        Musica = mapInfo.Music
+        
         'Cargamos el mapa.
         Call Carga.CargarMapa(Map)
         
@@ -411,18 +414,20 @@ Sub SwitchMap(ByVal Map As Integer)
         'Si estamos jugando y no en el conectar...
         If frmMain.Visible Then
             'Resetear el mensaje en render con el nombre del mapa.
-            renderText = nameMap
+            renderText = mapInfo.name
             renderFont = 2
             colorRender = 240
         
             'Aqui ponemos el nombre del mapa en el label del frmMain
-            frmMain.lblMapName.Caption = nameMap
+            frmMain.lblMapName.Caption = mapInfo.name
             
             'Reproducimos la música del mapa
-            If ClientSetup.bMusic <> CONST_DESHABILITADA Then
+            If Val(Musica) <> Val(mapInfo.Music) Then
                 If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-                    Sound.NextMusic = mapInfo.Music
-                    Sound.Fading = 200
+                    If ClientSetup.bMusic <> CONST_DESHABILITADA Then
+                        Sound.NextMusic = mapInfo.Music
+                        Sound.Fading = 200
+                    End If
                 End If
             End If
         End If
@@ -721,7 +726,7 @@ Private Sub LoadInitialConfig()
     Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 95)
     
     'Inicializamos el inventario grafico
-    Call Inventario.Initialize(DirectD3D8, frmMain.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call Inventario.Initialize(DirectD3D8, frmMain.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     'Set cKeys = New Collection
     Call frmCargando.ActualizarCarga(JsonLanguage.item("BIENVENIDO").item("TEXTO"), 100)

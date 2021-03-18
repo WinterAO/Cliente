@@ -1917,7 +1917,6 @@ Public Sub renderMsgReset()
 
     renderFont = 1
     renderText = vbNullString
-    nameMap = vbNullString
 
 End Sub
 
