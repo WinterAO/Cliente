@@ -355,10 +355,7 @@ Public Sub Particle_Group_Render(ByVal Particle_Group_Index As Long, ByVal scree
     
     If Particle_Group_Index > UBound(particle_group_list) Then Exit Sub
     
-    If GetTickCount - particle_group_list(Particle_Group_Index).live > (particle_group_list(Particle_Group_Index).liv1 * 25) And Not particle_group_list(Particle_Group_Index).liv1 = -1 Then
-        Call Particle_Group_Destroy(Particle_Group_Index)
-        Exit Sub
-    End If
+
         
     With particle_group_list(Particle_Group_Index)
     

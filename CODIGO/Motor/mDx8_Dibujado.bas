@@ -80,8 +80,8 @@ Sub Damage_Initialize()
 
 End Sub
 
-Sub Damage_Create(ByVal X As Byte, _
-                  ByVal Y As Byte, _
+Sub Damage_Create(ByVal X As Integer, _
+                  ByVal Y As Integer, _
                   ByVal ColorRGB As Long, _
                   ByVal DamageValue As Integer, _
                   ByVal edMode As Byte)
@@ -123,8 +123,8 @@ Private Function EaseOutCubic(Time As Double)
     EaseOutCubic = Time * Time * Time + 1
 End Function
  
-Sub Damage_Draw(ByVal X As Byte, _
-                ByVal Y As Byte, _
+Sub Damage_Draw(ByVal X As Integer, _
+                ByVal Y As Integer, _
                 ByVal PixelX As Integer, _
                 ByVal PixelY As Integer)
  
@@ -179,7 +179,7 @@ Sub Damage_Draw(ByVal X As Byte, _
  
 End Sub
  
-Sub Damage_Clear(ByVal X As Byte, ByVal Y As Byte)
+Sub Damage_Clear(ByVal X As Integer, ByVal Y As Integer)
  
     ' @ Limpia todo.
  

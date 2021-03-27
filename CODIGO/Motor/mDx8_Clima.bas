@@ -22,6 +22,7 @@ End Enum
 Public Estados(0 To 8) As D3DCOLORVALUE
 Public Estado_Actual As D3DCOLORVALUE
 Public Estado_Actual_Date As Byte
+Private Estado_Custom As D3DCOLORVALUE
 
 '****************************
 'Usado para las particulas
@@ -100,23 +101,35 @@ Public Sub Init_MeteoEngine()
     
 End Sub
 
-Public Sub Actualizar_Estado(ByVal Estado As Byte)
+Public Sub Actualizar_Estado(Optional ByVal Estado As Byte = 255)
 '***************************************************
 'Author: Lorwik
 'Last Modification: 09/08/2020
 'Actualiza el estado del clima y del dia
 '***************************************************
-    Dim X As Byte, Y As Byte
+    Dim X  As Integer
+    Dim Y  As Integer
+    Dim tR As Byte
+    Dim tG As Byte
+    Dim tB As Byte
 
     'Primero actualizamos la imagen del frmmain
-    Call ActualizarImgClima(Estado)
+    If Estado <> 255 Then _
+        Call ActualizarImgClima(Estado)
 
     '¿El mapa tiene su propia luz?
     If mapInfo.LuzBase <> -1 Then
+    
+        Call ConvertLongToRGB(mapInfo.LuzBase, tR, tG, tB)
+        
+        Estado_Custom.a = 255
+        Estado_Custom.r = tR
+        Estado_Custom.g = tG
+        Estado_Custom.b = tB
         
         For X = XMinMapSize To XMaxMapSize
             For Y = YMinMapSize To YMaxMapSize
-                Call Engine_Long_To_RGB_List(MapData(X, Y).Engine_Light(), mapInfo.LuzBase)
+                Call Engine_D3DColor_To_RGB_List(MapData(X, Y).Engine_Light(), Estado_Custom)
             Next Y
         Next X
         
@@ -185,7 +198,7 @@ Public Sub Start_Rampage()
 'Last Modification: 27/05/2010
 'Init Rampage
 '***************************************************
-    Dim X As Byte, Y As Byte, TempColor As D3DCOLORVALUE
+    Dim X As Integer, Y As Integer, TempColor As D3DCOLORVALUE
     TempColor.a = 255: TempColor.b = 255: TempColor.r = 255: TempColor.g = 255
     
         For X = XMinMapSize To XMaxMapSize
@@ -206,7 +219,7 @@ Public Sub End_Rampage()
     OnRampageImgGrh = 0
     OnRampageImg = 0
     
-    Dim X As Byte, Y As Byte
+    Dim X As Integer, Y As Integer
 
     For X = XMinMapSize To XMaxMapSize
         For Y = YMinMapSize To YMaxMapSize

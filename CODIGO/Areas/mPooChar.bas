@@ -87,7 +87,7 @@ Private Sub Char_ResetInfo(ByVal CharIndex As Integer)
  
 End Sub
  
-Private Sub Char_MapPosGet(ByVal CharIndex As Long, ByRef X As Byte, ByRef Y As Byte)
+Private Sub Char_MapPosGet(ByVal CharIndex As Long, ByRef X As Integer, ByRef Y As Integer)
                                 
     '*****************************************************************
     'Author: Aaron Perkins
@@ -108,7 +108,7 @@ Private Sub Char_MapPosGet(ByVal CharIndex As Long, ByRef X As Byte, ByRef Y As 
  
 End Sub
  
-Public Sub Char_MapPosSet(ByVal X As Byte, ByVal Y As Byte)
+Public Sub Char_MapPosSet(ByVal X As Integer, ByVal Y As Integer)
 
     'Sets the user postion
 
@@ -149,7 +149,7 @@ Public Function Char_Techo() As Boolean
 
 End Function
  
-Public Function Char_MapPosExits(ByVal X As Byte, ByVal Y As Byte) As Integer
+Public Function Char_MapPosExits(ByVal X As Integer, ByVal Y As Integer) As Integer
  
     '*****************************************************************
     'Checks to see if a tile position has a char_index and return it
@@ -168,9 +168,9 @@ Public Sub Char_UserPos()
     '// Author Miqueas
     '// Actualizamo el lbl de la posicion del usuario
  
-    Dim X As Byte
+    Dim X As Integer
 
-    Dim Y As Byte
+    Dim Y As Integer
      
     If Char_Check(UserCharIndex) Then
         
@@ -767,17 +767,17 @@ Sub Char_CleanAll()
         For Y = YMinMapSize To YMaxMapSize
           
             'Erase NPCs
-            CharIndex = Char_MapPosExits(CByte(X), CByte(Y))
+            CharIndex = Char_MapPosExits(CInt(X), CInt(Y))
  
             If (CharIndex > 0) Then
                 Call Char_Erase(CharIndex)
             End If
                         
             'Erase OBJs
-            obj = Map_PosExitsObject(CByte(X), CByte(Y))
+            obj = Map_PosExitsObject(CInt(X), CInt(Y))
 
             If (obj > 0) Then
-                Call Map_DestroyObject(CByte(X), CByte(Y))
+                Call Map_DestroyObject(CInt(X), CInt(Y))
             End If
 
         Next Y

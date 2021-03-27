@@ -1138,7 +1138,7 @@ Sub CargarMapa(ByVal Map As Integer)
     End With
     
     With MapSize
-        ReDim MapData(.XMin To .XMax, .YMin To .YMax)
+        'ReDim MapData(.XMin To .XMax, .YMin To .YMax)
         ReDim L1(.XMin To .XMax, .YMin To .YMax)
     End With
 
@@ -1244,7 +1244,8 @@ Sub CargarMapa(ByVal Map As Integer)
                     .Y = fileBuff.getInteger()
                     .Particula = fileBuff.getLong()
                 
-                    MapData(.X, .Y).Particle_Group_Index = General_Particle_Create(.Particula, .X, .Y)
+                    MapData(.X, .Y).Particle_Index = .Particula
+                    Call General_Particle_Create(.Particula, .X, .Y)
                 End With
 
             Next i

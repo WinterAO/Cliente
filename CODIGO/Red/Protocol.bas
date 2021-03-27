@@ -2514,8 +2514,8 @@ On Error GoTo errhandler
     Dim Body As Integer
     Dim Head As Integer
     Dim Heading As E_Heading
-    Dim X As Byte
-    Dim Y As Byte
+    Dim X As Integer
+    Dim Y As Integer
     Dim weapon As Integer
     Dim shield As Integer
     Dim helmet As Integer
@@ -2529,8 +2529,8 @@ On Error GoTo errhandler
     Body = buffer.ReadInteger()
     Head = buffer.ReadInteger()
     Heading = buffer.ReadByte()
-    X = buffer.ReadByte()
-    Y = buffer.ReadByte()
+    X = buffer.ReadInteger()
+    Y = buffer.ReadInteger()
     weapon = buffer.ReadInteger()
     shield = buffer.ReadInteger()
     helmet = buffer.ReadInteger()
@@ -2664,12 +2664,12 @@ Private Sub HandleCharacterMove()
     Call incomingData.ReadByte
     
     Dim CharIndex As Integer
-    Dim X As Byte
-    Dim Y As Byte
+    Dim X As Integer
+    Dim Y As Integer
     
     CharIndex = incomingData.ReadInteger()
-    X = incomingData.ReadByte()
-    Y = incomingData.ReadByte()
+    X = incomingData.ReadInteger()
+    Y = incomingData.ReadInteger()
 
     With charlist(CharIndex)
         If .FxIndex >= 40 And .FxIndex <= 49 Then   'If it's meditating, we remove the FX
@@ -2727,8 +2727,13 @@ Private Sub HandleCharacterChange()
     Call incomingData.ReadByte
     
     Dim CharIndex As Integer
+    Dim Heading As Byte
     
     CharIndex = incomingData.ReadInteger()
+    
+    Heading = incomingData.ReadByte()
+
+    charlist(CharIndex).Heading = Heading
     
     '// Char Body
     Call Char_SetBody(CharIndex, incomingData.ReadInteger())
@@ -2795,14 +2800,14 @@ Private Sub HandleObjectCreate()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    Dim X               As Byte
-    Dim Y               As Byte
+    Dim X               As Integer
+    Dim Y               As Integer
     Dim GrhIndex        As Long
     Dim ParticulaIndex  As Integer
     Dim Shadow          As Byte
     
-    X = incomingData.ReadByte()
-    Y = incomingData.ReadByte()
+    X = incomingData.ReadInteger()
+    Y = incomingData.ReadInteger()
     GrhIndex = incomingData.ReadLong()
     ParticulaIndex = incomingData.ReadInteger()
     Shadow = incomingData.ReadByte()
@@ -2827,12 +2832,12 @@ Private Sub HandleObjectDelete()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    Dim X   As Byte
-    Dim Y   As Byte
+    Dim X   As Integer
+    Dim Y   As Integer
     Dim obj As Long
 
-    X = incomingData.ReadByte()
-    Y = incomingData.ReadByte()
+    X = incomingData.ReadInteger()
+    Y = incomingData.ReadInteger()
         
     obj = Map_PosExitsObject(X, Y)
 
@@ -2860,12 +2865,12 @@ Private Sub HandleBlockPosition()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    Dim X As Byte
-    Dim Y As Byte
+    Dim X As Integer
+    Dim Y As Integer
     Dim block As Boolean
     
-    X = incomingData.ReadByte()
-    Y = incomingData.ReadByte()
+    X = incomingData.ReadInteger()
+    Y = incomingData.ReadInteger()
     block = incomingData.ReadBoolean()
     
     If block Then
@@ -2925,12 +2930,12 @@ Private Sub HandlePlayWave()
     Call incomingData.ReadByte
         
     Dim wave As Integer
-    Dim srcX As Byte
-    Dim srcY As Byte
+    Dim srcX As Integer
+    Dim srcY As Integer
     
     wave = incomingData.ReadInteger()
-    srcX = incomingData.ReadByte()
-    srcY = incomingData.ReadByte()
+    srcX = incomingData.ReadInteger()
+    srcY = incomingData.ReadInteger()
         
     Call Sound.Sound_Play(wave, , Sound.Calculate_Volume(srcX, srcY), Sound.Calculate_Pan(srcX, srcY))
 End Sub
@@ -3005,11 +3010,11 @@ Private Sub HandleAreaChanged()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    Dim X As Byte
-    Dim Y As Byte
+    Dim X As Integer
+    Dim Y As Integer
     
-    X = incomingData.ReadByte()
-    Y = incomingData.ReadByte()
+    X = incomingData.ReadInteger()
+    Y = incomingData.ReadInteger()
         
     Call CambioDeArea(X, Y)
 End Sub
@@ -5750,7 +5755,7 @@ End Sub
 ' @param    y Tile coord in the y-axis in which the user clicked.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteLeftClick(ByVal X As Byte, ByVal Y As Byte)
+Public Sub WriteLeftClick(ByVal X As Integer, ByVal Y As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -5759,8 +5764,8 @@ Public Sub WriteLeftClick(ByVal X As Byte, ByVal Y As Byte)
     With outgoingData
         Call .WriteByte(ClientPacketID.LeftClick)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
     End With
 End Sub
 
@@ -5771,7 +5776,7 @@ End Sub
 ' @param    y Tile coord in the y-axis in which the user clicked.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteAccionClick(ByVal X As Byte, ByVal Y As Byte)
+Public Sub WriteAccionClick(ByVal X As Integer, ByVal Y As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -5780,8 +5785,8 @@ Public Sub WriteAccionClick(ByVal X As Byte, ByVal Y As Byte)
     With outgoingData
         Call .WriteByte(ClientPacketID.AccionClick)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
     End With
 End Sub
 
@@ -5909,7 +5914,7 @@ End Sub
 ' @param    skill The skill which the user attempts to use.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteWorkLeftClick(ByVal X As Byte, ByVal Y As Byte, ByVal Skill As eSkill)
+Public Sub WriteWorkLeftClick(ByVal X As Integer, ByVal Y As Integer, ByVal Skill As eSkill)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -5918,8 +5923,8 @@ Public Sub WriteWorkLeftClick(ByVal X As Byte, ByVal Y As Byte, ByVal Skill As e
     With outgoingData
         Call .WriteByte(ClientPacketID.WorkLeftClick)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
         
         Call .WriteByte(Skill)
     End With
@@ -5932,7 +5937,7 @@ End Sub
 ' @param    y Tile coord in the y-axis in which the user clicked.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteInvitarPartyClick(ByVal X As Byte, ByVal Y As Byte)
+Public Sub WriteInvitarPartyClick(ByVal X As Integer, ByVal Y As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -5941,8 +5946,8 @@ Public Sub WriteInvitarPartyClick(ByVal X As Byte, ByVal Y As Byte)
     With outgoingData
         Call .WriteByte(ClientPacketID.InvitarPartyClick)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
         
     End With
 End Sub
@@ -7671,7 +7676,7 @@ End Sub
 ' @param    y The y position in the map to which to waro the character.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal X As Byte, ByVal Y As Byte)
+Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal X As Integer, ByVal Y As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -7690,8 +7695,8 @@ Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal X
         
         Call .WriteInteger(Map)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
     End With
     
 End Sub
@@ -8420,7 +8425,7 @@ End Sub
 ' @param    y The position in the y axis to which the teleport will lead.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteTeleportCreate(ByVal Map As Integer, ByVal X As Byte, ByVal Y As Byte, Optional ByVal Radio As Byte = 0)
+Public Sub WriteTeleportCreate(ByVal Map As Integer, ByVal X As Integer, ByVal Y As Integer, Optional ByVal Radio As Byte = 0)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -8432,8 +8437,8 @@ Public Sub WriteTeleportCreate(ByVal Map As Integer, ByVal X As Byte, ByVal Y As
         
         Call .WriteInteger(Map)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
         
         Call .WriteByte(Radio)
     End With
@@ -8537,7 +8542,7 @@ End Sub
 ' @param    y       The position in the y axis in which to play the given wave.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteForceWAVEToMap(ByVal waveID As Byte, ByVal Map As Integer, ByVal X As Byte, ByVal Y As Byte)
+Public Sub WriteForceWAVEToMap(ByVal waveID As Byte, ByVal Map As Integer, ByVal X As Integer, ByVal Y As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -8551,8 +8556,8 @@ Public Sub WriteForceWAVEToMap(ByVal waveID As Byte, ByVal Map As Integer, ByVal
         
         Call .WriteInteger(Map)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
     End With
 End Sub
 
@@ -10051,7 +10056,7 @@ End Sub
 ' @param    Y           The y pos where the king is settled.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteCreatePretorianClan(ByVal Map As Integer, ByVal X As Byte, ByVal Y As Byte)
+Public Sub WriteCreatePretorianClan(ByVal Map As Integer, ByVal X As Integer, ByVal Y As Integer)
 '***************************************************
 'Author: ZaMa
 'Last Modification: 29/10/2010
@@ -10061,8 +10066,8 @@ Public Sub WriteCreatePretorianClan(ByVal Map As Integer, ByVal X As Byte, ByVal
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.CreatePretorianClan)
         Call .WriteInteger(Map)
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
     End With
 End Sub
 

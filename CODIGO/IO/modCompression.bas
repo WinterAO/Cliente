@@ -4,7 +4,7 @@ Option Explicit
 'Public Formato As String * 6
 Public Const Formato As String * 6 = ".WAO"
 
-Public PkContra() As Byte
+Private PkContra() As Byte
 
 'This structure will describe our binary file's
 'size and number of contained files
@@ -66,7 +66,7 @@ Public Sub GenerateContra()
     Dim Contra As String
     Dim loopc As Byte
     
-    Contra = "T5lTCWm2m1rR7#SMgq!cazNv"
+    Contra = "$FlLrjB3JoliHdAPKA8&YaJR5"
     
     Erase PkContra
     
@@ -176,9 +176,9 @@ Private Sub encryptHeaderInfo(ByRef InfoHead As INFOHEADER)
     
     'Each different variable is encrypted with a different key for extra security
     With InfoHead
-        .lngFileSize = .lngFileSize Xor 341278569
-        .lngFileSizeUncompressed = .lngFileSizeUncompressed Xor 647215839
-        .lngFileStart = .lngFileStart Xor 152398467
+        .lngFileSize = .lngFileSize Xor 221872469
+        .lngFileSizeUncompressed = .lngFileSizeUncompressed Xor 447915732
+        .lngFileStart = .lngFileStart Xor 172379447
         .strFileName = EncryptedFileName
     End With
 End Sub

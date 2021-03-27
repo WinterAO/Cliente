@@ -378,6 +378,10 @@ Sub SwitchMap(ByVal Map As Integer)
     Dim InfoHead    As INFOHEADER
     Dim Musica      As String
     
+    'Reseteamos el Array antes que nada, o por la velocidad que pueda tardar en comprobar si el mapa existe, se pueden _
+    producir errores.
+    ReDim MapData(XMinMapSize To XMaxMapSize, YMinMapSize To YMaxMapSize)
+    
     InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Mapas.WAO", LCase$("Mapa" & Map & ".csm"))
     
     If InfoHead.lngFileSize <> 0 Then
@@ -399,6 +403,8 @@ Sub SwitchMap(ByVal Map As Integer)
         
         'Cargamos el mapa.
         Call Carga.CargarMapa(Map)
+        
+        Call Actualizar_Estado
         
         'Dibujamos el Mini-Mapa'
         If Extract_File_Memory(srcFileType.Minimap, Map & ".bmp", bytArr()) Then
