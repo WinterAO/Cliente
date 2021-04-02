@@ -29,7 +29,7 @@ End Type
 
 Public CurMapAmbient As MapAmbient
 
-Public Sub Init_Ambient(ByVal Map As Integer)
+Public Sub Init_Ambient()
 '***************************************************
 'Author: Standelf
 'Last Modification: 15/10/10

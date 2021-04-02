@@ -178,6 +178,8 @@ Public Sub Char_UserPos()
         Call Char_MapPosGet(UserCharIndex, X, Y)
                 
         bTecho = Char_Techo '// Pos : Techo :P
+        
+        Call CheckZona(UserCharIndex)
                
         frmMain.Coord.Caption = "Map:" & UserMap & " X:" & X & " Y:" & Y
 

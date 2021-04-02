@@ -254,7 +254,7 @@ Sub SetConnected()
     keysMovementPressedQueue.Clear
 
     frmMain.lblName.Caption = UserName
-    frmMain.lblMapName.Caption = mapInfo.name
+    frmMain.lblMapName.Caption = MapZonas(UserZonaId(UserCharIndex)).name
     
     'Load main form
     frmMain.Visible = True
@@ -376,11 +376,11 @@ Sub SwitchMap(ByVal Map As Integer)
     
     Dim bytArr()    As Byte
     Dim InfoHead    As INFOHEADER
-    Dim Musica      As String
     
     'Reseteamos el Array antes que nada, o por la velocidad que pueda tardar en comprobar si el mapa existe, se pueden _
     producir errores.
     ReDim MapData(XMinMapSize To XMaxMapSize, YMinMapSize To YMaxMapSize)
+    ReDim MapZonas(1) As tMapInfo
     
     InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Mapas.WAO", LCase$("Mapa" & Map & ".csm"))
     
@@ -399,10 +399,10 @@ Sub SwitchMap(ByVal Map As Integer)
         'Borramos todas las luces
         Call LightRemoveAll
         
-        Musica = mapInfo.Music
-        
         'Cargamos el mapa.
         Call Carga.CargarMapa(Map)
+        
+        Call CheckZona(UserCharIndex)
         
         Call Actualizar_Estado
         
@@ -415,28 +415,8 @@ Sub SwitchMap(ByVal Map As Integer)
         
         CurMap = Map
         
-        Call Init_Ambient(Map)
+        Call Init_Ambient
         
-        'Si estamos jugando y no en el conectar...
-        If frmMain.Visible Then
-            'Resetear el mensaje en render con el nombre del mapa.
-            renderText = mapInfo.name
-            renderFont = 2
-            colorRender = 240
-        
-            'Aqui ponemos el nombre del mapa en el label del frmMain
-            frmMain.lblMapName.Caption = mapInfo.name
-            
-            'Reproducimos la música del mapa
-            If Val(Musica) <> Val(mapInfo.Music) Then
-                If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-                    If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-                        Sound.NextMusic = mapInfo.Music
-                        Sound.Fading = 200
-                    End If
-                End If
-            End If
-        End If
     Else
     
         'no encontramos el mapa en el hd
@@ -1385,3 +1365,67 @@ Public Sub Form_RemoveTitleBar(F As Form)
     ' Repaint the window.
     'SetWindowPos f.hwnd, 0, 0, 0, 0, 0, SWP_FRAMECHANGED Or SWP_NOMOVE Or SWP_NOZORDER Or SWP_NOSIZE
 End Sub
+
+Public Function UserZonaId(ByVal CharIndex As Integer) As Integer
+'**************************************
+'Autor: Lorwik
+'Fecha: 02/04/2021
+'Descripción: Devuelve el Id de la zona donde se encuentra el usuario
+'**************************************
+
+    If CharIndex < 1 Then
+        UserZonaId = 0
+        Exit Function
+    
+    ElseIf charlist(CharIndex).Pos.X < 1 Or charlist(CharIndex).Pos.Y < 1 Then
+        UserZonaId = 0
+        Exit Function
+        
+    End If
+    
+    UserZonaId = MapData(charlist(CharIndex).Pos.X, charlist(CharIndex).Pos.Y).ZonaIndex
+
+End Function
+
+Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
+'**************************************
+'Autor: Lorwik
+'Fecha: 02/04/2021
+'Descripción: Comprueba si hubo cambio de zona
+'**************************************
+
+    Static ZonaActual   As Integer
+    Dim ZonaId          As Integer
+
+    'Nueva zona
+    ZonaId = UserZonaId(CharIndex)
+
+    If ZonaActual <> ZonaId Then
+    
+        'Si estamos jugando y no en el conectar...
+        If frmMain.Visible Then
+            'Resetear el mensaje en render con el nombre del mapa.
+            renderText = MapZonas(ZonaId).name
+            renderFont = 2
+            colorRender = 240
+        
+            'Aqui ponemos el nombre del mapa en el label del frmMain
+            frmMain.lblMapName.Caption = MapZonas(ZonaId).name
+            
+            If ClientSetup.bMusic <> CONST_DESHABILITADA Then
+                If ClientSetup.bMusic <> CONST_DESHABILITADA Then
+                    'Comprobamos si la musica de la zona anterior y la actual es la misma
+                    If Val(MapZonas(ZonaActual).Music) <> Val(MapZonas(ZonaId).Music) Then
+                        Sound.NextMusic = MapZonas(ZonaId).Music
+                        Sound.Fading = 200
+                    End If
+                End If
+            End If
+        End If
+        
+        ZonaActual = ZonaId
+        
+    End If
+
+End Function
+

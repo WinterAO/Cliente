@@ -594,25 +594,27 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 
             Case "/TELEP"
                 If notNullArguments And CantidadArgumentos >= 4 Then
-                    If ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(3), eNumber_Types.ent_byte) Then
+                    If ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(3), eNumber_Types.ent_Integer) Then
                         Call WriteWarpChar(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2), ArgumentosAll(3))
                     Else
                         'No es numerico
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telep NICKNAME MAPA X Y.")
                     End If
+                    
                 ElseIf CantidadArgumentos = 3 Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_byte) Then
+                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) Then
                         'Por defecto, si no se indica el nombre, se teletransporta el mismo usuario
                         Call WriteWarpChar("YO", ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2))
-                    ElseIf ValidNumber(ArgumentosAll(1), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_byte) Then
+                    ElseIf ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) Then
                         'Por defecto, si no se indica el mapa, se teletransporta al mismo donde esta el usuario
                         Call WriteWarpChar(ArgumentosAll(0), UserMap, ArgumentosAll(1), ArgumentosAll(2))
                     Else
                         'No uso ningun formato por defecto
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telep NICKNAME MAPA X Y.")
                     End If
+                    
                 ElseIf CantidadArgumentos = 2 Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_byte) Then
+                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
                         ' Por defecto, se considera que se quiere unicamente cambiar las coordenadas del usuario, en el mismo mapa
                         Call WriteWarpChar("YO", UserMap, ArgumentosAll(0), ArgumentosAll(1))
                     Else

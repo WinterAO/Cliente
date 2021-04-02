@@ -93,11 +93,13 @@ Private Type tMapHeader
     NumeroBloqueados As Long
     NumeroLayers(2 To 4) As Long
     NumeroTriggers As Long
-    NumeroLuces As Long
     NumeroParticulas As Long
+    NumeroLuces As Long
+    NumeroZonas As Integer
     NumeroNPCs As Long
     NumeroOBJs As Long
     NumeroTE As Long
+    NumeroData As Integer
 End Type
 
 Private Type tDatosBloqueados
@@ -117,7 +119,13 @@ Private Type tDatosTrigger
     Trigger As Integer
 End Type
 
-Private Type tDatosLuces
+Private Type tDatosZonas
+    X As Integer
+    Y As Integer
+    Zona As Integer
+End Type
+
+Public Type tDatosLuces
     r As Integer
     g As Integer
     b As Integer
@@ -141,7 +149,7 @@ End Type
 Private Type tDatosObjs
     X As Integer
     Y As Integer
-    objindex As Integer
+    ObjIndex As Integer
     ObjAmmount As Integer
 End Type
 
@@ -182,7 +190,7 @@ Private Type tMapDat
 End Type
 
 Public MapSize As tMapSize
-Private MapDat As tMapDat
+Private MapDat() As tMapDat
 '********************************
 'END - Load Map with .CSM format
 '********************************
@@ -1073,7 +1081,8 @@ Sub CargarMapa(ByVal Map As Integer)
     Dim Objetos()    As tDatosObjs
     Dim NPCs()       As tDatosNPC
     Dim TEs()        As tDatosTE
-
+    Dim Zonas()      As tDatosZonas
+    
     Dim i            As Long
     Dim j            As Long
 
@@ -1104,9 +1113,11 @@ Sub CargarMapa(ByVal Map As Integer)
         .NumeroTriggers = fileBuff.getLong()
         .NumeroLuces = fileBuff.getLong()
         .NumeroParticulas = fileBuff.getLong()
+        .NumeroZonas = fileBuff.getInteger()
         .NumeroNPCs = fileBuff.getLong()
         .NumeroOBJs = fileBuff.getLong()
         .NumeroTE = fileBuff.getLong()
+        .NumeroData = fileBuff.getInteger()
     End With
     
     With MapSize
@@ -1116,27 +1127,43 @@ Sub CargarMapa(ByVal Map As Integer)
         .YMin = fileBuff.getInteger()
     End With
 
-    With MapDat
-        .map_name = fileBuff.getString()
-        .battle_mode = fileBuff.getBoolean()
-        .backup_mode = fileBuff.getBoolean()
-        .restrict_mode = fileBuff.getString()
-        .music_number = fileBuff.getString()
-        .zone = fileBuff.getString()
-        .terrain = fileBuff.getString()
-        .Ambient = fileBuff.getString()
-        .lvlMinimo = fileBuff.getString()
-        .RoboNpcsPermitido = fileBuff.getBoolean()
-        .InvocarSinEfecto = fileBuff.getBoolean()
-        .OcultarSinEfecto = fileBuff.getBoolean()
-        .ResuSinEfecto = fileBuff.getBoolean()
-        .MagiaSinEfecto = fileBuff.getBoolean()
-        .InviSinEfecto = fileBuff.getBoolean()
-        .LuzBase = fileBuff.getLong()
-        .version = fileBuff.getLong()
-        .NoTirarItems = fileBuff.getBoolean()
-    End With
+    CantZonas = MH.NumeroData
+
+    ReDim MapZonas(CantZonas) As tMapInfo
+    ReDim MapDat(CantZonas) As tMapDat
     
+    For i = 0 To CantZonas
+        With MapDat(i)
+            
+            .map_name = fileBuff.getString()
+            .battle_mode = fileBuff.getBoolean()
+            .backup_mode = fileBuff.getBoolean()
+            .restrict_mode = fileBuff.getString()
+            .music_number = fileBuff.getString()
+            .zone = fileBuff.getString()
+            .terrain = fileBuff.getString()
+            .Ambient = fileBuff.getString()
+            .lvlMinimo = fileBuff.getString()
+            .RoboNpcsPermitido = fileBuff.getBoolean()
+            .InvocarSinEfecto = fileBuff.getBoolean()
+            .OcultarSinEfecto = fileBuff.getBoolean()
+            .ResuSinEfecto = fileBuff.getBoolean()
+            .MagiaSinEfecto = fileBuff.getBoolean()
+            .InviSinEfecto = fileBuff.getBoolean()
+            .LuzBase = fileBuff.getLong()
+            .version = fileBuff.getLong()
+            .NoTirarItems = fileBuff.getBoolean()
+            
+            MapZonas(i).name = .map_name
+            MapZonas(i).Music = .music_number
+            MapZonas(i).Ambient = .Ambient
+            MapZonas(i).Zona = .zone
+            MapZonas(i).Terreno = .terrain
+            MapZonas(i).LuzBase = .LuzBase
+            
+        End With
+    Next i
+
     With MapSize
         'ReDim MapData(.XMin To .XMax, .YMin To .YMax)
         ReDim L1(.XMin To .XMax, .YMin To .YMax)
@@ -1153,7 +1180,7 @@ Sub CargarMapa(ByVal Map As Integer)
 
         Next i
     Next j
-    
+
     With MH
 
         If .NumeroBloqueados > 0 Then
@@ -1271,6 +1298,23 @@ Sub CargarMapa(ByVal Map As Integer)
             
             Call LightRenderAll
         End If
+        
+        If .NumeroZonas > 0 Then
+            ReDim Zonas(1 To .NumeroZonas)
+            
+            For i = 1 To .NumeroZonas
+                
+                With Zonas(i)
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+                    .Zona = fileBuff.getInteger()
+                
+                    MapData(.X, .Y).ZonaIndex = .Zona
+                End With
+                
+            Next i
+
+        End If
             
         If .NumeroOBJs > 0 Then
             ReDim Objetos(1 To .NumeroOBJs)
@@ -1280,7 +1324,7 @@ Sub CargarMapa(ByVal Map As Integer)
                 With Objetos(i)
                     .X = fileBuff.getInteger()
                     .Y = fileBuff.getInteger()
-                    .objindex = fileBuff.getInteger()
+                    .ObjIndex = fileBuff.getInteger()
                     .ObjAmmount = fileBuff.getInteger()
                 
                     'Erase OBJs
@@ -1294,17 +1338,6 @@ Sub CargarMapa(ByVal Map As Integer)
     
     Erase buffer
     Set fileBuff = Nothing
-    
-    '*******************************
-    'INFORMACION DEL MAPA
-    '*******************************
-    
-    mapInfo.name = MapDat.map_name
-    mapInfo.Music = MapDat.music_number
-    mapInfo.Ambient = MapDat.Ambient
-    mapInfo.Zona = MapDat.zone
-    mapInfo.Terreno = MapDat.terrain
-    mapInfo.LuzBase = MapDat.LuzBase
 
 ErrorHandler:
     
@@ -1312,7 +1345,7 @@ ErrorHandler:
     
     If Err.number <> 0 Then
         'Call LogError(Err.number, Err.Description, "modCarga.CargarMapa")
-        Call MsgBox("err: " & Err.number, "desc: " & Err.Description)
+        Call MsgBox("err: " & Err.number & " desc: " & Err.Description)
     End If
 
 End Sub

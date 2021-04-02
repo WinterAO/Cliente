@@ -1593,9 +1593,9 @@ Private Sub HandleCommerceInit()
 
     'Fill user inventory
     For i = 1 To MAX_INVENTORY_SLOTS
-        If Inventario.objindex(i) <> 0 Then
+        If Inventario.ObjIndex(i) <> 0 Then
             With Inventario
-                Call InvComUsu.SetItem(i, .objindex(i), _
+                Call InvComUsu.SetItem(i, .ObjIndex(i), _
                 .Amount(i), .Equipped(i), .GrhIndex(i), _
                 .OBJType(i), .MaxHit(i), .MinHit(i), .MaxDef(i), .MinDef(i), _
                 .valor(i), .ItemName(i), .NoUsa(i))
@@ -1605,9 +1605,9 @@ Private Sub HandleCommerceInit()
     
     ' Fill Npc inventory
     For i = 1 To MAX_NPC_INVENTORY_SLOTS
-        If NPCInventory(i).objindex <> 0 Then
+        If NPCInventory(i).ObjIndex <> 0 Then
             With NPCInventory(i)
-                Call InvComNpc.SetItem(i, .objindex, _
+                Call InvComNpc.SetItem(i, .ObjIndex, _
                 .Amount, 0, .GrhIndex, _
                 .OBJType, .MaxHit, .MinHit, .MaxDef, .MinDef, _
                 .valor, .name, .NoUsa)
@@ -1644,7 +1644,7 @@ Private Sub HandleBankInit()
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
-            Call InvBanco(1).SetItem(i, .objindex(i), _
+            Call InvBanco(1).SetItem(i, .ObjIndex(i), _
                 .Amount(i), .Equipped(i), .GrhIndex(i), _
                 .OBJType(i), .MaxHit(i), .MinHit(i), .MaxDef(i), .MinDef(i), _
                 .valor(i), .ItemName(i), .NoUsa(i))
@@ -1653,7 +1653,7 @@ Private Sub HandleBankInit()
     
     For i = 1 To MAX_BANCOINVENTORY_SLOTS
         With UserBancoInventory(i)
-            Call InvBanco(0).SetItem(i, .objindex, _
+            Call InvBanco(0).SetItem(i, .ObjIndex, _
                 .Amount, .Equipped, .GrhIndex, _
                 .OBJType, .MaxHit, .MinHit, .MaxDef, .MinDef, _
                 .valor, .name, .NoUsa)
@@ -1702,9 +1702,9 @@ Private Sub HandleUserCommerceInit()
 
     'Fill user inventory
     For i = 1 To MAX_INVENTORY_SLOTS
-        If Inventario.objindex(i) <> 0 Then
+        If Inventario.ObjIndex(i) <> 0 Then
             With Inventario
-                Call InvComUsu.SetItem(i, .objindex(i), _
+                Call InvComUsu.SetItem(i, .ObjIndex(i), _
                 .Amount(i), .Equipped(i), .GrhIndex(i), _
                 .OBJType(i), .MaxHit(i), .MinHit(i), .MaxDef(i), .MinDef(i), _
                 .valor(i), .ItemName(i), .NoUsa(i))
@@ -3165,7 +3165,7 @@ On Error GoTo errhandler
     Call buffer.ReadByte
     
     Dim slot As Byte
-    Dim objindex As Integer
+    Dim ObjIndex As Integer
     Dim name As String
     Dim Amount As Integer
     Dim Equipped As Boolean
@@ -3179,7 +3179,7 @@ On Error GoTo errhandler
     Dim NoUsa As Boolean
     
     slot = buffer.ReadByte()
-    objindex = buffer.ReadInteger()
+    ObjIndex = buffer.ReadInteger()
     name = buffer.ReadASCIIString()
     Amount = buffer.ReadInteger()
     Equipped = buffer.ReadBoolean()
@@ -3224,14 +3224,14 @@ On Error GoTo errhandler
         End Select
     End If
     
-    Call Inventario.SetItem(slot, objindex, Amount, Equipped, GrhIndex, OBJType, MaxHit, MinHit, MaxDef, MinDef, value, name, NoUsa)
+    Call Inventario.SetItem(slot, ObjIndex, Amount, Equipped, GrhIndex, OBJType, MaxHit, MinHit, MaxDef, MinDef, value, name, NoUsa)
 
     If frmComerciar.Visible Then
-        Call InvComUsu.SetItem(slot, objindex, Amount, Equipped, GrhIndex, OBJType, MaxHit, MinHit, MaxDef, MinDef, value, name, NoUsa)
+        Call InvComUsu.SetItem(slot, ObjIndex, Amount, Equipped, GrhIndex, OBJType, MaxHit, MinHit, MaxDef, MinDef, value, name, NoUsa)
     End If
 
     If frmBancoObj.Visible Then
-        Call InvBanco(1).SetItem(slot, objindex, Amount, Equipped, GrhIndex, OBJType, MaxHit, MinHit, MaxDef, MinDef, value, name, NoUsa)
+        Call InvBanco(1).SetItem(slot, ObjIndex, Amount, Equipped, GrhIndex, OBJType, MaxHit, MinHit, MaxDef, MinDef, value, name, NoUsa)
         frmBancoObj.NoPuedeMover = False
     End If
     
@@ -3300,7 +3300,7 @@ Private Sub HandleCancelOfferItem()
         ' No tiene sentido que se quiten 0 unidades
         If Amount <> 0 Then
             ' Actualizo el inventario general
-            Call frmComerciarUsu.UpdateInvCom(.objindex(slot), Amount)
+            Call frmComerciarUsu.UpdateInvCom(.ObjIndex(slot), Amount)
             
             ' Borro el item
             Call .SetItem(slot, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "")
@@ -3343,7 +3343,7 @@ On Error GoTo errhandler
     slot = buffer.ReadByte()
     
     With UserBancoInventory(slot)
-        .objindex = buffer.ReadInteger()
+        .ObjIndex = buffer.ReadInteger()
         .name = buffer.ReadASCIIString()
         .Amount = buffer.ReadInteger()
         .GrhIndex = buffer.ReadLong()
@@ -3356,7 +3356,7 @@ On Error GoTo errhandler
         .NoUsa = buffer.ReadBoolean()
         
         If frmBancoObj.Visible Then
-            Call InvBanco(0).SetItem(slot, .objindex, .Amount, 0, .GrhIndex, .OBJType, .MaxHit, .MinHit, .MaxDef, .MinDef, .valor, .name, .NoUsa)
+            Call InvBanco(0).SetItem(slot, .ObjIndex, .Amount, 0, .GrhIndex, .OBJType, .MaxHit, .MinHit, .MaxDef, .MinDef, .valor, .name, .NoUsa)
         End If
     End With
     
@@ -3495,7 +3495,7 @@ On Error GoTo errhandler
                 .NameMateriales(j) = buffer.ReadASCIIString()
             Next j
             
-            .objindex = buffer.ReadInteger()
+            .ObjIndex = buffer.ReadInteger()
         End With
     Next i
     
@@ -3568,7 +3568,7 @@ On Error GoTo errhandler
         With ObjArtesano(i)
             .name = buffer.ReadASCIIString()
             .GrhIndex = buffer.ReadLong()
-            .objindex = buffer.ReadInteger()
+            .ObjIndex = buffer.ReadInteger()
             
             CountCrafteo = buffer.ReadByte()
             ReDim .ItemsCrafteo(CountCrafteo) As tItemCrafteo
@@ -3576,7 +3576,7 @@ On Error GoTo errhandler
             For j = 1 To CountCrafteo
                 .ItemsCrafteo(j).name = buffer.ReadASCIIString()
                 .ItemsCrafteo(j).GrhIndex = buffer.ReadLong()
-                .ItemsCrafteo(j).objindex = buffer.ReadInteger()
+                .ItemsCrafteo(j).ObjIndex = buffer.ReadInteger()
                 .ItemsCrafteo(j).Amount = buffer.ReadInteger()
             Next j
         End With
@@ -3774,7 +3774,7 @@ On Error GoTo errhandler
         .Amount = buffer.ReadInteger()
         .valor = buffer.ReadSingle()
         .GrhIndex = buffer.ReadLong()
-        .objindex = buffer.ReadInteger()
+        .ObjIndex = buffer.ReadInteger()
         .OBJType = buffer.ReadByte()
         .MaxHit = buffer.ReadInteger()
         .MinHit = buffer.ReadInteger()
@@ -3783,7 +3783,7 @@ On Error GoTo errhandler
         .NoUsa = buffer.ReadBoolean()
     
         If frmComerciar.Visible Then
-            Call InvComNpc.SetItem(slot, .objindex, .Amount, 0, .GrhIndex, .OBJType, .MaxHit, .MinHit, .MaxDef, .MinDef, .valor, .name, .NoUsa)
+            Call InvComNpc.SetItem(slot, .ObjIndex, .Amount, 0, .GrhIndex, .OBJType, .MaxHit, .MinHit, .MaxDef, .MinDef, .valor, .name, .NoUsa)
         End If
     End With
         
@@ -4711,7 +4711,7 @@ On Error GoTo errhandler
     Call buffer.CopyBuffer(incomingData)
     
     Dim OfferSlot As Byte
-    Dim objindex As Integer
+    Dim ObjIndex As Integer
     Dim Amount As Long
     Dim ObjGrhIndex As Long
     Dim OffObjType As Byte
@@ -4728,7 +4728,7 @@ On Error GoTo errhandler
         'Remove packet ID
         Call .ReadByte
         OfferSlot = .ReadByte()
-        objindex = .ReadInteger()
+        ObjIndex = .ReadInteger()
         Amount = .ReadLong()
         
         ObjGrhIndex = .ReadLong()
@@ -4742,12 +4742,12 @@ On Error GoTo errhandler
         NoUsa = .ReadBoolean()
         
         If OfferSlot = GOLD_OFFER_SLOT Then
-            Call InvOroComUsu(2).SetItem(1, objindex, Amount, 0, _
+            Call InvOroComUsu(2).SetItem(1, ObjIndex, Amount, 0, _
                                             ObjGrhIndex, OffObjType, MaximoHit, MinimoHit, _
                                             MaximaDefensa, MinimaDefensa, PrecioValor, NombreObjeto, NoUsa)
 
         Else
-            Call InvOfferComUsu(1).SetItem(OfferSlot, objindex, Amount, 0, _
+            Call InvOfferComUsu(1).SetItem(OfferSlot, ObjIndex, Amount, 0, _
                                             ObjGrhIndex, OffObjType, MaximoHit, MinimoHit, _
                                             MaximaDefensa, MinimaDefensa, PrecioValor, NombreObjeto, NoUsa)
 
@@ -10847,7 +10847,7 @@ Private Sub HandleCreateDamage()
         ' Leemos el ID del paquete.
         .ReadByte
      
-        Call mDx8_Dibujado.Damage_Create(.ReadByte(), .ReadByte(), 0, .ReadLong(), .ReadByte())
+        Call mDx8_Dibujado.Damage_Create(.ReadInteger(), .ReadInteger(), 0, .ReadLong(), .ReadByte())
      
     End With
  

@@ -198,7 +198,7 @@ End Type
 
 'Info de un objeto
 Public Type obj
-    objindex As Integer
+    ObjIndex As Integer
     Amount As Integer
     Shadow As Byte
 End Type
@@ -225,10 +225,12 @@ Public Type MapBlock
     
     fX As Grh
     FxIndex As Integer
+    
+    ZonaIndex As Integer
 End Type
 
 'Info de cada mapa
-Public Type mapInfo
+Public Type tMapInfo
     Music As String
     name As String
     StartPos As WorldPos
@@ -303,7 +305,8 @@ Public AtaqueData() As AtaqueAnimData
 
 '?????????Mapa????????????
 Public MapData() As MapBlock ' Mapa
-Public mapInfo As mapInfo ' Info acerca del mapa en uso
+Public MapZonas() As tMapInfo ' Info acerca del mapa en uso
+Public CantZonas As Integer
 '?????????????????????????
 
 Public Normal_RGBList(3) As Long

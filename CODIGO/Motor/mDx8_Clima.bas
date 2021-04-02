@@ -117,39 +117,33 @@ Public Sub Actualizar_Estado(Optional ByVal Estado As Byte = 255)
     If Estado <> 255 Then _
         Call ActualizarImgClima(Estado)
 
-    '¿El mapa tiene su propia luz?
-    If mapInfo.LuzBase <> -1 Then
-    
-        Call ConvertLongToRGB(mapInfo.LuzBase, tR, tG, tB)
-        
-        Estado_Custom.a = 255
-        Estado_Custom.r = tR
-        Estado_Custom.g = tG
-        Estado_Custom.b = tB
-        
-        For X = XMinMapSize To XMaxMapSize
-            For Y = YMinMapSize To YMaxMapSize
-                Call Engine_D3DColor_To_RGB_List(MapData(X, Y).Engine_Light(), Estado_Custom)
-            Next Y
-        Next X
-        
-        Call LightRenderAll
-        
-        Exit Sub
-    End If
-
     '¿Es un estado invalido?
     If Estado < 0 Or Estado > 8 Then Estado = e_estados.MedioDia
-        
+            
     Estado_Actual = Estados(Estado)
     Estado_Actual_Date = Estado
-        
+            
     For X = XMinMapSize To XMaxMapSize
         For Y = YMinMapSize To YMaxMapSize
-            Call Engine_D3DColor_To_RGB_List(MapData(X, Y).Engine_Light(), Estado_Actual)
+            
+            If MapZonas(MapData(X, Y).ZonaIndex).LuzBase <> 0 Then '¿La zona tiene su propia luz?
+            
+                Call ConvertLongToRGB(MapZonas(MapData(X, Y).ZonaIndex).LuzBase, tR, tG, tB)
+                Estado_Custom.a = 255
+                Estado_Custom.r = tR
+                Estado_Custom.g = tG
+                Estado_Custom.b = tB
+                
+                Call Engine_D3DColor_To_RGB_List(MapData(X, Y).Engine_Light(), Estado_Custom)
+                
+            Else
+                Call Engine_D3DColor_To_RGB_List(MapData(X, Y).Engine_Light(), Estado_Actual)
+                
+            End If
+                
         Next Y
     Next X
-        
+            
     Call LightRenderAll
     
     If Estado = (e_estados.Lluvia Or e_estados.FogLluvia) Then
@@ -257,7 +251,7 @@ Public Sub Engine_Weather_Update()
     If bRain And MeterologiaEnDungeon Then
             
         'Particula segun el terreno...
-        Select Case mapInfo.Terreno
+        Select Case MapZonas(UserZonaId(UserCharIndex)).Terreno
         
             Case "BOSQUE"
                 If RainParticle <= 0 Then
@@ -483,7 +477,7 @@ Public Function MeterologiaEnDungeon() As Boolean
 'Descripcion: Comprueba si hay algun fenomeno meteorologico activo y si esta en dungeon
 ''*********************************************
     If (Estado_Actual_Date = e_estados.Niebla Or _
-        bRain) And mapInfo.Zona <> "DUNGEON" Then
+        bRain) And MapZonas(UserZonaId(UserCharIndex)).Zona <> "DUNGEON" Then
         
         MeterologiaEnDungeon = True
         
