@@ -1485,41 +1485,41 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
             Case "/GUARDAMAPA"
                 Call WriteSaveMap
                 
-            Case "/MODMAPINFO" ' PK, BACKUP
+            Case "/MODZONA" ' PK, BACKUP
                 If CantidadArgumentos > 1 Then
                     Select Case UCase$(ArgumentosAll(0))
-                        Case "PK" ' "/MODMAPINFO PK"
-                            Call WriteChangeMapInfoPK(ArgumentosAll(1) = "1")
+                        Case "PK" ' "/MODZona PK"
+                            Call WriteChangeZonaPK(ArgumentosAll(1) = "1")
                         
-                        Case "BACKUP" ' "/MODMAPINFO BACKUP"
-                            Call WriteChangeMapInfoBackup(ArgumentosAll(1) = "1")
+                        Case "BACKUP" ' "/MODZona BACKUP"
+                            Call WriteChangeZonaBackup(ArgumentosAll(1) = "1")
                         
-                        Case "RESTRINGIR" '/MODMAPINFO RESTRINGIR
-                            Call WriteChangeMapInfoRestricted(ArgumentosAll(1))
+                        Case "RESTRINGIR" '/MODZona RESTRINGIR
+                            Call WriteChangeZonaRestricted(ArgumentosAll(1))
                         
-                        Case "MAGIASINEFECTO" '/MODMAPINFO MAGIASINEFECTO
-                            Call WriteChangeMapInfoNoMagic(ArgumentosAll(1) = "1")
+                        Case "MAGIASINEFECTO" '/MODZona MAGIASINEFECTO
+                            Call WriteChangeZonaNoMagic(ArgumentosAll(1) = "1")
                         
-                        Case "INVISINEFECTO" '/MODMAPINFO INVISINEFECTO
-                            Call WriteChangeMapInfoNoInvi(ArgumentosAll(1) = "1")
+                        Case "INVISINEFECTO" '/MODZona INVISINEFECTO
+                            Call WriteChangeZonaNoInvi(ArgumentosAll(1) = "1")
                         
-                        Case "RESUSINEFECTO" '/MODMAPINFO RESUSINEFECTO
-                            Call WriteChangeMapInfoNoResu(ArgumentosAll(1) = "1")
+                        Case "RESUSINEFECTO" '/MODZona RESUSINEFECTO
+                            Call WriteChangeZonaNoResu(ArgumentosAll(1) = "1")
                         
-                        Case "TERRENO" '/MODMAPINFO TERRENO
-                            Call WriteChangeMapInfoLand(ArgumentosAll(1))
+                        Case "TERRENO" '/MODZona TERRENO
+                            Call WriteChangeZonaLand(ArgumentosAll(1))
                         
-                        Case "ZONA" '/MODMAPINFO ZONA
-                            Call WriteChangeMapInfoZone(ArgumentosAll(1))
+                        Case "ZONA" '/MODZona ZONA
+                            Call WriteChangeZonaZone(ArgumentosAll(1))
                             
-                        Case "ROBONPC" '/MODMAPINFO ROBONPC
-                            Call WriteChangeMapInfoStealNpc(ArgumentosAll(1) = "1")
+                        Case "ROBONPC" '/MODZona ROBONPC
+                            Call WriteChangeZonaStealNpc(ArgumentosAll(1) = "1")
                             
-                        Case "OCULTARSINEFECTO" '/MODMAPINFO OCULTARSINEFECTO
-                            Call WriteChangeMapInfoNoOcultar(ArgumentosAll(1) = "1")
+                        Case "OCULTARSINEFECTO" '/MODZona OCULTARSINEFECTO
+                            Call WriteChangeZonaNoOcultar(ArgumentosAll(1) = "1")
                             
-                        Case "INVOCARSINEFECTO" '/MODMAPINFO INVOCARSINEFECTO
-                            Call WriteChangeMapInfoNoInvocar(ArgumentosAll(1) = "1")
+                        Case "INVOCARSINEFECTO" '/MODZona INVOCARSINEFECTO
+                            Call WriteChangeZonaNoInvocar(ArgumentosAll(1) = "1")
                             
                     End Select
                 Else

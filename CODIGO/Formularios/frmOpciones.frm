@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin VB.Form frmOpciones 
    BorderStyle     =   3  'Fixed Dialog
-   ClientHeight    =   7185
+   ClientHeight    =   7470
    ClientLeft      =   45
    ClientTop       =   45
-   ClientWidth     =   7770
+   ClientWidth     =   7755
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    BeginProperty Font 
@@ -20,11 +20,36 @@ Begin VB.Form frmOpciones
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   479
+   ScaleHeight     =   498
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   518
+   ScaleWidth      =   517
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
+   Begin VB.Frame FraMiscelanea 
+      Caption         =   "Miscelanea"
+      Height          =   1335
+      Left            =   120
+      TabIndex        =   38
+      Top             =   5160
+      Width           =   3735
+      Begin VB.CheckBox chkop 
+         Caption         =   "Ver coordenadas por cuadrantes"
+         Height          =   255
+         Index           =   14
+         Left            =   120
+         TabIndex        =   40
+         Top             =   360
+         Width           =   3375
+      End
+      Begin VB.CommandButton imgConfigTeclas 
+         Caption         =   "Configurar Teclas"
+         Height          =   360
+         Left            =   120
+         TabIndex        =   39
+         Top             =   840
+         Width           =   3450
+      End
+   End
    Begin VB.CommandButton imgSalir 
       Caption         =   "Salir"
       BeginProperty Font 
@@ -37,41 +62,25 @@ Begin VB.Form frmOpciones
          Strikethrough   =   0   'False
       EndProperty
       Height          =   345
-      Left            =   3960
-      TabIndex        =   36
-      Top             =   6720
+      Left            =   1800
+      TabIndex        =   34
+      Top             =   7080
       Width           =   3690
    End
    Begin VB.CommandButton imgTutorial 
       Caption         =   "Tutorial"
       Height          =   345
       Left            =   120
-      TabIndex        =   35
-      Top             =   6720
+      TabIndex        =   33
+      Top             =   6600
       Width           =   3690
    End
    Begin VB.CommandButton imgManual 
       Caption         =   "Manual"
       Height          =   345
-      Left            =   120
-      TabIndex        =   34
-      Top             =   6240
-      Width           =   3690
-   End
-   Begin VB.CommandButton imgMapa 
-      Caption         =   "Mapa"
-      Height          =   345
-      Left            =   120
-      TabIndex        =   33
-      Top             =   5760
-      Width           =   3690
-   End
-   Begin VB.CommandButton imgConfigTeclas 
-      Caption         =   "Configurar Teclas"
-      Height          =   360
-      Left            =   120
+      Left            =   3960
       TabIndex        =   32
-      Top             =   5280
+      Top             =   6600
       Width           =   3690
    End
    Begin VB.Frame FraClanes 
@@ -191,7 +200,7 @@ Begin VB.Form frmOpciones
          Height          =   195
          Index           =   13
          Left            =   240
-         TabIndex        =   39
+         TabIndex        =   37
          Top             =   1420
          Width           =   2055
       End
@@ -200,7 +209,7 @@ Begin VB.Form frmOpciones
          Height          =   195
          Index           =   12
          Left            =   240
-         TabIndex        =   38
+         TabIndex        =   36
          Top             =   1150
          Width           =   2055
       End
@@ -209,7 +218,7 @@ Begin VB.Form frmOpciones
          Height          =   195
          Index           =   11
          Left            =   240
-         TabIndex        =   37
+         TabIndex        =   35
          Top             =   880
          Width           =   2055
       End
@@ -566,6 +575,9 @@ Private Sub chkop_MouseUp(Index As Integer, Button As Integer, Shift As Integer,
         Case 13 'Auras
             ClientSetup.UsarAuras = Not ClientSetup.UsarAuras
             
+        Case 14 'Cuadrantes
+            ClientSetup.VerCuadrantes = Not ClientSetup.VerCuadrantes
+            
     End Select
 End Sub
 
@@ -678,10 +690,6 @@ Private Sub imgManual_Click()
     If Not loading Then _
         Call Sound.Sound_Play(SND_CLICK)
     Call ShellExecute(0, "Open", "http://winterao.com.ar/wiki/", "", App.Path, SW_SHOWNORMAL)
-End Sub
-
-Private Sub imgMapa_Click()
-    frmMapa.Show vbModeless, Me
 End Sub
 
 Private Sub imgSalir_Click()
@@ -826,6 +834,12 @@ Private Sub LoadUserConfig()
         chkop(13).value = vbChecked
     Else
         chkop(13).value = vbUnchecked
+    End If
+    
+    If ClientSetup.VerCuadrantes Then
+        chkop(14).value = vbChecked
+    Else
+        chkop(14).value = vbUnchecked
     End If
     
     txtCantMensajes.Text = CStr(DialogosClanes.CantidadDialogos)

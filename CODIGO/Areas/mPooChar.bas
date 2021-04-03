@@ -181,7 +181,7 @@ Public Sub Char_UserPos()
         
         Call CheckZona(UserCharIndex)
                
-        frmMain.Coord.Caption = "Map:" & UserMap & " X:" & X & " Y:" & Y
+        Call frmMain.ActualizarCoordenadas(X, Y)
 
         Call frmMain.ActualizarMiniMapa
  

@@ -9503,220 +9503,220 @@ Public Sub WriteSaveMap()
 End Sub
 
 ''
-' Writes the "ChangeMapInfoPK" message to the outgoing data buffer.
+' Writes the "ChangeZonaPK" message to the outgoing data buffer.
 '
 ' @param    isPK True if the map is PK, False otherwise.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoPK(ByVal isPK As Boolean)
+Public Sub WriteChangeZonaPK(ByVal isPK As Boolean)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
-'Writes the "ChangeMapInfoPK" message to the outgoing data buffer
+'Writes the "ChangeZonaPK" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoPK)
+        Call .WriteByte(eGMCommands.ChangeZonaPK)
         
         Call .WriteBoolean(isPK)
     End With
 End Sub
 
 ''
-' Writes the "ChangeMapInfoNoOcultar" message to the outgoing data buffer.
+' Writes the "ChangeZonaNoOcultar" message to the outgoing data buffer.
 '
 ' @param    PermitirOcultar True if the map permits to hide, False otherwise.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoNoOcultar(ByVal PermitirOcultar As Boolean)
+Public Sub WriteChangeZonaNoOcultar(ByVal PermitirOcultar As Boolean)
 '***************************************************
 'Author: ZaMa
 'Last Modification: 19/09/2010
-'Writes the "ChangeMapInfoNoOcultar" message to the outgoing data buffer
+'Writes the "ChangeZonaNoOcultar" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoNoOcultar)
+        Call .WriteByte(eGMCommands.ChangeZonaNoOcultar)
         
         Call .WriteBoolean(PermitirOcultar)
     End With
 End Sub
 
 ''
-' Writes the "ChangeMapInfoNoInvocar" message to the outgoing data buffer.
+' Writes the "ChangeZonaNoInvocar" message to the outgoing data buffer.
 '
 ' @param    PermitirInvocar True if the map permits to invoke, False otherwise.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoNoInvocar(ByVal PermitirInvocar As Boolean)
+Public Sub WriteChangeZonaNoInvocar(ByVal PermitirInvocar As Boolean)
 '***************************************************
 'Author: ZaMa
 'Last Modification: 18/09/2010
-'Writes the "ChangeMapInfoNoInvocar" message to the outgoing data buffer
+'Writes the "ChangeZonaNoInvocar" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoNoInvocar)
+        Call .WriteByte(eGMCommands.ChangeZonaNoInvocar)
         
         Call .WriteBoolean(PermitirInvocar)
     End With
 End Sub
 
 ''
-' Writes the "ChangeMapInfoBackup" message to the outgoing data buffer.
+' Writes the "ChangeZonaBackup" message to the outgoing data buffer.
 '
 ' @param    backup True if the map is to be backuped, False otherwise.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoBackup(ByVal backup As Boolean)
+Public Sub WriteChangeZonaBackup(ByVal backup As Boolean)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
-'Writes the "ChangeMapInfoBackup" message to the outgoing data buffer
+'Writes the "ChangeZonaBackup" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoBackup)
+        Call .WriteByte(eGMCommands.ChangeZonaBackup)
         
         Call .WriteBoolean(backup)
     End With
 End Sub
 
 ''
-' Writes the "ChangeMapInfoRestricted" message to the outgoing data buffer.
+' Writes the "ChangeZonaRestricted" message to the outgoing data buffer.
 '
 ' @param    restrict NEWBIES (only newbies), NO (everyone), ARMADA (just Armadas), CAOS (just caos) or FACCION (Armadas & caos only)
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoRestricted(ByVal restrict As String)
+Public Sub WriteChangeZonaRestricted(ByVal restrict As String)
 '***************************************************
 'Author: Pablo (ToxicWaste)
 'Last Modification: 26/01/2007
-'Writes the "ChangeMapInfoRestricted" message to the outgoing data buffer
+'Writes the "ChangeZonaRestricted" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoRestricted)
+        Call .WriteByte(eGMCommands.ChangeZonaRestricted)
         
         Call .WriteASCIIString(restrict)
     End With
 End Sub
 
 ''
-' Writes the "ChangeMapInfoNoMagic" message to the outgoing data buffer.
+' Writes the "ChangeZonaNoMagic" message to the outgoing data buffer.
 '
 ' @param    nomagic TRUE if no magic is to be allowed in the map.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoNoMagic(ByVal nomagic As Boolean)
+Public Sub WriteChangeZonaNoMagic(ByVal nomagic As Boolean)
 '***************************************************
 'Author: Pablo (ToxicWaste)
 'Last Modification: 26/01/2007
-'Writes the "ChangeMapInfoNoMagic" message to the outgoing data buffer
+'Writes the "ChangeZonaNoMagic" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoNoMagic)
+        Call .WriteByte(eGMCommands.ChangeZonaNoMagic)
         
         Call .WriteBoolean(nomagic)
     End With
 End Sub
 
 ''
-' Writes the "ChangeMapInfoNoInvi" message to the outgoing data buffer.
+' Writes the "ChangeZonaNoInvi" message to the outgoing data buffer.
 '
 ' @param    noinvi TRUE if invisibility is not to be allowed in the map.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoNoInvi(ByVal noinvi As Boolean)
+Public Sub WriteChangeZonaNoInvi(ByVal noinvi As Boolean)
 '***************************************************
 'Author: Pablo (ToxicWaste)
 'Last Modification: 26/01/2007
-'Writes the "ChangeMapInfoNoInvi" message to the outgoing data buffer
+'Writes the "ChangeZonaNoInvi" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoNoInvi)
+        Call .WriteByte(eGMCommands.ChangeZonaNoInvi)
         
         Call .WriteBoolean(noinvi)
     End With
 End Sub
                             
 ''
-' Writes the "ChangeMapInfoNoResu" message to the outgoing data buffer.
+' Writes the "ChangeZonaNoResu" message to the outgoing data buffer.
 '
 ' @param    noresu TRUE if resurection is not to be allowed in the map.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoNoResu(ByVal noresu As Boolean)
+Public Sub WriteChangeZonaNoResu(ByVal noresu As Boolean)
 '***************************************************
 'Author: Pablo (ToxicWaste)
 'Last Modification: 26/01/2007
-'Writes the "ChangeMapInfoNoResu" message to the outgoing data buffer
+'Writes the "ChangeZonaNoResu" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoNoResu)
+        Call .WriteByte(eGMCommands.ChangeZonaNoResu)
         
         Call .WriteBoolean(noresu)
     End With
 End Sub
                         
 ''
-' Writes the "ChangeMapInfoLand" message to the outgoing data buffer.
+' Writes the "ChangeZonaLand" message to the outgoing data buffer.
 '
 ' @param    land options: "BOSQUE", "NIEVE", "DESIERTO", "CIUDAD", "CAMPO", "DUNGEON".
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoLand(ByVal land As String)
+Public Sub WriteChangeZonaLand(ByVal land As String)
 '***************************************************
 'Author: Pablo (ToxicWaste)
 'Last Modification: 26/01/2007
-'Writes the "ChangeMapInfoLand" message to the outgoing data buffer
+'Writes the "ChangeZonaLand" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoLand)
+        Call .WriteByte(eGMCommands.ChangeZonaLand)
         
         Call .WriteASCIIString(land)
     End With
 End Sub
                         
 ''
-' Writes the "ChangeMapInfoZone" message to the outgoing data buffer.
+' Writes the "ChangeZonaZone" message to the outgoing data buffer.
 '
 ' @param    zone options: "BOSQUE", "NIEVE", "DESIERTO", "CIUDAD", "CAMPO", "DUNGEON".
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoZone(ByVal zone As String)
+Public Sub WriteChangeZonaZone(ByVal zone As String)
 '***************************************************
 'Author: Pablo (ToxicWaste)
 'Last Modification: 26/01/2007
-'Writes the "ChangeMapInfoZone" message to the outgoing data buffer
+'Writes the "ChangeZonaZone" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoZone)
+        Call .WriteByte(eGMCommands.ChangeZonaZone)
         
         Call .WriteASCIIString(zone)
     End With
 End Sub
 
 ''
-' Writes the "ChangeMapInfoStealNpc" message to the outgoing data buffer.
+' Writes the "ChangeZonaStealNpc" message to the outgoing data buffer.
 '
 ' @param    forbid TRUE if stealNpc forbiden.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoStealNpc(ByVal forbid As Boolean)
+Public Sub WriteChangeZonaStealNpc(ByVal forbid As Boolean)
 '***************************************************
 'Author: ZaMa
 'Last Modification: 25/07/2010
-'Writes the "ChangeMapInfoStealNpc" message to the outgoing data buffer
+'Writes the "ChangeZonaStealNpc" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoStealNpc)
+        Call .WriteByte(eGMCommands.ChangeZonaStealNpc)
         
         Call .WriteBoolean(forbid)
     End With

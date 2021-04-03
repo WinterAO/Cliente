@@ -168,6 +168,7 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -847,7 +848,6 @@ Begin VB.Form frmMain
    End
    Begin VB.Label Coord 
       Alignment       =   2  'Center
-      AutoSize        =   -1  'True
       BackStyle       =   0  'Transparent
       Caption         =   "000 X:00 Y: 00"
       BeginProperty Font 
@@ -861,10 +861,10 @@ Begin VB.Form frmMain
       EndProperty
       ForeColor       =   &H0000FFFF&
       Height          =   210
-      Left            =   12030
+      Left            =   11400
       TabIndex        =   1
-      Top             =   11085
-      Width           =   2475
+      Top             =   11205
+      Width           =   3675
    End
    Begin VB.Image InvEqu 
       Height          =   4530
@@ -1027,7 +1027,7 @@ Call Sound.Sound_Play(SND_CLICK)
             'btnSolapa(2).Picture = General_Load_Picture_From_Resource("12.gif", True)
             
             ' Activo controles de inventario
-            picInv.Visible = True
+            PicInv.Visible = True
         
             ' Desactivo controles de hechizo y amigos
             hlst.Visible = False
@@ -1061,7 +1061,7 @@ Call Sound.Sound_Play(SND_CLICK)
             cmdMoverHechi(1).Visible = True
             
             ' Desactivo controles de inventario y amigos
-            picInv.Visible = False
+            PicInv.Visible = False
             
             ListAmigos.Visible = False
             AgregarAmigo.Visible = False
@@ -1078,7 +1078,7 @@ Call Sound.Sound_Play(SND_CLICK)
             BorrarAmigo.Visible = True
             
             ' Desactivo controles de inventario y hechizos
-            picInv.Visible = False
+            PicInv.Visible = False
             
             hlst.Visible = False
             btnInfo.Visible = False
@@ -1228,7 +1228,7 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
     '18/11/2009: ZaMa - Ahora se pueden poner comandos en los mensajes personalizados (execpto guildchat y privados)
     '18/11/2010: Amraphen - Agregue el handle correspondiente para las nuevas configuraciones de teclas (CTRL+0..9).
     '***************************************************
-    If (Not Sendtxt.Visible) Then
+    If (Not SendTxt.Visible) Then
         
         If KeyCode = vbKeyControl Then
 
@@ -1333,39 +1333,39 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
         Select Case KeyCode
             Case CustomKeys.BindedKey(eKeyType.mKeyChatNormal)
                 SendingType = 1
-                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
-                LbLChat.Caption = "1.Normal"
+                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+                lblChat.Caption = "1.Normal"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatGritar)
                 SendingType = 2
-                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
-                LbLChat.Caption = "2.Gritar"
+                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+                lblChat.Caption = "2.Gritar"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatPrivado)
                 sndPrivateTo = InputBox("Nombre del destinatario:", vbNullString)
     
                 If sndPrivateTo <> vbNullString Then
                     SendingType = 3
-                    If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
+                    If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
                 Else
                     MsgBox "¡Escribe un nombre."
                 End If
-                LbLChat.Caption = "3.Privado"
+                lblChat.Caption = "3.Privado"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatClan)
                 SendingType = 4
-                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
-                LbLChat.Caption = "4.Clan"
+                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+                lblChat.Caption = "4.Clan"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatGrupo)
                 SendingType = 5
-                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
-                LbLChat.Caption = "5.Party"
+                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+                lblChat.Caption = "5.Party"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatGlobal)
                 SendingType = 6
-                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
-                LbLChat.Caption = "6.Global"
+                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+                lblChat.Caption = "6.Global"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyTakeScreenShot)
                 Call Mod_General.Client_Screenshot(frmMain.hDC, 1024, 768)
@@ -1397,8 +1397,8 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                 
                 If (Not Comerciando) And (Not MirandoAsignarSkills) And (Not frmMSG.Visible) And (Not MirandoForo) And (Not frmEstadisticas.Visible) And (Not frmCantidad.Visible) Then
                     Call CompletarEnvioMensajes
-                    Sendtxt.Visible = True
-                    Sendtxt.SetFocus
+                    SendTxt.Visible = True
+                    SendTxt.SetFocus
                 Else
                     Call Enviar_SendTxt
                 End If
@@ -1577,8 +1577,8 @@ Private Sub MensajeAmigo_Click()
         Exit Sub
     End If
     
-    Sendtxt.Visible = True
-    Sendtxt.Text = ("\" & ListAmigos.List(ListAmigos.ListIndex) & " ")
+    SendTxt.Visible = True
+    SendTxt.Text = ("\" & ListAmigos.List(ListAmigos.ListIndex) & " ")
 End Sub
 
 Private Sub mnuEquipar_Click()
@@ -1640,10 +1640,10 @@ End Sub
 Private Sub SendTxt_KeyDown(KeyCode As Integer, Shift As Integer)
     ' Para borrar el mensaje de fondo
     If FirstTimeChat Then
-        Sendtxt.Text = vbNullString
+        SendTxt.Text = vbNullString
         FirstTimeChat = False
         ' Cambiamos el color de texto al original
-        Sendtxt.ForeColor = &HE0E0E0
+        SendTxt.ForeColor = &HE0E0E0
     End If
     
 errhandler:
@@ -1657,12 +1657,12 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         If LenB(stxtbuffer) <> 0 Then Call ParseUserCommand(stxtbuffer)
         
         stxtbuffer = vbNullString
-        Sendtxt.Text = vbNullString
+        SendTxt.Text = vbNullString
         KeyCode = 0
-        Sendtxt.Visible = False
+        SendTxt.Visible = False
         
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
         ElseIf hlst.Visible Then
             hlst.SetFocus
         Else
@@ -2086,8 +2086,8 @@ Private Sub RecTxt_Change()
 
     If Not Application.IsAppActive() Then Exit Sub
     
-    If Sendtxt.Visible Then
-        Sendtxt.SetFocus
+    If SendTxt.Visible Then
+        SendTxt.SetFocus
     
     ElseIf (Not Comerciando) And _
            (Not MirandoAsignarSkills) And _
@@ -2097,8 +2097,8 @@ Private Sub RecTxt_Change()
            (Not frmCantidad.Visible) And _
            (Not MirandoParty) Then
 
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
                         
         ElseIf hlst.Visible Then
             hlst.SetFocus
@@ -2111,8 +2111,8 @@ End Sub
 
 Private Sub RecTxt_KeyDown(KeyCode As Integer, Shift As Integer)
 
-    If picInv.Visible Then
-        picInv.SetFocus
+    If PicInv.Visible Then
+        PicInv.SetFocus
     Else
         hlst.SetFocus
     End If
@@ -2126,7 +2126,7 @@ Private Sub SendTxt_Change()
     'Last Modify Date: 3/06/2006
     '3/06/2006: Maraxus - impedi se inserten caracteres no imprimibles
     '**************************************************************
-    If Len(Sendtxt.Text) > 160 Then
+    If Len(SendTxt.Text) > 160 Then
         stxtbuffer = JsonLanguage.item("MENSAJE_SOY_CHEATER").item("TEXTO")
     Else
         'Make sure only valid chars are inserted (with Shift + Insert they can paste illegal chars)
@@ -2134,21 +2134,21 @@ Private Sub SendTxt_Change()
         Dim tempstr   As String
         Dim CharAscii As Integer
         
-        For i = 1 To Len(Sendtxt.Text)
-            CharAscii = Asc(mid$(Sendtxt.Text, i, 1))
+        For i = 1 To Len(SendTxt.Text)
+            CharAscii = Asc(mid$(SendTxt.Text, i, 1))
 
             If CharAscii >= vbKeySpace And CharAscii <= 250 Then
                 tempstr = tempstr & Chr$(CharAscii)
             End If
         Next i
         
-        If tempstr <> Sendtxt.Text Then
+        If tempstr <> SendTxt.Text Then
             'We only set it if it's different, otherwise the event will be raised
             'constantly and the client will crush
-            Sendtxt.Text = tempstr
+            SendTxt.Text = tempstr
         End If
         
-        stxtbuffer = Sendtxt.Text
+        stxtbuffer = SendTxt.Text
     End If
 End Sub
 
@@ -2161,21 +2161,21 @@ Private Sub CompletarEnvioMensajes()
 
     Select Case SendingType
         Case 1
-            Sendtxt.Text = vbNullString
+            SendTxt.Text = vbNullString
         Case 2
-            Sendtxt.Text = "-"
+            SendTxt.Text = "-"
         Case 3
-            Sendtxt.Text = ("\" & sndPrivateTo & " ")
+            SendTxt.Text = ("\" & sndPrivateTo & " ")
         Case 4
-            Sendtxt.Text = "/CMSG "
+            SendTxt.Text = "/CMSG "
         Case 5
-            Sendtxt.Text = "/PMSG "
+            SendTxt.Text = "/PMSG "
         Case 6
-            Sendtxt.Text = "; "
+            SendTxt.Text = "; "
     End Select
     
-    stxtbuffer = Sendtxt.Text
-    Sendtxt.SelStart = Len(Sendtxt.Text)
+    stxtbuffer = SendTxt.Text
+    SendTxt.SelStart = Len(SendTxt.Text)
 
 End Sub
 
@@ -2215,8 +2215,8 @@ Private Sub Enviar_SendTxt()
     End If
 
     stxtbuffer = vbNullString
-    Sendtxt.Text = vbNullString
-    Sendtxt.Visible = False
+    SendTxt.Text = vbNullString
+    SendTxt.Visible = False
     
 End Sub
 
@@ -2557,4 +2557,24 @@ Public Sub ControlSM(ByVal Index As Byte, ByVal Mostrar As Boolean)
         
     End Select
     
+End Sub
+
+Public Sub ActualizarCoordenadas(ByVal tX As Integer, ByVal tY As Integer)
+    Dim Cuadrante As Integer
+    Dim cX As Integer
+    Dim cY As Integer
+    
+    If ClientSetup.VerCuadrantes Then
+    
+        cX = Fix((tX / 100))
+        cY = Fix((tY / 100))
+        
+        Cuadrante = cX * cY
+    
+        Coord.Caption = "Cuadrante: " & Cuadrante & " X: " & tX - (cX * 100) & " Y: " & tY - (cY * 100)
+    
+    Else
+        Coord.Caption = "Map:" & UserMap & " X:" & tX & " Y:" & tY
+        
+    End If
 End Sub

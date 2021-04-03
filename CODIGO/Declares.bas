@@ -540,17 +540,17 @@ Public Enum eGMCommands
     DoBackUp                '/DOBACKUP
     ShowGuildMessages       '/SHOWCMSG
     SaveMap                 '/GUARDAMAPA
-    ChangeMapInfoPK         '/MODMAPINFO PK
-    ChangeMapInfoBackup     '/MODMAPINFO BACKUP
-    ChangeMapInfoRestricted '/MODMAPINFO RESTRINGIR
-    ChangeMapInfoNoMagic    '/MODMAPINFO MAGIASINEFECTO
-    ChangeMapInfoNoInvi     '/MODMAPINFO INVISINEFECTO
-    ChangeMapInfoNoResu     '/MODMAPINFO RESUSINEFECTO
-    ChangeMapInfoLand       '/MODMAPINFO TERRENO
-    ChangeMapInfoZone       '/MODMAPINFO ZONA
-    ChangeMapInfoStealNpc   '/MODMAPINFO ROBONPC
-    ChangeMapInfoNoOcultar  '/MODMAPINFO OCULTARSINEFECTO
-    ChangeMapInfoNoInvocar  '/MODMAPINFO INVOCARSINEFECTO
+    ChangeZonaPK            '/MODZona PK
+    ChangeZonaBackup        '/MODZona BACKUP
+    ChangeZonaRestricted    '/MODZona RESTRINGIR
+    ChangeZonaNoMagic       '/MODZona MAGIASINEFECTO
+    ChangeZonaNoInvi        '/MODZona INVISINEFECTO
+    ChangeZonaNoResu        '/MODZona RESUSINEFECTO
+    ChangeZonaLand          '/MODZona TERRENO
+    ChangeZonaZone          '/MODZona ZONA
+    ChangeZonaStealNpc      '/MODZona ROBONPC
+    ChangeZonaNoOcultar     '/MODZona OCULTARSINEFECTO
+    ChangeZonaNoInvocar     '/MODZona INVOCARSINEFECTO
     SaveChars               '/GRABAR
     CleanSOS                '/BORRAR SOS
     ShowServerForm          '/SHOW INT
@@ -635,7 +635,7 @@ End Enum
 
 'Inventario
 Type Inventory
-    objindex As Integer
+    ObjIndex As Integer
     name As String
     GrhIndex As Long
     Amount As Long
@@ -650,7 +650,7 @@ Type Inventory
 End Type
 
 Type NpCinV
-    objindex As Integer
+    ObjIndex As Integer
     name As String
     GrhIndex As Long
     Amount As Integer
@@ -692,7 +692,7 @@ End Type
 
 Type tItemsConstruibles
     name As String
-    objindex As Integer
+    ObjIndex As Integer
     GrhIndex As Long
     Materiales(1 To 4) As Integer
     CantMateriales(1 To 4) As Integer
@@ -701,14 +701,14 @@ End Type
 
 Type tItemCrafteo
     name As String
-    objindex As Integer
+    ObjIndex As Integer
     GrhIndex As Long
     Amount As Integer
 End Type
 
 Type tItemArtesano
     name As String
-    objindex As Integer
+    ObjIndex As Integer
     GrhIndex As Long
     
     ItemsCrafteo() As tItemCrafteo

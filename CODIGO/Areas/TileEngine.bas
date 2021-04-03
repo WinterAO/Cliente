@@ -230,7 +230,7 @@ Public Type MapBlock
 End Type
 
 'Info de cada mapa
-Public Type tMapInfo
+Public Type tZonaInfo
     Music As String
     name As String
     StartPos As WorldPos
@@ -305,7 +305,7 @@ Public AtaqueData() As AtaqueAnimData
 
 '?????????Mapa????????????
 Public MapData() As MapBlock ' Mapa
-Public MapZonas() As tMapInfo ' Info acerca del mapa en uso
+Public MapZonas() As tZonaInfo ' Info acerca del mapa en uso
 Public CantZonas As Integer
 '?????????????????????????
 
@@ -997,7 +997,7 @@ On Error GoTo 0
     Call CargarParticulas
     
     'Inicializamos el conectar renderizado
-    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_GUI").item("TEXTO"), 75)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_GUI").item("TEXTO"), 55)
     Call ModCnt.InicializarRndCNT
 
     Exit Sub

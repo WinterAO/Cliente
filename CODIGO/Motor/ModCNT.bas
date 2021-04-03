@@ -173,6 +173,14 @@ Public Sub InicializarRndCNT()
     
 End Sub
 
+Public Sub MapConnect(ByVal Map As Byte)
+
+    SelectConnectMap = Map
+    
+    Call SwitchMap(MapaConnect(SelectConnectMap).Map)
+
+End Sub
+
 Public Sub MostrarConnect(Optional ByVal Mostrar As Boolean = False)
 '******************************
 'Autor: Lorwik
@@ -202,12 +210,8 @@ Public Sub MostrarConnect(Optional ByVal Mostrar As Boolean = False)
     
     'LISTA DE SERVIDORES
     Call ListarServidores
-    
-    'Sorteamos el mapa a mostrar
-    'Nota el mapa 1 es para el crear pj, el 2 para las cuentas
-    SelectConnectMap = RandomNumber(3, NumConnectMap)
-    Call SwitchMap(MapaConnect(SelectConnectMap).Map)
-    
+
+    Call MapConnect(1)
 End Sub
 
 Public Sub MostrarCuenta(Optional ByVal Mostrar As Boolean = False)
@@ -229,8 +233,7 @@ Public Sub MostrarCuenta(Optional ByVal Mostrar As Boolean = False)
     EngineRun = False
     
     'Ponemos el mapa de cuentas
-    SelectConnectMap = 2
-    Call SwitchMap(MapaConnect(SelectConnectMap).Map)
+    Call MapConnect(1)
 
 End Sub
 
@@ -268,8 +271,7 @@ Public Sub MostrarCreacion(Optional ByVal Mostrar As Boolean = False)
     EngineRun = False
     
     'Ponemos el mapa de cuentas
-    SelectConnectMap = 1
-    Call SwitchMap(MapaConnect(SelectConnectMap).Map)
+    Call MapConnect(1)
 
 End Sub
 

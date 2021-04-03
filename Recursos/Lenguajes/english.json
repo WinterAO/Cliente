@@ -952,6 +952,14 @@
             255
         ]
     },
+	"INICIA_MAPA": {
+        "TEXTO": "Map Loading...",
+        "COLOR": [
+            255,
+            255,
+            255
+        ]
+    },
     "INICIA_SONIDO": {
         "TEXTO": "Initializing DirectSound...",
         "COLOR": [
