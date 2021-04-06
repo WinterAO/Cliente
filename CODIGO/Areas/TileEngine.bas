@@ -239,6 +239,7 @@ Public Type tZonaInfo
     Zona As String
     Terreno As String
     LuzBase As Long
+    battle_mode As Boolean
 End Type
 
 Public IniPath As String
@@ -823,6 +824,7 @@ Sub RenderScreen(ByVal tilex As Integer, _
     
     If colorRender <> 240 Then
         Call DrawText(372, 80, renderText, render_msg(0), True, 2)
+        Call DrawText(372, 130, renderTextPk, render_msg(0), True, 1)
     End If
     
     '   Set Offsets
@@ -1880,6 +1882,7 @@ Public Sub renderMsgReset()
 
     renderFont = 1
     renderText = vbNullString
+    renderTextPk = vbNullString
 
 End Sub
 

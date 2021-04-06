@@ -1164,6 +1164,7 @@ Sub CargarMapa(ByVal Map As Integer)
             MapZonas(i).Zona = .zone
             MapZonas(i).Terreno = .terrain
             MapZonas(i).LuzBase = .LuzBase
+            MapZonas(i).battle_mode = .battle_mode
             
         End With
     Next i

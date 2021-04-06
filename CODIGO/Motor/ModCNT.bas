@@ -880,7 +880,7 @@ On Error Resume Next
     
     Set Inet = New clsInet
     
-    responseServer = Inet.OpenRequest("https://winterao.com.ar/updates/server-list.txt", "GET")
+    responseServer = Inet.OpenRequest("https://winterao.com.ar/update/server-list.txt", "GET")
     responseServer = Inet.Execute
     responseServer = Inet.GetResponseAsString
     

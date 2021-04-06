@@ -1418,6 +1418,14 @@ Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
             renderText = MapZonas(ZonaId).name
             renderFont = 2
             colorRender = 240
+            
+            If MapZonas(ZonaId).battle_mode Then
+                renderTextPk = "Zona insegura"
+                
+            Else
+                renderTextPk = "Zona segura"
+                
+            End If
         
             'Aqui ponemos el nombre del mapa en el label del frmMain
             frmMain.lblMapName.Caption = MapZonas(ZonaId).name

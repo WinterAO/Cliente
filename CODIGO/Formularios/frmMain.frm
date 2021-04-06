@@ -168,7 +168,6 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -2560,18 +2559,21 @@ Public Sub ControlSM(ByVal Index As Byte, ByVal Mostrar As Boolean)
 End Sub
 
 Public Sub ActualizarCoordenadas(ByVal tX As Integer, ByVal tY As Integer)
-    Dim Cuadrante As Integer
-    Dim cX As Integer
-    Dim cY As Integer
+'*****************************************************
+'Autor: Lorwik
+'Fecha: 03/04/2021
+'Descripción: Actualiza las coordenadas ya sean totales o por cuadrantes
+'*****************************************************
+
+    Dim cx As Integer
+    Dim cy As Integer
     
     If ClientSetup.VerCuadrantes Then
     
-        cX = Fix((tX / 100))
-        cY = Fix((tY / 100))
-        
-        Cuadrante = cX * cY
-    
-        Coord.Caption = "Cuadrante: " & Cuadrante & " X: " & tX - (cX * 100) & " Y: " & tY - (cY * 100)
+        cx = Fix((tX / 100))
+        cy = Fix((tY / 100))
+
+        Coord.Caption = "Cuadrante: " & cx * cy & " X: " & tX - (cx * 100) & " Y: " & tY - (cy * 100)
     
     Else
         Coord.Caption = "Map:" & UserMap & " X:" & tX & " Y:" & tY

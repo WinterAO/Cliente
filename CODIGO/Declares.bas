@@ -59,6 +59,7 @@ Public ServIndSel As Byte
 Public ColorTecho As Byte
 Public temp_rgb(3) As Long
 Public renderText As String
+Public renderTextPk As String
 Public renderFont As Integer
 Public colorRender As Byte
 Public render_msg(3) As Long
