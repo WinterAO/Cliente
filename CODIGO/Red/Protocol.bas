@@ -575,7 +575,7 @@ On Error Resume Next
 
     Dim Packet As Long: Packet = CLng(incomingData.PeekByte())
     
-    'Debug.Print Packet
+    Debug.Print Packet
     
     Select Case Packet
             
@@ -1593,9 +1593,9 @@ Private Sub HandleCommerceInit()
 
     'Fill user inventory
     For i = 1 To MAX_INVENTORY_SLOTS
-        If Inventario.objindex(i) <> 0 Then
+        If Inventario.ObjIndex(i) <> 0 Then
             With Inventario
-                Call InvComUsu.SetItem(i, .objindex(i), _
+                Call InvComUsu.SetItem(i, .ObjIndex(i), _
                 .Amount(i), .Equipped(i), .GrhIndex(i), _
                 .OBJType(i), .MaxHit(i), .MinHit(i), .MaxDef(i), .MinDef(i), _
                 .valor(i), .ItemName(i), .NoUsa(i))
@@ -1605,9 +1605,9 @@ Private Sub HandleCommerceInit()
     
     ' Fill Npc inventory
     For i = 1 To MAX_NPC_INVENTORY_SLOTS
-        If NPCInventory(i).objindex <> 0 Then
+        If NPCInventory(i).ObjIndex <> 0 Then
             With NPCInventory(i)
-                Call InvComNpc.SetItem(i, .objindex, _
+                Call InvComNpc.SetItem(i, .ObjIndex, _
                 .Amount, 0, .GrhIndex, _
                 .OBJType, .MaxHit, .MinHit, .MaxDef, .MinDef, _
                 .valor, .name, .NoUsa)
@@ -1640,11 +1640,11 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
-            Call InvBanco(1).SetItem(i, .objindex(i), _
+            Call InvBanco(1).SetItem(i, .ObjIndex(i), _
                 .Amount(i), .Equipped(i), .GrhIndex(i), _
                 .OBJType(i), .MaxHit(i), .MinHit(i), .MaxDef(i), .MinDef(i), _
                 .valor(i), .ItemName(i), .NoUsa(i))
@@ -1653,7 +1653,7 @@ Private Sub HandleBankInit()
     
     For i = 1 To MAX_BANCOINVENTORY_SLOTS
         With UserBancoInventory(i)
-            Call InvBanco(0).SetItem(i, .objindex, _
+            Call InvBanco(0).SetItem(i, .ObjIndex, _
                 .Amount, .Equipped, .GrhIndex, _
                 .OBJType, .MaxHit, .MinHit, .MaxDef, .MinDef, _
                 .valor, .name, .NoUsa)
@@ -1702,9 +1702,9 @@ Private Sub HandleUserCommerceInit()
 
     'Fill user inventory
     For i = 1 To MAX_INVENTORY_SLOTS
-        If Inventario.objindex(i) <> 0 Then
+        If Inventario.ObjIndex(i) <> 0 Then
             With Inventario
-                Call InvComUsu.SetItem(i, .objindex(i), _
+                Call InvComUsu.SetItem(i, .ObjIndex(i), _
                 .Amount(i), .Equipped(i), .GrhIndex(i), _
                 .OBJType(i), .MaxHit(i), .MinHit(i), .MaxDef(i), .MinDef(i), _
                 .valor(i), .ItemName(i), .NoUsa(i))
@@ -2027,7 +2027,6 @@ Private Sub HandleChangeMap()
     Call incomingData.ReadByte
     
     UserMap = incomingData.ReadInteger()
-    nameMap = incomingData.ReadASCIIString
     
     'TODO: Once on-the-fly editor is implemented check for map version before loading....
     'For now we just drop it
@@ -2515,8 +2514,8 @@ On Error GoTo errhandler
     Dim Body As Integer
     Dim Head As Integer
     Dim Heading As E_Heading
-    Dim X As Byte
-    Dim Y As Byte
+    Dim X As Integer
+    Dim Y As Integer
     Dim weapon As Integer
     Dim shield As Integer
     Dim helmet As Integer
@@ -2530,8 +2529,8 @@ On Error GoTo errhandler
     Body = buffer.ReadInteger()
     Head = buffer.ReadInteger()
     Heading = buffer.ReadByte()
-    X = buffer.ReadByte()
-    Y = buffer.ReadByte()
+    X = buffer.ReadInteger()
+    Y = buffer.ReadInteger()
     weapon = buffer.ReadInteger()
     shield = buffer.ReadInteger()
     helmet = buffer.ReadInteger()
@@ -2665,12 +2664,12 @@ Private Sub HandleCharacterMove()
     Call incomingData.ReadByte
     
     Dim CharIndex As Integer
-    Dim X As Byte
-    Dim Y As Byte
+    Dim X As Integer
+    Dim Y As Integer
     
     CharIndex = incomingData.ReadInteger()
-    X = incomingData.ReadByte()
-    Y = incomingData.ReadByte()
+    X = incomingData.ReadInteger()
+    Y = incomingData.ReadInteger()
 
     With charlist(CharIndex)
         If .FxIndex >= 40 And .FxIndex <= 49 Then   'If it's meditating, we remove the FX
@@ -2728,11 +2727,11 @@ Private Sub HandleCharacterChange()
     Call incomingData.ReadByte
     
     Dim CharIndex As Integer
-    Dim Heading As E_Heading
+    Dim Heading As Byte
     
     CharIndex = incomingData.ReadInteger()
-    Heading = incomingData.ReadByte()
     
+    Heading = incomingData.ReadByte()
     charlist(CharIndex).Heading = Heading
     
     '// Char Body
@@ -2800,14 +2799,14 @@ Private Sub HandleObjectCreate()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    Dim X               As Byte
-    Dim Y               As Byte
+    Dim X               As Integer
+    Dim Y               As Integer
     Dim GrhIndex        As Long
     Dim ParticulaIndex  As Integer
     Dim Shadow          As Byte
     
-    X = incomingData.ReadByte()
-    Y = incomingData.ReadByte()
+    X = incomingData.ReadInteger()
+    Y = incomingData.ReadInteger()
     GrhIndex = incomingData.ReadLong()
     ParticulaIndex = incomingData.ReadInteger()
     Shadow = incomingData.ReadByte()
@@ -2832,12 +2831,12 @@ Private Sub HandleObjectDelete()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    Dim X   As Byte
-    Dim Y   As Byte
+    Dim X   As Integer
+    Dim Y   As Integer
     Dim obj As Long
 
-    X = incomingData.ReadByte()
-    Y = incomingData.ReadByte()
+    X = incomingData.ReadInteger()
+    Y = incomingData.ReadInteger()
         
     obj = Map_PosExitsObject(X, Y)
 
@@ -2865,12 +2864,12 @@ Private Sub HandleBlockPosition()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    Dim X As Byte
-    Dim Y As Byte
+    Dim X As Integer
+    Dim Y As Integer
     Dim block As Boolean
     
-    X = incomingData.ReadByte()
-    Y = incomingData.ReadByte()
+    X = incomingData.ReadInteger()
+    Y = incomingData.ReadInteger()
     block = incomingData.ReadBoolean()
     
     If block Then
@@ -2930,12 +2929,12 @@ Private Sub HandlePlayWave()
     Call incomingData.ReadByte
         
     Dim wave As Integer
-    Dim srcX As Byte
-    Dim srcY As Byte
+    Dim srcX As Integer
+    Dim srcY As Integer
     
     wave = incomingData.ReadInteger()
-    srcX = incomingData.ReadByte()
-    srcY = incomingData.ReadByte()
+    srcX = incomingData.ReadInteger()
+    srcY = incomingData.ReadInteger()
         
     Call Sound.Sound_Play(wave, , Sound.Calculate_Volume(srcX, srcY), Sound.Calculate_Pan(srcX, srcY))
 End Sub
@@ -3010,11 +3009,11 @@ Private Sub HandleAreaChanged()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    Dim X As Byte
-    Dim Y As Byte
+    Dim X As Integer
+    Dim Y As Integer
     
-    X = incomingData.ReadByte()
-    Y = incomingData.ReadByte()
+    X = incomingData.ReadInteger()
+    Y = incomingData.ReadInteger()
         
     Call CambioDeArea(X, Y)
 End Sub
@@ -3165,7 +3164,7 @@ On Error GoTo errhandler
     Call buffer.ReadByte
     
     Dim slot As Byte
-    Dim objindex As Integer
+    Dim ObjIndex As Integer
     Dim name As String
     Dim Amount As Integer
     Dim Equipped As Boolean
@@ -3179,7 +3178,7 @@ On Error GoTo errhandler
     Dim NoUsa As Boolean
     
     slot = buffer.ReadByte()
-    objindex = buffer.ReadInteger()
+    ObjIndex = buffer.ReadInteger()
     name = buffer.ReadASCIIString()
     Amount = buffer.ReadInteger()
     Equipped = buffer.ReadBoolean()
@@ -3224,14 +3223,14 @@ On Error GoTo errhandler
         End Select
     End If
     
-    Call Inventario.SetItem(slot, objindex, Amount, Equipped, GrhIndex, OBJType, MaxHit, MinHit, MaxDef, MinDef, value, name, NoUsa)
+    Call Inventario.SetItem(slot, ObjIndex, Amount, Equipped, GrhIndex, OBJType, MaxHit, MinHit, MaxDef, MinDef, value, name, NoUsa)
 
     If frmComerciar.Visible Then
-        Call InvComUsu.SetItem(slot, objindex, Amount, Equipped, GrhIndex, OBJType, MaxHit, MinHit, MaxDef, MinDef, value, name, NoUsa)
+        Call InvComUsu.SetItem(slot, ObjIndex, Amount, Equipped, GrhIndex, OBJType, MaxHit, MinHit, MaxDef, MinDef, value, name, NoUsa)
     End If
 
     If frmBancoObj.Visible Then
-        Call InvBanco(1).SetItem(slot, objindex, Amount, Equipped, GrhIndex, OBJType, MaxHit, MinHit, MaxDef, MinDef, value, name, NoUsa)
+        Call InvBanco(1).SetItem(slot, ObjIndex, Amount, Equipped, GrhIndex, OBJType, MaxHit, MinHit, MaxDef, MinDef, value, name, NoUsa)
         frmBancoObj.NoPuedeMover = False
     End If
     
@@ -3300,7 +3299,7 @@ Private Sub HandleCancelOfferItem()
         ' No tiene sentido que se quiten 0 unidades
         If Amount <> 0 Then
             ' Actualizo el inventario general
-            Call frmComerciarUsu.UpdateInvCom(.objindex(slot), Amount)
+            Call frmComerciarUsu.UpdateInvCom(.ObjIndex(slot), Amount)
             
             ' Borro el item
             Call .SetItem(slot, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "")
@@ -3343,7 +3342,7 @@ On Error GoTo errhandler
     slot = buffer.ReadByte()
     
     With UserBancoInventory(slot)
-        .objindex = buffer.ReadInteger()
+        .ObjIndex = buffer.ReadInteger()
         .name = buffer.ReadASCIIString()
         .Amount = buffer.ReadInteger()
         .GrhIndex = buffer.ReadLong()
@@ -3356,7 +3355,7 @@ On Error GoTo errhandler
         .NoUsa = buffer.ReadBoolean()
         
         If frmBancoObj.Visible Then
-            Call InvBanco(0).SetItem(slot, .objindex, .Amount, 0, .GrhIndex, .OBJType, .MaxHit, .MinHit, .MaxDef, .MinDef, .valor, .name, .NoUsa)
+            Call InvBanco(0).SetItem(slot, .ObjIndex, .Amount, 0, .GrhIndex, .OBJType, .MaxHit, .MinHit, .MaxDef, .MinDef, .valor, .name, .NoUsa)
         End If
     End With
     
@@ -3495,7 +3494,7 @@ On Error GoTo errhandler
                 .NameMateriales(j) = buffer.ReadASCIIString()
             Next j
             
-            .objindex = buffer.ReadInteger()
+            .ObjIndex = buffer.ReadInteger()
         End With
     Next i
     
@@ -3568,7 +3567,7 @@ On Error GoTo errhandler
         With ObjArtesano(i)
             .name = buffer.ReadASCIIString()
             .GrhIndex = buffer.ReadLong()
-            .objindex = buffer.ReadInteger()
+            .ObjIndex = buffer.ReadInteger()
             
             CountCrafteo = buffer.ReadByte()
             ReDim .ItemsCrafteo(CountCrafteo) As tItemCrafteo
@@ -3576,7 +3575,7 @@ On Error GoTo errhandler
             For j = 1 To CountCrafteo
                 .ItemsCrafteo(j).name = buffer.ReadASCIIString()
                 .ItemsCrafteo(j).GrhIndex = buffer.ReadLong()
-                .ItemsCrafteo(j).objindex = buffer.ReadInteger()
+                .ItemsCrafteo(j).ObjIndex = buffer.ReadInteger()
                 .ItemsCrafteo(j).Amount = buffer.ReadInteger()
             Next j
         End With
@@ -3774,7 +3773,7 @@ On Error GoTo errhandler
         .Amount = buffer.ReadInteger()
         .valor = buffer.ReadSingle()
         .GrhIndex = buffer.ReadLong()
-        .objindex = buffer.ReadInteger()
+        .ObjIndex = buffer.ReadInteger()
         .OBJType = buffer.ReadByte()
         .MaxHit = buffer.ReadInteger()
         .MinHit = buffer.ReadInteger()
@@ -3783,7 +3782,7 @@ On Error GoTo errhandler
         .NoUsa = buffer.ReadBoolean()
     
         If frmComerciar.Visible Then
-            Call InvComNpc.SetItem(slot, .objindex, .Amount, 0, .GrhIndex, .OBJType, .MaxHit, .MinHit, .MaxDef, .MinDef, .valor, .name, .NoUsa)
+            Call InvComNpc.SetItem(slot, .ObjIndex, .Amount, 0, .GrhIndex, .OBJType, .MaxHit, .MinHit, .MaxDef, .MinDef, .valor, .name, .NoUsa)
         End If
     End With
         
@@ -4711,7 +4710,7 @@ On Error GoTo errhandler
     Call buffer.CopyBuffer(incomingData)
     
     Dim OfferSlot As Byte
-    Dim objindex As Integer
+    Dim ObjIndex As Integer
     Dim Amount As Long
     Dim ObjGrhIndex As Long
     Dim OffObjType As Byte
@@ -4728,7 +4727,7 @@ On Error GoTo errhandler
         'Remove packet ID
         Call .ReadByte
         OfferSlot = .ReadByte()
-        objindex = .ReadInteger()
+        ObjIndex = .ReadInteger()
         Amount = .ReadLong()
         
         ObjGrhIndex = .ReadLong()
@@ -4742,12 +4741,12 @@ On Error GoTo errhandler
         NoUsa = .ReadBoolean()
         
         If OfferSlot = GOLD_OFFER_SLOT Then
-            Call InvOroComUsu(2).SetItem(1, objindex, Amount, 0, _
+            Call InvOroComUsu(2).SetItem(1, ObjIndex, Amount, 0, _
                                             ObjGrhIndex, OffObjType, MaximoHit, MinimoHit, _
                                             MaximaDefensa, MinimaDefensa, PrecioValor, NombreObjeto, NoUsa)
 
         Else
-            Call InvOfferComUsu(1).SetItem(OfferSlot, objindex, Amount, 0, _
+            Call InvOfferComUsu(1).SetItem(OfferSlot, ObjIndex, Amount, 0, _
                                             ObjGrhIndex, OffObjType, MaximoHit, MinimoHit, _
                                             MaximaDefensa, MinimaDefensa, PrecioValor, NombreObjeto, NoUsa)
 
@@ -5755,7 +5754,7 @@ End Sub
 ' @param    y Tile coord in the y-axis in which the user clicked.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteLeftClick(ByVal X As Byte, ByVal Y As Byte)
+Public Sub WriteLeftClick(ByVal X As Integer, ByVal Y As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -5764,8 +5763,8 @@ Public Sub WriteLeftClick(ByVal X As Byte, ByVal Y As Byte)
     With outgoingData
         Call .WriteByte(ClientPacketID.LeftClick)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
     End With
 End Sub
 
@@ -5776,7 +5775,7 @@ End Sub
 ' @param    y Tile coord in the y-axis in which the user clicked.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteAccionClick(ByVal X As Byte, ByVal Y As Byte)
+Public Sub WriteAccionClick(ByVal X As Integer, ByVal Y As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -5785,8 +5784,8 @@ Public Sub WriteAccionClick(ByVal X As Byte, ByVal Y As Byte)
     With outgoingData
         Call .WriteByte(ClientPacketID.AccionClick)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
     End With
 End Sub
 
@@ -5914,7 +5913,7 @@ End Sub
 ' @param    skill The skill which the user attempts to use.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteWorkLeftClick(ByVal X As Byte, ByVal Y As Byte, ByVal Skill As eSkill)
+Public Sub WriteWorkLeftClick(ByVal X As Integer, ByVal Y As Integer, ByVal Skill As eSkill)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -5923,8 +5922,8 @@ Public Sub WriteWorkLeftClick(ByVal X As Byte, ByVal Y As Byte, ByVal Skill As e
     With outgoingData
         Call .WriteByte(ClientPacketID.WorkLeftClick)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
         
         Call .WriteByte(Skill)
     End With
@@ -5937,7 +5936,7 @@ End Sub
 ' @param    y Tile coord in the y-axis in which the user clicked.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteInvitarPartyClick(ByVal X As Byte, ByVal Y As Byte)
+Public Sub WriteInvitarPartyClick(ByVal X As Integer, ByVal Y As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -5946,8 +5945,8 @@ Public Sub WriteInvitarPartyClick(ByVal X As Byte, ByVal Y As Byte)
     With outgoingData
         Call .WriteByte(ClientPacketID.InvitarPartyClick)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
         
     End With
 End Sub
@@ -7676,7 +7675,7 @@ End Sub
 ' @param    y The y position in the map to which to waro the character.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal X As Byte, ByVal Y As Byte)
+Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal X As Integer, ByVal Y As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -7695,8 +7694,8 @@ Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal X
         
         Call .WriteInteger(Map)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
     End With
     
 End Sub
@@ -8425,7 +8424,7 @@ End Sub
 ' @param    y The position in the y axis to which the teleport will lead.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteTeleportCreate(ByVal Map As Integer, ByVal X As Byte, ByVal Y As Byte, Optional ByVal Radio As Byte = 0)
+Public Sub WriteTeleportCreate(ByVal Map As Integer, ByVal X As Integer, ByVal Y As Integer, Optional ByVal Radio As Byte = 0)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -8437,8 +8436,8 @@ Public Sub WriteTeleportCreate(ByVal Map As Integer, ByVal X As Byte, ByVal Y As
         
         Call .WriteInteger(Map)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
         
         Call .WriteByte(Radio)
     End With
@@ -8542,7 +8541,7 @@ End Sub
 ' @param    y       The position in the y axis in which to play the given wave.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteForceWAVEToMap(ByVal waveID As Byte, ByVal Map As Integer, ByVal X As Byte, ByVal Y As Byte)
+Public Sub WriteForceWAVEToMap(ByVal waveID As Byte, ByVal Map As Integer, ByVal X As Integer, ByVal Y As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -8556,8 +8555,8 @@ Public Sub WriteForceWAVEToMap(ByVal waveID As Byte, ByVal Map As Integer, ByVal
         
         Call .WriteInteger(Map)
         
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
     End With
 End Sub
 
@@ -9503,220 +9502,220 @@ Public Sub WriteSaveMap()
 End Sub
 
 ''
-' Writes the "ChangeMapInfoPK" message to the outgoing data buffer.
+' Writes the "ChangeZonaPK" message to the outgoing data buffer.
 '
 ' @param    isPK True if the map is PK, False otherwise.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoPK(ByVal isPK As Boolean)
+Public Sub WriteChangeZonaPK(ByVal isPK As Boolean)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
-'Writes the "ChangeMapInfoPK" message to the outgoing data buffer
+'Writes the "ChangeZonaPK" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoPK)
+        Call .WriteByte(eGMCommands.ChangeZonaPK)
         
         Call .WriteBoolean(isPK)
     End With
 End Sub
 
 ''
-' Writes the "ChangeMapInfoNoOcultar" message to the outgoing data buffer.
+' Writes the "ChangeZonaNoOcultar" message to the outgoing data buffer.
 '
 ' @param    PermitirOcultar True if the map permits to hide, False otherwise.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoNoOcultar(ByVal PermitirOcultar As Boolean)
+Public Sub WriteChangeZonaNoOcultar(ByVal PermitirOcultar As Boolean)
 '***************************************************
 'Author: ZaMa
 'Last Modification: 19/09/2010
-'Writes the "ChangeMapInfoNoOcultar" message to the outgoing data buffer
+'Writes the "ChangeZonaNoOcultar" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoNoOcultar)
+        Call .WriteByte(eGMCommands.ChangeZonaNoOcultar)
         
         Call .WriteBoolean(PermitirOcultar)
     End With
 End Sub
 
 ''
-' Writes the "ChangeMapInfoNoInvocar" message to the outgoing data buffer.
+' Writes the "ChangeZonaNoInvocar" message to the outgoing data buffer.
 '
 ' @param    PermitirInvocar True if the map permits to invoke, False otherwise.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoNoInvocar(ByVal PermitirInvocar As Boolean)
+Public Sub WriteChangeZonaNoInvocar(ByVal PermitirInvocar As Boolean)
 '***************************************************
 'Author: ZaMa
 'Last Modification: 18/09/2010
-'Writes the "ChangeMapInfoNoInvocar" message to the outgoing data buffer
+'Writes the "ChangeZonaNoInvocar" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoNoInvocar)
+        Call .WriteByte(eGMCommands.ChangeZonaNoInvocar)
         
         Call .WriteBoolean(PermitirInvocar)
     End With
 End Sub
 
 ''
-' Writes the "ChangeMapInfoBackup" message to the outgoing data buffer.
+' Writes the "ChangeZonaBackup" message to the outgoing data buffer.
 '
 ' @param    backup True if the map is to be backuped, False otherwise.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoBackup(ByVal backup As Boolean)
+Public Sub WriteChangeZonaBackup(ByVal backup As Boolean)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
-'Writes the "ChangeMapInfoBackup" message to the outgoing data buffer
+'Writes the "ChangeZonaBackup" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoBackup)
+        Call .WriteByte(eGMCommands.ChangeZonaBackup)
         
         Call .WriteBoolean(backup)
     End With
 End Sub
 
 ''
-' Writes the "ChangeMapInfoRestricted" message to the outgoing data buffer.
+' Writes the "ChangeZonaRestricted" message to the outgoing data buffer.
 '
 ' @param    restrict NEWBIES (only newbies), NO (everyone), ARMADA (just Armadas), CAOS (just caos) or FACCION (Armadas & caos only)
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoRestricted(ByVal restrict As String)
+Public Sub WriteChangeZonaRestricted(ByVal restrict As String)
 '***************************************************
 'Author: Pablo (ToxicWaste)
 'Last Modification: 26/01/2007
-'Writes the "ChangeMapInfoRestricted" message to the outgoing data buffer
+'Writes the "ChangeZonaRestricted" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoRestricted)
+        Call .WriteByte(eGMCommands.ChangeZonaRestricted)
         
         Call .WriteASCIIString(restrict)
     End With
 End Sub
 
 ''
-' Writes the "ChangeMapInfoNoMagic" message to the outgoing data buffer.
+' Writes the "ChangeZonaNoMagic" message to the outgoing data buffer.
 '
 ' @param    nomagic TRUE if no magic is to be allowed in the map.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoNoMagic(ByVal nomagic As Boolean)
+Public Sub WriteChangeZonaNoMagic(ByVal nomagic As Boolean)
 '***************************************************
 'Author: Pablo (ToxicWaste)
 'Last Modification: 26/01/2007
-'Writes the "ChangeMapInfoNoMagic" message to the outgoing data buffer
+'Writes the "ChangeZonaNoMagic" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoNoMagic)
+        Call .WriteByte(eGMCommands.ChangeZonaNoMagic)
         
         Call .WriteBoolean(nomagic)
     End With
 End Sub
 
 ''
-' Writes the "ChangeMapInfoNoInvi" message to the outgoing data buffer.
+' Writes the "ChangeZonaNoInvi" message to the outgoing data buffer.
 '
 ' @param    noinvi TRUE if invisibility is not to be allowed in the map.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoNoInvi(ByVal noinvi As Boolean)
+Public Sub WriteChangeZonaNoInvi(ByVal noinvi As Boolean)
 '***************************************************
 'Author: Pablo (ToxicWaste)
 'Last Modification: 26/01/2007
-'Writes the "ChangeMapInfoNoInvi" message to the outgoing data buffer
+'Writes the "ChangeZonaNoInvi" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoNoInvi)
+        Call .WriteByte(eGMCommands.ChangeZonaNoInvi)
         
         Call .WriteBoolean(noinvi)
     End With
 End Sub
                             
 ''
-' Writes the "ChangeMapInfoNoResu" message to the outgoing data buffer.
+' Writes the "ChangeZonaNoResu" message to the outgoing data buffer.
 '
 ' @param    noresu TRUE if resurection is not to be allowed in the map.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoNoResu(ByVal noresu As Boolean)
+Public Sub WriteChangeZonaNoResu(ByVal noresu As Boolean)
 '***************************************************
 'Author: Pablo (ToxicWaste)
 'Last Modification: 26/01/2007
-'Writes the "ChangeMapInfoNoResu" message to the outgoing data buffer
+'Writes the "ChangeZonaNoResu" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoNoResu)
+        Call .WriteByte(eGMCommands.ChangeZonaNoResu)
         
         Call .WriteBoolean(noresu)
     End With
 End Sub
                         
 ''
-' Writes the "ChangeMapInfoLand" message to the outgoing data buffer.
+' Writes the "ChangeZonaLand" message to the outgoing data buffer.
 '
 ' @param    land options: "BOSQUE", "NIEVE", "DESIERTO", "CIUDAD", "CAMPO", "DUNGEON".
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoLand(ByVal land As String)
+Public Sub WriteChangeZonaLand(ByVal land As String)
 '***************************************************
 'Author: Pablo (ToxicWaste)
 'Last Modification: 26/01/2007
-'Writes the "ChangeMapInfoLand" message to the outgoing data buffer
+'Writes the "ChangeZonaLand" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoLand)
+        Call .WriteByte(eGMCommands.ChangeZonaLand)
         
         Call .WriteASCIIString(land)
     End With
 End Sub
                         
 ''
-' Writes the "ChangeMapInfoZone" message to the outgoing data buffer.
+' Writes the "ChangeZonaZone" message to the outgoing data buffer.
 '
 ' @param    zone options: "BOSQUE", "NIEVE", "DESIERTO", "CIUDAD", "CAMPO", "DUNGEON".
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoZone(ByVal zone As String)
+Public Sub WriteChangeZonaZone(ByVal zone As String)
 '***************************************************
 'Author: Pablo (ToxicWaste)
 'Last Modification: 26/01/2007
-'Writes the "ChangeMapInfoZone" message to the outgoing data buffer
+'Writes the "ChangeZonaZone" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoZone)
+        Call .WriteByte(eGMCommands.ChangeZonaZone)
         
         Call .WriteASCIIString(zone)
     End With
 End Sub
 
 ''
-' Writes the "ChangeMapInfoStealNpc" message to the outgoing data buffer.
+' Writes the "ChangeZonaStealNpc" message to the outgoing data buffer.
 '
 ' @param    forbid TRUE if stealNpc forbiden.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChangeMapInfoStealNpc(ByVal forbid As Boolean)
+Public Sub WriteChangeZonaStealNpc(ByVal forbid As Boolean)
 '***************************************************
 'Author: ZaMa
 'Last Modification: 25/07/2010
-'Writes the "ChangeMapInfoStealNpc" message to the outgoing data buffer
+'Writes the "ChangeZonaStealNpc" message to the outgoing data buffer
 '***************************************************
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.ChangeMapInfoStealNpc)
+        Call .WriteByte(eGMCommands.ChangeZonaStealNpc)
         
         Call .WriteBoolean(forbid)
     End With
@@ -10056,7 +10055,7 @@ End Sub
 ' @param    Y           The y pos where the king is settled.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteCreatePretorianClan(ByVal Map As Integer, ByVal X As Byte, ByVal Y As Byte)
+Public Sub WriteCreatePretorianClan(ByVal Map As Integer, ByVal X As Integer, ByVal Y As Integer)
 '***************************************************
 'Author: ZaMa
 'Last Modification: 29/10/2010
@@ -10066,8 +10065,8 @@ Public Sub WriteCreatePretorianClan(ByVal Map As Integer, ByVal X As Byte, ByVal
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.CreatePretorianClan)
         Call .WriteInteger(Map)
-        Call .WriteByte(X)
-        Call .WriteByte(Y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
     End With
 End Sub
 
@@ -10847,7 +10846,7 @@ Private Sub HandleCreateDamage()
         ' Leemos el ID del paquete.
         .ReadByte
      
-        Call mDx8_Dibujado.Damage_Create(.ReadByte(), .ReadByte(), 0, .ReadLong(), .ReadByte())
+        Call mDx8_Dibujado.Damage_Create(.ReadInteger(), .ReadInteger(), 0, .ReadLong(), .ReadByte())
      
     End With
  

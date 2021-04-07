@@ -4,7 +4,7 @@ Option Explicit
 'Public Formato As String * 6
 Public Const Formato As String * 6 = ".WAO"
 
-Public PkContra() As Byte
+Private PkContra() As Byte
 
 'This structure will describe our binary file's
 'size and number of contained files

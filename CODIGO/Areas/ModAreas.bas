@@ -55,7 +55,7 @@ Public Sub CalcularAreas(HalfWindowTileWidth As Integer, HalfWindowTileHeight As
 End Sub
 
 ' Elimina todo fuera del area del usuario
-Public Sub CambioDeArea(ByVal X As Byte, ByVal Y As Byte)
+Public Sub CambioDeArea(ByVal X As Integer, ByVal Y As Integer)
 
     CurAreaX = X \ AreasX
     CurAreaY = Y \ AreasY

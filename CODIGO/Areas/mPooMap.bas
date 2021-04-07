@@ -22,7 +22,7 @@ Public Sub Map_RemoveOldUser()
 
 End Sub
 
-Public Sub Map_CreateObject(ByVal X As Byte, ByVal Y As Byte, ByVal GrhIndex As Long, ByVal ParticulaIndex As Integer, ByVal Shadow As Byte)
+Public Sub Map_CreateObject(ByVal X As Integer, ByVal Y As Integer, ByVal GrhIndex As Long, ByVal ParticulaIndex As Integer, ByVal Shadow As Byte)
 
       'Dim objgrh As Integer
         
@@ -49,7 +49,7 @@ Public Sub Map_CreateObject(ByVal X As Byte, ByVal Y As Byte, ByVal GrhIndex As 
 
 End Sub
 
-Public Sub Map_DestroyObject(ByVal X As Byte, ByVal Y As Byte)
+Public Sub Map_DestroyObject(ByVal X As Integer, ByVal Y As Integer)
     Dim ParticulaObject As Long
     
       If (Map_InBounds(X, Y)) Then
@@ -67,7 +67,7 @@ Public Sub Map_DestroyObject(ByVal X As Byte, ByVal Y As Byte)
 
 End Sub
 
-Public Function Map_PosExitsObject(ByVal X As Byte, ByVal Y As Byte) As Long
+Public Function Map_PosExitsObject(ByVal X As Integer, ByVal Y As Integer) As Long
  
       '*****************************************************************
       'Checks to see if a tile position has a char_index and return it
@@ -98,7 +98,7 @@ Public Function Map_GetBlocked(ByVal X As Integer, ByVal Y As Integer) As Boolea
 
 End Function
 
-Public Sub Map_SetBlocked(ByVal X As Byte, ByVal Y As Byte, ByVal block As Byte)
+Public Sub Map_SetBlocked(ByVal X As Integer, ByVal Y As Integer, ByVal block As Byte)
 
       If (Map_InBounds(X, Y)) Then
             MapData(X, Y).Blocked = block
@@ -196,7 +196,7 @@ Function Map_LegalPos(ByVal X As Integer, ByVal Y As Integer) As Boolean
 
       End If
     
-      CharIndex = (Char_MapPosExits(CByte(X), CByte(Y)))
+      CharIndex = (Char_MapPosExits(CInt(X), CInt(Y)))
         
       'Hay un personaje?
 

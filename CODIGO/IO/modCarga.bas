@@ -70,6 +70,7 @@ Public Type tSetupMods
     MostrarTips As Byte
     MostrarBindKeysSelection As Byte
     BloqueoMovimiento As Boolean
+    VerCuadrantes As Boolean
     
     'MOUSE
     MouseGeneral As Byte
@@ -93,11 +94,13 @@ Private Type tMapHeader
     NumeroBloqueados As Long
     NumeroLayers(2 To 4) As Long
     NumeroTriggers As Long
-    NumeroLuces As Long
     NumeroParticulas As Long
+    NumeroLuces As Long
+    NumeroZonas As Integer
     NumeroNPCs As Long
     NumeroOBJs As Long
     NumeroTE As Long
+    NumeroData As Integer
 End Type
 
 Private Type tDatosBloqueados
@@ -117,7 +120,13 @@ Private Type tDatosTrigger
     Trigger As Integer
 End Type
 
-Private Type tDatosLuces
+Private Type tDatosZonas
+    X As Integer
+    Y As Integer
+    Zona As Integer
+End Type
+
+Public Type tDatosLuces
     r As Integer
     g As Integer
     b As Integer
@@ -141,7 +150,7 @@ End Type
 Private Type tDatosObjs
     X As Integer
     Y As Integer
-    objindex As Integer
+    ObjIndex As Integer
     ObjAmmount As Integer
 End Type
 
@@ -182,7 +191,7 @@ Private Type tMapDat
 End Type
 
 Public MapSize As tMapSize
-Private MapDat As tMapDat
+Private MapDat() As tMapDat
 '********************************
 'END - Load Map with .CSM format
 '********************************
@@ -273,6 +282,7 @@ Public Sub LeerConfiguracion()
         .MostrarTips = CBool(Lector.GetValue("OTHER", "MOSTRAR_TIPS"))
         .MostrarBindKeysSelection = CBool(Lector.GetValue("OTHER", "MOSTRAR_BIND_KEYS_SELECTION"))
         .BloqueoMovimiento = CBool(Lector.GetValue("OTHER", "BLOQUEOMOV"))
+        .VerCuadrantes = CBool(Lector.GetValue("OTHER", "CUADRANTES"))
         
         ' FUNCION
         For i = 1 To 12
@@ -299,6 +309,7 @@ Public Sub LeerConfiguracion()
         Debug.Print "bKill: " & .byMurderedLevel
         Debug.Print "bActive: " & .bActive
         Debug.Print "MostrarTips: " & .MostrarTips
+        Debug.Print "VerCuadrantes: " & .VerCuadrantes
         Debug.Print vbNullString
         
     End With
@@ -358,6 +369,7 @@ Public Sub GuardarConfiguracion()
         ' Al menos no al hacer click en el boton Salir del formulario opciones (Recox)
         ' Call Lector.ChangeValue("OTHER", "MOSTRAR_TIPS", CBool(.MostrarTips))
         Call Lector.ChangeValue("OTHER", "BLOQUEOMOV", IIf(.bActive, "1", "0"))
+        Call Lector.ChangeValue("OTHER", "CUADRANTES", IIf(.VerCuadrantes, "1", "0"))
     End With
     
     Call Lector.DumpFile(Carga.Path(Init) & CLIENT_FILE)
@@ -1073,7 +1085,8 @@ Sub CargarMapa(ByVal Map As Integer)
     Dim Objetos()    As tDatosObjs
     Dim NPCs()       As tDatosNPC
     Dim TEs()        As tDatosTE
-
+    Dim Zonas()      As tDatosZonas
+    
     Dim i            As Long
     Dim j            As Long
 
@@ -1102,11 +1115,13 @@ Sub CargarMapa(ByVal Map As Integer)
         .NumeroLayers(3) = fileBuff.getLong()
         .NumeroLayers(4) = fileBuff.getLong()
         .NumeroTriggers = fileBuff.getLong()
-        .NumeroLuces = fileBuff.getLong()
         .NumeroParticulas = fileBuff.getLong()
+        .NumeroLuces = fileBuff.getLong()
+        .NumeroZonas = fileBuff.getInteger()
         .NumeroNPCs = fileBuff.getLong()
         .NumeroOBJs = fileBuff.getLong()
         .NumeroTE = fileBuff.getLong()
+        .NumeroData = fileBuff.getInteger()
     End With
     
     With MapSize
@@ -1116,29 +1131,46 @@ Sub CargarMapa(ByVal Map As Integer)
         .YMin = fileBuff.getInteger()
     End With
 
-    With MapDat
-        .map_name = fileBuff.getString()
-        .battle_mode = fileBuff.getBoolean()
-        .backup_mode = fileBuff.getBoolean()
-        .restrict_mode = fileBuff.getString()
-        .music_number = fileBuff.getString()
-        .zone = fileBuff.getString()
-        .terrain = fileBuff.getString()
-        .Ambient = fileBuff.getString()
-        .lvlMinimo = fileBuff.getString()
-        .RoboNpcsPermitido = fileBuff.getBoolean()
-        .InvocarSinEfecto = fileBuff.getBoolean()
-        .OcultarSinEfecto = fileBuff.getBoolean()
-        .ResuSinEfecto = fileBuff.getBoolean()
-        .MagiaSinEfecto = fileBuff.getBoolean()
-        .InviSinEfecto = fileBuff.getBoolean()
-        .LuzBase = fileBuff.getLong()
-        .version = fileBuff.getLong()
-        .NoTirarItems = fileBuff.getBoolean()
-    End With
+    CantZonas = MH.NumeroData
+
+    ReDim MapZonas(CantZonas) As tZonaInfo
+    ReDim MapDat(CantZonas) As tMapDat
     
+    For i = 0 To CantZonas
+        With MapDat(i)
+            
+            .map_name = fileBuff.getString()
+            .battle_mode = fileBuff.getBoolean()
+            .backup_mode = fileBuff.getBoolean()
+            .restrict_mode = fileBuff.getString()
+            .music_number = fileBuff.getString()
+            .zone = fileBuff.getString()
+            .terrain = fileBuff.getString()
+            .Ambient = fileBuff.getString()
+            .lvlMinimo = fileBuff.getString()
+            .RoboNpcsPermitido = fileBuff.getBoolean()
+            .InvocarSinEfecto = fileBuff.getBoolean()
+            .OcultarSinEfecto = fileBuff.getBoolean()
+            .ResuSinEfecto = fileBuff.getBoolean()
+            .MagiaSinEfecto = fileBuff.getBoolean()
+            .InviSinEfecto = fileBuff.getBoolean()
+            .LuzBase = fileBuff.getLong()
+            .version = fileBuff.getLong()
+            .NoTirarItems = fileBuff.getBoolean()
+            
+            MapZonas(i).name = .map_name
+            MapZonas(i).Music = Val(.music_number)
+            MapZonas(i).Ambient = Val(.Ambient)
+            MapZonas(i).Zona = .zone
+            MapZonas(i).Terreno = .terrain
+            MapZonas(i).LuzBase = .LuzBase
+            MapZonas(i).battle_mode = .battle_mode
+            
+        End With
+    Next i
+
     With MapSize
-        ReDim MapData(.XMin To .XMax, .YMin To .YMax)
+        'ReDim MapData(.XMin To .XMax, .YMin To .YMax)
         ReDim L1(.XMin To .XMax, .YMin To .YMax)
     End With
 
@@ -1153,7 +1185,7 @@ Sub CargarMapa(ByVal Map As Integer)
 
         Next i
     Next j
-    
+
     With MH
 
         If .NumeroBloqueados > 0 Then
@@ -1233,8 +1265,9 @@ Sub CargarMapa(ByVal Map As Integer)
             Next i
 
         End If
-        
+
         If .NumeroParticulas > 0 Then
+        
             ReDim Particulas(1 To .NumeroParticulas)
 
             For i = 1 To .NumeroParticulas
@@ -1243,14 +1276,15 @@ Sub CargarMapa(ByVal Map As Integer)
                     .X = fileBuff.getInteger()
                     .Y = fileBuff.getInteger()
                     .Particula = fileBuff.getLong()
-                
-                    MapData(.X, .Y).Particle_Group_Index = General_Particle_Create(.Particula, .X, .Y)
+
+                    MapData(.X, .Y).Particle_Index = .Particula
+                    Call General_Particle_Create(.Particula, .X, .Y)
                 End With
 
             Next i
 
         End If
-            
+
         If .NumeroLuces > 0 Then
             ReDim Luces(1 To .NumeroLuces)
             Dim p As Byte
@@ -1264,11 +1298,27 @@ Sub CargarMapa(ByVal Map As Integer)
                     .X = fileBuff.getInteger()
                     .Y = fileBuff.getInteger()
 
-                    Call Create_Light_To_Map(.X, .Y, .range, .r, .g, .b)
+                    Call Create_Light_To_Map(.X, .Y, .range, .r, .g, .b, False)
                 End With
             Next i
             
-            Call LightRenderAll
+        End If
+        
+        If .NumeroZonas > 0 Then
+            ReDim Zonas(1 To .NumeroZonas)
+            
+            For i = 1 To .NumeroZonas
+                
+                With Zonas(i)
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+                    .Zona = fileBuff.getInteger()
+                
+                    MapData(.X, .Y).ZonaIndex = .Zona
+                End With
+                
+            Next i
+
         End If
             
         If .NumeroOBJs > 0 Then
@@ -1279,7 +1329,7 @@ Sub CargarMapa(ByVal Map As Integer)
                 With Objetos(i)
                     .X = fileBuff.getInteger()
                     .Y = fileBuff.getInteger()
-                    .objindex = fileBuff.getInteger()
+                    .ObjIndex = fileBuff.getInteger()
                     .ObjAmmount = fileBuff.getInteger()
                 
                     'Erase OBJs
@@ -1293,17 +1343,6 @@ Sub CargarMapa(ByVal Map As Integer)
     
     Erase buffer
     Set fileBuff = Nothing
-    
-    '*******************************
-    'INFORMACION DEL MAPA
-    '*******************************
-    
-    mapInfo.name = MapDat.map_name
-    mapInfo.Music = MapDat.music_number
-    mapInfo.Ambient = MapDat.Ambient
-    mapInfo.Zona = MapDat.zone
-    mapInfo.Terreno = MapDat.terrain
-    mapInfo.LuzBase = MapDat.LuzBase
 
 ErrorHandler:
     
@@ -1311,7 +1350,7 @@ ErrorHandler:
     
     If Err.number <> 0 Then
         'Call LogError(Err.number, Err.Description, "modCarga.CargarMapa")
-        Call MsgBox("err: " & Err.number, "desc: " & Err.Description)
+        Call MsgBox("err: " & Err.number & " desc: " & Err.Description)
     End If
 
 End Sub

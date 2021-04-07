@@ -368,7 +368,7 @@ Public Function Engine_PixelPosY(ByVal Y As Integer) As Integer
     
 End Function
 
-Public Function Engine_TPtoSPX(ByVal X As Byte) As Long
+Public Function Engine_TPtoSPX(ByVal X As Integer) As Long
 '************************************************************
 'Tile Position to Screen Position
 'Takes the tile position and returns the pixel location on the screen
@@ -379,7 +379,7 @@ Public Function Engine_TPtoSPX(ByVal X As Byte) As Long
     
 End Function
 
-Public Function Engine_TPtoSPY(ByVal Y As Byte) As Long
+Public Function Engine_TPtoSPY(ByVal Y As Integer) As Long
 '************************************************************
 'Tile Position to Screen Position
 'Takes the tile position and returns the pixel location on the screen
@@ -426,6 +426,12 @@ Public Sub Engine_Long_To_RGB_List(rgb_list() As Long, long_color As Long)
     rgb_list(1) = rgb_list(0)
     rgb_list(2) = rgb_list(0)
     rgb_list(3) = rgb_list(0)
+End Sub
+
+Sub ConvertLongToRGB(ByVal value As Long, r As Byte, g As Byte, b As Byte)
+    r = value Mod 256
+    g = Int(value / 256) Mod 256
+    b = Int(value / 256 / 256) Mod 256
 End Sub
 
 Public Function SetARGB_Alpha(rgb_list() As Long, Alpha As Byte) As Long()
@@ -782,7 +788,7 @@ Exit Function
  
 End Function
 
-Public Sub Engine_Get_ARGB(Color As Long, data As D3DCOLORVALUE)
+Public Sub Engine_Get_ARGB(Color As Long, Data As D3DCOLORVALUE)
 '**************************************************************
 'Author: Standelf
 'Last Modify Date: 18/10/2012
@@ -800,7 +806,7 @@ Public Sub Engine_Get_ARGB(Color As Long, data As D3DCOLORVALUE)
     g = (Color And &HFF00&) / (2 ^ 8)
     b = (Color And &HFF&)
     
-    With data
+    With Data
         .a = a
         .r = r
         .g = g

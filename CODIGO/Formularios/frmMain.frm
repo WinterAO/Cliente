@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "richtx32.ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
 Begin VB.Form frmMain 
    BorderStyle     =   0  'None
    ClientHeight    =   11520
@@ -168,7 +168,6 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -848,7 +847,6 @@ Begin VB.Form frmMain
    End
    Begin VB.Label Coord 
       Alignment       =   2  'Center
-      AutoSize        =   -1  'True
       BackStyle       =   0  'Transparent
       Caption         =   "000 X:00 Y: 00"
       BeginProperty Font 
@@ -862,10 +860,10 @@ Begin VB.Form frmMain
       EndProperty
       ForeColor       =   &H0000FFFF&
       Height          =   210
-      Left            =   12030
+      Left            =   11400
       TabIndex        =   1
-      Top             =   11085
-      Width           =   2475
+      Top             =   11205
+      Width           =   3675
    End
    Begin VB.Image InvEqu 
       Height          =   4530
@@ -966,8 +964,8 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
-Public tX                  As Byte
-Public tY                  As Byte
+Public tX                  As Integer
+Public tY                  As Integer
 Public MouseX              As Long
 Public MouseY              As Long
 Public MouseBoton          As Long
@@ -2558,4 +2556,27 @@ Public Sub ControlSM(ByVal Index As Byte, ByVal Mostrar As Boolean)
         
     End Select
     
+End Sub
+
+Public Sub ActualizarCoordenadas(ByVal tX As Integer, ByVal tY As Integer)
+'*****************************************************
+'Autor: Lorwik
+'Fecha: 03/04/2021
+'Descripción: Actualiza las coordenadas ya sean totales o por cuadrantes
+'*****************************************************
+
+    Dim cx As Integer
+    Dim cy As Integer
+    
+    If ClientSetup.VerCuadrantes Then
+    
+        cx = Fix((tX / 100))
+        cy = Fix((tY / 100))
+
+        Coord.Caption = "Cuadrante: " & cx * cy & " X: " & tX - (cx * 100) & " Y: " & tY - (cy * 100)
+    
+    Else
+        Coord.Caption = "Map:" & UserMap & " X:" & tX & " Y:" & tY
+        
+    End If
 End Sub

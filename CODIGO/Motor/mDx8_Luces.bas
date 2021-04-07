@@ -11,15 +11,15 @@ Option Base 0
 Private Type tLight
     RGBcolor As D3DCOLORVALUE
     active As Boolean
-    map_x As Byte
-    map_y As Byte
+    map_x As Integer
+    map_y As Integer
     range As Byte
 End Type
  
 Private Light_List() As tLight
-Private NumLights As Byte
+Private NumLights As Integer
 
-Public Function Create_Light_To_Map(ByVal map_x As Byte, ByVal map_y As Byte, Optional range As Byte = 3, Optional ByVal Red As Byte = 255, Optional ByVal Green = 255, Optional ByVal Blue As Byte = 255)
+Public Function Create_Light_To_Map(ByVal map_x As Integer, ByVal map_y As Integer, Optional range As Byte = 3, Optional ByVal Red As Byte = 255, Optional ByVal Green = 255, Optional ByVal Blue As Byte = 255, Optional ByVal Render As Boolean = True)
     NumLights = NumLights + 1
    
     ReDim Preserve Light_List(1 To NumLights) As tLight
@@ -33,10 +33,11 @@ Public Function Create_Light_To_Map(ByVal map_x As Byte, ByVal map_y As Byte, Op
     Light_List(NumLights).map_x = map_x
     Light_List(NumLights).map_y = map_y
    
-    Call LightRender(NumLights)
+    If Render Then _
+        Call LightRender(NumLights)
 End Function
 
-Public Function Delete_Light_To_Map(ByVal X As Byte, ByVal Y As Byte)
+Public Function Delete_Light_To_Map(ByVal X As Integer, ByVal Y As Integer)
    
     Dim i As Long
    
@@ -52,7 +53,7 @@ End Function
 
 #If LightEngine = 1 Then '   Luces Radiales
 
-Public Function Delete_Light_To_Index(ByVal light_index As Integer)
+Public Function Delete_Light_To_Index(ByVal light_index As Integer, Optional ByVal Actualizar As Boolean = True)
 '************************************
 'Autor: Lorwik
 'Fecha: 14/08/2020
@@ -75,9 +76,9 @@ Public Function Delete_Light_To_Index(ByVal light_index As Integer)
     
     End If
  
-    Call Actualizar_Estado(Estado_Actual_Date)
-    
-    LightRenderAll
+    If Actualizar Then _
+        Call Actualizar_Estado(Estado_Actual_Date)
+
 End Function
 
 Private Sub LightRender(ByVal light_index As Integer)
@@ -379,7 +380,7 @@ Public Function LightRenderAll()
 
 End Function
 
-Public Sub LightRemoveAll()
+Public Sub LightRemoveAll(ByVal Actualizar As Boolean)
 '**************************************************************
 'Author: Aaron Perkins
 'Last Modify Date: 10/07/2002
@@ -389,9 +390,9 @@ Public Sub LightRemoveAll()
     Dim i As Long
     
     If NumLights = 0 Then Exit Sub
-    Debug.Print "Numero de luces: " & NumLights & "-" & UBound(Light_List)
+    Debug.Print "Numero de luces a destruir: " & NumLights & "-" & UBound(Light_List)
     For i = 1 To UBound(Light_List)
-        Delete_Light_To_Index i
+        Delete_Light_To_Index i, Actualizar
     Next i
 
 End Sub

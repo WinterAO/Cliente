@@ -54,10 +54,10 @@ Public LastOffsetX As Integer
 Public LastOffsetY As Integer
 
 'Map sizes in tiles
-Public Const XMaxMapSize As Byte = 100
-Public Const XMinMapSize As Byte = 1
-Public Const YMaxMapSize As Byte = 100
-Public Const YMinMapSize As Byte = 1
+Public Const XMaxMapSize As Integer = 1100
+Public Const XMinMapSize As Integer = 1
+Public Const YMaxMapSize As Integer = 1100
+Public Const YMinMapSize As Integer = 1
 
 Private Const GrhFogata As Long = 1521
 
@@ -66,30 +66,6 @@ Private Const GrhFogata As Long = 1521
 Private Const INFINITE_LOOPS As Integer = -1
 
 Public Const DegreeToRadian As Single = 0.01745329251994 'Pi / 180
-
-'Encabezado bmp
-Type BITMAPFILEHEADER
-    bfType As Integer
-    bfSize As Long
-    bfReserved1 As Integer
-    bfReserved2 As Integer
-    bfOffBits As Long
-End Type
-
-'Info del encabezado del bmp
-Type BITMAPINFOHEADER
-    biSize As Long
-    biWidth As Long
-    biHeight As Long
-    biPlanes As Integer
-    biBitCount As Integer
-    biCompression As Long
-    biSizeImage As Long
-    biXPelsPerMeter As Long
-    biYPelsPerMeter As Long
-    biClrUsed As Long
-    biClrImportant As Long
-End Type
 
 'Posicion en un mapa
 Public Type Position
@@ -222,7 +198,7 @@ End Type
 
 'Info de un objeto
 Public Type obj
-    objindex As Integer
+    ObjIndex As Integer
     Amount As Integer
     Shadow As Byte
 End Type
@@ -243,14 +219,18 @@ Public Type MapBlock
     Trigger As Integer
     
     Engine_Light(0 To 3) As Long 'Standelf, Light Engine.
+    
+    Particle_Index As Integer
     Particle_Group_Index As Long 'Particle Engine
     
     fX As Grh
     FxIndex As Integer
+    
+    ZonaIndex As Integer
 End Type
 
 'Info de cada mapa
-Public Type mapInfo
+Public Type tZonaInfo
     Music As String
     name As String
     StartPos As WorldPos
@@ -259,15 +239,16 @@ Public Type mapInfo
     Zona As String
     Terreno As String
     LuzBase As Long
+    battle_mode As Boolean
 End Type
 
 Public IniPath As String
 
 'Bordes del mapa
-Public MinXBorder As Byte
-Public MaxXBorder As Byte
-Public MinYBorder As Byte
-Public MaxYBorder As Byte
+Public MinXBorder As Integer
+Public MaxXBorder As Integer
+Public MinYBorder As Integer
+Public MaxYBorder As Integer
 
 'Status del user
 Public CurMap As Integer 'Mapa actual
@@ -307,8 +288,8 @@ Public NumChars As Integer
 Public LastChar As Integer
 Public NumWeaponAnims As Integer
 
-Private MouseTileX As Byte
-Private MouseTileY As Byte
+Private MouseTileX As Integer
+Private MouseTileY As Integer
 
 
 
@@ -325,7 +306,8 @@ Public AtaqueData() As AtaqueAnimData
 
 '?????????Mapa????????????
 Public MapData() As MapBlock ' Mapa
-Public mapInfo As mapInfo ' Info acerca del mapa en uso
+Public MapZonas() As tZonaInfo ' Info acerca del mapa en uso
+Public CantZonas As Integer
 '?????????????????????????
 
 Public Normal_RGBList(3) As Long
@@ -365,7 +347,7 @@ Private Declare Function QueryPerformanceCounter Lib "kernel32" (lpPerformanceCo
 Public Declare Function SetPixel Lib "gdi32" (ByVal hDC As Long, ByVal X As Long, ByVal Y As Long, ByVal crColor As Long) As Long
 Public Declare Function GetPixel Lib "gdi32" (ByVal hDC As Long, ByVal X As Long, ByVal Y As Long) As Long
 
-Sub ConvertCPtoTP(ByVal viewPortX As Integer, ByVal viewPortY As Integer, ByRef tX As Byte, ByRef tY As Byte)
+Sub ConvertCPtoTP(ByVal viewPortX As Integer, ByVal viewPortY As Integer, ByRef tX As Integer, ByRef tY As Integer)
 '******************************************
 'Converts where the mouse is in the main window to a tile position. MUST be called eveytime the mouse moves.
 '******************************************
@@ -524,24 +506,6 @@ Function InMapBounds(ByVal X As Integer, ByVal Y As Integer) As Boolean
     End If
     
     InMapBounds = True
-End Function
-
-Function GetBitmapDimensions(ByVal BmpFile As String, ByRef bmWidth As Long, ByRef bmHeight As Long)
-'*****************************************************************
-'Gets the dimensions of a bmp
-'*****************************************************************
-    Dim BMHeader As BITMAPFILEHEADER
-    Dim BINFOHeader As BITMAPINFOHEADER
-    
-    Open BmpFile For Binary Access Read As #1
-    
-    Get #1, , BMHeader
-    Get #1, , BINFOHeader
-    
-    Close #1
-    
-    bmWidth = BINFOHeader.biWidth
-    bmHeight = BINFOHeader.biHeight
 End Function
 
 Public Sub DrawTransparentGrhtoHdc(ByVal dsthdc As Long, ByVal srchdc As Long, ByRef SourceRect As RECT, ByRef DestRect As RECT, ByVal TransparentColor As Long)
@@ -860,6 +824,7 @@ Sub RenderScreen(ByVal tilex As Integer, _
     
     If colorRender <> 240 Then
         Call DrawText(372, 80, renderText, render_msg(0), True, 2)
+        Call DrawText(372, 130, renderTextPk, render_msg(0), True, 1)
     End If
     
     '   Set Offsets
@@ -939,7 +904,7 @@ Static TerrenoDePaso As TipoPaso
     End With
 End Sub
 
-Private Function GetTerrenoDePaso(ByVal X As Byte, ByVal Y As Byte) As TipoPaso
+Private Function GetTerrenoDePaso(ByVal X As Integer, ByVal Y As Integer) As TipoPaso
     With MapData(X, Y).Graphic(1)
         If .GrhIndex >= 6000 And .GrhIndex <= 6307 Then
             GetTerrenoDePaso = CONST_BOSQUE
@@ -1034,7 +999,7 @@ On Error GoTo 0
     Call CargarParticulas
     
     'Inicializamos el conectar renderizado
-    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_GUI").item("TEXTO"), 75)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_GUI").item("TEXTO"), 55)
     Call ModCnt.InicializarRndCNT
 
     Exit Sub
@@ -1917,7 +1882,7 @@ Public Sub renderMsgReset()
 
     renderFont = 1
     renderText = vbNullString
-    nameMap = vbNullString
+    renderTextPk = vbNullString
 
 End Sub
 

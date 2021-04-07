@@ -254,7 +254,7 @@ Sub SetConnected()
     keysMovementPressedQueue.Clear
 
     frmMain.lblName.Caption = UserName
-    frmMain.lblMapName.Caption = mapInfo.name
+    frmMain.lblMapName.Caption = MapZonas(UserZonaId(UserCharIndex)).name
     
     'Load main form
     frmMain.Visible = True
@@ -377,6 +377,14 @@ Sub SwitchMap(ByVal Map As Integer)
     Dim bytArr()    As Byte
     Dim InfoHead    As INFOHEADER
     
+    'Si es el mismo Mapa, no lo cargamos
+    If Map = CurMap Then Exit Sub
+    
+    'Reseteamos el Array antes que nada, o por la velocidad que pueda tardar en comprobar si el mapa existe, se pueden _
+    producir errores.
+    ReDim MapData(XMinMapSize To XMaxMapSize, YMinMapSize To YMaxMapSize)
+    ReDim MapZonas(1) As tZonaInfo
+    
     InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Mapas.WAO", LCase$("Mapa" & Map & ".csm"))
     
     If InfoHead.lngFileSize <> 0 Then
@@ -392,10 +400,16 @@ Sub SwitchMap(ByVal Map As Integer)
         Call Particle_Group_Remove_All
         
         'Borramos todas las luces
-        Call LightRemoveAll
-        
+        Call LightRemoveAll(False)
+   
         'Cargamos el mapa.
         Call Carga.CargarMapa(Map)
+        
+        CurMap = Map
+        
+        Call CheckZona(UserCharIndex)
+        
+        Call Actualizar_Estado
         
         'Dibujamos el Mini-Mapa'
         If Extract_File_Memory(srcFileType.Minimap, Map & ".bmp", bytArr()) Then
@@ -404,28 +418,8 @@ Sub SwitchMap(ByVal Map As Integer)
             frmMain.MiniMapa.Picture = Nothing
         End If
         
-        CurMap = Map
+        Call Init_Ambient
         
-        Call Init_Ambient(Map)
-        
-        'Si estamos jugando y no en el conectar...
-        If frmMain.Visible Then
-            'Resetear el mensaje en render con el nombre del mapa.
-            renderText = nameMap
-            renderFont = 2
-            colorRender = 240
-        
-            'Aqui ponemos el nombre del mapa en el label del frmMain
-            frmMain.lblMapName.Caption = nameMap
-            
-            'Reproducimos la música del mapa
-            If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-                If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-                    Sound.NextMusic = mapInfo.Music
-                    Sound.Fading = 200
-                End If
-            End If
-        End If
     Else
     
         'no encontramos el mapa en el hd
@@ -659,11 +653,11 @@ Private Sub LoadInitialConfig()
     Set keysMovementPressedQueue = New clsArrayList
     Call keysMovementPressedQueue.Initialize(1, 4)
 
-    Call frmCargando.ActualizarCarga(frmCargando.Caption = JsonLanguage.item("HECHO").item("TEXTO"), 20)
+    Call frmCargando.ActualizarCarga(frmCargando.Caption = JsonLanguage.item("HECHO").item("TEXTO"), 15)
 
     '#############
     ' DIRECT SOUND
-    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_SONIDO").item("TEXTO"), 30)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_SONIDO").item("TEXTO"), 20)
     
     'Inicializamos el sonido
     If Sound.Initialize_Engine(frmMain.hWnd, Path(ePath.recursos), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
@@ -679,11 +673,11 @@ Private Sub LoadInitialConfig()
         Sound.Sound_Render
     End If
 
-    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 40)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 30)
     
     '###########
     ' CONSTANTES
-    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_CONSTANTES").item("TEXTO"), 50)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_CONSTANTES").item("TEXTO"), 40)
     
     Call InicializarNombres
     
@@ -692,11 +686,11 @@ Private Sub LoadInitialConfig()
  
     UserMap = 1
     
-    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 60)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 45)
 
     '##############
     ' MOTOR GRAFICO
-    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_MOTOR_GRAFICO").item("TEXTO"), 70)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_MOTOR_GRAFICO").item("TEXTO"), 50)
     
     'Iniciamos el Engine de DirectX 8
     Call mDx8_Engine.Engine_DirectX8_Init
@@ -706,11 +700,11 @@ Private Sub LoadInitialConfig()
     
     Call mDx8_Engine.Engine_DirectX8_Aditional_Init
 
-    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 80)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 60)
     
     '###################
     ' ANIMACIONES EXTRAS
-    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_FXS").item("TEXTO"), 90)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_FXS").item("TEXTO"), 65)
     
     Call CargarTips
     Call CargarAnimArmas
@@ -718,10 +712,16 @@ Private Sub LoadInitialConfig()
     Call CargarColores
     Call CargarPasos
     
-    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 95)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 70)
     
     'Inicializamos el inventario grafico
-    Call Inventario.Initialize(DirectD3D8, frmMain.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call Inventario.Initialize(DirectD3D8, frmMain.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_MAPA").item("TEXTO"), 75)
+    
+    Call MapConnect(1)
+    
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 80)
     
     'Set cKeys = New Collection
     Call frmCargando.ActualizarCarga(JsonLanguage.item("BIENVENIDO").item("TEXTO"), 100)
@@ -1374,3 +1374,79 @@ Public Sub Form_RemoveTitleBar(F As Form)
     ' Repaint the window.
     'SetWindowPos f.hwnd, 0, 0, 0, 0, 0, SWP_FRAMECHANGED Or SWP_NOMOVE Or SWP_NOZORDER Or SWP_NOSIZE
 End Sub
+
+Public Function UserZonaId(ByVal CharIndex As Integer) As Integer
+'**************************************
+'Autor: Lorwik
+'Fecha: 02/04/2021
+'Descripción: Devuelve el Id de la zona donde se encuentra el usuario
+'**************************************
+
+    If CharIndex < 1 Then
+        UserZonaId = 0
+        Exit Function
+    
+    ElseIf charlist(CharIndex).Pos.X < 1 Or charlist(CharIndex).Pos.Y < 1 Then
+        UserZonaId = 0
+        Exit Function
+        
+    End If
+    
+    UserZonaId = MapData(charlist(CharIndex).Pos.X, charlist(CharIndex).Pos.Y).ZonaIndex
+
+End Function
+
+Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
+'**************************************
+'Autor: Lorwik
+'Fecha: 02/04/2021
+'Descripción: Comprueba si hubo cambio de zona
+'**************************************
+
+    Static ZonaActual   As Integer
+    Dim ZonaId          As Integer
+    Static MapActual    As Integer
+
+    'Nueva zona
+    ZonaId = UserZonaId(CharIndex)
+
+    If ZonaActual <> ZonaId Then
+    
+        'Si estamos jugando y no en el conectar...
+        If frmMain.Visible Then
+            'Resetear el mensaje en render con el nombre del mapa.
+            renderText = MapZonas(ZonaId).name
+            renderFont = 2
+            colorRender = 240
+            
+            If MapZonas(ZonaId).battle_mode Then
+                renderTextPk = "Zona insegura"
+                
+            Else
+                renderTextPk = "Zona segura"
+                
+            End If
+        
+            'Aqui ponemos el nombre del mapa en el label del frmMain
+            frmMain.lblMapName.Caption = MapZonas(ZonaId).name
+            
+            If ClientSetup.bMusic <> CONST_DESHABILITADA Then
+                If ClientSetup.bMusic <> CONST_DESHABILITADA Then
+                    'Comprobamos si la musica de la zona anterior y la actual es la misma
+                    If CurMap = MapActual Then
+                        If MapZonas(ZonaActual).Music = MapZonas(ZonaId).Music Then Exit Function
+                    End If
+                    
+                    Sound.NextMusic = MapZonas(ZonaId).Music
+                    Sound.Fading = 200
+                End If
+            End If
+        End If
+        
+        MapActual = CurMap
+        ZonaActual = ZonaId
+        
+    End If
+
+End Function
+
