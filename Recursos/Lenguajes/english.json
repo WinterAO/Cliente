@@ -1668,5 +1668,8 @@
 		"BUG": "Explain in the most detailed way possible how to repeat the error, you can attach links to photos or videos. The WinterAO staff will study the case as soon as possible. Remember that if the report is from the selected category (bug report), you could be penalized. If your report is of another type, please explore other reporting options.",
 		"SUGERENCIA": "If you have any suggestions to improve the game experience, changes in any system, class, character, etc. Explain your suggestions in as much detail as possible. The WinterAO staff will study the case as soon as possible. Remember that if the report is from the selected category (suggestion), you could be sanctioned. If your report is of another type, please explore other reporting options.",
 		"DENUNCIA": "To report bad behavior by a player, or possible use of external programming. Photo or video links can be attached. Explain in the most detailed way possible, the WinterAO staff will study the case as soon as possible. Remember that if the report is from the selected category (suggestion), you could be sanctioned. If your report is of another type, please explore other reporting options."
-	}
+	},
+	"BORRAR_PJ": {
+        "TEXTO": "The character has been deleted."
+    }
 }
