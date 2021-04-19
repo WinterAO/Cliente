@@ -409,8 +409,6 @@ Sub SwitchMap(ByVal Map As Integer)
         
         Call CheckZona(UserCharIndex)
         
-        Call Actualizar_Estado
-        
         'Dibujamos el Mini-Mapa'
         If Extract_File_Memory(srcFileType.Minimap, Map & ".bmp", bytArr()) Then
             frmMain.MiniMapa.Picture = General_Load_Picture_From_BArray(bytArr())

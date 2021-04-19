@@ -169,29 +169,7 @@ Private Type tMapSize
     YMin As Integer
 End Type
 
-Private Type tMapDat
-    map_name As String
-    battle_mode As Boolean
-    backup_mode As Boolean
-    restrict_mode As String
-    music_number As String
-    zone As String
-    terrain As String
-    Ambient As String
-    lvlMinimo As String
-    RoboNpcsPermitido As Boolean
-    InvocarSinEfecto As Boolean
-    OcultarSinEfecto As Boolean
-    ResuSinEfecto As Boolean
-    MagiaSinEfecto As Boolean
-    InviSinEfecto As Boolean
-    LuzBase As Long
-    version As Long
-    NoTirarItems As Boolean
-End Type
-
 Public MapSize As tMapSize
-Private MapDat() As tMapDat
 '********************************
 'END - Load Map with .CSM format
 '********************************
@@ -1134,43 +1112,33 @@ Sub CargarMapa(ByVal Map As Integer)
     CantZonas = MH.NumeroData
 
     ReDim MapZonas(CantZonas) As tZonaInfo
-    ReDim MapDat(CantZonas) As tMapDat
     
     For i = 0 To CantZonas
-        With MapDat(i)
+        With MapZonas(i)
             
-            .map_name = fileBuff.getString()
-            .battle_mode = fileBuff.getBoolean()
-            .backup_mode = fileBuff.getBoolean()
-            .restrict_mode = fileBuff.getString()
-            .music_number = fileBuff.getString()
-            .zone = fileBuff.getString()
-            .terrain = fileBuff.getString()
+            .name = fileBuff.getString()
+            Call fileBuff.getBoolean
+            Call fileBuff.getBoolean
+            Call fileBuff.getString
+            .Music = fileBuff.getString()
+            .Zona = fileBuff.getString()
+            .Terreno = fileBuff.getString()
             .Ambient = fileBuff.getString()
-            .lvlMinimo = fileBuff.getString()
-            .RoboNpcsPermitido = fileBuff.getBoolean()
-            .InvocarSinEfecto = fileBuff.getBoolean()
-            .OcultarSinEfecto = fileBuff.getBoolean()
-            .ResuSinEfecto = fileBuff.getBoolean()
-            .MagiaSinEfecto = fileBuff.getBoolean()
-            .InviSinEfecto = fileBuff.getBoolean()
+            Call fileBuff.getString
+            Call fileBuff.getBoolean
+            Call fileBuff.getBoolean
+            Call fileBuff.getBoolean
+            Call fileBuff.getBoolean
+            Call fileBuff.getBoolean
+            Call fileBuff.getBoolean
             .LuzBase = fileBuff.getLong()
-            .version = fileBuff.getLong()
-            .NoTirarItems = fileBuff.getBoolean()
-            
-            MapZonas(i).name = .map_name
-            MapZonas(i).Music = Val(.music_number)
-            MapZonas(i).Ambient = Val(.Ambient)
-            MapZonas(i).Zona = .zone
-            MapZonas(i).Terreno = .terrain
-            MapZonas(i).LuzBase = .LuzBase
-            MapZonas(i).battle_mode = .battle_mode
+            Call fileBuff.getLong
+            Call fileBuff.getBoolean
             
         End With
     Next i
 
     With MapSize
-        'ReDim MapData(.XMin To .XMax, .YMin To .YMax)
         ReDim L1(.XMin To .XMax, .YMin To .YMax)
     End With
 
