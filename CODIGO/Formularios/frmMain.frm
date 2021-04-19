@@ -168,6 +168,7 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -1367,7 +1368,7 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                 lblChat.Caption = "6.Global"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyTakeScreenShot)
-                Call Mod_General.Client_Screenshot(frmMain.hDC, 1024, 768)
+                Call Mod_General.Client_Screenshot(frmMain.hDC, frmMain.ScaleWidth, frmMain.ScaleHeight)
                     
             Case CustomKeys.BindedKey(eKeyType.mKeyShowOptions)
                 Call frmOpciones.Show(vbModeless, frmMain)

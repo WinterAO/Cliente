@@ -294,8 +294,8 @@ On Error GoTo ErrorHandler:
     With RE
         .Left = 0
         .Top = 0
-        .Bottom = 768
-        .Right = 1024
+        .Bottom = frmConnect.ScaleHeight
+        .Right = frmConnect.ScaleWidth
     End With
     
     Movement_Speed = 1
