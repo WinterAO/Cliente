@@ -211,7 +211,7 @@ Public Sub MostrarConnect(Optional ByVal Mostrar As Boolean = False)
     'LISTA DE SERVIDORES
     Call ListarServidores
 
-    Call MapConnect(1)
+    Call MapConnect(3)
 End Sub
 
 Public Sub MostrarCuenta(Optional ByVal Mostrar As Boolean = False)
@@ -233,7 +233,7 @@ Public Sub MostrarCuenta(Optional ByVal Mostrar As Boolean = False)
     EngineRun = False
     
     'Ponemos el mapa de cuentas
-    Call MapConnect(1)
+    Call MapConnect(2)
 
 End Sub
 

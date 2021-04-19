@@ -96,7 +96,7 @@ Private Type tMapHeader
     NumeroTriggers As Long
     NumeroParticulas As Long
     NumeroLuces As Long
-    NumeroZonas As Integer
+    NumeroZonas As Long
     NumeroNPCs As Long
     NumeroOBJs As Long
     NumeroTE As Long
@@ -1117,7 +1117,7 @@ Sub CargarMapa(ByVal Map As Integer)
         .NumeroTriggers = fileBuff.getLong()
         .NumeroParticulas = fileBuff.getLong()
         .NumeroLuces = fileBuff.getLong()
-        .NumeroZonas = fileBuff.getInteger()
+        .NumeroZonas = fileBuff.getLong()
         .NumeroNPCs = fileBuff.getLong()
         .NumeroOBJs = fileBuff.getLong()
         .NumeroTE = fileBuff.getLong()

@@ -143,7 +143,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 '************************************************************
 'By Lorwik
-'Form encargado de enviar el mensaje al GM :)
+'Form encargado de enviar el mensaje al GM
 '************************************************************
 
 Private Sub CMDEnviar_Click()
