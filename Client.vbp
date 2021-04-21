@@ -88,7 +88,6 @@ Class=clsSocket; CODIGO\Red\clsSocket.cls
 Module=modSocket; CODIGO\Red\modSocket.bas
 UserControl=CODIGO\uControls\uAOButton\uAOButton.ctl
 UserControl=CODIGO\uControls\uAOProgress\uAOProgress.ctl
-UserControl=CODIGO\uControls\uAOCheckbox\uAOCheckbox.ctl
 Module=Cripto; CODIGO\Aplicacion\Cripto.bas
 Class=clsIniManager; CODIGO\IO\clsIniManager.cls
 Class=clsInet; CODIGO\Red\clsInet.cls

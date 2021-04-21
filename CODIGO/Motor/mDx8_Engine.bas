@@ -348,7 +348,7 @@ Dim Start_Time As Long
 
 End Function
 
-Public Function Engine_PixelPosX(ByVal X As Integer) As Integer
+Public Function Engine_PixelPosX(ByVal X As Long) As Long
 '*****************************************************************
 'Converts a tile position to a screen position
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_PixelPosX
@@ -358,7 +358,7 @@ Public Function Engine_PixelPosX(ByVal X As Integer) As Integer
     
 End Function
 
-Public Function Engine_PixelPosY(ByVal Y As Integer) As Integer
+Public Function Engine_PixelPosY(ByVal Y As Long) As Long
 '*****************************************************************
 'Converts a tile position to a screen position
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_PixelPosY
@@ -670,16 +670,6 @@ Public Sub Engine_ZoomNormal()
     End With
     
 End Sub
-
-Public Function ZoomOffset(ByVal offset As Byte) As Single
-'**************************************************************
-'Author: Standelf
-'Last Modify Date: 30/01/2011
-'**************************************************************
-
-    ZoomOffset = IIf((offset = 1), (ScreenHeight - MainScreenRect.Bottom) / 2, (ScreenWidth - MainScreenRect.Right) / 2)
-    
-End Function
 
 Function Engine_Distance(ByVal x1 As Integer, ByVal y1 As Integer, ByVal x2 As Integer, ByVal y2 As Integer) As Long
 '***************************************************

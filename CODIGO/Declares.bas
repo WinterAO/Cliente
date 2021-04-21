@@ -131,7 +131,6 @@ Public Pasos() As tPaso
 
 'Sonidos
 Public Const SND_CLICK As String = 190
-Public Const SND_NAVEGANDO As String = 50
 Public Const SND_MSG As String = 84
 Public Const SND_FUEGO As Integer = 79
 Public Const GRH_FOGATA As Integer = 1521
@@ -269,7 +268,6 @@ Public Tips() As String * 255
 
 'Direcciones
 Public Enum E_Heading
-    nada = 0
     SOUTH = 1
     NORTH = 2
     WEST = 3
@@ -295,8 +293,6 @@ Public Const INV_OFFER_SLOTS As Byte = 20
 Public Const INV_GOLD_SLOTS As Byte = 1
 
 Public Const MAXSKILLPOINTS As Byte = 100
-
-Public Const MAXATRIBUTOS As Byte = 38
 
 Public Const FLAGORO As Integer = MAX_INVENTORY_SLOTS + 1
 Public Const GOLD_OFFER_SLOT As Integer = INV_OFFER_SLOTS + 1
@@ -383,43 +379,9 @@ Public Enum eObjType
     otUseOnce = 1
     otWeapon = 2
     otArmadura = 3
-    otArboles = 4
-    otOro = 5
-    otPuertas = 6
-    otContenedores = 7
-    otCarteles = 8
-    otLlaves = 9
-    otForos = 10
-    otPociones = 11
-    otLibros = 12 'Hacer algo con esto, no en uso
-    otBebidas = 13
-    otLena = 14
-    otFogata = 15
     otescudo = 16
     otcasco = 17
-    otAnillo = 18
-    otTeleport = 19
-    otMuebles = 20
-    otJoyas = 21 'Hacer algo con esto, no en uso
-    otYacimiento = 22
-    otMinerales = 23
-    otPergaminos = 24
-    otMonturas = 25
-    otInstrumentos = 26
-    otYunque = 27
-    otFragua = 28
-    otGemas = 29 'No en uso, hacer algo con las gemas :)
-    otFlores = 30 'No en uso, hacer algo con las flores :)
-    otBarcos = 31
     otFlechas = 32
-    otBotellaVacia = 33
-    otBotellaLlena = 34
-    otManuales = 35
-    otPasajes = 36
-    otMochilas = 37
-    otYacimientoPez = 38
-    otPiedraHogar = 39
-    otCualquiera = 1000
 
 End Enum
 
@@ -1039,13 +1001,6 @@ End Enum
 
 Public Const ORO_INDEX As Long = 12
 Public Const ORO_GRH As Long = 511
-
-Public Const LH_GRH As Long = 724
-Public Const LP_GRH As Long = 725
-Public Const LO_GRH As Long = 723
-
-Public Const MADERA_GRH As Long = 550
-Public Const MADERA_ELFICA_GRH As Long = 1999
 
 Public picMouseIcon As Picture
 

@@ -575,7 +575,7 @@ On Error Resume Next
 
     Dim Packet As Long: Packet = CLng(incomingData.PeekByte())
     
-    Debug.Print Packet
+    'Debug.Print Packet
     
     Select Case Packet
             

@@ -50,8 +50,8 @@ Public WeatherFogCount As Byte
 
 Public ParticleOffsetX As Long
 Public ParticleOffsetY As Long
-Public LastOffsetX As Integer
-Public LastOffsetY As Integer
+Public LastOffsetX As Long
+Public LastOffsetY As Long
 
 'Map sizes in tiles
 Public Const XMaxMapSize As Integer = 1100
@@ -291,8 +291,6 @@ Public NumWeaponAnims As Integer
 Private MouseTileX As Integer
 Private MouseTileY As Integer
 
-
-
 '?????????Graficos???????????
 Public GrhData() As GrhData 'Guarda todos los grh
 Public BodyData() As BodyData
@@ -328,17 +326,6 @@ Private Type Size
     cx As Long
     cy As Long
 End Type
-
-'[CODE 001]:MatuX
-Public Enum PlayLoop
-    plNone = 0
-    plLluviain = 1
-    plLluviaout = 2
-End Enum
-'[END]'
-'
-'       [END]
-'?????????????????????????
 
 'Very percise counter 64bit system counter
 Private Declare Function QueryPerformanceFrequency Lib "kernel32" (lpFrequency As Currency) As Long
@@ -984,23 +971,6 @@ On Error GoTo ErrorHandler:
     'Set scroll pixels per frame
     ScrollPixelsPerFrameX = pixelsToScrollPerFrameX
     ScrollPixelsPerFrameY = pixelsToScrollPerFrameY
-
-On Error GoTo 0
-    
-    'Cargamos indice de graficos.
-    'TODO: No usar variable de compilacion y acceder a esto desde el config.ini
-    Call LoadGrhData
-    Call CargarCuerpos
-    Call CargarAtaques
-    Call CargarCabezas
-    Call CargarCascos
-    Call CargarFxs
-    Call LoadGraphics
-    Call CargarParticulas
-    
-    'Inicializamos el conectar renderizado
-    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_GUI").item("TEXTO"), 55)
-    Call ModCnt.InicializarRndCNT
 
     Exit Sub
     

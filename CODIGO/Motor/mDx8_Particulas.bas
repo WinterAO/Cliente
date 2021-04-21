@@ -148,8 +148,6 @@ Dim particle_group_last As Long
 Public TotalStreams As Integer
 Public StreamData() As Stream
 
-Public Const PI As Single = 3.14159265358979
-
 Public Sub CargarParticulas()
     Dim buffer()    As Byte
     Dim InfoHead    As INFOHEADER

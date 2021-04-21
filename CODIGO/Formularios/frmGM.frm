@@ -202,8 +202,3 @@ Private Sub optConsulta_Click(Index As Integer)
     End Select
 
 End Sub
-
-Private Sub CMDVolver_Click()
-    Unload Me
-End Sub
-

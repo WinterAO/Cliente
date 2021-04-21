@@ -113,14 +113,14 @@ Begin VB.Form frmMain
          Width           =   375
       End
       Begin VB.Shape UserM 
-         BackColor       =   &H0000FFFF&
+         BackColor       =   &H000000FF&
          BackStyle       =   1  'Opaque
-         BorderColor     =   &H0000FFFF&
+         BorderColor     =   &H00FFFFFF&
          FillColor       =   &H0000FFFF&
-         Height          =   45
-         Left            =   750
-         Top             =   750
-         Width           =   45
+         Height          =   75
+         Left            =   720
+         Top             =   720
+         Width           =   75
       End
    End
    Begin VB.PictureBox picInv 
@@ -992,12 +992,6 @@ Dim CtrlMaskOn             As Boolean
 
 Private Const NEWBIE_USER_GOLD_COLOR As Long = vbCyan
 Private Const USER_GOLD_COLOR As Long = vbYellow
-
-Private Declare Function SetWindowLong _
-                Lib "user32" _
-                Alias "SetWindowLongA" (ByVal hWnd As Long, _
-                                        ByVal nIndex As Long, _
-                                        ByVal dwNewLong As Long) As Long
 
 Public Sub dragInventory_dragDone(ByVal originalSlot As Integer, ByVal newSlot As Integer)
     Call Protocol.WriteMoveItem(originalSlot, newSlot, eMoveType.Inventory)
@@ -2347,7 +2341,7 @@ End Sub
 Private Sub Client_Error(ByVal number As Integer, _
                          Description As String, _
                          ByVal sCode As Long, _
-                         ByVal Source As String, _
+                         ByVal source As String, _
                          ByVal HelpFile As String, _
                          ByVal HelpContext As Long, _
                          CancelDisplay As Boolean)

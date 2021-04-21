@@ -17,6 +17,7 @@ Private Type tMapaConnect
     X As Integer
     Y As Integer
 End Type
+
 Public MapaConnect() As tMapaConnect
 Public NumConnectMap As Byte 'Numero total de mapas cargados
 
@@ -66,9 +67,6 @@ Private Const FX_PJ_Seleccionado As Long = 13181
 Public Conectando As Boolean 'Para evitar mandar varias peticiones al servidor a la hora de conectar
 Private botonCrear As Boolean
 '*********************
-
-'Velocidad con la que parpadea el cursor de texto
-Private Const CursorFlashRate As Long = 450
 
 '*********************
 'Creacion de PJ
@@ -197,10 +195,10 @@ Public Sub MostrarConnect(Optional ByVal Mostrar As Boolean = False)
     If frmConnect.txtPasswd.Visible = False Then frmConnect.txtPasswd.Visible = True
     If frmConnect.txtCrearPJNombre.Visible Then frmConnect.txtCrearPJNombre.Visible = False
     
-    If CBool(GetVar(Carga.Path(Init) & CLIENT_FILE, "LOGIN", "Remember")) = True Then
-        frmConnect.txtNombre = GetVar(Carga.Path(Init) & CLIENT_FILE, "LOGIN", "UserName")
-        frmConnect.chkRecordar.Checked = True
-    End If
+    'If CBool(GetVar(Carga.Path(Init) & CLIENT_FILE, "LOGIN", "Remember")) = True Then
+    '    frmConnect.txtNombre = GetVar(Carga.Path(Init) & CLIENT_FILE, "LOGIN", "UserName")
+    '    frmConnect.chkRecordar.Checked = True
+    'End If
     
     'frmConnect.txtNombre.SetFocus
     'frmConnect.txtNombre.SelStart = Len(frmConnect.txtNombre.Text)
@@ -834,13 +832,13 @@ Private Sub btnConectar()
     'Clear spell list
     frmMain.hlst.Clear
 
-    If frmConnect.chkRecordar.Checked = False Then
-        Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Remember", "0")
-        Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "UserName", vbNullString)
-    Else
-        Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Remember", "1")
-        Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "UserName", AccountName)
-    End If
+    'If frmConnect.chkRecordar.Checked = False Then
+    '    Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Remember", "0")
+    '    Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "UserName", vbNullString)
+    'Else
+    '    Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Remember", "1")
+    '    Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "UserName", AccountName)
+    'End If
 
     If CheckUserData() = True Then
         Call Protocol.Connect(E_MODO.Normal)
@@ -948,7 +946,7 @@ Private Sub btnCrear()
     Dim Count As Byte
     
     'Nombre de usuario
-    UserName = LTrim(frmConnect.txtCrearPJNombre.Text)
+    UserName = LTrim$(frmConnect.txtCrearPJNombre.Text)
             
     '¿El nombre esta vacio y es correcto?
     If Right$(UserName, 1) = " " Then
@@ -960,7 +958,7 @@ Private Sub btnCrear()
     'Solo permitimos 1 espacio en los nombres
     For i = 1 To Len(UserName)
         
-        If mid(UserName, i, 1) = Chr(32) Then Count = Count + 1
+        If mid$(UserName, i, 1) = Chr$(32) Then Count = Count + 1
         
     Next i
     If Count > 1 Then

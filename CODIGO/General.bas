@@ -44,13 +44,8 @@ Private keysMovementPressedQueue As clsArrayList
 'Remove Title Bar
 Public Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long) As Long
 Public Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
-Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 Private Const GWL_STYLE = (-16)
 Private Const WS_CAPTION = &HC00000
-Private Const SWP_FRAMECHANGED = &H20
-Private Const SWP_NOMOVE = &H2
-Private Const SWP_NOZORDER = &H4
-Private Const SWP_NOSIZE = &H1
 
 Public Function RandomNumber(ByVal LowerBound As Long, ByVal UpperBound As Long) As Long
     'Initialize randomizer
@@ -698,17 +693,10 @@ Private Sub LoadInitialConfig()
     
     Call mDx8_Engine.Engine_DirectX8_Aditional_Init
 
-    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 60)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 55)
     
-    '###################
-    ' ANIMACIONES EXTRAS
-    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_FXS").item("TEXTO"), 65)
-    
-    Call CargarTips
-    Call CargarAnimArmas
-    Call CargarAnimEscudos
-    Call CargarColores
-    Call CargarPasos
+    'Carga de recursos
+    Call CargarRecursos
     
     Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 70)
     
@@ -990,6 +978,8 @@ Public Sub CloseClient()
     
     'Stop tile engine
     Call Engine_DirectX8_End
+
+    Call Sound.Engine_DeInitialize
 
     'Destruimos los objetos publicos creados
     Set CustomKeys = Nothing
@@ -1310,23 +1300,23 @@ On Error GoTo ErrorHandler
     
     m_FileName = App.Path & "\Fotos\WinterAO_Foto"
     
-    If Dir(App.Path & "\Fotos", vbDirectory) = vbNullString Then
+    If Dir$(App.Path & "\Fotos", vbDirectory) = vbNullString Then
         MkDir (App.Path & "\Fotos")
     End If
     
-    Do While Dir(m_FileName & Trim(str(i)) & ".jpg") <> vbNullString
+    Do While Dir$(m_FileName & Trim$(str$(i)) & ".jpg") <> vbNullString
         i = i + 1
         DoEvents
     Loop
     
     Index = i
     
-    m_Jpeg.Comment = "Character: " & UserName & " - " & Format(Date, "dd/mm/yyyy") & " - " & Format(Time, "hh:mm AM/PM")
+    m_Jpeg.Comment = "Character: " & UserName & " - " & Format$(Date, "dd/mm/yyyy") & " - " & Format$(Time, "hh:mm AM/PM")
     
     'Save the JPG file
-    m_Jpeg.SaveFile m_FileName & Trim(str(Index)) & ".jpg"
+    m_Jpeg.SaveFile m_FileName & Trim$(str$(Index)) & ".jpg"
     
-    Call AddtoRichTextBox(frmMain.RecTxt, "¡Captura realizada con exito! Se guardo en " & m_FileName & Trim(str(Index)) & ".jpg", 204, 193, 155, 0, 1)
+    Call AddtoRichTextBox(frmMain.RecTxt, "¡Captura realizada con exito! Se guardo en " & m_FileName & Trim$(str$(Index)) & ".jpg", 204, 193, 155, 0, 1)
     
     Set m_Jpeg = Nothing
     

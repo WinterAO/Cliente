@@ -17,11 +17,7 @@ Public Enum ePath
     Graficos
     Interfaces
     skins
-    Sounds
-    Musica
-    Mapas
     Lenguajes
-    Fonts
     recursos
 End Enum
 
@@ -1363,4 +1359,39 @@ Public Sub CargarPasos()
     Pasos(CONST_PESADO).Wav(2) = 221
     Pasos(CONST_PESADO).Wav(3) = 222
 
+End Sub
+
+Public Sub CargarRecursos()
+'*******************************
+'Autor: Lorwik
+'Fecha: 19/04/2021
+'Descripción: Llamada a la carga de recursos
+'*******************************
+
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_CARGARECURSOS").item("TEXTO"), 62)
+    Call LoadGrhData
+    Call CargarCuerpos
+    Call CargarAtaques
+    Call CargarCabezas
+    Call CargarCascos
+    Call CargarFxs
+    Call LoadGraphics
+    Call CargarParticulas
+    Call frmCargando.ActualizarCarga(frmCargando.Caption = JsonLanguage.item("HECHO").item("TEXTO"), 63)
+    
+    'Inicializamos el conectar renderizado
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_GUI").item("TEXTO"), 64)
+    Call ModCnt.InicializarRndCNT
+    Call frmCargando.ActualizarCarga(frmCargando.Caption = JsonLanguage.item("HECHO").item("TEXTO"), 65)
+    
+    '###################
+    ' ANIMACIONES EXTRAS
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_FXS").item("TEXTO"), 66)
+    
+    Call CargarTips
+    Call CargarAnimArmas
+    Call CargarAnimEscudos
+    Call CargarColores
+    Call CargarPasos
+    
 End Sub

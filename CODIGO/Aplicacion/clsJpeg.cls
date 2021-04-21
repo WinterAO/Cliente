@@ -137,11 +137,10 @@ End Type
 
 'API needed for creating DIBSections for sampling and pixel access.
 Private Declare Function CreateCompatibleDC Lib "gdi32" (ByVal hDC As Long) As Long
-Private Declare Function CreateDIBSection2 Lib "gdi32" Alias "CreateDIBSection" (ByVal hDC As Long, pBitmapInfo As BITMAPINFO, ByVal un As Long, lplpVoid As Long, ByVal Handle As Long, ByVal dw As Long) As Long   'lplpVoid changed to ByRef
+Private Declare Function CreateDIBSection2 Lib "gdi32" Alias "CreateDIBSection" (ByVal hDC As Long, pBitmapInfo As BITMAPINFO, ByVal un As Long, lplpVoid As Long, ByVal handle As Long, ByVal dw As Long) As Long   'lplpVoid changed to ByRef
 Private Declare Function BitBlt Lib "gdi32" (ByVal hDestDC As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal dwRop As Long) As Long
 Private Declare Function SelectObject Lib "gdi32" (ByVal hDC As Long, ByVal hObject As Long) As Long
 Private Declare Function DeleteObject Lib "gdi32" (ByVal hObject As Long) As Long
-Private Declare Function DeleteDC Lib "gdi32" (ByVal hDC As Long) As Long
 Private Declare Function VarPtrArray Lib "msvbvm60.dll" Alias "VarPtr" (Ptr() As Any) As Long
 Private Declare Function SetStretchBltMode Lib "gdi32" (ByVal hDC As Long, ByVal nStretchMode As Long) As Long
 Private Declare Function StretchBlt Lib "gdi32" (ByVal hDC As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal nSrcWidth As Long, ByVal nSrcHeight As Long, ByVal dwRop As Long) As Long
@@ -1586,7 +1585,7 @@ End Function
 
 
 
-Public Function SaveFile(FileName As String) As Long
+Public Function SaveFile(filename As String) As Long
     Dim CompIndex()  As Long 'Indexes of Components to be included
     Dim Td()         As Long 'DC Huffman Table Selectors
     Dim Ta()         As Long 'AC Huffman Table Selectors
@@ -1594,10 +1593,10 @@ Public Function SaveFile(FileName As String) As Long
     Dim i            As Long
 
 
-    If Len(FileName) = 0 Then
+    If Len(filename) = 0 Then
         SaveFile = 1         'FileName not given
     Else
-        If (Len(Dir(FileName, vbNormal Or vbReadOnly Or vbHidden Or vbSystem Or vbArchive)) > 0) Then
+        If (Len(Dir$(filename, vbNormal Or vbReadOnly Or vbHidden Or vbSystem Or vbArchive)) > 0) Then
             SaveFile = 2     'File already exists
         Else
 
@@ -1643,7 +1642,7 @@ Public Function SaveFile(FileName As String) As Long
    'Size the final byte array and write to file
     ReDim Preserve m_Data(m_Ptr - 1)
     FileNum = FreeFile
-    Open FileName For Binary Access Write As FileNum
+    Open filename For Binary Access Write As FileNum
         Put #FileNum, , m_Data
     Close FileNum
     Erase m_Data

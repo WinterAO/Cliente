@@ -944,6 +944,14 @@
             255
         ]
     },
+	"INICIA_CARGARECURSOS": {
+        "TEXTO": "Starting resource loading...",
+        "COLOR": [
+            255,
+            255,
+            255
+        ]
+    },
     "INICIA_FXS": {
         "TEXTO": "Creating extra animations...",
         "COLOR": [

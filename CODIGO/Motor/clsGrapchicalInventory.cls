@@ -260,13 +260,13 @@ Public Property Get Amount(ByVal slot As Byte) As Long
     End If
 End Property
 
-Public Property Get objindex(ByVal slot As Byte) As Integer
+Public Property Get ObjIndex(ByVal slot As Byte) As Integer
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modify Date: 27/07/04
 'Retrieves the selected item's object index
 '***************************************************
-    objindex = Inventory(slot).objindex
+    ObjIndex = Inventory(slot).ObjIndex
 End Property
 
 Public Property Get OBJType(ByVal slot As Byte) As Integer
@@ -371,7 +371,7 @@ Public Sub SetItem(ByVal slot As Byte, ByVal eOBJIndex As Integer, ByVal eAmount
         .MaxHit = eMaxHit
         .MinHit = eMinHit
         .name = eName
-        .objindex = eOBJIndex
+        .ObjIndex = eOBJIndex
         .OBJType = eObjType
         .valor = eValor
         .NoUsa = eNoUsa

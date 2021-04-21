@@ -46,7 +46,7 @@ Begin VB.Form frmConnect
       Height          =   330
       Left            =   6000
       MaxLength       =   30
-      TabIndex        =   4
+      TabIndex        =   3
       Top             =   10020
       Visible         =   0   'False
       Width           =   3255
@@ -109,20 +109,6 @@ Begin VB.Form frmConnect
       TabStop         =   0   'False
       Top             =   0
       Width           =   15360
-      Begin WinterAOR_Client.uAOCheckbox chkRecordar 
-         Height          =   345
-         Left            =   6000
-         TabIndex        =   3
-         TabStop         =   0   'False
-         Top             =   7440
-         Visible         =   0   'False
-         Width           =   345
-         _ExtentX        =   609
-         _ExtentY        =   609
-         CHCK            =   0   'False
-         ENAB            =   -1  'True
-         PICC            =   "frmConnect.frx":000C
-      End
    End
 End
 Attribute VB_Name = "frmConnect"
@@ -169,10 +155,6 @@ Private Sub Renderer_MouseMove(Button As Integer, Shift As Integer, X As Single,
     
     Call MouseMove_Event(X, Y)
     
-End Sub
-
-Private Sub txtPasswd_KeyPress(KeyAscii As Integer)
-  '  If KeyAscii = vbKeyReturn Then btnConectarse_Click
 End Sub
 
 Private Sub Form_Load()
