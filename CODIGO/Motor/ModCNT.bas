@@ -71,7 +71,6 @@ Private botonCrear As Boolean
 '*********************
 'Creacion de PJ
 '*********************
-'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 'Puramente informativo
 Private Type tModRaza
     Fuerza As Single
@@ -83,7 +82,6 @@ End Type
 
 Private ModRaza()  As tModRaza
 Private lblModRaza(1 To NUMRAZAS) As Integer
-'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 Private SexoSelect(1 To 2) As String 'Sexo seleccionado
 '**********************
@@ -195,10 +193,8 @@ Public Sub MostrarConnect(Optional ByVal Mostrar As Boolean = False)
     If frmConnect.txtPasswd.Visible = False Then frmConnect.txtPasswd.Visible = True
     If frmConnect.txtCrearPJNombre.Visible Then frmConnect.txtCrearPJNombre.Visible = False
     
-    'If CBool(GetVar(Carga.Path(Init) & CLIENT_FILE, "LOGIN", "Remember")) = True Then
-    '    frmConnect.txtNombre = GetVar(Carga.Path(Init) & CLIENT_FILE, "LOGIN", "UserName")
-    '    frmConnect.chkRecordar.Checked = True
-    'End If
+    If ClientSetup.Remember Then _
+        frmConnect.txtNombre = ClientSetup.rUserName
     
     'frmConnect.txtNombre.SetFocus
     'frmConnect.txtNombre.SelStart = Len(frmConnect.txtNombre.Text)
@@ -831,18 +827,15 @@ Private Sub btnConectar()
 
     'Clear spell list
     frmMain.hlst.Clear
+    
+    ClientSetup.rUserName = AccountName
 
-    'If frmConnect.chkRecordar.Checked = False Then
-    '    Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Remember", "0")
-    '    Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "UserName", vbNullString)
-    'Else
-    '    Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Remember", "1")
-    '    Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "UserName", AccountName)
-    'End If
+    Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Remember", IIf(ClientSetup.Remember, "1", "0"))
+    Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "UserName", ClientSetup.rUserName)
 
-    If CheckUserData() = True Then
+    If CheckUserData() = True Then _
         Call Protocol.Connect(E_MODO.Normal)
-    End If
+        
 End Sub
 
 Private Sub btnTeclas()

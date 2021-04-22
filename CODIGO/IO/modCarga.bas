@@ -62,6 +62,10 @@ Public Type tSetupMods
     bKill       As Boolean
     byMurderedLevel As Byte
     
+    ' LOGIN
+    Remember    As Boolean
+    rUserName   As String
+    
     ' OTHER
     MostrarTips As Byte
     MostrarBindKeysSelection As Byte
@@ -246,11 +250,16 @@ Public Sub LeerConfiguracion()
         .bGuildNews = CBool(Lector.GetValue("GUILD", "NEWS"))
         .bGldMsgConsole = CBool(Lector.GetValue("GUILD", "MESSAGES"))
         .bCantMsgs = CByte(Lector.GetValue("GUILD", "MAX_MESSAGES"))
+        
         ' FRAGSHOOTER
         .bDie = CBool(Lector.GetValue("FRAGSHOOTER", "DIE"))
         .bKill = CBool(Lector.GetValue("FRAGSHOOTER", "KILL"))
         .byMurderedLevel = CByte(Lector.GetValue("FRAGSHOOTER", "MURDERED_LEVEL"))
         .bActive = CBool(Lector.GetValue("FRAGSHOOTER", "ACTIVE"))
+        
+        ' LOGIN
+        .Remember = CBool(Lector.GetValue("LOGIN", "REMEMBER"))
+        .rUserName = Trim$(Lector.GetValue("LOGIN", "USERNAME"))
         
         ' OTHER
         .MostrarTips = CBool(Lector.GetValue("OTHER", "MOSTRAR_TIPS"))
@@ -262,29 +271,6 @@ Public Sub LeerConfiguracion()
         For i = 1 To 12
             .Funcion(i) = Trim$(CStr(Lector.GetValue("FUNCION", "F" & i)))
         Next i
-
-        Debug.Print "byMemory: " & .byMemory
-        Debug.Print "bNoRes: " & .bNoRes
-        Debug.Print "ProyectileEngine: " & .ProyectileEngine
-        Debug.Print "PartyMembers: " & .PartyMembers
-        Debug.Print "UsarSombras: " & .UsarSombras
-        Debug.Print "UsarReflejos: " & .UsarReflejos
-        Debug.Print "UsarAuras: " & .UsarAuras
-        Debug.Print "ParticleEngine: " & .ParticleEngine
-        Debug.Print "LimitarFPS: " & .LimiteFPS
-        Debug.Print "bMusic: " & .bMusic
-        Debug.Print "bSound: " & .bSound
-        Debug.Print "MusicVolume: " & .MusicVolume
-        Debug.Print "SoundVolume: " & .SoundVolume
-        Debug.Print "bGuildNews: " & .bGuildNews
-        Debug.Print "bGldMsgConsole: " & .bGldMsgConsole
-        Debug.Print "bCantMsgs: " & .bCantMsgs
-        Debug.Print "bDie: " & .bDie
-        Debug.Print "bKill: " & .byMurderedLevel
-        Debug.Print "bActive: " & .bActive
-        Debug.Print "MostrarTips: " & .MostrarTips
-        Debug.Print "VerCuadrantes: " & .VerCuadrantes
-        Debug.Print vbNullString
         
     End With
 
