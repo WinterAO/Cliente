@@ -1501,7 +1501,7 @@ Private Sub HandleNavigateToggle()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    UserNavegando = Not UserNavegando
+    CurrentUser.UserNavegando = Not CurrentUser.UserNavegando
 End Sub
 
 ''
@@ -1713,7 +1713,7 @@ Private Sub HandleUserCommerceInit()
     Next i
 
     ' Inventarios de oro
-    Call InvOroComUsu(0).SetItem(1, ORO_INDEX, UserGLD, 0, ORO_GRH, 0, 0, 0, 0, 0, 0, "Oro")
+    Call InvOroComUsu(0).SetItem(1, ORO_INDEX, CurrentUser.UserGLD, 0, ORO_GRH, 0, 0, 0, 0, 0, 0, "Oro")
     Call InvOroComUsu(1).SetItem(1, ORO_INDEX, 0, 0, ORO_GRH, 0, 0, 0, 0, 0, 0, "Oro")
     Call InvOroComUsu(2).SetItem(1, ORO_INDEX, 0, 0, ORO_GRH, 0, 0, 0, 0, 0, 0, "Oro")
 
@@ -1786,11 +1786,11 @@ Private Sub HandleUpdateSta()
     Call incomingData.ReadByte
     
     'Get data and update form
-    UserMinSTA = incomingData.ReadInteger()
+    CurrentUser.UserMinSTA = incomingData.ReadInteger()
     
-    frmMain.lblEnergia = UserMinSTA & "/" & UserMaxSTA
+    frmMain.lblEnergia = CurrentUser.UserMinSTA & "/" & CurrentUser.UserMaxSTA
     
-    frmMain.shpEnergia.Width = (((UserMinSTA / 100) / (UserMaxSTA / 100)) * 92)
+    frmMain.shpEnergia.Width = (((CurrentUser.UserMinSTA / 100) / (CurrentUser.UserMaxSTA / 100)) * 92)
     
 End Sub
 
@@ -1813,12 +1813,12 @@ Private Sub HandleUpdateMana()
     Call incomingData.ReadByte
     
     'Get data and update form
-    UserMinMAN = incomingData.ReadInteger()
+    CurrentUser.UserMinMAN = incomingData.ReadInteger()
     
-    frmMain.lblMana = UserMinMAN & "/" & UserMaxMAN
+    frmMain.lblMana = CurrentUser.UserMinMAN & "/" & CurrentUser.UserMaxMAN
     
-    If UserMaxMAN > 0 Then _
-        frmMain.shpMana.Width = (((UserMinMAN / 100) / (UserMaxMAN / 100)) * 92)
+    If CurrentUser.UserMaxMAN > 0 Then _
+        frmMain.shpMana.Width = (((CurrentUser.UserMinMAN / 100) / (CurrentUser.UserMaxMAN / 100)) * 92)
         
 End Sub
 
@@ -1841,19 +1841,19 @@ Private Sub HandleUpdateHP()
     Call incomingData.ReadByte
     
     'Get data and update form
-    UserMinHP = incomingData.ReadInteger()
+    CurrentUser.UserMinHP = incomingData.ReadInteger()
     
-    frmMain.lblVida = UserMinHP & "/" & UserMaxHP
+    frmMain.lblVida = CurrentUser.UserMinHP & "/" & CurrentUser.UserMaxHP
 
-    frmMain.shpVida.Width = (((UserMinHP / 100) / (UserMaxHP / 100)) * 92)
+    frmMain.shpVida.Width = (((CurrentUser.UserMinHP / 100) / (CurrentUser.UserMaxHP / 100)) * 92)
     
     'Is the user alive??
-    If UserMinHP = 0 Then
-        UserEstado = 1
+    If CurrentUser.UserMinHP = 0 Then
+        CurrentUser.UserEstado = 1
     
-        UserEquitando = 0
+        CurrentUser.UserEquitando = 0
     Else
-        UserEstado = 0
+        CurrentUser.UserEstado = 0
     End If
 End Sub
 
@@ -1878,11 +1878,11 @@ Private Sub HandleUpdateGold()
     Call incomingData.ReadByte
     
     'Get data and update form
-    UserGLD = incomingData.ReadLong()
+    CurrentUser.UserGLD = incomingData.ReadLong()
     
     Call frmMain.SetGoldColor
 
-    frmMain.GldLbl.Caption = UserGLD
+    frmMain.GldLbl.Caption = CurrentUser.UserGLD
 End Sub
 
 ''
@@ -1926,9 +1926,9 @@ Private Sub HandleUpdateExp()
     Call incomingData.ReadByte
     
     'Get data and update form
-    UserExp = incomingData.ReadLong()
+    CurrentUser.UserExp = incomingData.ReadLong()
 
-    frmMain.UpdateProgressExperienceLevelBar (UserExp)
+    frmMain.UpdateProgressExperienceLevelBar (CurrentUser.UserExp)
 End Sub
 
 ''
@@ -1950,14 +1950,14 @@ Private Sub HandleUpdateStrenghtAndDexterity()
     Call incomingData.ReadByte
     
     'Get data and update form
-    UserFuerza = incomingData.ReadByte
-    UserAgilidad = incomingData.ReadByte
+    CurrentUser.UserFuerza = incomingData.ReadByte
+    CurrentUser.UserAgilidad = incomingData.ReadByte
     
-    frmMain.lblStrg.Caption = UserFuerza
-    frmMain.lblDext.Caption = UserAgilidad
+    frmMain.lblStrg.Caption = CurrentUser.UserFuerza
+    frmMain.lblDext.Caption = CurrentUser.UserAgilidad
     
-    frmMain.ShpFuerza.Width = ((UserFuerza / 40) * 92)
-    frmMain.ShpAgilidad.Width = ((UserAgilidad / 40) * 92)
+    frmMain.ShpFuerza.Width = ((CurrentUser.UserFuerza / 40) * 92)
+    frmMain.ShpAgilidad.Width = ((CurrentUser.UserAgilidad / 40) * 92)
     
 End Sub
 
@@ -1979,11 +1979,11 @@ Private Sub HandleUpdateStrenght()
     Call incomingData.ReadByte
     
     'Get data and update form
-    UserFuerza = incomingData.ReadByte
+    CurrentUser.UserFuerza = incomingData.ReadByte
     
-    frmMain.lblStrg.Caption = UserFuerza
+    frmMain.lblStrg.Caption = CurrentUser.UserFuerza
     
-    frmMain.ShpFuerza.Width = ((UserFuerza / 40) * 92)
+    frmMain.ShpFuerza.Width = ((CurrentUser.UserFuerza / 40) * 92)
 End Sub
 
 ' Handles the UpdateStrenghtAndDexterity message.
@@ -2003,11 +2003,11 @@ Private Sub HandleUpdateDexterity()
     Call incomingData.ReadByte
     
     'Get data and update form
-    UserAgilidad = incomingData.ReadByte
+    CurrentUser.UserAgilidad = incomingData.ReadByte
    
-    frmMain.lblDext.Caption = UserAgilidad
+    frmMain.lblDext.Caption = CurrentUser.UserAgilidad
     
-    frmMain.ShpAgilidad.Width = ((UserAgilidad / 40) * 92)
+    frmMain.ShpAgilidad.Width = ((CurrentUser.UserAgilidad / 40) * 92)
 End Sub
 
 ''
@@ -2026,13 +2026,13 @@ Private Sub HandleChangeMap()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    UserMap = incomingData.ReadInteger()
+    CurrentUser.UserMap = incomingData.ReadInteger()
     
     'TODO: Once on-the-fly editor is implemented check for map version before loading....
     'For now we just drop it
     Call incomingData.ReadInteger
       
-    Call SwitchMap(UserMap)
+    Call SwitchMap(CurrentUser.UserMap)
     
 End Sub
 
@@ -3099,46 +3099,49 @@ Private Sub HandleUpdateUserStats()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    UserMaxHP = incomingData.ReadInteger()
-    UserMinHP = incomingData.ReadInteger()
-    UserMaxMAN = incomingData.ReadInteger()
-    UserMinMAN = incomingData.ReadInteger()
-    UserMaxSTA = incomingData.ReadInteger()
-    UserMinSTA = incomingData.ReadInteger()
-    UserGLD = incomingData.ReadLong()
-    UserLvl = incomingData.ReadByte()
-    UserPasarNivel = incomingData.ReadLong()
-    UserExp = incomingData.ReadLong()
+    With CurrentUser
     
-    frmMain.UpdateProgressExperienceLevelBar (UserExp)
+        .UserMaxHP = incomingData.ReadInteger()
+        .UserMinHP = incomingData.ReadInteger()
+        .UserMaxMAN = incomingData.ReadInteger()
+        .UserMinMAN = incomingData.ReadInteger()
+        .UserMaxSTA = incomingData.ReadInteger()
+        .UserMinSTA = incomingData.ReadInteger()
+        .UserGLD = incomingData.ReadLong()
+        .UserLvl = incomingData.ReadByte()
+        .UserPasarNivel = incomingData.ReadLong()
+        .UserExp = incomingData.ReadLong()
+        
+        frmMain.UpdateProgressExperienceLevelBar (.UserExp)
+        
+        frmMain.GldLbl.Caption = .UserGLD
+        frmMain.lblLvl.Caption = .UserLvl
+        
+        'Stats
+        frmMain.lblMana = .UserMinMAN & "/" & .UserMaxMAN
+        frmMain.lblVida = .UserMinHP & "/" & .UserMaxHP
+        frmMain.lblEnergia = .UserMinSTA & "/" & .UserMaxSTA
+        
+        '***************************
+        If .UserMaxMAN > 0 Then _
+        frmMain.shpMana.Width = (((.UserMinMAN / 100) / (.UserMaxMAN / 100)) * 92)
+        '***************************
+        
+        frmMain.shpVida.Width = (((.UserMinHP / 100) / (.UserMaxHP / 100)) * 92)
     
-    frmMain.GldLbl.Caption = UserGLD
-    frmMain.lblLvl.Caption = UserLvl
+        '***************************
+        
+        frmMain.shpEnergia.Width = (((.UserMinSTA / 100) / (.UserMaxSTA / 100)) * 92)
+        '***************************
+        
+        If .UserMinHP = 0 Then
+            .UserEstado = 1
+        Else
+            .UserEstado = 0
+        End If
     
-    'Stats
-    frmMain.lblMana = UserMinMAN & "/" & UserMaxMAN
-    frmMain.lblVida = UserMinHP & "/" & UserMaxHP
-    frmMain.lblEnergia = UserMinSTA & "/" & UserMaxSTA
-    
-    '***************************
-    If UserMaxMAN > 0 Then _
-    frmMain.shpMana.Width = (((UserMinMAN / 100) / (UserMaxMAN / 100)) * 92)
-    '***************************
-    
-    frmMain.shpVida.Width = (((UserMinHP / 100) / (UserMaxHP / 100)) * 92)
-
-    '***************************
-    
-    frmMain.shpEnergia.Width = (((UserMinSTA / 100) / (UserMaxSTA / 100)) * 92)
-    '***************************
-    
-    If UserMinHP = 0 Then
-        UserEstado = 1
-    Else
-        UserEstado = 0
-    End If
-
-    Call frmMain.SetGoldColor
+        Call frmMain.SetGoldColor
+    End With
 End Sub
 
 ''
@@ -3195,31 +3198,31 @@ On Error GoTo errhandler
         Select Case OBJType
             Case eObjType.otWeapon
                 lblWeapon = MinHit & "/" & MaxHit
-                UserWeaponEqpSlot = slot
+                CurrentUser.UserWeaponEqpSlot = slot
             Case eObjType.otArmadura
                 lblArmor = MinDef & "/" & MaxDef
-                UserArmourEqpSlot = slot
+                CurrentUser.UserArmourEqpSlot = slot
             Case eObjType.otescudo
                 lblShielder = MinDef & "/" & MaxDef
-                UserHelmEqpSlot = slot
+                CurrentUser.UserHelmEqpSlot = slot
             Case eObjType.otcasco
                 lblHelm = MinDef & "/" & MaxDef
-                UserShieldEqpSlot = slot
+                CurrentUser.UserShieldEqpSlot = slot
         End Select
     Else
         Select Case slot
-            Case UserWeaponEqpSlot
+            Case CurrentUser.UserWeaponEqpSlot
                 lblWeapon = "0/0"
-                UserWeaponEqpSlot = 0
-            Case UserArmourEqpSlot
+                CurrentUser.UserWeaponEqpSlot = 0
+            Case CurrentUser.UserArmourEqpSlot
                 lblArmor = "0/0"
-                UserArmourEqpSlot = 0
-            Case UserHelmEqpSlot
+                CurrentUser.UserArmourEqpSlot = 0
+            Case CurrentUser.UserHelmEqpSlot
                 lblShielder = "0/0"
-                UserHelmEqpSlot = 0
-            Case UserShieldEqpSlot
+                CurrentUser.UserHelmEqpSlot = 0
+            Case CurrentUser.UserShieldEqpSlot
                 lblHelm = "0/0"
-                UserShieldEqpSlot = 0
+                CurrentUser.UserShieldEqpSlot = 0
         End Select
     End If
     
@@ -3625,7 +3628,7 @@ Private Sub HandleRestOK()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    UserDescansar = Not UserDescansar
+    CurrentUser.UserDescansar = Not CurrentUser.UserDescansar
 End Sub
 
 ''
@@ -3818,18 +3821,19 @@ Private Sub HandleUpdateHungerAndThirst()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    UserMaxAGU = incomingData.ReadByte()
-    UserMinAGU = incomingData.ReadByte()
-    UserMaxHAM = incomingData.ReadByte()
-    UserMinHAM = incomingData.ReadByte()
-    frmMain.lblHambre = UserMinHAM & "%"
-    frmMain.lblSed = UserMinAGU & "%"
-    
-    frmMain.shpHambre.Height = (((UserMinHAM / 100) / (UserMaxHAM / 100)) * 20)
-    '*********************************
-    
-    frmMain.shpSed.Visible = (((UserMinAGU / 100) / (UserMaxAGU / 100)) * 20)
-    
+    With CurrentUser
+        .UserMaxAGU = incomingData.ReadByte()
+        .UserMinAGU = incomingData.ReadByte()
+        .UserMaxHAM = incomingData.ReadByte()
+        .UserMinHAM = incomingData.ReadByte()
+        frmMain.lblHambre = .UserMinHAM & "%"
+        frmMain.lblSed = .UserMinAGU & "%"
+        
+        frmMain.shpHambre.Height = (((.UserMinHAM / 100) / (.UserMaxHAM / 100)) * 20)
+        '*********************************
+        
+        frmMain.shpSed.Visible = (((.UserMinAGU / 100) / (.UserMaxAGU / 100)) * 20)
+    End With
 End Sub
 
 ''
@@ -3849,7 +3853,7 @@ Private Sub HandleFame()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    With UserReputacion
+    With CurrentUser.UserReputacion
         .AsesinoRep = incomingData.ReadLong()
         .BandidoRep = incomingData.ReadLong()
         .BurguesRep = incomingData.ReadLong()
@@ -3879,7 +3883,7 @@ Private Sub HandleMiniStats()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    With UserEstadisticas
+    With CurrentUser.UserEstadisticas
         .CiudadanosMatados = incomingData.ReadLong()
         .CriminalesMatados = incomingData.ReadLong()
         .UsuariosMatados = incomingData.ReadLong()
@@ -4006,8 +4010,8 @@ Private Sub HandleSetInvisible()
     Dim timeRemaining As Integer
     
     CharIndex = incomingData.ReadInteger()
-    UserInvisible = incomingData.ReadBoolean()
-    Call Char_SetInvisible(CharIndex, UserInvisible)
+    CurrentUser.UserInvisible = incomingData.ReadBoolean()
+    Call Char_SetInvisible(CharIndex, CurrentUser.UserInvisible)
 End Sub
 
 ''
@@ -4021,7 +4025,7 @@ Private Sub HandleMeditateToggle()
 '***************************************************
     'Remove packet ID
     Call incomingData.ReadByte
-    UserMeditar = Not UserMeditar
+    CurrentUser.UserMeditar = Not CurrentUser.UserMeditar
 End Sub
 
 ''
@@ -4645,7 +4649,7 @@ Private Sub HandleParalizeOK()
     'Remove packet ID
     Call incomingData.ReadByte
 
-    UserParalizado = Not UserParalizado
+    CurrentUser.UserParalizado = Not CurrentUser.UserParalizado
 
 End Sub
 
@@ -5305,9 +5309,9 @@ Public Sub WriteLoginExistingAccount()
     With outgoingData
         Call .WriteByte(ClientPacketID.LoginExistingAccount)
         
-        Call .WriteASCIIString(AccountName)
+        Call .WriteASCIIString(CurrentUser.AccountName)
         
-        Call .WriteASCIIString(AccountPassword)
+        Call .WriteASCIIString(CurrentUser.AccountPassword)
         
         Call .WriteByte(App.Major)
         Call .WriteByte(App.Minor)
@@ -5375,7 +5379,7 @@ Public Sub WriteLoginNewChar()
     With outgoingData
         Call .WriteByte(ClientPacketID.LoginNewChar)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CurrentUser.UserName)
         
         Call .WriteByte(App.Major)
         Call .WriteByte(App.Minor)
@@ -10483,19 +10487,19 @@ Private Sub HandleEnviarPJUserAccount()
     Call buffer.ReadByte
 
     Security.Redundance = buffer.ReadByte
-    AccountName = buffer.ReadASCIIString
-    NumberOfCharacters = buffer.ReadByte
+    CurrentUser.AccountName = buffer.ReadASCIIString
+    CurrentUser.NumberOfCharacters = buffer.ReadByte
 
     'Cambiamos al modo cuenta
     Call ModCnt.MostrarCuenta(Not frmConnect.Visible)
 
-    If NumberOfCharacters > 0 Then
+    If CurrentUser.NumberOfCharacters > 0 Then
     
-        ReDim cPJ(1 To NumberOfCharacters) As PjCuenta
+        ReDim cPJ(1 To CurrentUser.NumberOfCharacters) As PjCuenta
         
         Dim loopc As Long
         
-        For loopc = 1 To NumberOfCharacters
+        For loopc = 1 To CurrentUser.NumberOfCharacters
         
             With cPJ(loopc)
                 .Nombre = buffer.ReadASCIIString
@@ -10855,7 +10859,7 @@ End Sub
 Private Sub HandleUserInEvent()
     Call incomingData.ReadByte
     
-    UserEvento = Not UserEvento
+    CurrentUser.UserEvento = Not CurrentUser.UserEvento
 End Sub
 
 
@@ -10955,7 +10959,7 @@ Private Sub HandleEquitandoToggle()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    UserEquitando = Not UserEquitando
+    CurrentUser.UserEquitando = Not CurrentUser.UserEquitando
 End Sub
 
 Public Sub WriteAddAmigo(ByVal UserName As String, ByVal Index As Byte)

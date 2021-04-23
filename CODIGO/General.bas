@@ -153,40 +153,40 @@ Function CheckUserData() As Boolean
     Dim CharAscii As Integer
     Dim Len_accountName As Long, Len_accountPassword As Long
     
-    If LenB(AccountPassword) = 0 Then
+    If LenB(CurrentUser.AccountPassword) = 0 Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_PASSWORD").item("TEXTO"))
         Exit Function
     End If
     
-    Len_accountPassword = Len(AccountPassword)
+    Len_accountPassword = Len(CurrentUser.AccountPassword)
     
     For loopc = 1 To Len_accountPassword
-        CharAscii = Asc(mid$(AccountPassword, loopc, 1))
+        CharAscii = Asc(mid$(CurrentUser.AccountPassword, loopc, 1))
         If Not LegalCharacter(CharAscii) Then
             Call MostrarMensaje(Replace$(JsonLanguage.item("VALIDACION_BAD_PASSWORD").item("TEXTO").item(2), "VAR_CHAR_INVALIDO", Chr$(CharAscii)))
             Exit Function
         End If
     Next loopc
 
-    If Not AsciiValidos(AccountName) Then
+    If Not AsciiValidos(CurrentUser.AccountName) Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_ACCOUNTNAME").item("TEXTO").item(1))
         Exit Function
     End If
 
-    If LenB(AccountName) = 0 Then
+    If LenB(CurrentUser.AccountName) = 0 Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_ACCOUNTNAME").item("TEXTO").item(1))
         Exit Function
     End If
 
-    If Len(AccountName) > 24 Then
+    If Len(CurrentUser.AccountName) > 24 Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_ACCOUNTNAME").item("TEXTO").item(2))
         Exit Function
     End If
         
-    Len_accountName = Len(AccountName)
+    Len_accountName = Len(CurrentUser.AccountName)
     
     For loopc = 1 To Len_accountName
-        CharAscii = Asc(mid$(AccountName, loopc, 1))
+        CharAscii = Asc(mid$(CurrentUser.AccountName, loopc, 1))
         If Not LegalCharacter(CharAscii) Then
             Call MostrarMensaje(Replace$(JsonLanguage.item("VALIDACION_BAD_PASSWORD").item("TEXTO").item(4), "VAR_CHAR_INVALIDO", Chr$(CharAscii)))
             Exit Function
@@ -248,11 +248,13 @@ Sub SetConnected()
     'Vaciamos la cola de movimiento
     keysMovementPressedQueue.Clear
 
-    frmMain.lblName.Caption = UserName
+    frmMain.lblName.Caption = CurrentUser.UserName
     frmMain.lblMapName.Caption = MapZonas(UserZonaId(UserCharIndex)).name
     
     'Load main form
     frmMain.Visible = True
+    
+    Call DibujarMinimapa
     
     ModCnt.Conectando = True
 
@@ -312,7 +314,7 @@ Private Sub CheckKeys()
     If pausa Then Exit Sub
 
     'Si esta chateando, no mover el pj, tanto para chat de clanes y normal
-    If frmMain.SendTxt.Visible And ClientSetup.BloqueoMovimiento Then Exit Sub
+    If frmMain.Sendtxt.Visible And ClientSetup.BloqueoMovimiento Then Exit Sub
 
     'Don't allow any these keys during movement..
     If UserMoving = 0 Then
@@ -404,12 +406,7 @@ Sub SwitchMap(ByVal Map As Integer)
         
         Call CheckZona(UserCharIndex)
         
-        'Dibujamos el Mini-Mapa'
-        If Extract_File_Memory(srcFileType.Minimap, Map & ".bmp", bytArr()) Then
-            frmMain.MiniMapa.Picture = General_Load_Picture_From_BArray(bytArr())
-        Else
-            frmMain.MiniMapa.Picture = Nothing
-        End If
+        Call DibujarMinimapa
         
         Call Init_Ambient
         
@@ -677,7 +674,7 @@ Private Sub LoadInitialConfig()
     ' Initialize FONTTYPES
     Call Protocol.InitFonts
  
-    UserMap = 1
+    CurrentUser.UserMap = 1
     
     Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 45)
 
@@ -701,7 +698,7 @@ Private Sub LoadInitialConfig()
     Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 70)
     
     'Inicializamos el inventario grafico
-    Call Inventario.Initialize(DirectD3D8, frmMain.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call Inventario.Initialize(DirectD3D8, frmMain.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_MAPA").item("TEXTO"), 75)
     
@@ -1156,13 +1153,13 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     
     ' Reset flags
     pausa = False
-    UserMeditar = False
+    CurrentUser.UserMeditar = False
     UserEstupido = False
     UserCiego = False
-    UserDescansar = False
-    UserParalizado = False
-    UserNavegando = False
-    UserEvento = False
+    CurrentUser.UserDescansar = False
+    CurrentUser.UserParalizado = False
+    CurrentUser.UserNavegando = False
+    CurrentUser.UserEvento = False
     bFogata = False
     bFogata = False
     Comerciando = False
@@ -1189,9 +1186,9 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
     UserSexo = 0
     UserRaza = 0
     UserEmail = vbNullString
-    UserELO = 0
+    CurrentUser.UserELO = 0
     Alocados = 0
-    UserEquitando = 0
+    CurrentUser.UserEquitando = 0
     Alocados = 0
     SkillPoints = 0
     
@@ -1226,11 +1223,11 @@ Public Sub ResetAllInfoAccounts()
 'Descripcion: Borra los datos almacenados de una cuenta
 '**************************************
 
-    If NumberOfCharacters > 0 Then
+    If CurrentUser.NumberOfCharacters > 0 Then
     
         Dim loopc As Long
         
-        For loopc = 1 To NumberOfCharacters
+        For loopc = 1 To CurrentUser.NumberOfCharacters
         
             With cPJ(loopc)
                 .Nombre = vbNullString
@@ -1311,7 +1308,7 @@ On Error GoTo ErrorHandler
     
     Index = i
     
-    m_Jpeg.Comment = "Character: " & UserName & " - " & Format$(Date, "dd/mm/yyyy") & " - " & Format$(Time, "hh:mm AM/PM")
+    m_Jpeg.Comment = "Character: " & CurrentUser.UserName & " - " & Format$(Date, "dd/mm/yyyy") & " - " & Format$(Time, "hh:mm AM/PM")
     
     'Save the JPG file
     m_Jpeg.SaveFile m_FileName & Trim$(str$(Index)) & ".jpg"
@@ -1438,3 +1435,35 @@ Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
 
 End Function
 
+Public Sub ActualizarMiniMapa()
+    '***************************************************
+    'Author: Lorwik
+    'Fecha: ????
+    '***************************************************
+    
+    With frmMain
+        .UserM.Left = UserPosCuadrante.X - 2
+        .UserM.Top = UserPosCuadrante.Y - 2
+        .UserAreaMinimap.Left = UserPosCuadrante.X - 13
+        .UserAreaMinimap.Top = UserPosCuadrante.Y - 11
+        .MiniMapa.Refresh
+    End With
+End Sub
+
+Public Sub DibujarMinimapa()
+    '***************************************************
+    'Author: Lorwik
+    'Fecha: 23/04/2021
+    '***************************************************
+    Dim bytArr()    As Byte
+    Dim InfoHead    As INFOHEADER
+    
+    'Dibujamos el Mini-Mapa'
+    If Extract_File_Memory(srcFileType.Minimap, CurrentUser.UserMap & "-" & CurrentUser.UserCuadrante & ".bmp", bytArr()) Then
+        frmMain.MiniMapa.Picture = General_Load_Picture_From_BArray(bytArr())
+        
+    Else
+        frmMain.MiniMapa.Picture = Nothing
+        
+    End If
+End Sub

@@ -702,47 +702,53 @@ End Type
 Public cPJ() As PjCuenta
 
 Public NPCInventory(1 To MAX_NPC_INVENTORY_SLOTS) As NpCinV
-Public UserMeditar As Boolean
-Public UserName As String
-Public AccountName As String
-Public AccountPassword As String
-Public NumberOfCharacters As Byte
-Public UserMaxHP As Integer
-Public UserMinHP As Integer
-Public UserMaxMAN As Integer
-Public UserMinMAN As Integer
-Public UserMaxSTA As Integer
-Public UserMinSTA As Integer
-Public UserMaxAGU As Byte
-Public UserMinAGU As Byte
-Public UserMaxHAM As Byte
-Public UserMinHAM As Byte
-Public UserGLD As Long
-Public UserLvl As Integer
-Public UserPort As Integer
-Public UserEstado As Byte '0 = Vivo & 1 = Muerto
-Public UserPasarNivel As Long
-Public UserExp As Long
-Public UserELO As Long
-Public UserReputacion As tReputacion
-Public UserEstadisticas As tEstadisticasUsu
-Public UserDescansar As Boolean
+
+Public Type tCurrentUser
+    UserMap As Integer
+    UserCuadrante As Integer
+    UserMeditar As Boolean
+    UserName As String
+    AccountName As String
+    AccountPassword As String
+    NumberOfCharacters As Byte
+    UserMaxHP As Integer
+    UserMinHP As Integer
+    UserMaxMAN As Integer
+    UserMinMAN As Integer
+    UserMaxSTA As Integer
+    UserMinSTA As Integer
+    UserMaxAGU As Byte
+    UserMinAGU As Byte
+    UserMaxHAM As Byte
+    UserMinHAM As Byte
+    UserGLD As Long
+    UserLvl As Integer
+    UserPort As Integer
+    UserEstado As Byte '0 = Vivo & 1 = Muerto
+    UserPasarNivel As Long
+    UserExp As Long
+    UserELO As Long
+    UserReputacion As tReputacion
+    UserEstadisticas As tEstadisticasUsu
+    UserDescansar As Boolean
+    UserParalizado As Boolean
+    UserInvisible As Boolean
+    UserNavegando As Boolean
+    UserEquitando As Boolean
+    UserEvento As Boolean
+    UserFuerza As Byte
+    UserAgilidad As Byte
+    UserWeaponEqpSlot As Byte
+    UserArmourEqpSlot As Byte
+    UserHelmEqpSlot As Byte
+    UserShieldEqpSlot As Byte
+End Type
+
+Public CurrentUser As tCurrentUser
+
 Public bShowTutorial As Boolean
 Public FPSFLAG As Boolean
 Public pausa As Boolean
-Public UserParalizado As Boolean
-Public UserInvisible As Boolean
-Public UserNavegando As Boolean
-Public UserEquitando As Boolean
-Public UserEvento As Boolean
-
-Public UserFuerza As Byte
-Public UserAgilidad As Byte
-
-Public UserWeaponEqpSlot As Byte
-Public UserArmourEqpSlot As Byte
-Public UserHelmEqpSlot As Byte
-Public UserShieldEqpSlot As Byte
 
 '<-------------------------NUEVO-------------------------->
 Public Comerciando As Boolean
@@ -860,7 +866,6 @@ End Enum
 Public stxtbuffer As String 'Holds temp raw data from server
 Public stxtbuffercmsg As String 'Holds temp raw data from server
 Public Connected As Boolean 'True when connected to server
-Public UserMap As Integer
 
 'Control
 Public prgRun As Boolean 'When true the program ends

@@ -286,9 +286,8 @@ Public Sub Engine_DirectX8_Aditional_Init()
         Call Engine_Long_To_RGB_List(Normal_RGBList(), -1)
         Call Engine_Long_To_RGB_List(Color_Shadow(), D3DColorARGB(50, 0, 0, 0))
         Call Engine_Long_To_RGB_List(NoUsa_RGBList(), D3DColorARGB(255, 200, 30, 30))
+        Call Engine_Long_To_RGB_List(Color_Arbol(), D3DColorARGB(190, 100, 100, 100))
         Color_Paralisis = D3DColorARGB(180, 230, 230, 250)
-        Color_Invisibilidad = D3DColorARGB(180, 236, 136, 66)
-        Color_Montura = D3DColorARGB(180, 15, 230, 40)
         
         ' Inicializamos otros sistemas.
         Call mDx8_Text.Engine_Init_FontSettings

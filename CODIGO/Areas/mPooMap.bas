@@ -56,7 +56,7 @@ Public Sub Map_DestroyObject(ByVal X As Integer, ByVal Y As Integer)
 
             With MapData(X, Y)
                   '.objgrh.GrhIndex = 0
-                  .OBJInfo.objindex = 0
+                  .OBJInfo.ObjIndex = 0
                   .OBJInfo.Amount = 0
 
                   Call GrhUninitialize(.ObjGrh)
@@ -137,9 +137,9 @@ Sub Map_MoveTo(ByVal Direccion As E_Heading)
                         
       End Select
 
-      If LegalOk And Not UserParalizado And Not UserDescansar And Not UserMeditar Then
+      If LegalOk And Not CurrentUser.UserParalizado And Not CurrentUser.UserDescansar And Not CurrentUser.UserMeditar Then
           Call WriteWalk(Direccion)
-          Call frmMain.ActualizarMiniMapa   'integrado por ReyarB
+          Call ActualizarMiniMapa
 
           Call Char_MovebyHead(UserCharIndex, Direccion)
           Call Char_MoveScreen(Direccion)
@@ -157,12 +157,12 @@ Sub Map_MoveTo(ByVal Direccion As E_Heading)
   
       ' Esto es un parche por que por alguna razon si el pj esta meditando y nos movemos el juego explota por eso cambie
       ' Las validaciones en la linea 131 y agregue esto para arreglarlo (Recox)
-      If UserMeditar Then
-        UserMeditar = Not UserMeditar
+      If CurrentUser.UserMeditar Then
+        CurrentUser.UserMeditar = Not CurrentUser.UserMeditar
       End If
 
-      If UserDescansar Then
-        UserDescansar = Not UserDescansar
+      If CurrentUser.UserDescansar Then
+        CurrentUser.UserDescansar = Not CurrentUser.UserDescansar
       End If
         
 End Sub
@@ -253,18 +253,18 @@ Function Map_LegalPos(ByVal X As Integer, ByVal Y As Integer) As Boolean
 
       End If
    
-      If (UserNavegando <> Map_CheckWater(X, Y)) Then
+      If (CurrentUser.UserNavegando <> Map_CheckWater(X, Y)) Then
                
             Exit Function
 
       End If
 
       'Esta el usuario Equitando bajo un techo?
-      If UserEquitando And MapData(X, Y).Trigger = eTrigger.BAJOTECHO Or UserEquitando And MapData(X, Y).Trigger = eTrigger.CASA Then
+      If CurrentUser.UserEquitando And MapData(X, Y).Trigger = eTrigger.BAJOTECHO Or CurrentUser.UserEquitando And MapData(X, Y).Trigger = eTrigger.CASA Then
             Exit Function
       End If
       
-      If UserEvento Then Exit Function
+      If CurrentUser.UserEvento Then Exit Function
       
     
       Map_LegalPos = True

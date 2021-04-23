@@ -184,11 +184,11 @@ Private Sub imgTirarTodo_Click()
         Call WriteDrop(Inventario.SelectedItem, Inventario.Amount(Inventario.SelectedItem))
         Unload Me
     Else
-        If UserGLD > 10000 Then
+        If CurrentUser.UserGLD > 10000 Then
             Call WriteDrop(Inventario.SelectedItem, 10000)
             Unload Me
         Else
-            Call WriteDrop(Inventario.SelectedItem, UserGLD)
+            Call WriteDrop(Inventario.SelectedItem, CurrentUser.UserGLD)
             Unload Me
         End If
     End If
@@ -197,7 +197,8 @@ Private Sub imgTirarTodo_Click()
 End Sub
 
 Private Sub txtCantidad_Change()
-On Error GoTo ErrHandler
+On Error GoTo errhandler
+
     If Val(txtCantidad.Text) < 0 Then
         txtCantidad.Text = "1"
     End If
@@ -208,7 +209,7 @@ On Error GoTo ErrHandler
     
     Exit Sub
     
-ErrHandler:
+errhandler:
     'If we got here the user may have pasted (Shift + Insert) a REALLY large number, causing an overflow, so we set amount back to 1
     txtCantidad.Text = "1"
 End Sub

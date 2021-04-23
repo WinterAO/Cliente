@@ -457,6 +457,9 @@ On Error GoTo ErrorHandler:
                     .sY = fileBuff.getInteger
                     If .sY < 0 Then GoTo ErrorHandler
                     
+                    .Trans = fileBuff.getByte
+                    If .Trans < 0 Then GoTo ErrorHandler
+                    
                     .TileWidth = .pixelWidth / TilePixelHeight
                     .TileHeight = .pixelHeight / TilePixelWidth
                     

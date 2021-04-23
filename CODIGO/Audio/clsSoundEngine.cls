@@ -857,7 +857,7 @@ On Error Resume Next
         EXTERIOR_VOLUME = ClientSetup.AmbientVol - 300
         INTERIOR_VOLUME = ClientSetup.AmbientVol - 1000
     
-        If UserMap > 0 Then
+        If CurrentUser.UserMap > 0 Then
             under_roof = bTecho
                 
             mAmb = Ambient_Calculate

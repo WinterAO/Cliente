@@ -250,7 +250,7 @@ Public Sub MostrarCreacion(Optional ByVal Mostrar As Boolean = False)
     
     'Seteamos todos los valores
     UserSexo = Hombre
-    UserName = vbNullString
+    CurrentUser.UserName = vbNullString
     UserRaza = 0
     UserClase = 0
     
@@ -463,7 +463,7 @@ Private Sub RenderPJ()
     Select Case Pantalla
     
         Case 1 'Cuenta
-            For Index = 1 To NumberOfCharacters
+            For Index = 1 To CurrentUser.NumberOfCharacters
                 With cPJ(Index)
     
                     If .Body <> 0 Then
@@ -490,7 +490,7 @@ Private Sub RenderPJ()
                         Call DrawText(PJPos(Index).X + 16, PJPos(Index).Y + 30, .Nombre, -1, True)
                         
                         'Nombre de la cuenta
-                        Call DrawText(500, 25, AccountName, -1, True, 2)
+                        Call DrawText(500, 25, CurrentUser.AccountName, -1, True, 2)
                         
                         'Nombre del servidor
                         Call DrawText(30, 25, "Servidor " & Servidor(ServIndSel).Nombre, -1, False)
@@ -530,12 +530,12 @@ Public Sub DobleClickEvent(ByVal tX As Long, ByVal tY As Long)
         Case 1 'Cuenta
 
             'Con doble click conectamos al PJ
-            For i = 1 To NumberOfCharacters
+            For i = 1 To CurrentUser.NumberOfCharacters
                 With cPJ(i)
                     If (tX >= PJPos(i).X And tX <= PJPos(i).X + 20) And (tY >= PJPos(i).Y And tY <= PJPos(i).Y - OFFSET_HEAD) Then
     
                         If LenB(.Nombre) <> 0 Then
-                            UserName = .Nombre
+                            CurrentUser.UserName = .Nombre
                             Call ConnectPJ
                         End If
                         
@@ -601,13 +601,13 @@ Public Sub ClickEvent(ByVal tX As Long, ByVal tY As Long)
         Case 1 'Cuenta
 
             'Seleccionamos un PJ
-            For i = 1 To NumberOfCharacters
+            For i = 1 To CurrentUser.NumberOfCharacters
                 With cPJ(i)
                     If (tX >= PJPos(i).X And tX <= PJPos(i).X + 20) And (tY >= PJPos(i).Y And tY <= PJPos(i).Y - OFFSET_HEAD) Then
     
                         If LenB(.Nombre) <> 0 Then
                             'El PJ seleccionado queda guardado
-                            UserName = .Nombre
+                            CurrentUser.UserName = .Nombre
                             PJAccSelected = i
                         End If
                     End If
@@ -794,7 +794,7 @@ Private Sub CrearNuevoPJ()
 '**************************************
     Call Sound.Sound_Play(SND_CLICK)
 
-    If NumberOfCharacters > 9 Then
+    If CurrentUser.NumberOfCharacters > 9 Then
         Call MostrarMensaje(JsonLanguage.item("ERROR_DEMASIADOS_PJS").item("TEXTO"))
         Exit Sub
     End If
@@ -822,13 +822,13 @@ Private Sub btnConectar()
     CurServerPort = Servidor(ServIndSel).Puerto
 
     'update user info
-    AccountName = frmConnect.txtNombre.Text
-    AccountPassword = frmConnect.txtPasswd.Text
+    CurrentUser.AccountName = frmConnect.txtNombre.Text
+    CurrentUser.AccountPassword = frmConnect.txtPasswd.Text
 
     'Clear spell list
     frmMain.hlst.Clear
     
-    ClientSetup.rUserName = AccountName
+    ClientSetup.rUserName = CurrentUser.AccountName
 
     Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "Remember", IIf(ClientSetup.Remember, "1", "0"))
     Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "UserName", ClientSetup.rUserName)
@@ -848,6 +848,7 @@ Private Sub btnTeclas()
     frmKeypad.Show vbModal
     Unload frmKeypad
     frmConnect.txtPasswd.SetFocus
+    
 End Sub
 
 Private Sub btnGestion()
@@ -939,19 +940,19 @@ Private Sub btnCrear()
     Dim Count As Byte
     
     'Nombre de usuario
-    UserName = LTrim$(frmConnect.txtCrearPJNombre.Text)
+    CurrentUser.UserName = LTrim$(frmConnect.txtCrearPJNombre.Text)
             
     '¿El nombre esta vacio y es correcto?
-    If Right$(UserName, 1) = " " Then
-        UserName = RTrim$(UserName)
+    If Right$(CurrentUser.UserName, 1) = " " Then
+        CurrentUser.UserName = RTrim$(CurrentUser.UserName)
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_NOMBRE_PJ").item("TEXTO").item(2))
         Exit Sub
     End If
     
     'Solo permitimos 1 espacio en los nombres
-    For i = 1 To Len(UserName)
+    For i = 1 To Len(CurrentUser.UserName)
         
-        If mid$(UserName, i, 1) = Chr$(32) Then Count = Count + 1
+        If mid$(CurrentUser.UserName, i, 1) = Chr$(32) Then Count = Count + 1
         
     Next i
     If Count > 1 Then
@@ -1340,13 +1341,13 @@ Private Function CheckData() As Boolean
     End If
 
     '¿Estamos intentando crear sin tener el AccountName?
-    If Len(AccountName) = 0 Then
+    If Len(CurrentUser.AccountName) = 0 Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_HASH").item("TEXTO"))
         Exit Function
     End If
     
     '¿El nombre de usuario supera los 30 caracteres?
-    If LenB(UserName) > 30 Then
+    If LenB(CurrentUser.UserName) > 30 Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_NOMBRE_PJ").item("TEXTO").item(1))
         Exit Function
     End If

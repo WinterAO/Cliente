@@ -1189,7 +1189,7 @@ End Sub
 
 Private Sub cmdONLINEMAP_Click()
     '/ONLINEMAP
-    Call WriteOnlineMap(UserMap)
+    Call WriteOnlineMap(CurrentUser.UserMap)
 End Sub
 
 Private Sub cmdONLINEREAL_Click()
