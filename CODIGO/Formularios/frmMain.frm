@@ -168,7 +168,6 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -2547,18 +2546,22 @@ Public Sub ActualizarCoordenadas(ByVal tX As Integer, ByVal tY As Integer)
     Dim cx As Integer
     Dim cy As Integer
     Dim AnchoMap As Byte
+    Dim CurrentCuadrante As Integer
     
+    'Guardamos el cuadrante antes del posible cambio
+    CurrentCuadrante = CurrentUser.UserCuadrante
     AnchoMap = 11
     
     cx = Fix((tX / 100))
     cy = Fix((tY / 100))
     
-    If ((cy) * AnchoMap) + cx + 1 <> CurrentUser.UserCuadrante Then _
-        Call DibujarMinimapa
-    
     CurrentUser.UserCuadrante = ((cy) * AnchoMap) + cx + 1
     UserPosCuadrante.X = tX - (cx * 100)
     UserPosCuadrante.Y = tY - (cy * 100)
+    
+    'Si cambiamos de cuadrante cambiamos el minimapa
+    If CurrentCuadrante <> CurrentUser.UserCuadrante Then _
+        Call DibujarMinimapa
     
     If ClientSetup.VerCuadrantes Then
 

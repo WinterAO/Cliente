@@ -314,7 +314,7 @@ Private Sub CheckKeys()
     If pausa Then Exit Sub
 
     'Si esta chateando, no mover el pj, tanto para chat de clanes y normal
-    If frmMain.Sendtxt.Visible And ClientSetup.BloqueoMovimiento Then Exit Sub
+    If frmMain.SendTxt.Visible And ClientSetup.BloqueoMovimiento Then Exit Sub
 
     'Don't allow any these keys during movement..
     If UserMoving = 0 Then
@@ -698,7 +698,7 @@ Private Sub LoadInitialConfig()
     Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 70)
     
     'Inicializamos el inventario grafico
-    Call Inventario.Initialize(DirectD3D8, frmMain.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call Inventario.Initialize(DirectD3D8, frmMain.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_MAPA").item("TEXTO"), 75)
     
@@ -1457,7 +1457,7 @@ Public Sub DibujarMinimapa()
     '***************************************************
     Dim bytArr()    As Byte
     Dim InfoHead    As INFOHEADER
-    
+
     'Dibujamos el Mini-Mapa'
     If Extract_File_Memory(srcFileType.Minimap, CurrentUser.UserMap & "-" & CurrentUser.UserCuadrante & ".bmp", bytArr()) Then
         frmMain.MiniMapa.Picture = General_Load_Picture_From_BArray(bytArr())
