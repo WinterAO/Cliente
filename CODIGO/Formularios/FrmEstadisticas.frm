@@ -1413,12 +1413,12 @@ Public Sub Iniciar_Labels()
     Dim Ancho As Integer
     
     For i = 1 To NUMATRIBUTOS
-        Atri(i).Caption = UserAtributos(i)
+        Atri(i).Caption = CurrentUser.UserAtributos(i)
     Next
     
     For i = 1 To NUMSKILLS
-        Skills(i).Caption = UserSkills(i)
-        Ancho = IIf(PorcentajeSkills(i) = 0, ANCHO_BARRA, (100 - PorcentajeSkills(i)) / 100 * ANCHO_BARRA)
+        Skills(i).Caption = CurrentUser.UserSkills(i)
+        Ancho = IIf(CurrentUser.PorcentajeSkills(i) = 0, ANCHO_BARRA, (100 - CurrentUser.PorcentajeSkills(i)) / 100 * ANCHO_BARRA)
         shpSkillsBar(i).Width = Ancho
         shpSkillsBar(i).Left = BAR_LEFT_POS + ANCHO_BARRA - Ancho
     Next
@@ -1523,9 +1523,9 @@ Private Sub imgCerrar_Click()
     Dim i As Long
 
     For i = 1 To NUMSKILLS
-        skillChanges(i) = CByte(Skills(i).Caption) - UserSkills(i)
+        skillChanges(i) = CByte(Skills(i).Caption) - CurrentUser.UserSkills(i)
         'Actualizamos nuestros datos locales
-        UserSkills(i) = Val(Skills(i).Caption)
+        CurrentUser.UserSkills(i) = Val(Skills(i).Caption)
     Next i
     
     Call WriteModifySkills(skillChanges())

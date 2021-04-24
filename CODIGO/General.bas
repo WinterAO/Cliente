@@ -1123,96 +1123,98 @@ End Function
 
 Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
 
-    ' Disable timers
-    frmMain.Second.Enabled = False
-    Connected = False
-    Call frmMain.hlst.Clear ' Ponemos esto aca para limpiar la lista de hechizos al desconectarse.
-    
-    If UnloadForms Then
-        'Unload all forms except frmMain, frmConnect
-        Dim frm As Form
-        For Each frm In Forms
-            If frm.name <> frmMain.name And _
-               frm.name <> frmConnect.name Then
-                
-                Call Unload(frm)
-            End If
-        Next
-    End If
-    
-    On Local Error GoTo 0
-    
-    If UnloadForms Then
-        ' Return to connection screen
-        frmMain.Visible = False
-    End If
-    
-    'Stop audio
-    Sound.Sound_Stop_All
-    Sound.Ambient_Stop
-    
-    ' Reset flags
-    pausa = False
-    CurrentUser.UserMeditar = False
-    UserEstupido = False
-    UserCiego = False
-    CurrentUser.UserDescansar = False
-    CurrentUser.UserParalizado = False
-    CurrentUser.UserNavegando = False
-    CurrentUser.UserEvento = False
-    bFogata = False
-    bFogata = False
-    Comerciando = False
-    bShowTutorial = False
-    
-    MirandoAsignarSkills = False
-    MirandoEstadisticas = False
-    MirandoForo = False
-    MirandoTrabajo = 0
-    MirandoParty = False
-    
-    'Delete all kind of dialogs
-    Call CleanDialogs
+    With CurrentUser
 
-    'Reset some char variables...
-    Dim i As Long
-    For i = 1 To LastChar
-        charlist(i).invisible = False
-
-    Next i
-
-    ' Reset stats
-    UserClase = 0
-    UserSexo = 0
-    UserRaza = 0
-    UserEmail = vbNullString
-    CurrentUser.UserELO = 0
-    Alocados = 0
-    CurrentUser.UserEquitando = 0
-    Alocados = 0
-    SkillPoints = 0
+        ' Disable timers
+        frmMain.Second.Enabled = False
+        Connected = False
+        Call frmMain.hlst.Clear ' Ponemos esto aca para limpiar la lista de hechizos al desconectarse.
+        
+        If UnloadForms Then
+            'Unload all forms except frmMain, frmConnect
+            Dim frm As Form
+            For Each frm In Forms
+                If frm.name <> frmMain.name And _
+                   frm.name <> frmConnect.name Then
+                    
+                    Call Unload(frm)
+                End If
+            Next
+        End If
+        
+        On Local Error GoTo 0
+        
+        If UnloadForms Then
+            ' Return to connection screen
+            frmMain.Visible = False
+        End If
+        
+        'Stop audio
+        Sound.Sound_Stop_All
+        Sound.Ambient_Stop
+        
+        ' Reset flags
+        pausa = False
+        .UserMeditar = False
+        UserEstupido = False
+        UserCiego = False
+        .UserDescansar = False
+        .UserParalizado = False
+        .UserNavegando = False
+        .UserEvento = False
+        bFogata = False
+        bFogata = False
+        Comerciando = False
+        bShowTutorial = False
+        
+        MirandoAsignarSkills = False
+        MirandoEstadisticas = False
+        MirandoForo = False
+        MirandoTrabajo = 0
+        MirandoParty = False
+        
+        'Delete all kind of dialogs
+        Call CleanDialogs
     
-    lblHelm = "0/0"
-    lblWeapon = "0/0"
-    lblArmor = "0/0"
-    lblShielder = "0/0"
+        'Reset some char variables...
+        Dim i As Long
+        For i = 1 To LastChar
+            charlist(i).invisible = False
     
-    Call Actualizar_Estado(e_estados.MedioDia)
-
-    Call SetSpeedUsuario(SPEED_NORMAL)
-
-    ' Reset skills
-    For i = 1 To NUMSKILLS
-        UserSkills(i) = 0
-    Next i
-
-    ' Reset attributes
-    For i = 1 To NUMATRIBUTOS
-        UserAtributos(i) = 0
-    Next i
+        Next i
     
-    ' Clear inventory slots
-    Inventario.ClearAllSlots
+        ' Reset stats
+        .UserClase = 0
+        .UserSexo = 0
+        .UserRaza = 0
+        .UserEmail = vbNullString
+        .UserELO = 0
+        .UserEquitando = 0
+        Alocados = 0
+        SkillPoints = 0
+        
+        lblHelm = "0/0"
+        lblWeapon = "0/0"
+        lblArmor = "0/0"
+        lblShielder = "0/0"
+        
+        Call Actualizar_Estado(e_estados.MedioDia)
+    
+        Call SetSpeedUsuario(SPEED_NORMAL)
+    
+        ' Reset skills
+        For i = 1 To NUMSKILLS
+            CurrentUser.UserSkills(i) = 0
+        Next i
+    
+        ' Reset attributes
+        For i = 1 To NUMATRIBUTOS
+            CurrentUser.UserAtributos(i) = 0
+        Next i
+        
+        ' Clear inventory slots
+        Inventario.ClearAllSlots
+    End With
 
 End Sub
 

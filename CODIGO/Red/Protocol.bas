@@ -71,6 +71,7 @@ Private Enum ServerPacketID
     PosUpdate                   ' PU
     ChatOverHead                ' ||
     ConsoleMsg                  ' || - Beware!! its the same as above, but it was properly splitted
+    ScreenMsg
     GuildChat                   ' |+
     ShowMessageBox              ' !!
     UserIndexInServer           ' IU
@@ -163,7 +164,6 @@ Private Enum ServerPacketID
     QuestListSend
     CreateDamage                 ' CDMG
     UserInEvent
-    renderMsg
     DeletedChar
     EquitandoToggle
     InitCraftman
@@ -791,6 +791,9 @@ On Error Resume Next
         
         Case ServerPacketID.ConsoleMsg              ' || - Beware!! its the same as above, but it was properly splitted
             Call HandleConsoleMessage
+            
+        Case ServerPacketID.ScreenMsg
+            Call HandleScreenMessage
         
         Case ServerPacketID.GuildChat               ' |+
             Call HandleGuildChat
@@ -1064,9 +1067,6 @@ On Error Resume Next
     
         Case ServerPacketID.UserInEvent
             Call HandleUserInEvent
-            
-        Case ServerPacketID.renderMsg
-            Call HandleRenderMsg
 
         Case ServerPacketID.DeletedChar             ' BORRA USUARIO
             Call HandleDeletedChar
@@ -1581,7 +1581,7 @@ Private Sub HandleLogged()
     Call incomingData.ReadByte
     
     ' Variable initialization
-    UserClase = incomingData.ReadByte
+    CurrentUser.UserClase = incomingData.ReadByte
 
     EngineRun = True
     Nombres = True
@@ -3599,7 +3599,7 @@ Private Sub HandleAtributes()
     Dim i As Long
     
     For i = 1 To NUMATRIBUTES
-        UserAtributos(i) = incomingData.ReadByte()
+        CurrentUser.UserAtributos(i) = incomingData.ReadByte()
     Next i
     
     LlegaronAtrib = True
@@ -4228,13 +4228,13 @@ Private Sub HandleSendSkills()
     'Remove packet ID
     Call incomingData.ReadByte
 
-    UserClase = incomingData.ReadByte
+    CurrentUser.UserClase = incomingData.ReadByte
     
     Dim i As Long
     
     For i = 1 To NUMSKILLS
-        UserSkills(i) = incomingData.ReadByte()
-        PorcentajeSkills(i) = incomingData.ReadByte()
+        CurrentUser.UserSkills(i) = incomingData.ReadByte()
+        CurrentUser.PorcentajeSkills(i) = incomingData.ReadByte()
     Next i
     
     LlegaronSkills = True
@@ -5288,13 +5288,14 @@ On Error GoTo 0
         Err.Raise Error
 End Sub
 
-Public Sub HandleRenderMsg()
+Public Sub HandleScreenMessage()
 
     Call incomingData.ReadByte
     
     renderMsgReset
     renderText = incomingData.ReadASCIIString
-    renderFont = incomingData.ReadInteger
+    renderTextPk = incomingData.ReadASCIIString
+    'renderFont = incomingData.ReadInteger
     colorRender = 240
 End Sub
 
@@ -5538,10 +5539,10 @@ Public Sub WriteLoginNewChar()
         Call .WriteByte(App.Minor)
         Call .WriteByte(App.Revision)
         
-        Call .WriteByte(UserRaza)
-        Call .WriteByte(UserSexo)
-        Call .WriteByte(UserClase)
-        Call .WriteInteger(UserHead)
+        Call .WriteByte(CurrentUser.UserRaza)
+        Call .WriteByte(CurrentUser.UserSexo)
+        Call .WriteByte(CurrentUser.UserClase)
+        Call .WriteInteger(CurrentUser.UserHead)
         
     End With
 End Sub

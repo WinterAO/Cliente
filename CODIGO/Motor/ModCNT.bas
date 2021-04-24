@@ -249,10 +249,10 @@ Public Sub MostrarCreacion(Optional ByVal Mostrar As Boolean = False)
     If frmConnect.txtCrearPJNombre.Visible = False Then frmConnect.txtCrearPJNombre.Visible = True
     
     'Seteamos todos los valores
-    UserSexo = Hombre
+    CurrentUser.UserSexo = Hombre
     CurrentUser.UserName = vbNullString
-    UserRaza = 0
-    UserClase = 0
+    CurrentUser.UserRaza = 0
+    CurrentUser.UserClase = 0
     
     Call DarCuerpoYCabeza
     Call LoadCharInfo
@@ -424,9 +424,9 @@ Private Sub RenderConnectGUI()
             
             'Textos
             Call DrawText(400, 670, frmConnect.txtCrearPJNombre.Text, -1, False)
-            If UserSexo <> 0 Then Call DrawText(505, 320, SexoSelect(UserSexo), -1, True)
-            If UserRaza <> 0 Then Call DrawText(505, 370, ListaRazas(UserRaza), -1, True)
-            If UserClase <> 0 Then Call DrawText(505, 420, ListaClases(UserClase), -1, True)
+            If CurrentUser.UserSexo <> 0 Then Call DrawText(505, 320, SexoSelect(CurrentUser.UserSexo), -1, True)
+            If CurrentUser.UserRaza <> 0 Then Call DrawText(505, 370, ListaRazas(CurrentUser.UserRaza), -1, True)
+            If CurrentUser.UserClase <> 0 Then Call DrawText(505, 420, ListaClases(CurrentUser.UserClase), -1, True)
             Call DrawText(850, 255, "Modificador de raza:", -1, True)
             Call Engine_Draw_Box(730, 250, 250, 250, D3DColorARGB(100, 0, 0, 0))
             Call DrawText(800, 285, "Fuerza:", -1, True)
@@ -502,11 +502,11 @@ Private Sub RenderPJ()
             
         Case 2 'Crear PJ
         
-        If UserBody <> 0 Then
-            Call Draw_Grh(BodyData(UserBody).Walk(1), 225, 560, 1, Normal_RGBList(), 0)
+        If CurrentUser.UserBody <> 0 Then
+            Call Draw_Grh(BodyData(CurrentUser.UserBody).Walk(1), 225, 560, 1, Normal_RGBList(), 0)
                 
-            If UserHead <> 0 Then _
-                Call DrawHead(UserHead, 225 + BodyData(UserBody).HeadOffset.X, 527 + BodyData(UserBody).HeadOffset.Y, Normal_RGBList(), 1, True)
+            If CurrentUser.UserHead <> 0 Then _
+                Call DrawHead(CurrentUser.UserHead, 225 + BodyData(CurrentUser.UserBody).HeadOffset.X, 527 + BodyData(CurrentUser.UserBody).HeadOffset.Y, Normal_RGBList(), 1, True)
                 
             'Nombre
             'Call DrawText(225 + 16, 560 + 30, frmConnect.txtCrearPJNombre.Text, -1, True)
@@ -655,24 +655,24 @@ Public Sub ClickEvent(ByVal tX As Long, ByVal tY As Long)
             
             'SexoAnterior <
             If (tX >= ButtonGUI(19).X And tX <= ButtonGUI(19).PosX) And (tY >= ButtonGUI(19).Y And tY <= ButtonGUI(19).PosY) Then
-                If UserSexo > 1 Then
-                    UserSexo = UserSexo - 1
+                If CurrentUser.UserSexo > 1 Then
+                    CurrentUser.UserSexo = CurrentUser.UserSexo - 1
                     Call DarCuerpoYCabeza
                 End If
             End If
                 
             'SexoSiguiente >
             If (tX >= ButtonGUI(20).X And tX <= ButtonGUI(20).PosX) And (tY >= ButtonGUI(20).Y And tY <= ButtonGUI(20).PosY) Then
-                If UserSexo < 2 Then
-                    UserSexo = UserSexo + 1
+                If CurrentUser.UserSexo < 2 Then
+                    CurrentUser.UserSexo = CurrentUser.UserSexo + 1
                     Call DarCuerpoYCabeza
                 End If
             End If
                 
             'RazaAnterior <
             If (tX >= ButtonGUI(22).X And tX <= ButtonGUI(22).PosX) And (tY >= ButtonGUI(22).Y And tY <= ButtonGUI(22).PosY) Then
-                If UserRaza > 1 Then
-                    UserRaza = UserRaza - 1
+                If CurrentUser.UserRaza > 1 Then
+                    CurrentUser.UserRaza = CurrentUser.UserRaza - 1
                     Call DarCuerpoYCabeza
                     Call UpdateRazaMod
                 End If
@@ -680,8 +680,8 @@ Public Sub ClickEvent(ByVal tX As Long, ByVal tY As Long)
                 
             'RazaSiguiente >
             If (tX >= ButtonGUI(23).X And tX <= ButtonGUI(23).PosX) And (tY >= ButtonGUI(23).Y And tY <= ButtonGUI(23).PosY) Then
-                If UserRaza < NUMRAZAS Then
-                    UserRaza = UserRaza + 1
+                If CurrentUser.UserRaza < NUMRAZAS Then
+                    CurrentUser.UserRaza = CurrentUser.UserRaza + 1
                     Call DarCuerpoYCabeza
                     Call UpdateRazaMod
                 End If
@@ -689,16 +689,16 @@ Public Sub ClickEvent(ByVal tX As Long, ByVal tY As Long)
                 
             'ClaseAnterior <
             If (tX >= ButtonGUI(25).X And tX <= ButtonGUI(25).PosX) And (tY >= ButtonGUI(25).Y And tY <= ButtonGUI(25).PosY) Then
-                If UserClase > 1 Then
-                    UserClase = UserClase - 1
+                If CurrentUser.UserClase > 1 Then
+                    CurrentUser.UserClase = CurrentUser.UserClase - 1
                     Call DarCuerpoYCabeza
                 End If
             End If
                 
             'ClaseSiguiente >
             If (tX >= ButtonGUI(26).X And tX <= ButtonGUI(26).PosX) And (tY >= ButtonGUI(26).Y And tY <= ButtonGUI(26).PosY) Then
-                If UserClase < NUMCLASES Then
-                    UserClase = UserClase + 1
+                If CurrentUser.UserClase < NUMCLASES Then
+                    CurrentUser.UserClase = CurrentUser.UserClase + 1
                     Call DarCuerpoYCabeza
                 End If
             End If
@@ -920,10 +920,10 @@ Private Sub btnHeadPJ(ByVal Index As Integer)
     Select Case Index
 
         Case 0
-            UserHead = CheckCabeza(UserHead + 1)
+            CurrentUser.UserHead = CheckCabeza(CurrentUser.UserHead + 1)
 
         Case 1
-            UserHead = CheckCabeza(UserHead - 1)
+            CurrentUser.UserHead = CheckCabeza(CurrentUser.UserHead - 1)
 
     End Select
     
@@ -991,87 +991,90 @@ Private Sub DarCuerpoYCabeza()
 'Descripcion: Asignamos un cuerpo y unac abeza segun la raza y el sexo
 '**************************************
 
-    Select Case UserSexo
+    With CurrentUser
+
+        Select Case .UserSexo
+        
+            Case eGenero.Hombre
     
-        Case eGenero.Hombre
-
-            Select Case UserRaza
-
-                Case eRaza.Humano
-                    UserHead = eCabezas.HUMANO_H_PRIMER_CABEZA
-                    UserBody = eCabezas.HUMANO_H_CUERPO_DESNUDO
-                    
-                Case eRaza.Elfo
-                    UserHead = eCabezas.ELFO_H_PRIMER_CABEZA
-                    UserBody = eCabezas.ELFO_H_CUERPO_DESNUDO
-                    
-                Case eRaza.ElfoOscuro
-                    UserHead = eCabezas.DROW_H_PRIMER_CABEZA
-                    UserBody = eCabezas.DROW_H_CUERPO_DESNUDO
-                    
-                Case eRaza.Enano
-                    UserHead = eCabezas.ENANO_H_PRIMER_CABEZA
-                    UserBody = eCabezas.ENANO_H_CUERPO_DESNUDO
-                    
-                Case eRaza.Gnomo
-                    UserHead = eCabezas.GNOMO_H_PRIMER_CABEZA
-                    UserBody = eCabezas.GNOMO_H_CUERPO_DESNUDO
-                    
-                Case eRaza.Orco
-                    UserHead = eCabezas.ORCO_H_PRIMER_CABEZA
-                    UserBody = eCabezas.ORCO_H_CUERPO_DESNUDO
-                    
-                Case eRaza.Vampiro
-                    UserHead = eCabezas.VAMPIRO_H_PRIMER_CABEZA
-                    UserBody = eCabezas.VAMPIRO_H_CUERPO_DESNUDO
-                    
-                Case Else
-                    UserHead = 0
-                    UserBody = 0
-            End Select
-            
-        Case eGenero.Mujer
-
-            Select Case UserRaza
-
-                Case eRaza.Humano
-                    UserHead = eCabezas.HUMANO_M_PRIMER_CABEZA
-                    UserBody = eCabezas.HUMANO_M_CUERPO_DESNUDO
-                    
-                Case eRaza.Elfo
-                    UserHead = eCabezas.ELFO_M_PRIMER_CABEZA
-                    UserBody = eCabezas.ELFO_M_CUERPO_DESNUDO
-                    
-                Case eRaza.ElfoOscuro
-                    UserHead = eCabezas.DROW_M_PRIMER_CABEZA
-                    UserBody = eCabezas.DROW_M_CUERPO_DESNUDO
-                    
-                Case eRaza.Enano
-                    UserHead = eCabezas.ENANO_M_PRIMER_CABEZA
-                    UserBody = eCabezas.ENANO_M_CUERPO_DESNUDO
-                    
-                Case eRaza.Gnomo
-                    UserHead = eCabezas.GNOMO_M_PRIMER_CABEZA
-                    UserBody = eCabezas.GNOMO_M_CUERPO_DESNUDO
-                    
-                Case eRaza.Orco
-                    UserHead = eCabezas.ORCO_M_PRIMER_CABEZA
-                    UserBody = eCabezas.ORCO_M_CUERPO_DESNUDO
-                    
-                Case eRaza.Vampiro
-                    UserHead = eCabezas.VAMPIRO_M_PRIMER_CABEZA
-                    UserBody = eCabezas.VAMPIRO_M_CUERPO_DESNUDO
-                    
-                Case Else
-                    UserHead = 0
-                    UserBody = 0
-            End Select
-            
-        Case Else
-            UserHead = 0
-            UserBody = 0
-            
-    End Select
+                Select Case .UserRaza
+    
+                    Case eRaza.Humano
+                        .UserHead = eCabezas.HUMANO_H_PRIMER_CABEZA
+                        .UserBody = eCabezas.HUMANO_H_CUERPO_DESNUDO
+                        
+                    Case eRaza.Elfo
+                        .UserHead = eCabezas.ELFO_H_PRIMER_CABEZA
+                        .UserBody = eCabezas.ELFO_H_CUERPO_DESNUDO
+                        
+                    Case eRaza.ElfoOscuro
+                        .UserHead = eCabezas.DROW_H_PRIMER_CABEZA
+                        .UserBody = eCabezas.DROW_H_CUERPO_DESNUDO
+                        
+                    Case eRaza.Enano
+                        .UserHead = eCabezas.ENANO_H_PRIMER_CABEZA
+                        .UserBody = eCabezas.ENANO_H_CUERPO_DESNUDO
+                        
+                    Case eRaza.Gnomo
+                        .UserHead = eCabezas.GNOMO_H_PRIMER_CABEZA
+                        .UserBody = eCabezas.GNOMO_H_CUERPO_DESNUDO
+                        
+                    Case eRaza.Orco
+                        .UserHead = eCabezas.ORCO_H_PRIMER_CABEZA
+                        .UserBody = eCabezas.ORCO_H_CUERPO_DESNUDO
+                        
+                    Case eRaza.Vampiro
+                        .UserHead = eCabezas.VAMPIRO_H_PRIMER_CABEZA
+                        .UserBody = eCabezas.VAMPIRO_H_CUERPO_DESNUDO
+                        
+                    Case Else
+                        .UserHead = 0
+                        .UserBody = 0
+                End Select
+                
+            Case eGenero.Mujer
+    
+                Select Case .UserRaza
+    
+                    Case eRaza.Humano
+                        .UserHead = eCabezas.HUMANO_M_PRIMER_CABEZA
+                        .UserBody = eCabezas.HUMANO_M_CUERPO_DESNUDO
+                        
+                    Case eRaza.Elfo
+                        .UserHead = eCabezas.ELFO_M_PRIMER_CABEZA
+                        .UserBody = eCabezas.ELFO_M_CUERPO_DESNUDO
+                        
+                    Case eRaza.ElfoOscuro
+                        .UserHead = eCabezas.DROW_M_PRIMER_CABEZA
+                        .UserBody = eCabezas.DROW_M_CUERPO_DESNUDO
+                        
+                    Case eRaza.Enano
+                        .UserHead = eCabezas.ENANO_M_PRIMER_CABEZA
+                        .UserBody = eCabezas.ENANO_M_CUERPO_DESNUDO
+                        
+                    Case eRaza.Gnomo
+                        .UserHead = eCabezas.GNOMO_M_PRIMER_CABEZA
+                        .UserBody = eCabezas.GNOMO_M_CUERPO_DESNUDO
+                        
+                    Case eRaza.Orco
+                        .UserHead = eCabezas.ORCO_M_PRIMER_CABEZA
+                        .UserBody = eCabezas.ORCO_M_CUERPO_DESNUDO
+                        
+                    Case eRaza.Vampiro
+                        .UserHead = eCabezas.VAMPIRO_M_PRIMER_CABEZA
+                        .UserBody = eCabezas.VAMPIRO_M_CUERPO_DESNUDO
+                        
+                    Case Else
+                        .UserHead = 0
+                        .UserBody = 0
+                End Select
+                
+            Case Else
+                .UserHead = 0
+                .UserBody = 0
+                
+        End Select
+    End With
     
 End Sub
 
@@ -1079,11 +1082,11 @@ Private Function CheckCabeza(ByVal Head As Integer) As Integer
 
 On Error GoTo errhandler
 
-    Select Case UserSexo
+    Select Case CurrentUser.UserSexo
 
         Case eGenero.Hombre
 
-            Select Case UserRaza
+            Select Case CurrentUser.UserRaza
 
                 Case eRaza.Humano
 
@@ -1162,7 +1165,7 @@ On Error GoTo errhandler
         
         Case eGenero.Mujer
 
-            Select Case UserRaza
+            Select Case CurrentUser.UserRaza
 
                 Case eRaza.Humano
 
@@ -1261,9 +1264,9 @@ Public Sub UpdateRazaMod()
 'Descripcion: Actualiza los modificadores de atributos que otorga cada raza
 '**************************************
 
-    If UserRaza > -1 Then
+    If CurrentUser.UserRaza > -1 Then
         
-        With ModRaza(UserRaza)
+        With ModRaza(CurrentUser.UserRaza)
             lblModRaza(eAtributos.Fuerza) = IIf(.Fuerza >= 0, "+", vbNullString) & .Fuerza
             lblModRaza(eAtributos.Agilidad) = IIf(.Agilidad >= 0, "+", vbNullString) & .Agilidad
             lblModRaza(eAtributos.Inteligencia) = IIf(.Inteligencia >= 0, "+", vbNullString) & .Inteligencia
@@ -1323,19 +1326,19 @@ Private Function CheckData() As Boolean
     End If
 
     '¿Selecciono una raza?
-    If UserRaza = 0 Then
+    If CurrentUser.UserRaza = 0 Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_RAZA").item("TEXTO"))
         Exit Function
     End If
     
     '¿Selecciono el Sexo?
-    If UserSexo = 0 Then
+    If CurrentUser.UserSexo = 0 Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_SEXO").item("TEXTO"))
         Exit Function
     End If
     
     '¿Seleciono la clase?
-    If UserClase = 0 Then
+    If CurrentUser.UserClase = 0 Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_CLASE").item("TEXTO"))
         Exit Function
     End If

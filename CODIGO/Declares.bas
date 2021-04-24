@@ -392,6 +392,12 @@ Public Const GRH_SLOT_INVENTARIO_ROJO As Integer = 26096
 Public Const GRH_SLOT_INVENTARIO_VIOLETA As Integer = 6834
 Public Const GRH_SLOT_INVENTARIO_DORADO As Integer = 6840
 
+Public Const NUMCIUDADES As Byte = 5
+Public Const NUMSKILLS As Byte = 24
+Public Const NUMATRIBUTOS As Byte = 5
+Public Const NUMCLASES As Byte = 12
+Public Const NUMRAZAS As Byte = 7
+
 Public Const FundirMetal As Integer = 88
 
 ' Determina el color del nick
@@ -589,6 +595,17 @@ Public Type tCurrentUser
     UserArmourEqpSlot As Byte
     UserHelmEqpSlot As Byte
     UserShieldEqpSlot As Byte
+    
+    UserClase As eClass
+    UserSexo As eGenero
+    UserRaza As eRaza
+    UserEmail As String
+    UserBody As Integer
+    UserHead As Integer
+    
+    UserSkills(1 To NUMSKILLS) As Byte
+    PorcentajeSkills(1 To NUMSKILLS) As Byte
+    UserAtributos(1 To NUMATRIBUTOS) As Byte
 End Type
 
 Public CurrentUser As tCurrentUser
@@ -606,23 +623,9 @@ Public MirandoParty As Boolean
 Public MirandoTrabajo As Byte
 '<-------------------------NUEVO-------------------------->
 
-Public UserClase As eClass
-Public UserSexo As eGenero
-Public UserRaza As eRaza
-Public UserEmail As String
-
-Public Const NUMCIUDADES As Byte = 5
-Public Const NUMSKILLS As Byte = 24
-Public Const NUMATRIBUTOS As Byte = 5
-Public Const NUMCLASES As Byte = 12
-Public Const NUMRAZAS As Byte = 7
-
-Public UserSkills(1 To NUMSKILLS) As Byte
-Public PorcentajeSkills(1 To NUMSKILLS) As Byte
 Public SkillsNames(1 To NUMSKILLS) As String
-
-Public UserAtributos(1 To NUMATRIBUTOS) As Byte
 Public AtributosNames(1 To NUMATRIBUTOS) As String
+
 Public SendingType As Byte
 Public sndPrivateTo As String
 

@@ -2,7 +2,7 @@ Attribute VB_Name = "mDx8_Text"
 Option Explicit
 
 Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" _
-    (Destination As Any, Source As Any, ByVal Length As Long)
+    (Destination As Any, source As Any, ByVal Length As Long)
     
 Private Type CharVA
     X As Integer
@@ -51,7 +51,7 @@ Private Type CustomFont
     TextureSize As POINTAPI     'Size of the texture
 End Type
 
-Private cfonts(1 To 2) As CustomFont ' _Default2 As CustomFont
+Private cfonts(1 To 5) As CustomFont ' _Default2 As CustomFont
 
 Public Function ColorToDX8(ByVal long_color As Long) As Long
     Dim TEMP_COLOR As String

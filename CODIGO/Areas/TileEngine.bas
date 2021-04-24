@@ -256,8 +256,6 @@ Public MaxYBorder As Integer
 Public CurMap As Integer 'Mapa actual
 Public UserIndex As Integer
 Public UserMoving As Byte
-Public UserBody As Integer
-Public UserHead As Integer
 Public UserPos As Position 'Posicion
 Public UserPosCuadrante As Position
 Public AddtoUserPos As Position 'Si se mueve
@@ -825,9 +823,13 @@ Sub RenderScreen(ByVal tilex As Integer, _
     End If
     
     If colorRender <> 240 Then
-        Call DrawText(372, 80, renderText, render_msg(0), True, 2)
-        Call DrawText(372, 130, renderTextPk, render_msg(0), True, 1)
+        Call Draw_GrhIndex(34027, 352, 110, 1, render_msg())
+        Call DrawText(372, 60, renderTextPk, render_msg(0), True, 4)
+        Call DrawText(372, 80, renderText, render_msg(0), True, 5)
     End If
+    
+    'Call Draw_GrhIndex(34027, 372, 80, 1, Normal_RGBList())
+    'Call DrawText(390, 50, "Nivel 21", -1, True, 2)
     
     '   Set Offsets
     LastOffsetX = ParticleOffsetX
