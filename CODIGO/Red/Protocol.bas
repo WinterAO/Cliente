@@ -1793,7 +1793,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -2209,7 +2209,7 @@ Private Sub HandlePosUpdate()
     Call Map_RemoveOldUser
     
     '// Seteamos la Posicion en el Mapa
-    Call Char_MapPosSet(incomingData.ReadByte(), incomingData.ReadByte())
+    Call Char_MapPosSet(incomingData.ReadInteger(), incomingData.ReadInteger())
 
     'Update pos label
     Call Char_UserPos
@@ -10607,6 +10607,9 @@ Private Sub HandleFXtoMap()
     X = incomingData.ReadInteger
     Y = incomingData.ReadInteger
     FxIndex = incomingData.ReadInteger
+    
+    'Comprobamos si las coordenadas estan dentro de lo esperado
+    If Not Map_InBounds(X, Y) Then Exit Sub
 
     'Set the fx on the map
     With MapData(X, Y) 'TODO: hay que hacer una funcion separada que haga esto
