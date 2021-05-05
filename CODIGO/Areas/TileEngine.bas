@@ -31,11 +31,10 @@ Attribute VB_Name = "Mod_TileEngine"
 'Codigo Postal 1900
 'Pablo Ignacio Marquez
 
-
-
 Option Explicit
 
-Private NotFirstRender As Boolean
+'Caminata fluida
+Public Movement_Speed As Single
 
 Dim temp_verts(3) As TLVERTEX
 
@@ -308,12 +307,6 @@ Public MapData() As MapBlock ' Mapa
 Public MapZonas() As tZonaInfo ' Info acerca del mapa en uso
 Public CantZonas As Integer
 '?????????????????????????
-
-Public Normal_RGBList(3) As Long
-Public Color_Shadow(3) As Long
-Public NoUsa_RGBList(3) As Long
-Public Color_Arbol(3) As Long
-Public Color_Paralisis As Long
 
 '   Control de Lluvia
 Public bTecho       As Boolean 'hay techo?
@@ -1051,7 +1044,7 @@ On Error GoTo ErrorHandler:
         Call ConvertCPtoTP(MouseViewX, MouseViewY, MouseTileX, MouseTileY)
             
         '****** Update screen ******
-        If UserCiego Then
+        If CurrentUser.UserCiego Then
             Call DirectDevice.Clear(0, ByVal 0, D3DCLEAR_TARGET, 0, 1#, 0)
         Else
             Call RenderScreen(UserPos.X - AddtoUserPos.X, UserPos.Y - AddtoUserPos.Y, OffsetCounterX, OffsetCounterY)

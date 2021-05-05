@@ -486,6 +486,9 @@ Public Enum eGMCommands
     ConsultarGems           '/CONSULTARGEMS
     SilenciarGlobal         '/SILENCIARGLOBAL
     ToggleGlobal            '/TOGGLEGLOBAL
+    BanSerial
+    UnBanSerial
+    BanTemporal
 End Enum
 
 Public Enum FontTypeNames
@@ -1793,7 +1796,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -3839,7 +3842,7 @@ Private Sub HandleBlind()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    UserCiego = True
+    CurrentUser.UserCiego = True
 End Sub
 
 ''
@@ -3854,7 +3857,7 @@ Private Sub HandleDumb()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    UserEstupido = True
+    CurrentUser.UserEstupido = True
 End Sub
 
 ''
@@ -4193,7 +4196,7 @@ Private Sub HandleBlindNoMore()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    UserCiego = False
+    CurrentUser.UserCiego = False
 End Sub
 
 ''
@@ -4208,7 +4211,7 @@ Private Sub HandleDumbNoMore()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    UserEstupido = False
+    CurrentUser.UserEstupido = False
 End Sub
 
 ''
@@ -5470,6 +5473,8 @@ Public Sub WriteLoginExistingAccount()
         Call .WriteByte(App.Major)
         Call .WriteByte(App.Minor)
         Call .WriteByte(App.Revision)
+        Call .WriteASCIIString(MacAdress)
+        Call .WriteLong(HDserial)
     End With
 End Sub
 
@@ -6736,7 +6741,7 @@ End Sub
 ' @param    reason The reason for which the player was rejected.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteGuildRejectNewMember(ByVal UserName As String, ByVal Reason As String)
+Public Sub WriteGuildRejectNewMember(ByVal UserName As String, ByVal reason As String)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -6746,7 +6751,7 @@ Public Sub WriteGuildRejectNewMember(ByVal UserName As String, ByVal Reason As S
         Call .WriteByte(ClientPacketID.GuildRejectNewMember)
         
         Call .WriteASCIIString(UserName)
-        Call .WriteASCIIString(Reason)
+        Call .WriteASCIIString(reason)
     End With
 End Sub
 
@@ -8019,7 +8024,7 @@ End Sub
 ' @param    time The time (in minutes) the user will have to spend there.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteJail(ByVal UserName As String, ByVal Reason As String, ByVal Time As Byte)
+Public Sub WriteJail(ByVal UserName As String, ByVal reason As String, ByVal Time As Byte)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -8030,7 +8035,7 @@ Public Sub WriteJail(ByVal UserName As String, ByVal Reason As String, ByVal Tim
         Call .WriteByte(eGMCommands.Jail)
         
         Call .WriteASCIIString(UserName)
-        Call .WriteASCIIString(Reason)
+        Call .WriteASCIIString(reason)
         
         Call .WriteByte(Time)
     End With
@@ -8058,7 +8063,7 @@ End Sub
 ' @param    reason Reason for the warning.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteWarnUser(ByVal UserName As String, ByVal Reason As String)
+Public Sub WriteWarnUser(ByVal UserName As String, ByVal reason As String)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -8069,7 +8074,7 @@ Public Sub WriteWarnUser(ByVal UserName As String, ByVal Reason As String)
         Call .WriteByte(eGMCommands.WarnUser)
         
         Call .WriteASCIIString(UserName)
-        Call .WriteASCIIString(Reason)
+        Call .WriteASCIIString(reason)
     End With
 End Sub
 
@@ -8343,7 +8348,7 @@ End Sub
 ' @param    reason The reson for which the user is to be banned.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteBanChar(ByVal UserName As String, ByVal Reason As String)
+Public Sub WriteBanChar(ByVal UserName As String, ByVal reason As String)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -8355,7 +8360,7 @@ Public Sub WriteBanChar(ByVal UserName As String, ByVal Reason As String)
         
         Call .WriteASCIIString(UserName)
         
-        Call .WriteASCIIString(Reason)
+        Call .WriteASCIIString(reason)
     End With
 End Sub
 
@@ -9058,7 +9063,7 @@ End Sub
 '
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteBanIP(ByVal byIp As Boolean, ByRef Ip() As Byte, ByVal Nick As String, ByVal Reason As String)
+Public Sub WriteBanIP(ByVal byIp As Boolean, ByRef Ip() As Byte, ByVal Nick As String, ByVal reason As String)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -9086,7 +9091,7 @@ Public Sub WriteBanIP(ByVal byIp As Boolean, ByRef Ip() As Byte, ByVal Nick As S
             Call .WriteASCIIString(Nick)
         End If
         
-        Call .WriteASCIIString(Reason)
+        Call .WriteASCIIString(reason)
     End With
 End Sub
 
@@ -10365,7 +10370,7 @@ End Sub
 '
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteRecordAdd(ByVal Nickname As String, ByVal Reason As String)
+Public Sub WriteRecordAdd(ByVal Nickname As String, ByVal reason As String)
 '***************************************************
 'Author: Amraphen
 'Last Modification: 29/11/2010
@@ -10376,7 +10381,7 @@ Public Sub WriteRecordAdd(ByVal Nickname As String, ByVal Reason As String)
         Call .WriteByte(eGMCommands.RecordAdd)
         
         Call .WriteASCIIString(Nickname)
-        Call .WriteASCIIString(Reason)
+        Call .WriteASCIIString(reason)
     End With
 End Sub
 
@@ -11559,4 +11564,50 @@ Private Sub HandleAtaqueNPC()
         .Ataque.AtaqueWalk(.Heading).Started = 1
         .NPCAttack = True
     End With
+End Sub
+
+Public Sub WriteBanSerial(ByVal UserName As String)
+    '***************************************************
+    'Author: Lorwik
+    'Fecha: 05/05/2021
+    '***************************************************
+    With outgoingData
+        Call .WriteByte(ClientPacketID.GMCommands)
+        Call .WriteByte(eGMCommands.BanSerial)
+        Call .WriteASCIIString(UserName)
+
+    End With
+
+End Sub
+
+Public Sub WriteUnBanSerial(ByVal UserName As String)
+    '***************************************************
+    'Author: Lorwik
+    'Fecha: 05/05/2021
+    '***************************************************
+    With outgoingData
+        Call .WriteByte(ClientPacketID.GMCommands)
+        Call .WriteByte(eGMCommands.UnBanSerial)
+        Call .WriteASCIIString(UserName)
+
+    End With
+
+End Sub
+
+Public Sub WriteBanTemporal(ByVal UserName As String, ByVal reason As String, ByVal dias As Byte)
+
+    '***************************************************
+    'Author: Lorwik
+    'Fecha: 05/05/2021
+    '***************************************************
+    With outgoingData
+        Call .WriteByte(ClientPacketID.GMCommands)
+        Call .WriteByte(eGMCommands.BanTemporal)
+        
+        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(reason)
+        Call .WriteByte(dias)
+
+    End With
+
 End Sub

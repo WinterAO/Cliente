@@ -47,6 +47,10 @@ Public Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal
 Private Const GWL_STYLE = (-16)
 Private Const WS_CAPTION = &HC00000
 
+'Seguridad
+Private Declare Function GetAdaptersInfo Lib "iphlpapi" (lpAdapterInfo As Any, lpSize As Long) As Long
+Private Declare Function GetAsyncKeyState Lib "user32" (ByVal vKey As Long) As Integer
+
 Public Function RandomNumber(ByVal LowerBound As Long, ByVal UpperBound As Long) As Long
     'Initialize randomizer
     Randomize Timer
@@ -318,7 +322,7 @@ Private Sub CheckKeys()
 
     'Don't allow any these keys during movement..
     If UserMoving = 0 Then
-        If Not UserEstupido Then
+        If Not CurrentUser.UserEstupido Then
             Call AddMovementToKeysMovementPressedQueue
 
             'Move Up
@@ -497,6 +501,9 @@ Sub Main()
             End
         End If
     #End If
+    
+    MacAdress = GetMacAddress
+    HDserial = GetDriveSerialNumber
     
     'Read command line. Do it AFTER config file is loaded to prevent this from
     'canceling the effects of "/nores" option.
@@ -1156,8 +1163,8 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
         ' Reset flags
         pausa = False
         .UserMeditar = False
-        UserEstupido = False
-        UserCiego = False
+        .UserEstupido = False
+        .UserCiego = False
         .UserDescansar = False
         .UserParalizado = False
         .UserNavegando = False
@@ -1266,15 +1273,99 @@ Public Function ArrayInitialized(ByVal TheArray As Long) As Boolean
 End Function
 
 Public Sub SetSpeedUsuario(ByVal speed As Double)
+'*******************************
+'Autor: ???
+'Fecha: ???
+'*******************************
+
     Engine_BaseSpeed = speed
 End Sub
 
 Public Function CheckIfIpIsNumeric(CurrentIp As String) As String
+'*******************************
+'Autor: ???
+'Fecha: ???
+'*******************************
+
     If IsNumeric(mid$(CurrentIp, 1, 1)) Then
         CheckIfIpIsNumeric = True
     Else
         CheckIfIpIsNumeric = False
     End If
+End Function
+
+Public Function GetMacAddress() As String
+'*******************************
+'Autor: ???
+'Fecha: ???
+'*******************************
+
+    Const OFFSET_LENGTH As Long = 400
+
+    Dim lSize           As Long
+
+    Dim baBuffer()      As Byte
+
+    Dim lIdx            As Long
+
+    Dim sRetVal         As String
+    
+    Call GetAdaptersInfo(ByVal 0, lSize)
+
+    If lSize <> 0 Then
+        ReDim baBuffer(0 To lSize - 1) As Byte
+        Call GetAdaptersInfo(baBuffer(0), lSize)
+        Call CopyMemory(lSize, baBuffer(OFFSET_LENGTH), 4)
+
+        For lIdx = OFFSET_LENGTH + 4 To OFFSET_LENGTH + 4 + lSize - 1
+            sRetVal = IIf(LenB(sRetVal) <> 0, sRetVal & ":", vbNullString) & Right$("0" & Hex$(baBuffer(lIdx)), 2)
+        Next
+
+    End If
+
+    GetMacAddress = sRetVal
+
+End Function
+
+Public Function GetDriveSerialNumber(Optional ByVal DriveLetter As String) As Long
+
+    '***************************************************
+    'Author: Nahuel Casas (Zagen)
+    'Last Modify Date: 07/12/2009
+    ' 07/12/2009: Zagen - Convertì las funciones, en formulas mas fàciles de modificar.
+    '***************************************************
+    On Error Resume Next
+
+    Dim fso As Object, Drv As Object, DriveSerial As Long
+         
+    'Creamos el objeto FileSystemObject.
+    Set fso = CreateObject("Scripting.FileSystemObject")
+         
+    'Asignamos el driver principal.
+    If DriveLetter <> "" Then
+        Set Drv = fso.GetDrive(DriveLetter)
+    Else
+        Set Drv = fso.GetDrive(fso.GetDriveName(App.Path))
+
+    End If
+     
+    With Drv
+
+        If .IsReady Then
+            DriveSerial = Abs(.SerialNumber)
+        Else    '"Si el driver no està como para empezar ..."
+            DriveSerial = -1
+
+        End If
+
+    End With
+         
+    'Borramos y limpiamos.
+    Set Drv = Nothing
+    Set fso = Nothing
+    'Seteamos :)
+    GetDriveSerialNumber = DriveSerial
+         
 End Function
 
 Public Sub Client_Screenshot(ByVal hDC As Long, ByVal Width As Long, ByVal Height As Long)

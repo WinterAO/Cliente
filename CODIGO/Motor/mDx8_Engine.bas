@@ -403,63 +403,6 @@ Public Sub Engine_Draw_Box(ByVal X As Integer, ByVal Y As Integer, ByVal Width A
     
 End Sub
 
-Public Sub Engine_D3DColor_To_RGB_List(rgb_list() As Long, Color As D3DCOLORVALUE)
-'***************************************************
-'Author: Ezequiel Juarez (Standelf)
-'Last Modification: 14/05/10
-'Blisse-AO | Set a D3DColorValue to a RGB List
-'***************************************************
-    rgb_list(0) = D3DColorARGB(Color.a, Color.r, Color.g, Color.b)
-    rgb_list(1) = rgb_list(0)
-    rgb_list(2) = rgb_list(0)
-    rgb_list(3) = rgb_list(0)
-End Sub
-
-Public Sub Engine_Long_To_RGB_List(rgb_list() As Long, long_color As Long)
-'***************************************************
-'Author: Ezequiel Juarez (Standelf)
-'Last Modification: 16/05/10
-'Blisse-AO | Set a Long Color to a RGB List
-'***************************************************
-    rgb_list(0) = long_color
-    rgb_list(1) = rgb_list(0)
-    rgb_list(2) = rgb_list(0)
-    rgb_list(3) = rgb_list(0)
-End Sub
-
-Sub ConvertLongToRGB(ByVal value As Long, r As Byte, g As Byte, b As Byte)
-    r = value Mod 256
-    g = Int(value / 256) Mod 256
-    b = Int(value / 256 / 256) Mod 256
-End Sub
-
-Public Function SetARGB_Alpha(rgb_list() As Long, Alpha As Byte) As Long()
-
-    '***************************************************
-    'Author: Juan Manuel Couso (Cucsifae)
-    'Last Modification: 29/08/18
-    'Obtiene un ARGB list le modifica el alpha y devuelve una copia
-    '***************************************************
-    Dim TempColor        As D3DCOLORVALUE
-    Dim tempARGB(0 To 3) As Long
-
-    'convertimos el valor del rgb list a D3DCOLOR
-    Call ARGBtoD3DCOLORVALUE(rgb_list(1), TempColor)
-
-    'comprobamos ue no se salga del rango permitido
-    If Alpha > 255 Then Alpha = 255
-    If Alpha < 0 Then Alpha = 0
-    
-    'seteamos el alpha
-    TempColor.a = Alpha
-    
-    'generamos el nuevo RGB_List
-    Call Engine_D3DColor_To_RGB_List(tempARGB(), TempColor)
-
-    SetARGB_Alpha = tempARGB()
-
-End Function
-
 Private Function Engine_Collision_Between(ByVal value As Single, ByVal Bound1 As Single, ByVal Bound2 As Single) As Byte
 '*****************************************************************
 'Find if a value is between two other values (used for line collision)

@@ -32,18 +32,23 @@ Attribute VB_Name = "Mod_Declaraciones"
 
 Option Explicit
 
-Public Inet As clsInet
-
 'Caption de los Forms del proyecto
 Public Form_Caption As String
 
-'Indicadores de equipo
+Public MacAdress        As String
+Public HDserial         As Long
+
+'#######################
+'HUD
+'#######################
 Public lblWeapon As String
 Public lblArmor As String
 Public lblShielder As String
 Public lblHelm As String
 
-'Selección de servidores
+'#######################
+'SERVIDORES
+'#######################
 Public CurServerIp As String
 Public CurServerPort As Integer
 
@@ -56,19 +61,9 @@ End Type
 Public Servidor() As Servidores
 Public ServIndSel As Byte
 
-' Desvanecimiento en Techos
-Public ColorTecho As Byte
-Public temp_rgb(3) As Long
-Public renderText As String
-Public renderTextPk As String
-Public renderFont As Integer
-Public colorRender As Byte
-Public render_msg(3) As Long
-
-'Caminata fluida
-Public Movement_Speed As Single
-
+'#######################
 'Objetos publicos
+'#######################
 Public DialogosClanes As clsGuildDlg
 Public Dialogos As clsDialogs
 Public Sound As clsSoundEngine
@@ -96,20 +91,25 @@ Public CustomKeys As clsCustomKeys
 Public incomingData As clsByteQueue
 Public outgoingData As clsByteQueue
 
-''
 'The main timer of the Carga.
 Public MainTimer As clsTimer
 
-'Error code
+Public Inet As clsInet
+
+'#######################
+'CODIGO DE ERRORES
+'#######################
 Public Enum eSockError
    TOO_FAST = 24036
    REFUSED = 24061
    TIME_OUT = 24060
 End Enum
 
-'********************
+'#######################
+'CONSTANTES DE SONIDO
+'#######################
+
 'Pasos
-'********************
 Public Enum TipoPaso
     CONST_BOSQUE = 1
     CONST_NIEVE = 2
@@ -127,7 +127,6 @@ End Type
 
 Public Const NUM_PASOS As Byte = 7
 Public Pasos() As tPaso
-'********************
 
 'Sonidos
 Public Const SND_CLICK As String = 190
@@ -148,7 +147,9 @@ Public Const SND_VIENTO As Byte = 14
 Public Const SND_AMBIENTE_NOCHE As Byte = 7
 Public Const SND_AMBIENTE_NOCHE_CIU As Byte = 3
 
+'###########################
 ' Constantes de intervalo
+'###########################
 Public Enum eIntervalos
     INT_ATTACK = 1400        'Atacar
     INT_ARROWS = 900        'Flechas
@@ -161,8 +162,9 @@ Public Enum eIntervalos
     INT_CHANGE_HEADING = 300
 End Enum
 
-Public Const NUMATRIBUTES As Byte = 5
-
+'#######################
+'CUERPOS Y CABEZAS
+'#######################
 Public Const iCuerpoMuerto As Integer = 8
 
 Public Enum eCabezas
@@ -228,16 +230,9 @@ Public Enum eCabezas
     VAMPIRO_M_CUERPO_DESNUDO = 634
 End Enum
 
-'Colores
-Public Const MAXCOLORES As Byte = 56
-Public ColoresPJ(0 To MAXCOLORES) As Long
-
 Public CreandoClan As Boolean
 Public ClanName As String
 Public Site As String
-
-Public UserCiego As Boolean
-Public UserEstupido As Boolean
 
 Public NoRes As Boolean 'no cambiar la resolucion
 
@@ -274,7 +269,10 @@ Public Enum E_Heading
     EAST = 4
 End Enum
 
-'Objetos
+'##############
+'INVENTARIO
+'##############
+
 ' Cantidad de "slots" en el inventario sin mochila
 Public Const MAX_NORMAL_INVENTORY_SLOTS As Byte = 25
 
@@ -284,18 +282,21 @@ Public Const MAX_MOCHILA_CHICA_INVENTORY_SLOTS As Byte = 30
 ' Cantidad de "slots" en el inventario con alforja
 Public Const MAX_INVENTORY_SLOTS        As Byte = 35
 
-
 Public Const MAX_INVENTORY_OBJS As Integer = 10000
 Public Const MAX_NPC_INVENTORY_SLOTS As Byte = 50
-Public Const MAXHECHI As Byte = 35
 
 Public Const INV_OFFER_SLOTS As Byte = 20
 Public Const INV_GOLD_SLOTS As Byte = 1
 
-Public Const MAXSKILLPOINTS As Byte = 100
-
 Public Const FLAGORO As Integer = MAX_INVENTORY_SLOTS + 1
 Public Const GOLD_OFFER_SLOT As Integer = INV_OFFER_SLOTS + 1
+
+Public Const GRH_SLOT_INVENTARIO_NEGRO As Integer = 26095
+Public Const GRH_SLOT_INVENTARIO_ROJO As Integer = 26096
+Public Const GRH_SLOT_INVENTARIO_VIOLETA As Integer = 6834
+Public Const GRH_SLOT_INVENTARIO_DORADO As Integer = 6840
+
+Public MaxInventorySlots As Byte
 
 Public Enum eClass
     Mage = 1      'Mago
@@ -350,6 +351,9 @@ Public Enum eSkill
     Alquimia = 24
 End Enum
 
+'¿Esta constante es una skill? La poco aqui por las dudas
+Public Const FundirMetal As Integer = 88
+
 Public Enum eAtributos
     Fuerza = 1
     Agilidad = 2
@@ -385,20 +389,17 @@ Public Enum eObjType
 
 End Enum
 
-Public MaxInventorySlots As Byte
-
-Public Const GRH_SLOT_INVENTARIO_NEGRO As Integer = 26095
-Public Const GRH_SLOT_INVENTARIO_ROJO As Integer = 26096
-Public Const GRH_SLOT_INVENTARIO_VIOLETA As Integer = 6834
-Public Const GRH_SLOT_INVENTARIO_DORADO As Integer = 6840
-
+'###################
+'CONSTANTES MAXIMAS
+'###################
 Public Const NUMCIUDADES As Byte = 5
 Public Const NUMSKILLS As Byte = 24
 Public Const NUMATRIBUTOS As Byte = 5
 Public Const NUMCLASES As Byte = 12
 Public Const NUMRAZAS As Byte = 7
-
-Public Const FundirMetal As Integer = 88
+Public Const MAXSKILLPOINTS As Byte = 100
+Public Const NUMATRIBUTES As Byte = 5
+Public Const MAXHECHI As Byte = 35
 
 ' Determina el color del nick
 Public Enum eNickColor
@@ -407,9 +408,9 @@ Public Enum eNickColor
     ieAtacable = &H4
 End Enum
 
-'
+'###################
 ' Mensajes
-'
+'###################
 
 ' MENSAJE_[12]: Aparecen antes y despues del valor de los mensajes anteriores (MENSAJE_GOLPE_*)
 Public Const MENSAJE_2 As String = "!!"
@@ -595,6 +596,8 @@ Public Type tCurrentUser
     UserArmourEqpSlot As Byte
     UserHelmEqpSlot As Byte
     UserShieldEqpSlot As Byte
+    UserCiego As Boolean
+    UserEstupido As Boolean
     
     UserClase As eClass
     UserSexo As eGenero
