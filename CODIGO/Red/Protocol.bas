@@ -162,6 +162,7 @@ Private Enum ServerPacketID
     SearchList
     QuestDetails
     QuestListSend
+    ActualizarNPCQuest
     CreateDamage                 ' CDMG
     UserInEvent
     DeletedChar
@@ -1007,6 +1008,9 @@ On Error Resume Next
 
         Case ServerPacketID.QuestListSend
             Call HandleQuestListSend
+            
+        Case ServerPacketID.ActualizarNPCQuest
+            Call HandleActualizarNPCQuest
 
         '*******************
         'GM messages
@@ -10813,36 +10817,36 @@ Public Sub WriteDragAndDropHechizos(ByVal Ant As Integer, ByVal Nov As Integer)
 End Sub
 
 Public Sub WriteQuest()
-'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+'*****************************************
 'Escribe el paquete Quest al servidor.
 'Last modified: 31/01/2010 by Amraphen
-'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+'*****************************************
     Call outgoingData.WriteByte(ClientPacketID.Quest)
 End Sub
  
 Public Sub WriteQuestDetailsRequest(ByVal QuestSlot As Byte)
-'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+'*****************************************
 'Escribe el paquete QuestDetailsRequest al servidor.
 'Last modified: 31/01/2010 by Amraphen
-'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+'*****************************************
     Call outgoingData.WriteByte(ClientPacketID.QuestDetailsRequest)
     
     Call outgoingData.WriteByte(QuestSlot)
 End Sub
  
 Public Sub WriteQuestAccept()
-'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+'*****************************************
 'Escribe el paquete QuestAccept al servidor.
 'Last modified: 31/01/2010 by Amraphen
-'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+'*****************************************
     Call outgoingData.WriteByte(ClientPacketID.QuestAccept)
 End Sub
  
 Private Sub HandleQuestDetails()
-'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+'*****************************************
 'Recibe y maneja el paquete QuestDetails del servidor.
 'Last modified: 31/01/2010 by Amraphen
-'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+'*****************************************
     If incomingData.Length < 15 Then
         Err.Raise incomingData.NotEnoughDataErrCode
         Exit Sub
@@ -10904,9 +10908,12 @@ On Error GoTo errhandler
     'Determinamos que formulario se muestra, seg�n si recibimos la informaci�n y la quest est� empezada o no.
     If QuestEmpezada Then
         frmQuests.txtInfo.Text = tmpStr
+        
     Else
         frmQuestInfo.txtInfo.Text = tmpStr
         frmQuestInfo.Show vbModeless, frmMain
+        Comerciando = True
+        
     End If
     
     Call incomingData.CopyBuffer(buffer)
@@ -10924,10 +10931,10 @@ On Error GoTo 0
 End Sub
  
 Public Sub HandleQuestListSend()
-'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+'*****************************************
 'Recibe y maneja el paquete QuestListSend del servidor.
 'Last modified: 31/01/2010 by Amraphen
-'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+'*****************************************
     If incomingData.Length < 1 Then
         Err.Raise incomingData.NotEnoughDataErrCode
         Exit Sub
@@ -10983,19 +10990,63 @@ On Error GoTo 0
         Err.Raise Error
 End Sub
  
+Public Sub HandleActualizarNPCQuest()
+
+    '*****************************************
+    'Autor: Lorwik
+    'Fecha: 10/05/2021
+    '*****************************************
+    If incomingData.Length < 3 Then
+        Err.Raise incomingData.NotEnoughDataErrCode
+        Exit Sub
+
+    End If
+    
+    On Error GoTo errhandler
+    
+    Dim CharIndex As Integer
+
+    Dim buffer    As New clsByteQueue
+
+    Call buffer.CopyBuffer(incomingData)
+    
+    'Leemos el id del paquete
+    Call buffer.ReadByte
+    
+    CharIndex = buffer.ReadInteger()
+    charlist(CharIndex).EstadoQuest = buffer.ReadByte()
+    
+    'Copiamos de vuelta el buffer
+    Call incomingData.CopyBuffer(buffer)
+ 
+errhandler:
+
+    Dim Error As Long
+
+    Error = Err.number
+
+    On Error GoTo 0
+    
+    'Destroy auxiliar buffer
+    Set buffer = Nothing
+ 
+    If Error <> 0 Then Err.Raise Error
+
+End Sub
+ 
 Public Sub WriteQuestListRequest()
-'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+'*****************************************
 'Escribe el paquete QuestListRequest al servidor.
 'Last modified: 31/01/2010 by Amraphen
-'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+'*****************************************
     Call outgoingData.WriteByte(ClientPacketID.QuestListRequest)
 End Sub
  
 Public Sub WriteQuestAbandon(ByVal QuestSlot As Byte)
-'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+'*****************************************
 'Escribe el paquete QuestAbandon al servidor.
 'Last modified: 31/01/2010 by Amraphen
-'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+'*****************************************
     'Escribe el ID del paquete.
     Call outgoingData.WriteByte(ClientPacketID.QuestAbandon)
     

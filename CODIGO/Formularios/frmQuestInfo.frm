@@ -124,10 +124,12 @@ Private Sub LoadTextsForm()
 End Sub
 
 Private Sub Aceptar_Click()
+    Comerciando = False
     Call WriteQuestAccept
     Unload Me
 End Sub
 
 Private Sub Rechazar_Click()
+    Comerciando = False
     Unload Me
 End Sub
