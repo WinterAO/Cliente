@@ -118,51 +118,52 @@ Private Sub LightRender(ByVal light_index As Integer)
     For Ya = min_y To max_y
         For Xa = min_x To max_x
             If InMapBounds(Xa, Ya) Then
-                XCoord = Xa * 32
-                YCoord = Ya * 32
+                XCoord = Xa
+                YCoord = Ya
                 Call Engine_Get_ARGB(MapData(Xa, Ya).Engine_Light(0), TEMP_COLOR)
                 
-                MapData(Xa, Ya).Engine_Light(0) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(0), LightColor, TEMP_COLOR)
+                MapData(Xa, Ya).Engine_Light(0) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x, Light_List(light_index).map_y, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(0), LightColor, TEMP_COLOR)
  
-                XCoord = Xa * 32 + 32
-                YCoord = Ya * 32
+                XCoord = Xa + 1
+                YCoord = Ya
                 Call Engine_Get_ARGB(MapData(Xa, Ya).Engine_Light(3), TEMP_COLOR)
                                 
-                MapData(Xa, Ya).Engine_Light(3) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(3), LightColor, TEMP_COLOR)
+                MapData(Xa, Ya).Engine_Light(3) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x, Light_List(light_index).map_y, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(3), LightColor, TEMP_COLOR)
                        
-                XCoord = Xa * 32
-                YCoord = Ya * 32 + 32
+                XCoord = Xa
+                YCoord = Ya + 1
                 Call Engine_Get_ARGB(MapData(Xa, Ya).Engine_Light(1), TEMP_COLOR)
-                MapData(Xa, Ya).Engine_Light(1) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(1), LightColor, TEMP_COLOR)
+                MapData(Xa, Ya).Engine_Light(1) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x, Light_List(light_index).map_y, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(1), LightColor, TEMP_COLOR)
    
-                XCoord = Xa * 32 + 32
-                YCoord = Ya * 32 + 32
+                XCoord = Xa
+                YCoord = Ya
                 Call Engine_Get_ARGB(MapData(Xa, Ya).Engine_Light(2), TEMP_COLOR)
-                MapData(Xa, Ya).Engine_Light(2) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x * 32, Light_List(light_index).map_y * 32, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(2), LightColor, TEMP_COLOR)
+                MapData(Xa, Ya).Engine_Light(2) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x, Light_List(light_index).map_y, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(2), LightColor, TEMP_COLOR)
                
             End If
         Next Xa
     Next Ya
 End Sub
 
-Private Function LightCalculate(ByVal cRadio As Integer, ByVal LightX As Integer, ByVal LightY As Integer, ByVal XCoord As Integer, ByVal YCoord As Integer, TileLight As Long, LightColor As D3DCOLORVALUE, AmbientColor As D3DCOLORVALUE) As Long
-    Dim XDist As Single
-    Dim YDist As Single
-    Dim VertexDist As Single
-    Dim pRadio As Integer
-   
+Private Function LightCalculate(ByVal cRadio As Integer, ByVal LightX As Integer, ByVal LightY As Integer, ByVal XCoordenadas As Integer, ByVal YCoordenadas As Integer, TileLight As Long, LightColor As D3DCOLORVALUE, AmbientColor As D3DCOLORVALUE) As Long
+    Dim DistanciaX As Single
+    Dim DistanciaY As Single
+    Dim DistanciaVertex As Single
+    Dim Radio As Integer
+    
     Dim CurrentColor As D3DCOLORVALUE
-   
-    pRadio = cRadio * 32
-   
-    XDist = LightX + 16 - XCoord
-    YDist = LightY + 16 - YCoord
-   
-    VertexDist = Sqr(XDist * XDist + YDist * YDist)
-   
-    If VertexDist <= pRadio Then
-        Call D3DXColorLerp(CurrentColor, LightColor, AmbientColor, VertexDist / pRadio) 'aca hay algo mal ;) Ambient color ;)
-        LightCalculate = D3DColorXRGB(Round(CurrentColor.r), Round(CurrentColor.g), Round(CurrentColor.b))
+    
+    Radio = cRadio
+    
+    DistanciaX = LightX + 0.5 - XCoordenadas
+    DistanciaY = LightY + 0.5 - YCoordenadas
+    
+    DistanciaVertex = Sqr(DistanciaX * DistanciaX + DistanciaY * DistanciaY)
+    
+    If DistanciaVertex <= Radio Then
+        Call D3DXColorLerp(CurrentColor, LightColor, AmbientColor, DistanciaVertex / Radio)
+        LightCalculate = D3DColorXRGB(CurrentColor.r, CurrentColor.g, CurrentColor.b)
+        If TileLight > LightCalculate Then LightCalculate = TileLight
     Else
         LightCalculate = TileLight
     End If

@@ -87,7 +87,7 @@ Dim queueLength As Long
 ' @param source The data to be copied.
 ' @param length Number of bytes to be copied.
 
-Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef Destination As Any, ByRef Source As Any, ByVal Length As Long)
+Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef Destination As Any, ByRef source As Any, ByVal Length As Long)
 
 ''
 ' Initializes the queue with the default queueCapacity
@@ -126,33 +126,33 @@ End Sub
 ' @remarks  This method will resize the ByteQueue's buffer to match
 '           the source. All previous data on this object will be lost.
 
-Public Sub CopyBuffer(ByRef Source As clsByteQueue)
+Public Sub CopyBuffer(ByRef source As clsByteQueue)
 '***************************************************
 'Autor: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 04/27/06
 'A Visual Basic equivalent of a Copy Contructor
 '***************************************************
-    If Source.Length = 0 Then
+    If source.Length = 0 Then
         'Clear the list and exit
         Call RemoveData(Length)
         Exit Sub
     End If
     
     ' Set capacity and resize array - make sure all data is lost
-    queueCapacity = Source.Capacity
+    queueCapacity = source.Capacity
     
     ReDim Data(queueCapacity - 1) As Byte
     
     ' Read buffer
     Dim buf() As Byte
-    ReDim buf(Source.Length - 1) As Byte
+    ReDim buf(source.Length - 1) As Byte
     
-    Call Source.PeekBlock(buf, Source.Length)
+    Call source.PeekBlock(buf, source.Length)
     
     queueLength = 0
     
     ' Write buffer
-    Call WriteBlock(buf, Source.Length)
+    Call WriteBlock(buf, source.Length)
 End Sub
 
 ''

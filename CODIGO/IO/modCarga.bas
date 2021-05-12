@@ -1117,6 +1117,7 @@ Sub CargarMapa(ByVal Map As Integer)
             Call fileBuff.getBoolean
             Call fileBuff.getBoolean
             .LuzBase = fileBuff.getLong()
+            Debug.Print .LuzBase
             Call fileBuff.getLong
             Call fileBuff.getBoolean
             

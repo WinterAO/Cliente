@@ -1800,7 +1800,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -10880,6 +10880,18 @@ On Error GoTo errhandler
                 tmpStr = tmpStr & "*) Matar " & .ReadInteger & " " & .ReadASCIIString & "."
                 If QuestEmpezada Then
                     tmpStr = tmpStr & " (Has matado " & .ReadInteger & ")" & vbCrLf
+                Else
+                    tmpStr = tmpStr & vbCrLf
+                End If
+            Next i
+        End If
+        
+        tmpByte = .ReadByte
+        If tmpByte Then 'Hay NPCs para hablar
+            For i = 1 To tmpByte
+                tmpStr = tmpStr & "*) Hablar con " & .ReadASCIIString & "."
+                If QuestEmpezada Then
+                    tmpStr = tmpStr & " (Has hablado con " & .ReadInteger & ")" & vbCrLf
                 Else
                     tmpStr = tmpStr & vbCrLf
                 End If
