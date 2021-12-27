@@ -1552,7 +1552,7 @@ Public Sub DibujarMinimapa()
     Dim InfoHead    As INFOHEADER
 
     'Dibujamos el Mini-Mapa'
-    If Extract_File_Memory(srcFileType.Minimap, CurrentUser.UserMap & "-" & CurrentUser.UserCuadrante & ".bmp", bytArr()) Then
+    If Extract_File_Memory(srcFileType.Minimap, CurrentUser.UserMap & "-" & CurrentUser.UserCuadrante - 1 & ".bmp", bytArr()) Then
         frmMain.MiniMapa.Picture = General_Load_Picture_From_BArray(bytArr())
         
     Else

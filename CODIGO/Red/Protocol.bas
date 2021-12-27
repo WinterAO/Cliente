@@ -1800,7 +1800,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -10222,7 +10222,7 @@ End Sub
 ' @param    Y           The y pos where the king is settled.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteCreatePretorianClan(ByVal Map As Integer, ByVal X As Integer, ByVal Y As Integer)
+Public Sub WriteCreatePretorianClan(ByVal Map As Byte, ByVal X As Integer, ByVal Y As Integer)
 '***************************************************
 'Author: ZaMa
 'Last Modification: 29/10/2010
@@ -10231,7 +10231,7 @@ Public Sub WriteCreatePretorianClan(ByVal Map As Integer, ByVal X As Integer, By
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.CreatePretorianClan)
-        Call .WriteInteger(Map)
+        Call .WriteByte(Map)
         Call .WriteInteger(X)
         Call .WriteInteger(Y)
     End With

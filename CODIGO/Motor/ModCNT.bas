@@ -169,9 +169,7 @@ Public Sub InicializarRndCNT()
     
 End Sub
 
-Public Sub MapConnect(ByVal Map As Byte)
-
-    SelectConnectMap = Map
+Public Sub MapConnect(ByVal SelectConnectMap As Byte)
     
     Call SwitchMap(MapaConnect(SelectConnectMap).Map)
 

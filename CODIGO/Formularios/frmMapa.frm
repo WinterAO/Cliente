@@ -3,10 +3,10 @@ Begin VB.Form frmMapa
    BackColor       =   &H00000000&
    BorderStyle     =   0  'None
    Caption         =   "Mapa"
-   ClientHeight    =   12165
+   ClientHeight    =   16755
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   12735
+   ClientWidth     =   18465
    BeginProperty Font 
       Name            =   "Tahoma"
       Size            =   8.25
@@ -21,11 +21,17 @@ Begin VB.Form frmMapa
    MaxButton       =   0   'False
    MinButton       =   0   'False
    Picture         =   "frmMapa.frx":0000
-   ScaleHeight     =   811
+   ScaleHeight     =   1117
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   849
+   ScaleWidth      =   1231
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
+   Begin VB.Image Mapa 
+      Height          =   16500
+      Left            =   1950
+      Top             =   240
+      Width           =   16500
+   End
    Begin VB.Image imgCerrar 
       Height          =   345
       Left            =   12240
@@ -33,22 +39,6 @@ Begin VB.Form frmMapa
       Tag             =   "1"
       Top             =   165
       Width           =   345
-   End
-   Begin VB.Image imgToogleMap 
-      Height          =   255
-      Index           =   1
-      Left            =   3840
-      MousePointer    =   99  'Custom
-      Top             =   120
-      Width           =   975
-   End
-   Begin VB.Image imgToogleMap 
-      Height          =   255
-      Index           =   0
-      Left            =   3960
-      MousePointer    =   99  'Custom
-      Top             =   7560
-      Width           =   735
    End
 End
 Attribute VB_Name = "frmMapa"
@@ -108,40 +98,10 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 '*************************************************
 
     Select Case KeyCode
-        Case vbKeyDown, vbKeyUp 'Cambiamos el "nivel" del mapa, al estilo Zelda ;D
-            ToggleImgMaps
         Case Else
             Unload Me
     End Select
     
-End Sub
-
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    LastButtonPressed.ToggleToNormal
-End Sub
-
-''
-' Toggle which image is visible.
-'
-Private Sub ToggleImgMaps()
-'*************************************************
-'Author: Marco Vanotti (MarKoxX)
-'Last modified: 24/07/08
-'
-'*************************************************
-
-    imgToogleMap(CurrentMap).Visible = False
-    
-    If CurrentMap = eMaps.ieGeneral Then
-        imgCerrar.Visible = False
-        CurrentMap = eMaps.ieDungeon
-    Else
-        imgCerrar.Visible = True
-        CurrentMap = eMaps.ieGeneral
-    End If
-    
-    imgToogleMap(CurrentMap).Visible = True
-    Me.Picture = picMaps(CurrentMap)
 End Sub
 
 ''
@@ -171,8 +131,6 @@ On Error GoTo Error
     Me.Picture = picMaps(CurrentMap)
     
     imgCerrar.MouseIcon = picMouseIcon
-    imgToogleMap(0).MouseIcon = picMouseIcon
-    imgToogleMap(1).MouseIcon = picMouseIcon
     
     Exit Sub
 Error:
@@ -193,10 +151,6 @@ End Sub
 
 Private Sub imgCerrar_Click()
     Unload Me
-End Sub
-
-Private Sub imgToogleMap_Click(Index As Integer)
-    ToggleImgMaps
 End Sub
 
 Private Sub imgCerrar_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)

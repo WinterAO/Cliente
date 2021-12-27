@@ -1438,9 +1438,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
             
                 If CantidadArgumentos = 3 Then
                     
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And _
-                       ValidNumber(ArgumentosAll(1), eNumber_Types.ent_byte) And _
-                       ValidNumber(ArgumentosAll(2), eNumber_Types.ent_byte) Then
+                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And _
+                       ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And _
+                       ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) Then
                        
                         Call WriteCreatePretorianClan(Val(ArgumentosAll(0)), Val(ArgumentosAll(1)), _
                                                       Val(ArgumentosAll(2)))
