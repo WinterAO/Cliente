@@ -944,6 +944,14 @@
             255
         ]
     },
+	"INICIA_CARGARECURSOS": {
+        "TEXTO": "Iniciando Carga de Recursos...",
+        "COLOR": [
+            255,
+            255,
+            255
+        ]
+    },
     "INICIA_FXS": {
         "TEXTO": "Creando animaciones extra...",
         "COLOR": [
@@ -1665,5 +1673,8 @@
 		"BUG": "Explique de la forma mas detallada posible el modo de repetir el error, puede adjuntar enlaces de fotos o videos. El staff de WinterAO estudiara el caso lo antes posible. Recuerda que si el reporte esta fuerda de la categoria seleccionada (reporte de bug), podrias ser sancionado. Si su reporte es de otro tipo, por favor explore otras opciones de reporte.",
 		"SUGERENCIA": "Si tiene alguna sugerencia para mejorar la experiencia de juego, cambios en algun sistema, clase, personaje, etc. Explique de la forma mas detallada posible sus sugerencias El staff de WinterAO estudiara el caso lo antes posible.  Recuerda que si el reporte esta fuerda de la categoria seleccionada (sugerencia), podrias ser sancionado. Si su reporte es de otro tipo, por favor explore otras opciones de reporte.",
 		"DENUNCIA": "Para informar sobre el mal comportamiento de un jugador, o posible uso de programar externos. Puede adjunta links de fotos o videos. Explique de la forma mas detallada posible, el staff de WinterAO estudiara el caso lo antes posible.  Recuerda que si el reporte esta fuerda de la categoria seleccionada (sugerencia), podrias ser sancionado. Si su reporte es de otro tipo, por favor explore otras opciones de reporte."
-	}
+	},
+	"BORRAR_PJ": {
+        "TEXTO": "El personaje ha sido borrado."
+    }
 }

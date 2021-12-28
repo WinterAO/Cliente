@@ -352,7 +352,7 @@ Private Sub ConstruirItem(ByVal Index As Integer)
     If Scroll.Visible = True Then ItemIndex = Scroll.value
     ItemIndex = ItemIndex + Index
     
-    Call WriteCraftearItem(ObjetoTrabajo(ItemIndex).objindex, txtCantItems.Text)
+    Call WriteCraftearItem(ObjetoTrabajo(ItemIndex).ObjIndex, txtCantItems.Text)
             
     Unload Me
 
@@ -370,7 +370,7 @@ Private Sub Form_Load()
     
     Cargando = True
     
-    MaxConstItem = CInt((UserLvl - 2) * 0.2)
+    MaxConstItem = CInt((CurrentUser.UserLvl - 2) * 0.2)
     MaxConstItem = IIf(MaxConstItem < 1, 1, MaxConstItem)
     
     Cargando = False

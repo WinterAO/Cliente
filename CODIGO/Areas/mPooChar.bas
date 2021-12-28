@@ -183,7 +183,7 @@ Public Sub Char_UserPos()
                
         Call frmMain.ActualizarCoordenadas(X, Y)
 
-        Call frmMain.ActualizarMiniMapa
+        Call ActualizarMiniMapa
  
         Exit Sub
  
@@ -746,7 +746,7 @@ Sub Char_MovebyHead(ByVal CharIndex As Integer, ByVal nHeading As E_Heading)
 
     End With
     
-    If (UserEstado = 0) Then
+    If (CurrentUser.UserEstado = 0) Then
         Call DoPasosFx(CharIndex)
     End If
 

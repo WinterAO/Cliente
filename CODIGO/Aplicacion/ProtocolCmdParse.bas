@@ -172,7 +172,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
                 
             Case "/SALIR"
-                If UserParalizado Then 'Inmo
+                If CurrentUser.UserParalizado Then 'Inmo
                     With FontTypes(FontTypeNames.FONTTYPE_WARNING)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_NO_SALIR").item("TEXTO"), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -184,7 +184,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteGuildLeave
                 
             Case "/BALANCE"
-                If UserEstado = 1 Then 'Muerto
+                If CurrentUser.UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -193,7 +193,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteRequestAccountState
                 
             Case "/QUIETO"
-                If UserEstado = 1 Then 'Muerto
+                If CurrentUser.UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -202,7 +202,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WritePetStand
                 
             Case "/ACOMPANAR"
-                If UserEstado = 1 Then 'Muerto
+                If CurrentUser.UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -211,7 +211,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WritePetFollow
                 
             Case "/LIBERAR"
-                If UserEstado = 1 Then 'Muerto
+                If CurrentUser.UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -220,7 +220,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteReleasePet
                 
             Case "/ENTRENAR"
-                If UserEstado = 1 Then 'Muerto
+                If CurrentUser.UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -229,7 +229,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteTrainList
                 
             Case "/DESCANSAR"
-                If UserEstado = 1 Then 'Muerto
+                If CurrentUser.UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -238,9 +238,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteRest
                 
             Case "/MEDITAR"
-                If UserMinMAN = UserMaxMAN Then Exit Sub
+                If CurrentUser.UserMinMAN = CurrentUser.UserMaxMAN Then Exit Sub
                 
-                If UserEstado = 1 Then 'Muerto
+                If CurrentUser.UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -264,7 +264,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteHelp
                 
             Case "/COMERCIAR"
-                If UserEstado = 1 Then 'Muerto
+                If CurrentUser.UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -279,7 +279,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteCommerceStart
                 
             Case "/BOVEDA"
-                If UserEstado = 1 Then 'Muerto
+                If CurrentUser.UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -306,7 +306,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WritePartyLeave
             
             Case "/COMPARTIRNPC"
-                If UserEstado = 1 Then 'Muerto
+                If CurrentUser.UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -316,7 +316,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteShareNpc
                 
             Case "/NOCOMPARTIRNPC"
-                If UserEstado = 1 Then 'Muerto
+                If CurrentUser.UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -391,7 +391,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 frmGM.Show vbModeless, frmMain
                 
             Case "/DESC"
-                If UserEstado = 1 Then 'Muerto
+                If CurrentUser.UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -417,7 +417,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
 
             Case "/APOSTAR"
-                If UserEstado = 1 Then 'Muerto
+                If CurrentUser.UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -436,7 +436,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
                 
             Case "/RETIRARFACCION"
-                If UserEstado = 1 Then 'Muerto
+                If CurrentUser.UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -446,7 +446,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteLeaveFaction
                 
             Case "/RETIRAR"
-                If UserEstado = 1 Then 'Muerto
+                If CurrentUser.UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -464,7 +464,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
 
             Case "/DEPOSITAR"
-                If UserEstado = 1 Then 'Muerto
+                If CurrentUser.UserEstado = 1 Then 'Muerto
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -492,7 +492,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
                 
             Case "/FUNDARCLAN"
-                If UserLvl >= 25 Then
+                If CurrentUser.UserLvl >= 25 Then
                     Call WriteGuildFundate
                 Else
                     Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FUNDAR_CLAN").item("TEXTO"))
@@ -586,7 +586,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                     End If
                 Else
                     'Por default, toma el mapa en el que esta
-                    Call WriteCreaturesInMap(UserMap)
+                    Call WriteCreaturesInMap(CurrentUser.UserMap)
                 End If
                 
             Case "/TELEPLOC"
@@ -607,7 +607,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                         Call WriteWarpChar("YO", ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2))
                     ElseIf ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) Then
                         'Por defecto, si no se indica el mapa, se teletransporta al mismo donde esta el usuario
-                        Call WriteWarpChar(ArgumentosAll(0), UserMap, ArgumentosAll(1), ArgumentosAll(2))
+                        Call WriteWarpChar(ArgumentosAll(0), CurrentUser.UserMap, ArgumentosAll(1), ArgumentosAll(2))
                     Else
                         'No uso ningun formato por defecto
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telep NICKNAME MAPA X Y.")
@@ -616,7 +616,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 ElseIf CantidadArgumentos = 2 Then
                     If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
                         ' Por defecto, se considera que se quiere unicamente cambiar las coordenadas del usuario, en el mismo mapa
-                        Call WriteWarpChar("YO", UserMap, ArgumentosAll(0), ArgumentosAll(1))
+                        Call WriteWarpChar("YO", CurrentUser.UserMap, ArgumentosAll(0), ArgumentosAll(1))
                     Else
                         'No uso ningun formato por defecto
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telep NICKNAME MAPA X Y.")
@@ -848,7 +848,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_MAPA_INCORRECTO").item("TEXTO") & " /ONLINEMAP")
                     End If
                 Else
-                    Call WriteOnlineMap(UserMap)
+                    Call WriteOnlineMap(CurrentUser.UserMap)
                 End If
                 
             Case "/PERDON"
@@ -1438,9 +1438,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
             
                 If CantidadArgumentos = 3 Then
                     
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And _
-                       ValidNumber(ArgumentosAll(1), eNumber_Types.ent_byte) And _
-                       ValidNumber(ArgumentosAll(2), eNumber_Types.ent_byte) Then
+                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And _
+                       ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And _
+                       ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) Then
                        
                         Call WriteCreatePretorianClan(Val(ArgumentosAll(0)), Val(ArgumentosAll(1)), _
                                                       Val(ArgumentosAll(2)))
@@ -1705,7 +1705,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
         
     ElseIf Left$(Comando, 1) = ";" Then
         If notNullArguments Then
-            If UserEstado = 1 Then 'Muerto
+            If CurrentUser.UserEstado = 1 Then 'Muerto
                 With FontTypes(FontTypeNames.FONTTYPE_INFO)
                     Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                 End With
@@ -1718,7 +1718,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
         End If
         
     ElseIf Left$(Comando, 1) = "\" Then
-        If UserEstado = 1 Then 'Muerto
+        If CurrentUser.UserEstado = 1 Then 'Muerto
             With FontTypes(FontTypeNames.FONTTYPE_INFO)
                 Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
             End With
@@ -1728,7 +1728,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
         Call AuxWriteWhisper(mid$(Comando, 2), ArgumentosRaw)
         
     ElseIf Left$(Comando, 1) = "-" Then
-        If UserEstado = 1 Then 'Muerto
+        If CurrentUser.UserEstado = 1 Then 'Muerto
             With FontTypes(FontTypeNames.FONTTYPE_INFO)
                 Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
             End With

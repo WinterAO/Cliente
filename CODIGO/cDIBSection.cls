@@ -63,14 +63,14 @@ Private Type BITMAPINFO
     bmiColors As RGBQUAD
 End Type
 
-Private Declare Function CreateCompatibleDC Lib "gdi32" (ByVal hdc As Long) As Long
+Private Declare Function CreateCompatibleDC Lib "gdi32" (ByVal hDC As Long) As Long
 Private Declare Function GetDC Lib "user32" (ByVal hWnd As Long) As Long
 Private Declare Function GetDesktopWindow Lib "user32" () As Long
 
 ' Note - this is not the declare in the API viewer - modify lplpVoid to be
 ' Byref so we get the pointer back:
 Private Declare Function CreateDIBSection _
-                Lib "gdi32" (ByVal hdc As Long, _
+                Lib "gdi32" (ByVal hDC As Long, _
                              pBitmapInfo As BITMAPINFO, _
                              ByVal un As Long, _
                              lplpVoid As Long, _
@@ -89,16 +89,16 @@ Private Declare Function BitBlt _
                              ByVal dwRop As Long) As Long
                              
 Private Declare Function SelectObject _
-                Lib "gdi32" (ByVal hdc As Long, _
+                Lib "gdi32" (ByVal hDC As Long, _
                              ByVal hObject As Long) As Long
                              
 Private Declare Function DeleteObject Lib "gdi32" (ByVal hObject As Long) As Long
 
-Private Declare Function DeleteDC Lib "gdi32" (ByVal hdc As Long) As Long
+Private Declare Function DeleteDC Lib "gdi32" (ByVal hDC As Long) As Long
 
 Private Declare Function ReleaseDC _
                 Lib "user32" (ByVal hWnd As Long, _
-                              ByVal hdc As Long) As Long
+                              ByVal hDC As Long) As Long
 Private Const BI_RGB = 0&
 Private Const DIB_RGB_COLORS = 0 '  color table in RGBs
 
@@ -119,7 +119,7 @@ Private Declare Function GetObjectAPI _
                                     lpObject As Any) As Long
 
 Private Declare Function CreateCompatibleBitmap _
-                Lib "gdi32" (ByVal hdc As Long, _
+                Lib "gdi32" (ByVal hDC As Long, _
                              ByVal nWidth As Long, _
                              ByVal nHeight As Long) As Long
 
@@ -149,7 +149,7 @@ Private m_tBI     As BITMAPINFO
 
 Public Function CopyToClipboard(Optional ByVal bAsDIB As Boolean = True) As Boolean
     Dim lhDCDesktop As Long
-    Dim lhDC        As Long
+    Dim lHDC        As Long
     Dim lhBmpOld    As Long
     Dim hObj        As Long
     Dim lFmt        As Long
@@ -157,9 +157,9 @@ Public Function CopyToClipboard(Optional ByVal bAsDIB As Boolean = True) As Bool
     lhDCDesktop = GetDC(GetDesktopWindow())
 
     If (lhDCDesktop <> 0) Then
-        lhDC = CreateCompatibleDC(lhDCDesktop)
+        lHDC = CreateCompatibleDC(lhDCDesktop)
 
-        If (lhDC <> 0) Then
+        If (lHDC <> 0) Then
             If (bAsDIB) Then
                 MsgBox "I don't know how to put a DIB on the clipboard! Copy as bitmap instead!!!"
                 ' Create a duplicate DIBSection and copy
@@ -188,9 +188,9 @@ Public Function CopyToClipboard(Optional ByVal bAsDIB As Boolean = True) As Bool
                 hObj = CreateCompatibleBitmap(lhDCDesktop, Width, Height)
 
                 If (hObj <> 0) Then
-                    lhBmpOld = SelectObject(lhDC, hObj)
-                    PaintPicture lhDC
-                    SelectObject lhDC, lhBmpOld
+                    lhBmpOld = SelectObject(lHDC, hObj)
+                    PaintPicture lHDC
+                    SelectObject lHDC, lhBmpOld
                     lFmt = CF_BITMAP
 
                     ' Now set the clipboard to the bitmap:
@@ -204,16 +204,16 @@ Public Function CopyToClipboard(Optional ByVal bAsDIB As Boolean = True) As Bool
                     End If
                 End If
             End If
-            DeleteDC lhDC
+            DeleteDC lHDC
         End If
         DeleteDC lhDCDesktop
     End If
 End Function
 
-Public Function CreateDIB(ByVal lhDC As Long, _
+Public Function CreateDIB(ByVal lHDC As Long, _
                           ByVal lWidth As Long, _
                           ByVal lHeight As Long, _
-                          ByRef hDib As Long) As Boolean
+                          ByRef hDIb As Long) As Boolean
 
     With m_tBI.bmiHeader
         .biSize = Len(m_tBI.bmiHeader)
@@ -224,12 +224,12 @@ Public Function CreateDIB(ByVal lhDC As Long, _
         .biCompression = BI_RGB
         .biSizeImage = BytesPerScanLine * .biHeight
     End With
-    hDib = CreateDIBSection(lhDC, m_tBI, DIB_RGB_COLORS, m_lPtr, 0, 0)
-    CreateDIB = (hDib <> 0)
+    hDIb = CreateDIBSection(lHDC, m_tBI, DIB_RGB_COLORS, m_lPtr, 0, 0)
+    CreateDIB = (hDIb <> 0)
 End Function
 
 Public Function CreateFromPicture(ByRef picThis As StdPicture)
-    Dim lhDC        As Long
+    Dim lHDC        As Long
     Dim lhDCDesktop As Long
     Dim lhBmpOld    As Long
     Dim tBMP        As BITMAP
@@ -242,14 +242,14 @@ Public Function CreateFromPicture(ByRef picThis As StdPicture)
         lhDCDesktop = GetDC(lhWnd)
 
         If (lhDCDesktop <> 0) Then
-            lhDC = CreateCompatibleDC(lhDCDesktop)
+            lHDC = CreateCompatibleDC(lhDCDesktop)
             ReleaseDC lhWnd, lhDCDesktop
 
-            If (lhDC <> 0) Then
-                lhBmpOld = SelectObject(lhDC, picThis.handle)
-                LoadPictureBlt lhDC
-                SelectObject lhDC, lhBmpOld
-                DeleteDC lhDC
+            If (lHDC <> 0) Then
+                lhBmpOld = SelectObject(lHDC, picThis.handle)
+                LoadPictureBlt lHDC
+                SelectObject lHDC, lhBmpOld
+                DeleteDC lHDC
             End If
         End If
     End If
@@ -283,7 +283,7 @@ Public Property Get Height() As Long
     Height = m_tBI.bmiHeader.biHeight
 End Property
 
-Public Sub LoadPictureBlt(ByVal lhDC As Long, _
+Public Sub LoadPictureBlt(ByVal lHDC As Long, _
                           Optional ByVal lSrcLeft As Long = 0, _
                           Optional ByVal lSrcTop As Long = 0, _
                           Optional ByVal lSrcWidth As Long = -1, _
@@ -292,10 +292,10 @@ Public Sub LoadPictureBlt(ByVal lhDC As Long, _
 
     If lSrcWidth < 0 Then lSrcWidth = m_tBI.bmiHeader.biWidth
     If lSrcHeight < 0 Then lSrcHeight = m_tBI.bmiHeader.biHeight
-    BitBlt m_hDC, 0, 0, lSrcWidth, lSrcHeight, lhDC, lSrcLeft, lSrcTop, eRop
+    BitBlt m_hDC, 0, 0, lSrcWidth, lSrcHeight, lHDC, lSrcLeft, lSrcTop, eRop
 End Sub
 
-Public Sub PaintPicture(ByVal lhDC As Long, _
+Public Sub PaintPicture(ByVal lHDC As Long, _
                         Optional ByVal lDestLeft As Long = 0, _
                         Optional ByVal lDestTop As Long = 0, _
                         Optional ByVal lDestWidth As Long = -1, _
@@ -306,15 +306,15 @@ Public Sub PaintPicture(ByVal lhDC As Long, _
 
     If (lDestWidth < 0) Then lDestWidth = m_tBI.bmiHeader.biWidth
     If (lDestHeight < 0) Then lDestHeight = m_tBI.bmiHeader.biHeight
-    BitBlt lhDC, lDestLeft, lDestTop, lDestWidth, lDestHeight, m_hDC, lSrcLeft, lSrcTop, eRop
+    BitBlt lHDC, lDestLeft, lDestTop, lDestWidth, lDestHeight, m_hDC, lSrcLeft, lSrcTop, eRop
 End Sub
 
-Public Property Get hdc() As Long
-    hdc = m_hDC
+Public Property Get hDC() As Long
+    hDC = m_hDC
 End Property
 
-Public Property Get hDib() As Long
-    hDib = m_hDIb
+Public Property Get hDIb() As Long
+    hDIb = m_hDIb
 End Property
 
 Public Property Get DIBSectionBitsPtr() As Long

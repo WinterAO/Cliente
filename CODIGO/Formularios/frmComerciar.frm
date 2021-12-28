@@ -410,7 +410,7 @@ Private Sub imgComprar_Click()
     Call Sound.Sound_Play(SND_CLICK)
     
     LasActionBuy = True
-    If UserGLD >= CalculateSellPrice(NPCInventory(InvComNpc.SelectedItem).valor, Val(cantidad.Text)) Then
+    If CurrentUser.UserGLD >= CalculateSellPrice(NPCInventory(InvComNpc.SelectedItem).valor, Val(cantidad.Text)) Then
         Call WriteCommerceBuy(InvComNpc.SelectedItem, Val(cantidad.Text))
     Else
         Call AddtoRichTextBox(frmMain.RecTxt, JsonLanguage.item("MENSAJE_SIN_ORO_SUFICIENTE").item("TEXTO"), 2, 51, 223, 1, 1)

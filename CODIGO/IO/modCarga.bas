@@ -17,11 +17,7 @@ Public Enum ePath
     Graficos
     Interfaces
     skins
-    Sounds
-    Musica
-    Mapas
     Lenguajes
-    Fonts
     recursos
 End Enum
 
@@ -66,6 +62,10 @@ Public Type tSetupMods
     bKill       As Boolean
     byMurderedLevel As Byte
     
+    ' LOGIN
+    Remember    As Boolean
+    rUserName   As String
+    
     ' OTHER
     MostrarTips As Byte
     MostrarBindKeysSelection As Byte
@@ -96,7 +96,7 @@ Private Type tMapHeader
     NumeroTriggers As Long
     NumeroParticulas As Long
     NumeroLuces As Long
-    NumeroZonas As Integer
+    NumeroZonas As Long
     NumeroNPCs As Long
     NumeroOBJs As Long
     NumeroTE As Long
@@ -169,29 +169,7 @@ Private Type tMapSize
     YMin As Integer
 End Type
 
-Private Type tMapDat
-    map_name As String
-    battle_mode As Boolean
-    backup_mode As Boolean
-    restrict_mode As String
-    music_number As String
-    zone As String
-    terrain As String
-    Ambient As String
-    lvlMinimo As String
-    RoboNpcsPermitido As Boolean
-    InvocarSinEfecto As Boolean
-    OcultarSinEfecto As Boolean
-    ResuSinEfecto As Boolean
-    MagiaSinEfecto As Boolean
-    InviSinEfecto As Boolean
-    LuzBase As Long
-    version As Long
-    NoTirarItems As Boolean
-End Type
-
 Public MapSize As tMapSize
-Private MapDat() As tMapDat
 '********************************
 'END - Load Map with .CSM format
 '********************************
@@ -272,11 +250,16 @@ Public Sub LeerConfiguracion()
         .bGuildNews = CBool(Lector.GetValue("GUILD", "NEWS"))
         .bGldMsgConsole = CBool(Lector.GetValue("GUILD", "MESSAGES"))
         .bCantMsgs = CByte(Lector.GetValue("GUILD", "MAX_MESSAGES"))
+        
         ' FRAGSHOOTER
         .bDie = CBool(Lector.GetValue("FRAGSHOOTER", "DIE"))
         .bKill = CBool(Lector.GetValue("FRAGSHOOTER", "KILL"))
         .byMurderedLevel = CByte(Lector.GetValue("FRAGSHOOTER", "MURDERED_LEVEL"))
         .bActive = CBool(Lector.GetValue("FRAGSHOOTER", "ACTIVE"))
+        
+        ' LOGIN
+        .Remember = CBool(Lector.GetValue("LOGIN", "REMEMBER"))
+        .rUserName = Trim$(Lector.GetValue("LOGIN", "USERNAME"))
         
         ' OTHER
         .MostrarTips = CBool(Lector.GetValue("OTHER", "MOSTRAR_TIPS"))
@@ -288,29 +271,6 @@ Public Sub LeerConfiguracion()
         For i = 1 To 12
             .Funcion(i) = Trim$(CStr(Lector.GetValue("FUNCION", "F" & i)))
         Next i
-
-        Debug.Print "byMemory: " & .byMemory
-        Debug.Print "bNoRes: " & .bNoRes
-        Debug.Print "ProyectileEngine: " & .ProyectileEngine
-        Debug.Print "PartyMembers: " & .PartyMembers
-        Debug.Print "UsarSombras: " & .UsarSombras
-        Debug.Print "UsarReflejos: " & .UsarReflejos
-        Debug.Print "UsarAuras: " & .UsarAuras
-        Debug.Print "ParticleEngine: " & .ParticleEngine
-        Debug.Print "LimitarFPS: " & .LimiteFPS
-        Debug.Print "bMusic: " & .bMusic
-        Debug.Print "bSound: " & .bSound
-        Debug.Print "MusicVolume: " & .MusicVolume
-        Debug.Print "SoundVolume: " & .SoundVolume
-        Debug.Print "bGuildNews: " & .bGuildNews
-        Debug.Print "bGldMsgConsole: " & .bGldMsgConsole
-        Debug.Print "bCantMsgs: " & .bCantMsgs
-        Debug.Print "bDie: " & .bDie
-        Debug.Print "bKill: " & .byMurderedLevel
-        Debug.Print "bActive: " & .bActive
-        Debug.Print "MostrarTips: " & .MostrarTips
-        Debug.Print "VerCuadrantes: " & .VerCuadrantes
-        Debug.Print vbNullString
         
     End With
 
@@ -496,6 +456,9 @@ On Error GoTo ErrorHandler:
                     
                     .sY = fileBuff.getInteger
                     If .sY < 0 Then GoTo ErrorHandler
+                    
+                    '.Trans = fileBuff.getByte
+                    'If .Trans < 0 Then GoTo ErrorHandler
                     
                     .TileWidth = .pixelWidth / TilePixelHeight
                     .TileHeight = .pixelHeight / TilePixelWidth
@@ -1117,7 +1080,7 @@ Sub CargarMapa(ByVal Map As Integer)
         .NumeroTriggers = fileBuff.getLong()
         .NumeroParticulas = fileBuff.getLong()
         .NumeroLuces = fileBuff.getLong()
-        .NumeroZonas = fileBuff.getInteger()
+        .NumeroZonas = fileBuff.getLong()
         .NumeroNPCs = fileBuff.getLong()
         .NumeroOBJs = fileBuff.getLong()
         .NumeroTE = fileBuff.getLong()
@@ -1134,43 +1097,34 @@ Sub CargarMapa(ByVal Map As Integer)
     CantZonas = MH.NumeroData
 
     ReDim MapZonas(CantZonas) As tZonaInfo
-    ReDim MapDat(CantZonas) As tMapDat
     
     For i = 0 To CantZonas
-        With MapDat(i)
+        With MapZonas(i)
             
-            .map_name = fileBuff.getString()
-            .battle_mode = fileBuff.getBoolean()
-            .backup_mode = fileBuff.getBoolean()
-            .restrict_mode = fileBuff.getString()
-            .music_number = fileBuff.getString()
-            .zone = fileBuff.getString()
-            .terrain = fileBuff.getString()
+            .name = fileBuff.getString()
+            Call fileBuff.getBoolean
+            Call fileBuff.getBoolean
+            Call fileBuff.getString
+            .Music = fileBuff.getString()
+            .Zona = fileBuff.getString()
+            .Terreno = fileBuff.getString()
             .Ambient = fileBuff.getString()
-            .lvlMinimo = fileBuff.getString()
-            .RoboNpcsPermitido = fileBuff.getBoolean()
-            .InvocarSinEfecto = fileBuff.getBoolean()
-            .OcultarSinEfecto = fileBuff.getBoolean()
-            .ResuSinEfecto = fileBuff.getBoolean()
-            .MagiaSinEfecto = fileBuff.getBoolean()
-            .InviSinEfecto = fileBuff.getBoolean()
+            Call fileBuff.getString
+            Call fileBuff.getBoolean
+            Call fileBuff.getBoolean
+            Call fileBuff.getBoolean
+            Call fileBuff.getBoolean
+            Call fileBuff.getBoolean
+            Call fileBuff.getBoolean
             .LuzBase = fileBuff.getLong()
-            .version = fileBuff.getLong()
-            .NoTirarItems = fileBuff.getBoolean()
-            
-            MapZonas(i).name = .map_name
-            MapZonas(i).Music = Val(.music_number)
-            MapZonas(i).Ambient = Val(.Ambient)
-            MapZonas(i).Zona = .zone
-            MapZonas(i).Terreno = .terrain
-            MapZonas(i).LuzBase = .LuzBase
-            MapZonas(i).battle_mode = .battle_mode
+            Debug.Print .LuzBase
+            Call fileBuff.getLong
+            Call fileBuff.getBoolean
             
         End With
     Next i
 
     With MapSize
-        'ReDim MapData(.XMin To .XMax, .YMin To .YMax)
         ReDim L1(.XMin To .XMax, .YMin To .YMax)
     End With
 
@@ -1395,4 +1349,39 @@ Public Sub CargarPasos()
     Pasos(CONST_PESADO).Wav(2) = 221
     Pasos(CONST_PESADO).Wav(3) = 222
 
+End Sub
+
+Public Sub CargarRecursos()
+'*******************************
+'Autor: Lorwik
+'Fecha: 19/04/2021
+'Descripción: Llamada a la carga de recursos
+'*******************************
+
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_CARGARECURSOS").item("TEXTO"), 62)
+    Call LoadGrhData
+    Call CargarCuerpos
+    Call CargarAtaques
+    Call CargarCabezas
+    Call CargarCascos
+    Call CargarFxs
+    Call LoadGraphics
+    Call CargarParticulas
+    Call frmCargando.ActualizarCarga(frmCargando.Caption = JsonLanguage.item("HECHO").item("TEXTO"), 63)
+    
+    'Inicializamos el conectar renderizado
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_GUI").item("TEXTO"), 64)
+    Call ModCnt.InicializarRndCNT
+    Call frmCargando.ActualizarCarga(frmCargando.Caption = JsonLanguage.item("HECHO").item("TEXTO"), 65)
+    
+    '###################
+    ' ANIMACIONES EXTRAS
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_FXS").item("TEXTO"), 66)
+    
+    Call CargarTips
+    Call CargarAnimArmas
+    Call CargarAnimEscudos
+    Call CargarColores
+    Call CargarPasos
+    
 End Sub

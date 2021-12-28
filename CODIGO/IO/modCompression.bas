@@ -34,7 +34,6 @@ Public Enum srcFileType
     Fuentes
     Skin
     Minimap
-    Patch
 End Enum
 
 Private Const SrcPath As String = "\Recursos\"
@@ -73,7 +72,7 @@ Public Sub GenerateContra()
     If LenB(Contra) <> 0 Then
         ReDim PkContra(Len(Contra) - 1)
         For loopc = 0 To UBound(PkContra)
-            PkContra(loopc) = Asc(mid(Contra, loopc + 1, 1))
+            PkContra(loopc) = Asc(mid$(Contra, loopc + 1, 1))
         Next loopc
     End If
     
@@ -166,9 +165,9 @@ Private Sub encryptHeaderInfo(ByRef InfoHead As INFOHEADER)
     
     For loopc = 1 To Len(InfoHead.strFileName)
         If loopc Mod 2 = 0 Then
-            EncryptedFileName = EncryptedFileName & Chr(Asc(mid(InfoHead.strFileName, loopc, 1)) Xor 12)
+            EncryptedFileName = EncryptedFileName & Chr$(Asc(mid$(InfoHead.strFileName, loopc, 1)) Xor 12)
         Else
-            EncryptedFileName = EncryptedFileName & Chr(Asc(mid(InfoHead.strFileName, loopc, 1)) Xor 23)
+            EncryptedFileName = EncryptedFileName & Chr$(Asc(mid$(InfoHead.strFileName, loopc, 1)) Xor 23)
         End If
     Next loopc
     
@@ -193,7 +192,7 @@ Public Function General_Drive_Get_Free_Bytes(ByVal DriveName As String) As Curre
     Dim BT As Currency
     Dim FBT As Currency
     
-    RetVal = GetDiskFreeSpace(Left(DriveName, 2), FB, BT, FBT)
+    RetVal = GetDiskFreeSpace(Left$(DriveName, 2), FB, BT, FBT)
     
     General_Drive_Get_Free_Bytes = FB * 10000 'convert result to actual size in bytes
 End Function
@@ -420,7 +419,7 @@ Public Function General_File_Exists(ByVal file_path As String, ByVal File_Type A
 'Checks to see if a file exists
 '*****************************************************************
 
-    If Dir(file_path, File_Type) = "" Then
+    If Dir$(file_path, File_Type) = "" Then
         General_File_Exists = False
     Else
         General_File_Exists = True

@@ -307,16 +307,6 @@ Public Property Let Fading(ByVal vNewValue As Long)
     
 End Property
 
-Public Property Get Fading() As Long
-'**************************************************************
-'Author: Augusto José Rando (barrin@imperiumao.com.ar)
-'Last Modify Date: 2/08/2006
-'**************************************************************
-
-    Fading = mFadingMusicMod
-    
-End Property
-
 Public Property Get VolumenActual() As Long
 '**************************************************************
 'Author: Augusto José Rando (barrin@imperiumao.com.ar)
@@ -867,7 +857,7 @@ On Error Resume Next
         EXTERIOR_VOLUME = ClientSetup.AmbientVol - 300
         INTERIOR_VOLUME = ClientSetup.AmbientVol - 1000
     
-        If UserMap > 0 Then
+        If CurrentUser.UserMap > 0 Then
             under_roof = bTecho
                 
             mAmb = Ambient_Calculate
@@ -1034,23 +1024,6 @@ Public Function Calculate_Volume(ByVal map_x As Integer, ByVal map_y As Integer)
     If Calculate_Volume < -4000 Then Calculate_Volume = -4000
 
 End Function
-
-Public Sub BorraTimer()
-'**************************************************************
-'Author: Augusto José Rando (barrin@imperiumao.com.ar)
-'Last Modify Date: 2/08/2006
-'**************************************************************
-
-    If Buffers Is Nothing Then Exit Sub
-    Buffers.BorraTimerProc
-    
-    If Buffers_Sec Is Nothing Then Exit Sub
-    Buffers_Sec.BorraTimerProc
-    
-    If Buffers_Ter Is Nothing Then Exit Sub
-    Buffers_Ter.BorraTimerProc
-
-End Sub
 
 Private Function Ambient_Calculate() As Integer
 

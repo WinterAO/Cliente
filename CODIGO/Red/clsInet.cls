@@ -17,7 +17,6 @@ Option Explicit
 Private Declare Function InternetCloseHandle Lib "wininet.dll" (ByVal hInet As Long) As Integer
 Private Declare Function InternetConnect Lib "wininet.dll" Alias "InternetConnectA" (ByVal hInternetSession As Long, ByVal sServerName As String, ByVal nServerPort As Integer, ByVal sUserName As String, ByVal sPassword As String, ByVal lService As Long, ByVal lFlags As Long, ByVal lContext As Long) As Long
 Private Declare Function InternetOpen Lib "wininet.dll" Alias "InternetOpenA" (ByVal sAgent As String, ByVal lAccessType As Long, ByVal sProxyName As String, ByVal sProxyBypass As String, ByVal lFlags As Long) As Long
-Private Declare Function InternetQueryDataAvailable Lib "wininet.dll" (ByVal hHttpRequest As Long, ByRef lpdwNumberOfBytesAvailable As Long, ByVal dwFlags As Long, ByVal dwContext As Long) As Long
 Private Declare Function InternetReadFile Lib "wininet" (ByVal hFile As Long, ByVal sBuffer As String, ByVal lNumBytesToRead As Long, lNumberOfBytesRead As Long) As Integer
 Private Declare Function InternetQueryOption Lib "wininet.dll" Alias "InternetQueryOptionA" (ByVal hHttpRequest As Long, ByVal dwOption As Long, lpBuffer As Any, ByRef dwBufferLength As Long) As Long
 Private Declare Function InternetSetOption Lib "wininet.dll" Alias "InternetSetOptionA" (ByVal hHttpRequest As Long, ByVal dwOption As Long, lpBuffer As Any, ByVal dwBufferLength As Long) As Long
@@ -242,19 +241,19 @@ Public Function AddHeader(ByVal sName As String, ByVal sValue As String) As Bool
     
 End Function
     
-Public Function AddPOSTParameter(ByVal Name As String, ByVal Value As String) As Boolean
+Public Function AddPOSTParameter(ByVal name As String, ByVal value As String) As Boolean
 
     Dim sParam As String
 
-    Name = Trim$(Name)
-    Value = Trim$(Value)
+    name = Trim$(name)
+    value = Trim$(value)
 
-    If m_sHttpMethod = "POST" Then Value = UrlEncode(Value)
+    If m_sHttpMethod = "POST" Then value = UrlEncode(value)
 
-    If Len(Name) > 0 Then
-        sParam = Name & "=" & Value
+    If Len(name) > 0 Then
+        sParam = name & "=" & value
     Else
-        sParam = Value
+        sParam = value
     End If
  
     If Len(m_sPOSTData) = 0 Then

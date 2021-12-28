@@ -124,11 +124,6 @@ Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y A
     LastButtonPressed.ToggleToNormal
 End Sub
 
-Private Sub imgCerrar_Click()
-    msg.Caption = "" 'Limpiamos el caption
-    Unload Me
-End Sub
-
 Private Sub imgAceptar_Click()
     Call WriteRespuestaInstruccion(True)
     Unload Me

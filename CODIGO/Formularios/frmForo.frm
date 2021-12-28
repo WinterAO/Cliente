@@ -268,7 +268,7 @@ Private Sub imgDejarMsg_Click()
             Call WriteForumPost(txtTitulo.Text, txtPost.Text, PostStyle)
             
             ' Actualizo localmente
-            Call clsForos.AddPost(ForoActual, txtTitulo.Text, UserName, txtPost.Text, Sticky)
+            Call clsForos.AddPost(ForoActual, txtTitulo.Text, CurrentUser.UserName, txtPost.Text, Sticky)
             Call UpdateList
             
             VerListaMsg = True
@@ -422,7 +422,7 @@ Private Sub ToogleScreen()
                 End If
             End With
         Else
-            lblAutor.Caption = UserName
+            lblAutor.Caption = CurrentUser.UserName
             txtTitulo.Text = vbNullString
             txtPost.Text = vbNullString
             

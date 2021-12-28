@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "Richtx32.ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
 Begin VB.Form frmComerciarUsu 
    BorderStyle     =   0  'None
    ClientHeight    =   8850
@@ -184,6 +184,7 @@ Begin VB.Form frmComerciarUsu
       _ExtentY        =   2858
       _Version        =   393217
       BackColor       =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -539,13 +540,13 @@ Private Sub imgAgregar_Click()
                 Amount = InvOfferComUsu(0).Amount(OfferSlot) + Val(txtAgregar.Text)
                 
                 ' Actualizo los inventarios
-                If InvOfferComUsu(0).objindex(OfferSlot) > 0 Then
+                If InvOfferComUsu(0).ObjIndex(OfferSlot) > 0 Then
                     ' Si ya esta el item, solo actualizo su cantidad en el invenatario
                     Call InvOfferComUsu(0).ChangeSlotItemAmount(OfferSlot, Amount)
                 Else
                     InvSlot = .SelectedItem
                     ' Si no agrego todo
-                    Call InvOfferComUsu(0).SetItem(OfferSlot, .objindex(InvSlot), _
+                    Call InvOfferComUsu(0).SetItem(OfferSlot, .ObjIndex(InvSlot), _
                                                     Amount, 0, .GrhIndex(InvSlot), .OBJType(InvSlot), _
                                                     .MaxHit(InvSlot), .MinHit(InvSlot), .MaxDef(InvSlot), .MinDef(InvSlot), _
                                                     .valor(InvSlot), .ItemName(InvSlot), .NoUsa(InvSlot))
@@ -628,7 +629,7 @@ Private Sub imgQuitar_Click()
                 Call WriteUserCommerceOffer(0, Amount, .SelectedItem)
             
                 ' Actualizo el inventario general
-                Call UpdateInvCom(.objindex(.SelectedItem), Abs(Amount))
+                Call UpdateInvCom(.ObjIndex(.SelectedItem), Abs(Amount))
                  
                  ' Actualizo el inventario de oferta
                  If .Amount(.SelectedItem) + Amount = 0 Then
@@ -722,12 +723,6 @@ Private Sub Form_LostFocus()
     Me.SetFocus
 End Sub
 
-Private Sub SubtxtAgregar_Change()
-    If Val(txtAgregar.Text) < 1 Then txtAgregar.Text = "1"
-
-    If Val(txtAgregar.Text) > 2147483647 Then txtAgregar.Text = "2147483647"
-End Sub
-
 Private Sub picInvComercio_Click()
     Call InvOroComUsu(0).DeselectItem
 End Sub
@@ -754,7 +749,7 @@ Private Sub SendTxt_Change()
 'Author: Unknown
 'Last Modify Date: 03/10/2009
 '**************************************************************
-    If Len(Sendtxt.Text) > 160 Then
+    If Len(SendTxt.Text) > 160 Then
         sCommerceChat = JsonLanguage.item("MENSAJE_SOY_CHEATER")
     Else
         'Make sure only valid chars are inserted (with Shift + Insert they can paste illegal chars)
@@ -762,20 +757,20 @@ Private Sub SendTxt_Change()
         Dim tempstr As String
         Dim CharAscii As Integer
         
-        For i = 1 To Len(Sendtxt.Text)
-            CharAscii = Asc(mid$(Sendtxt.Text, i, 1))
+        For i = 1 To Len(SendTxt.Text)
+            CharAscii = Asc(mid$(SendTxt.Text, i, 1))
             If CharAscii >= vbKeySpace And CharAscii <= 250 Then
                 tempstr = tempstr & Chr$(CharAscii)
             End If
         Next i
         
-        If tempstr <> Sendtxt.Text Then
+        If tempstr <> SendTxt.Text Then
             'We only set it if it's different, otherwise the event will be raised
             'constantly and the client will crush
-            Sendtxt.Text = tempstr
+            SendTxt.Text = tempstr
         End If
         
-        sCommerceChat = Sendtxt.Text
+        sCommerceChat = SendTxt.Text
     End If
 End Sub
 
@@ -791,7 +786,7 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         If LenB(sCommerceChat) <> 0 Then Call WriteCommerceChat(sCommerceChat)
         
         sCommerceChat = vbNullString
-        Sendtxt.Text = vbNullString
+        SendTxt.Text = vbNullString
         KeyCode = 0
     End If
 End Sub
@@ -848,7 +843,7 @@ Private Function CheckAvailableSlot(ByVal InvSlot As Byte, ByVal Amount As Long)
 On Error GoTo Err
     ' Primero chequeo si puedo sumar esa cantidad en algun slot que ya tenga ese item
     For slot = 1 To INV_OFFER_SLOTS
-        If InvComUsu.objindex(InvSlot) = InvOfferComUsu(0).objindex(slot) Then
+        If InvComUsu.ObjIndex(InvSlot) = InvOfferComUsu(0).ObjIndex(slot) Then
             If InvOfferComUsu(0).Amount(slot) + Amount <= MAX_INVENTORY_OBJS Then
                 ' Puedo sumarlo aca
                 CheckAvailableSlot = slot
@@ -859,7 +854,7 @@ On Error GoTo Err
     
     ' No lo puedo sumar, me fijo si hay alguno vacio
     For slot = 1 To INV_OFFER_SLOTS
-        If InvOfferComUsu(0).objindex(slot) = 0 Then
+        If InvOfferComUsu(0).ObjIndex(slot) = 0 Then
             ' Esta vacio, lo dejo aca
             CheckAvailableSlot = slot
             Exit Function
@@ -870,7 +865,7 @@ Err:
     Debug.Print "Slot: " & slot
 End Function
 
-Public Sub UpdateInvCom(ByVal objindex As Integer, ByVal Amount As Long)
+Public Sub UpdateInvCom(ByVal ObjIndex As Integer, ByVal Amount As Long)
     Dim slot As Byte
     Dim RemainingAmount As Long
     Dim DifAmount As Long
@@ -879,7 +874,7 @@ Public Sub UpdateInvCom(ByVal objindex As Integer, ByVal Amount As Long)
     
     For slot = 1 To MAX_INVENTORY_SLOTS
         
-        If InvComUsu.objindex(slot) = objindex Then
+        If InvComUsu.ObjIndex(slot) = ObjIndex Then
             DifAmount = Inventario.Amount(slot) - InvComUsu.Amount(slot)
             If DifAmount > 0 Then
                 If RemainingAmount > DifAmount Then

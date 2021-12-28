@@ -288,7 +288,7 @@ Private Sub imgExpulsar_Click()
         Unload Me
         
         ' Para que no llame al form si disolvio la party
-        If UCase$(fName) <> UCase$(UserName) Then Call WriteRequestPartyForm
+        If UCase$(fName) <> UCase$(CurrentUser.UserName) Then Call WriteRequestPartyForm
     End If
 
 End Sub

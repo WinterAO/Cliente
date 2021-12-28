@@ -175,10 +175,10 @@ Private Sub LoadTextsForm()
 End Sub
 
 Private Sub lstQuests_Click()
-'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+'*****************************************
 'Maneja el click del ListBox lstQuests.
 'Last modified: 31/01/2010 by Amraphen
-'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+'*****************************************
     If lstQuests.ListIndex < 0 Then Exit Sub
     
     Call WriteQuestDetailsRequest(lstQuests.ListIndex + 1)

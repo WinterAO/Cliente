@@ -254,19 +254,19 @@ Public Property Get Amount(ByVal slot As Byte) As Long
 'Retrieves the selected item's amount
 '***************************************************
     If slot = FLAGORO Then
-        Amount = UserGLD
+        Amount = CurrentUser.UserGLD
     ElseIf slot >= LBound(Inventory) And slot <= UBound(Inventory) Then
         Amount = Inventory(slot).Amount
     End If
 End Property
 
-Public Property Get objindex(ByVal slot As Byte) As Integer
+Public Property Get ObjIndex(ByVal slot As Byte) As Integer
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modify Date: 27/07/04
 'Retrieves the selected item's object index
 '***************************************************
-    objindex = Inventory(slot).objindex
+    ObjIndex = Inventory(slot).ObjIndex
 End Property
 
 Public Property Get OBJType(ByVal slot As Byte) As Integer
@@ -371,7 +371,7 @@ Public Sub SetItem(ByVal slot As Byte, ByVal eOBJIndex As Integer, ByVal eAmount
         .MaxHit = eMaxHit
         .MinHit = eMinHit
         .name = eName
-        .objindex = eOBJIndex
+        .ObjIndex = eOBJIndex
         .OBJType = eObjType
         .valor = eValor
         .NoUsa = eNoUsa
@@ -443,8 +443,8 @@ Public Sub DrawInventory()
 
     For loopc = InventoryOffset * (InventoryWindow.ScaleWidth \ ownTilePixelWidth) + 1 To UBound(Inventory)
             
-        startdX = ((loopc - 1) Mod (frmMain.PicInv.Width / 32)) * 32
-        startdY = ((loopc - 1) \ (frmMain.PicInv.Width / 32)) * 32
+        startdX = ((loopc - 1) Mod (frmMain.picInv.Width / 32)) * 32
+        startdY = ((loopc - 1) \ (frmMain.picInv.Width / 32)) * 32
 
 
         'Si se renderiza el inventario del pj hace la validacion para renderizar de un color correcto los slots especiales de mochila y alforja

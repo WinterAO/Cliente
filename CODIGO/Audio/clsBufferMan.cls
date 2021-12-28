@@ -70,7 +70,6 @@ Private mCantidadBuffers As Integer
 Private WavPath As String
 
 Private Declare Function GetTickCount Lib "kernel32" () As Long
-Private Declare Sub CopyMem Lib "kernel32" Alias "RtlMoveMemory" (Destination As Any, Source As Any, ByVal Length As Long)
 
 Private Sub Class_Initialize()
 '**************************************************************

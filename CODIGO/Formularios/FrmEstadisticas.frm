@@ -1413,24 +1413,24 @@ Public Sub Iniciar_Labels()
     Dim Ancho As Integer
     
     For i = 1 To NUMATRIBUTOS
-        Atri(i).Caption = UserAtributos(i)
+        Atri(i).Caption = CurrentUser.UserAtributos(i)
     Next
     
     For i = 1 To NUMSKILLS
-        Skills(i).Caption = UserSkills(i)
-        Ancho = IIf(PorcentajeSkills(i) = 0, ANCHO_BARRA, (100 - PorcentajeSkills(i)) / 100 * ANCHO_BARRA)
+        Skills(i).Caption = CurrentUser.UserSkills(i)
+        Ancho = IIf(CurrentUser.PorcentajeSkills(i) = 0, ANCHO_BARRA, (100 - CurrentUser.PorcentajeSkills(i)) / 100 * ANCHO_BARRA)
         shpSkillsBar(i).Width = Ancho
         shpSkillsBar(i).Left = BAR_LEFT_POS + ANCHO_BARRA - Ancho
     Next
     
-    Label4(1).Caption = UserReputacion.AsesinoRep
-    Label4(2).Caption = UserReputacion.BandidoRep
-    'Label4(3).Caption = "Burgues: " & UserReputacion.BurguesRep
-    Label4(4).Caption = UserReputacion.LadronesRep
-    Label4(5).Caption = UserReputacion.NobleRep
-    Label4(6).Caption = UserReputacion.PlebeRep
+    Label4(1).Caption = CurrentUser.UserReputacion.AsesinoRep
+    Label4(2).Caption = CurrentUser.UserReputacion.BandidoRep
+    'Label4(3).Caption = "Burgues: " & CurrentUser.UserReputacion.BurguesRep
+    Label4(4).Caption = CurrentUser.UserReputacion.LadronesRep
+    Label4(5).Caption = CurrentUser.UserReputacion.NobleRep
+    Label4(6).Caption = CurrentUser.UserReputacion.PlebeRep
     
-    If UserReputacion.Promedio < 0 Then
+    If CurrentUser.UserReputacion.Promedio < 0 Then
         Label4(7).ForeColor = vbRed
         Label4(7).Caption = "Criminal"
     Else
@@ -1438,7 +1438,7 @@ Public Sub Iniciar_Labels()
         Label4(7).Caption = "Ciudadano"
     End If
     
-    With UserEstadisticas
+    With CurrentUser.UserEstadisticas
         Label6(0).Caption = .CriminalesMatados
         Label6(1).Caption = .CiudadanosMatados
         Label6(2).Caption = .UsuariosMatados
@@ -1523,9 +1523,9 @@ Private Sub imgCerrar_Click()
     Dim i As Long
 
     For i = 1 To NUMSKILLS
-        skillChanges(i) = CByte(Skills(i).Caption) - UserSkills(i)
+        skillChanges(i) = CByte(Skills(i).Caption) - CurrentUser.UserSkills(i)
         'Actualizamos nuestros datos locales
-        UserSkills(i) = Val(Skills(i).Caption)
+        CurrentUser.UserSkills(i) = Val(Skills(i).Caption)
     Next i
     
     Call WriteModifySkills(skillChanges())

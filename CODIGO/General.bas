@@ -44,13 +44,12 @@ Private keysMovementPressedQueue As clsArrayList
 'Remove Title Bar
 Public Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long) As Long
 Public Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
-Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 Private Const GWL_STYLE = (-16)
 Private Const WS_CAPTION = &HC00000
-Private Const SWP_FRAMECHANGED = &H20
-Private Const SWP_NOMOVE = &H2
-Private Const SWP_NOZORDER = &H4
-Private Const SWP_NOSIZE = &H1
+
+'Seguridad
+Private Declare Function GetAdaptersInfo Lib "iphlpapi" (lpAdapterInfo As Any, lpSize As Long) As Long
+Private Declare Function GetAsyncKeyState Lib "user32" (ByVal vKey As Long) As Integer
 
 Public Function RandomNumber(ByVal LowerBound As Long, ByVal UpperBound As Long) As Long
     'Initialize randomizer
@@ -158,40 +157,40 @@ Function CheckUserData() As Boolean
     Dim CharAscii As Integer
     Dim Len_accountName As Long, Len_accountPassword As Long
     
-    If LenB(AccountPassword) = 0 Then
+    If LenB(CurrentUser.AccountPassword) = 0 Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_PASSWORD").item("TEXTO"))
         Exit Function
     End If
     
-    Len_accountPassword = Len(AccountPassword)
+    Len_accountPassword = Len(CurrentUser.AccountPassword)
     
     For loopc = 1 To Len_accountPassword
-        CharAscii = Asc(mid$(AccountPassword, loopc, 1))
+        CharAscii = Asc(mid$(CurrentUser.AccountPassword, loopc, 1))
         If Not LegalCharacter(CharAscii) Then
             Call MostrarMensaje(Replace$(JsonLanguage.item("VALIDACION_BAD_PASSWORD").item("TEXTO").item(2), "VAR_CHAR_INVALIDO", Chr$(CharAscii)))
             Exit Function
         End If
     Next loopc
 
-    If Not AsciiValidos(AccountName) Then
+    If Not AsciiValidos(CurrentUser.AccountName) Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_ACCOUNTNAME").item("TEXTO").item(1))
         Exit Function
     End If
 
-    If LenB(AccountName) = 0 Then
+    If LenB(CurrentUser.AccountName) = 0 Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_ACCOUNTNAME").item("TEXTO").item(1))
         Exit Function
     End If
 
-    If Len(AccountName) > 24 Then
+    If Len(CurrentUser.AccountName) > 24 Then
         Call MostrarMensaje(JsonLanguage.item("VALIDACION_BAD_ACCOUNTNAME").item("TEXTO").item(2))
         Exit Function
     End If
         
-    Len_accountName = Len(AccountName)
+    Len_accountName = Len(CurrentUser.AccountName)
     
     For loopc = 1 To Len_accountName
-        CharAscii = Asc(mid$(AccountName, loopc, 1))
+        CharAscii = Asc(mid$(CurrentUser.AccountName, loopc, 1))
         If Not LegalCharacter(CharAscii) Then
             Call MostrarMensaje(Replace$(JsonLanguage.item("VALIDACION_BAD_PASSWORD").item("TEXTO").item(4), "VAR_CHAR_INVALIDO", Chr$(CharAscii)))
             Exit Function
@@ -253,11 +252,13 @@ Sub SetConnected()
     'Vaciamos la cola de movimiento
     keysMovementPressedQueue.Clear
 
-    frmMain.lblName.Caption = UserName
+    frmMain.lblName.Caption = CurrentUser.UserName
     frmMain.lblMapName.Caption = MapZonas(UserZonaId(UserCharIndex)).name
     
     'Load main form
     frmMain.Visible = True
+    
+    Call DibujarMinimapa
     
     ModCnt.Conectando = True
 
@@ -321,7 +322,7 @@ Private Sub CheckKeys()
 
     'Don't allow any these keys during movement..
     If UserMoving = 0 Then
-        If Not UserEstupido Then
+        If Not CurrentUser.UserEstupido Then
             Call AddMovementToKeysMovementPressedQueue
 
             'Move Up
@@ -409,14 +410,7 @@ Sub SwitchMap(ByVal Map As Integer)
         
         Call CheckZona(UserCharIndex)
         
-        Call Actualizar_Estado
-        
-        'Dibujamos el Mini-Mapa'
-        If Extract_File_Memory(srcFileType.Minimap, Map & ".bmp", bytArr()) Then
-            frmMain.MiniMapa.Picture = General_Load_Picture_From_BArray(bytArr())
-        Else
-            frmMain.MiniMapa.Picture = Nothing
-        End If
+        Call DibujarMinimapa
         
         Call Init_Ambient
         
@@ -507,6 +501,9 @@ Sub Main()
             End
         End If
     #End If
+    
+    MacAdress = GetMacAddress
+    HDserial = GetDriveSerialNumber
     
     'Read command line. Do it AFTER config file is loaded to prevent this from
     'canceling the effects of "/nores" option.
@@ -684,7 +681,7 @@ Private Sub LoadInitialConfig()
     ' Initialize FONTTYPES
     Call Protocol.InitFonts
  
-    UserMap = 1
+    CurrentUser.UserMap = 1
     
     Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 45)
 
@@ -700,17 +697,10 @@ Private Sub LoadInitialConfig()
     
     Call mDx8_Engine.Engine_DirectX8_Aditional_Init
 
-    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 60)
+    Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 55)
     
-    '###################
-    ' ANIMACIONES EXTRAS
-    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_FXS").item("TEXTO"), 65)
-    
-    Call CargarTips
-    Call CargarAnimArmas
-    Call CargarAnimEscudos
-    Call CargarColores
-    Call CargarPasos
+    'Carga de recursos
+    Call CargarRecursos
     
     Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 70)
     
@@ -993,6 +983,8 @@ Public Sub CloseClient()
     'Stop tile engine
     Call Engine_DirectX8_End
 
+    Call Sound.Engine_DeInitialize
+
     'Destruimos los objetos publicos creados
     Set CustomKeys = Nothing
     Set SurfaceDB = Nothing
@@ -1061,7 +1053,7 @@ Public Sub checkText(ByVal Text As String)
     Dim Nivel As Integer
 
     If Right$(Text, Len(JsonLanguage.item("MENSAJE_FRAGSHOOTER_TE_HA_MATADO").item("TEXTO"))) = JsonLanguage.item("MENSAJE_FRAGSHOOTER_TE_HA_MATADO").item("TEXTO") Then
-        Call Client_Screenshot(frmMain.hDC, 1024, 768)
+        Call Client_Screenshot(frmMain.hDC, frmMain.ScaleWidth, frmMain.ScaleHeight)
         Exit Sub
     End If
 
@@ -1073,7 +1065,7 @@ Public Sub checkText(ByVal Text As String)
     If EsperandoLevel Then
         If Right$(Text, Len(JsonLanguage.item("MENSAJE_FRAGSHOOTER_PUNTOS_DE_EXPERIENCIA").item("TEXTO"))) = JsonLanguage.item("MENSAJE_FRAGSHOOTER_PUNTOS_DE_EXPERIENCIA").item("TEXTO") Then
             If CInt(mid$(Text, Len(JsonLanguage.item("MENSAJE_FRAGSHOOTER_HAS_GANADO").item("TEXTO")), (Len(Text) - (Len(JsonLanguage.item("MENSAJE_FRAGSHOOTER_HAS_GANADO").item("TEXTO")))))) / 2 > ClientSetup.byMurderedLevel Then
-                Call Client_Screenshot(frmMain.hDC, 1024, 768)
+                Call Client_Screenshot(frmMain.hDC, frmMain.ScaleWidth, frmMain.ScaleHeight)
             End If
         End If
     End If
@@ -1138,96 +1130,98 @@ End Function
 
 Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
 
-    ' Disable timers
-    frmMain.Second.Enabled = False
-    Connected = False
-    Call frmMain.hlst.Clear ' Ponemos esto aca para limpiar la lista de hechizos al desconectarse.
-    
-    If UnloadForms Then
-        'Unload all forms except frmMain, frmConnect
-        Dim frm As Form
-        For Each frm In Forms
-            If frm.name <> frmMain.name And _
-               frm.name <> frmConnect.name Then
-                
-                Call Unload(frm)
-            End If
-        Next
-    End If
-    
-    On Local Error GoTo 0
-    
-    If UnloadForms Then
-        ' Return to connection screen
-        frmMain.Visible = False
-    End If
-    
-    'Stop audio
-    Sound.Sound_Stop_All
-    Sound.Ambient_Stop
-    
-    ' Reset flags
-    pausa = False
-    UserMeditar = False
-    UserEstupido = False
-    UserCiego = False
-    UserDescansar = False
-    UserParalizado = False
-    UserNavegando = False
-    UserEvento = False
-    bFogata = False
-    bFogata = False
-    Comerciando = False
-    bShowTutorial = False
-    
-    MirandoAsignarSkills = False
-    MirandoEstadisticas = False
-    MirandoForo = False
-    MirandoTrabajo = 0
-    MirandoParty = False
-    
-    'Delete all kind of dialogs
-    Call CleanDialogs
+    With CurrentUser
 
-    'Reset some char variables...
-    Dim i As Long
-    For i = 1 To LastChar
-        charlist(i).invisible = False
-
-    Next i
-
-    ' Reset stats
-    UserClase = 0
-    UserSexo = 0
-    UserRaza = 0
-    UserEmail = vbNullString
-    UserELO = 0
-    Alocados = 0
-    UserEquitando = 0
-    Alocados = 0
-    SkillPoints = 0
+        ' Disable timers
+        frmMain.Second.Enabled = False
+        Connected = False
+        Call frmMain.hlst.Clear ' Ponemos esto aca para limpiar la lista de hechizos al desconectarse.
+        
+        If UnloadForms Then
+            'Unload all forms except frmMain, frmConnect
+            Dim frm As Form
+            For Each frm In Forms
+                If frm.name <> frmMain.name And _
+                   frm.name <> frmConnect.name Then
+                    
+                    Call Unload(frm)
+                End If
+            Next
+        End If
+        
+        On Local Error GoTo 0
+        
+        If UnloadForms Then
+            ' Return to connection screen
+            frmMain.Visible = False
+        End If
+        
+        'Stop audio
+        Sound.Sound_Stop_All
+        Sound.Ambient_Stop
+        
+        ' Reset flags
+        pausa = False
+        .UserMeditar = False
+        .UserEstupido = False
+        .UserCiego = False
+        .UserDescansar = False
+        .UserParalizado = False
+        .UserNavegando = False
+        .UserEvento = False
+        bFogata = False
+        bFogata = False
+        Comerciando = False
+        bShowTutorial = False
+        
+        MirandoAsignarSkills = False
+        MirandoEstadisticas = False
+        MirandoForo = False
+        MirandoTrabajo = 0
+        MirandoParty = False
+        
+        'Delete all kind of dialogs
+        Call CleanDialogs
     
-    lblHelm = "0/0"
-    lblWeapon = "0/0"
-    lblArmor = "0/0"
-    lblShielder = "0/0"
+        'Reset some char variables...
+        Dim i As Long
+        For i = 1 To LastChar
+            charlist(i).invisible = False
     
-    Call Actualizar_Estado(e_estados.MedioDia)
-
-    Call SetSpeedUsuario(SPEED_NORMAL)
-
-    ' Reset skills
-    For i = 1 To NUMSKILLS
-        UserSkills(i) = 0
-    Next i
-
-    ' Reset attributes
-    For i = 1 To NUMATRIBUTOS
-        UserAtributos(i) = 0
-    Next i
+        Next i
     
-    ' Clear inventory slots
-    Inventario.ClearAllSlots
+        ' Reset stats
+        .UserClase = 0
+        .UserSexo = 0
+        .UserRaza = 0
+        .UserEmail = vbNullString
+        .UserELO = 0
+        .UserEquitando = 0
+        Alocados = 0
+        SkillPoints = 0
+        
+        lblHelm = "0/0"
+        lblWeapon = "0/0"
+        lblArmor = "0/0"
+        lblShielder = "0/0"
+        
+        Call Actualizar_Estado(e_estados.MedioDia)
+    
+        Call SetSpeedUsuario(SPEED_NORMAL)
+    
+        ' Reset skills
+        For i = 1 To NUMSKILLS
+            CurrentUser.UserSkills(i) = 0
+        Next i
+    
+        ' Reset attributes
+        For i = 1 To NUMATRIBUTOS
+            CurrentUser.UserAtributos(i) = 0
+        Next i
+        
+        ' Clear inventory slots
+        Inventario.ClearAllSlots
+    End With
 
 End Sub
 
@@ -1238,11 +1232,11 @@ Public Sub ResetAllInfoAccounts()
 'Descripcion: Borra los datos almacenados de una cuenta
 '**************************************
 
-    If NumberOfCharacters > 0 Then
+    If CurrentUser.NumberOfCharacters > 0 Then
     
         Dim loopc As Long
         
-        For loopc = 1 To NumberOfCharacters
+        For loopc = 1 To CurrentUser.NumberOfCharacters
         
             With cPJ(loopc)
                 .Nombre = vbNullString
@@ -1279,15 +1273,99 @@ Public Function ArrayInitialized(ByVal TheArray As Long) As Boolean
 End Function
 
 Public Sub SetSpeedUsuario(ByVal speed As Double)
+'*******************************
+'Autor: ???
+'Fecha: ???
+'*******************************
+
     Engine_BaseSpeed = speed
 End Sub
 
 Public Function CheckIfIpIsNumeric(CurrentIp As String) As String
+'*******************************
+'Autor: ???
+'Fecha: ???
+'*******************************
+
     If IsNumeric(mid$(CurrentIp, 1, 1)) Then
         CheckIfIpIsNumeric = True
     Else
         CheckIfIpIsNumeric = False
     End If
+End Function
+
+Public Function GetMacAddress() As String
+'*******************************
+'Autor: ???
+'Fecha: ???
+'*******************************
+
+    Const OFFSET_LENGTH As Long = 400
+
+    Dim lSize           As Long
+
+    Dim baBuffer()      As Byte
+
+    Dim lIdx            As Long
+
+    Dim sRetVal         As String
+    
+    Call GetAdaptersInfo(ByVal 0, lSize)
+
+    If lSize <> 0 Then
+        ReDim baBuffer(0 To lSize - 1) As Byte
+        Call GetAdaptersInfo(baBuffer(0), lSize)
+        Call CopyMemory(lSize, baBuffer(OFFSET_LENGTH), 4)
+
+        For lIdx = OFFSET_LENGTH + 4 To OFFSET_LENGTH + 4 + lSize - 1
+            sRetVal = IIf(LenB(sRetVal) <> 0, sRetVal & ":", vbNullString) & Right$("0" & Hex$(baBuffer(lIdx)), 2)
+        Next
+
+    End If
+
+    GetMacAddress = sRetVal
+
+End Function
+
+Public Function GetDriveSerialNumber(Optional ByVal DriveLetter As String) As Long
+
+    '***************************************************
+    'Author: Nahuel Casas (Zagen)
+    'Last Modify Date: 07/12/2009
+    ' 07/12/2009: Zagen - Convertì las funciones, en formulas mas fàciles de modificar.
+    '***************************************************
+    On Error Resume Next
+
+    Dim fso As Object, Drv As Object, DriveSerial As Long
+         
+    'Creamos el objeto FileSystemObject.
+    Set fso = CreateObject("Scripting.FileSystemObject")
+         
+    'Asignamos el driver principal.
+    If DriveLetter <> "" Then
+        Set Drv = fso.GetDrive(DriveLetter)
+    Else
+        Set Drv = fso.GetDrive(fso.GetDriveName(App.Path))
+
+    End If
+     
+    With Drv
+
+        If .IsReady Then
+            DriveSerial = Abs(.SerialNumber)
+        Else    '"Si el driver no està como para empezar ..."
+            DriveSerial = -1
+
+        End If
+
+    End With
+         
+    'Borramos y limpiamos.
+    Set Drv = Nothing
+    Set fso = Nothing
+    'Seteamos :)
+    GetDriveSerialNumber = DriveSerial
+         
 End Function
 
 Public Sub Client_Screenshot(ByVal hDC As Long, ByVal Width As Long, ByVal Height As Long)
@@ -1312,23 +1390,23 @@ On Error GoTo ErrorHandler
     
     m_FileName = App.Path & "\Fotos\WinterAO_Foto"
     
-    If Dir(App.Path & "\Fotos", vbDirectory) = vbNullString Then
+    If Dir$(App.Path & "\Fotos", vbDirectory) = vbNullString Then
         MkDir (App.Path & "\Fotos")
     End If
     
-    Do While Dir(m_FileName & Trim(str(i)) & ".jpg") <> vbNullString
+    Do While Dir$(m_FileName & Trim$(str$(i)) & ".jpg") <> vbNullString
         i = i + 1
         DoEvents
     Loop
     
     Index = i
     
-    m_Jpeg.Comment = "Character: " & UserName & " - " & Format(Date, "dd/mm/yyyy") & " - " & Format(Time, "hh:mm AM/PM")
+    m_Jpeg.Comment = "Character: " & CurrentUser.UserName & " - " & Format$(Date, "dd/mm/yyyy") & " - " & Format$(Time, "hh:mm AM/PM")
     
     'Save the JPG file
-    m_Jpeg.SaveFile m_FileName & Trim(str(Index)) & ".jpg"
+    m_Jpeg.SaveFile m_FileName & Trim$(str$(Index)) & ".jpg"
     
-    Call AddtoRichTextBox(frmMain.RecTxt, "¡Captura realizada con exito! Se guardo en " & m_FileName & Trim(str(Index)) & ".jpg", 204, 193, 155, 0, 1)
+    Call AddtoRichTextBox(frmMain.RecTxt, "¡Captura realizada con exito! Se guardo en " & m_FileName & Trim$(str$(Index)) & ".jpg", 204, 193, 155, 0, 1)
     
     Set m_Jpeg = Nothing
     
@@ -1450,3 +1528,35 @@ Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
 
 End Function
 
+Public Sub ActualizarMiniMapa()
+    '***************************************************
+    'Author: Lorwik
+    'Fecha: ????
+    '***************************************************
+    
+    With frmMain
+        .UserM.Left = UserPosCuadrante.X - 2
+        .UserM.Top = UserPosCuadrante.Y - 2
+        .UserAreaMinimap.Left = UserPosCuadrante.X - 13
+        .UserAreaMinimap.Top = UserPosCuadrante.Y - 11
+        .MiniMapa.Refresh
+    End With
+End Sub
+
+Public Sub DibujarMinimapa()
+    '***************************************************
+    'Author: Lorwik
+    'Fecha: 23/04/2021
+    '***************************************************
+    Dim bytArr()    As Byte
+    Dim InfoHead    As INFOHEADER
+
+    'Dibujamos el Mini-Mapa'
+    If Extract_File_Memory(srcFileType.Minimap, CurrentUser.UserMap & "-" & CurrentUser.UserCuadrante - 1 & ".bmp", bytArr()) Then
+        frmMain.MiniMapa.Picture = General_Load_Picture_From_BArray(bytArr())
+        
+    Else
+        frmMain.MiniMapa.Picture = Nothing
+        
+    End If
+End Sub

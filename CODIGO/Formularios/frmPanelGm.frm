@@ -394,13 +394,13 @@ Begin VB.Form frmPanelGm
    Begin VB.Menu mnuMessage 
       Caption         =   "Message"
       Begin VB.Menu cmdTOGGLEGLOBAL 
-         Caption         =   "TOGGLEGLOBAL"
+         Caption         =   "Activar/Desactivar Global"
       End
       Begin VB.Menu cmdHORA 
          Caption         =   "Hora"
       End
       Begin VB.Menu cmdMOTDCAMBIA 
-         Caption         =   "MOTDCAMBIA"
+         Caption         =   "Cambiar Motd"
       End
       Begin VB.Menu cmdTALKAS 
          Caption         =   "Talkas"
@@ -427,7 +427,7 @@ Begin VB.Form frmPanelGm
    Begin VB.Menu mnuAdmin 
       Caption         =   "Admin"
       Begin VB.Menu cmdVERPROCESOS 
-         Caption         =   "VERPROCESOS"
+         Caption         =   "VerProcesos"
       End
       Begin VB.Menu cmdIP2NICK 
          Caption         =   "IP2NICK"
@@ -435,17 +435,32 @@ Begin VB.Form frmPanelGm
       Begin VB.Menu cmdNICK2IP 
          Caption         =   "NICK2IP"
       End
-      Begin VB.Menu cmdBAN 
-         Caption         =   "BAN"
-      End
-      Begin VB.Menu cmdBANIP 
-         Caption         =   "BANIP"
-      End
-      Begin VB.Menu cmdUNBAN 
-         Caption         =   "UNBAN"
-      End
-      Begin VB.Menu cmdUNBANIP 
-         Caption         =   "UNBANIP"
+      Begin VB.Menu mnuban 
+         Caption         =   "Banear"
+         Begin VB.Menu cmdBAN 
+            Caption         =   "...Banear PJ"
+         End
+         Begin VB.Menu cmdUNBAN 
+            Caption         =   "...Desbanear PJ"
+         End
+         Begin VB.Menu cmdBANIP 
+            Caption         =   "...Banear Ip"
+         End
+         Begin VB.Menu cmdUNBANIP 
+            Caption         =   "...Desbanear IP"
+         End
+         Begin VB.Menu mnuBanSerial 
+            Caption         =   "...Banear Serial + Mac"
+         End
+         Begin VB.Menu mnudesbanserial 
+            Caption         =   "...Desbanear Serial + Mac"
+         End
+         Begin VB.Menu mnubantemp 
+            Caption         =   "...Baneo temporal"
+         End
+         Begin VB.Menu mnubanlife 
+            Caption         =   "...Banear de la vida"
+         End
       End
       Begin VB.Menu cmdLASTEMAIL 
          Caption         =   "LASTEMAIL"
@@ -782,15 +797,15 @@ End Sub
 Private Sub cmdBANIP_Click()
     '/BANIP
     Dim tStr As String
-    Dim Reason As String
+    Dim reason As String
     
     tStr = InputBox("Escriba el ip o el nick del PJ.", "Banear IP")
     
-    Reason = InputBox("Escriba el motivo del ban.", "Banear IP")
+    reason = InputBox("Escriba el motivo del ban.", "Banear IP")
     
     If LenB(tStr) <> 0 Then _
         If MsgBox("Seguro desea banear la ip " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then _
-            Call ParseUserCommand("/BANIP " & tStr & " " & Reason) 'We use the Parser to control the command format
+            Call ParseUserCommand("/BANIP " & tStr & " " & reason) 'We use the Parser to control the command format
 End Sub
 
 Private Sub cmdBANIPLIST_Click()
@@ -1189,7 +1204,7 @@ End Sub
 
 Private Sub cmdONLINEMAP_Click()
     '/ONLINEMAP
-    Call WriteOnlineMap(UserMap)
+    Call WriteOnlineMap(CurrentUser.UserMap)
 End Sub
 
 Private Sub cmdONLINEREAL_Click()
@@ -1482,6 +1497,30 @@ Private Sub ClearRecordDetails()
     lblEstado.Caption = vbNullString
 End Sub
 
+Private Sub mnuBanSerial_Click()
+    Dim tStr As String
+    
+    tStr = InputBox("Escriba el nombre de usuario.", "Banear Serial")
+    If LenB(tStr) <> 0 Then _
+        If MsgBox("Seguro desea banear el serial de " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then _
+            Call WriteBanSerial(tStr)
+End Sub
+
+Private Sub mnubantemp_Click()
+    On Error Resume Next
+    
+    Dim tStr As String
+    Dim razon As String
+    Dim dias As Integer
+    
+    tStr = InputBox("Escriba el nombre de usuario.", "Banear Temporal")
+    razon = InputBox("Escriba el motivo del baneo.", "Banear Temporal")
+    dias = InputBox("¿Cuantos dias quieres banear al usuario?", "Banear Temporal")
+    If LenB(tStr) <> 0 Then _
+        If MsgBox("Seguro desea banear al usuario " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then _
+            Call WriteBanTemporal(tStr, razon, dias)
+End Sub
+
 Private Sub mnuDelete_Click()
     With lstUsers
         If .ListIndex = -1 Then
@@ -1494,6 +1533,15 @@ Private Sub mnuDelete_Click()
             Call ClearRecordDetails
         End If
     End With
+End Sub
+
+Private Sub mnudesbanserial_Click()
+    Dim tStr As String
+    
+    tStr = InputBox("Escriba el nombre de usuario.", "Desbanear Serial")
+    If LenB(tStr) <> 0 Then _
+        If MsgBox("Seguro desea desbanear el serial de " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then _
+            Call WriteUnBanSerial(tStr)
 End Sub
 
 Private Sub mnuIra_Click()

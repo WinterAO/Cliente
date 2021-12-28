@@ -286,9 +286,8 @@ Public Sub Engine_DirectX8_Aditional_Init()
         Call Engine_Long_To_RGB_List(Normal_RGBList(), -1)
         Call Engine_Long_To_RGB_List(Color_Shadow(), D3DColorARGB(50, 0, 0, 0))
         Call Engine_Long_To_RGB_List(NoUsa_RGBList(), D3DColorARGB(255, 200, 30, 30))
+        Call Engine_Long_To_RGB_List(Color_Arbol(), D3DColorARGB(190, 100, 100, 100))
         Color_Paralisis = D3DColorARGB(180, 230, 230, 250)
-        Color_Invisibilidad = D3DColorARGB(180, 236, 136, 66)
-        Color_Montura = D3DColorARGB(180, 15, 230, 40)
         
         ' Inicializamos otros sistemas.
         Call mDx8_Text.Engine_Init_FontSettings
@@ -348,7 +347,7 @@ Dim Start_Time As Long
 
 End Function
 
-Public Function Engine_PixelPosX(ByVal X As Integer) As Integer
+Public Function Engine_PixelPosX(ByVal X As Long) As Long
 '*****************************************************************
 'Converts a tile position to a screen position
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_PixelPosX
@@ -358,7 +357,7 @@ Public Function Engine_PixelPosX(ByVal X As Integer) As Integer
     
 End Function
 
-Public Function Engine_PixelPosY(ByVal Y As Integer) As Integer
+Public Function Engine_PixelPosY(ByVal Y As Long) As Long
 '*****************************************************************
 'Converts a tile position to a screen position
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_PixelPosY
@@ -403,63 +402,6 @@ Public Sub Engine_Draw_Box(ByVal X As Integer, ByVal Y As Integer, ByVal Width A
     Call SpriteBatch.Draw(X, Y, Width, ByVal Height, temp_rgb())
     
 End Sub
-
-Public Sub Engine_D3DColor_To_RGB_List(rgb_list() As Long, Color As D3DCOLORVALUE)
-'***************************************************
-'Author: Ezequiel Juarez (Standelf)
-'Last Modification: 14/05/10
-'Blisse-AO | Set a D3DColorValue to a RGB List
-'***************************************************
-    rgb_list(0) = D3DColorARGB(Color.a, Color.r, Color.g, Color.b)
-    rgb_list(1) = rgb_list(0)
-    rgb_list(2) = rgb_list(0)
-    rgb_list(3) = rgb_list(0)
-End Sub
-
-Public Sub Engine_Long_To_RGB_List(rgb_list() As Long, long_color As Long)
-'***************************************************
-'Author: Ezequiel Juarez (Standelf)
-'Last Modification: 16/05/10
-'Blisse-AO | Set a Long Color to a RGB List
-'***************************************************
-    rgb_list(0) = long_color
-    rgb_list(1) = rgb_list(0)
-    rgb_list(2) = rgb_list(0)
-    rgb_list(3) = rgb_list(0)
-End Sub
-
-Sub ConvertLongToRGB(ByVal value As Long, r As Byte, g As Byte, b As Byte)
-    r = value Mod 256
-    g = Int(value / 256) Mod 256
-    b = Int(value / 256 / 256) Mod 256
-End Sub
-
-Public Function SetARGB_Alpha(rgb_list() As Long, Alpha As Byte) As Long()
-
-    '***************************************************
-    'Author: Juan Manuel Couso (Cucsifae)
-    'Last Modification: 29/08/18
-    'Obtiene un ARGB list le modifica el alpha y devuelve una copia
-    '***************************************************
-    Dim TempColor        As D3DCOLORVALUE
-    Dim tempARGB(0 To 3) As Long
-
-    'convertimos el valor del rgb list a D3DCOLOR
-    Call ARGBtoD3DCOLORVALUE(rgb_list(1), TempColor)
-
-    'comprobamos ue no se salga del rango permitido
-    If Alpha > 255 Then Alpha = 255
-    If Alpha < 0 Then Alpha = 0
-    
-    'seteamos el alpha
-    TempColor.a = Alpha
-    
-    'generamos el nuevo RGB_List
-    Call Engine_D3DColor_To_RGB_List(tempARGB(), TempColor)
-
-    SetARGB_Alpha = tempARGB()
-
-End Function
 
 Private Function Engine_Collision_Between(ByVal value As Single, ByVal Bound1 As Single, ByVal Bound2 As Single) As Byte
 '*****************************************************************
@@ -670,16 +612,6 @@ Public Sub Engine_ZoomNormal()
     End With
     
 End Sub
-
-Public Function ZoomOffset(ByVal offset As Byte) As Single
-'**************************************************************
-'Author: Standelf
-'Last Modify Date: 30/01/2011
-'**************************************************************
-
-    ZoomOffset = IIf((offset = 1), (ScreenHeight - MainScreenRect.Bottom) / 2, (ScreenWidth - MainScreenRect.Right) / 2)
-    
-End Function
 
 Function Engine_Distance(ByVal x1 As Integer, ByVal y1 As Integer, ByVal x2 As Integer, ByVal y2 As Integer) As Long
 '***************************************************

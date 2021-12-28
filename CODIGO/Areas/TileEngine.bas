@@ -31,11 +31,10 @@ Attribute VB_Name = "Mod_TileEngine"
 'Codigo Postal 1900
 'Pablo Ignacio Marquez
 
-
-
 Option Explicit
 
-Private NotFirstRender As Boolean
+'Caminata fluida
+Public Movement_Speed As Single
 
 Dim temp_verts(3) As TLVERTEX
 
@@ -50,8 +49,8 @@ Public WeatherFogCount As Byte
 
 Public ParticleOffsetX As Long
 Public ParticleOffsetY As Long
-Public LastOffsetX As Integer
-Public LastOffsetY As Integer
+Public LastOffsetX As Long
+Public LastOffsetY As Long
 
 'Map sizes in tiles
 Public Const XMaxMapSize As Integer = 1100
@@ -97,6 +96,8 @@ Public Type GrhData
     Frames() As Long
     
     speed As Single
+    
+    Trans As Byte
 End Type
 
 'apunta a una estructura grhdata y mantiene la animacion
@@ -254,9 +255,8 @@ Public MaxYBorder As Integer
 Public CurMap As Integer 'Mapa actual
 Public UserIndex As Integer
 Public UserMoving As Byte
-Public UserBody As Integer
-Public UserHead As Integer
 Public UserPos As Position 'Posicion
+Public UserPosCuadrante As Position
 Public AddtoUserPos As Position 'Si se mueve
 Public UserCharIndex As Integer
 
@@ -291,8 +291,6 @@ Public NumWeaponAnims As Integer
 Private MouseTileX As Integer
 Private MouseTileY As Integer
 
-
-
 '?????????Graficos???????????
 Public GrhData() As GrhData 'Guarda todos los grh
 Public BodyData() As BodyData
@@ -310,13 +308,6 @@ Public MapZonas() As tZonaInfo ' Info acerca del mapa en uso
 Public CantZonas As Integer
 '?????????????????????????
 
-Public Normal_RGBList(3) As Long
-Public Color_Shadow(3) As Long
-Public NoUsa_RGBList(3) As Long
-Public Color_Paralisis As Long
-Public Color_Invisibilidad As Long
-Public Color_Montura As Long
-
 '   Control de Lluvia
 Public bTecho       As Boolean 'hay techo?
 Public bFogata       As Boolean
@@ -328,17 +319,6 @@ Private Type Size
     cx As Long
     cy As Long
 End Type
-
-'[CODE 001]:MatuX
-Public Enum PlayLoop
-    plNone = 0
-    plLluviain = 1
-    plLluviaout = 2
-End Enum
-'[END]'
-'
-'       [END]
-'?????????????????????????
 
 'Very percise counter 64bit system counter
 Private Declare Function QueryPerformanceFrequency Lib "kernel32" (lpFrequency As Currency) As Long
@@ -436,7 +416,7 @@ Sub MoveCharbyHead(ByVal CharIndex As Integer, ByVal nHeading As E_Heading)
         .scrollDirectionY = addy
     End With
     
-    If UserEstado = 0 Then Call DoPasosFx(CharIndex)
+    If CurrentUser.UserEstado = 0 Then Call DoPasosFx(CharIndex)
 
     If CharIndex <> UserCharIndex Then
         If Not EstaDentroDelArea(nX, nY) Then
@@ -575,6 +555,7 @@ Sub RenderScreen(ByVal tilex As Integer, _
     Dim PixelOffsetYTemp As Integer 'For centering grhs
     
     Dim ElapsedTime      As Single
+    Dim ColorFinal(3)    As Long
     
     ElapsedTime = Engine_ElapsedTime()
     
@@ -684,8 +665,20 @@ Sub RenderScreen(ByVal tilex As Integer, _
 
                     'Layer 3 *****************************************
                     If .Graphic(3).GrhIndex <> 0 Then
-                    
-                        Call Draw_Grh(.Graphic(3), PixelOffsetXTemp, PixelOffsetYTemp, 1, .Engine_Light(), 1)
+                        
+                        '¿El Grh tiene propiedades de transparencia?
+                        If GrhData(.Graphic(3).GrhIndex).Trans = 1 Then
+                            If Abs(UserPos.X - X) < 2 And (Abs(UserPos.Y - Y)) < 5 And (Abs(UserPos.Y) < Y) Then
+                                Call AsignarColor(Color_Arbol, ColorFinal)
+                            Else
+                                Call AsignarColor(.Engine_Light, ColorFinal)
+                            End If
+    
+                        Else
+                            Call AsignarColor(.Engine_Light, ColorFinal)
+                        End If
+                        
+                        Call Draw_Grh(.Graphic(3), PixelOffsetXTemp, PixelOffsetYTemp, 1, ColorFinal(), 1)
                         
                     End If
                     '************************************************
@@ -823,9 +816,13 @@ Sub RenderScreen(ByVal tilex As Integer, _
     End If
     
     If colorRender <> 240 Then
-        Call DrawText(372, 80, renderText, render_msg(0), True, 2)
-        Call DrawText(372, 130, renderTextPk, render_msg(0), True, 1)
+        Call Draw_GrhIndex(34027, 352, 110, 1, render_msg())
+        Call DrawText(372, 60, renderTextPk, render_msg(0), True, 4)
+        Call DrawText(372, 80, renderText, render_msg(0), True, 5)
     End If
+    
+    'Call Draw_GrhIndex(34027, 372, 80, 1, Normal_RGBList())
+    'Call DrawText(390, 50, "Nivel 21", -1, True, 2)
     
     '   Set Offsets
     LastOffsetX = ParticleOffsetX
@@ -884,7 +881,7 @@ Sub DoPasosFx(ByVal CharIndex As Integer)
 Static TerrenoDePaso As TipoPaso
 
     With charlist(CharIndex)
-        If Not UserNavegando Then
+        If Not CurrentUser.UserNavegando Then
             If Not .muerto And EstaPCarea(CharIndex) And (.priv = 0 Or .priv > 5) Then
                 .pie = Not .pie
              
@@ -985,23 +982,6 @@ On Error GoTo ErrorHandler:
     ScrollPixelsPerFrameX = pixelsToScrollPerFrameX
     ScrollPixelsPerFrameY = pixelsToScrollPerFrameY
 
-On Error GoTo 0
-    
-    'Cargamos indice de graficos.
-    'TODO: No usar variable de compilacion y acceder a esto desde el config.ini
-    Call LoadGrhData
-    Call CargarCuerpos
-    Call CargarAtaques
-    Call CargarCabezas
-    Call CargarCascos
-    Call CargarFxs
-    Call LoadGraphics
-    Call CargarParticulas
-    
-    'Inicializamos el conectar renderizado
-    Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_GUI").item("TEXTO"), 55)
-    Call ModCnt.InicializarRndCNT
-
     Exit Sub
     
 ErrorHandler:
@@ -1064,7 +1044,7 @@ On Error GoTo ErrorHandler:
         Call ConvertCPtoTP(MouseViewX, MouseViewY, MouseTileX, MouseTileY)
             
         '****** Update screen ******
-        If UserCiego Then
+        If CurrentUser.UserCiego Then
             Call DirectDevice.Clear(0, ByVal 0, D3DCLEAR_TARGET, 0, 1#, 0)
         Else
             Call RenderScreen(UserPos.X - AddtoUserPos.X, UserPos.Y - AddtoUserPos.Y, OffsetCounterX, OffsetCounterY)
@@ -1231,10 +1211,7 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
         PixelOffsetY = PixelOffsetY + .MoveOffsetY
         
         If Not .muerto Then
-            ColorFinal(0) = MapData(.Pos.X, .Pos.Y).Engine_Light()(0)
-            ColorFinal(1) = MapData(.Pos.X, .Pos.Y).Engine_Light()(1)
-            ColorFinal(2) = MapData(.Pos.X, .Pos.Y).Engine_Light()(2)
-            ColorFinal(3) = MapData(.Pos.X, .Pos.Y).Engine_Light()(3)
+            Call AsignarColor(MapData(.Pos.X, .Pos.Y).Engine_Light(), ColorFinal())
 
         Else
 
@@ -1372,7 +1349,7 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
         
         '************Draw Pasos************
         If CharIndex = UserCharIndex Then
-            If Not UserEquitando Then
+            If Not CurrentUser.UserEquitando Then
                 If MapData(.Pos.X, .Pos.Y).Graphic(1).GrhIndex >= 7704 And MapData(.Pos.X, .Pos.Y).Graphic(1).GrhIndex <= 7719 Or _
                     MapData(.Pos.X, .Pos.Y).Graphic(1).GrhIndex >= 1315 And MapData(.Pos.X, .Pos.Y).Graphic(1).GrhIndex <= 1330 Or _
                         MapData(.Pos.X, .Pos.Y).Graphic(1).GrhIndex >= 30120 And MapData(.Pos.X, .Pos.Y).Graphic(1).GrhIndex <= 30439 Then
@@ -1935,3 +1912,18 @@ Public Function Char_Pos_Get(ByVal char_index As Integer, ByRef map_x As Integer
         Char_Pos_Get = True
     End If
 End Function
+
+Private Sub AsignarColor(ByRef ColorOrigen() As Long, ByRef ColorDestino() As Long)
+'*****************************************
+'Autor: Lorwik
+'Fecha: 23/04/2021
+'Descripcion: Iguala arrays de colores
+'*****************************************
+
+    Dim i As Byte
+    
+    For i = 0 To 3
+        ColorDestino(i) = ColorOrigen(i)
+    Next i
+
+End Sub

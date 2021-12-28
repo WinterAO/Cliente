@@ -113,14 +113,14 @@ Begin VB.Form frmMain
          Width           =   375
       End
       Begin VB.Shape UserM 
-         BackColor       =   &H0000FFFF&
+         BackColor       =   &H000000FF&
          BackStyle       =   1  'Opaque
-         BorderColor     =   &H0000FFFF&
+         BorderColor     =   &H00FFFFFF&
          FillColor       =   &H0000FFFF&
-         Height          =   45
-         Left            =   750
-         Top             =   750
-         Width           =   45
+         Height          =   75
+         Left            =   720
+         Top             =   720
+         Width           =   75
       End
    End
    Begin VB.PictureBox picInv 
@@ -992,12 +992,6 @@ Dim CtrlMaskOn             As Boolean
 Private Const NEWBIE_USER_GOLD_COLOR As Long = vbCyan
 Private Const USER_GOLD_COLOR As Long = vbYellow
 
-Private Declare Function SetWindowLong _
-                Lib "user32" _
-                Alias "SetWindowLongA" (ByVal hWnd As Long, _
-                                        ByVal nIndex As Long, _
-                                        ByVal dwNewLong As Long) As Long
-
 Public Sub dragInventory_dragDone(ByVal originalSlot As Integer, ByVal newSlot As Integer)
     Call Protocol.WriteMoveItem(originalSlot, newSlot, eMoveType.Inventory)
 End Sub
@@ -1271,7 +1265,7 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                 
                 Case CustomKeys.BindedKey(eKeyType.mKeyTamAnimal)
 
-                    If UserEstado = 1 Then
+                    If CurrentUser.UserEstado = 1 Then
 
                         With FontTypes(FontTypeNames.FONTTYPE_INFO)
                             Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
@@ -1282,7 +1276,7 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                     
                 Case CustomKeys.BindedKey(eKeyType.mKeySteal)
 
-                    If UserEstado = 1 Then
+                    If CurrentUser.UserEstado = 1 Then
 
                         With FontTypes(FontTypeNames.FONTTYPE_INFO)
                             Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
@@ -1293,7 +1287,7 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                     
                 Case CustomKeys.BindedKey(eKeyType.mKeyHide)
 
-                    If UserEstado = 1 Then
+                    If CurrentUser.UserEstado = 1 Then
 
                         With FontTypes(FontTypeNames.FONTTYPE_INFO)
                             Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
@@ -1367,7 +1361,7 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                 lblChat.Caption = "6.Global"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyTakeScreenShot)
-                Call Mod_General.Client_Screenshot(frmMain.hDC, 1024, 768)
+                Call Mod_General.Client_Screenshot(frmMain.hDC, frmMain.ScaleWidth, frmMain.ScaleHeight)
                     
             Case CustomKeys.BindedKey(eKeyType.mKeyShowOptions)
                 Call frmOpciones.Show(vbModeless, frmMain)
@@ -1385,7 +1379,7 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                     If Not MainTimer.Check(TimersIndex.CastAttack) Then Exit Sub 'Corto intervalo Golpe-Hechizo
                 Else
     
-                    If Not MainTimer.Check(TimersIndex.Attack) Or UserDescansar Or UserMeditar Then Exit Sub
+                    If Not MainTimer.Check(TimersIndex.Attack) Or CurrentUser.UserDescansar Or CurrentUser.UserMeditar Then Exit Sub
                 End If
                 
                 If frmCustomKeys.Visible Then Exit Sub 'Chequeo si esta visible la ventana de configuracion de teclas.
@@ -1541,7 +1535,7 @@ End Sub
 Private Sub lblCerrar_Click()
     Call Sound.Sound_Play(SND_CLICK)
     
-    If UserParalizado Then 'Inmo
+    If CurrentUser.UserParalizado Then 'Inmo
 
         With FontTypes(FontTypeNames.FONTTYPE_WARNING)
             Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_NO_SALIR").item("TEXTO"), .Red, .Green, .Blue, .bold, .italic)
@@ -1685,7 +1679,7 @@ End Sub
 
 Private Sub TirarItem()
 
-    If UserEstado = 1 Then
+    If CurrentUser.UserEstado = 1 Then
 
         With FontTypes(FontTypeNames.FONTTYPE_INFO)
             Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
@@ -1707,7 +1701,7 @@ End Sub
 
 Private Sub AgarrarItem()
 
-    If UserEstado = 1 Then
+    If CurrentUser.UserEstado = 1 Then
 
         With FontTypes(FontTypeNames.FONTTYPE_INFO)
             Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
@@ -1731,7 +1725,7 @@ End Sub
 
 Private Sub EquiparItem()
 
-    If UserEstado = 1 Then
+    If CurrentUser.UserEstado = 1 Then
     
         With FontTypes(FontTypeNames.FONTTYPE_INFO)
             Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
@@ -1751,7 +1745,7 @@ End Sub
 Private Sub btnLanzar_Click()
     
     If hlst.List(hlst.ListIndex) <> JsonLanguage.item("NADA").item("TEXTO") And MainTimer.Check(TimersIndex.Work, False) Then
-        If UserEstado = 1 Then
+        If CurrentUser.UserEstado = 1 Then
 
             With FontTypes(FontTypeNames.FONTTYPE_INFO)
                 Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
@@ -1991,7 +1985,7 @@ Private Sub MainViewPic_Click()
 
             If Not CustomKeys.KeyAssigned(KeyCodeConstants.vbKeyShift) Then
                 If MouseBoton = vbLeftButton Then
-                    Call WriteWarpChar("YO", UserMap, tX, tY)
+                    Call WriteWarpChar("YO", CurrentUser.UserMap, tX, tY)
                 End If
             End If
         End If
@@ -2052,7 +2046,7 @@ Private Sub lblDropGold_Click()
 
     Inventario.SelectGold
 
-    If UserGLD > 0 Then
+    If CurrentUser.UserGLD > 0 Then
         If Not Comerciando Then frmCantidad.Show , frmMain
     End If
     
@@ -2346,7 +2340,7 @@ End Sub
 Private Sub Client_Error(ByVal number As Integer, _
                          Description As String, _
                          ByVal sCode As Long, _
-                         ByVal Source As String, _
+                         ByVal source As String, _
                          ByVal HelpFile As String, _
                          ByVal HelpContext As Long, _
                          CancelDisplay As Boolean)
@@ -2415,7 +2409,7 @@ Private Sub Minimapa_MouseDown(Button As Integer, _
                                Y As Single)
 
     If Button = vbRightButton Then
-        Call WriteWarpChar("YO", UserMap, CByte(X - 1), CByte(Y - 1))
+        Call WriteWarpChar("YO", CurrentUser.UserMap, CByte(X - 1), CByte(Y - 1))
         Call ActualizarMiniMapa
         
     ElseIf Button = vbLeftButton Then
@@ -2426,40 +2420,24 @@ Private Sub Minimapa_MouseDown(Button As Integer, _
 End Sub
     'fin Incorporado ReyarB
 
-Public Sub ActualizarMiniMapa()
-    '***************************************************
-    'Author: Martin Gomez (Samke)
-    'Last Modify Date: 21/03/2020 (ReyarB)
-    'Integrado por Reyarb
-    'Se agrego campo de vision del render (Recox)
-    'Ajustadas las coordenadas para centrarlo (WyroX)
-    'Ajuste de coordenadas y tamaÃ±o del visor (ReyarB)
-    '***************************************************
-    Me.UserM.Left = UserPos.X - 2
-    Me.UserM.Top = UserPos.Y - 2
-    Me.UserAreaMinimap.Left = UserPos.X - 13
-    Me.UserAreaMinimap.Top = UserPos.Y - 11
-    Me.MiniMapa.Refresh
-End Sub
-
 Public Sub UpdateProgressExperienceLevelBar(ByVal UserExp As Long)
 
-    If UserLvl = STAT_MAXELV Then
+    If CurrentUser.UserLvl = STAT_MAXELV Then
         frmMain.lblPorcLvl.Caption = "¡Nivel Máximo!"
 
         'Si no tiene mas niveles que subir ponemos la barra al maximo.
         frmMain.uAOProgressExperienceLevel.Max = 100
         frmMain.uAOProgressExperienceLevel.value = 100
     Else
-        frmMain.lblPorcLvl.Caption = Round(CDbl(UserExp) * CDbl(100) / CDbl(UserPasarNivel), 2) & "%"
-        frmMain.uAOProgressExperienceLevel.Max = UserPasarNivel
+        frmMain.lblPorcLvl.Caption = Round(CDbl(UserExp) * CDbl(100) / CDbl(CurrentUser.UserPasarNivel), 2) & "%"
+        frmMain.uAOProgressExperienceLevel.Max = CurrentUser.UserPasarNivel
         frmMain.uAOProgressExperienceLevel.value = UserExp
     End If
 End Sub
 
 Public Sub SetGoldColor()
 
-    If UserGLD >= CLng(UserLvl) * 10000 And UserLvl > 12 Then 'Si el nivel es mayor de 12, es decir, no es newbie.
+    If CurrentUser.UserGLD >= CLng(CurrentUser.UserLvl) * 10000 And CurrentUser.UserLvl > 12 Then 'Si el nivel es mayor de 12, es decir, no es newbie.
         'Changes color
         frmMain.GldLbl.ForeColor = USER_GOLD_COLOR
     Else
@@ -2567,16 +2545,30 @@ Public Sub ActualizarCoordenadas(ByVal tX As Integer, ByVal tY As Integer)
 
     Dim cx As Integer
     Dim cy As Integer
+    Dim AnchoMap As Byte
+    Dim CurrentCuadrante As Integer
+    
+    'Guardamos el cuadrante antes del posible cambio
+    CurrentCuadrante = CurrentUser.UserCuadrante
+    AnchoMap = 11
+    
+    cx = Fix((tX / 100))
+    cy = Fix((tY / 100))
+    
+    CurrentUser.UserCuadrante = ((cy) * AnchoMap) + cx + 1
+    UserPosCuadrante.X = tX - (cx * 100)
+    UserPosCuadrante.Y = tY - (cy * 100)
+    
+    'Si cambiamos de cuadrante cambiamos el minimapa
+    If CurrentCuadrante <> CurrentUser.UserCuadrante Then _
+        Call DibujarMinimapa
     
     If ClientSetup.VerCuadrantes Then
-    
-        cx = Fix((tX / 100))
-        cy = Fix((tY / 100))
 
-        Coord.Caption = "Cuadrante: " & cx * cy & " X: " & tX - (cx * 100) & " Y: " & tY - (cy * 100)
+        Coord.Caption = "Cuadrante: " & CurrentUser.UserCuadrante & " X: " & UserPosCuadrante.X & " Y: " & UserPosCuadrante.Y
     
     Else
-        Coord.Caption = "Map:" & UserMap & " X:" & tX & " Y:" & tY
+        Coord.Caption = "Map:" & CurrentUser.UserMap & " X:" & tX & " Y:" & tY
         
     End If
 End Sub
