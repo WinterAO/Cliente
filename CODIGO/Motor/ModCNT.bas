@@ -870,7 +870,7 @@ On Error Resume Next
     
     Set Inet = New clsInet
     
-    responseServer = Inet.OpenRequest("https://api.comunidadwinter.com.ar/server-list.txt", "GET")
+    responseServer = Inet.OpenRequest("http://192.168.1.5/apicomunidadwinter/server-list.txt", "GET")
     responseServer = Inet.Execute
     responseServer = Inet.GetResponseAsString
     
