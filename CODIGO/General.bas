@@ -377,16 +377,23 @@ Sub SwitchMap(ByVal Map As Integer)
     
     Dim bytArr()    As Byte
     Dim InfoHead    As INFOHEADER
+    Dim filename    As String
+    
+    If Battlegrounds Then
+        filename = LCase$("Bg" & Map & ".csm")
+    Else
+        filename = LCase$("Mapa" & Map & ".csm")
+    End If
     
     'Si es el mismo Mapa, no lo cargamos
-    If Map = CurMap Then Exit Sub
+    If filename = CurMap Then Exit Sub
     
     'Reseteamos el Array antes que nada, o por la velocidad que pueda tardar en comprobar si el mapa existe, se pueden _
     producir errores.
     ReDim MapData(XMinMapSize To XMaxMapSize, YMinMapSize To YMaxMapSize)
     ReDim MapZonas(1) As tZonaInfo
     
-    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Mapas.WAO", LCase$("Mapa" & Map & ".csm"))
+    InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Mapas.WAO", filename)
     
     If InfoHead.lngFileSize <> 0 Then
 
@@ -404,9 +411,9 @@ Sub SwitchMap(ByVal Map As Integer)
         Call LightRemoveAll(False)
    
         'Cargamos el mapa.
-        Call Carga.CargarMapa(Map)
+        Call Carga.CargarMapa(filename)
         
-        CurMap = Map
+        CurMap = filename
         
         Call CheckZona(UserCharIndex)
         
@@ -489,12 +496,12 @@ Sub Main()
     Call Carga.LeerConfiguracion
 
     #If Desarrollo = 0 Then
-        If GetVar(Carga.Path(Init) & CLIENT_FILE, "PARAMETERS", "LAUCH") <> 1 Then
-            Call MsgBox("Para iniciar WinterAO debes hacerlo desde el Launcher.", vbCritical)
-            End
-        Else
-            Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "PARAMETERS", "LAUCH", "0")
-        End If
+        'If GetVar(Carga.Path(Init) & CLIENT_FILE, "PARAMETERS", "LAUCH") <> 1 Then
+        '    Call MsgBox("Para iniciar WinterAO debes hacerlo desde el Launcher.", vbCritical)
+        '    End
+        'Else
+        '    Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "PARAMETERS", "LAUCH", "0")
+        'End If
     
         If Application.FindPreviousInstance Then
             Call MsgBox(JsonLanguage.item("OTRO_CLIENTE_ABIERTO").item("TEXTO"), vbApplicationModal + vbInformation + vbOKOnly, "Error al ejecutar")
@@ -1483,7 +1490,7 @@ Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
 
     Static ZonaActual   As Integer
     Dim ZonaId          As Integer
-    Static MapActual    As Integer
+    Static MapActual    As String
 
     'Nueva zona
     ZonaId = UserZonaId(CharIndex)

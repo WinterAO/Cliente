@@ -38,6 +38,8 @@ Public Form_Caption As String
 Public MacAdress        As String
 Public HDserial         As Long
 
+Public Battlegrounds    As Boolean
+
 '#######################
 'HUD
 '#######################
@@ -564,6 +566,7 @@ Public Type tCurrentUser
     UserName As String
     AccountName As String
     AccountPassword As String
+    AccountMail As String 'Solo usado en la creacion de cuenta
     NumberOfCharacters As Byte
     UserMaxHP As Integer
     UserMinHP As Integer
@@ -652,6 +655,7 @@ Public Enum E_MODO
     Normal = 1
     CrearNuevoPJ = 2
     Dados = 3
+    CrearCuenta = 4
 End Enum
 
 Public EstadoLogin As E_MODO

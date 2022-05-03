@@ -198,6 +198,8 @@ Public Sub MostrarConnect(Optional ByVal Mostrar As Boolean = False)
     'frmConnect.txtNombre.SelStart = Len(frmConnect.txtNombre.Text)
     TextSelected = 1
     
+    Battlegrounds = False
+    
     EngineRun = False
     
     'LISTA DE SERVIDORES
@@ -264,6 +266,12 @@ Public Sub MostrarCreacion(Optional ByVal Mostrar As Boolean = False)
     
     'Ponemos el mapa de cuentas
     Call MapConnect(1)
+
+End Sub
+
+Public Sub MostrarCrearCuenta()
+
+    frmCrearCuenta.Show , frmConnect
 
 End Sub
 
@@ -588,7 +596,7 @@ Public Sub ClickEvent(ByVal tX As Long, ByVal tY As Long)
             If (tX >= ButtonGUI(7).X And tX <= ButtonGUI(7).PosX) And (tY >= ButtonGUI(7).Y And tY <= ButtonGUI(7).PosY) Then Call btnTeclas
             
             'Crear Cuenta
-            If (tX >= ButtonGUI(4).X And tX <= ButtonGUI(4).PosX) And (tY >= ButtonGUI(4).Y And tY <= ButtonGUI(4).PosY) Then Call btnGestion
+            If (tX >= ButtonGUI(4).X And tX <= ButtonGUI(4).PosX) And (tY >= ButtonGUI(4).Y And tY <= ButtonGUI(4).PosY) Then Call btnCrearCuenta
             
             'Recuperar
             If (tX >= ButtonGUI(5).X And tX <= ButtonGUI(5).PosX) And (tY >= ButtonGUI(5).Y And tY <= ButtonGUI(5).PosY) Then Call btnGestion
@@ -860,17 +868,37 @@ Private Sub btnGestion()
     
 End Sub
 
-Public Sub ListarServidores()
-On Error Resume Next
-    Dim lista() As String
-    Dim Elementos As Byte
+Private Sub btnCrearCuenta()
+'**************************************
+'Autor: Lorwik
+'Fecha: 20/05/2020
+'Descripcion: Boton de gestion de cuentas
+'**************************************
+    Call Sound.Sound_Play(SND_CLICK)
+
+    'Conectamos al servidor seleccionado
+    CurServerIp = Servidor(ServIndSel).Ip
+    CurServerPort = Servidor(ServIndSel).Puerto
+
+    Call Protocol.Connect(E_MODO.CrearCuenta)
     
-    Dim i As Byte
+End Sub
+
+Public Function ListarServidores() As Boolean
+
+    On Error GoTo ListarServidores_Err
+
+    Dim lista()        As String
+
+    Dim Elementos      As Byte
+    
+    Dim i              As Byte
+
     Dim responseServer As String
     
     Set Inet = New clsInet
     
-    responseServer = Inet.OpenRequest("https://api.comunidadwinter.com.ar/server-list.txt", "GET")
+    responseServer = Inet.OpenRequest("http://192.168.1.12/apicomunidadwinter/server-list.txt", "GET")
     responseServer = Inet.Execute
     responseServer = Inet.GetResponseAsString
     
@@ -884,7 +912,16 @@ On Error Resume Next
         Servidor(i).Nombre = ReadField(3, lista(i), Asc("|"))
     Next i
 
-End Sub
+    ListarServidores = True
+
+    Exit Function
+
+ListarServidores_Err:
+    If Err.number <> 0 Then
+       MsgBox ("No se ha podido obtener la lista de servidores. Error " & Err.number & " : " & Err.Description)
+       ListarServidores = False
+    End If
+End Function
 
 Public Sub ConnectPJ()
 '**************************************

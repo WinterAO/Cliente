@@ -177,6 +177,7 @@ Private Enum ServerPacketID
     ConfirmarInstruccion
     SetSpeed
     AtaqueNPC
+    BattleGs                        'Battlegrounds
 End Enum
 
 Private Enum ClientPacketID
@@ -333,6 +334,7 @@ Private Enum ClientPacketID
     OfertarSubasta
     ConsultaSubasta
     RespuestaInstruccion
+    LoginNewAccount
     GMCommands
 End Enum
 
@@ -1107,6 +1109,9 @@ On Error Resume Next
             
         Case ServerPacketID.AtaqueNPC
             Call HandleAtaqueNPC
+            
+        Case ServerPacketID.BattleGs
+            Call HandleBattlegrounds
 
         Case Else
             'ERROR : Abort!
@@ -1800,7 +1805,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -11629,6 +11634,20 @@ Private Sub HandleAtaqueNPC()
     End With
 End Sub
 
+Private Sub HandleBattlegrounds()
+'*****************************
+'Autor: Lorwik
+'Fecha: 02/05/2022
+'Descripción: Recibe la variable Battegrounds del server
+'*****************************
+
+    'Remove packet ID
+    Call incomingData.ReadByte
+    
+    Battlegrounds = incomingData.ReadBoolean()
+
+End Sub
+
 Public Sub WriteBanSerial(ByVal UserName As String)
     '***************************************************
     'Author: Lorwik
@@ -11673,4 +11692,30 @@ Public Sub WriteBanTemporal(ByVal UserName As String, ByVal reason As String, By
 
     End With
 
+End Sub
+
+''
+' Writes the "LoginNewAccount" message to the outgoing data buffer.
+'
+' @remarks  The data is not actually sent until the buffer is properly flushed.
+
+Public Sub WriteLoginNewAccount()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 05/02/2022
+'Writes the "LoginNewAccount" message to the outgoing data buffer
+'***************************************************
+
+    With outgoingData
+        Call .WriteByte(ClientPacketID.LoginNewAccount)
+        
+        Call .WriteByte(App.Major)
+        Call .WriteByte(App.Minor)
+        Call .WriteByte(App.Revision)
+        
+        Call .WriteASCIIString(CurrentUser.AccountName)
+        Call .WriteASCIIString(CurrentUser.AccountMail)
+        Call .WriteASCIIString(CurrentUser.AccountPassword)
+        
+    End With
 End Sub

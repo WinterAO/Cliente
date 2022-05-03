@@ -252,7 +252,7 @@ Public MinYBorder As Integer
 Public MaxYBorder As Integer
 
 'Status del user
-Public CurMap As Integer 'Mapa actual
+Public CurMap As String 'Mapa actual
 Public UserIndex As Integer
 Public UserMoving As Byte
 Public UserPos As Position 'Posicion

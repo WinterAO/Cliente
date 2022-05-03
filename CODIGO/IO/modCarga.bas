@@ -1028,7 +1028,7 @@ errhandler:
     
 End Sub
 
-Sub CargarMapa(ByVal Map As Integer)
+Sub CargarMapa(ByVal fileMap As String)
 
     On Error GoTo ErrorHandler
 
@@ -1060,7 +1060,7 @@ Sub CargarMapa(ByVal Map As Integer)
     
     DoEvents
     
-    Extract_File_Memory srcFileType.Map, LCase$("Mapa" & Map & ".csm"), buffer()
+    Extract_File_Memory srcFileType.Map, fileMap, buffer()
     
     Set fileBuff = New clsByteBuffer
         
