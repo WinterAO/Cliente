@@ -31,10 +31,10 @@ Begin VB.Form frmCantidad
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   315
-      Left            =   450
+      Left            =   510
       MaxLength       =   5
       TabIndex        =   0
-      Top             =   450
+      Top             =   600
       Width           =   2250
    End
    Begin WinterAOR_Client.uAOButton imgTirar 

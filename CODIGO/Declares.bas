@@ -460,7 +460,7 @@ Type Inventory
     GrhIndex As Long
     Amount As Long
     Equipped As Byte
-    valor As Single
+    Valor As Single
     OBJType As Integer
     MaxDef As Integer
     MinDef As Integer 'Budi
@@ -474,7 +474,7 @@ Type NpCinV
     name As String
     GrhIndex As Long
     Amount As Integer
-    valor As Single
+    Valor As Single
     OBJType As Integer
     MaxDef As Integer
     MinDef As Integer
@@ -886,3 +886,12 @@ Public IntervaloInvisible As Integer
 Public Security As New clsSecurity
 
 Public Const SPEED_NORMAL As Double = 0.018
+
+Public Type ShopObj
+    ObjIndex As Integer
+    Nombre As String
+    Amount As Integer
+    Valor As Long
+End Type
+
+Public ShopObject() As ShopObj

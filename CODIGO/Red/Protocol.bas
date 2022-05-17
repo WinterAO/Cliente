@@ -135,6 +135,9 @@ Private Enum ServerPacketID
     SendNight                    ' NOC
     Pong
     UpdateTagAndStatus
+    BattleGs                     'Battlegrounds
+    MostrarShop
+    ActualizarGemasShop
     
     'GM =  messages
     SpawnList                    ' SPL
@@ -177,7 +180,6 @@ Private Enum ServerPacketID
     ConfirmarInstruccion
     SetSpeed
     AtaqueNPC
-    BattleGs                        'Battlegrounds
 End Enum
 
 Private Enum ClientPacketID
@@ -335,6 +337,8 @@ Private Enum ClientPacketID
     ConsultaSubasta
     RespuestaInstruccion
     LoginNewAccount
+    ShopInit
+    BuyShop
     GMCommands
 End Enum
 
@@ -1112,7 +1116,13 @@ On Error Resume Next
             
         Case ServerPacketID.BattleGs
             Call HandleBattlegrounds
-
+            
+        Case ServerPacketID.MostrarShop
+            Call HandleMostrarShop
+            
+        Case ServerPacketID.ActualizarGemasShop
+            Call HandleActualizarGemasShop
+            
         Case Else
             'ERROR : Abort!
             Exit Sub
@@ -1805,7 +1815,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -11648,6 +11658,60 @@ Private Sub HandleBattlegrounds()
 
 End Sub
 
+Private Sub HandleMostrarShop()
+'*****************************
+'Autor: Lorwik
+'Fecha: 016/05/2022
+'Descripción: Recibe la variable Battegrounds del server
+'*****************************
+
+    Dim NUMSHOPS As Integer
+    Dim i As Integer
+
+    'Remove packet ID
+    Call incomingData.ReadByte
+    
+    frmShop.lstItemsShop.Clear
+    
+    frmShop.lblCredits.Caption = incomingData.ReadInteger
+    NUMSHOPS = incomingData.ReadInteger
+    
+    ReDim ShopObject(1 To NUMSHOPS) As ShopObj
+    
+    For i = 1 To NUMSHOPS
+    
+        ShopObject(i).ObjIndex = incomingData.ReadInteger
+        ShopObject(i).Nombre = incomingData.ReadASCIIString
+        ShopObject(i).Amount = incomingData.ReadInteger
+        ShopObject(i).valor = incomingData.ReadInteger
+    
+    Next i
+    
+    For i = 1 To NUMSHOPS
+    
+        frmShop.lstItemsShop.AddItem ShopObject(i).Nombre
+    
+    Next i
+    
+    frmShop.lblNombre = vbNullString
+    frmShop.Show
+
+End Sub
+
+Private Sub HandleActualizarGemasShop()
+'***************************************
+'Autor: Lorwik
+'Fecha: 16/05/2022
+'Descripcion: Actualiza las gemas Winter en la shop
+'***************************************
+
+    'Remove packet ID
+    Call incomingData.ReadByte
+    
+    frmShop.lblCredits = incomingData.ReadLong
+    
+End Sub
+
 Public Sub WriteBanSerial(ByVal UserName As String)
     '***************************************************
     'Author: Lorwik
@@ -11718,4 +11782,29 @@ Public Sub WriteLoginNewAccount()
         Call .WriteASCIIString(CurrentUser.AccountPassword)
         
     End With
+End Sub
+
+Public Sub WriteShopInit()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 16/05/2022
+'Writes the "ShopInit" message to the outgoing data buffer
+'***************************************************
+    Call outgoingData.WriteByte(ClientPacketID.ShopInit)
+End Sub
+
+Public Sub WriteBuyShop(ByVal obj As Integer)
+'***************************************************
+'Author: Lorwik
+'Last Modification: 16/05/2022
+'Writes the "BuyShop" message to the outgoing data buffer
+'***************************************************
+
+    With outgoingData
+    
+        Call .WriteByte(ClientPacketID.BuyShop)
+        Call .WriteInteger(obj)
+    
+    End With
+    
 End Sub
