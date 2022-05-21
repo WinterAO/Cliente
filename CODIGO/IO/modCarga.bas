@@ -199,7 +199,7 @@ Public Function Path(ByVal PathType As ePath) As String
             Path = App.Path & "\INIT\"
         
         Case ePath.Graficos
-            Path = App.Path & "\Recursos\Graficos\"
+            Path = "..\Shared\Graficos\"
         
         Case ePath.skins
             Path = App.Path & "\Recursos\Skins\"

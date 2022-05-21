@@ -460,7 +460,7 @@ Type Inventory
     GrhIndex As Long
     Amount As Long
     Equipped As Byte
-    Valor As Single
+    valor As Single
     OBJType As Integer
     MaxDef As Integer
     MinDef As Integer 'Budi
@@ -474,7 +474,7 @@ Type NpCinV
     name As String
     GrhIndex As Long
     Amount As Integer
-    Valor As Single
+    valor As Single
     OBJType As Integer
     MaxDef As Integer
     MinDef As Integer
@@ -517,6 +517,7 @@ Type tItemsConstruibles
     Materiales(1 To 4) As Integer
     CantMateriales(1 To 4) As Integer
     NameMateriales(1 To 4) As String
+    PrecioConstruccion As Long
 End Type
 
 Type tItemCrafteo
@@ -612,6 +613,9 @@ Public Type tCurrentUser
     UserSkills(1 To NUMSKILLS) As Byte
     PorcentajeSkills(1 To NUMSKILLS) As Byte
     UserAtributos(1 To NUMATRIBUTOS) As Byte
+    
+    VIP As String
+    esVIP As Boolean
 End Type
 
 Public CurrentUser As tCurrentUser
@@ -891,7 +895,7 @@ Public Type ShopObj
     ObjIndex As Integer
     Nombre As String
     Amount As Integer
-    Valor As Long
+    valor As Long
 End Type
 
 Public ShopObject() As ShopObj

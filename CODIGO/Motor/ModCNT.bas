@@ -395,7 +395,7 @@ Private Sub RenderConnectGUI()
             
             'Server
             Call DrawText(480, 340, Servidor(ServIndSel).Nombre, -1, False)
-
+            
         Case 1 'Cuenta
         
             'Marco
@@ -406,6 +406,9 @@ Private Sub RenderConnectGUI()
                      Call Draw_GrhIndex(.GrhNormal, .X, .Y, 0, .Color(), 0, False)
                 End With
             Next i
+            
+            If CurrentUser.esVIP Then _
+                Call DrawText(490, 680, "Cuenta VIP hasta el " & CurrentUser.VIP, -641, True)
             
             'Conectando
             If ModCnt.Conectando = False Then _

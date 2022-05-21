@@ -3636,7 +3636,7 @@ Private Sub HandleInitTrabajo()
 'Last Modification: 05/17/06
 '
 '***************************************************
-    If incomingData.Length < 5 Then
+    If incomingData.Length < 9 Then
         Err.Raise incomingData.NotEnoughDataErrCode
         Exit Sub
     End If
@@ -3665,7 +3665,8 @@ On Error GoTo errhandler
         With ObjetoTrabajo(i)
             .name = buffer.ReadASCIIString()    'Get the object's name
             .GrhIndex = buffer.ReadLong()
-            Debug.Print .GrhIndex
+            .PrecioConstruccion = buffer.ReadLong()
+            
             For j = 1 To MAXMATERIALES
                 .Materiales(j) = buffer.ReadLong()
                 .CantMateriales(j) = buffer.ReadInteger()
@@ -10652,7 +10653,7 @@ End Sub
 
 Private Sub HandleEnviarPJUserAccount()
 
-    If incomingData.Length < 9 Then
+    If incomingData.Length < 13 Then
         Err.Raise incomingData.NotEnoughDataErrCode
         Exit Sub
     End If
@@ -10670,6 +10671,9 @@ Private Sub HandleEnviarPJUserAccount()
     Security.Redundance = buffer.ReadByte
     CurrentUser.AccountName = buffer.ReadASCIIString
     CurrentUser.NumberOfCharacters = buffer.ReadByte
+    
+    CurrentUser.VIP = buffer.ReadASCIIString
+    CurrentUser.esVIP = buffer.ReadBoolean
 
     'Cambiamos al modo cuenta
     Call ModCnt.MostrarCuenta(Not frmConnect.Visible)

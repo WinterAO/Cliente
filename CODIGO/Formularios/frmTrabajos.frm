@@ -12,6 +12,7 @@ Begin VB.Form frmTrabajos
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
+   Picture         =   "frmTrabajos.frx":0000
    ScaleHeight     =   359
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   445
@@ -163,6 +164,117 @@ Begin VB.Form frmTrabajos
       Visible         =   0   'False
       Width           =   480
    End
+   Begin VB.Image picPrecio3 
+      Height          =   360
+      Left            =   4350
+      Top             =   3810
+      Width           =   360
+   End
+   Begin VB.Image picPrecio2 
+      Height          =   360
+      Left            =   4380
+      Top             =   3000
+      Width           =   360
+   End
+   Begin VB.Image picPrecio1 
+      Height          =   360
+      Left            =   4350
+      Top             =   2190
+      Width           =   360
+   End
+   Begin VB.Image picPrecio0 
+      Height          =   360
+      Left            =   4320
+      Top             =   1350
+      Width           =   360
+   End
+   Begin VB.Label lblPrecio 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   195
+      Index           =   3
+      Left            =   4770
+      TabIndex        =   13
+      Top             =   3960
+      Visible         =   0   'False
+      Width           =   1350
+   End
+   Begin VB.Label lblPrecio 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   195
+      Index           =   2
+      Left            =   4770
+      TabIndex        =   12
+      Top             =   3180
+      Visible         =   0   'False
+      Width           =   1350
+   End
+   Begin VB.Label lblPrecio 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   195
+      Index           =   1
+      Left            =   4740
+      TabIndex        =   11
+      Top             =   2340
+      Visible         =   0   'False
+      Width           =   1350
+   End
+   Begin VB.Label lblPrecio 
+      BackStyle       =   0  'Transparent
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   195
+      Index           =   0
+      Left            =   4710
+      TabIndex        =   10
+      Top             =   1470
+      Visible         =   0   'False
+      Width           =   1350
+   End
    Begin VB.Image imgMarcoLingotes 
       Height          =   780
       Index           =   4
@@ -219,20 +331,20 @@ Begin VB.Form frmTrabajos
    End
    Begin VB.Image picConstruir2 
       Height          =   420
-      Left            =   4320
-      Top             =   3180
+      Left            =   4350
+      Top             =   3390
       Width           =   1710
    End
    Begin VB.Image picConstruir1 
       Height          =   420
-      Left            =   4320
-      Top             =   2370
+      Left            =   4350
+      Top             =   2580
       Width           =   1710
    End
    Begin VB.Image picConstruir3 
       Height          =   420
-      Left            =   4320
-      Top             =   3960
+      Left            =   4350
+      Top             =   4170
       Visible         =   0   'False
       Width           =   1710
    End
@@ -254,8 +366,8 @@ Begin VB.Form frmTrabajos
    End
    Begin VB.Image picConstruir0 
       Height          =   420
-      Left            =   4320
-      Top             =   1560
+      Left            =   4350
+      Top             =   1740
       Width           =   1710
    End
 End
@@ -302,6 +414,7 @@ Private picRecuadroItem As Picture
 Private picRecuadroLingotes As Picture
 
 Private cPicCerrar As clsGraphicalButton
+Private cPicPrecio(0 To 3)  As clsGraphicalButton
 Private cPicConstruir(0 To 3) As clsGraphicalButton
 Public LastButtonPressed As clsGraphicalButton
 
@@ -333,6 +446,11 @@ Private Sub CargarImagenes()
     Set cPicConstruir(1) = New clsGraphicalButton
     Set cPicConstruir(2) = New clsGraphicalButton
     Set cPicConstruir(3) = New clsGraphicalButton
+    
+    Set cPicPrecio(0) = New clsGraphicalButton
+    Set cPicPrecio(1) = New clsGraphicalButton
+    Set cPicPrecio(2) = New clsGraphicalButton
+    Set cPicPrecio(3) = New clsGraphicalButton
 
     Set LastButtonPressed = New clsGraphicalButton
     
@@ -341,6 +459,11 @@ Private Sub CargarImagenes()
     Call cPicConstruir(1).Initialize(picConstruir1, ImgPath & "11.gif", ImgPath & "12.gif", ImgPath & "13.gif", Me)
     Call cPicConstruir(2).Initialize(picConstruir2, ImgPath & "11.gif", ImgPath & "12.gif", ImgPath & "13.gif", Me)
     Call cPicConstruir(3).Initialize(picConstruir3, ImgPath & "11.gif", ImgPath & "12.gif", ImgPath & "13.gif", Me)
+    
+    Call cPicPrecio(0).Initialize(picPrecio0, ImgPath & "229.gif", ImgPath & "229.gif", ImgPath & "229.gif", Me)
+    Call cPicPrecio(1).Initialize(picPrecio1, ImgPath & "229.gif", ImgPath & "229.gif", ImgPath & "229.gif", Me)
+    Call cPicPrecio(2).Initialize(picPrecio2, ImgPath & "229.gif", ImgPath & "229.gif", ImgPath & "229.gif", Me)
+    Call cPicPrecio(3).Initialize(picPrecio3, ImgPath & "229.gif", ImgPath & "229.gif", ImgPath & "229.gif", Me)
     
     Me.MouseIcon = picMouseIcon
     
@@ -421,6 +544,16 @@ Public Sub HideExtraControls(ByVal NumItems As Integer, Optional ByVal Upgrading
         imgMarcoLingotes(i).Visible = (NumItems >= i)
     Next i
     
+    lblPrecio(0).Visible = (NumItems >= 1)
+    lblPrecio(1).Visible = (NumItems >= 2)
+    lblPrecio(2).Visible = (NumItems >= 3)
+    lblPrecio(3).Visible = (NumItems >= 4)
+    
+    picPrecio0.Visible = (NumItems >= 1)
+    picPrecio1.Visible = (NumItems >= 2)
+    picPrecio2.Visible = (NumItems >= 3)
+    picPrecio3.Visible = (NumItems >= 4)
+    
     picConstruir0.Visible = (NumItems >= 1 And Not Upgrading)
     picConstruir1.Visible = (NumItems >= 2 And Not Upgrading)
     picConstruir2.Visible = (NumItems >= 3 And Not Upgrading)
@@ -482,6 +615,10 @@ On Error Resume Next
                     Call InvMaterialTrabajo(i).SetItem(j, 0, .CantMateriales(j), 0, .Materiales(j), 0, 0, 0, 0, 0, 0, .NameMateriales(j))
                 Next j
                 
+                For j = 0 To 3
+                    lblPrecio(j).Caption = .PrecioConstruccion
+                Next j
+                
             End With
             
         End If
@@ -502,10 +639,6 @@ Private Sub Form_Unload(Cancel As Integer)
     Next i
     
     MirandoTrabajo = 0
-End Sub
-
-Private Sub imgCantidadCiclo_Click()
-
 End Sub
 
 Private Sub imgCerrar_Click()
