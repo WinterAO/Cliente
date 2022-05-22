@@ -19,19 +19,28 @@ Begin VB.Form frmPVP
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
+   Picture         =   "frmPVP.frx":0000
    ScaleHeight     =   425
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   899
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
+   Begin VB.CommandButton cmdSalir 
+      Caption         =   "Salir"
+      Height          =   630
+      Left            =   11700
+      TabIndex        =   3
+      Top             =   5520
+      Width           =   1590
+   End
    Begin WinterAOR_Client.uAOProgress uAOProgressExperiencePVP 
       Height          =   390
-      Left            =   570
+      Left            =   1770
       TabIndex        =   0
       ToolTipText     =   "Experiencia necesaria para pasar de nivel"
-      Top             =   540
-      Width           =   11625
-      _ExtentX        =   20505
+      Top             =   780
+      Width           =   8745
+      _ExtentX        =   15425
       _ExtentY        =   688
       BackColor       =   192
       BorderColor     =   0
@@ -47,21 +56,21 @@ Begin VB.Form frmPVP
    End
    Begin WinterAOR_Client.uAOButton btnRetos 
       Height          =   525
-      Left            =   870
+      Left            =   1410
       TabIndex        =   2
       TabStop         =   0   'False
-      Top             =   2160
-      Width           =   2685
-      _ExtentX        =   4736
+      Top             =   2340
+      Width           =   3675
+      _ExtentX        =   6482
       _ExtentY        =   926
       TX              =   ""
       ENAB            =   -1  'True
       FCOL            =   16777215
       OCOL            =   16777215
-      PICE            =   "frmPVP.frx":0000
-      PICF            =   "frmPVP.frx":001C
-      PICH            =   "frmPVP.frx":0038
-      PICV            =   "frmPVP.frx":0054
+      PICE            =   "frmPVP.frx":26A1D
+      PICF            =   "frmPVP.frx":26A39
+      PICH            =   "frmPVP.frx":26A55
+      PICV            =   "frmPVP.frx":26A71
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Arial"
          Size            =   9.75
@@ -77,9 +86,9 @@ Begin VB.Form frmPVP
       BackStyle       =   0  'Transparent
       Caption         =   "000"
       BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   15.75
-         Charset         =   0
+         Name            =   "Terminal"
+         Size            =   13.5
+         Charset         =   255
          Weight          =   700
          Underline       =   0   'False
          Italic          =   0   'False
@@ -87,9 +96,9 @@ Begin VB.Form frmPVP
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   435
-      Left            =   12450
+      Left            =   12000
       TabIndex        =   1
-      Top             =   510
+      Top             =   810
       Width           =   660
    End
 End
@@ -100,8 +109,21 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
+Private Sub cmdSalir_Click()
+    Unload Me
+End Sub
+
 Private Sub Form_Load()
     Call LoadTextsForm
+    
+    Me.Picture = General_Load_Picture_From_Resource("230.gif")
+    
+End Sub
+
+Public Sub IniciarLabels()
+    lblPVP.Caption = CurrentUser.UserNivelPVP
+    uAOProgressExperiencePVP.Max = CurrentUser.UserEXPPVP
+    uAOProgressExperiencePVP.value = CurrentUser.UserEXPPVP
 End Sub
 
 Private Sub LoadTextsForm()

@@ -180,6 +180,7 @@ Private Enum ServerPacketID
     ConfirmarInstruccion
     SetSpeed
     AtaqueNPC
+    MostrarPVP
 End Enum
 
 Private Enum ClientPacketID
@@ -339,6 +340,7 @@ Private Enum ClientPacketID
     LoginNewAccount
     ShopInit
     BuyShop
+    InitPVP
     GMCommands
 End Enum
 
@@ -1123,6 +1125,9 @@ On Error Resume Next
         Case ServerPacketID.ActualizarGemasShop
             Call HandleActualizarGemasShop
             
+        Case ServerPacketID.MostrarPVP
+            Call HandleMostrarPVP
+            
         Case Else
             'ERROR : Abort!
             Exit Sub
@@ -1815,7 +1820,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -5470,6 +5475,25 @@ On Error GoTo 0
     If Error <> 0 Then _
         Err.Raise Error
 End Sub
+
+Private Sub HandleMostrarPVP()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 22/05/2022
+'
+'***************************************************
+
+    Call incomingData.ReadByte
+    
+    CurrentUser.UserNivelPVP = incomingData.ReadByte
+    CurrentUser.UserEXPPVP = incomingData.ReadInteger
+    CurrentUser.UserELOPVP = incomingData.ReadInteger
+
+    Call frmPVP.IniciarLabels
+    frmPVP.Show , frmMain
+    
+End Sub
+
 
 ''
 ' Writes the "LoginExistingAccount" message to the outgoing data buffer.
@@ -11811,4 +11835,18 @@ Public Sub WriteBuyShop(ByVal obj As Integer)
     
     End With
     
+End Sub
+
+Public Sub WriteInitPVP()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 22/05/2022
+'Writes the "InitPVP" message to the outgoing data buffer
+'***************************************************
+
+    With outgoingData
+    
+        Call .WriteByte(ClientPacketID.InitPVP)
+    
+    End With
 End Sub
