@@ -25,14 +25,6 @@ Begin VB.Form frmPVP
    ScaleWidth      =   899
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
-   Begin VB.CommandButton cmdSalir 
-      Caption         =   "Salir"
-      Height          =   630
-      Left            =   11700
-      TabIndex        =   3
-      Top             =   5520
-      Width           =   1590
-   End
    Begin WinterAOR_Client.uAOProgress uAOProgressExperiencePVP 
       Height          =   390
       Left            =   1770
@@ -40,19 +32,11 @@ Begin VB.Form frmPVP
       ToolTipText     =   "Experiencia necesaria para pasar de nivel"
       Top             =   780
       Width           =   8745
-      _ExtentX        =   15425
-      _ExtentY        =   688
-      BackColor       =   192
-      BorderColor     =   0
-      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
+      _extentx        =   15425
+      _extenty        =   688
+      backcolor       =   192
+      bordercolor     =   0
+      font            =   "frmPVP.frx":26A1D
    End
    Begin WinterAOR_Client.uAOButton btnRetos 
       Height          =   525
@@ -61,25 +45,23 @@ Begin VB.Form frmPVP
       TabStop         =   0   'False
       Top             =   2340
       Width           =   3675
-      _ExtentX        =   6482
-      _ExtentY        =   926
-      TX              =   ""
-      ENAB            =   -1  'True
-      FCOL            =   16777215
-      OCOL            =   16777215
-      PICE            =   "frmPVP.frx":26A1D
-      PICF            =   "frmPVP.frx":26A39
-      PICH            =   "frmPVP.frx":26A55
-      PICV            =   "frmPVP.frx":26A71
-      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Arial"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
+      _extentx        =   6482
+      _extenty        =   926
+      tx              =   ""
+      enab            =   -1
+      fcol            =   16777215
+      ocol            =   16777215
+      pice            =   "frmPVP.frx":26A45
+      picf            =   "frmPVP.frx":26A61
+      pich            =   "frmPVP.frx":26A7D
+      picv            =   "frmPVP.frx":26A99
+      font            =   "frmPVP.frx":26AB5
+   End
+   Begin VB.Image imgCerrar 
+      Height          =   495
+      Left            =   9990
+      Top             =   5280
+      Width           =   2775
    End
    Begin VB.Label lblPVP 
       Alignment       =   2  'Center
@@ -109,23 +91,45 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Private Sub cmdSalir_Click()
-    Unload Me
-End Sub
+Private cBotonCerrar As clsGraphicalButton
+Private clsFormulario As clsFormMovementManager
+Public LastButtonPressed As clsGraphicalButton
 
 Private Sub Form_Load()
-    Call LoadTextsForm
+    ' Handles Form movement (drag and drop).
+    Set clsFormulario = New clsFormMovementManager
+    clsFormulario.Initialize Me
     
     Me.Picture = General_Load_Picture_From_Resource("230.gif")
+    
+    Call LoadButtons
+    Call LoadTextsForm
     
 End Sub
 
 Public Sub IniciarLabels()
     lblPVP.Caption = CurrentUser.UserNivelPVP
-    uAOProgressExperiencePVP.Max = CurrentUser.UserEXPPVP
+    uAOProgressExperiencePVP.Max = CurrentUser.UserELVPVP
     uAOProgressExperiencePVP.value = CurrentUser.UserEXPPVP
 End Sub
 
 Private Sub LoadTextsForm()
     btnRetos.Caption = JsonLanguage.item("LBL_RETOS").item("TEXTO")
+End Sub
+
+Private Sub LoadButtons()
+
+    Set cBotonCerrar = New clsGraphicalButton
+    
+    Set LastButtonPressed = New clsGraphicalButton
+    
+    ' Load pictures
+    Call cBotonCerrar.Initialize(imgCerrar, "57.gif", _
+                                    "58.gif", _
+                                    "59.gif", Me)
+    
+End Sub
+
+Private Sub imgCerrar_Click()
+    Unload Me
 End Sub

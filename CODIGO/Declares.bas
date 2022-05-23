@@ -588,7 +588,7 @@ Public Type tCurrentUser
     UserELO As Long
     UserNivelPVP As Long
     UserEXPPVP As Long
-    UserELOPVP As Long
+    UserELVPVP As Long
     UserReputacion As tReputacion
     UserEstadisticas As tEstadisticasUsu
     UserDescansar As Boolean
