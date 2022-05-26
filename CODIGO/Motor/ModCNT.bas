@@ -901,7 +901,7 @@ Public Function ListarServidores() As Boolean
     
     Set Inet = New clsInet
     
-    responseServer = Inet.OpenRequest("http://192.168.1.12/apicomunidadwinter/server-list.txt", "GET")
+    responseServer = Inet.OpenRequest("http://winterao.com/apicomunidadwinter/server-list.txt", "GET")
     responseServer = Inet.Execute
     responseServer = Inet.GetResponseAsString
     
