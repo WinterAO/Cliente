@@ -703,6 +703,7 @@ Public Enum eEditOptions
     eo_Vida
     eo_Poss
     eo_Speed
+    eo_ExperiencePVP
 End Enum
 
 ''

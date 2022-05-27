@@ -1676,5 +1676,14 @@
 	},
 	"BORRAR_PJ": {
         "TEXTO": "El personaje ha sido borrado."
-    }
+    },
+	"LBL_DUELOSRANKED": {
+       "TEXTO": "Duelos Ranked"
+    },
+	"LBL_DUELOSCLASICOS": {
+        "TEXTO": "Duelos Clasicos"
+	},
+	"LBL_ARENARINKEL": {
+        "TEXTO": "Arenas de Rinkel"
+	}
 }

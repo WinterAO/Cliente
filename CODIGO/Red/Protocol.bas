@@ -341,6 +341,7 @@ Private Enum ClientPacketID
     ShopInit
     BuyShop
     InitPVP
+    DueloSet
     GMCommands
 End Enum
 
@@ -5488,6 +5489,7 @@ Private Sub HandleMostrarPVP()
     CurrentUser.UserNivelPVP = incomingData.ReadByte
     CurrentUser.UserEXPPVP = incomingData.ReadInteger
     CurrentUser.UserELVPVP = incomingData.ReadInteger
+    CurrentUser.UserELO = incomingData.ReadLong
 
     Call frmPVP.IniciarLabels
     frmPVP.Show , frmMain
@@ -11849,4 +11851,15 @@ Public Sub WriteInitPVP()
         Call .WriteByte(ClientPacketID.InitPVP)
     
     End With
+End Sub
+
+Public Sub WritedueloSet(ByVal TipoDuelo As Byte)
+'***************************************************
+'Author: Lorwik
+'Last Modification: 27/05/2022
+'Writes the "InitPVP" message to the outgoing data buffer
+'***************************************************
+
+    Call outgoingData.WriteByte(ClientPacketID.DueloSet)
+    Call outgoingData.WriteByte(TipoDuelo)
 End Sub
