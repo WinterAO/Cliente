@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "Richtx32.ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
 Begin VB.Form frmMain 
    BorderStyle     =   0  'None
    ClientHeight    =   11520
@@ -998,7 +998,7 @@ Call Sound.Sound_Play(SND_CLICK)
             'btnSolapa(2).Picture = General_Load_Picture_From_Resource("12.gif", True)
             
             ' Activo controles de inventario
-            picInv.Visible = True
+            PicInv.Visible = True
         
             ' Desactivo controles de hechizo y amigos
             hlst.Visible = False
@@ -1032,7 +1032,7 @@ Call Sound.Sound_Play(SND_CLICK)
             cmdMoverHechi(1).Visible = True
             
             ' Desactivo controles de inventario y amigos
-            picInv.Visible = False
+            PicInv.Visible = False
             
             ListAmigos.Visible = False
             AgregarAmigo.Visible = False
@@ -1049,7 +1049,7 @@ Call Sound.Sound_Play(SND_CLICK)
             BorrarAmigo.Visible = True
             
             ' Desactivo controles de inventario y hechizos
-            picInv.Visible = False
+            PicInv.Visible = False
             
             hlst.Visible = False
             btnInfo.Visible = False
@@ -1632,8 +1632,8 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         SendTxt.Visible = False
         
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
         ElseIf hlst.Visible Then
             hlst.SetFocus
         Else
@@ -2070,8 +2070,8 @@ Private Sub RecTxt_Change()
            (Not frmShop.Visible) And _
            (Not MirandoParty) Then
 
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
                         
         ElseIf hlst.Visible Then
             hlst.SetFocus
@@ -2084,8 +2084,8 @@ End Sub
 
 Private Sub RecTxt_KeyDown(KeyCode As Integer, Shift As Integer)
 
-    If picInv.Visible Then
-        picInv.SetFocus
+    If PicInv.Visible Then
+        PicInv.SetFocus
     Else
         hlst.SetFocus
     End If
@@ -2287,12 +2287,6 @@ Private Sub Client_Connect()
 
         Case E_MODO.Dados
             Call MostrarCreacion
-            
-        Case E_MODO.CrearCuenta
-            Call MostrarCrearCuenta
-            
-        Case E_MODO.CrearCuenta
-            frmCrearCuenta.Show , frmConnect
             
     End Select
  
@@ -2536,7 +2530,7 @@ Public Sub ActualizarCoordenadas(ByVal tX As Integer, ByVal tY As Integer)
     
     'Guardamos el cuadrante antes del posible cambio
     CurrentCuadrante = CurrentUser.UserCuadrante
-    AnchoMap = 11
+    AnchoMap = 10
     
     cx = Fix((tX / 100))
     cy = Fix((tY / 100))

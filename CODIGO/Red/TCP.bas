@@ -47,10 +47,6 @@ Sub Login()
         
         Case E_MODO.CrearNuevoPJ
             Call WriteLoginNewChar
-            
-        Case E_MODO.CrearCuenta
-            Security.Redundance = 28
-            Call WriteLoginNewAccount
 
     End Select
     

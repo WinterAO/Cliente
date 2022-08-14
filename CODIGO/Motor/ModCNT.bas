@@ -22,7 +22,7 @@ Public MapaConnect() As tMapaConnect
 Public NumConnectMap As Byte 'Numero total de mapas cargados
 
 'Indica que mapa vamos a renderizar en el conectar
-Private SelectConnectMap As Byte
+Public SelectConnectMap As Byte
 
 '******************************
 'Modo de pantalla renderizado
@@ -169,9 +169,9 @@ Public Sub InicializarRndCNT()
     
 End Sub
 
-Public Sub MapConnect(ByVal SelectConnectMap As Byte)
+Public Sub MapConnect(ByVal ConnectMap As Byte)
     
-    Call SwitchMap(MapaConnect(SelectConnectMap).Map)
+    Call SwitchMap(MapaConnect(ConnectMap).Map)
 
 End Sub
 
@@ -204,8 +204,10 @@ Public Sub MostrarConnect(Optional ByVal Mostrar As Boolean = False)
     
     'LISTA DE SERVIDORES
     Call ListarServidores
+    
+    SelectConnectMap = RandomNumber(3, 4)
 
-    Call MapConnect(3)
+    Call MapConnect(SelectConnectMap)
 End Sub
 
 Public Sub MostrarCuenta(Optional ByVal Mostrar As Boolean = False)
@@ -226,8 +228,10 @@ Public Sub MostrarCuenta(Optional ByVal Mostrar As Boolean = False)
     
     EngineRun = False
     
+    SelectConnectMap = 2
+    
     'Ponemos el mapa de cuentas
-    Call MapConnect(2)
+    Call MapConnect(SelectConnectMap)
 
 End Sub
 
@@ -264,14 +268,10 @@ Public Sub MostrarCreacion(Optional ByVal Mostrar As Boolean = False)
     
     EngineRun = False
     
+    SelectConnectMap = 1
+    
     'Ponemos el mapa de cuentas
-    Call MapConnect(1)
-
-End Sub
-
-Public Sub MostrarCrearCuenta()
-
-    frmCrearCuenta.Show , frmConnect
+    Call MapConnect(SelectConnectMap)
 
 End Sub
 
@@ -436,18 +436,14 @@ Private Sub RenderConnectGUI()
             If CurrentUser.UserSexo <> 0 Then Call DrawText(505, 320, SexoSelect(CurrentUser.UserSexo), -1, True)
             If CurrentUser.UserRaza <> 0 Then Call DrawText(505, 370, ListaRazas(CurrentUser.UserRaza), -1, True)
             If CurrentUser.UserClase <> 0 Then Call DrawText(505, 420, ListaClases(CurrentUser.UserClase), -1, True)
-            Call DrawText(850, 255, "Modificador de raza:", -1, True)
-            Call Engine_Draw_Box(730, 250, 250, 250, D3DColorARGB(100, 0, 0, 0))
-            Call DrawText(800, 285, "Fuerza:", -1, True)
-            Call DrawText(900, 285, lblModRaza(eAtributos.Fuerza), -1, True) '
-            Call DrawText(800, 320, "Agilidad:", -1, True)
-            Call DrawText(900, 320, lblModRaza(eAtributos.Agilidad), -1, True)
-            Call DrawText(800, 363, "Inteligencia:", -1, True)
-            Call DrawText(900, 363, lblModRaza(eAtributos.Inteligencia), -1, True)
-            Call DrawText(800, 400, "Carisma:", -1, True)
-            Call DrawText(900, 400, lblModRaza(eAtributos.Carisma), -1, True)
-            Call DrawText(800, 440, "Constitucion:", -1, True)
-            Call DrawText(900, 440, lblModRaza(eAtributos.Constitucion), -1, True)
+
+            
+            Call Draw_GrhIndex(ButtonGUI(30).GrhNormal, ButtonGUI(30).X, ButtonGUI(30).Y, 0, ButtonGUI(2).Color(), 0, False)
+            Call DrawText(900, 327, lblModRaza(eAtributos.Fuerza), -1, True) '
+            Call DrawText(900, 364, lblModRaza(eAtributos.Agilidad), -1, True)
+            Call DrawText(900, 400, lblModRaza(eAtributos.Inteligencia), -1, True)
+            Call DrawText(900, 438, lblModRaza(eAtributos.Carisma), -1, True)
+            Call DrawText(900, 477, lblModRaza(eAtributos.Constitucion), -1, True)
             
     End Select
     
@@ -867,7 +863,7 @@ Private Sub btnGestion()
 'Descripcion: Boton de gestion de cuentas
 '**************************************
     Call Sound.Sound_Play(SND_CLICK)
-    Call ShellExecute(0, "Open", "http://winterao.com.ar/", "", App.Path, SW_SHOWNORMAL)
+    Call ShellExecute(0, "Open", "https://winterao.com/#/perfil", "", App.Path, SW_SHOWNORMAL)
     
 End Sub
 
@@ -879,11 +875,7 @@ Private Sub btnCrearCuenta()
 '**************************************
     Call Sound.Sound_Play(SND_CLICK)
 
-    'Conectamos al servidor seleccionado
-    CurServerIp = Servidor(ServIndSel).Ip
-    CurServerPort = Servidor(ServIndSel).Puerto
-
-    Call Protocol.Connect(E_MODO.CrearCuenta)
+    Call ShellExecute(0, "Open", "https://winterao.com/#/registro", "", App.Path, SW_SHOWNORMAL)
     
 End Sub
 
@@ -901,7 +893,7 @@ Public Function ListarServidores() As Boolean
     
     Set Inet = New clsInet
     
-    responseServer = Inet.OpenRequest("http://winterao.com/apicomunidadwinter/server-list.txt", "GET")
+    responseServer = Inet.OpenRequest("http://api.winterao.com/server-list.txt", "GET")
     responseServer = Inet.Execute
     responseServer = Inet.GetResponseAsString
     

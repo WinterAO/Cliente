@@ -337,7 +337,6 @@ Private Enum ClientPacketID
     OfertarSubasta
     ConsultaSubasta
     RespuestaInstruccion
-    LoginNewAccount
     ShopInit
     BuyShop
     InitPVP
@@ -11786,32 +11785,6 @@ Public Sub WriteBanTemporal(ByVal UserName As String, ByVal reason As String, By
 
     End With
 
-End Sub
-
-''
-' Writes the "LoginNewAccount" message to the outgoing data buffer.
-'
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WriteLoginNewAccount()
-'***************************************************
-'Author: Lorwik
-'Last Modification: 05/02/2022
-'Writes the "LoginNewAccount" message to the outgoing data buffer
-'***************************************************
-
-    With outgoingData
-        Call .WriteByte(ClientPacketID.LoginNewAccount)
-        
-        Call .WriteByte(App.Major)
-        Call .WriteByte(App.Minor)
-        Call .WriteByte(App.Revision)
-        
-        Call .WriteASCIIString(CurrentUser.AccountName)
-        Call .WriteASCIIString(CurrentUser.AccountMail)
-        Call .WriteASCIIString(CurrentUser.AccountPassword)
-        
-    End With
 End Sub
 
 Public Sub WriteShopInit()
