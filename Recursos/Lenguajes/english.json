@@ -1679,14 +1679,5 @@
 	},
 	"BORRAR_PJ": {
         "TEXTO": "The character has been deleted."
-    },
-	"LBL_DUELOSRANKED": {
-        "TEXTO": "Ranked Duels"
-	},
-	"LBL_DUELOSCLASICOS": {
-        "TEXTO": "Classic Duels"
-	},
-	"LBL_ARENARINKEL": {
-        "TEXTO": "Rinkel Sands"
-	}
+    }
 }

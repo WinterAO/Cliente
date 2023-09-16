@@ -199,7 +199,7 @@ Public Function Path(ByVal PathType As ePath) As String
             Path = App.Path & "\INIT\"
         
         Case ePath.Graficos
-            Path = "..\Shared\Graficos\"
+            Path = App.Path & "\Recursos\Graficos\"
         
         Case ePath.skins
             Path = App.Path & "\Recursos\Skins\"
@@ -1028,7 +1028,7 @@ errhandler:
     
 End Sub
 
-Sub CargarMapa(ByVal fileMap As String)
+Sub CargarMapa(ByVal Map As Integer)
 
     On Error GoTo ErrorHandler
 
@@ -1060,7 +1060,7 @@ Sub CargarMapa(ByVal fileMap As String)
     
     DoEvents
     
-    Extract_File_Memory srcFileType.Map, fileMap, buffer()
+    Extract_File_Memory srcFileType.Map, LCase$("Mapa" & Map & ".csm"), buffer()
     
     Set fileBuff = New clsByteBuffer
         

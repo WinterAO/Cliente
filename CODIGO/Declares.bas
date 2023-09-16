@@ -38,8 +38,6 @@ Public Form_Caption As String
 Public MacAdress        As String
 Public HDserial         As Long
 
-Public Battlegrounds    As Boolean
-
 '#######################
 'HUD
 '#######################
@@ -517,7 +515,6 @@ Type tItemsConstruibles
     Materiales(1 To 4) As Integer
     CantMateriales(1 To 4) As Integer
     NameMateriales(1 To 4) As String
-    PrecioConstruccion As Long
 End Type
 
 Type tItemCrafteo
@@ -567,7 +564,6 @@ Public Type tCurrentUser
     UserName As String
     AccountName As String
     AccountPassword As String
-    AccountMail As String 'Solo usado en la creacion de cuenta
     NumberOfCharacters As Byte
     UserMaxHP As Integer
     UserMinHP As Integer
@@ -586,9 +582,6 @@ Public Type tCurrentUser
     UserPasarNivel As Long
     UserExp As Long
     UserELO As Long
-    UserNivelPVP As Long
-    UserEXPPVP As Long
-    UserELVPVP As Long
     UserReputacion As tReputacion
     UserEstadisticas As tEstadisticasUsu
     UserDescansar As Boolean
@@ -616,9 +609,6 @@ Public Type tCurrentUser
     UserSkills(1 To NUMSKILLS) As Byte
     PorcentajeSkills(1 To NUMSKILLS) As Byte
     UserAtributos(1 To NUMATRIBUTOS) As Byte
-    
-    VIP As String
-    esVIP As Boolean
 End Type
 
 Public CurrentUser As tCurrentUser
@@ -702,7 +692,6 @@ Public Enum eEditOptions
     eo_Vida
     eo_Poss
     eo_Speed
-    eo_ExperiencePVP
 End Enum
 
 ''
@@ -893,12 +882,3 @@ Public IntervaloInvisible As Integer
 Public Security As New clsSecurity
 
 Public Const SPEED_NORMAL As Double = 0.018
-
-Public Type ShopObj
-    ObjIndex As Integer
-    Nombre As String
-    Amount As Integer
-    valor As Long
-End Type
-
-Public ShopObject() As ShopObj

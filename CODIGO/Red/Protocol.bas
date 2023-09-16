@@ -135,9 +135,6 @@ Private Enum ServerPacketID
     SendNight                    ' NOC
     Pong
     UpdateTagAndStatus
-    BattleGs                     'Battlegrounds
-    MostrarShop
-    ActualizarGemasShop
     
     'GM =  messages
     SpawnList                    ' SPL
@@ -180,7 +177,6 @@ Private Enum ServerPacketID
     ConfirmarInstruccion
     SetSpeed
     AtaqueNPC
-    MostrarPVP
 End Enum
 
 Private Enum ClientPacketID
@@ -337,10 +333,6 @@ Private Enum ClientPacketID
     OfertarSubasta
     ConsultaSubasta
     RespuestaInstruccion
-    ShopInit
-    BuyShop
-    InitPVP
-    DueloSet
     GMCommands
 End Enum
 
@@ -1115,19 +1107,7 @@ On Error Resume Next
             
         Case ServerPacketID.AtaqueNPC
             Call HandleAtaqueNPC
-            
-        Case ServerPacketID.BattleGs
-            Call HandleBattlegrounds
-            
-        Case ServerPacketID.MostrarShop
-            Call HandleMostrarShop
-            
-        Case ServerPacketID.ActualizarGemasShop
-            Call HandleActualizarGemasShop
-            
-        Case ServerPacketID.MostrarPVP
-            Call HandleMostrarPVP
-            
+
         Case Else
             'ERROR : Abort!
             Exit Sub
@@ -3641,7 +3621,7 @@ Private Sub HandleInitTrabajo()
 'Last Modification: 05/17/06
 '
 '***************************************************
-    If incomingData.Length < 9 Then
+    If incomingData.Length < 5 Then
         Err.Raise incomingData.NotEnoughDataErrCode
         Exit Sub
     End If
@@ -3670,8 +3650,7 @@ On Error GoTo errhandler
         With ObjetoTrabajo(i)
             .name = buffer.ReadASCIIString()    'Get the object's name
             .GrhIndex = buffer.ReadLong()
-            .PrecioConstruccion = buffer.ReadLong()
-            
+            Debug.Print .GrhIndex
             For j = 1 To MAXMATERIALES
                 .Materiales(j) = buffer.ReadLong()
                 .CantMateriales(j) = buffer.ReadInteger()
@@ -5475,26 +5454,6 @@ On Error GoTo 0
     If Error <> 0 Then _
         Err.Raise Error
 End Sub
-
-Private Sub HandleMostrarPVP()
-'***************************************************
-'Author: Lorwik
-'Last Modification: 22/05/2022
-'
-'***************************************************
-
-    Call incomingData.ReadByte
-    
-    CurrentUser.UserNivelPVP = incomingData.ReadByte
-    CurrentUser.UserEXPPVP = incomingData.ReadInteger
-    CurrentUser.UserELVPVP = incomingData.ReadInteger
-    CurrentUser.UserELO = incomingData.ReadLong
-
-    Call frmPVP.IniciarLabels
-    frmPVP.Show , frmMain
-    
-End Sub
-
 
 ''
 ' Writes the "LoginExistingAccount" message to the outgoing data buffer.
@@ -10678,7 +10637,7 @@ End Sub
 
 Private Sub HandleEnviarPJUserAccount()
 
-    If incomingData.Length < 13 Then
+    If incomingData.Length < 9 Then
         Err.Raise incomingData.NotEnoughDataErrCode
         Exit Sub
     End If
@@ -10696,9 +10655,6 @@ Private Sub HandleEnviarPJUserAccount()
     Security.Redundance = buffer.ReadByte
     CurrentUser.AccountName = buffer.ReadASCIIString
     CurrentUser.NumberOfCharacters = buffer.ReadByte
-    
-    CurrentUser.VIP = buffer.ReadASCIIString
-    CurrentUser.esVIP = buffer.ReadBoolean
 
     'Cambiamos al modo cuenta
     Call ModCnt.MostrarCuenta(Not frmConnect.Visible)
@@ -11673,74 +11629,6 @@ Private Sub HandleAtaqueNPC()
     End With
 End Sub
 
-Private Sub HandleBattlegrounds()
-'*****************************
-'Autor: Lorwik
-'Fecha: 02/05/2022
-'Descripción: Recibe la variable Battegrounds del server
-'*****************************
-
-    'Remove packet ID
-    Call incomingData.ReadByte
-    
-    Battlegrounds = incomingData.ReadBoolean()
-
-End Sub
-
-Private Sub HandleMostrarShop()
-'*****************************
-'Autor: Lorwik
-'Fecha: 016/05/2022
-'Descripción: Recibe la variable Battegrounds del server
-'*****************************
-
-    Dim NUMSHOPS As Integer
-    Dim i As Integer
-
-    'Remove packet ID
-    Call incomingData.ReadByte
-    
-    frmShop.lstItemsShop.Clear
-    
-    frmShop.lblCredits.Caption = incomingData.ReadInteger
-    NUMSHOPS = incomingData.ReadInteger
-    
-    ReDim ShopObject(1 To NUMSHOPS) As ShopObj
-    
-    For i = 1 To NUMSHOPS
-    
-        ShopObject(i).ObjIndex = incomingData.ReadInteger
-        ShopObject(i).Nombre = incomingData.ReadASCIIString
-        ShopObject(i).Amount = incomingData.ReadInteger
-        ShopObject(i).valor = incomingData.ReadInteger
-    
-    Next i
-    
-    For i = 1 To NUMSHOPS
-    
-        frmShop.lstItemsShop.AddItem ShopObject(i).Nombre
-    
-    Next i
-    
-    frmShop.lblNombre = vbNullString
-    frmShop.Show
-
-End Sub
-
-Private Sub HandleActualizarGemasShop()
-'***************************************
-'Autor: Lorwik
-'Fecha: 16/05/2022
-'Descripcion: Actualiza las gemas Winter en la shop
-'***************************************
-
-    'Remove packet ID
-    Call incomingData.ReadByte
-    
-    frmShop.lblCredits = incomingData.ReadLong
-    
-End Sub
-
 Public Sub WriteBanSerial(ByVal UserName As String)
     '***************************************************
     'Author: Lorwik
@@ -11785,54 +11673,4 @@ Public Sub WriteBanTemporal(ByVal UserName As String, ByVal reason As String, By
 
     End With
 
-End Sub
-
-Public Sub WriteShopInit()
-'***************************************************
-'Author: Lorwik
-'Last Modification: 16/05/2022
-'Writes the "ShopInit" message to the outgoing data buffer
-'***************************************************
-    Call outgoingData.WriteByte(ClientPacketID.ShopInit)
-End Sub
-
-Public Sub WriteBuyShop(ByVal obj As Integer)
-'***************************************************
-'Author: Lorwik
-'Last Modification: 16/05/2022
-'Writes the "BuyShop" message to the outgoing data buffer
-'***************************************************
-
-    With outgoingData
-    
-        Call .WriteByte(ClientPacketID.BuyShop)
-        Call .WriteInteger(obj)
-    
-    End With
-    
-End Sub
-
-Public Sub WriteInitPVP()
-'***************************************************
-'Author: Lorwik
-'Last Modification: 22/05/2022
-'Writes the "InitPVP" message to the outgoing data buffer
-'***************************************************
-
-    With outgoingData
-    
-        Call .WriteByte(ClientPacketID.InitPVP)
-    
-    End With
-End Sub
-
-Public Sub WritedueloSet(ByVal TipoDuelo As Byte)
-'***************************************************
-'Author: Lorwik
-'Last Modification: 27/05/2022
-'Writes the "InitPVP" message to the outgoing data buffer
-'***************************************************
-
-    Call outgoingData.WriteByte(ClientPacketID.DueloSet)
-    Call outgoingData.WriteByte(TipoDuelo)
 End Sub

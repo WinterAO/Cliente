@@ -53,9 +53,9 @@ Public LastOffsetX As Long
 Public LastOffsetY As Long
 
 'Map sizes in tiles
-Public Const XMaxMapSize As Integer = 1000
+Public Const XMaxMapSize As Integer = 1100
 Public Const XMinMapSize As Integer = 1
-Public Const YMaxMapSize As Integer = 1000
+Public Const YMaxMapSize As Integer = 1100
 Public Const YMinMapSize As Integer = 1
 
 Private Const GrhFogata As Long = 1521
@@ -252,7 +252,7 @@ Public MinYBorder As Integer
 Public MaxYBorder As Integer
 
 'Status del user
-Public CurMap As String 'Mapa actual
+Public CurMap As Integer 'Mapa actual
 Public UserIndex As Integer
 Public UserMoving As Byte
 Public UserPos As Position 'Posicion

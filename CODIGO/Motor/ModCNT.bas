@@ -22,7 +22,7 @@ Public MapaConnect() As tMapaConnect
 Public NumConnectMap As Byte 'Numero total de mapas cargados
 
 'Indica que mapa vamos a renderizar en el conectar
-Public SelectConnectMap As Byte
+Private SelectConnectMap As Byte
 
 '******************************
 'Modo de pantalla renderizado
@@ -169,9 +169,9 @@ Public Sub InicializarRndCNT()
     
 End Sub
 
-Public Sub MapConnect(ByVal ConnectMap As Byte)
+Public Sub MapConnect(ByVal SelectConnectMap As Byte)
     
-    Call SwitchMap(MapaConnect(ConnectMap).Map)
+    Call SwitchMap(MapaConnect(SelectConnectMap).Map)
 
 End Sub
 
@@ -198,16 +198,12 @@ Public Sub MostrarConnect(Optional ByVal Mostrar As Boolean = False)
     'frmConnect.txtNombre.SelStart = Len(frmConnect.txtNombre.Text)
     TextSelected = 1
     
-    Battlegrounds = False
-    
     EngineRun = False
     
     'LISTA DE SERVIDORES
     Call ListarServidores
-    
-    SelectConnectMap = RandomNumber(3, 4)
 
-    Call MapConnect(SelectConnectMap)
+    Call MapConnect(3)
 End Sub
 
 Public Sub MostrarCuenta(Optional ByVal Mostrar As Boolean = False)
@@ -228,10 +224,8 @@ Public Sub MostrarCuenta(Optional ByVal Mostrar As Boolean = False)
     
     EngineRun = False
     
-    SelectConnectMap = 2
-    
     'Ponemos el mapa de cuentas
-    Call MapConnect(SelectConnectMap)
+    Call MapConnect(2)
 
 End Sub
 
@@ -268,10 +262,8 @@ Public Sub MostrarCreacion(Optional ByVal Mostrar As Boolean = False)
     
     EngineRun = False
     
-    SelectConnectMap = 1
-    
     'Ponemos el mapa de cuentas
-    Call MapConnect(SelectConnectMap)
+    Call MapConnect(1)
 
 End Sub
 
@@ -395,7 +387,7 @@ Private Sub RenderConnectGUI()
             
             'Server
             Call DrawText(480, 340, Servidor(ServIndSel).Nombre, -1, False)
-            
+
         Case 1 'Cuenta
         
             'Marco
@@ -406,9 +398,6 @@ Private Sub RenderConnectGUI()
                      Call Draw_GrhIndex(.GrhNormal, .X, .Y, 0, .Color(), 0, False)
                 End With
             Next i
-            
-            If CurrentUser.esVIP Then _
-                Call DrawText(490, 680, "Cuenta VIP hasta el " & CurrentUser.VIP, -641, True)
             
             'Conectando
             If ModCnt.Conectando = False Then _
@@ -436,14 +425,18 @@ Private Sub RenderConnectGUI()
             If CurrentUser.UserSexo <> 0 Then Call DrawText(505, 320, SexoSelect(CurrentUser.UserSexo), -1, True)
             If CurrentUser.UserRaza <> 0 Then Call DrawText(505, 370, ListaRazas(CurrentUser.UserRaza), -1, True)
             If CurrentUser.UserClase <> 0 Then Call DrawText(505, 420, ListaClases(CurrentUser.UserClase), -1, True)
-
-            
-            Call Draw_GrhIndex(ButtonGUI(30).GrhNormal, ButtonGUI(30).X, ButtonGUI(30).Y, 0, ButtonGUI(2).Color(), 0, False)
-            Call DrawText(900, 327, lblModRaza(eAtributos.Fuerza), -1, True) '
-            Call DrawText(900, 364, lblModRaza(eAtributos.Agilidad), -1, True)
-            Call DrawText(900, 400, lblModRaza(eAtributos.Inteligencia), -1, True)
-            Call DrawText(900, 438, lblModRaza(eAtributos.Carisma), -1, True)
-            Call DrawText(900, 477, lblModRaza(eAtributos.Constitucion), -1, True)
+            Call DrawText(850, 255, "Modificador de raza:", -1, True)
+            Call Engine_Draw_Box(730, 250, 250, 250, D3DColorARGB(100, 0, 0, 0))
+            Call DrawText(800, 285, "Fuerza:", -1, True)
+            Call DrawText(900, 285, lblModRaza(eAtributos.Fuerza), -1, True) '
+            Call DrawText(800, 320, "Agilidad:", -1, True)
+            Call DrawText(900, 320, lblModRaza(eAtributos.Agilidad), -1, True)
+            Call DrawText(800, 363, "Inteligencia:", -1, True)
+            Call DrawText(900, 363, lblModRaza(eAtributos.Inteligencia), -1, True)
+            Call DrawText(800, 400, "Carisma:", -1, True)
+            Call DrawText(900, 400, lblModRaza(eAtributos.Carisma), -1, True)
+            Call DrawText(800, 440, "Constitucion:", -1, True)
+            Call DrawText(900, 440, lblModRaza(eAtributos.Constitucion), -1, True)
             
     End Select
     
@@ -595,7 +588,7 @@ Public Sub ClickEvent(ByVal tX As Long, ByVal tY As Long)
             If (tX >= ButtonGUI(7).X And tX <= ButtonGUI(7).PosX) And (tY >= ButtonGUI(7).Y And tY <= ButtonGUI(7).PosY) Then Call btnTeclas
             
             'Crear Cuenta
-            If (tX >= ButtonGUI(4).X And tX <= ButtonGUI(4).PosX) And (tY >= ButtonGUI(4).Y And tY <= ButtonGUI(4).PosY) Then Call btnCrearCuenta
+            If (tX >= ButtonGUI(4).X And tX <= ButtonGUI(4).PosX) And (tY >= ButtonGUI(4).Y And tY <= ButtonGUI(4).PosY) Then Call btnGestion
             
             'Recuperar
             If (tX >= ButtonGUI(5).X And tX <= ButtonGUI(5).PosX) And (tY >= ButtonGUI(5).Y And tY <= ButtonGUI(5).PosY) Then Call btnGestion
@@ -863,37 +856,21 @@ Private Sub btnGestion()
 'Descripcion: Boton de gestion de cuentas
 '**************************************
     Call Sound.Sound_Play(SND_CLICK)
-    Call ShellExecute(0, "Open", "https://winterao.com/#/perfil", "", App.Path, SW_SHOWNORMAL)
+    Call ShellExecute(0, "Open", "http://winterao.com.ar/", "", App.Path, SW_SHOWNORMAL)
     
 End Sub
 
-Private Sub btnCrearCuenta()
-'**************************************
-'Autor: Lorwik
-'Fecha: 20/05/2020
-'Descripcion: Boton de gestion de cuentas
-'**************************************
-    Call Sound.Sound_Play(SND_CLICK)
-
-    Call ShellExecute(0, "Open", "https://winterao.com/#/registro", "", App.Path, SW_SHOWNORMAL)
+Public Sub ListarServidores()
+On Error Resume Next
+    Dim lista() As String
+    Dim Elementos As Byte
     
-End Sub
-
-Public Function ListarServidores() As Boolean
-
-    On Error GoTo ListarServidores_Err
-
-    Dim lista()        As String
-
-    Dim Elementos      As Byte
-    
-    Dim i              As Byte
-
+    Dim i As Byte
     Dim responseServer As String
     
     Set Inet = New clsInet
     
-    responseServer = Inet.OpenRequest("https://neosefirot.000webhostapp.com/api/server-list.txt", "GET")
+    responseServer = Inet.OpenRequest("http://192.168.1.5/apicomunidadwinter/server-list.txt", "GET")
     responseServer = Inet.Execute
     responseServer = Inet.GetResponseAsString
     
@@ -907,16 +884,7 @@ Public Function ListarServidores() As Boolean
         Servidor(i).Nombre = ReadField(3, lista(i), Asc("|"))
     Next i
 
-    ListarServidores = True
-
-    Exit Function
-
-ListarServidores_Err:
-    If Err.number <> 0 Then
-       MsgBox ("No se ha podido obtener la lista de servidores. Error " & Err.number & " : " & Err.Description)
-       ListarServidores = False
-    End If
-End Function
+End Sub
 
 Public Sub ConnectPJ()
 '**************************************

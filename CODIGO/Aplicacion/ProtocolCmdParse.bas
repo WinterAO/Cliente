@@ -120,9 +120,6 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
         ' Comando normal
         
         Select Case Comando
-            Case "/PREPARADO"
-                Call WritedueloSet(50)
-                
             Case "/ONLINE"
                 Call WriteOnline
                 
@@ -763,9 +760,6 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                          
                         Case "SPEED"
                             tmpInt = eEditOptions.eo_Speed
-                            
-                        Case "EXPPVP"
-                            tmpInt = eEditOptions.eo_ExperiencePVP
                          
                         Case Else
                             tmpInt = -1
