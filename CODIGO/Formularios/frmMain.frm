@@ -50,7 +50,7 @@ Begin VB.Form frmMain
       Left            =   1440
       MaxLength       =   160
       MultiLine       =   -1  'True
-      TabIndex        =   33
+      TabIndex        =   32
       TabStop         =   0   'False
       ToolTipText     =   "Chat"
       Top             =   1935
@@ -63,7 +63,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   2760
       Left            =   12000
-      TabIndex        =   25
+      TabIndex        =   24
       Top             =   2640
       Visible         =   0   'False
       Width           =   2535
@@ -213,7 +213,7 @@ Begin VB.Form frmMain
          BackColor       =   &H00000000&
          BorderStyle     =   0  'None
          ForeColor       =   &H00000000&
-         Height          =   2775
+         Height          =   2265
          Left            =   9120
          TabIndex        =   16
          Top             =   5640
@@ -327,12 +327,12 @@ Begin VB.Form frmMain
                Strikethrough   =   0   'False
             EndProperty
          End
-         Begin WinterAOR_Client.uAOButton btnRetos 
+         Begin WinterAOR_Client.uAOButton btnOpciones 
             Height          =   255
             Left            =   120
             TabIndex        =   21
             TabStop         =   0   'False
-            Top             =   1920
+            Top             =   1890
             Width           =   1335
             _ExtentX        =   2355
             _ExtentY        =   450
@@ -354,12 +354,12 @@ Begin VB.Form frmMain
                Strikethrough   =   0   'False
             EndProperty
          End
-         Begin WinterAOR_Client.uAOButton btnOpciones 
+         Begin WinterAOR_Client.uAOButton btnQuest 
             Height          =   255
             Left            =   120
-            TabIndex        =   22
+            TabIndex        =   30
             TabStop         =   0   'False
-            Top             =   2280
+            Top             =   1560
             Width           =   1335
             _ExtentX        =   2355
             _ExtentY        =   450
@@ -371,33 +371,6 @@ Begin VB.Form frmMain
             PICF            =   "frmMain.frx":42BE4
             PICH            =   "frmMain.frx":42C00
             PICV            =   "frmMain.frx":42C1C
-            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "Arial"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-         End
-         Begin WinterAOR_Client.uAOButton btnQuest 
-            Height          =   255
-            Left            =   120
-            TabIndex        =   31
-            TabStop         =   0   'False
-            Top             =   1560
-            Width           =   1335
-            _ExtentX        =   2355
-            _ExtentY        =   450
-            TX              =   ""
-            ENAB            =   -1  'True
-            FCOL            =   16777215
-            OCOL            =   16777215
-            PICE            =   "frmMain.frx":42C38
-            PICF            =   "frmMain.frx":42C54
-            PICH            =   "frmMain.frx":42C70
-            PICV            =   "frmMain.frx":42C8C
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -443,14 +416,14 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   195
       Left            =   13905
-      TabIndex        =   34
+      TabIndex        =   33
       Top             =   9180
       Width           =   465
    End
    Begin VB.Image btnShop 
       Height          =   360
       Left            =   11670
-      MouseIcon       =   "frmMain.frx":42CA8
+      MouseIcon       =   "frmMain.frx":42C38
       Tag             =   "1"
       Top             =   9795
       Width           =   1410
@@ -463,8 +436,8 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   255
       Left            =   240
-      MouseIcon       =   "frmMain.frx":42DFA
-      TabIndex        =   32
+      MouseIcon       =   "frmMain.frx":42D8A
+      TabIndex        =   31
       Top             =   1980
       Width           =   1215
    End
@@ -482,7 +455,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000018&
       Height          =   210
       Left            =   13440
-      TabIndex        =   30
+      TabIndex        =   29
       Top             =   7875
       Width           =   1290
    End
@@ -500,7 +473,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000018&
       Height          =   210
       Left            =   13440
-      TabIndex        =   29
+      TabIndex        =   28
       Top             =   7320
       Width           =   1290
    End
@@ -531,7 +504,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000018&
       Height          =   180
       Left            =   11760
-      TabIndex        =   28
+      TabIndex        =   27
       Top             =   8505
       Width           =   1335
    End
@@ -550,7 +523,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000018&
       Height          =   180
       Left            =   11760
-      TabIndex        =   27
+      TabIndex        =   26
       Top             =   7935
       Width           =   1335
    End
@@ -569,7 +542,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000018&
       Height          =   180
       Left            =   11760
-      TabIndex        =   26
+      TabIndex        =   25
       Top             =   7380
       Width           =   1335
    End
@@ -583,7 +556,7 @@ Begin VB.Form frmMain
       Height          =   585
       Index           =   2
       Left            =   14400
-      MouseIcon       =   "frmMain.frx":42F4C
+      MouseIcon       =   "frmMain.frx":42EDC
       Top             =   1920
       Width           =   495
    End
@@ -604,7 +577,7 @@ Begin VB.Form frmMain
    Begin VB.Image btnInfo 
       Height          =   495
       Left            =   13575
-      MouseIcon       =   "frmMain.frx":4309E
+      MouseIcon       =   "frmMain.frx":4302E
       MousePointer    =   99  'Custom
       Top             =   5940
       Visible         =   0   'False
@@ -613,7 +586,7 @@ Begin VB.Form frmMain
    Begin VB.Image btnLanzar 
       Height          =   540
       Left            =   11640
-      MouseIcon       =   "frmMain.frx":431F0
+      MouseIcon       =   "frmMain.frx":43180
       MousePointer    =   99  'Custom
       Top             =   5940
       Visible         =   0   'False
@@ -636,7 +609,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000018&
       Height          =   165
       Left            =   14175
-      TabIndex        =   24
+      TabIndex        =   23
       Top             =   8550
       Width           =   465
    End
@@ -656,14 +629,14 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFF80&
       Height          =   165
       Left            =   13920
-      TabIndex        =   23
+      TabIndex        =   22
       Top             =   6750
       Width           =   105
    End
    Begin VB.Image btnMenu 
       Height          =   360
       Left            =   11670
-      MouseIcon       =   "frmMain.frx":43342
+      MouseIcon       =   "frmMain.frx":432D2
       Tag             =   "1"
       Top             =   9315
       Width           =   1410
@@ -672,7 +645,7 @@ Begin VB.Form frmMain
       Height          =   600
       Index           =   1
       Left            =   12975
-      MouseIcon       =   "frmMain.frx":43494
+      MouseIcon       =   "frmMain.frx":43424
       Top             =   1920
       Width           =   1380
    End
@@ -680,7 +653,7 @@ Begin VB.Form frmMain
       Height          =   600
       Index           =   0
       Left            =   11550
-      MouseIcon       =   "frmMain.frx":435E6
+      MouseIcon       =   "frmMain.frx":43576
       Top             =   1920
       Width           =   1380
    End
@@ -755,7 +728,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   0
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":43738
+      MouseIcon       =   "frmMain.frx":436C8
       MousePointer    =   99  'Custom
       Top             =   2925
       Visible         =   0   'False
@@ -765,7 +738,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   1
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":4388A
+      MouseIcon       =   "frmMain.frx":4381A
       MousePointer    =   99  'Custom
       Top             =   2580
       Visible         =   0   'False
@@ -1004,6 +977,11 @@ Private Sub btnMenu_Click()
     fMenu.Visible = Not fMenu.Visible
 End Sub
 
+Private Sub btnShop_Click()
+    Call WriteShopInit
+End Sub
+
+
 Private Sub btnQuest_Click()
     Call WriteQuestListRequest
 End Sub
@@ -1175,7 +1153,6 @@ Private Sub LoadTextsForm()
     btnEstadisticas.Caption = JsonLanguage.item("LBL_ESTADISTICAS").item("TEXTO")
     btnQuest.Caption = JsonLanguage.item("LBL_QUEST").item("TEXTO")
     btnClanes.Caption = JsonLanguage.item("LBL_CLANES").item("TEXTO")
-    btnRetos.Caption = JsonLanguage.item("LBL_RETOS").item("TEXTO")
 End Sub
 Private Sub cmdMoverHechi_Click(Index As Integer)
 
@@ -1388,7 +1365,7 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                 
             Case CustomKeys.BindedKey(eKeyType.mKeyTalk)
                 
-                If (Not Comerciando) And (Not MirandoAsignarSkills) And (Not frmMSG.Visible) And (Not MirandoForo) And (Not frmEstadisticas.Visible) And (Not frmCantidad.Visible) Then
+                If (Not Comerciando) And (Not MirandoAsignarSkills) And (Not frmMSG.Visible) And (Not MirandoForo) And (Not frmEstadisticas.Visible) And (Not frmCantidad.Visible) And (Not frmPVP.Visible) And (Not frmShop.Visible) Then
                     Call CompletarEnvioMensajes
                     SendTxt.Visible = True
                     SendTxt.SetFocus
@@ -1517,8 +1494,9 @@ Private Sub btnOpciones_Click()
 End Sub
 
 Private Sub imgPVP_Click()
-    Call AddtoRichTextBox(frmMain.RecTxt, "Esta caracteristica aun no esta disponible.", 255, 1, 1, _
-                                      True, False, True)
+
+    Call WriteInitPVP
+
 End Sub
 
 Private Sub InvEqu_MouseMove(Button As Integer, _
@@ -2088,6 +2066,8 @@ Private Sub RecTxt_Change()
            (Not MirandoForo) And _
            (Not frmEstadisticas.Visible) And _
            (Not frmCantidad.Visible) And _
+           (Not frmPVP.Visible) And _
+           (Not frmShop.Visible) And _
            (Not MirandoParty) Then
 
         If PicInv.Visible Then
@@ -2307,7 +2287,7 @@ Private Sub Client_Connect()
 
         Case E_MODO.Dados
             Call MostrarCreacion
-        
+            
     End Select
  
 End Sub
@@ -2550,7 +2530,7 @@ Public Sub ActualizarCoordenadas(ByVal tX As Integer, ByVal tY As Integer)
     
     'Guardamos el cuadrante antes del posible cambio
     CurrentCuadrante = CurrentUser.UserCuadrante
-    AnchoMap = 11
+    AnchoMap = 10
     
     cx = Fix((tX / 100))
     cy = Fix((tY / 100))
