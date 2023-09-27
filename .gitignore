@@ -9,7 +9,6 @@ Codigo/*.log
 *.OBJ
 INIT/Inicio.con
 INIT/sinfo.dat
-INIT/Config.ini
 INIT/AO.dat
 INIT/messages.txt
 Argentum.exe
