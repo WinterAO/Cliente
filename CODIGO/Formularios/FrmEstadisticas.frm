@@ -89,33 +89,6 @@ Begin VB.Form frmEstadisticas
       Top             =   5250
       Width           =   315
    End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   23
-      Left            =   9000
-      Top             =   4350
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   22
-      Left            =   9000
-      Top             =   3960
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   24
-      Left            =   9000
-      Top             =   4155
-      Width           =   1095
-   End
    Begin VB.Label lblLibres 
       AutoSize        =   -1  'True
       BackStyle       =   0  'Transparent
@@ -370,24 +343,6 @@ Begin VB.Form frmEstadisticas
       Visible         =   0   'False
       Width           =   135
    End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   16
-      Left            =   8400
-      Top             =   6000
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   15
-      Left            =   8400
-      Top             =   5805
-      Width           =   1095
-   End
    Begin VB.Label Skills 
       AutoSize        =   -1  'True
       BackStyle       =   0  'Transparent
@@ -415,178 +370,6 @@ Begin VB.Form frmEstadisticas
       Tag             =   "1"
       Top             =   0
       Width           =   330
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   11
-      Left            =   5475
-      Top             =   3510
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   10
-      Left            =   5475
-      Top             =   3300
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   13
-      Left            =   5475
-      Top             =   3930
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   14
-      Left            =   8400
-      Top             =   5610
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   21
-      Left            =   8400
-      Top             =   5415
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   18
-      Left            =   8400
-      Top             =   6195
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   19
-      Left            =   8400
-      Top             =   5025
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   20
-      Left            =   8400
-      Top             =   5220
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   9
-      Left            =   5475
-      Top             =   3090
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   12
-      Left            =   5475
-      Top             =   3720
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   17
-      Left            =   8400
-      Top             =   4830
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   8
-      Left            =   5475
-      Top             =   2880
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   7
-      Left            =   5475
-      Top             =   2670
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   6
-      Left            =   5475
-      Top             =   2460
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   5
-      Left            =   5475
-      Top             =   2250
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   4
-      Left            =   5475
-      Top             =   2040
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   3
-      Left            =   5475
-      Top             =   1845
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   2
-      Left            =   5475
-      Top             =   1650
-      Width           =   1095
-   End
-   Begin VB.Shape shpSkillsBar 
-      BorderColor     =   &H00000000&
-      BorderStyle     =   0  'Transparent
-      FillStyle       =   0  'Solid
-      Height          =   120
-      Index           =   1
-      Left            =   5475
-      Top             =   1440
-      Width           =   1095
    End
    Begin VB.Label Label6 
       BackStyle       =   0  'Transparent
@@ -1404,13 +1187,9 @@ Private clsFormulario As clsFormMovementManager
 Private cBotonCerrar As clsGraphicalButton
 Public LastButtonPressed As clsGraphicalButton
 
-Private Const ANCHO_BARRA As Byte = 73 'pixeles
-Private Const BAR_LEFT_POS As Integer = 365 'pixeles
-
 Public Sub Iniciar_Labels()
     'Iniciamos los labels con los valores de los atributos y los skills
     Dim i As Integer
-    Dim Ancho As Integer
     
     For i = 1 To NUMATRIBUTOS
         Atri(i).Caption = CurrentUser.UserAtributos(i)
@@ -1418,9 +1197,6 @@ Public Sub Iniciar_Labels()
     
     For i = 1 To NUMSKILLS
         Skills(i).Caption = CurrentUser.UserSkills(i)
-        Ancho = IIf(CurrentUser.PorcentajeSkills(i) = 0, ANCHO_BARRA, (100 - CurrentUser.PorcentajeSkills(i)) / 100 * ANCHO_BARRA)
-        shpSkillsBar(i).Width = Ancho
-        shpSkillsBar(i).Left = BAR_LEFT_POS + ANCHO_BARRA - Ancho
     Next
     
     Label4(1).Caption = CurrentUser.UserReputacion.AsesinoRep

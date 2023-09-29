@@ -4248,7 +4248,7 @@ Private Sub HandleSendSkills()
 'Last Modification: 11/19/09
 '11/19/09: Pato - Now the server send the percentage of progress of the skills.
 '***************************************************
-    If incomingData.Length < 2 + NUMSKILLS * 2 Then
+    If incomingData.Length < 2 + NUMSKILLS Then
         Err.Raise incomingData.NotEnoughDataErrCode
         Exit Sub
     End If
@@ -4262,7 +4262,6 @@ Private Sub HandleSendSkills()
     
     For i = 1 To NUMSKILLS
         CurrentUser.UserSkills(i) = incomingData.ReadByte()
-        CurrentUser.PorcentajeSkills(i) = incomingData.ReadByte()
     Next i
     
     LlegaronSkills = True
