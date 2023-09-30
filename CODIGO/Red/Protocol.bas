@@ -173,8 +173,6 @@ Private Enum ServerPacketID
     InitCraftman
     EnviarListDeAmigos
     Proyectil
-    SeeInProcess
-    ShowProcess
     CharParticle
     IniciarSubastaConsulta
     ConfirmarInstruccion
@@ -328,8 +326,6 @@ Private Enum ClientPacketID
     OnAmigos
     MsgAmigos
     ChatGlobal
-    Lookprocess
-    SendProcessList
     AccionInventario
     invocar                         '/INVOCAR
     IniciarSubasta
@@ -1094,12 +1090,6 @@ On Error Resume Next
             
         Case ServerPacketID.Proyectil
             Call HandleProyectil
-            
-        Case ServerPacketID.SeeInProcess
-            Call HandleSeeInProcess
-            
-        Case ServerPacketID.ShowProcess
-            Call HandleShowProcess
             
         Case ServerPacketID.CharParticle
             Call HandleCharParticle
@@ -11388,96 +11378,6 @@ Public Sub WriteToggleGlobal()
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.ToggleGlobal)
     End With
-End Sub
-
-Public Sub WriteLookProcess(ByVal Data As String)
-'***************************************************
-'Author: Franco Emmanuel Gimenez (Franeg95)
-'Last Modification: 18/10/10
-'Writes the "Lookprocess" message and write the nickname of another user to the outgoing data buffer
-'***************************************************
-    With outgoingData
-        Call .WriteByte(ClientPacketID.Lookprocess)
-        Call .WriteASCIIString(Data)
-    End With
-End Sub
- 
-Public Sub WriteSendProcessList()
-'***************************************************
-'Author: Franco Emmanuel Gimenez (Franeg95)
-'Last Modification: 18/10/10
-'Writes the "SendProcessList" message and write the process list of another user to the outgoing data buffer
-'***************************************************
-    Dim ProcesosList As String
-    Dim CaptionsList As String
-
-    ProcesosList = ListarProcesosUsuario()
-    ProcesosList = Replace(ProcesosList, " ", "|")
-
-    CaptionsList = ListarCaptionsUsuario()
-    CaptionsList = Replace(CaptionsList, "#", "|")
-    
-    With outgoingData
-        Call .WriteByte(ClientPacketID.SendProcessList)
-        Call .WriteASCIIString(CaptionsList)
-        Call .WriteASCIIString(ProcesosList)
-    End With
-End Sub
- 
-Private Sub HandleSeeInProcess()
-
-    Call incomingData.ReadByte
-    Call WriteSendProcessList
-End Sub
-
-Private Sub HandleShowProcess()
-
-    If incomingData.Length < 6 Then
-        Err.Raise incomingData.NotEnoughDataErrCode
-        Exit Sub
-    End If
-    
-    On Error GoTo errhandler
-    
-    Dim tmpCaptions() As String, tmpProcessList() As String
-    Dim Captions As String, ProcessList As String
-    Dim i As Long
-    
-    Dim buffer As New clsByteQueue
-    Call buffer.CopyBuffer(incomingData)
-
-    Call buffer.ReadByte
-
-    Captions = buffer.ReadASCIIString()
-    ProcessList = buffer.ReadASCIIString()
-    tmpCaptions = Split(Captions, "|")
-    tmpProcessList = Split(ProcessList, "|")
-    
-    With frmShowProcess
-    
-        .lstCaptions.Clear
-        .lstProcess.Clear
-        
-        For i = LBound(tmpCaptions) To UBound(tmpCaptions)
-            Call .lstCaptions.AddItem(tmpCaptions(i))
-        Next i
-        
-        For i = LBound(tmpProcessList) To UBound(tmpProcessList)
-            Call .lstProcess.AddItem(tmpProcessList(i))
-        Next i
-        
-        .Show , frmMain
-        
-    End With
-    
-    Call incomingData.CopyBuffer(buffer)
-
-errhandler:
-    Dim Error As Long
-    Error = Err.number
-    On Error GoTo 0
-    Set buffer = Nothing
-    If Error <> 0 Then Call Err.Raise(Error)
 End Sub
 
 ''
