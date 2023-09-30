@@ -1695,17 +1695,6 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                     'Avisar que falta el parametro
                     Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /CONSULTARGEMS NICKNAME.")
                 End If
-                
-            Case "/LOOKPROCESS"
-                If notNullArguments Then
-                    Call WriteLookProcess(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /VERPROCESOS NICKNAME.")
-                End If
-            
-            Case Else
-                Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_COMANDO_INCORRECTO").item("TEXTO"))
         
         End Select
         

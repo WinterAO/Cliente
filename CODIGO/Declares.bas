@@ -614,7 +614,6 @@ Public Type tCurrentUser
     UserHead As Integer
     
     UserSkills(1 To NUMSKILLS) As Byte
-    PorcentajeSkills(1 To NUMSKILLS) As Byte
     UserAtributos(1 To NUMATRIBUTOS) As Byte
     
     VIP As String

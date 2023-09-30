@@ -426,9 +426,6 @@ Begin VB.Form frmPanelGm
    End
    Begin VB.Menu mnuAdmin 
       Caption         =   "Admin"
-      Begin VB.Menu cmdVERPROCESOS 
-         Caption         =   "VerProcesos"
-      End
       Begin VB.Menu cmdIP2NICK 
          Caption         =   "IP2NICK"
       End
@@ -1439,17 +1436,6 @@ Private Sub cmdUNBANIP_Click()
     If LenB(tStr) <> 0 Then _
         If MsgBox("Seguro desea unbanear la ip " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then _
             Call ParseUserCommand("/UNBANIP " & tStr) 'We use the Parser to control the command format
-End Sub
-
-Private Sub cmdVERPROCESOS_Click()
-    '/LOOKPROCESS
-    
-    Dim Nick As String
-
-    Nick = cboListaUsus.Text
-    
-    If LenB(Nick) <> 0 Then _
-        Call WriteLookProcess(Nick)
 End Sub
 
 Private Sub Form_Load()
