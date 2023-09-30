@@ -601,7 +601,7 @@ Sub Main()
 End Sub
 
 Public Function GetVersionOfTheGame() As String
-    GetVersionOfTheGame = GetVar(Carga.Path(Init) & CLIENT_FILE, "Cliente", "VersionTagRelease")
+    GetVersionOfTheGame = App.Major & "." & App.Minor & "." & App.Revision
 End Function
 
 Private Sub LoadInitialConfig()
