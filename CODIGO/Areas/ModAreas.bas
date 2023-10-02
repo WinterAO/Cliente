@@ -63,8 +63,8 @@ Public Sub CambioDeArea(ByVal X As Integer, ByVal Y As Integer)
     Dim loopX As Integer, loopY As Integer, CharIndex As Integer
 
     ' Recorremos el mapa entero (TODO: Se puede optimizar si el server nos enviara la direccion del area que nos movimos)
-    For loopX = 1 To 100
-        For loopY = 1 To 100
+    For loopX = XMinMapSize To XMaxMapSize
+        For loopY = YMinMapSize To YMaxMapSize
 
             ' Si el tile esta fuera del area
             If Not EstaDentroDelArea(loopX, loopY) Then
