@@ -49,28 +49,77 @@ Private AreasY As Byte
 Private CurAreaX As Integer
 Private CurAreaY As Integer
 
+'LAS GUARDAMOS PARA PROCESAR LOS MPs y sabes si borrar personajes
+Public Const MargenX As Integer = 16
+Public Const MargenY As Integer = 14
+
 Public Sub CalcularAreas(HalfWindowTileWidth As Integer, HalfWindowTileHeight As Integer)
     AreasX = HalfWindowTileWidth + TileBufferSize
     AreasY = HalfWindowTileHeight + TileBufferSize
 End Sub
 
 ' Elimina todo fuera del area del usuario
-Public Sub CambioDeArea(ByVal X As Integer, ByVal Y As Integer)
+Public Sub CambioDeArea(ByVal X As Integer, ByVal Y As Integer, ByVal Head As Byte)
+
+    Dim loopX     As Integer
+    Dim loopY     As Integer
+    Dim CharIndex As Integer
+    Dim MinX      As Integer
+    Dim MinY      As Integer
+    Dim MaxX      As Integer
+    Dim MaxY      As Integer
 
     CurAreaX = X \ AreasX
     CurAreaY = Y \ AreasY
 
-    Dim loopX As Integer, loopY As Integer, CharIndex As Integer
+    MinX = X
+    MinY = Y
+    MaxX = X
+    MaxY = Y
+
+    Select Case Head
+    
+        Case E_Heading.south
+            MinX = MinX - MargenX
+            MaxX = MaxX + MargenX
+            MinY = MinY - MargenY - 1
+            MaxY = MinY
+            
+        Case Head = E_Heading.north
+            MinX = MinX - MargenX
+            MaxX = MaxX + MargenX
+            MinY = MinY + MargenY + 1
+            MaxY = MinY
+        
+        Case Head = E_Heading.east
+            MinX = MinX - MargenX - 1
+            MaxX = MinX
+            MinY = MinY - MargenY
+            MaxY = MaxY + MargenY
+        
+        Case Head = E_Heading.west
+            MinX = MinX + MargenX + 1
+            MaxX = MinX
+            MinY = MinY - MargenY
+            MaxY = MaxY + MargenY
+    
+    End Select
+    
+    If MinY < 1 Then MinY = 1
+    If MinX < 1 Then MinX = 1
+    If MaxY > YMaxMapSize Then MaxY = YMaxMapSize
+    If MaxX > XMaxMapSize Then MaxX = XMaxMapSize
 
     ' Recorremos el mapa entero (TODO: Se puede optimizar si el server nos enviara la direccion del area que nos movimos)
-    For loopX = XMinMapSize To XMaxMapSize
-        For loopY = YMinMapSize To YMaxMapSize
+    For loopX = MinX To MaxX
+        For loopY = MinY To MaxY
 
             ' Si el tile esta fuera del area
             If Not EstaDentroDelArea(loopX, loopY) Then
 
                 ' Borrar char
                 CharIndex = Char_MapPosExits(loopX, loopY)
+
                 If (CharIndex > 0) Then
                     If (CharIndex <> UserCharIndex) Then
                         Call Char_Erase(CharIndex)

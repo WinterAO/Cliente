@@ -3181,11 +3181,13 @@ Private Sub HandleAreaChanged()
     
     Dim X As Integer
     Dim Y As Integer
+    Dim Head As Byte
     
     X = incomingData.ReadInteger()
     Y = incomingData.ReadInteger()
+    Head = incomingData.ReadByte()
         
-    Call CambioDeArea(X, Y)
+    Call CambioDeArea(X, Y, Head)
 End Sub
 
 ''
