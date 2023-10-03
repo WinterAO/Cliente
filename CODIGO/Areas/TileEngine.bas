@@ -851,7 +851,10 @@ Sub RenderHUD()
 
         ' Calculamos los FPS y los mostramos
         Call Engine_Update_FPS
-        If ClientSetup.FPSShow = True Then Call DrawText(680, 5, "FPS: " & Mod_TileEngine.FPS, -1, True)
+        If ClientSetup.FPSShow = True Then
+            Call DrawText(680, 5, "FPS: " & Mod_TileEngine.FPS, -1, True)
+            Call DrawText(680, 20, "Zona: " & MapData(UserPos.X, UserPos.Y).ZonaIndex, -1, True)
+        End If
         
         If ClientSetup.HUD Then
             If Not lblHelm = "0/0" And Not lblHelm = "" Then

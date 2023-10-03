@@ -893,7 +893,7 @@ Public Function ListarServidores() As Boolean
     
     Set Inet = New clsInet
     
-    responseServer = Inet.OpenRequest("https://neosefirot.000webhostapp.com/api/server-list.txt", "GET")
+    responseServer = Inet.OpenRequest("https://api.winterao.com/server-list.txt", "GET")
     responseServer = Inet.Execute
     responseServer = Inet.GetResponseAsString
     
