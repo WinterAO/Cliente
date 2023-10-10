@@ -1000,7 +1000,7 @@ End Sub
 
 Private Sub cmdHORA_Click()
     '/HORA
-    Call Protocol.WriteServerTime
+    Call Protocol_Write.WriteServerTime
 End Sub
 
 Private Sub cmdIGNORADO_Click()

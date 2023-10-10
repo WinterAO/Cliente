@@ -226,7 +226,7 @@ Public Sub LeerConfiguracion()
 
     With ClientSetup
         ' VIDEO
-        .byMemory = Lector.GetValue("VIDEO", "DynamicMemory")
+        .byMemory = CInt(Lector.GetValue("VIDEO", "DynamicMemory"))
         .bNoRes = CBool(Lector.GetValue("VIDEO", "DisableResolutionChange"))
         .ProyectileEngine = CBool(Lector.GetValue("VIDEO", "ProjectileEngine"))
         .PartyMembers = CBool(Lector.GetValue("VIDEO", "PartyMembers"))
@@ -1371,7 +1371,7 @@ Public Sub CargarRecursos()
     
     'Inicializamos el conectar renderizado
     Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_GUI").item("TEXTO"), 64)
-    Call ModCnt.InicializarRndCNT
+    Call ModConectar.InicializarRndCNT
     Call frmCargando.ActualizarCarga(frmCargando.Caption = JsonLanguage.item("HECHO").item("TEXTO"), 65)
     
     '###################

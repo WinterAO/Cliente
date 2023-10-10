@@ -1,4 +1,4 @@
-Attribute VB_Name = "ModCnt"
+Attribute VB_Name = "ModConectar"
 '********************************************************************************************
 'Autor: Lorwik
 'Fecha 20/05/2020
@@ -411,7 +411,7 @@ Private Sub RenderConnectGUI()
                 Call DrawText(490, 680, "Cuenta VIP hasta el " & CurrentUser.VIP, -641, True)
             
             'Conectando
-            If ModCnt.Conectando = False Then _
+            If ModConectar.Conectando = False Then _
                 Call DrawText(490, 620, "Conectando...", -1, True, 2)
 
         Case 2 'Crear PJ
@@ -839,7 +839,7 @@ Private Sub btnConectar()
     Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "UserName", ClientSetup.rUserName)
 
     If CheckUserData() = True Then _
-        Call Protocol.Connect(E_MODO.Normal)
+        Call Protocol_Handle.Connect(E_MODO.Normal)
         
 End Sub
 
@@ -930,8 +930,8 @@ Public Sub ConnectPJ()
         Call MostrarConnect
         
     Else
-        If ModCnt.Conectando Then
-            ModCnt.Conectando = False
+        If ModConectar.Conectando Then
+            ModConectar.Conectando = False
             Call WriteLoginExistingChar
             
             DoEvents

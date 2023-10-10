@@ -738,7 +738,7 @@ Public Function Ambient_Load(ByVal file_name As String, Optional ByVal Volume As
 
     If (file_name <= 0) Or (ClientSetup.bAmbient = 0) Or (Engine_Initialized = False) Then Exit Function
     
-    Call Buffers.GetBuffer(file_name & ".amb", ambient_buffer, Ambient)
+    Call Buffers.GetBuffer(file_name & ".wav", ambient_buffer, Ambient)
     
     If Volume < -4000 Then Volume = -4000
     ambient_buffer.SetVolume Volume

@@ -260,7 +260,7 @@ Sub SetConnected()
     
     Call DibujarMinimapa
     
-    ModCnt.Conectando = True
+    ModConectar.Conectando = True
 
     FPSFLAG = True
 
@@ -686,7 +686,7 @@ Private Sub LoadInitialConfig()
     Call InicializarNombres
     
     ' Initialize FONTTYPES
-    Call Protocol.InitFonts
+    Call Protocol_Handle.InitFonts
  
     CurrentUser.UserMap = 1
     

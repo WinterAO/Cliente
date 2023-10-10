@@ -421,7 +421,7 @@ Private Sub Comenzar_Click()
                 Exit Sub
         End If
             
-        Call Protocol.WriteFightSend(ListUser, Val(txtGld.Text))
+        Call Protocol_Write.WriteFightSend(ListUser, Val(txtGld.Text))
         Unload Me
         
 End Sub

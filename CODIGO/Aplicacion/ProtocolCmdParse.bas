@@ -569,7 +569,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
             
             Case "/HORA"
-                Call Protocol.WriteServerTime
+                Call Protocol_Write.WriteServerTime
             
             Case "/DONDE"
                 If notNullArguments Then
