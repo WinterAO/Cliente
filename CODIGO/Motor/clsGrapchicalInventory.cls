@@ -443,8 +443,8 @@ Public Sub DrawInventory()
 
     For loopc = InventoryOffset * (InventoryWindow.ScaleWidth \ ownTilePixelWidth) + 1 To UBound(Inventory)
             
-        startdX = ((loopc - 1) Mod (frmMain.picInv.Width / 32)) * 32
-        startdY = ((loopc - 1) \ (frmMain.picInv.Width / 32)) * 32
+        startdX = ((loopc - 1) Mod (frmMain.PicInv.Width / 32)) * 32
+        startdY = ((loopc - 1) \ (frmMain.PicInv.Width / 32)) * 32
 
 
         'Si se renderiza el inventario del pj hace la validacion para renderizar de un color correcto los slots especiales de mochila y alforja
@@ -674,7 +674,7 @@ Private Sub InventoryWindow_MouseUp(Button As Integer, Shift As Integer, X As Si
     If Drag Then
 
         If Not DragItem = TempSlot And Not (TempSlot < 1 Or DragItem < 1) Then
-            Call Protocol.WriteMoveItem(DragItem, TempSlot, eMoveType.Inventory)
+            Call Protocol_Write.WriteMoveItem(DragItem, TempSlot, eMoveType.Inventory)
             InvSelectedItem = TempSlot
         End If
 

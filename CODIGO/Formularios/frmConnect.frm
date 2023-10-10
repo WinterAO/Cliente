@@ -124,15 +124,15 @@ Public MouseX              As Long
 Public MouseY              As Long
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
-    Call ModCnt.TeclaEvent(KeyCode)
+    Call ModConectar.TeclaEvent(KeyCode)
 End Sub
 
 Private Sub Renderer_Click()
-    Call ModCnt.ClickEvent(MouseX, MouseY)
+    Call ModConectar.ClickEvent(MouseX, MouseY)
 End Sub
 
 Private Sub Renderer_DblClick()
-    Call ModCnt.DobleClickEvent(MouseX, MouseY)
+    Call ModConectar.DobleClickEvent(MouseX, MouseY)
 End Sub
 
 Private Sub Renderer_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)

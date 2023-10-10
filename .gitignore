@@ -7,12 +7,11 @@ Codigo/*.log
 *.csi
 *.lvw
 *.OBJ
-INIT/Inicio.con
-INIT/sinfo.dat
+INIT/BindKeys.bin
 INIT/Config.ini
-INIT/AO.dat
-INIT/messages.txt
-Argentum.exe
+RECURSOS/Musica.WAO
+RECURSOS/Ambient.WAO
+WinterAOResurrection.exe
 
 # System Files.
 .DS_Store

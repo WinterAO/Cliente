@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "Richtx32.ocx"
 Begin VB.Form frmMain 
    BorderStyle     =   0  'None
    ClientHeight    =   11520
@@ -168,6 +168,7 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -966,7 +967,7 @@ Private Const NEWBIE_USER_GOLD_COLOR As Long = vbCyan
 Private Const USER_GOLD_COLOR As Long = vbYellow
 
 Public Sub dragInventory_dragDone(ByVal originalSlot As Integer, ByVal newSlot As Integer)
-    Call Protocol.WriteMoveItem(originalSlot, newSlot, eMoveType.Inventory)
+    Call Protocol_Write.WriteMoveItem(originalSlot, newSlot, eMoveType.Inventory)
 End Sub
 
 Private Sub btnGrupo_Click()
@@ -2313,7 +2314,7 @@ Private Sub Client_CloseSck()
 
     If frmMain.Visible = True Then frmMain.Visible = False
     Call ResetAllInfo
-    ModCnt.Conectando = True
+    ModConectar.Conectando = True
     Call MostrarConnect(True)
 End Sub
 
@@ -2333,7 +2334,7 @@ Private Sub Client_Error(ByVal number As Integer, _
  
     If Client.State <> sckClosed Then Client.CloseSck
     
-    ModCnt.Conectando = True
+    ModConectar.Conectando = True
     Call MostrarConnect
  
 End Sub

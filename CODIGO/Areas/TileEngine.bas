@@ -540,10 +540,10 @@ Sub RenderScreen(ByVal tilex As Integer, _
     Dim screenminX       As Integer  'Start X pos on current screen
     Dim screenmaxX       As Integer  'End X pos on current screen
     
-    Dim minY             As Integer  'Start Y pos on current map
-    Dim maxY             As Integer  'End Y pos on current map
-    Dim minX             As Integer  'Start X pos on current map
-    Dim maxX             As Integer  'End X pos on current map
+    Dim MinY             As Integer  'Start Y pos on current map
+    Dim MaxY             As Integer  'End Y pos on current map
+    Dim MinX             As Integer  'Start X pos on current map
+    Dim MaxX             As Integer  'End X pos on current map
     
     Dim ScreenX          As Integer  'Keeps track of where to place tile on screen
     Dim ScreenY          As Integer  'Keeps track of where to place tile on screen
@@ -565,25 +565,25 @@ Sub RenderScreen(ByVal tilex As Integer, _
     screenminX = tilex - HalfWindowTileWidth
     screenmaxX = tilex + HalfWindowTileWidth
     
-    minY = screenminY - TileBufferSize
-    maxY = screenmaxY + TileBufferSize * 2 ' WyroX: Parche para que no desaparezcan techos y arboles
-    minX = screenminX - TileBufferSize
-    maxX = screenmaxX + TileBufferSize
+    MinY = screenminY - TileBufferSize
+    MaxY = screenmaxY + TileBufferSize * 2 ' WyroX: Parche para que no desaparezcan techos y arboles
+    MinX = screenminX - TileBufferSize
+    MaxX = screenmaxX + TileBufferSize
     
     'Make sure mins and maxs are allways in map bounds
-    If minY < XMinMapSize Then
-        minYOffset = YMinMapSize - minY
-        minY = YMinMapSize
+    If MinY < XMinMapSize Then
+        minYOffset = YMinMapSize - MinY
+        MinY = YMinMapSize
     End If
     
-    If maxY > YMaxMapSize Then maxY = YMaxMapSize
+    If MaxY > YMaxMapSize Then MaxY = YMaxMapSize
     
-    If minX < XMinMapSize Then
-        minXOffset = XMinMapSize - minX
-        minX = XMinMapSize
+    If MinX < XMinMapSize Then
+        minXOffset = XMinMapSize - MinX
+        MinX = XMinMapSize
     End If
     
-    If maxX > XMaxMapSize Then maxX = XMaxMapSize
+    If MaxX > XMaxMapSize Then MaxX = XMaxMapSize
     
     'If we can, we render around the view area to make it smoother
     If screenminY > YMinMapSize Then
@@ -638,11 +638,11 @@ Sub RenderScreen(ByVal tilex As Integer, _
     '<----- Layer Obj, Char, 3 ----->
     ScreenY = minYOffset - TileBufferSize
 
-    For Y = minY To maxY
+    For Y = MinY To MaxY
         
         ScreenX = minXOffset - TileBufferSize
 
-        For X = minX To maxX
+        For X = MinX To MaxX
             If Map_InBounds(X, Y) Then
             
                 PixelOffsetXTemp = ScreenX * TilePixelWidth + PixelOffsetX
@@ -717,11 +717,11 @@ Sub RenderScreen(ByVal tilex As Integer, _
     '<----- Layer 4 ----->
     ScreenY = minYOffset - TileBufferSize
 
-    For Y = minY To maxY
+    For Y = MinY To MaxY
 
         ScreenX = minXOffset - TileBufferSize
 
-        For X = minX To maxX
+        For X = MinX To MaxX
             
             PixelOffsetXTemp = ScreenX * TilePixelWidth + PixelOffsetX
             PixelOffsetYTemp = ScreenY * TilePixelHeight + PixelOffsetY
@@ -780,8 +780,8 @@ Sub RenderScreen(ByVal tilex As Integer, _
                     End If
     
                     'Draw if within range
-                    X = ((-minX - 1) * 32) + ProjectileList(j).X + PixelOffsetX + ((10 - TileBufferSize) * 32) - 288 + ProjectileList(j).OffsetX
-                    Y = ((-minY - 1) * 32) + ProjectileList(j).Y + PixelOffsetY + ((10 - TileBufferSize) * 32) - 288 + ProjectileList(j).OffsetY
+                    X = ((-MinX - 1) * 32) + ProjectileList(j).X + PixelOffsetX + ((10 - TileBufferSize) * 32) - 288 + ProjectileList(j).OffsetX
+                    Y = ((-MinY - 1) * 32) + ProjectileList(j).Y + PixelOffsetY + ((10 - TileBufferSize) * 32) - 288 + ProjectileList(j).OffsetY
 
                     If Y >= -32 Then
                         If Y <= (ScreenHeight + 32) Then
@@ -1567,9 +1567,11 @@ Private Sub RenderName(ByVal CharIndex As Long, _
             If .muerto Then
                 Color = D3DColorARGB(255, 220, 220, 255)
             Else
+
                 If .WorldBoss = True Then
                     Color = ColoresPJ(8)
                 Else
+
                     If .Criminal Then
                         Color = ColoresPJ(50)
                     Else
@@ -1590,7 +1592,15 @@ Private Sub RenderName(ByVal CharIndex As Long, _
         Call DrawText(X + 16, Y + 30, line, Color, True)
             
         'Clan
-        line = mid$(.Nombre, Pos)
+        
+        If .priv = 2 Or .priv = 3 Then
+            line = "<Game Master>"
+        ElseIf .priv = 4 Then
+            line = "<Administrador>"
+        Else
+            line = mid$(.Nombre, Pos)
+        End If
+        
         Call DrawText(X + 16, Y + 45, line, Color, True)
 
     End With
