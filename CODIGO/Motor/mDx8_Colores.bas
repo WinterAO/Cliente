@@ -28,11 +28,11 @@ Public Function ARGBtoD3DCOLORVALUE(ByVal ARGB As Long, ByRef Color As D3DCOLORV
     CopyMemory dest(0), ARGB, 4
     Color.a = dest(3)
     Color.r = dest(2)
-    Color.g = dest(1)
+    Color.G = dest(1)
     Color.b = dest(0)
 End Function
 
-Public Function ARGB(ByVal r As Long, ByVal g As Long, ByVal b As Long, ByVal a As Long) As Long
+Public Function ARGB(ByVal r As Long, ByVal G As Long, ByVal b As Long, ByVal a As Long) As Long
         
     Dim c As Long
         
@@ -40,12 +40,12 @@ Public Function ARGB(ByVal r As Long, ByVal g As Long, ByVal b As Long, ByVal a 
         a = a - 128
         c = a * 2 ^ 24 Or &H80000000
         c = c Or r * 2 ^ 16
-        c = c Or g * 2 ^ 8
+        c = c Or G * 2 ^ 8
         c = c Or b
     Else
         c = a * 2 ^ 24
         c = c Or r * 2 ^ 16
-        c = c Or g * 2 ^ 8
+        c = c Or G * 2 ^ 8
         c = c Or b
     End If
     
@@ -59,7 +59,7 @@ Public Sub Engine_D3DColor_To_RGB_List(rgb_list() As Long, Color As D3DCOLORVALU
 'Last Modification: 14/05/10
 'Blisse-AO | Set a D3DColorValue to a RGB List
 '***************************************************
-    rgb_list(0) = D3DColorARGB(Color.a, Color.r, Color.g, Color.b)
+    rgb_list(0) = D3DColorARGB(Color.a, Color.r, Color.G, Color.b)
     rgb_list(1) = rgb_list(0)
     rgb_list(2) = rgb_list(0)
     rgb_list(3) = rgb_list(0)
@@ -77,9 +77,9 @@ Public Sub Engine_Long_To_RGB_List(rgb_list() As Long, long_color As Long)
     rgb_list(3) = rgb_list(0)
 End Sub
 
-Sub ConvertLongToRGB(ByVal value As Long, r As Byte, g As Byte, b As Byte)
+Sub ConvertLongToRGB(ByVal value As Long, r As Byte, G As Byte, b As Byte)
     r = value Mod 256
-    g = Int(value / 256) Mod 256
+    G = Int(value / 256) Mod 256
     b = Int(value / 256 / 256) Mod 256
 End Sub
 
@@ -110,3 +110,29 @@ Public Function SetARGB_Alpha(rgb_list() As Long, Alpha As Byte) As Long()
 
 End Function
 
+Public Sub Engine_Get_ARGB(Color As Long, Data As D3DCOLORVALUE)
+'**************************************************************
+'Author: Standelf
+'Last Modify Date: 18/10/2012
+'**************************************************************
+    
+    Dim a As Long, r As Long, G As Long, b As Long
+        
+    If Color < 0 Then
+        a = ((Color And (&H7F000000)) / (2 ^ 24)) Or &H80&
+    Else
+        a = Color / (2 ^ 24)
+    End If
+    
+    r = (Color And &HFF0000) / (2 ^ 16)
+    G = (Color And &HFF00&) / (2 ^ 8)
+    b = (Color And &HFF&)
+    
+    With Data
+        .a = a
+        .r = r
+        .G = G
+        .b = b
+    End With
+        
+End Sub

@@ -390,16 +390,20 @@ Public Function Engine_TPtoSPY(ByVal Y As Integer) As Long
 End Function
 
 Public Sub Engine_Draw_Box(ByVal X As Integer, ByVal Y As Integer, ByVal Width As Integer, ByVal Height As Integer, Color As Long)
-'***************************************************
-'Author: Ezequiel Juarez (Standelf)
-'Last Modification: 29/12/10
-'Blisse-AO | Render Box
-'***************************************************
+
+    On Error GoTo Engine_Draw_Box_Err
 
     Call Engine_Long_To_RGB_List(temp_rgb(), Color)
 
     Call SpriteBatch.SetTexture(Nothing)
-    Call SpriteBatch.Draw(X, Y, Width, ByVal Height, temp_rgb())
+    Call SpriteBatch.SetAlpha(False)
+    Call SpriteBatch.Draw(X, Y, Width, Height, temp_rgb())
+    
+    Exit Sub
+
+Engine_Draw_Box_Err:
+    Call LogError(Err.number, Err.Description, "mDx8_Engine.Engine_Draw_Box", Erl)
+    Resume Next
     
 End Sub
 
@@ -719,30 +723,3 @@ ErrOut:
 Exit Function
  
 End Function
-
-Public Sub Engine_Get_ARGB(Color As Long, Data As D3DCOLORVALUE)
-'**************************************************************
-'Author: Standelf
-'Last Modify Date: 18/10/2012
-'**************************************************************
-    
-    Dim a As Long, r As Long, g As Long, b As Long
-        
-    If Color < 0 Then
-        a = ((Color And (&H7F000000)) / (2 ^ 24)) Or &H80&
-    Else
-        a = Color / (2 ^ 24)
-    End If
-    
-    r = (Color And &HFF0000) / (2 ^ 16)
-    g = (Color And &HFF00&) / (2 ^ 8)
-    b = (Color And &HFF&)
-    
-    With Data
-        .a = a
-        .r = r
-        .g = g
-        .b = b
-    End With
-        
-End Sub

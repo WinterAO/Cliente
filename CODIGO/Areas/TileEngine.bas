@@ -68,8 +68,8 @@ Public Const DegreeToRadian As Single = 0.01745329251994 'Pi / 180
 
 'Posicion en un mapa
 Public Type Position
-    X As Long
-    Y As Long
+    X As Integer
+    Y As Integer
 End Type
 
 'Posicion en el Mundo
@@ -195,6 +195,10 @@ Public Type Char
     NoShadow As Byte 'No emite sombra
     NPCAttack As Boolean
     EstadoQuest As eStatusQuest
+    
+    BarTime As Single
+    MaxBarTime As Integer
+    BarAccion As Byte
 End Type
 
 'Info de un objeto
@@ -1114,6 +1118,7 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
     Dim moved As Boolean
     Dim AuraColorFinal(0 To 3) As Long
     Dim ColorFinal(0 To 3) As Long
+    Dim TempGrh As Grh
         
     With charlist(CharIndex)
         
@@ -1390,6 +1395,24 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
             End Select
             
             Call Draw_GrhIndex(GrhQuest, PixelOffsetX, PixelOffsetY + OFFSET_HEAD - 23, 1, ColorFinal())
+        End If
+        
+        'Barra de tiempo
+        If .BarTime < .MaxBarTime And Not .invisible Then
+            Call InitGrh(TempGrh, 4637)
+
+            Call Draw_Grh(TempGrh, PixelOffsetX + 1 + .Body.HeadOffset.X, PixelOffsetY - 55 + .Body.HeadOffset.Y, 1, Normal_RGBList(), False)
+
+            Engine_Draw_Box PixelOffsetX + 5 + .Body.HeadOffset.X, PixelOffsetY - 28 + .Body.HeadOffset.Y, .BarTime / .MaxBarTime * 26, 4, D3DColorARGB(3, 214, 166, 120) ', RGBA_From_Comp(0, 0, 0, 255)
+
+            .BarTime = .BarTime + (timerElapsedTime / 1000)
+            'Debug.Print .BarTime
+            If .BarTime >= .MaxBarTime Then
+                charlist(CharIndex).BarTime = 0
+                charlist(CharIndex).BarAccion = 99
+                charlist(CharIndex).MaxBarTime = 0
+            End If
+
         End If
         
         

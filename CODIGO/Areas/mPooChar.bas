@@ -82,6 +82,9 @@ Private Sub Char_ResetInfo(ByVal CharIndex As Integer)
         .UsandoArma = False
         .attacking = False
         .NPCAttack = False
+        .BarTime = 0
+        .BarAccion = 0
+        .MaxBarTime = 0
             
     End With
  

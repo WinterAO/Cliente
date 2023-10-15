@@ -901,3 +901,12 @@ Public Type ShopObj
 End Type
 
 Public ShopObject() As ShopObj
+
+Public Enum Accion_Barra
+
+    Runa = 1
+    Resucitar = 2
+    Intermundia = 3
+    CancelarAccion = 99
+
+End Enum

@@ -128,7 +128,7 @@ End Type
 
 Public Type tDatosLuces
     r As Integer
-    g As Integer
+    G As Integer
     b As Integer
     range As Byte
     X As Integer
@@ -991,8 +991,8 @@ On Error GoTo errhandler:
         NumEscudosAnims = fileBuff.getInteger()
         
         'Resize array
-        ReDim ShieldAnimData(1 To NumWeaponAnims) As ShieldAnimData
-        ReDim Shields(1 To NumWeaponAnims) As tIndiceEscudos
+        ReDim ShieldAnimData(1 To NumEscudosAnims) As ShieldAnimData
+        ReDim Shields(1 To NumEscudosAnims) As tIndiceEscudos
         
         For i = 1 To NumEscudosAnims
             Shields(i).shield(1) = fileBuff.getLong()
@@ -1246,13 +1246,13 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroLuces
                 With Luces(i)
                     .r = fileBuff.getInteger()
-                    .g = fileBuff.getInteger()
+                    .G = fileBuff.getInteger()
                     .b = fileBuff.getInteger()
                     .range = fileBuff.getByte()
                     .X = fileBuff.getInteger()
                     .Y = fileBuff.getInteger()
 
-                    Call Create_Light_To_Map(.X, .Y, .range, .r, .g, .b, False)
+                    Call Create_Light_To_Map(.X, .Y, .range, .r, .G, .b, False)
                 End With
             Next i
             

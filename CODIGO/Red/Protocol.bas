@@ -179,6 +179,7 @@ Private Enum ServerPacketID
     SetSpeed
     AtaqueNPC
     MostrarPVP
+    eBarFx
 End Enum
 
 Public Enum FontTypeNames
@@ -802,6 +803,9 @@ On Error Resume Next
             
         Case ServerPacketID.MostrarPVP
             Call HandleMostrarPVP
+            
+        Case ServerPacketID.eBarFx
+            Call HandleBarFx
             
         Case Else
             'ERROR : Abort!
@@ -5118,25 +5122,6 @@ On Error GoTo 0
         Err.Raise Error
 End Sub
 
-Private Sub HandleMostrarPVP()
-'***************************************************
-'Author: Lorwik
-'Last Modification: 22/05/2022
-'
-'***************************************************
-
-    Call incomingData.ReadByte
-    
-    CurrentUser.UserNivelPVP = incomingData.ReadByte
-    CurrentUser.UserEXPPVP = incomingData.ReadInteger
-    CurrentUser.UserELVPVP = incomingData.ReadInteger
-    CurrentUser.UserELO = incomingData.ReadLong
-
-    Call frmPVP.IniciarLabels
-    frmPVP.Show , frmMain
-    
-End Sub
-
 ''
 ' Handles the RecordList message.
 
@@ -5899,3 +5884,56 @@ Private Sub HandleActualizarGemasShop()
     frmShop.lblCredits = incomingData.ReadLong
     
 End Sub
+
+Private Sub HandleMostrarPVP()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 22/05/2022
+'
+'***************************************************
+
+    Call incomingData.ReadByte
+    
+    CurrentUser.UserNivelPVP = incomingData.ReadByte
+    CurrentUser.UserEXPPVP = incomingData.ReadInteger
+    CurrentUser.UserELVPVP = incomingData.ReadInteger
+    CurrentUser.UserELO = incomingData.ReadLong
+
+    Call frmPVP.IniciarLabels
+    frmPVP.Show , frmMain
+    
+End Sub
+
+Private Sub HandleBarFx()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 11/10/2023
+'
+'***************************************************
+
+    On Error GoTo HandleBarFx_Err
+
+    Dim CharIndex As Integer
+
+    Dim BarTime   As Integer
+
+    Dim BarAccion As Byte
+    
+    Call incomingData.ReadByte
+    
+    CharIndex = incomingData.ReadInteger
+    BarTime = incomingData.ReadInteger
+    BarAccion = incomingData.ReadInteger
+    
+    charlist(CharIndex).BarTime = 0
+    charlist(CharIndex).BarAccion = BarAccion
+    charlist(CharIndex).MaxBarTime = BarTime
+    
+    Exit Sub
+
+HandleBarFx_Err:
+    Call LogError(Err.number, Err.Description, "Protocol_Handle.HandleBarFx", Erl)
+    
+    
+End Sub
+ 
