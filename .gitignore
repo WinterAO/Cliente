@@ -10,8 +10,8 @@ Codigo/*.log
 
 INIT/BindKeys.bin
 INIT/Config.ini
-RECURSOS/Musica.WAO
-RECURSOS/Ambient.WAO
+RECURSOS/*.WAO
+RECURSOS/Skins/*.WAO
 WinterAOResurrection.exe
 
 INIT/Inicio.con
