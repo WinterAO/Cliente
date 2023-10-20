@@ -96,7 +96,6 @@ Public Sub InicializarRndCNT()
     
     Dim buffer()    As Byte
     Dim InfoHead    As INFOHEADER
-    Dim LaCabecera  As tCabecera
     Dim fileBuff  As clsByteBuffer
     Dim i As Integer
     Dim j As Byte
@@ -111,10 +110,6 @@ Public Sub InicializarRndCNT()
         Set fileBuff = New clsByteBuffer
         
         fileBuff.initializeReader buffer
-        
-        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
-        LaCabecera.CRC = fileBuff.getLong
-        LaCabecera.MagicWord = fileBuff.getLong
 
         'INIT
         NumButtons = fileBuff.getInteger

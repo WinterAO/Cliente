@@ -8,7 +8,7 @@ Option Explicit
 
 Public Type RGB
     r As Long
-    g As Long
+    G As Long
     b As Long
 End Type
 
@@ -154,7 +154,6 @@ Public Sub CargarParticulas()
     Dim loopc As Long
     Dim i As Long
     Dim ColorSet As Long
-    Dim LaCabecera  As tCabecera
     Dim fileBuff  As clsByteBuffer
     
     InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Particulas.ind"))
@@ -166,10 +165,6 @@ Public Sub CargarParticulas()
         Set fileBuff = New clsByteBuffer
         
         fileBuff.initializeReader buffer
-        
-        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
-        LaCabecera.CRC = fileBuff.getLong
-        LaCabecera.MagicWord = fileBuff.getLong
 
         TotalStreams = fileBuff.getInteger
         
@@ -219,7 +214,7 @@ Public Sub CargarParticulas()
                 
                 For ColorSet = 1 To 4
                     .colortint(ColorSet - 1).r = fileBuff.getLong
-                    .colortint(ColorSet - 1).g = fileBuff.getLong
+                    .colortint(ColorSet - 1).G = fileBuff.getLong
                     .colortint(ColorSet - 1).b = fileBuff.getLong
                 Next ColorSet
     
@@ -240,10 +235,10 @@ Public Function General_Char_Particle_Create(ByVal ParticulaInd As Long, _
     Dim rgb_list(0 To 3) As Long
 
     With StreamData(ParticulaInd)
-        rgb_list(0) = RGB(.colortint(0).r, .colortint(0).g, .colortint(0).b)
-        rgb_list(1) = RGB(.colortint(1).r, .colortint(1).g, .colortint(1).b)
-        rgb_list(2) = RGB(.colortint(2).r, .colortint(2).g, .colortint(2).b)
-        rgb_list(3) = RGB(.colortint(3).r, .colortint(3).g, .colortint(3).b)
+        rgb_list(0) = RGB(.colortint(0).r, .colortint(0).G, .colortint(0).b)
+        rgb_list(1) = RGB(.colortint(1).r, .colortint(1).G, .colortint(1).b)
+        rgb_list(2) = RGB(.colortint(2).r, .colortint(2).G, .colortint(2).b)
+        rgb_list(3) = RGB(.colortint(3).r, .colortint(3).G, .colortint(3).b)
 
         General_Char_Particle_Create = Char_Particle_Group_Create(char_index, .grh_list, rgb_list(), .NumOfParticles, ParticulaInd, .alphaBlend, IIf(particle_life = 0, .life_counter, particle_life), .speed, , .x1, .y1, .angle, .vecx1, .vecx2, .vecy1, .vecy2, .life1, .life2, .friction, .spin_speedL, .gravity, .grav_strength, .bounce_strength, .x2, .y2, .XMove, .move_x1, .move_x2, .move_y1, .move_y2, .YMove, .spin_speedH, .spin)
 
@@ -261,10 +256,10 @@ Public Function General_Particle_Create(ByVal ParticulaInd As Long, _
     If ParticulaInd = 0 Then Exit Function
 
     With StreamData(ParticulaInd)
-        rgb_list(0) = RGB(.colortint(0).r, .colortint(0).g, .colortint(0).b)
-        rgb_list(1) = RGB(.colortint(1).r, .colortint(1).g, .colortint(1).b)
-        rgb_list(2) = RGB(.colortint(2).r, .colortint(2).g, .colortint(2).b)
-        rgb_list(3) = RGB(.colortint(3).r, .colortint(3).g, .colortint(3).b)
+        rgb_list(0) = RGB(.colortint(0).r, .colortint(0).G, .colortint(0).b)
+        rgb_list(1) = RGB(.colortint(1).r, .colortint(1).G, .colortint(1).b)
+        rgb_list(2) = RGB(.colortint(2).r, .colortint(2).G, .colortint(2).b)
+        rgb_list(3) = RGB(.colortint(3).r, .colortint(3).G, .colortint(3).b)
     
         General_Particle_Create = Particle_Group_Create(X, Y, .grh_list, rgb_list(), .NumOfParticles, ParticulaInd, .alphaBlend, IIf(particle_life = 0, .life_counter, particle_life), .speed, , .x1, .y1, .angle, .vecx1, .vecx2, .vecy1, .vecy2, .life1, .life2, .friction, .spin_speedL, .gravity, .grav_strength, .bounce_strength, .x2, .y2, .XMove, .move_x1, .move_x2, .move_y1, .move_y2, .YMove, .spin_speedH, .spin)
 

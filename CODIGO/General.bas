@@ -380,9 +380,9 @@ Sub SwitchMap(ByVal Map As Integer)
     Dim filename    As String
     
     If Battlegrounds Then
-        filename = LCase$("Bg" & Map & ".csm")
+        filename = LCase$("bg" & Map & ".csm")
     Else
-        filename = LCase$("Mapa" & Map & ".csm")
+        filename = LCase$("mapa" & Map & ".csm")
     End If
     
     'Si es el mismo Mapa, no lo cargamos
@@ -492,17 +492,12 @@ Sub Main()
 
     Call GenerateContra
     
+    Call IniciarCabecera
+    
     'Load client configurations.
     Call Carga.LeerConfiguracion
 
     #If Desarrollo = 0 Then
-        'If GetVar(Carga.Path(Init) & CLIENT_FILE, "PARAMETERS", "LAUCH") <> 1 Then
-        '    Call MsgBox("Para iniciar WinterAO debes hacerlo desde el Launcher.", vbCritical)
-        '    End
-        'Else
-        '    Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "PARAMETERS", "LAUCH", "0")
-        'End If
-    
         'If Application.FindPreviousInstance Then
         '    Call MsgBox(JsonLanguage.item("OTRO_CLIENTE_ABIERTO").item("TEXTO"), vbApplicationModal + vbInformation + vbOKOnly, "Error al ejecutar")
         '    End
