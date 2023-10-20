@@ -598,7 +598,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
             Case "/TELEP"
                 If notNullArguments And CantidadArgumentos >= 4 Then
                     If ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(3), eNumber_Types.ent_Integer) Then
-                        Call WriteWarpChar(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2), ArgumentosAll(3))
+                        Call WriteWarpChar(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2), ArgumentosAll(3), False)
                     Else
                         'No es numerico
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telep NICKNAME MAPA X Y.")
@@ -607,10 +607,10 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 ElseIf CantidadArgumentos = 3 Then
                     If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) Then
                         'Por defecto, si no se indica el nombre, se teletransporta el mismo usuario
-                        Call WriteWarpChar("YO", ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2))
+                        Call WriteWarpChar("YO", ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2), False)
                     ElseIf ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) Then
                         'Por defecto, si no se indica el mapa, se teletransporta al mismo donde esta el usuario
-                        Call WriteWarpChar(ArgumentosAll(0), CurrentUser.UserMap, ArgumentosAll(1), ArgumentosAll(2))
+                        Call WriteWarpChar(ArgumentosAll(0), CurrentUser.UserMap, ArgumentosAll(1), ArgumentosAll(2), False)
                     Else
                         'No uso ningun formato por defecto
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telep NICKNAME MAPA X Y.")
@@ -619,7 +619,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 ElseIf CantidadArgumentos = 2 Then
                     If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
                         ' Por defecto, se considera que se quiere unicamente cambiar las coordenadas del usuario, en el mismo mapa
-                        Call WriteWarpChar("YO", CurrentUser.UserMap, ArgumentosAll(0), ArgumentosAll(1))
+                        Call WriteWarpChar("YO", CurrentUser.UserMap, ArgumentosAll(0), ArgumentosAll(1), False)
                     Else
                         'No uso ningun formato por defecto
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telep NICKNAME MAPA X Y.")
@@ -627,6 +627,40 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Else
                     'Avisar que falta el parametro
                     Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /telep NICKNAME MAPA X Y.")
+                End If
+                
+            Case "/TELEPC"
+                If notNullArguments And CantidadArgumentos >= 4 Then
+                    If ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(3), eNumber_Types.ent_Integer) Then
+                        Call WriteWarpChar(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2), ArgumentosAll(3), True)
+                    Else
+                        'No es numerico
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telepc NICKNAME CUADRANTE X Y.")
+                    End If
+                    
+                ElseIf CantidadArgumentos = 3 Then
+                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) Then
+                        'Por defecto, si no se indica el nombre, se teletransporta el mismo usuario
+                        Call WriteWarpChar("YO", ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2), True)
+                    ElseIf ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) Then
+                        'Por defecto, si no se indica el mapa, se teletransporta al mismo donde esta el usuario
+                        Call WriteWarpChar(ArgumentosAll(0), CurrentUser.UserMap, ArgumentosAll(1), ArgumentosAll(2), True)
+                    Else
+                        'No uso ningun formato por defecto
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telepc NICKNAME CUADRANTE X Y.")
+                    End If
+                    
+                ElseIf CantidadArgumentos = 2 Then
+                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
+                        ' Por defecto, se considera que se quiere unicamente cambiar las coordenadas del usuario, en el mismo mapa
+                        Call WriteWarpChar("YO", CurrentUser.UserMap, ArgumentosAll(0), ArgumentosAll(1), True)
+                    Else
+                        'No uso ningun formato por defecto
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telepc NICKNAME CUADRANTE X Y.")
+                    End If
+                Else
+                    'Avisar que falta el parametro
+                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /telepc NICKNAME CUADRANTE X Y.")
                 End If
                 
             Case "/SILENCIAR"

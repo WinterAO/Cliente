@@ -1964,7 +1964,7 @@ Private Sub MainViewPic_Click()
 
             If Not CustomKeys.KeyAssigned(KeyCodeConstants.vbKeyShift) Then
                 If MouseBoton = vbLeftButton Then
-                    Call WriteWarpChar("YO", CurrentUser.UserMap, tX, tY)
+                    Call WriteWarpChar("YO", CurrentUser.UserMap, tX, tY, False)
                 End If
             End If
         End If
@@ -2390,7 +2390,7 @@ Private Sub Minimapa_MouseDown(Button As Integer, _
                                Y As Single)
 
     If Button = vbRightButton Then
-        Call WriteWarpChar("YO", CurrentUser.UserMap, CByte(X - 1), CByte(Y - 1))
+        Call WriteWarpChar("YO", CurrentUser.UserMap, CByte(X - 1), CByte(Y - 1), False)
         Call ActualizarMiniMapa
         
     ElseIf Button = vbLeftButton Then
