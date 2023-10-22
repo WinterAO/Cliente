@@ -17,11 +17,10 @@ Public Const MAXCOLORES As Byte = 56
 Public ColoresPJ(0 To MAXCOLORES) As Long
 
 'Colores del mapa
-Public Normal_RGBList(3) As Long
-Public Color_Shadow(3) As Long
-Public NoUsa_RGBList(3) As Long
-Public Color_Arbol(3) As Long
-Public Color_Paralisis As Long
+Public COLOR_WHITE(3) As Long
+Public COLOR_SHADOW(3) As Long
+Public COLOR_RED(3) As Long
+Public COLOR_ARBOL(3) As Long
 
 Public Function ARGBtoD3DCOLORVALUE(ByVal ARGB As Long, ByRef Color As D3DCOLORVALUE)
     Dim dest(3) As Byte

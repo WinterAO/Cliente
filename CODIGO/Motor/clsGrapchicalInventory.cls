@@ -451,24 +451,24 @@ Public Sub DrawInventory()
         'Sino renderiza todo negro (Recox)
         If isInventory Then
             If (loopc > MAX_NORMAL_INVENTORY_SLOTS) And (loopc <= MAX_MOCHILA_CHICA_INVENTORY_SLOTS) Then
-                Call Draw_GrhIndex(GRH_SLOT_INVENTARIO_VIOLETA, startdX, startdY, 0, Normal_RGBList(), 0, False) 'Dibuja el fondo
+                Call Draw_GrhIndex(GRH_SLOT_INVENTARIO_VIOLETA, startdX, startdY, 0, COLOR_WHITE(), 0, False) 'Dibuja el fondo
             ElseIf (loopc > MAX_MOCHILA_CHICA_INVENTORY_SLOTS) And (loopc <= MAX_INVENTORY_SLOTS) Then
-                Call Draw_GrhIndex(GRH_SLOT_INVENTARIO_DORADO, startdX, startdY, 0, Normal_RGBList(), 0, False) 'Dibuja el fondo
+                Call Draw_GrhIndex(GRH_SLOT_INVENTARIO_DORADO, startdX, startdY, 0, COLOR_WHITE(), 0, False) 'Dibuja el fondo
             Else
-                Call Draw_GrhIndex(GRH_SLOT_INVENTARIO_NEGRO, startdX, startdY, 0, Normal_RGBList(), 0, False) 'Dibuja el fondo
+                Call Draw_GrhIndex(GRH_SLOT_INVENTARIO_NEGRO, startdX, startdY, 0, COLOR_WHITE(), 0, False) 'Dibuja el fondo
             End If
         Else
-            Call Draw_GrhIndex(GRH_SLOT_INVENTARIO_NEGRO, startdX, startdY, 0, Normal_RGBList(), 0, False) 'Dibuja el fondo
+            Call Draw_GrhIndex(GRH_SLOT_INVENTARIO_NEGRO, startdX, startdY, 0, COLOR_WHITE(), 0, False) 'Dibuja el fondo
         End If
 
         'Si el usuario no puede usar este item por su raza, sexo o clase, dibujamos una "X"
         If Inventory(loopc).NoUsa Then
             For i = 0 To 3
-                ColorFinal(i) = NoUsa_RGBList(i)
+                ColorFinal(i) = COLOR_RED(i)
             Next i
         Else
             For i = 0 To 3
-                ColorFinal(i) = Normal_RGBList(i)
+                ColorFinal(i) = COLOR_WHITE(i)
             Next i
         End If
             
@@ -478,7 +478,7 @@ Public Sub DrawInventory()
             If loopc <> DragItem Then
                     
                 If loopc = SelectedItem Then
-                    Call Draw_GrhIndex(GRH_SLOT_INVENTARIO_ROJO, startdX, startdY, 0, Normal_RGBList(), 0, False) 'Dibuja el fondo cuando lo seleccionamos
+                    Call Draw_GrhIndex(GRH_SLOT_INVENTARIO_ROJO, startdX, startdY, 0, COLOR_WHITE(), 0, False) 'Dibuja el fondo cuando lo seleccionamos
 
                 End If
 

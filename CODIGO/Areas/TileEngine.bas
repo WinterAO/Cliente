@@ -657,7 +657,7 @@ Sub RenderScreen(ByVal tilex As Integer, _
                     'Object Layer **********************************
                     If .ObjGrh.GrhIndex <> 0 Then
                         If .OBJInfo.Shadow = 1 Then _
-                            Call Draw_Grh(.ObjGrh, PixelOffsetXTemp + 5, PixelOffsetYTemp + -9, 1, Color_Shadow(), 0, False, 187, 1, 1.2)
+                            Call Draw_Grh(.ObjGrh, PixelOffsetXTemp + 5, PixelOffsetYTemp + -9, 1, COLOR_SHADOW(), 0, False, 187, 1, 1.2)
                            
                         Call Draw_Grh(.ObjGrh, PixelOffsetXTemp, PixelOffsetYTemp, 1, .Engine_Light(), 1)
                     End If
@@ -825,7 +825,7 @@ Sub RenderScreen(ByVal tilex As Integer, _
         Call DrawText(372, 80, renderText, render_msg(0), True, 5)
     End If
     
-    'Call Draw_GrhIndex(34027, 372, 80, 1, Normal_RGBList())
+    'Call Draw_GrhIndex(34027, 372, 80, 1, COLOR_WHITE())
     'Call DrawText(390, 50, "Nivel 21", -1, True, 2)
     
     '   Set Offsets
@@ -862,22 +862,22 @@ Sub RenderHUD()
         
         If ClientSetup.HUD Then
             If Not lblHelm = "0/0" And Not lblHelm = "" Then
-                Call Draw_GrhIndex(30792, 20, 450, 1, Normal_RGBList(), 0, False)
+                Call Draw_GrhIndex(30792, 20, 450, 1, COLOR_WHITE(), 0, False)
                 Call DrawText(50, 457, lblHelm, -1, True)
             End If
             
             If Not lblArmor = "0/0" And Not lblArmor = "" Then
-                Call Draw_GrhIndex(30793, 20, 490, 1, Normal_RGBList(), 0, False)
+                Call Draw_GrhIndex(30793, 20, 490, 1, COLOR_WHITE(), 0, False)
                 Call DrawText(50, 497, lblArmor, -1, True)
             End If
             
             If Not lblShielder = "0/0" And Not lblShielder = "" Then
-                Call Draw_GrhIndex(30794, 20, 530, 1, Normal_RGBList(), 0, False)
+                Call Draw_GrhIndex(30794, 20, 530, 1, COLOR_WHITE(), 0, False)
                 Call DrawText(50, 537, lblShielder, -1, True)
             End If
             
             If Not lblWeapon = "0/0" And Not lblWeapon = "" Then
-                Call Draw_GrhIndex(30795, 20, 570, 1, Normal_RGBList(), 0, False)
+                Call Draw_GrhIndex(30795, 20, 570, 1, COLOR_WHITE(), 0, False)
                 Call DrawText(50, 573, lblWeapon, -1, True)
             End If
         End If
@@ -1401,7 +1401,7 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
         If .BarTime < .MaxBarTime And Not .invisible Then
             Call InitGrh(TempGrh, 4637)
 
-            Call Draw_Grh(TempGrh, PixelOffsetX + 1 + .Body.HeadOffset.X, PixelOffsetY - 55 + .Body.HeadOffset.Y, 1, Normal_RGBList(), False)
+            Call Draw_Grh(TempGrh, PixelOffsetX + 1 + .Body.HeadOffset.X, PixelOffsetY - 55 + .Body.HeadOffset.Y, 1, COLOR_WHITE(), False)
 
             Engine_Draw_Box PixelOffsetX + 5 + .Body.HeadOffset.X, PixelOffsetY - 28 + .Body.HeadOffset.Y, .BarTime / .MaxBarTime * 26, 4, D3DColorARGB(3, 214, 166, 120) ', RGBA_From_Comp(0, 0, 0, 255)
 
@@ -1435,31 +1435,31 @@ Private Sub RenderSombras(ByVal CharIndex As Integer, ByVal PixelOffsetX As Inte
         If (.iHead > 0) And (.iBody = 617 Or .iBody = 612 Or .iBody = 614 Or .iBody = 616) Then
         
             'Si está montando se dibuja de esta manera
-            Call Draw_Grh(.Body.Walk(.Heading), PixelOffsetX + 8, PixelOffsetY - 14, 1, Color_Shadow(), 0, False, 187, 1, 1.2) ' Shadow Body
-            Call DrawHead(.Head, PixelOffsetX + .Body.HeadOffset.X + 12, PixelOffsetY + .Body.HeadOffset.Y + OFFSET_HEAD - 13, Color_Shadow(), .Heading, True, False, 187, 1, 1.2)
-            Call DrawHead(.Casco, PixelOffsetX + .Body.HeadOffset.X + 12, PixelOffsetY + .Body.HeadOffset.Y + OFFSET_HEAD - 13, Color_Shadow(), .Heading, False, False, 187, 1, 1.2)
+            Call Draw_Grh(.Body.Walk(.Heading), PixelOffsetX + 8, PixelOffsetY - 14, 1, COLOR_SHADOW(), 0, False, 187, 1, 1.2) ' Shadow Body
+            Call DrawHead(.Head, PixelOffsetX + .Body.HeadOffset.X + 12, PixelOffsetY + .Body.HeadOffset.Y + OFFSET_HEAD - 13, COLOR_SHADOW(), .Heading, True, False, 187, 1, 1.2)
+            Call DrawHead(.Casco, PixelOffsetX + .Body.HeadOffset.X + 12, PixelOffsetY + .Body.HeadOffset.Y + OFFSET_HEAD - 13, COLOR_SHADOW(), .Heading, False, False, 187, 1, 1.2)
         
         'Si está navegando se dibuja de esta manera
         ElseIf ((.iHead = 0) And (HayAgua(.Pos.X, .Pos.Y + 1) Or HayAgua(.Pos.X + 1, .Pos.Y) Or HayAgua(.Pos.X, .Pos.Y - 1) Or HayAgua(.Pos.X - 1, .Pos.Y))) Then
-            Call Draw_Grh(.Body.Walk(.Heading), PixelOffsetX + 5, PixelOffsetY - 26, 1, Color_Shadow(), 0, False, 186, 1, 1.33) ' Shadow Body
+            Call Draw_Grh(.Body.Walk(.Heading), PixelOffsetX + 5, PixelOffsetY - 26, 1, COLOR_SHADOW(), 0, False, 186, 1, 1.33) ' Shadow Body
         
         Else
         
             'Si NO está montando ni navegando se dibuja de esta manera
-            Call Draw_Grh(.Body.Walk(.Heading), PixelOffsetX + 8, PixelOffsetY - 11, 1, Color_Shadow(), 0, False, 195, 1, 1.2) ' Shadow Body
-            Call DrawHead(.Head, PixelOffsetX + .Body.HeadOffset.X + 12, PixelOffsetY + .Body.HeadOffset.Y + OFFSET_HEAD - 13, Color_Shadow(), .Heading, True, False, 195, 1, 1.2)
-            Call DrawHead(.Casco, PixelOffsetX + .Body.HeadOffset.X + 12, PixelOffsetY + .Body.HeadOffset.Y + OFFSET_HEAD - 13, Color_Shadow(), .Heading, False, False, 195, 1, 1.2)
+            Call Draw_Grh(.Body.Walk(.Heading), PixelOffsetX + 8, PixelOffsetY - 11, 1, COLOR_SHADOW(), 0, False, 195, 1, 1.2) ' Shadow Body
+            Call DrawHead(.Head, PixelOffsetX + .Body.HeadOffset.X + 12, PixelOffsetY + .Body.HeadOffset.Y + OFFSET_HEAD - 13, COLOR_SHADOW(), .Heading, True, False, 195, 1, 1.2)
+            Call DrawHead(.Casco, PixelOffsetX + .Body.HeadOffset.X + 12, PixelOffsetY + .Body.HeadOffset.Y + OFFSET_HEAD - 13, COLOR_SHADOW(), .Heading, False, False, 195, 1, 1.2)
 
         End If
                 
         'Shadow Weapon
         If .Arma.WeaponWalk(.Heading).GrhIndex Then
-            Call Draw_Grh(.Arma.WeaponWalk(.Heading), PixelOffsetX + 9, PixelOffsetY - 12, 1, Color_Shadow(), 0, False, 195, 1, 1.2)
+            Call Draw_Grh(.Arma.WeaponWalk(.Heading), PixelOffsetX + 9, PixelOffsetY - 12, 1, COLOR_SHADOW(), 0, False, 195, 1, 1.2)
         End If
                 
         'Shadow Shield
         If .Escudo.ShieldWalk(.Heading).GrhIndex Then
-            Call Draw_Grh(.Escudo.ShieldWalk(.Heading), PixelOffsetX + 9, PixelOffsetY - 12, 1, Color_Shadow(), 0, False, 195, 1, 1.2)
+            Call Draw_Grh(.Escudo.ShieldWalk(.Heading), PixelOffsetX + 9, PixelOffsetY - 12, 1, COLOR_SHADOW(), 0, False, 195, 1, 1.2)
         End If
         
     End With
@@ -1691,7 +1691,7 @@ Public Sub RenderItem(ByVal hWndDest As Long, ByVal GrhIndex As Long)
     
     Call Engine_BeginScene
 
-    Call Draw_GrhIndex(GrhIndex, 0, 0, 0, Normal_RGBList(), 0, False)
+    Call Draw_GrhIndex(GrhIndex, 0, 0, 0, COLOR_WHITE(), 0, False)
         
     Call Engine_EndScene(DR, hWndDest)
     

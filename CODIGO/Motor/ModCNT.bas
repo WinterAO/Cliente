@@ -141,7 +141,7 @@ Public Sub InicializarRndCNT()
                 .GrhNormal = fileBuff.getLong
                 
                 For j = 0 To 3
-                    .Color(j) = Normal_RGBList(j)
+                    .Color(j) = COLOR_WHITE(j)
                 Next j
             End With
         Next i
@@ -449,7 +449,7 @@ Private Sub RenderConnectGUI()
     'If ClientSetup.FPSShow = True Then
     Call DrawText(970, 30, "FPS: " & Mod_TileEngine.FPS, -1, True)
     
-    Call DrawText(25, 730, "WinterAO " & GetVersionOfTheGame() & " Resurrection", Color_Paralisis)
+    Call DrawText(25, 730, "WinterAO " & GetVersionOfTheGame() & " Resurrection", D3DColorARGB(180, 230, 230, 250))
 End Sub
 
 Private Sub RenderPJ()
@@ -468,22 +468,22 @@ Private Sub RenderPJ()
     
                     If .Body <> 0 Then
             
-                        If PJAccSelected = Index Then Call Draw_Grh(GRHFX_PJ_Selecionado, PJPos(Index).X, PJPos(Index).Y + 60, 1, Normal_RGBList(), 1, True)
+                        If PJAccSelected = Index Then Call Draw_Grh(GRHFX_PJ_Selecionado, PJPos(Index).X, PJPos(Index).Y + 60, 1, COLOR_WHITE(), 1, True)
                         
-                        Call Draw_Grh(BodyData(.Body).Walk(1), PJPos(Index).X, PJPos(Index).Y, 1, Normal_RGBList(), 0)
+                        Call Draw_Grh(BodyData(.Body).Walk(1), PJPos(Index).X, PJPos(Index).Y, 1, COLOR_WHITE(), 0)
             
                         If .Head <> 0 Then _
-                            Call DrawHead(.Head, PJPos(Index).X + BodyData(.Body).HeadOffset.X, PJPos(Index).Y + BodyData(.Body).HeadOffset.Y + OFFSET_HEAD, Normal_RGBList(), 1, True)
+                            Call DrawHead(.Head, PJPos(Index).X + BodyData(.Body).HeadOffset.X, PJPos(Index).Y + BodyData(.Body).HeadOffset.Y + OFFSET_HEAD, COLOR_WHITE(), 1, True)
             
                         If .helmet <> 0 Then _
-                            Call DrawHead(.helmet, PJPos(Index).X + BodyData(.Body).HeadOffset.X, PJPos(Index).Y + BodyData(.Body).HeadOffset.Y + OFFSET_HEAD, Normal_RGBList(), 1, False)
+                            Call DrawHead(.helmet, PJPos(Index).X + BodyData(.Body).HeadOffset.X, PJPos(Index).Y + BodyData(.Body).HeadOffset.Y + OFFSET_HEAD, COLOR_WHITE(), 1, False)
             
                         If .weapon <> 0 Then
-                            Call Draw_Grh(WeaponAnimData(.weapon).WeaponWalk(1), PJPos(Index).X, PJPos(Index).Y, 1, Normal_RGBList(), 0)
+                            Call Draw_Grh(WeaponAnimData(.weapon).WeaponWalk(1), PJPos(Index).X, PJPos(Index).Y, 1, COLOR_WHITE(), 0)
                         End If
             
                         If .shield <> 0 Then
-                            Call Draw_Grh(ShieldAnimData(.shield).ShieldWalk(1), PJPos(Index).X, PJPos(Index).Y, 1, Normal_RGBList(), 0)
+                            Call Draw_Grh(ShieldAnimData(.shield).ShieldWalk(1), PJPos(Index).X, PJPos(Index).Y, 1, COLOR_WHITE(), 0)
                         End If
                         
                         'Nombre
@@ -503,10 +503,10 @@ Private Sub RenderPJ()
         Case 2 'Crear PJ
         
         If CurrentUser.UserBody <> 0 Then
-            Call Draw_Grh(BodyData(CurrentUser.UserBody).Walk(1), 225, 560, 1, Normal_RGBList(), 0)
+            Call Draw_Grh(BodyData(CurrentUser.UserBody).Walk(1), 225, 560, 1, COLOR_WHITE(), 0)
                 
             If CurrentUser.UserHead <> 0 Then _
-                Call DrawHead(CurrentUser.UserHead, 225 + BodyData(CurrentUser.UserBody).HeadOffset.X, 527 + BodyData(CurrentUser.UserBody).HeadOffset.Y, Normal_RGBList(), 1, True)
+                Call DrawHead(CurrentUser.UserHead, 225 + BodyData(CurrentUser.UserBody).HeadOffset.X, 527 + BodyData(CurrentUser.UserBody).HeadOffset.Y, COLOR_WHITE(), 1, True)
                 
             'Nombre
             'Call DrawText(225 + 16, 560 + 30, frmConnect.txtCrearPJNombre.Text, -1, True)

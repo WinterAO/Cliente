@@ -51,49 +51,49 @@ Public Sub Init_MeteoEngine()
     With Estados(e_estados.Amanecer)
         .a = 255
         .r = 230
-        .g = 200
+        .G = 200
         .b = 200
     End With
     
     With Estados(e_estados.MedioDia)
         .a = 255
         .r = 255
-        .g = 255
+        .G = 255
         .b = 255
     End With
     
     With Estados(e_estados.Tarde)
         .a = 255
         .r = 200
-        .g = 200
+        .G = 200
         .b = 200
     End With
   
     With Estados(e_estados.Noche)
         .a = 255
         .r = 165
-        .g = 165
+        .G = 165
         .b = 165
     End With
     
     With Estados(e_estados.Lluvia)
         .a = 255
         .r = 200
-        .g = 200
+        .G = 200
         .b = 200
     End With
     
     With Estados(e_estados.Niebla)
         .a = 255
         .r = 200
-        .g = 200
+        .G = 200
         .b = 200
     End With
     
     With Estados(e_estados.FogLluvia)
         .a = 255
         .r = 200
-        .g = 200
+        .G = 200
         .b = 200
     End With
     
@@ -131,7 +131,7 @@ Public Sub Actualizar_Estado(Optional ByVal Estado As Byte = 255)
                 Call ConvertLongToRGB(MapZonas(MapData(X, Y).ZonaIndex).LuzBase, tR, tG, tB)
                 Estado_Custom.a = 255
                 Estado_Custom.r = tR
-                Estado_Custom.g = tG
+                Estado_Custom.G = tG
                 Estado_Custom.b = tB
                 
                 Call Engine_D3DColor_To_RGB_List(MapData(X, Y).Engine_Light(), Estado_Custom)
@@ -193,7 +193,7 @@ Public Sub Start_Rampage()
 'Init Rampage
 '***************************************************
     Dim X As Integer, Y As Integer, TempColor As D3DCOLORVALUE
-    TempColor.a = 255: TempColor.b = 255: TempColor.r = 255: TempColor.g = 255
+    TempColor.a = 255: TempColor.b = 255: TempColor.r = 255: TempColor.G = 255
     
         For X = XMinMapSize To XMaxMapSize
             For Y = YMinMapSize To YMaxMapSize
@@ -288,7 +288,7 @@ Public Sub Engine_Weather_Update()
                 End If
                 
                 If OnRampageImgGrh <> 0 Then
-                    Call Draw_GrhIndex(OnRampageImgGrh, 0, 0, 0, Normal_RGBList(), , True)
+                    Call Draw_GrhIndex(OnRampageImgGrh, 0, 0, 0, COLOR_WHITE(), , True)
                 End If
             
             Case "NIEVE"
@@ -382,7 +382,7 @@ Public Sub RemoveWeatherParticles(ByVal Weather As Byte)
     End Select
 End Sub
 
-Sub Engine_Weather_UpdateFog(ByVal a As Byte, ByVal r As Byte, ByVal g As Byte, ByVal b As Byte)
+Sub Engine_Weather_UpdateFog(ByVal a As Byte, ByVal r As Byte, ByVal G As Byte, ByVal b As Byte)
 '*****************************************************************
 'Autor: ????
 'Fecha: ????
@@ -441,7 +441,7 @@ Sub Engine_Weather_UpdateFog(ByVal a As Byte, ByVal r As Byte, ByVal g As Byte, 
         X = 2
         Y = -1
         For i = 0 To 3
-            FogColor(i) = D3DColorARGB(a, r, g, b)
+            FogColor(i) = D3DColorARGB(a, r, G, b)
         Next i
         
         For i = 1 To WeatherFogCount

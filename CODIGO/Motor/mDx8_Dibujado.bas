@@ -44,7 +44,7 @@ Sub DrawGrhtoHdc(ByRef Pic As PictureBox, _
     'Clear the inventory window
     Call Engine_BeginScene
         
-    Call Draw_GrhIndex(GrhIndex, 0, 0, 0, Normal_RGBList())
+    Call Draw_GrhIndex(GrhIndex, 0, 0, 0, COLOR_WHITE())
         
     Call Engine_EndScene(DestRect, Pic.hWnd)
     
