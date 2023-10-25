@@ -1248,10 +1248,10 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
             If ClientSetup.UsarReflejos Then Call RenderReflejos(CharIndex, PixelOffsetX, PixelOffsetY)
             
             'Auras
-            'If .AuraAnim.GrhIndex > 0 And ClientSetup.UsarAuras Then
-            '    Call Engine_Long_To_RGB_List(AuraColorFinal(), .AuraColor)
-            '    Call Draw_Grh(.AuraAnim, PixelOffsetX, PixelOffsetY + 35, 1, AuraColorFinal(), 1, True)
-            'End If
+            If .AuraAnim.GrhIndex > 0 And ClientSetup.UsarAuras Then
+                Call Long_2_RGBAList(AuraColorFinal(), .AuraColor)
+                Call Draw_Grh(.AuraAnim, PixelOffsetX, PixelOffsetY + 35, 1, AuraColorFinal(), 1, True)
+            End If
             
             If .NPCAttack = True And .Ataque.AtaqueWalk(.Heading).GrhIndex > 0 Then
                 Call Draw_Grh(.Ataque.AtaqueWalk(.Heading), PixelOffsetX, PixelOffsetY, 1, ColorFinal, 1)
@@ -1305,10 +1305,10 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
         ElseIf CharIndex = UserCharIndex Or (.Clan <> vbNullString And .Clan = charlist(UserCharIndex).Clan) Then
             
             'Auras
-            'If .AuraAnim.GrhIndex > 0 And ClientSetup.UsarAuras Then
-            '    Call Engine_Long_To_RGB_List(AuraColorFinal(), .AuraColor)
-            '    Call Draw_Grh(.AuraAnim, PixelOffsetX, PixelOffsetY + 35, 1, AuraColorFinal(), 1, True)
-            'End If
+            If .AuraAnim.GrhIndex > 0 And ClientSetup.UsarAuras Then
+                Call Long_2_RGBAList(AuraColorFinal(), .AuraColor)
+                Call Draw_Grh(.AuraAnim, PixelOffsetX, PixelOffsetY + 35, 1, AuraColorFinal(), 1, True)
+            End If
             
             'Draw Transparent Body
             If .Body.Walk(.Heading).GrhIndex Then
