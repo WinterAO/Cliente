@@ -19,7 +19,7 @@ Private DNormalFont    As New StdFont
  
 Type DList
      DamageVal      As Integer      'Cantidad de da�o.
-     ColorRGB       As Long         'Color.
+     ColorRGB       As RGBA         'Color.
      DamageType     As EDType       'Tipo, se usa para saber si es apu o no.
      DamageFont     As New StdFont  'Efecto del apu.
      StartedTime    As Long         'Cuando fue creado.
@@ -91,7 +91,9 @@ Sub Damage_Create(ByVal X As Integer, _
     With MapData(X, Y).Damage
      
         .Activated = True
-        .ColorRGB = ColorRGB
+        
+        Call Long_2_RGBA(.ColorRGB, ColorRGB)
+        
         .DamageType = edMode
         .DamageVal = DamageValue
         .StartedTime = GetTickCount
@@ -130,6 +132,8 @@ Sub Damage_Draw(ByVal X As Integer, _
  
     ' @ Dibuja un dano
  
+    Dim tmp_color(3) As RGBA
+ 
     With MapData(X, Y).Damage
      
         If (Not .Activated) Or (Not .DamageVal <> 0) Then Exit Sub
@@ -141,7 +145,26 @@ Sub Damage_Draw(ByVal X As Integer, _
            
             .Downloading = EaseOutCubic(ElapsedTime / DAMAGE_TIME) * DAMAGE_OFFSET
            
-            .ColorRGB = Damage_ModifyColour(.DamageType)
+            Select Case .DamageType
+                   
+                Case EDType.edPunal
+                    Call SetRGBA(.ColorRGB, ColoresPJ(52).R, ColoresPJ(52).G, ColoresPJ(52).B)
+                    
+                Case EDType.edFallo
+                    Call SetRGBA(.ColorRGB, ColoresPJ(54).R, ColoresPJ(54).G, ColoresPJ(54).B)
+                    
+                Case EDType.edCurar
+                    Call SetRGBA(.ColorRGB, ColoresPJ(55).R, ColoresPJ(55).G, ColoresPJ(55).B)
+                
+                Case EDType.edTrabajo
+                    Call SetRGBA(.ColorRGB, ColoresPJ(56).R, ColoresPJ(56).G, ColoresPJ(56).B)
+                    
+                Case Else 'EDType.edNormal
+                    Call SetRGBA(.ColorRGB, ColoresPJ(51).R, ColoresPJ(51).G, ColoresPJ(51).B)
+                    
+            End Select
+           
+            Call RGBA_ToList(tmp_color, .ColorRGB)
            
             'Efectito para el apu
             If .DamageType = EDType.edPunal Then
@@ -153,19 +176,19 @@ Sub Damage_Draw(ByVal X As Integer, _
             Select Case .DamageType
             
                 Case EDType.edCritico
-                    Call DrawText(PixelX, PixelY - .Downloading, .DamageVal & "!!", .ColorRGB)
+                    Call DrawText(PixelX, PixelY - .Downloading, .DamageVal & "!!", tmp_color)
                 
                 Case EDType.edCurar
-                    Call DrawText(PixelX, PixelY - .Downloading, "+" & .DamageVal, .ColorRGB)
+                    Call DrawText(PixelX, PixelY - .Downloading, "+" & .DamageVal, tmp_color)
                 
                 Case EDType.edTrabajo
-                    Call DrawText(PixelX, PixelY - .Downloading, "+" & .DamageVal, .ColorRGB)
+                    Call DrawText(PixelX, PixelY - .Downloading, "+" & .DamageVal, tmp_color)
                     
                 Case EDType.edFallo
-                    Call DrawText(PixelX, PixelY - .Downloading, "Fallo", .ColorRGB)
+                    Call DrawText(PixelX, PixelY - .Downloading, "Fallo", tmp_color)
                     
                 Case Else 'EDType.edNormal
-                    Call DrawText(PixelX, PixelY - .Downloading, "-" & .DamageVal, .ColorRGB)
+                    Call DrawText(PixelX, PixelY - .Downloading, "-" & .DamageVal, tmp_color)
                     
             End Select
             
@@ -185,38 +208,16 @@ Sub Damage_Clear(ByVal X As Integer, ByVal Y As Integer)
  
     With MapData(X, Y).Damage
         .Activated = False
-        .ColorRGB = 0
+        .ColorRGB.R = 0
+        .ColorRGB.G = 0
+        .ColorRGB.B = 0
+        .ColorRGB.A = 0
         .DamageVal = 0
         .StartedTime = 0
 
     End With
  
 End Sub
- 
-Function Damage_ModifyColour(ByVal DamageType As Byte) As Long
- 
-    ' @ Se usa para el "efecto" de desvanecimiento.
- 
-    Select Case DamageType
-                   
-        Case EDType.edPunal
-            Damage_ModifyColour = ColoresPJ(52)
-            
-        Case EDType.edFallo
-            Damage_ModifyColour = ColoresPJ(54)
-            
-        Case EDType.edCurar
-            Damage_ModifyColour = ColoresPJ(55)
-        
-        Case EDType.edTrabajo
-            Damage_ModifyColour = ColoresPJ(56)
-            
-        Case Else 'EDType.edNormal
-            Damage_ModifyColour = ColoresPJ(51)
-            
-    End Select
- 
-End Function
  
 Function Damage_NewSize(ByVal ElapsedTime As Integer) As Byte
  

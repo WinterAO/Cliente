@@ -425,18 +425,13 @@ Public Sub DrawInventory()
     Dim X            As Integer
     Dim Y            As Integer
     Dim DestRect     As RECT
-    Dim Inv_Color(3) As Long
-    Dim Sel_Color(3) As Long
-    Dim ColorFinal(0 To 3) As Long
+    Dim ColorFinal(3) As RGBA
     Dim i As Byte
     
     With DestRect
         .Bottom = InventoryWindow.Height
         .Right = InventoryWindow.Width
     End With
-    
-    'Color al seleccionar un item.
-    Call Engine_Long_To_RGB_List(Sel_Color(), D3DColorARGB(100, 255, 128, 0))
     
     'Clear the inventory window
     Call Engine_BeginScene
@@ -487,9 +482,9 @@ Public Sub DrawInventory()
 
                 'If equipped we render "E"
                 If Inventory(loopc).Equipped Then _
-                    Call DrawText(startdX + 20, startdY + 20, "E", -1)
+                    Call DrawText(startdX + 20, startdY + 20, "E", COLOR_WHITE)
                     
-                Call DrawText(startdX, startdY, Inventory(loopc).Amount, -1)
+                Call DrawText(startdX, startdY, Inventory(loopc).Amount, COLOR_WHITE)
 
             End If
 

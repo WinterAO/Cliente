@@ -1571,3 +1571,45 @@ Public Sub DibujarMinimapa()
         
     End If
 End Sub
+
+Public Function max(ByVal A As Variant, ByVal B As Variant) As Variant
+    
+    On Error GoTo max_Err
+    
+
+    If A > B Then
+        max = A
+    Else
+        max = B
+
+    End If
+
+    
+    Exit Function
+
+max_Err:
+    Call LogError(Err.number, Err.Description, "Mod_General.max", Erl)
+    Resume Next
+    
+End Function
+
+Public Function min(ByVal A As Double, ByVal B As Double) As Variant
+    
+    On Error GoTo min_Err
+    
+
+    If A < B Then
+        min = A
+    Else
+        min = B
+
+    End If
+
+    
+    Exit Function
+
+min_Err:
+    Call LogError(Err.number, Err.Description, "Mod_General.min", Erl)
+    Resume Next
+    
+End Function

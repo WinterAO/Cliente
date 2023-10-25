@@ -53,7 +53,7 @@ Public Type TLVERTEX
     Y As Single
     Z As Single
     rhw As Single
-    Color As Long
+    color As Long
     Specular As Long
     tu As Single
     tv As Single
@@ -283,10 +283,10 @@ Public Sub Engine_DirectX8_Aditional_Init()
         colorRender = 240
         
         ' Seteamos algunos colores por adelantado y unica vez.
-        Call Engine_Long_To_RGB_List(COLOR_WHITE(), -1)
-        Call Engine_Long_To_RGB_List(COLOR_SHADOW(), D3DColorARGB(50, 0, 0, 0))
-        Call Engine_Long_To_RGB_List(COLOR_RED(), D3DColorARGB(255, 200, 30, 30))
-        Call Engine_Long_To_RGB_List(Color_Arbol(), D3DColorARGB(190, 100, 100, 100))
+        Call RGBAList(COLOR_WHITE(), 255, 255, 255, 255)
+        Call RGBAList(COLOR_SHADOW(), 0, 0, 0, 50)
+        Call RGBAList(COLOR_RED(), 200, 30, 30, 255)
+        Call RGBAList(COLOR_ARBOL(), 100, 100, 100, 190)
         
         ' Inicializamos otros sistemas.
         Call mDx8_Text.Engine_Init_FontSettings
@@ -298,34 +298,6 @@ Public Sub Engine_DirectX8_Aditional_Init()
         
     End If
     
-End Sub
-
-Public Sub Engine_Draw_Line(x1 As Single, y1 As Single, x2 As Single, y2 As Single, Optional Color As Long = -1, Optional Color2 As Long = -1)
-On Error GoTo Error
-    
-    Call Engine_Long_To_RGB_List(temp_rgb(), Color)
-    
-    Call SpriteBatch.SetTexture(Nothing)
-    Call SpriteBatch.Draw(x1, y1, x2, y2, temp_rgb())
-    
-Exit Sub
-
-Error:
-    'Call Log_Engine("Error in Engine_Draw_Line, " & Err.Description & " (" & Err.number & ")")
-End Sub
-
-Public Sub Engine_Draw_Point(x1 As Single, y1 As Single, Optional Color As Long = -1)
-On Error GoTo Error
-    
-    Call Engine_Long_To_RGB_List(temp_rgb(), Color)
-    
-    Call SpriteBatch.SetTexture(Nothing)
-    Call SpriteBatch.Draw(x1, y1, 0, 1, temp_rgb(), 0, 0)
-    
-Exit Sub
-
-Error:
-    'Call Log_Engine("Error in Engine_Draw_Point, " & Err.Description & " (" & Err.number & ")")
 End Sub
 
 Public Function Engine_ElapsedTime() As Long
@@ -388,11 +360,11 @@ Public Function Engine_TPtoSPY(ByVal Y As Integer) As Long
     
 End Function
 
-Public Sub Engine_Draw_Box(ByVal X As Integer, ByVal Y As Integer, ByVal Width As Integer, ByVal Height As Integer, Color As Long)
+Public Sub Engine_Draw_Box(ByVal X As Integer, ByVal Y As Integer, ByVal Width As Integer, ByVal Height As Integer, color As Long)
 
     On Error GoTo Engine_Draw_Box_Err
 
-    Call Engine_Long_To_RGB_List(temp_rgb(), Color)
+   Call Long_2_RGBAList(temp_rgb(), color)
 
     Call SpriteBatch.SetTexture(Nothing)
     Call SpriteBatch.SetAlpha(False)
@@ -524,7 +496,7 @@ Function Engine_Collision_Rect(ByVal x1 As Integer, ByVal y1 As Integer, ByVal W
 
 End Function
 
-Public Sub Engine_BeginScene(Optional ByVal Color As Long = 0)
+Public Sub Engine_BeginScene(Optional ByVal color As Long = 0)
 '***************************************************
 'Author: Ezequiel Juarez (Standelf)
 'Last Modification: 29/12/10
@@ -532,7 +504,7 @@ Public Sub Engine_BeginScene(Optional ByVal Color As Long = 0)
 '***************************************************
 
     Call DirectDevice.BeginScene
-    Call DirectDevice.Clear(0, ByVal 0, D3DCLEAR_TARGET, Color, 1#, 0)
+    Call DirectDevice.Clear(0, ByVal 0, D3DCLEAR_TARGET, color, 1#, 0)
     Call SpriteBatch.Begin
     
 End Sub

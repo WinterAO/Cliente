@@ -127,9 +127,9 @@ Private Type tDatosZonas
 End Type
 
 Public Type tDatosLuces
-    r As Integer
+    R As Integer
     G As Integer
-    b As Integer
+    B As Integer
     range As Byte
     X As Integer
     Y As Integer
@@ -896,7 +896,9 @@ On Error GoTo errhandler:
         
         For i = 0 To MAXCOLORES
         
-            ColoresPJ(i) = fileBuff.getLong
+            ColoresPJ(i).R = fileBuff.getByte
+            ColoresPJ(i).G = fileBuff.getByte
+            ColoresPJ(i).B = fileBuff.getByte
         
         Next i
         
@@ -1199,14 +1201,14 @@ Sub CargarMapa(ByVal fileMap As String)
             
             For i = 1 To .NumeroLuces
                 With Luces(i)
-                    .r = fileBuff.getInteger()
+                    .R = fileBuff.getInteger()
                     .G = fileBuff.getInteger()
-                    .b = fileBuff.getInteger()
+                    .B = fileBuff.getInteger()
                     .range = fileBuff.getByte()
                     .X = fileBuff.getInteger()
                     .Y = fileBuff.getInteger()
 
-                    Call Create_Light_To_Map(.X, .Y, .range, .r, .G, .b, False)
+                    Call Create_Light_To_Map(.X, .Y, .range, .R, .G, .B, False)
                 End With
             Next i
             

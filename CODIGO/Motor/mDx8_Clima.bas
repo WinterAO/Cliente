@@ -22,7 +22,6 @@ End Enum
 Public Estados(0 To 8) As D3DCOLORVALUE
 Public Estado_Actual As D3DCOLORVALUE
 Public Estado_Actual_Date As Byte
-Private Estado_Custom As D3DCOLORVALUE
 
 '****************************
 'Usado para las particulas
@@ -49,52 +48,52 @@ Public Sub Init_MeteoEngine()
 'Initializate
 '***************************************************
     With Estados(e_estados.Amanecer)
-        .a = 255
-        .r = 230
+        .A = 255
+        .R = 230
         .G = 200
-        .b = 200
+        .B = 200
     End With
     
     With Estados(e_estados.MedioDia)
-        .a = 255
-        .r = 255
+        .A = 255
+        .R = 255
         .G = 255
-        .b = 255
+        .B = 255
     End With
     
     With Estados(e_estados.Tarde)
-        .a = 255
-        .r = 200
+        .A = 255
+        .R = 200
         .G = 200
-        .b = 200
+        .B = 200
     End With
   
     With Estados(e_estados.Noche)
-        .a = 255
-        .r = 165
+        .A = 255
+        .R = 165
         .G = 165
-        .b = 165
+        .B = 165
     End With
     
     With Estados(e_estados.Lluvia)
-        .a = 255
-        .r = 200
+        .A = 255
+        .R = 200
         .G = 200
-        .b = 200
+        .B = 200
     End With
     
     With Estados(e_estados.Niebla)
-        .a = 255
-        .r = 200
+        .A = 255
+        .R = 200
         .G = 200
-        .b = 200
+        .B = 200
     End With
     
     With Estados(e_estados.FogLluvia)
-        .a = 255
-        .r = 200
+        .A = 255
+        .R = 200
         .G = 200
-        .b = 200
+        .B = 200
     End With
     
     Estado_Actual_Date = 1
@@ -109,9 +108,6 @@ Public Sub Actualizar_Estado(Optional ByVal Estado As Byte = 255)
 '***************************************************
     Dim X  As Integer
     Dim Y  As Integer
-    Dim tR As Byte
-    Dim tG As Byte
-    Dim tB As Byte
 
     'Primero actualizamos la imagen del frmmain
     If Estado <> 255 Then _
@@ -128,16 +124,10 @@ Public Sub Actualizar_Estado(Optional ByVal Estado As Byte = 255)
             
             If MapZonas(MapData(X, Y).ZonaIndex).LuzBase <> 0 Then '¿La zona tiene su propia luz?
             
-                Call ConvertLongToRGB(MapZonas(MapData(X, Y).ZonaIndex).LuzBase, tR, tG, tB)
-                Estado_Custom.a = 255
-                Estado_Custom.r = tR
-                Estado_Custom.G = tG
-                Estado_Custom.b = tB
-                
-                Call Engine_D3DColor_To_RGB_List(MapData(X, Y).Engine_Light(), Estado_Custom)
+                Call Long_2_RGBAList(MapData(X, Y).Engine_Light(), MapZonas(MapData(X, Y).ZonaIndex).LuzBase)
                 
             Else
-                Call Engine_D3DColor_To_RGB_List(MapData(X, Y).Engine_Light(), Estado_Actual)
+                Call RGBAList(MapData(X, Y).Engine_Light(), Estado_Actual.R, Estado_Actual.G, Estado_Actual.B, Estado_Actual.A)
                 
             End If
                 
@@ -187,19 +177,19 @@ Private Sub ActualizarImgClima(ByVal Estado As Byte)
 End Sub
 
 Public Sub Start_Rampage()
-'***************************************************
-'Author: Standelf
-'Last Modification: 27/05/2010
-'Init Rampage
-'***************************************************
-    Dim X As Integer, Y As Integer, TempColor As D3DCOLORVALUE
-    TempColor.a = 255: TempColor.b = 255: TempColor.r = 255: TempColor.G = 255
+    '***************************************************
+    'Author: Standelf
+    'Last Modification: 27/05/2010
+    'Init Rampage
+    '***************************************************
+    Dim X As Integer, Y As Integer
     
-        For X = XMinMapSize To XMaxMapSize
-            For Y = YMinMapSize To YMaxMapSize
-                Call Engine_D3DColor_To_RGB_List(MapData(X, Y).Engine_Light(), TempColor)
-            Next Y
-        Next X
+    For X = XMinMapSize To XMaxMapSize
+        For Y = YMinMapSize To YMaxMapSize
+            Call RGBAList(MapData(X, Y).Engine_Light(), 255, 255, 255, 255)
+        Next Y
+    Next X
+
 End Sub
 
 Public Sub End_Rampage()
@@ -217,7 +207,7 @@ Public Sub End_Rampage()
 
     For X = XMinMapSize To XMaxMapSize
         For Y = YMinMapSize To YMaxMapSize
-            Call Engine_D3DColor_To_RGB_List(MapData(X, Y).Engine_Light(), Estado_Actual)
+            Call RGBAList(MapData(X, Y).Engine_Light(), Estado_Actual.R, Estado_Actual.G, Estado_Actual.B, Estado_Actual.A)
         Next Y
     Next X
 
@@ -382,7 +372,7 @@ Public Sub RemoveWeatherParticles(ByVal Weather As Byte)
     End Select
 End Sub
 
-Sub Engine_Weather_UpdateFog(ByVal a As Byte, ByVal r As Byte, ByVal G As Byte, ByVal b As Byte)
+Sub Engine_Weather_UpdateFog(ByVal A As Byte, ByVal R As Byte, ByVal G As Byte, ByVal B As Byte)
 '*****************************************************************
 'Autor: ????
 'Fecha: ????
@@ -397,7 +387,7 @@ Sub Engine_Weather_UpdateFog(ByVal a As Byte, ByVal r As Byte, ByVal G As Byte, 
         Dim i As Long
         Dim X As Long
         Dim Y As Long
-        Dim FogColor(3) As Long
+        Dim FogColor(3) As RGBA
     
         'Make sure we have the fog value
         If WeatherFogCount = 0 Then WeatherFogCount = 13
@@ -440,9 +430,8 @@ Sub Engine_Weather_UpdateFog(ByVal a As Byte, ByVal r As Byte, ByVal G As Byte, 
         
         X = 2
         Y = -1
-        For i = 0 To 3
-            FogColor(i) = D3DColorARGB(a, r, G, b)
-        Next i
+        
+        Call RGBAList(FogColor, R, G, B, A)
         
         For i = 1 To WeatherFogCount
             Call Draw_Grh(TempGrh, (X * 512) + WeatherFogX1, (Y * 512) + WeatherFogY1, 1, FogColor(), 1, True)

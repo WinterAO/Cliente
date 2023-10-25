@@ -223,7 +223,7 @@ Public Type MapBlock
     
     Trigger As Integer
     
-    Engine_Light(0 To 3) As Long 'Standelf, Light Engine.
+    Engine_Light(3) As RGBA
     
     Particle_Index As Integer
     Particle_Group_Index As Long 'Particle Engine
@@ -497,16 +497,16 @@ Public Sub DrawTransparentGrhtoHdc(ByVal dsthdc As Long, ByVal srchdc As Long, B
 'Author: Torres Patricio (Pato)
 'Last Modify Date: 27/07/2012 - ^[GS]^
 '*************************************************************
-    Dim Color As Long
+    Dim color As Long
     Dim X As Long
     Dim Y As Long
     
     For X = SourceRect.Left To SourceRect.Right
         For Y = SourceRect.Top To SourceRect.Bottom
-            Color = GetPixel(srchdc, X, Y)
+            color = GetPixel(srchdc, X, Y)
             
-            If Color <> TransparentColor Then
-                Call SetPixel(dsthdc, DestRect.Left + (X - SourceRect.Left), DestRect.Top + (Y - SourceRect.Top), Color)
+            If color <> TransparentColor Then
+                Call SetPixel(dsthdc, DestRect.Left + (X - SourceRect.Left), DestRect.Top + (Y - SourceRect.Top), color)
             End If
         Next Y
     Next X
@@ -559,7 +559,7 @@ Sub RenderScreen(ByVal tilex As Integer, _
     Dim PixelOffsetYTemp As Integer 'For centering grhs
     
     Dim ElapsedTime      As Single
-    Dim ColorFinal(3)    As Long
+    Dim ColorFinal(3)    As RGBA
     
     ElapsedTime = Engine_ElapsedTime()
     
@@ -673,13 +673,13 @@ Sub RenderScreen(ByVal tilex As Integer, _
                         '¿El Grh tiene propiedades de transparencia?
                         If GrhData(.Graphic(3).GrhIndex).Trans = 1 Then
                             If Abs(UserPos.X - X) < 2 And (Abs(UserPos.Y - Y)) < 5 And (Abs(UserPos.Y) < Y) Then
-                                Call AsignarColor(Color_Arbol, ColorFinal)
+                                Call Copy_RGBAList(COLOR_ARBOL, ColorFinal)
                             Else
-                                Call AsignarColor(.Engine_Light, ColorFinal)
+                                Call Copy_RGBAList(.Engine_Light, ColorFinal)
                             End If
     
                         Else
-                            Call AsignarColor(.Engine_Light, ColorFinal)
+                            Call Copy_RGBAList(.Engine_Light, ColorFinal)
                         End If
                         
                         Call Draw_Grh(.Graphic(3), PixelOffsetXTemp, PixelOffsetYTemp, 1, ColorFinal(), 1)
@@ -821,8 +821,8 @@ Sub RenderScreen(ByVal tilex As Integer, _
     
     If colorRender <> 240 Then
         Call Draw_GrhIndex(34027, 352, 110, 1, render_msg())
-        Call DrawText(372, 60, renderTextPk, render_msg(0), True, 4)
-        Call DrawText(372, 80, renderText, render_msg(0), True, 5)
+        Call DrawText(372, 60, renderTextPk, render_msg(), True, 4)
+        Call DrawText(372, 80, renderText, render_msg(), True, 5)
     End If
     
     'Call Draw_GrhIndex(34027, 372, 80, 1, COLOR_WHITE())
@@ -856,29 +856,29 @@ Sub RenderHUD()
         ' Calculamos los FPS y los mostramos
         Call Engine_Update_FPS
         If ClientSetup.FPSShow = True Then
-            Call DrawText(680, 5, "FPS: " & Mod_TileEngine.FPS, -1, True)
-            Call DrawText(680, 20, "Zona: " & MapData(UserPos.X, UserPos.Y).ZonaIndex, -1, True)
+            Call DrawText(680, 5, "FPS: " & Mod_TileEngine.FPS, COLOR_WHITE, True)
+            Call DrawText(680, 20, "Zona: " & MapData(UserPos.X, UserPos.Y).ZonaIndex, COLOR_WHITE, True)
         End If
         
         If ClientSetup.HUD Then
             If Not lblHelm = "0/0" And Not lblHelm = "" Then
-                Call Draw_GrhIndex(30792, 20, 450, 1, COLOR_WHITE(), 0, False)
-                Call DrawText(50, 457, lblHelm, -1, True)
+                Call Draw_GrhIndex(30792, 20, 450, 1, COLOR_WHITE, 0, False)
+                Call DrawText(50, 457, lblHelm, COLOR_WHITE, True)
             End If
             
             If Not lblArmor = "0/0" And Not lblArmor = "" Then
-                Call Draw_GrhIndex(30793, 20, 490, 1, COLOR_WHITE(), 0, False)
-                Call DrawText(50, 497, lblArmor, -1, True)
+                Call Draw_GrhIndex(30793, 20, 490, 1, COLOR_WHITE, 0, False)
+                Call DrawText(50, 497, lblArmor, COLOR_WHITE, True)
             End If
             
             If Not lblShielder = "0/0" And Not lblShielder = "" Then
-                Call Draw_GrhIndex(30794, 20, 530, 1, COLOR_WHITE(), 0, False)
-                Call DrawText(50, 537, lblShielder, -1, True)
+                Call Draw_GrhIndex(30794, 20, 530, 1, COLOR_WHITE, 0, False)
+                Call DrawText(50, 537, lblShielder, COLOR_WHITE, True)
             End If
             
             If Not lblWeapon = "0/0" And Not lblWeapon = "" Then
-                Call Draw_GrhIndex(30795, 20, 570, 1, COLOR_WHITE(), 0, False)
-                Call DrawText(50, 573, lblWeapon, -1, True)
+                Call Draw_GrhIndex(30795, 20, 570, 1, COLOR_WHITE, 0, False)
+                Call DrawText(50, 573, lblWeapon, COLOR_WHITE, True)
             End If
         End If
         
@@ -1116,8 +1116,8 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
     '***************************************************
     
     Dim moved As Boolean
-    Dim AuraColorFinal(0 To 3) As Long
-    Dim ColorFinal(0 To 3) As Long
+    Dim AuraColorFinal(3) As RGBA
+    Dim ColorFinal(3) As RGBA
     Dim TempGrh As Grh
         
     With charlist(CharIndex)
@@ -1219,18 +1219,18 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
         PixelOffsetY = PixelOffsetY + .MoveOffsetY
         
         If Not .muerto Then
-            Call AsignarColor(MapData(.Pos.X, .Pos.Y).Engine_Light(), ColorFinal())
+            Call Copy_RGBAList(MapData(.Pos.X, .Pos.Y).Engine_Light(), ColorFinal())
 
         Else
 
             If EsGM(Val(CharIndex)) Then
-                Call Engine_Long_To_RGB_List(ColorFinal(), D3DColorARGB(150, 200, 200, 0))
+                Call RGBAList(ColorFinal(), 200, 200, 0, 150)
             Else
 
                 If .Criminal Then
-                    Call Engine_Long_To_RGB_List(ColorFinal(), D3DColorARGB(100, 255, 100, 100))
+                    Call RGBAList(ColorFinal(), 255, 100, 100, 100)
                 Else
-                    Call Engine_Long_To_RGB_List(ColorFinal(), D3DColorARGB(100, 128, 255, 255))
+                    Call RGBAList(ColorFinal(), 128, 255, 255, 100)
                 End If
 
             End If
@@ -1248,10 +1248,10 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
             If ClientSetup.UsarReflejos Then Call RenderReflejos(CharIndex, PixelOffsetX, PixelOffsetY)
             
             'Auras
-            If .AuraAnim.GrhIndex > 0 And ClientSetup.UsarAuras Then
-                Call Engine_Long_To_RGB_List(AuraColorFinal(), .AuraColor)
-                Call Draw_Grh(.AuraAnim, PixelOffsetX, PixelOffsetY + 35, 1, AuraColorFinal(), 1, True)
-            End If
+            'If .AuraAnim.GrhIndex > 0 And ClientSetup.UsarAuras Then
+            '    Call Engine_Long_To_RGB_List(AuraColorFinal(), .AuraColor)
+            '    Call Draw_Grh(.AuraAnim, PixelOffsetX, PixelOffsetY + 35, 1, AuraColorFinal(), 1, True)
+            'End If
             
             If .NPCAttack = True And .Ataque.AtaqueWalk(.Heading).GrhIndex > 0 Then
                 Call Draw_Grh(.Ataque.AtaqueWalk(.Heading), PixelOffsetX, PixelOffsetY, 1, ColorFinal, 1)
@@ -1305,10 +1305,10 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
         ElseIf CharIndex = UserCharIndex Or (.Clan <> vbNullString And .Clan = charlist(UserCharIndex).Clan) Then
             
             'Auras
-            If .AuraAnim.GrhIndex > 0 And ClientSetup.UsarAuras Then
-                Call Engine_Long_To_RGB_List(AuraColorFinal(), .AuraColor)
-                Call Draw_Grh(.AuraAnim, PixelOffsetX, PixelOffsetY + 35, 1, AuraColorFinal(), 1, True)
-            End If
+            'If .AuraAnim.GrhIndex > 0 And ClientSetup.UsarAuras Then
+            '    Call Engine_Long_To_RGB_List(AuraColorFinal(), .AuraColor)
+            '    Call Draw_Grh(.AuraAnim, PixelOffsetX, PixelOffsetY + 35, 1, AuraColorFinal(), 1, True)
+            'End If
             
             'Draw Transparent Body
             If .Body.Walk(.Heading).GrhIndex Then
@@ -1348,7 +1348,7 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
         
         'Draw FX
         If .FxIndex <> 0 Then
-            Call Draw_Grh(.fX, PixelOffsetX + FxData(.FxIndex).OffsetX, PixelOffsetY + FxData(.FxIndex).OffsetY, 1, SetARGB_Alpha(MapData(.Pos.X, .Pos.Y).Engine_Light(), 180), 1, True)
+            Call Draw_Grh(.fX, PixelOffsetX + FxData(.FxIndex).OffsetX, PixelOffsetY + FxData(.FxIndex).OffsetY, 1, MapData(.Pos.X, .Pos.Y).Engine_Light(), 1, True)
             
             'Check if animation is over
             If .fX.Started = 0 Then .FxIndex = 0
@@ -1503,10 +1503,10 @@ Private Sub RenderReflejos(ByVal CharIndex As Integer, ByVal PixelOffsetX As Int
         If HayAgua(.Pos.X, .Pos.Y + 1) Then
                     
             Dim GetInverseHeading As Byte
-            Dim ColorFinal(0 To 3) As Long
+            Dim ColorFinal(3) As RGBA
             
             'Se anula el viejo reflejo usando Alpha para remplazarlo por transparencia (50%)
-            Call Engine_Long_To_RGB_List(ColorFinal(), D3DColorARGB(100, 128, 128, 128))
+            Call RGBAList(ColorFinal(), 128, 128, 128, 100)
 
             Select Case .Heading
     
@@ -1579,40 +1579,44 @@ Private Sub RenderName(ByVal CharIndex As Long, _
                        ByVal X As Integer, _
                        ByVal Y As Integer, _
                        Optional ByVal Invi As Boolean = False)
-    Dim Pos   As Integer
-    Dim line  As String
-    Dim Color As Long
+    Dim Pos      As Integer
+    Dim line     As String
+    Dim color(3) As RGBA
    
     With charlist(CharIndex)
         Pos = getTagPosition(.Nombre)
     
         If .priv = 0 Then
             If .muerto Then
-                Color = D3DColorARGB(255, 220, 220, 255)
+                Call RGBAList(color, 220, 220, 255, 255)
+                
             Else
 
                 If .WorldBoss = True Then
-                    Color = ColoresPJ(8)
+                    Call RGBAList(color, ColoresPJ(8).R, ColoresPJ(8).G, ColoresPJ(8).B)
+                    
                 Else
 
                     If .Criminal Then
-                        Color = ColoresPJ(50)
+                        Call RGBAList(color, ColoresPJ(50).R, ColoresPJ(50).G, ColoresPJ(50).B)
+                        
                     Else
-                        Color = ColoresPJ(49)
+                        Call RGBAList(color, ColoresPJ(49).R, ColoresPJ(49).G, ColoresPJ(49).B)
+                        
                     End If
                 End If
             End If
         Else
-            Color = ColoresPJ(.priv)
+            Call RGBAList(color, ColoresPJ(.priv).R, ColoresPJ(.priv).G, ColoresPJ(.priv).B)
+            
         End If
     
-        If Invi Then
-            Color = D3DColorARGB(180, 150, 180, 220)
-        End If
+        If Invi Then _
+            Call RGBAList(color, 150, 180, 220, 180)
 
         'Nick
         line = Left$(.Nombre, Pos - 2)
-        Call DrawText(X + 16, Y + 30, line, Color, True)
+        Call DrawText(X + 16, Y + 30, line, color, True)
             
         'Clan
         
@@ -1624,7 +1628,7 @@ Private Sub RenderName(ByVal CharIndex As Long, _
             line = mid$(.Nombre, Pos)
         End If
         
-        Call DrawText(X + 16, Y + 45, line, Color, True)
+        Call DrawText(X + 16, Y + 45, line, color, True)
 
     End With
 End Sub
@@ -1652,7 +1656,7 @@ Public Sub Device_Textured_Render(ByVal X As Single, ByVal Y As Single, _
                                   ByVal Width As Integer, ByVal Height As Integer, _
                                   ByVal sX As Integer, ByVal sY As Integer, _
                                   ByVal tex As Long, _
-                                  ByRef Color() As Long, _
+                                  ByRef color() As RGBA, _
                                   Optional ByVal Alpha As Boolean = False, _
                                   Optional ByVal angle As Single = 0, _
                                   Optional ByVal ScaleX As Single = 1!, _
@@ -1670,9 +1674,9 @@ Public Sub Device_Textured_Render(ByVal X As Single, ByVal Y As Single, _
                 Call .SetAlpha(Alpha)
                 
                 If TextureWidth <> 0 And TextureHeight <> 0 Then
-                    Call .Draw(X, Y, Width * ScaleX, Height * ScaleY, Color, sX / TextureWidth, sY / TextureHeight, (sX + Width) / TextureWidth, (sY + Height) / TextureHeight, angle)
+                    Call .Draw(X, Y, Width * ScaleX, Height * ScaleY, color, sX / TextureWidth, sY / TextureHeight, (sX + Width) / TextureWidth, (sY + Height) / TextureHeight, angle)
                 Else
-                    Call .Draw(X, Y, TextureWidth * ScaleX, TextureHeight * ScaleY, Color, , , , , angle)
+                    Call .Draw(X, Y, TextureWidth * ScaleX, TextureHeight * ScaleY, color, , , , , angle)
                 End If
                 
         End With
@@ -1697,7 +1701,7 @@ Public Sub RenderItem(ByVal hWndDest As Long, ByVal GrhIndex As Long)
     
 End Sub
 
-Sub Draw_GrhIndex(ByVal GrhIndex As Long, ByVal X As Integer, ByVal Y As Integer, ByVal Center As Byte, ByRef Color_List() As Long, Optional ByVal angle As Single = 0, Optional ByVal Alpha As Boolean = False)
+Sub Draw_GrhIndex(ByVal GrhIndex As Long, ByVal X As Integer, ByVal Y As Integer, ByVal Center As Byte, ByRef Color_List() As RGBA, Optional ByVal angle As Single = 0, Optional ByVal Alpha As Boolean = False)
     Dim SourceRect As RECT
     
     With GrhData(GrhIndex)
@@ -1712,13 +1716,15 @@ Sub Draw_GrhIndex(ByVal GrhIndex As Long, ByVal X As Integer, ByVal Y As Integer
             End If
         End If
         
+        
+        
         'Draw
         Call Device_Textured_Render(X, Y, .pixelWidth, .pixelHeight, .sX, .sY, .FileNum, Color_List(), Alpha)
     End With
     
 End Sub
 
-Sub Draw_Grh(ByRef Grh As Grh, ByVal X As Integer, ByVal Y As Integer, ByVal Center As Byte, ByRef Color_List() As Long, ByVal Animate As Byte, Optional ByVal Alpha As Boolean = False, Optional ByVal angle As Single = 0, Optional ByVal ScaleX As Single = 1!, Optional ByVal ScaleY As Single = 1!)
+Sub Draw_Grh(ByRef Grh As Grh, ByVal X As Integer, ByVal Y As Integer, ByVal Center As Byte, ByRef Color_List() As RGBA, ByVal Animate As Byte, Optional ByVal Alpha As Boolean = False, Optional ByVal angle As Single = 0, Optional ByVal ScaleX As Single = 1!, Optional ByVal ScaleY As Single = 1!)
 '*****************************************************************
 'Draws a GRH transparently to a X and Y position
 '*****************************************************************
@@ -1778,7 +1784,7 @@ Error:
     End If
 End Sub
 
-Public Sub DrawHead(ByVal Head As Integer, ByVal X As Integer, ByVal Y As Integer, Light() As Long, ByVal Heading As Byte, Optional ByVal EsCabeza As Boolean = True, Optional ByVal Alpha As Boolean = False, Optional ByVal angle As Single = 0, Optional ByVal ScaleX As Single = 1!, Optional ByVal ScaleY As Single = 1!)
+Public Sub DrawHead(ByVal Head As Integer, ByVal X As Integer, ByVal Y As Integer, Light() As RGBA, ByVal Heading As Byte, Optional ByVal EsCabeza As Boolean = True, Optional ByVal Alpha As Boolean = False, Optional ByVal angle As Single = 0, Optional ByVal ScaleX As Single = 1!, Optional ByVal ScaleY As Single = 1!)
 
     Dim textureX1 As Integer
     Dim textureX2 As Integer
@@ -1856,7 +1862,7 @@ Private Sub DesvanecimientoTechos()
     End If
     
     If Not Val(ColorTecho) = 250 Then
-        Call Engine_Long_To_RGB_List(temp_rgb(), D3DColorARGB(ColorTecho, ColorTecho, ColorTecho, ColorTecho))
+        Call RGBAList(temp_rgb(), ColorTecho, ColorTecho, ColorTecho, ColorTecho)
     End If
     
 End Sub
@@ -1884,7 +1890,7 @@ Public Sub DesvanecimientoMsg()
     End If
     
     If Not Val(colorRender) = 240 Then
-        Call Engine_Long_To_RGB_List(render_msg(), ARGB(255, 255, 255, colorRender))
+        Call RGBAList(render_msg(), 255, 255, 255, colorRender)
     End If
     
     If colorRender = 0 Then renderMsgReset
@@ -1949,17 +1955,3 @@ Public Function Char_Pos_Get(ByVal char_index As Integer, ByRef map_x As Integer
     End If
 End Function
 
-Private Sub AsignarColor(ByRef ColorOrigen() As Long, ByRef ColorDestino() As Long)
-'*****************************************
-'Autor: Lorwik
-'Fecha: 23/04/2021
-'Descripcion: Iguala arrays de colores
-'*****************************************
-
-    Dim i As Byte
-    
-    For i = 0 To 3
-        ColorDestino(i) = ColorOrigen(i)
-    Next i
-
-End Sub
