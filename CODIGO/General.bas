@@ -681,7 +681,7 @@ Private Sub LoadInitialConfig()
     Call InicializarNombres
     
     ' Initialize FONTTYPES
-    Call Protocol_Handle.InitFonts
+    Call Protocol_Handler.InitFonts
  
     CurrentUser.UserMap = 1
     
@@ -1011,13 +1011,13 @@ Public Sub CloseClient()
     
 End Sub
 
-Public Function EsGM(ByVal CharIndex As Integer) As Boolean
+Public Function esGM(ByVal CharIndex As Integer) As Boolean
 
     If charlist(CharIndex).priv >= 1 And charlist(CharIndex).priv <= 5 Or charlist(CharIndex).priv = 25 Then
-        EsGM = True
+        esGM = True
     End If
     
-    EsGM = False
+    esGM = False
 
 End Function
 
@@ -1572,15 +1572,15 @@ Public Sub DibujarMinimapa()
     End If
 End Sub
 
-Public Function max(ByVal A As Variant, ByVal B As Variant) As Variant
+Public Function Max(ByVal A As Variant, ByVal B As Variant) As Variant
     
     On Error GoTo max_Err
     
 
     If A > B Then
-        max = A
+        Max = A
     Else
-        max = B
+        Max = B
 
     End If
 
@@ -1593,15 +1593,15 @@ max_Err:
     
 End Function
 
-Public Function min(ByVal A As Double, ByVal B As Double) As Variant
+Public Function Min(ByVal A As Double, ByVal B As Double) As Variant
     
     On Error GoTo min_Err
     
 
     If A < B Then
-        min = A
+        Min = A
     Else
-        min = B
+        Min = B
 
     End If
 

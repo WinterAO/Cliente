@@ -279,3 +279,4 @@ Public Sub Initialise(ByVal Capacity As Long)
     Call D3DIndexBuffer8SetData(m_IBuffer, 0, UBound(lpIndices), 0, lpIndices(0))
        
 End Sub
+

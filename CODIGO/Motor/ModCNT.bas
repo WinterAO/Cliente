@@ -834,7 +834,7 @@ Private Sub btnConectar()
     Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "Login", "UserName", ClientSetup.rUserName)
 
     If CheckUserData() = True Then _
-        Call Protocol_Handle.Connect(E_MODO.Normal)
+        Call Protocol_Handler.Connect(E_MODO.Normal)
         
 End Sub
 
@@ -1105,7 +1105,7 @@ End Sub
 
 Private Function CheckCabeza(ByVal Head As Integer) As Integer
 
-On Error GoTo errhandler
+On Error GoTo ErrHandler
 
     Select Case CurrentUser.UserSexo
 
@@ -1272,7 +1272,7 @@ On Error GoTo errhandler
             
     End Select
     
-errhandler:
+ErrHandler:
 
     If Err.number Then
         Call LogError(Err.number, Err.Description, "frmCrearPersonaje.CheckCabeza")

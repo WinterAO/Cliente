@@ -618,6 +618,7 @@ Public Type tCurrentUser
     
     VIP As String
     esVIP As Boolean
+    esGM As Boolean
 End Type
 
 Public CurrentUser As tCurrentUser

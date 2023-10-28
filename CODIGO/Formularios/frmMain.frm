@@ -75,19 +75,11 @@ Begin VB.Form frmMain
       ToolTipText     =   "Experiencia necesaria para pasar de nivel"
       Top             =   1080
       Width           =   3375
-      _ExtentX        =   5953
-      _ExtentY        =   318
-      BackColor       =   8421376
-      BorderColor     =   0
-      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
+      _extentx        =   5953
+      _extenty        =   318
+      backcolor       =   8421376
+      bordercolor     =   0
+      font            =   "frmMain.frx":427C9
    End
    Begin VB.PictureBox MiniMapa 
       AutoRedraw      =   -1  'True
@@ -95,7 +87,7 @@ Begin VB.Form frmMain
       BorderStyle     =   0  'None
       Height          =   1500
       Left            =   9450
-      MouseIcon       =   "frmMain.frx":427C9
+      MouseIcon       =   "frmMain.frx":427F1
       ScaleHeight     =   100
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   100
@@ -173,7 +165,7 @@ Begin VB.Form frmMain
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
       Appearance      =   0
-      TextRTF         =   $"frmMain.frx":4291B
+      TextRTF         =   $"frmMain.frx":42943
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Tahoma"
          Size            =   8.25
@@ -227,25 +219,17 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   120
             Width           =   1335
-            _ExtentX        =   2355
-            _ExtentY        =   450
-            TX              =   ""
-            ENAB            =   -1  'True
-            FCOL            =   16777215
-            OCOL            =   16777215
-            PICE            =   "frmMain.frx":42998
-            PICF            =   "frmMain.frx":429B4
-            PICH            =   "frmMain.frx":429D0
-            PICV            =   "frmMain.frx":429EC
-            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "Arial"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
+            _extentx        =   2355
+            _extenty        =   450
+            tx              =   ""
+            enab            =   -1  'True
+            fcol            =   16777215
+            ocol            =   16777215
+            pice            =   "frmMain.frx":429C0
+            picf            =   "frmMain.frx":429DC
+            pich            =   "frmMain.frx":429F8
+            picv            =   "frmMain.frx":42A14
+            font            =   "frmMain.frx":42A30
          End
          Begin WinterAOR_Client.uAOButton btnGrupo 
             Height          =   255
@@ -254,25 +238,17 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   480
             Width           =   1335
-            _ExtentX        =   2355
-            _ExtentY        =   450
-            TX              =   ""
-            ENAB            =   -1  'True
-            FCOL            =   16777215
-            OCOL            =   16777215
-            PICE            =   "frmMain.frx":42A08
-            PICF            =   "frmMain.frx":42A24
-            PICH            =   "frmMain.frx":42A40
-            PICV            =   "frmMain.frx":42A5C
-            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "Arial"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
+            _extentx        =   2355
+            _extenty        =   450
+            tx              =   ""
+            enab            =   -1  'True
+            fcol            =   16777215
+            ocol            =   16777215
+            pice            =   "frmMain.frx":42A54
+            picf            =   "frmMain.frx":42A70
+            pich            =   "frmMain.frx":42A8C
+            picv            =   "frmMain.frx":42AA8
+            font            =   "frmMain.frx":42AC4
          End
          Begin WinterAOR_Client.uAOButton btnEstadisticas 
             Height          =   255
@@ -281,25 +257,17 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   840
             Width           =   1335
-            _ExtentX        =   2355
-            _ExtentY        =   450
-            TX              =   ""
-            ENAB            =   -1  'True
-            FCOL            =   16777215
-            OCOL            =   16777215
-            PICE            =   "frmMain.frx":42A78
-            PICF            =   "frmMain.frx":42A94
-            PICH            =   "frmMain.frx":42AB0
-            PICV            =   "frmMain.frx":42ACC
-            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "Arial"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
+            _extentx        =   2355
+            _extenty        =   450
+            tx              =   ""
+            enab            =   -1  'True
+            fcol            =   16777215
+            ocol            =   16777215
+            pice            =   "frmMain.frx":42AE8
+            picf            =   "frmMain.frx":42B04
+            pich            =   "frmMain.frx":42B20
+            picv            =   "frmMain.frx":42B3C
+            font            =   "frmMain.frx":42B58
          End
          Begin WinterAOR_Client.uAOButton btnClanes 
             Height          =   255
@@ -308,25 +276,17 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   1200
             Width           =   1335
-            _ExtentX        =   2355
-            _ExtentY        =   450
-            TX              =   ""
-            ENAB            =   -1  'True
-            FCOL            =   16777215
-            OCOL            =   16777215
-            PICE            =   "frmMain.frx":42AE8
-            PICF            =   "frmMain.frx":42B04
-            PICH            =   "frmMain.frx":42B20
-            PICV            =   "frmMain.frx":42B3C
-            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "Arial"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
+            _extentx        =   2355
+            _extenty        =   450
+            tx              =   ""
+            enab            =   -1  'True
+            fcol            =   16777215
+            ocol            =   16777215
+            pice            =   "frmMain.frx":42B7C
+            picf            =   "frmMain.frx":42B98
+            pich            =   "frmMain.frx":42BB4
+            picv            =   "frmMain.frx":42BD0
+            font            =   "frmMain.frx":42BEC
          End
          Begin WinterAOR_Client.uAOButton btnOpciones 
             Height          =   255
@@ -335,25 +295,17 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   1890
             Width           =   1335
-            _ExtentX        =   2355
-            _ExtentY        =   450
-            TX              =   ""
-            ENAB            =   -1  'True
-            FCOL            =   16777215
-            OCOL            =   16777215
-            PICE            =   "frmMain.frx":42B58
-            PICF            =   "frmMain.frx":42B74
-            PICH            =   "frmMain.frx":42B90
-            PICV            =   "frmMain.frx":42BAC
-            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "Arial"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
+            _extentx        =   2355
+            _extenty        =   450
+            tx              =   ""
+            enab            =   -1  'True
+            fcol            =   16777215
+            ocol            =   16777215
+            pice            =   "frmMain.frx":42C10
+            picf            =   "frmMain.frx":42C2C
+            pich            =   "frmMain.frx":42C48
+            picv            =   "frmMain.frx":42C64
+            font            =   "frmMain.frx":42C80
          End
          Begin WinterAOR_Client.uAOButton btnQuest 
             Height          =   255
@@ -362,27 +314,85 @@ Begin VB.Form frmMain
             TabStop         =   0   'False
             Top             =   1560
             Width           =   1335
-            _ExtentX        =   2355
-            _ExtentY        =   450
-            TX              =   ""
-            ENAB            =   -1  'True
-            FCOL            =   16777215
-            OCOL            =   16777215
-            PICE            =   "frmMain.frx":42BC8
-            PICF            =   "frmMain.frx":42BE4
-            PICH            =   "frmMain.frx":42C00
-            PICV            =   "frmMain.frx":42C1C
-            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "Arial"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
+            _extentx        =   2355
+            _extenty        =   450
+            tx              =   ""
+            enab            =   -1  'True
+            fcol            =   16777215
+            ocol            =   16777215
+            pice            =   "frmMain.frx":42CA4
+            picf            =   "frmMain.frx":42CC0
+            pich            =   "frmMain.frx":42CDC
+            picv            =   "frmMain.frx":42CF8
+            font            =   "frmMain.frx":42D14
          End
       End
+   End
+   Begin VB.Label lblInvisible 
+      Alignment       =   2  'Center
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Invisible"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   11.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000018&
+      Height          =   375
+      Left            =   5760
+      TabIndex        =   36
+      Top             =   -30
+      Visible         =   0   'False
+      Width           =   1335
+   End
+   Begin VB.Label lblBuscarNpc 
+      Alignment       =   2  'Center
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Buscar Npc/Obj"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   11.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000018&
+      Height          =   375
+      Left            =   4140
+      TabIndex        =   35
+      Top             =   -30
+      Visible         =   0   'False
+      Width           =   1215
+   End
+   Begin VB.Label lblPanelGM 
+      Alignment       =   2  'Center
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "PanelGM"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   11.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000018&
+      Height          =   375
+      Left            =   2340
+      TabIndex        =   34
+      Top             =   -30
+      Visible         =   0   'False
+      Width           =   1215
    End
    Begin VB.Image imgClima 
       Height          =   360
@@ -424,7 +434,7 @@ Begin VB.Form frmMain
    Begin VB.Image btnShop 
       Height          =   360
       Left            =   11670
-      MouseIcon       =   "frmMain.frx":42C38
+      MouseIcon       =   "frmMain.frx":42D38
       Tag             =   "1"
       Top             =   9795
       Width           =   1410
@@ -437,7 +447,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   255
       Left            =   240
-      MouseIcon       =   "frmMain.frx":42D8A
+      MouseIcon       =   "frmMain.frx":42E8A
       TabIndex        =   31
       Top             =   1980
       Width           =   1215
@@ -557,7 +567,7 @@ Begin VB.Form frmMain
       Height          =   585
       Index           =   2
       Left            =   14400
-      MouseIcon       =   "frmMain.frx":42EDC
+      MouseIcon       =   "frmMain.frx":42FDC
       Top             =   1920
       Width           =   495
    End
@@ -578,7 +588,7 @@ Begin VB.Form frmMain
    Begin VB.Image btnInfo 
       Height          =   495
       Left            =   13575
-      MouseIcon       =   "frmMain.frx":4302E
+      MouseIcon       =   "frmMain.frx":4312E
       MousePointer    =   99  'Custom
       Top             =   5940
       Visible         =   0   'False
@@ -587,7 +597,7 @@ Begin VB.Form frmMain
    Begin VB.Image btnLanzar 
       Height          =   540
       Left            =   11640
-      MouseIcon       =   "frmMain.frx":43180
+      MouseIcon       =   "frmMain.frx":43280
       MousePointer    =   99  'Custom
       Top             =   5940
       Visible         =   0   'False
@@ -637,7 +647,7 @@ Begin VB.Form frmMain
    Begin VB.Image btnMenu 
       Height          =   360
       Left            =   11670
-      MouseIcon       =   "frmMain.frx":432D2
+      MouseIcon       =   "frmMain.frx":433D2
       Tag             =   "1"
       Top             =   9315
       Width           =   1410
@@ -646,7 +656,7 @@ Begin VB.Form frmMain
       Height          =   600
       Index           =   1
       Left            =   12975
-      MouseIcon       =   "frmMain.frx":43424
+      MouseIcon       =   "frmMain.frx":43524
       Top             =   1920
       Width           =   1380
    End
@@ -654,7 +664,7 @@ Begin VB.Form frmMain
       Height          =   600
       Index           =   0
       Left            =   11550
-      MouseIcon       =   "frmMain.frx":43576
+      MouseIcon       =   "frmMain.frx":43676
       Top             =   1920
       Width           =   1380
    End
@@ -729,7 +739,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   0
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":436C8
+      MouseIcon       =   "frmMain.frx":437C8
       MousePointer    =   99  'Custom
       Top             =   2925
       Visible         =   0   'False
@@ -739,7 +749,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   1
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":4381A
+      MouseIcon       =   "frmMain.frx":4391A
       MousePointer    =   99  'Custom
       Top             =   2580
       Visible         =   0   'False
@@ -999,7 +1009,7 @@ Call Sound.Sound_Play(SND_CLICK)
             'btnSolapa(2).Picture = General_Load_Picture_From_Resource("12.gif", True)
             
             ' Activo controles de inventario
-            PicInv.Visible = True
+            picInv.Visible = True
         
             ' Desactivo controles de hechizo y amigos
             hlst.Visible = False
@@ -1033,7 +1043,7 @@ Call Sound.Sound_Play(SND_CLICK)
             cmdMoverHechi(1).Visible = True
             
             ' Desactivo controles de inventario y amigos
-            PicInv.Visible = False
+            picInv.Visible = False
             
             ListAmigos.Visible = False
             AgregarAmigo.Visible = False
@@ -1050,7 +1060,7 @@ Call Sound.Sound_Play(SND_CLICK)
             BorrarAmigo.Visible = True
             
             ' Desactivo controles de inventario y hechizos
-            PicInv.Visible = False
+            picInv.Visible = False
             
             hlst.Visible = False
             btnInfo.Visible = False
@@ -1199,7 +1209,7 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
     '18/11/2009: ZaMa - Ahora se pueden poner comandos en los mensajes personalizados (execpto guildchat y privados)
     '18/11/2010: Amraphen - Agregue el handle correspondiente para las nuevas configuraciones de teclas (CTRL+0..9).
     '***************************************************
-    If (Not SendTxt.Visible) Then
+    If (Not Sendtxt.Visible) Then
         
         If KeyCode = vbKeyControl Then
 
@@ -1304,39 +1314,39 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
         Select Case KeyCode
             Case CustomKeys.BindedKey(eKeyType.mKeyChatNormal)
                 SendingType = 1
-                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
-                lblChat.Caption = "1.Normal"
+                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
+                LbLChat.Caption = "1.Normal"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatGritar)
                 SendingType = 2
-                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
-                lblChat.Caption = "2.Gritar"
+                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
+                LbLChat.Caption = "2.Gritar"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatPrivado)
                 sndPrivateTo = InputBox("Nombre del destinatario:", vbNullString)
     
                 If sndPrivateTo <> vbNullString Then
                     SendingType = 3
-                    If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+                    If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
                 Else
                     MsgBox "¡Escribe un nombre."
                 End If
-                lblChat.Caption = "3.Privado"
+                LbLChat.Caption = "3.Privado"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatClan)
                 SendingType = 4
-                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
-                lblChat.Caption = "4.Clan"
+                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
+                LbLChat.Caption = "4.Clan"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatGrupo)
                 SendingType = 5
-                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
-                lblChat.Caption = "5.Party"
+                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
+                LbLChat.Caption = "5.Party"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatGlobal)
                 SendingType = 6
-                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
-                lblChat.Caption = "6.Global"
+                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
+                LbLChat.Caption = "6.Global"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyTakeScreenShot)
                 Call Mod_General.Client_Screenshot(frmMain.hDC, frmMain.ScaleWidth, frmMain.ScaleHeight)
@@ -1368,8 +1378,8 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                 
                 If (Not Comerciando) And (Not MirandoAsignarSkills) And (Not frmMSG.Visible) And (Not MirandoForo) And (Not frmEstadisticas.Visible) And (Not frmCantidad.Visible) And (Not frmPVP.Visible) And (Not frmShop.Visible) Then
                     Call CompletarEnvioMensajes
-                    SendTxt.Visible = True
-                    SendTxt.SetFocus
+                    Sendtxt.Visible = True
+                    Sendtxt.SetFocus
                 Else
                     Call Enviar_SendTxt
                 End If
@@ -1541,6 +1551,48 @@ Private Sub lblMinimizar_Click()
     Me.WindowState = vbMinimized
 End Sub
 
+Private Sub lblPanelGM_Click()
+    On Error GoTo lblPanelGM_Click_Err
+    
+    'frmPanelGm.Width = 4860
+    Call WriteSOSShowList
+    Call WriteGMPanel(0)
+    
+    Me.SetFocus
+    
+    Exit Sub
+
+lblPanelGM_Click_Err:
+    Call LogError(Err.number, Err.Description, "frmMain.lblpanelGM_Click", Erl)
+    Resume Next
+End Sub
+
+Private Sub lblBuscarNpc_Click()
+    On Error GoTo lblBuscarNpc_Click_Err
+    
+    Call WriteGMPanel(1)
+    Exit Sub
+
+lblBuscarNpc_Click_Err:
+    Call LogError(Err.number, Err.Description, "frmMain.lblBuscarNpc_Click", Erl)
+    Resume Next
+End Sub
+
+Private Sub lblInvisible_Click()
+    On Error GoTo lblInvisible_Click_Err
+    
+    Call ParseUserCommand("/INVISIBLE")
+    
+    Me.SetFocus
+    
+    Exit Sub
+
+lblInvisible_Click_Err:
+    Call LogError(Err.number, Err.Description, "frmMain.lblInvisible_Click", Erl)
+    Resume Next
+End Sub
+
+
 Private Sub MensajeAmigo_Click()
     If ListAmigos.List(ListAmigos.ListIndex) = "" Then
         With FontTypes(FontTypeNames.FONTTYPE_INFO)
@@ -1549,8 +1601,8 @@ Private Sub MensajeAmigo_Click()
         Exit Sub
     End If
     
-    SendTxt.Visible = True
-    SendTxt.Text = ("\" & ListAmigos.List(ListAmigos.ListIndex) & " ")
+    Sendtxt.Visible = True
+    Sendtxt.Text = ("\" & ListAmigos.List(ListAmigos.ListIndex) & " ")
 End Sub
 
 Private Sub mnuEquipar_Click()
@@ -1612,13 +1664,13 @@ End Sub
 Private Sub SendTxt_KeyDown(KeyCode As Integer, Shift As Integer)
     ' Para borrar el mensaje de fondo
     If FirstTimeChat Then
-        SendTxt.Text = vbNullString
+        Sendtxt.Text = vbNullString
         FirstTimeChat = False
         ' Cambiamos el color de texto al original
-        SendTxt.ForeColor = &HE0E0E0
+        Sendtxt.ForeColor = &HE0E0E0
     End If
     
-errhandler:
+ErrHandler:
     
 End Sub
 
@@ -1629,12 +1681,12 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         If LenB(stxtbuffer) <> 0 Then Call ParseUserCommand(stxtbuffer)
         
         stxtbuffer = vbNullString
-        SendTxt.Text = vbNullString
+        Sendtxt.Text = vbNullString
         KeyCode = 0
-        SendTxt.Visible = False
+        Sendtxt.Visible = False
         
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
         ElseIf hlst.Visible Then
             hlst.SetFocus
         Else
@@ -2058,8 +2110,8 @@ Private Sub RecTxt_Change()
 
     If Not Application.IsAppActive() Then Exit Sub
     
-    If SendTxt.Visible Then
-        SendTxt.SetFocus
+    If Sendtxt.Visible Then
+        Sendtxt.SetFocus
     
     ElseIf (Not Comerciando) And _
            (Not MirandoAsignarSkills) And _
@@ -2071,8 +2123,8 @@ Private Sub RecTxt_Change()
            (Not frmShop.Visible) And _
            (Not MirandoParty) Then
 
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
                         
         ElseIf hlst.Visible Then
             hlst.SetFocus
@@ -2085,8 +2137,8 @@ End Sub
 
 Private Sub RecTxt_KeyDown(KeyCode As Integer, Shift As Integer)
 
-    If PicInv.Visible Then
-        PicInv.SetFocus
+    If picInv.Visible Then
+        picInv.SetFocus
     Else
         hlst.SetFocus
     End If
@@ -2100,7 +2152,7 @@ Private Sub SendTxt_Change()
     'Last Modify Date: 3/06/2006
     '3/06/2006: Maraxus - impedi se inserten caracteres no imprimibles
     '**************************************************************
-    If Len(SendTxt.Text) > 160 Then
+    If Len(Sendtxt.Text) > 160 Then
         stxtbuffer = JsonLanguage.item("MENSAJE_SOY_CHEATER").item("TEXTO")
     Else
         'Make sure only valid chars are inserted (with Shift + Insert they can paste illegal chars)
@@ -2108,21 +2160,21 @@ Private Sub SendTxt_Change()
         Dim tempstr   As String
         Dim CharAscii As Integer
         
-        For i = 1 To Len(SendTxt.Text)
-            CharAscii = Asc(mid$(SendTxt.Text, i, 1))
+        For i = 1 To Len(Sendtxt.Text)
+            CharAscii = Asc(mid$(Sendtxt.Text, i, 1))
 
             If CharAscii >= vbKeySpace And CharAscii <= 250 Then
                 tempstr = tempstr & Chr$(CharAscii)
             End If
         Next i
         
-        If tempstr <> SendTxt.Text Then
+        If tempstr <> Sendtxt.Text Then
             'We only set it if it's different, otherwise the event will be raised
             'constantly and the client will crush
-            SendTxt.Text = tempstr
+            Sendtxt.Text = tempstr
         End If
         
-        stxtbuffer = SendTxt.Text
+        stxtbuffer = Sendtxt.Text
     End If
 End Sub
 
@@ -2135,21 +2187,21 @@ Private Sub CompletarEnvioMensajes()
 
     Select Case SendingType
         Case 1
-            SendTxt.Text = vbNullString
+            Sendtxt.Text = vbNullString
         Case 2
-            SendTxt.Text = "-"
+            Sendtxt.Text = "-"
         Case 3
-            SendTxt.Text = ("\" & sndPrivateTo & " ")
+            Sendtxt.Text = ("\" & sndPrivateTo & " ")
         Case 4
-            SendTxt.Text = "/CMSG "
+            Sendtxt.Text = "/CMSG "
         Case 5
-            SendTxt.Text = "/PMSG "
+            Sendtxt.Text = "/PMSG "
         Case 6
-            SendTxt.Text = "; "
+            Sendtxt.Text = "; "
     End Select
     
-    stxtbuffer = SendTxt.Text
-    SendTxt.SelStart = Len(SendTxt.Text)
+    stxtbuffer = Sendtxt.Text
+    Sendtxt.SelStart = Len(Sendtxt.Text)
 
 End Sub
 
@@ -2189,8 +2241,8 @@ Private Sub Enviar_SendTxt()
     End If
 
     stxtbuffer = vbNullString
-    SendTxt.Text = vbNullString
-    SendTxt.Visible = False
+    Sendtxt.Text = vbNullString
+    Sendtxt.Visible = False
     
 End Sub
 
@@ -2273,8 +2325,8 @@ End Sub
 Private Sub Client_Connect()
     
     'Clean input and output buffers
-    Call incomingData.ReadASCIIStringFixed(incomingData.Length)
-    Call outgoingData.ReadASCIIStringFixed(outgoingData.Length)
+    Call incomingData.ReadASCIIStringFixed(incomingData.length)
+    Call outgoingData.ReadASCIIStringFixed(outgoingData.length)
     
     Second.Enabled = True
     
