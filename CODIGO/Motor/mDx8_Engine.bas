@@ -49,8 +49,8 @@ Public ScreenHeight As Long
 Public MainScreenRect As RECT
 
 Public Type TLVERTEX
-    X As Single
-    Y As Single
+    x As Single
+    y As Single
     Z As Single
     rhw As Single
     color As Long
@@ -60,6 +60,15 @@ Public Type TLVERTEX
 End Type
 
 Private EndTime As Long
+
+Public Sub SetSpeedUsuario(ByVal speed As Double)
+'*******************************
+'Autor: ???
+'Fecha: ???
+'*******************************
+
+    Engine_BaseSpeed = speed
+End Sub
 
 Public Sub Engine_DirectX8_Init()
     On Error GoTo EngineHandler:
@@ -232,7 +241,7 @@ On Error Resume Next
     Dim i As Byte
     
     '   DeInit Lights
-    Call DeInit_LightEngine
+    Call LucesRedondas.DeInit_LightEngine
     
     '   Clean Particles
     Call Particle_Group_Remove_All
@@ -252,6 +261,9 @@ On Error Resume Next
     Set DirectX = Nothing
     Set DirectDevice = Nothing
     Set SpriteBatch = Nothing
+    Set LucesRedondas = Nothing
+    Set Sound = Nothing
+    
 End Sub
 
 Public Sub Engine_DirectX8_Aditional_Init()
@@ -278,6 +290,8 @@ Public Sub Engine_DirectX8_Aditional_Init()
     Call mDx8_Text.Engine_Init_FontTextures
     
     If Not prgRun Then
+    
+        Set LucesRedondas = New clsLucesRedondas
     
         ColorTecho = 250
         colorRender = 240
@@ -318,49 +332,49 @@ Dim Start_Time As Long
 
 End Function
 
-Public Function Engine_PixelPosX(ByVal X As Long) As Long
+Public Function Engine_PixelPosX(ByVal x As Long) As Long
 '*****************************************************************
 'Converts a tile position to a screen position
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_PixelPosX
 '*****************************************************************
 
-    Engine_PixelPosX = (X - 1) * 32
+    Engine_PixelPosX = (x - 1) * 32
     
 End Function
 
-Public Function Engine_PixelPosY(ByVal Y As Long) As Long
+Public Function Engine_PixelPosY(ByVal y As Long) As Long
 '*****************************************************************
 'Converts a tile position to a screen position
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_PixelPosY
 '*****************************************************************
 
-    Engine_PixelPosY = (Y - 1) * 32
+    Engine_PixelPosY = (y - 1) * 32
     
 End Function
 
-Public Function Engine_TPtoSPX(ByVal X As Integer) As Long
+Public Function Engine_TPtoSPX(ByVal x As Integer) As Long
 '************************************************************
 'Tile Position to Screen Position
 'Takes the tile position and returns the pixel location on the screen
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_TPtoSPX
 '************************************************************
 
-    Engine_TPtoSPX = Engine_PixelPosX(X - ((UserPos.X - HalfWindowTileWidth) - TileBufferSize)) + OffsetCounterX - 272 + ((10 - TileBufferSize) * 32)
+    Engine_TPtoSPX = Engine_PixelPosX(x - ((UserPos.x - HalfWindowTileWidth) - TileBufferSize)) + OffsetCounterX - 272 + ((10 - TileBufferSize) * 32)
     
 End Function
 
-Public Function Engine_TPtoSPY(ByVal Y As Integer) As Long
+Public Function Engine_TPtoSPY(ByVal y As Integer) As Long
 '************************************************************
 'Tile Position to Screen Position
 'Takes the tile position and returns the pixel location on the screen
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_TPtoSPY
 '************************************************************
 
-    Engine_TPtoSPY = Engine_PixelPosY(Y - ((UserPos.Y - HalfWindowTileHeight) - TileBufferSize)) + OffsetCounterY - 272 + ((10 - TileBufferSize) * 32)
+    Engine_TPtoSPY = Engine_PixelPosY(y - ((UserPos.y - HalfWindowTileHeight) - TileBufferSize)) + OffsetCounterY - 272 + ((10 - TileBufferSize) * 32)
     
 End Function
 
-Public Sub Engine_Draw_Box(ByVal X As Integer, ByVal Y As Integer, ByVal Width As Integer, ByVal Height As Integer, color As Long)
+Public Sub Engine_Draw_Box(ByVal x As Integer, ByVal y As Integer, ByVal Width As Integer, ByVal Height As Integer, color As Long)
 
     On Error GoTo Engine_Draw_Box_Err
 
@@ -368,7 +382,7 @@ Public Sub Engine_Draw_Box(ByVal X As Integer, ByVal Y As Integer, ByVal Width A
 
     Call SpriteBatch.SetTexture(Nothing)
     Call SpriteBatch.SetAlpha(False)
-    Call SpriteBatch.Draw(X, Y, Width, Height, temp_rgb())
+    Call SpriteBatch.Draw(x, y, Width, Height, temp_rgb())
     
     Exit Sub
 

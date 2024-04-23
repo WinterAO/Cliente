@@ -408,7 +408,7 @@ Sub SwitchMap(ByVal Map As Integer)
         Call Particle_Group_Remove_All
         
         'Borramos todas las luces
-        Call LightRemoveAll(False)
+        Call LucesRedondas.LightRemoveAll(False)
    
         'Cargamos el mapa.
         Call Carga.CargarMapa(filename)
@@ -825,16 +825,16 @@ Private Function CMSValidateChar_(ByVal iAsc As Integer) As Boolean
 End Function
 
 'TODO : como todo lo relativo a mapas, no tiene nada que hacer aca....
-Function HayAgua(ByVal X As Integer, ByVal Y As Integer) As Boolean
+Function HayAgua(ByVal x As Integer, ByVal y As Integer) As Boolean
     '*******************************************
     'Author: Unknown
     'Last Modification: -
     '
     '*******************************************
 
-    If X > XMinMapSize And X < XMaxMapSize + 1 And Y > YMinMapSize And Y < YMaxMapSize + 1 Then
+    If x > XMinMapSize And x < XMaxMapSize + 1 And y > YMinMapSize And y < YMaxMapSize + 1 Then
 
-        With MapData(X, Y)
+        With MapData(x, y)
 
             If ((.Graphic(1).GrhIndex >= 1505 And .Graphic(1).GrhIndex <= 1520) Or _
                 (.Graphic(1).GrhIndex >= 12439 And .Graphic(1).GrhIndex <= 12454) Or _
@@ -995,6 +995,7 @@ Public Sub CloseClient()
     Set Dialogos = Nothing
     Set DialogosClanes = Nothing
     Set Sound = Nothing
+    Set LucesRedondas = Nothing
     Set Inventario = Nothing
     Set MainTimer = Nothing
     Set incomingData = Nothing
@@ -1276,15 +1277,6 @@ Public Function ArrayInitialized(ByVal TheArray As Long) As Boolean
 
 End Function
 
-Public Sub SetSpeedUsuario(ByVal speed As Double)
-'*******************************
-'Autor: ???
-'Fecha: ???
-'*******************************
-
-    Engine_BaseSpeed = speed
-End Sub
-
 Public Function CheckIfIpIsNumeric(CurrentIp As String) As String
 '*******************************
 'Autor: ???
@@ -1468,13 +1460,13 @@ Public Function UserZonaId(ByVal CharIndex As Integer) As Integer
         UserZonaId = 0
         Exit Function
     
-    ElseIf charlist(CharIndex).Pos.X < 1 Or charlist(CharIndex).Pos.Y < 1 Then
+    ElseIf charlist(CharIndex).Pos.x < 1 Or charlist(CharIndex).Pos.y < 1 Then
         UserZonaId = 0
         Exit Function
         
     End If
     
-    UserZonaId = MapData(charlist(CharIndex).Pos.X, charlist(CharIndex).Pos.Y).ZonaIndex
+    UserZonaId = MapData(charlist(CharIndex).Pos.x, charlist(CharIndex).Pos.y).ZonaIndex
 
 End Function
 
@@ -1485,14 +1477,13 @@ Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
 'Descripción: Comprueba si hubo cambio de zona
 '**************************************
 
-    Static ZonaActual   As Integer
     Dim ZonaId          As Integer
     Static MapActual    As String
 
     'Nueva zona
     ZonaId = UserZonaId(CharIndex)
 
-    If ZonaActual <> ZonaId Then
+    If CurrentUser.UserZona <> ZonaId Then
     
         'Si estamos jugando y no en el conectar...
         If frmMain.Visible Then
@@ -1516,17 +1507,21 @@ Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
                 If ClientSetup.bMusic <> CONST_DESHABILITADA Then
                     'Comprobamos si la musica de la zona anterior y la actual es la misma
                     If CurMap = MapActual Then
-                        If MapZonas(ZonaActual).Music = MapZonas(ZonaId).Music Then Exit Function
+                        If MapZonas(CurrentUser.UserZona).Music = MapZonas(ZonaId).Music Then
+                            MapActual = CurMap
+                            CurrentUser.UserZona = ZonaId
+                            Exit Function
+                        End If
                     End If
                     
-                    Sound.NextMusic = MapZonas(ZonaActual).Music
+                    Sound.NextMusic = MapZonas(CurrentUser.UserZona).Music
                     Sound.Fading = 200
                 End If
             End If
         End If
         
         MapActual = CurMap
-        ZonaActual = ZonaId
+        CurrentUser.UserZona = ZonaId
         
     End If
 
@@ -1539,10 +1534,10 @@ Public Sub ActualizarMiniMapa()
     '***************************************************
     
     With frmMain
-        .UserM.Left = UserPosCuadrante.X - 2
-        .UserM.Top = UserPosCuadrante.Y - 2
-        .UserAreaMinimap.Left = UserPosCuadrante.X - 13
-        .UserAreaMinimap.Top = UserPosCuadrante.Y - 11
+        .UserM.Left = UserPosCuadrante.x - 2
+        .UserM.Top = UserPosCuadrante.y - 2
+        .UserAreaMinimap.Left = UserPosCuadrante.x - 13
+        .UserAreaMinimap.Top = UserPosCuadrante.y - 11
         .MiniMapa.Refresh
     End With
 End Sub

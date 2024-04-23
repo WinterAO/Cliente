@@ -104,25 +104,25 @@ Private Type tMapHeader
 End Type
 
 Private Type tDatosBloqueados
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
 End Type
 
 Private Type tDatosGrh
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     GrhIndex As Long
 End Type
 
 Private Type tDatosTrigger
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     Trigger As Integer
 End Type
 
 Private Type tDatosZonas
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     Zona As Integer
 End Type
 
@@ -131,32 +131,32 @@ Public Type tDatosLuces
     G As Integer
     B As Integer
     range As Byte
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
 End Type
 
 Private Type tDatosParticulas
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     Particula As Long
 End Type
 
 Private Type tDatosNPC
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     NPCIndex As Integer
 End Type
 
 Private Type tDatosObjs
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     ObjIndex As Integer
     ObjAmmount As Integer
 End Type
 
 Private Type tDatosTE
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     DestM As Integer
     DestX As Integer
     DestY As Integer
@@ -636,8 +636,8 @@ On Error GoTo errhandler:
                 Call InitGrh(BodyData(i).Walk(3), MisCuerpos(i).Body(3), 0)
                 Call InitGrh(BodyData(i).Walk(4), MisCuerpos(i).Body(4), 0)
                 
-                BodyData(i).HeadOffset.X = MisCuerpos(i).HeadOffsetX
-                BodyData(i).HeadOffset.Y = MisCuerpos(i).HeadOffsetY
+                BodyData(i).HeadOffset.x = MisCuerpos(i).HeadOffsetX
+                BodyData(i).HeadOffset.y = MisCuerpos(i).HeadOffsetY
             End If
         Next i
     
@@ -706,8 +706,8 @@ On Error GoTo errhandler:
                 Call InitGrh(AtaqueData(i).AtaqueWalk(3), MisAtaques(i).Body(3), 0)
                 Call InitGrh(AtaqueData(i).AtaqueWalk(4), MisAtaques(i).Body(4), 0)
                 
-                AtaqueData(i).HeadOffset.X = MisAtaques(i).HeadOffsetX
-                AtaqueData(i).HeadOffset.Y = MisAtaques(i).HeadOffsetY
+                AtaqueData(i).HeadOffset.x = MisAtaques(i).HeadOffsetX
+                AtaqueData(i).HeadOffset.y = MisAtaques(i).HeadOffsetY
             End If
         Next i
     
@@ -1103,9 +1103,9 @@ Sub CargarMapa(ByVal fileMap As String)
 
             For i = 1 To .NumeroBloqueados
                 With Blqs(i)
-                    .X = fileBuff.getInteger()
-                    .Y = fileBuff.getInteger()
-                    MapData(.X, .Y).Blocked = 1
+                    .x = fileBuff.getInteger()
+                    .y = fileBuff.getInteger()
+                    MapData(.x, .y).Blocked = 1
                 End With
             Next i
 
@@ -1117,11 +1117,11 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroLayers(2)
             
                 With L2(i)
-                    .X = fileBuff.getInteger()
-                    .Y = fileBuff.getInteger()
+                    .x = fileBuff.getInteger()
+                    .y = fileBuff.getInteger()
                     .GrhIndex = fileBuff.getLong()
                 
-                    Call InitGrh(MapData(.X, .Y).Graphic(2), .GrhIndex)
+                    Call InitGrh(MapData(.x, .y).Graphic(2), .GrhIndex)
                 End With
             Next i
 
@@ -1133,11 +1133,11 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroLayers(3)
             
                 With L3(i)
-                    .X = fileBuff.getInteger()
-                    .Y = fileBuff.getInteger()
+                    .x = fileBuff.getInteger()
+                    .y = fileBuff.getInteger()
                     .GrhIndex = fileBuff.getLong()
                 
-                    Call InitGrh(MapData(.X, .Y).Graphic(3), .GrhIndex)
+                    Call InitGrh(MapData(.x, .y).Graphic(3), .GrhIndex)
                 End With
             Next i
 
@@ -1149,11 +1149,11 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroLayers(4)
             
                 With L4(i)
-                    .X = fileBuff.getInteger()
-                    .Y = fileBuff.getInteger()
+                    .x = fileBuff.getInteger()
+                    .y = fileBuff.getInteger()
                     .GrhIndex = fileBuff.getLong()
   
-                    Call InitGrh(MapData(.X, .Y).Graphic(4), .GrhIndex)
+                    Call InitGrh(MapData(.x, .y).Graphic(4), .GrhIndex)
                 End With
             Next i
 
@@ -1165,11 +1165,11 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroTriggers
                 
                 With Triggers(i)
-                    .X = fileBuff.getInteger()
-                    .Y = fileBuff.getInteger()
+                    .x = fileBuff.getInteger()
+                    .y = fileBuff.getInteger()
                     .Trigger = fileBuff.getInteger()
                 
-                    MapData(.X, .Y).Trigger = .Trigger
+                    MapData(.x, .y).Trigger = .Trigger
                 End With
                 
             Next i
@@ -1183,12 +1183,12 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroParticulas
 
                 With Particulas(i)
-                    .X = fileBuff.getInteger()
-                    .Y = fileBuff.getInteger()
+                    .x = fileBuff.getInteger()
+                    .y = fileBuff.getInteger()
                     .Particula = fileBuff.getLong()
 
-                    MapData(.X, .Y).Particle_Index = .Particula
-                    Call General_Particle_Create(.Particula, .X, .Y)
+                    MapData(.x, .y).Particle_Index = .Particula
+                    Call General_Particle_Create(.Particula, .x, .y)
                 End With
 
             Next i
@@ -1205,10 +1205,10 @@ Sub CargarMapa(ByVal fileMap As String)
                     .G = fileBuff.getInteger()
                     .B = fileBuff.getInteger()
                     .range = fileBuff.getByte()
-                    .X = fileBuff.getInteger()
-                    .Y = fileBuff.getInteger()
+                    .x = fileBuff.getInteger()
+                    .y = fileBuff.getInteger()
 
-                    Call Create_Light_To_Map(.X, .Y, .range, .R, .G, .B, False)
+                    Call LucesRedondas.Create_Light_To_Map(.x, .y, RGBA_From_Comp(.R, .G, .B), .range, False)
                 End With
             Next i
             
@@ -1220,11 +1220,11 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroZonas
                 
                 With Zonas(i)
-                    .X = fileBuff.getInteger()
-                    .Y = fileBuff.getInteger()
+                    .x = fileBuff.getInteger()
+                    .y = fileBuff.getInteger()
                     .Zona = fileBuff.getInteger()
                 
-                    MapData(.X, .Y).ZonaIndex = .Zona
+                    MapData(.x, .y).ZonaIndex = .Zona
                 End With
                 
             Next i
@@ -1237,13 +1237,13 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroOBJs
 
                 With Objetos(i)
-                    .X = fileBuff.getInteger()
-                    .Y = fileBuff.getInteger()
+                    .x = fileBuff.getInteger()
+                    .y = fileBuff.getInteger()
                     .ObjIndex = fileBuff.getInteger()
                     .ObjAmmount = fileBuff.getInteger()
                 
                     'Erase OBJs
-                    MapData(.X, .Y).ObjGrh.GrhIndex = 0
+                    MapData(.x, .y).ObjGrh.GrhIndex = 0
                 End With
             Next i
             

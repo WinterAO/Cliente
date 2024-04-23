@@ -106,8 +106,8 @@ Public Sub Actualizar_Estado(Optional ByVal Estado As Byte = 255)
 'Last Modification: 09/08/2020
 'Actualiza el estado del clima y del dia
 '***************************************************
-    Dim X  As Integer
-    Dim Y  As Integer
+    Dim x  As Integer
+    Dim y  As Integer
 
     'Primero actualizamos la imagen del frmmain
     If Estado <> 255 Then _
@@ -119,29 +119,29 @@ Public Sub Actualizar_Estado(Optional ByVal Estado As Byte = 255)
     Estado_Actual = Estados(Estado)
     Estado_Actual_Date = Estado
             
-    For X = XMinMapSize To XMaxMapSize
-        For Y = YMinMapSize To YMaxMapSize
+    For x = XMinMapSize To XMaxMapSize
+        For y = YMinMapSize To YMaxMapSize
             
-            If MapZonas(MapData(X, Y).ZonaIndex).LuzBase <> 0 Then '¿La zona tiene su propia luz?
+            If MapZonas(MapData(x, y).ZonaIndex).LuzBase <> 0 Then '¿La zona tiene su propia luz?
             
-                Call Long_2_RGBAList(MapData(X, Y).Engine_Light(), MapZonas(MapData(X, Y).ZonaIndex).LuzBase)
+                Call Long_2_RGBAList(MapData(x, y).Light_Value(), MapZonas(MapData(x, y).ZonaIndex).LuzBase)
                 
             Else
-                Call RGBAList(MapData(X, Y).Engine_Light(), Estado_Actual.R, Estado_Actual.G, Estado_Actual.B, Estado_Actual.A)
+                Call RGBAList(MapData(x, y).Light_Value(), Estado_Actual.R, Estado_Actual.G, Estado_Actual.B, Estado_Actual.A)
                 
             End If
                 
-        Next Y
-    Next X
+        Next y
+    Next x
             
-    Call LightRenderAll
+    Call LucesRedondas.LightRenderAll
     
     If Estado = (e_estados.Lluvia Or e_estados.FogLluvia) Then
-        If Not InMapBounds(UserPos.X, UserPos.Y) Then Exit Sub
+        If Not InMapBounds(UserPos.x, UserPos.y) Then Exit Sub
     
-        bTecho = (MapData(UserPos.X, UserPos.Y).Trigger = eTrigger.BAJOTECHO Or _
-            MapData(UserPos.X, UserPos.Y).Trigger = eTrigger.CASA Or _
-            MapData(UserPos.X, UserPos.Y).Trigger = eTrigger.ZONASEGURA)
+        bTecho = (MapData(UserPos.x, UserPos.y).Trigger = eTrigger.BAJOTECHO Or _
+            MapData(UserPos.x, UserPos.y).Trigger = eTrigger.CASA Or _
+            MapData(UserPos.x, UserPos.y).Trigger = eTrigger.ZONASEGURA)
         
     End If
 
@@ -182,13 +182,13 @@ Public Sub Start_Rampage()
     'Last Modification: 27/05/2010
     'Init Rampage
     '***************************************************
-    Dim X As Integer, Y As Integer
+    Dim x As Integer, y As Integer
     
-    For X = XMinMapSize To XMaxMapSize
-        For Y = YMinMapSize To YMaxMapSize
-            Call RGBAList(MapData(X, Y).Engine_Light(), 255, 255, 255, 255)
-        Next Y
-    Next X
+    For x = XMinMapSize To XMaxMapSize
+        For y = YMinMapSize To YMaxMapSize
+            Call RGBAList(MapData(x, y).Light_Value(), 255, 255, 255, 255)
+        Next y
+    Next x
 
 End Sub
 
@@ -203,15 +203,15 @@ Public Sub End_Rampage()
     OnRampageImgGrh = 0
     OnRampageImg = 0
     
-    Dim X As Integer, Y As Integer
+    Dim x As Integer, y As Integer
 
-    For X = XMinMapSize To XMaxMapSize
-        For Y = YMinMapSize To YMaxMapSize
-            Call RGBAList(MapData(X, Y).Engine_Light(), Estado_Actual.R, Estado_Actual.G, Estado_Actual.B, Estado_Actual.A)
-        Next Y
-    Next X
+    For x = XMinMapSize To XMaxMapSize
+        For y = YMinMapSize To YMaxMapSize
+            Call RGBAList(MapData(x, y).Light_Value(), Estado_Actual.R, Estado_Actual.G, Estado_Actual.B, Estado_Actual.A)
+        Next y
+    Next x
 
-    Call LightRenderAll
+    Call LucesRedondas.LightRenderAll
 
 End Sub
 
@@ -385,8 +385,8 @@ Sub Engine_Weather_UpdateFog(ByVal A As Byte, ByVal R As Byte, ByVal G As Byte, 
     
         Dim TempGrh As Grh
         Dim i As Long
-        Dim X As Long
-        Dim Y As Long
+        Dim x As Long
+        Dim y As Long
         Dim FogColor(3) As RGBA
     
         'Make sure we have the fog value
@@ -428,30 +428,30 @@ Sub Engine_Weather_UpdateFog(ByVal A As Byte, ByVal R As Byte, ByVal G As Byte, 
         'Render fog 2
         TempGrh.GrhIndex = 3193
         
-        X = 2
-        Y = -1
+        x = 2
+        y = -1
         
         Call RGBAList(FogColor, R, G, B, A)
         
         For i = 1 To WeatherFogCount
-            Call Draw_Grh(TempGrh, (X * 512) + WeatherFogX1, (Y * 512) + WeatherFogY1, 1, FogColor(), 1, True)
-            X = X + 1
-            If X > (1 + (ScreenWidth \ 512)) Then
-                X = 0
-                Y = Y + 1
+            Call Draw_Grh(TempGrh, (x * 512) + WeatherFogX1, (y * 512) + WeatherFogY1, 1, FogColor(), 1, True)
+            x = x + 1
+            If x > (1 + (ScreenWidth \ 512)) Then
+                x = 0
+                y = y + 1
             End If
         Next i
                 
         'Render fog 1
         TempGrh.GrhIndex = 3194
-        X = 0
-        Y = 0
+        x = 0
+        y = 0
         For i = 1 To WeatherFogCount
-            Call Draw_Grh(TempGrh, (X * 512) + WeatherFogX1, (Y * 512) + WeatherFogY1, 1, FogColor(), 1, True)
-            X = X + 1
-            If X > (2 + (ScreenWidth \ 512)) Then
-                X = 0
-                Y = Y + 1
+            Call Draw_Grh(TempGrh, (x * 512) + WeatherFogX1, (y * 512) + WeatherFogY1, 1, FogColor(), 1, True)
+            x = x + 1
+            If x > (2 + (ScreenWidth \ 512)) Then
+                x = 0
+                y = y + 1
             End If
         Next i
 
