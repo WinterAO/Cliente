@@ -438,17 +438,17 @@ On Error GoTo ErrorHandler:
                     .FileNum = fileBuff.getLong
                     If .FileNum <= 0 Then GoTo ErrorHandler
                     
-                    .pixelWidth = fileBuff.getInteger
-                    If .pixelWidth <= 0 Then GoTo ErrorHandler
-                    
-                    .pixelHeight = fileBuff.getInteger
-                    If .pixelHeight <= 0 Then GoTo ErrorHandler
-                    
                     .sX = fileBuff.getInteger
                     If .sX < 0 Then GoTo ErrorHandler
                     
                     .sY = fileBuff.getInteger
                     If .sY < 0 Then GoTo ErrorHandler
+                    
+                    .pixelWidth = fileBuff.getInteger
+                    If .pixelWidth <= 0 Then GoTo ErrorHandler
+                    
+                    .pixelHeight = fileBuff.getInteger
+                    If .pixelHeight <= 0 Then GoTo ErrorHandler
                     
                     '.Trans = fileBuff.getByte
                     'If .Trans < 0 Then GoTo ErrorHandler

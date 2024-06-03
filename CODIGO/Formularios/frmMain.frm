@@ -95,7 +95,7 @@ Begin VB.Form frmMain
       BorderStyle     =   0  'None
       Height          =   1500
       Left            =   9450
-      MouseIcon       =   "frmMain.frx":427C9
+      MouseIcon       =   "frmMain.frx":25A085
       ScaleHeight     =   100
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   100
@@ -168,11 +168,12 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
       Appearance      =   0
-      TextRTF         =   $"frmMain.frx":4291B
+      TextRTF         =   $"frmMain.frx":25A1D7
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Tahoma"
          Size            =   8.25
@@ -199,21 +200,21 @@ Begin VB.Form frmMain
       BackColor       =   &H00000000&
       BorderStyle     =   0  'None
       ForeColor       =   &H00000000&
-      Height          =   9240
-      Left            =   0
+      Height          =   9090
+      Left            =   240
       MousePointer    =   99  'Custom
-      ScaleHeight     =   616
+      ScaleHeight     =   606
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   738
+      ScaleWidth      =   720
       TabIndex        =   10
-      Top             =   2280
-      Width           =   11070
+      Top             =   2310
+      Width           =   10800
       Begin VB.Frame fMenu 
          Appearance      =   0  'Flat
          BackColor       =   &H00000000&
          BorderStyle     =   0  'None
          ForeColor       =   &H00000000&
-         Height          =   2265
+         Height          =   2685
          Left            =   9120
          TabIndex        =   16
          Top             =   5640
@@ -232,10 +233,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":42998
-            PICF            =   "frmMain.frx":429B4
-            PICH            =   "frmMain.frx":429D0
-            PICV            =   "frmMain.frx":429EC
+            PICE            =   "frmMain.frx":25A254
+            PICF            =   "frmMain.frx":25A270
+            PICH            =   "frmMain.frx":25A28C
+            PICV            =   "frmMain.frx":25A2A8
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -259,10 +260,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":42A08
-            PICF            =   "frmMain.frx":42A24
-            PICH            =   "frmMain.frx":42A40
-            PICV            =   "frmMain.frx":42A5C
+            PICE            =   "frmMain.frx":25A2C4
+            PICF            =   "frmMain.frx":25A2E0
+            PICH            =   "frmMain.frx":25A2FC
+            PICV            =   "frmMain.frx":25A318
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -286,10 +287,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":42A78
-            PICF            =   "frmMain.frx":42A94
-            PICH            =   "frmMain.frx":42AB0
-            PICV            =   "frmMain.frx":42ACC
+            PICE            =   "frmMain.frx":25A334
+            PICF            =   "frmMain.frx":25A350
+            PICH            =   "frmMain.frx":25A36C
+            PICV            =   "frmMain.frx":25A388
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -313,10 +314,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":42AE8
-            PICF            =   "frmMain.frx":42B04
-            PICH            =   "frmMain.frx":42B20
-            PICV            =   "frmMain.frx":42B3C
+            PICE            =   "frmMain.frx":25A3A4
+            PICF            =   "frmMain.frx":25A3C0
+            PICH            =   "frmMain.frx":25A3DC
+            PICV            =   "frmMain.frx":25A3F8
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -332,7 +333,7 @@ Begin VB.Form frmMain
             Left            =   120
             TabIndex        =   21
             TabStop         =   0   'False
-            Top             =   1890
+            Top             =   2280
             Width           =   1335
             _ExtentX        =   2355
             _ExtentY        =   450
@@ -340,10 +341,10 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":42B58
-            PICF            =   "frmMain.frx":42B74
-            PICH            =   "frmMain.frx":42B90
-            PICV            =   "frmMain.frx":42BAC
+            PICE            =   "frmMain.frx":25A414
+            PICF            =   "frmMain.frx":25A430
+            PICH            =   "frmMain.frx":25A44C
+            PICV            =   "frmMain.frx":25A468
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -367,10 +368,37 @@ Begin VB.Form frmMain
             ENAB            =   -1  'True
             FCOL            =   16777215
             OCOL            =   16777215
-            PICE            =   "frmMain.frx":42BC8
-            PICF            =   "frmMain.frx":42BE4
-            PICH            =   "frmMain.frx":42C00
-            PICV            =   "frmMain.frx":42C1C
+            PICE            =   "frmMain.frx":25A484
+            PICF            =   "frmMain.frx":25A4A0
+            PICH            =   "frmMain.frx":25A4BC
+            PICV            =   "frmMain.frx":25A4D8
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Arial"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+         End
+         Begin WinterAOR_Client.uAOButton btnPvP 
+            Height          =   255
+            Left            =   120
+            TabIndex        =   37
+            TabStop         =   0   'False
+            Top             =   1920
+            Width           =   1335
+            _ExtentX        =   2355
+            _ExtentY        =   450
+            TX              =   ""
+            ENAB            =   -1  'True
+            FCOL            =   16777215
+            OCOL            =   16777215
+            PICE            =   "frmMain.frx":25A4F4
+            PICF            =   "frmMain.frx":25A510
+            PICH            =   "frmMain.frx":25A52C
+            PICV            =   "frmMain.frx":25A548
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Arial"
                Size            =   9.75
@@ -451,28 +479,22 @@ Begin VB.Form frmMain
    End
    Begin VB.Image imgClima 
       Height          =   360
-      Left            =   13545
-      Top             =   8850
+      Left            =   13575
+      Top             =   10410
       Width           =   1140
-   End
-   Begin VB.Image imgPVP 
-      Height          =   855
-      Left            =   13800
-      Top             =   9480
-      Width           =   735
    End
    Begin VB.Image picSM 
       Height          =   345
       Index           =   1
-      Left            =   12420
-      Top             =   8880
+      Left            =   14250
+      Top             =   9960
       Width           =   375
    End
    Begin VB.Image picSM 
       Height          =   345
       Index           =   0
-      Left            =   11955
-      Top             =   8880
+      Left            =   13665
+      Top             =   9960
       Width           =   375
    End
    Begin VB.Label lblHour 
@@ -481,17 +503,17 @@ Begin VB.Form frmMain
       Caption         =   "00:00"
       ForeColor       =   &H00FFFFFF&
       Height          =   195
-      Left            =   13905
+      Left            =   13920
       TabIndex        =   33
-      Top             =   9180
+      Top             =   10740
       Width           =   465
    End
    Begin VB.Image btnShop 
       Height          =   360
-      Left            =   11670
-      MouseIcon       =   "frmMain.frx":42C38
+      Left            =   11700
+      MouseIcon       =   "frmMain.frx":25A564
       Tag             =   "1"
-      Top             =   9795
+      Top             =   10365
       Width           =   1410
    End
    Begin VB.Label LbLChat 
@@ -502,7 +524,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   255
       Left            =   240
-      MouseIcon       =   "frmMain.frx":42D8A
+      MouseIcon       =   "frmMain.frx":25A6B6
       TabIndex        =   31
       Top             =   1980
       Width           =   1215
@@ -520,16 +542,10 @@ Begin VB.Form frmMain
       Caption         =   "00"
       ForeColor       =   &H80000018&
       Height          =   210
-      Left            =   13440
+      Left            =   12480
       TabIndex        =   29
-      Top             =   7875
-      Width           =   1290
-   End
-   Begin VB.Image ShpAgilidad 
-      Height          =   165
-      Left            =   13410
-      Top             =   7905
-      Width           =   1380
+      Top             =   9240
+      Width           =   450
    End
    Begin VB.Label lblStrg 
       Alignment       =   2  'Center
@@ -538,27 +554,21 @@ Begin VB.Form frmMain
       Caption         =   "00"
       ForeColor       =   &H80000018&
       Height          =   210
-      Left            =   13440
+      Left            =   11880
       TabIndex        =   28
-      Top             =   7320
-      Width           =   1290
-   End
-   Begin VB.Image ShpFuerza 
-      Height          =   165
-      Left            =   13425
-      Top             =   7335
-      Width           =   1380
+      Top             =   9240
+      Width           =   510
    End
    Begin VB.Image shpSed 
       Height          =   330
-      Left            =   13755
-      Top             =   8175
+      Left            =   13575
+      Top             =   8880
       Width           =   120
    End
    Begin VB.Image shpHambre 
       Height          =   300
-      Left            =   14100
-      Top             =   8175
+      Left            =   14010
+      Top             =   8880
       Width           =   465
    End
    Begin VB.Label lblEnergia 
@@ -569,16 +579,17 @@ Begin VB.Form frmMain
       Caption         =   "999/999"
       ForeColor       =   &H80000018&
       Height          =   180
-      Left            =   11760
+      Left            =   11910
       TabIndex        =   27
-      Top             =   8505
-      Width           =   1335
+      Top             =   8430
+      Width           =   2775
    End
    Begin VB.Image shpEnergia 
-      Height          =   165
-      Left            =   11700
-      Top             =   8520
-      Width           =   1380
+      Height          =   210
+      Left            =   11925
+      Picture         =   "frmMain.frx":25A808
+      Top             =   8415
+      Width           =   2775
    End
    Begin VB.Label lblMana 
       Alignment       =   2  'Center
@@ -588,16 +599,17 @@ Begin VB.Form frmMain
       Caption         =   "9999/9999"
       ForeColor       =   &H80000018&
       Height          =   180
-      Left            =   11760
+      Left            =   11970
       TabIndex        =   26
-      Top             =   7935
-      Width           =   1335
+      Top             =   8070
+      Width           =   2745
    End
    Begin VB.Image shpMana 
-      Height          =   165
-      Left            =   11700
-      Top             =   7965
-      Width           =   1380
+      Height          =   210
+      Left            =   11925
+      Picture         =   "frmMain.frx":25C6B4
+      Top             =   8070
+      Width           =   2775
    End
    Begin VB.Label lblVida 
       Alignment       =   2  'Center
@@ -607,22 +619,24 @@ Begin VB.Form frmMain
       Caption         =   "999/999"
       ForeColor       =   &H80000018&
       Height          =   180
-      Left            =   11760
+      Left            =   11940
       TabIndex        =   25
-      Top             =   7380
-      Width           =   1335
+      Top             =   7620
+      Width           =   2715
    End
    Begin VB.Image shpVida 
-      Height          =   165
-      Left            =   11700
-      Top             =   7410
-      Width           =   1380
+      Height          =   210
+      Left            =   11940
+      Picture         =   "frmMain.frx":25E560
+      Top             =   7620
+      Width           =   2775
    End
    Begin VB.Image btnSolapa 
       Height          =   585
       Index           =   2
       Left            =   14400
-      MouseIcon       =   "frmMain.frx":42EDC
+      MouseIcon       =   "frmMain.frx":26040C
+      ToolTipText     =   "Social"
       Top             =   1920
       Width           =   495
    End
@@ -643,7 +657,7 @@ Begin VB.Form frmMain
    Begin VB.Image btnInfo 
       Height          =   495
       Left            =   13575
-      MouseIcon       =   "frmMain.frx":4302E
+      MouseIcon       =   "frmMain.frx":26055E
       MousePointer    =   99  'Custom
       Top             =   5940
       Visible         =   0   'False
@@ -652,7 +666,7 @@ Begin VB.Form frmMain
    Begin VB.Image btnLanzar 
       Height          =   540
       Left            =   11640
-      MouseIcon       =   "frmMain.frx":43180
+      MouseIcon       =   "frmMain.frx":2606B0
       MousePointer    =   99  'Custom
       Top             =   5940
       Visible         =   0   'False
@@ -674,9 +688,9 @@ Begin VB.Form frmMain
       EndProperty
       ForeColor       =   &H80000018&
       Height          =   165
-      Left            =   14175
+      Left            =   14055
       TabIndex        =   23
-      Top             =   8550
+      Top             =   9240
       Width           =   465
    End
    Begin VB.Label lblGems 
@@ -701,17 +715,18 @@ Begin VB.Form frmMain
    End
    Begin VB.Image btnMenu 
       Height          =   360
-      Left            =   11670
-      MouseIcon       =   "frmMain.frx":432D2
+      Left            =   11700
+      MouseIcon       =   "frmMain.frx":260802
       Tag             =   "1"
-      Top             =   9315
+      Top             =   9885
       Width           =   1410
    End
    Begin VB.Image btnSolapa 
       Height          =   600
       Index           =   1
       Left            =   12975
-      MouseIcon       =   "frmMain.frx":43424
+      MouseIcon       =   "frmMain.frx":260954
+      ToolTipText     =   "Hechizos"
       Top             =   1920
       Width           =   1380
    End
@@ -719,7 +734,8 @@ Begin VB.Form frmMain
       Height          =   600
       Index           =   0
       Left            =   11550
-      MouseIcon       =   "frmMain.frx":43576
+      MouseIcon       =   "frmMain.frx":260AA6
+      ToolTipText     =   "Inventario"
       Top             =   1920
       Width           =   1380
    End
@@ -794,7 +810,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   0
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":436C8
+      MouseIcon       =   "frmMain.frx":260BF8
       MousePointer    =   99  'Custom
       Top             =   2925
       Visible         =   0   'False
@@ -804,7 +820,7 @@ Begin VB.Form frmMain
       Height          =   360
       Index           =   1
       Left            =   14760
-      MouseIcon       =   "frmMain.frx":4381A
+      MouseIcon       =   "frmMain.frx":260D4A
       MousePointer    =   99  'Custom
       Top             =   2580
       Visible         =   0   'False
@@ -926,9 +942,9 @@ Begin VB.Form frmMain
       EndProperty
       ForeColor       =   &H80000018&
       Height          =   165
-      Left            =   13560
+      Left            =   13440
       TabIndex        =   2
-      Top             =   8550
+      Top             =   9240
       Width           =   465
    End
    Begin VB.Menu mnuObj 
@@ -1043,6 +1059,10 @@ Private Sub btnMenu_Click()
     fMenu.Visible = Not fMenu.Visible
 End Sub
 
+Private Sub btnPvP_Click()
+    Call WriteInitPVP
+End Sub
+
 Private Sub btnShop_Click()
     Call WriteShopInit
 End Sub
@@ -1064,7 +1084,7 @@ Call Sound.Sound_Play(SND_CLICK)
             'btnSolapa(2).Picture = General_Load_Picture_From_Resource("12.gif", True)
             
             ' Activo controles de inventario
-            PicInv.Visible = True
+            picInv.Visible = True
         
             ' Desactivo controles de hechizo y amigos
             hlst.Visible = False
@@ -1098,7 +1118,7 @@ Call Sound.Sound_Play(SND_CLICK)
             cmdMoverHechi(1).Visible = True
             
             ' Desactivo controles de inventario y amigos
-            PicInv.Visible = False
+            picInv.Visible = False
             
             ListAmigos.Visible = False
             AgregarAmigo.Visible = False
@@ -1115,7 +1135,7 @@ Call Sound.Sound_Play(SND_CLICK)
             BorrarAmigo.Visible = True
             
             ' Desactivo controles de inventario y hechizos
-            PicInv.Visible = False
+            picInv.Visible = False
             
             hlst.Visible = False
             btnInfo.Visible = False
@@ -1136,22 +1156,23 @@ End Sub
 Private Sub Form_Load()
     ClientSetup.SkinSeleccionado = GetVar(Carga.Path(Init) & CLIENT_FILE, "Parameters", "SkinSelected")
     
-    Me.Picture = General_Load_Picture_From_Resource("1.gif", True)
-    cmdMoverHechi(1).Picture = General_Load_Picture_From_Resource("2.gif", True)
-    cmdMoverHechi(0).Picture = General_Load_Picture_From_Resource("3.gif", True)
-    btnLanzar.Picture = General_Load_Picture_From_Resource("13.gif", True)
-    btnInfo.Picture = General_Load_Picture_From_Resource("14.gif", True)
-    InvEqu.Picture = General_Load_Picture_From_Resource("4.gif", True)
-    btnSolapa(0).Picture = General_Load_Picture_From_Resource("7.gif", True)
-    btnSolapa(1).Picture = General_Load_Picture_From_Resource("11.gif", True)
-    btnSolapa(2).Picture = General_Load_Picture_From_Resource("12.gif", True)
-    shpVida.Picture = General_Load_Picture_From_Resource("15.gif", True)
-    shpMana.Picture = General_Load_Picture_From_Resource("16.gif", True)
-    shpEnergia.Picture = General_Load_Picture_From_Resource("17.gif", True)
-    shpHambre.Picture = General_Load_Picture_From_Resource("18.gif", True)
-    shpSed.Picture = General_Load_Picture_From_Resource("19.gif", True)
-    ShpFuerza.Picture = General_Load_Picture_From_Resource("20.gif", True)
-    ShpAgilidad.Picture = General_Load_Picture_From_Resource("21.gif", True)
+    Me.Picture = General_Load_Picture_From_Resource("es_main.bmp", True)
+    cmdMoverHechi(1).Picture = General_Load_Picture_From_Resource("btnspell_top.bmp", True)
+    cmdMoverHechi(0).Picture = General_Load_Picture_From_Resource("btnspell_down.bmp", True)
+    btnLanzar.Picture = General_Load_Picture_From_Resource("es_btnlaunch.bmp", True)
+    btnInfo.Picture = General_Load_Picture_From_Resource("es_btninfo.bmp", True)
+    
+    InvEqu.Picture = General_Load_Picture_From_Resource("inventorybackground.bmp", True) 'Fondo inventario
+    
+    btnSolapa(0).Picture = General_Load_Picture_From_Resource("es_btninventory_on.bmp", True) 'Inventario
+    btnSolapa(1).Picture = General_Load_Picture_From_Resource("es_btnspells_off.bmp", True) 'Hechizos
+    btnSolapa(2).Picture = General_Load_Picture_From_Resource("es_btnsocial_off.bmp", True) 'Social
+    
+    shpVida.Picture = General_Load_Picture_From_Resource("lifebar.bmp", True)
+    shpMana.Picture = General_Load_Picture_From_Resource("manabar.bmp", True)
+    shpEnergia.Picture = General_Load_Picture_From_Resource("staminabar.bmp", True)
+    shpHambre.Picture = General_Load_Picture_From_Resource("foodbar.bmp", True)
+    shpSed.Picture = General_Load_Picture_From_Resource("waterbar.bmp", True)
     
     If Not ResolucionCambiada Then
         ' Handles Form movement (drag and drop).
@@ -1201,13 +1222,13 @@ Private Sub LoadButtons()
     Set cBotonMenu = New clsGraphicalButton
     Set cBotonShop = New clsGraphicalButton
     
-    Call cBotonMenu.Initialize(btnMenu, "22.gif", _
-                                     "23.gif", _
-                                     "24.gif", Me, , , , , True)
+    Call cBotonMenu.Initialize(btnMenu, "btnmenu.bmp", _
+                                     "btnmenu_over.bmp", _
+                                     "btnmenu_down.bmp", Me, , , , , True)
     
-    Call cBotonShop.Initialize(btnShop, "25.gif", _
-                                     "26.gif", _
-                                     "27.gif", Me, , , , , True)
+    Call cBotonShop.Initialize(btnShop, "btnshop.bmp", _
+                                     "btnshop_over.bmp", _
+                                     "btnshop_down.bmp", Me, , , , , True)
 
 End Sub
 
@@ -1492,14 +1513,14 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
      End If
 End Sub
 
-Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     MouseBoton = Button
     MouseShift = Shift
 End Sub
 
-Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    clicX = X
-    clicY = Y
+Private Sub Form_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+    clicX = x
+    clicY = y
 End Sub
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
@@ -1559,16 +1580,10 @@ Private Sub btnOpciones_Click()
     Call frmOpciones.Show(vbModeless, frmMain)
 End Sub
 
-Private Sub imgPVP_Click()
-
-    Call WriteInitPVP
-
-End Sub
-
 Private Sub InvEqu_MouseMove(Button As Integer, _
                              Shift As Integer, _
-                             X As Single, _
-                             Y As Single)
+                             x As Single, _
+                             y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 
@@ -1711,8 +1726,8 @@ End Sub
 
 Private Sub RecTxt_MouseMove(Button As Integer, _
                              Shift As Integer, _
-                             X As Single, _
-                             Y As Single)
+                             x As Single, _
+                             y As Single)
     StartCheckingLinks
 End Sub
 
@@ -1740,8 +1755,8 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         SendTxt.Visible = False
         
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
         ElseIf hlst.Visible Then
             hlst.SetFocus
         Else
@@ -1847,8 +1862,8 @@ End Sub
 
 Private Sub btnLanzar_MouseMove(Button As Integer, _
                                 Shift As Integer, _
-                                X As Single, _
-                                Y As Single)
+                                x As Single, _
+                                y As Single)
     UsaMacro = False
     CnTd = 0
 End Sub
@@ -1898,8 +1913,8 @@ End Sub
 
 Private Sub MainViewPic_MouseDown(Button As Integer, _
                                   Shift As Integer, _
-                                  X As Single, _
-                                  Y As Single)
+                                  x As Single, _
+                                  y As Single)
     MouseBoton = Button
     MouseShift = Shift
     
@@ -1914,18 +1929,18 @@ End Sub
 
 Private Sub MainViewPic_MouseMove(Button As Integer, _
                                   Shift As Integer, _
-                                  X As Single, _
-                                  Y As Single)
-    MouseX = X
-    MouseY = Y
+                                  x As Single, _
+                                  y As Single)
+    MouseX = x
+    MouseY = y
 End Sub
 
 Private Sub MainViewPic_MouseUp(Button As Integer, _
                                 Shift As Integer, _
-                                X As Single, _
-                                Y As Single)
-    clicX = X
-    clicY = Y
+                                x As Single, _
+                                y As Single)
+    clicX = x
+    clicY = y
 End Sub
 
 Private Sub MainViewPic_DblClick()
@@ -2091,9 +2106,9 @@ Private Sub Form_DblClick()
 End Sub
 
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    MouseX = X - MainViewPic.Left
-    MouseY = Y - MainViewPic.Top
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    MouseX = x - MainViewPic.Left
+    MouseY = y - MainViewPic.Top
     
     'Trim to fit screen
     If MouseX < 0 Then
@@ -2155,7 +2170,7 @@ Private Sub picInv_DblClick()
     
 End Sub
 
-Private Sub picInv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub picInv_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
     Call Sound.Sound_Play(SND_CLICK)
 End Sub
 
@@ -2178,8 +2193,8 @@ Private Sub RecTxt_Change()
            (Not frmShop.Visible) And _
            (Not MirandoParty) Then
 
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
                         
         ElseIf hlst.Visible Then
             hlst.SetFocus
@@ -2192,8 +2207,8 @@ End Sub
 
 Private Sub RecTxt_KeyDown(KeyCode As Integer, Shift As Integer)
 
-    If PicInv.Visible Then
-        PicInv.SetFocus
+    If picInv.Visible Then
+        picInv.SetFocus
     Else
         hlst.SetFocus
     End If
@@ -2493,11 +2508,11 @@ End Sub
 
 Private Sub Minimapa_MouseDown(Button As Integer, _
                                Shift As Integer, _
-                               X As Single, _
-                               Y As Single)
+                               x As Single, _
+                               y As Single)
 
     If Button = vbRightButton Then
-        Call WriteWarpChar("YO", CurrentUser.UserMap, CByte(X - 1), CByte(Y - 1), False)
+        Call WriteWarpChar("YO", CurrentUser.UserMap, CByte(x - 1), CByte(y - 1), False)
         Call ActualizarMiniMapa
         
     ElseIf Button = vbLeftButton Then
@@ -2539,7 +2554,7 @@ Private Sub btnRetos_Click()
     Call FrmRetos.Show(vbModeless, frmMain)
 End Sub
 
-Private Sub btnMenu_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub btnMenu_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If btnMenu.Tag = 1 Then
         btnMenu.Picture = General_Load_Picture_From_Resource("24.gif", True)
         btnMenu.Tag = 0
@@ -2547,7 +2562,7 @@ Private Sub btnMenu_MouseMove(Button As Integer, Shift As Integer, X As Single, 
 
 End Sub
 
-Private Sub btnShop_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub btnShop_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If btnShop.Tag = 1 Then
         btnShop.Picture = General_Load_Picture_From_Resource("27.gif", True)
         btnShop.Tag = 0
@@ -2644,8 +2659,8 @@ Public Sub ActualizarCoordenadas(ByVal tX As Integer, ByVal tY As Integer)
     cy = Fix((tY / 100))
     
     CurrentUser.UserCuadrante = ((cy) * AnchoMap) + cx + 1
-    UserPosCuadrante.X = tX - (cx * 100)
-    UserPosCuadrante.Y = tY - (cy * 100)
+    UserPosCuadrante.x = tX - (cx * 100)
+    UserPosCuadrante.y = tY - (cy * 100)
     
     'Si cambiamos de cuadrante cambiamos el minimapa
     If CurrentCuadrante <> CurrentUser.UserCuadrante Then _
@@ -2653,7 +2668,7 @@ Public Sub ActualizarCoordenadas(ByVal tX As Integer, ByVal tY As Integer)
     
     If ClientSetup.VerCuadrantes Then
 
-        Coord.Caption = "Cuadrante: " & CurrentUser.UserCuadrante & " X: " & UserPosCuadrante.X & " Y: " & UserPosCuadrante.Y
+        Coord.Caption = "Cuadrante: " & CurrentUser.UserCuadrante & " X: " & UserPosCuadrante.x & " Y: " & UserPosCuadrante.y
     
     Else
         Coord.Caption = "Map:" & CurrentUser.UserMap & " X:" & tX & " Y:" & tY

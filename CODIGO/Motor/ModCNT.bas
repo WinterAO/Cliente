@@ -433,7 +433,7 @@ Private Sub RenderConnectGUI()
             If CurrentUser.UserClase <> 0 Then Call DrawText(505, 420, ListaClases(CurrentUser.UserClase), COLOR_WHITE, True)
 
             
-            Call Draw_GrhIndex(ButtonGUI(30).GrhNormal, ButtonGUI(30).x, ButtonGUI(30).y, 0, COLOR_WHITE, 0, False)
+'            Call Draw_GrhIndex(ButtonGUI(30).GrhNormal, ButtonGUI(30).x, ButtonGUI(30).y, 0, COLOR_WHITE, 0, False)
             Call DrawText(900, 327, lblModRaza(eAtributos.Fuerza), COLOR_WHITE, True) '
             Call DrawText(900, 364, lblModRaza(eAtributos.Agilidad), COLOR_WHITE, True)
             Call DrawText(900, 400, lblModRaza(eAtributos.Inteligencia), COLOR_WHITE, True)

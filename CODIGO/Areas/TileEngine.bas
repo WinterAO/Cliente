@@ -822,7 +822,7 @@ Sub RenderScreen(ByVal tilex As Integer, _
     If colorRender <> 240 Then
         Call Draw_GrhIndex(34027, 352, 110, 1, render_msg())
         Call DrawText(372, 60, renderTextPk, render_msg(), True, 4)
-        Call DrawText(372, 80, renderText, render_msg(), True, 5)
+        Call DrawText(372, 80, renderText, render_msg(), True, 3)
     End If
     
     'Call Draw_GrhIndex(34027, 372, 80, 1, COLOR_WHITE())
@@ -1592,15 +1592,15 @@ Private Sub RenderName(ByVal CharIndex As Long, _
                 
             Else
 
-                If .WorldBoss = True Then
+                If .WorldBoss = True Then 'WorldBoss
                     Call RGBAList(color, ColoresPJ(8).R, ColoresPJ(8).G, ColoresPJ(8).B)
                     
                 Else
 
-                    If .Criminal Then
+                    If .Criminal Then 'Criminal
                         Call RGBAList(color, ColoresPJ(50).R, ColoresPJ(50).G, ColoresPJ(50).B)
                         
-                    Else
+                    Else 'Ciudadano
                         Call RGBAList(color, ColoresPJ(49).R, ColoresPJ(49).G, ColoresPJ(49).B)
                         
                     End If
