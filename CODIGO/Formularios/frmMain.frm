@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "richtx32.ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.ocx"
 Begin VB.Form frmMain 
    BorderStyle     =   0  'None
    ClientHeight    =   11520
@@ -168,7 +168,6 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -601,14 +600,14 @@ Begin VB.Form frmMain
       Height          =   180
       Left            =   11970
       TabIndex        =   26
-      Top             =   8070
+      Top             =   8010
       Width           =   2745
    End
    Begin VB.Image shpMana 
       Height          =   210
       Left            =   11925
       Picture         =   "frmMain.frx":25C6B4
-      Top             =   8070
+      Top             =   8010
       Width           =   2775
    End
    Begin VB.Label lblVida 
@@ -1084,7 +1083,7 @@ Call Sound.Sound_Play(SND_CLICK)
             'btnSolapa(2).Picture = General_Load_Picture_From_Resource("12.gif", True)
             
             ' Activo controles de inventario
-            picInv.Visible = True
+            PicInv.Visible = True
         
             ' Desactivo controles de hechizo y amigos
             hlst.Visible = False
@@ -1118,7 +1117,7 @@ Call Sound.Sound_Play(SND_CLICK)
             cmdMoverHechi(1).Visible = True
             
             ' Desactivo controles de inventario y amigos
-            picInv.Visible = False
+            PicInv.Visible = False
             
             ListAmigos.Visible = False
             AgregarAmigo.Visible = False
@@ -1135,7 +1134,7 @@ Call Sound.Sound_Play(SND_CLICK)
             BorrarAmigo.Visible = True
             
             ' Desactivo controles de inventario y hechizos
-            picInv.Visible = False
+            PicInv.Visible = False
             
             hlst.Visible = False
             btnInfo.Visible = False
@@ -1755,8 +1754,8 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         KeyCode = 0
         SendTxt.Visible = False
         
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
         ElseIf hlst.Visible Then
             hlst.SetFocus
         Else
@@ -2193,8 +2192,8 @@ Private Sub RecTxt_Change()
            (Not frmShop.Visible) And _
            (Not MirandoParty) Then
 
-        If picInv.Visible Then
-            picInv.SetFocus
+        If PicInv.Visible Then
+            PicInv.SetFocus
                         
         ElseIf hlst.Visible Then
             hlst.SetFocus
@@ -2207,8 +2206,8 @@ End Sub
 
 Private Sub RecTxt_KeyDown(KeyCode As Integer, Shift As Integer)
 
-    If picInv.Visible Then
-        picInv.SetFocus
+    If PicInv.Visible Then
+        PicInv.SetFocus
     Else
         hlst.SetFocus
     End If

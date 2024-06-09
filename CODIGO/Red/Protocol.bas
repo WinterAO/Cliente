@@ -1668,7 +1668,7 @@ Private Sub HandleUpdateSta()
     
     frmMain.lblEnergia = CurrentUser.UserMinSTA & "/" & CurrentUser.UserMaxSTA
     
-    frmMain.shpEnergia.Width = (((CurrentUser.UserMinSTA / 100) / (CurrentUser.UserMaxSTA / 100)) * 92)
+    frmMain.shpEnergia.Width = (((CurrentUser.UserMinSTA / 100) / (CurrentUser.UserMaxSTA / 100)) * 185)
     
 End Sub
 
@@ -1696,7 +1696,7 @@ Private Sub HandleUpdateMana()
     frmMain.lblMana = CurrentUser.UserMinMAN & "/" & CurrentUser.UserMaxMAN
     
     If CurrentUser.UserMaxMAN > 0 Then _
-        frmMain.shpMana.Width = (((CurrentUser.UserMinMAN / 100) / (CurrentUser.UserMaxMAN / 100)) * 92)
+        frmMain.shpMana.Width = (((CurrentUser.UserMinMAN / 100) / (CurrentUser.UserMaxMAN / 100)) * 185)
         
 End Sub
 

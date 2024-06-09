@@ -9,6 +9,7 @@ Codigo/*.log
 *.OBJ
 
 Recursos/Ambient.WAO
+Recursos/Musica.WAO
 Recursos/Fuentes.WAO
 Recursos/Graficos.WAO
 Recursos/Interface.WAO

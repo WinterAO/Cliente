@@ -977,18 +977,16 @@ Public Sub CloseClient()
     'Fix: intentaba guardar cuando el juego cerraba por un error,
     'antes de cargar los recursos. Me aprovecho de prgRun
     'para saber si ya fueron cargados
-    If prgRun Then
-        Call Carga.GuardarConfiguracion
-    End If
+    If prgRun Then Call Carga.GuardarConfiguracion
 
     'Cerramos Sockets/Winsocks/WindowsAPI
     frmMain.Client.CloseSck
     
+    Call Sound.Engine_DeInitialize
+    
     'Stop tile engine
     Call Engine_DirectX8_End
-
-    Call Sound.Engine_DeInitialize
-
+    
     'Destruimos los objetos publicos creados
     Set CustomKeys = Nothing
     Set SurfaceDB = Nothing
@@ -1471,22 +1469,22 @@ Public Function UserZonaId(ByVal CharIndex As Integer) As Integer
 End Function
 
 Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
-'**************************************
-'Autor: Lorwik
-'Fecha: 02/04/2021
-'Descripción: Comprueba si hubo cambio de zona
-'**************************************
+    '**************************************
+    'Autor: Lorwik
+    'Fecha: 02/04/2021
+    'Descripción: Comprueba si hubo cambio de zona
+    '**************************************
 
     Dim ZonaId          As Integer
-    Static MapActual    As String
+    Static CurrentMusic As Byte
 
-    'Nueva zona
-    ZonaId = UserZonaId(CharIndex)
-
-    If CurrentUser.UserZona <> ZonaId Then
+    'Si estamos jugando y no en el conectar...
+    If frmMain.Visible Then
     
-        'Si estamos jugando y no en el conectar...
-        If frmMain.Visible Then
+        'Nueva zona
+        ZonaId = UserZonaId(CharIndex)
+    
+        If CurrentUser.UserZona <> ZonaId Then
             'Resetear el mensaje en render con el nombre del mapa.
             renderText = MapZonas(ZonaId).name
             renderFont = 2
@@ -1505,24 +1503,22 @@ Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
             
             If ClientSetup.bMusic <> CONST_DESHABILITADA Then
                 If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-                    'Comprobamos si la musica de la zona anterior y la actual es la misma
-                    If CurMap = MapActual Then
-                        If MapZonas(CurrentUser.UserZona).Music = MapZonas(ZonaId).Music Then
-                            MapActual = CurMap
-                            CurrentUser.UserZona = ZonaId
-                            Exit Function
-                        End If
+                
+                    If CurrentMusic <> CByte(MapZonas(ZonaId).Music) Then
+                        Sound.NextMusic = MapZonas(ZonaId).Music
+                        Sound.Fading = 200
+                        CurrentMusic = MapZonas(ZonaId).Music
+
                     End If
-                    
-                    Sound.NextMusic = MapZonas(CurrentUser.UserZona).Music
-                    Sound.Fading = 200
+
                 End If
+
             End If
+        
         End If
         
-        MapActual = CurMap
         CurrentUser.UserZona = ZonaId
-        
+
     End If
 
 End Function
