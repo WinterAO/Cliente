@@ -168,6 +168,7 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -1077,10 +1078,10 @@ Call Sound.Sound_Play(SND_CLICK)
     Select Case Index
     
         Case 0 'Inventario
-            InvEqu.Picture = General_Load_Picture_From_Resource("4.gif", True)
-            'btnSolapa(0).Picture = General_Load_Picture_From_Resource("7.gif", True)
-            'btnSolapa(1).Picture = General_Load_Picture_From_Resource("10.gif", True)
-            'btnSolapa(2).Picture = General_Load_Picture_From_Resource("12.gif", True)
+            InvEqu.Picture = General_Load_Picture_From_Resource("inventorybackground.bmp", True)
+            btnSolapa(0).Picture = General_Load_Picture_From_Resource("es_btninventroy_on.bmp", True)
+            btnSolapa(1).Picture = General_Load_Picture_From_Resource("es_btnspells_off.bmp", True)
+            btnSolapa(2).Picture = General_Load_Picture_From_Resource("btnsocial_off.bmp", True)
             
             ' Activo controles de inventario
             PicInv.Visible = True
@@ -1101,12 +1102,12 @@ Call Sound.Sound_Play(SND_CLICK)
             Call Inventario.DrawInventory
         
         Case 1 'Hechizos
-            InvEqu.Picture = General_Load_Picture_From_Resource("5.gif", True)
-            'btnSolapa(0).Picture = General_Load_Picture_From_Resource("10.gif", True)
-            'btnSolapa(1).Picture = General_Load_Picture_From_Resource("8.gif", True)
-            'btnSolapa(2).Picture = General_Load_Picture_From_Resource("12.gif", True)
-            'btnLanzar.Picture = General_Load_Picture_From_Resource("13.gif", True)
-            'btnInfo.Picture = General_Load_Picture_From_Resource("14.gif", True)
+            InvEqu.Picture = General_Load_Picture_From_Resource("spellsbackground.bmp", True)
+            btnSolapa(0).Picture = General_Load_Picture_From_Resource("es_btninventroy_off.bmp", True)
+            btnSolapa(1).Picture = General_Load_Picture_From_Resource("es_btnspells_on.bmp", True)
+            btnSolapa(2).Picture = General_Load_Picture_From_Resource("btnsocial_off.bmp", True)
+            btnLanzar.Picture = General_Load_Picture_From_Resource("es_btnlaunch.bmp", True)
+            btnInfo.Picture = General_Load_Picture_From_Resource("es_btninfo.bmp", True)
             
             ' Activo controles de hechizos
             hlst.Visible = True
@@ -1123,11 +1124,11 @@ Call Sound.Sound_Play(SND_CLICK)
             AgregarAmigo.Visible = False
             BorrarAmigo.Visible = False
     
-        Case 2 'Amigos
-            InvEqu.Picture = General_Load_Picture_From_Resource("6.gif", True)
-            'btnSolapa(0).Picture = General_Load_Picture_From_Resource("10.gif", True)
-            'btnSolapa(1).Picture = General_Load_Picture_From_Resource("11.gif", True)
-            'btnSolapa(2).Picture = General_Load_Picture_From_Resource("9.gif", True)
+        Case 2 'Social
+            InvEqu.Picture = General_Load_Picture_From_Resource("socialbackground.bmp", True)
+            btnSolapa(0).Picture = General_Load_Picture_From_Resource("es_btninventroy_off.bmp", True)
+            btnSolapa(1).Picture = General_Load_Picture_From_Resource("es_btnspells_off.bmp", True)
+            btnSolapa(2).Picture = General_Load_Picture_From_Resource("btnsocial_on.bmp", True)
             
             ListAmigos.Visible = True
             AgregarAmigo.Visible = True
@@ -1163,9 +1164,9 @@ Private Sub Form_Load()
     
     InvEqu.Picture = General_Load_Picture_From_Resource("inventorybackground.bmp", True) 'Fondo inventario
     
-    btnSolapa(0).Picture = General_Load_Picture_From_Resource("es_btninventory_on.bmp", True) 'Inventario
+    btnSolapa(0).Picture = General_Load_Picture_From_Resource("es_btninventroy_on.bmp", True) 'Inventario
     btnSolapa(1).Picture = General_Load_Picture_From_Resource("es_btnspells_off.bmp", True) 'Hechizos
-    btnSolapa(2).Picture = General_Load_Picture_From_Resource("es_btnsocial_off.bmp", True) 'Social
+    btnSolapa(2).Picture = General_Load_Picture_From_Resource("btnsocial_off.bmp", True) 'Social
     
     shpVida.Picture = General_Load_Picture_From_Resource("lifebar.bmp", True)
     shpMana.Picture = General_Load_Picture_From_Resource("manabar.bmp", True)
