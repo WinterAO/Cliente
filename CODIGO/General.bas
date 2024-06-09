@@ -253,10 +253,11 @@ Sub SetConnected()
     keysMovementPressedQueue.Clear
 
     frmMain.lblName.Caption = CurrentUser.UserName
-    frmMain.lblMapName.Caption = MapZonas(UserZonaId(UserCharIndex)).name
     
     'Load main form
     frmMain.Visible = True
+    
+    Call CheckZona(UserCharIndex)
     
     Call DibujarMinimapa
     
@@ -1476,7 +1477,7 @@ Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
     '**************************************
 
     Dim ZonaId          As Integer
-    Static CurrentMusic As Byte
+    Static currentMusic As Byte
 
     'Si estamos jugando y no en el conectar...
     If frmMain.Visible Then
@@ -1504,10 +1505,10 @@ Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
             If ClientSetup.bMusic <> CONST_DESHABILITADA Then
                 If ClientSetup.bMusic <> CONST_DESHABILITADA Then
                 
-                    If CurrentMusic <> CByte(MapZonas(ZonaId).Music) Then
+                    If currentMusic <> CByte(MapZonas(ZonaId).Music) Then
                         Sound.NextMusic = MapZonas(ZonaId).Music
                         Sound.Fading = 200
-                        CurrentMusic = MapZonas(ZonaId).Music
+                        currentMusic = MapZonas(ZonaId).Music
 
                     End If
 

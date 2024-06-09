@@ -1103,7 +1103,7 @@ Call Sound.Sound_Play(SND_CLICK)
         
         Case 1 'Hechizos
             InvEqu.Picture = General_Load_Picture_From_Resource("spellsbackground.bmp", True)
-            btnSolapa(0).Picture = General_Load_Picture_From_Resource("es_btninventroy_off.bmp", True)
+            btnSolapa(0).Picture = General_Load_Picture_From_Resource("es_btninventory_off.bmp", True)
             btnSolapa(1).Picture = General_Load_Picture_From_Resource("es_btnspells_on.bmp", True)
             btnSolapa(2).Picture = General_Load_Picture_From_Resource("btnsocial_off.bmp", True)
             btnLanzar.Picture = General_Load_Picture_From_Resource("es_btnlaunch.bmp", True)
@@ -1126,7 +1126,7 @@ Call Sound.Sound_Play(SND_CLICK)
     
         Case 2 'Social
             InvEqu.Picture = General_Load_Picture_From_Resource("socialbackground.bmp", True)
-            btnSolapa(0).Picture = General_Load_Picture_From_Resource("es_btninventroy_off.bmp", True)
+            btnSolapa(0).Picture = General_Load_Picture_From_Resource("es_btninventory_off.bmp", True)
             btnSolapa(1).Picture = General_Load_Picture_From_Resource("es_btnspells_off.bmp", True)
             btnSolapa(2).Picture = General_Load_Picture_From_Resource("btnsocial_on.bmp", True)
             
@@ -2434,10 +2434,11 @@ Private Sub Client_CloseSck()
     
     Debug.Print "Cerrando la conexion via API de Windows..."
 
-    If frmMain.Visible = True Then frmMain.Visible = False
+    If frmMain.Visible Then frmMain.Visible = False
     Call ResetAllInfo
     ModConectar.Conectando = True
     Call MostrarConnect(True)
+    
 End Sub
 
 Private Sub Client_Error(ByVal number As Integer, _
