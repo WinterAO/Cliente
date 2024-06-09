@@ -55,7 +55,7 @@ Friend Function Create_Light_To_Map(ByVal map_x As Integer, ByVal map_y As Integ
     Exit Function
 
 Create_Light_To_Map_Err:
-    Call LogError(Err.number, Err.Description, "clsLucesRedondas.Create_Light_To_Map", Erl)
+    Call RegistrarError(Err.number, Err.Description, "clsLucesRedondas.Create_Light_To_Map", Erl)
     Resume Next
         
 End Function
@@ -184,7 +184,7 @@ Private Sub LightRender(ByVal light_index As Integer)
     Exit Sub
 
 LightRender_Err:
-    Call LogError(Err.number, Err.Description, "clsLucesRedondas.LightRender", Erl)
+    Call RegistrarError(Err.number, Err.Description, "clsLucesRedondas.LightRender", Erl)
     Resume Next
 End Sub
 
@@ -211,7 +211,7 @@ Private Function LightCalculate(ByVal Radio2 As Long, ByVal LightX As Integer, B
     Exit Function
 
 LightCalculate_Err:
-    Call LogError(Err.number, Err.Description, "clsLucesRedondas.LightCalculate", Erl)
+    Call RegistrarError(Err.number, Err.Description, "clsLucesRedondas.LightCalculate", Erl)
     Resume Next
     
 End Function

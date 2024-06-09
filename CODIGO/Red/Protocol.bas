@@ -5931,7 +5931,7 @@ Private Sub HandleBarFx()
     Exit Sub
 
 HandleBarFx_Err:
-    Call LogError(Err.number, Err.Description, "Protocol_Handler.HandleBarFx", Erl)
+    Call RegistrarError(Err.number, Err.Description, "Protocol_Handler.HandleBarFx", Erl)
     
     
 End Sub
@@ -5960,5 +5960,5 @@ Public Sub HandlePrivilegios()
     Exit Sub
 errhandler:
 
-    Call LogError(Err.number, Err.Description, "Protocol_Handler.HandlePrivilegios", Erl)
+    Call RegistrarError(Err.number, Err.Description, "Protocol_Handler.HandlePrivilegios", Erl)
 End Sub

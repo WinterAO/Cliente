@@ -1633,7 +1633,7 @@ Private Sub lblPanelGM_Click()
     Exit Sub
 
 lblPanelGM_Click_Err:
-    Call LogError(Err.number, Err.Description, "frmMain.lblpanelGM_Click", Erl)
+    Call RegistrarError(Err.number, Err.Description, "frmMain.lblpanelGM_Click", Erl)
     Resume Next
 End Sub
 
@@ -1644,7 +1644,7 @@ Private Sub lblBuscarNpc_Click()
     Exit Sub
 
 lblBuscarNpc_Click_Err:
-    Call LogError(Err.number, Err.Description, "frmMain.lblBuscarNpc_Click", Erl)
+    Call RegistrarError(Err.number, Err.Description, "frmMain.lblBuscarNpc_Click", Erl)
     Resume Next
 End Sub
 
@@ -1658,7 +1658,7 @@ Private Sub lblInvisible_Click()
     Exit Sub
 
 lblInvisible_Click_Err:
-    Call LogError(Err.number, Err.Description, "frmMain.lblInvisible_Click", Erl)
+    Call RegistrarError(Err.number, Err.Description, "frmMain.lblInvisible_Click", Erl)
     Resume Next
 End Sub
 

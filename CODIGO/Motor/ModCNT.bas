@@ -1275,7 +1275,7 @@ On Error GoTo errhandler
 errhandler:
 
     If Err.number Then
-        Call LogError(Err.number, Err.Description, "frmCrearPersonaje.CheckCabeza")
+        Call RegistrarError(Err.number, Err.Description, "frmCrearPersonaje.CheckCabeza")
     End If
     
     Exit Function

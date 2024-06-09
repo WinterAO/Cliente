@@ -274,6 +274,7 @@ Sub RandomMove()
 ' 06/03/2006: AlejoLp - Ahora utiliza la funcion MoveTo
 '***************************************************
     Call Map_MoveTo(RandomNumber(SOUTH, EAST))
+    
 End Sub
 
 Private Sub AddMovementToKeysMovementPressedQueue()
@@ -488,6 +489,9 @@ End Function
 
 Sub Main()
     Static lastFlush As Long
+    
+    Call Application.DeleteFile(Application.GetErrorLogFilename())
+    
     ' Detecta el idioma del sistema (TRUE) y carga las traducciones
     Call SetLanguageApplication
 
@@ -1580,7 +1584,7 @@ Public Function Max(ByVal A As Variant, ByVal B As Variant) As Variant
     Exit Function
 
 max_Err:
-    Call LogError(Err.number, Err.Description, "Mod_General.max", Erl)
+    Call RegistrarError(Err.number, Err.Description, "Mod_General.max", Erl)
     Resume Next
     
 End Function
@@ -1601,7 +1605,7 @@ Public Function Min(ByVal A As Double, ByVal B As Double) As Variant
     Exit Function
 
 min_Err:
-    Call LogError(Err.number, Err.Description, "Mod_General.min", Erl)
+    Call RegistrarError(Err.number, Err.Description, "Mod_General.min", Erl)
     Resume Next
     
 End Function

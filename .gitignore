@@ -1,6 +1,7 @@
 # Client Files.
 Errores.log
 Fotos/*
+Logs/*
 Codigo/*.log
 *.vbw
 *.oca

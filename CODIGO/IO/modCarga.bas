@@ -1259,7 +1259,7 @@ ErrorHandler:
     If fh <> 0 Then Close fh
     
     If Err.number <> 0 Then
-        'Call LogError(Err.number, Err.Description, "modCarga.CargarMapa")
+        'Call RegistrarError(Err.number, Err.Description, "modCarga.CargarMapa")
         Call MsgBox("err: " & Err.number & " desc: " & Err.Description)
     End If
 

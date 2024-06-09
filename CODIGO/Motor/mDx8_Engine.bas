@@ -141,7 +141,7 @@ Public Sub Engine_DirectX8_Init()
     Exit Sub
 EngineHandler:
     
-    Call LogError(Err.number, Err.Description, "mDx8_Engine.Engine_DirectX8_Init")
+    Call RegistrarError(Err.number, Err.Description, "mDx8_Engine.Engine_DirectX8_Init")
     
     Call CloseClient
 End Sub
@@ -387,7 +387,7 @@ Public Sub Engine_Draw_Box(ByVal x As Integer, ByVal y As Integer, ByVal Width A
     Exit Sub
 
 Engine_Draw_Box_Err:
-    Call LogError(Err.number, Err.Description, "mDx8_Engine.Engine_Draw_Box", Erl)
+    Call RegistrarError(Err.number, Err.Description, "mDx8_Engine.Engine_Draw_Box", Erl)
     Resume Next
     
 End Sub

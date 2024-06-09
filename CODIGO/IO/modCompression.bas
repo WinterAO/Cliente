@@ -398,7 +398,7 @@ errhandler:
     
     Exit Function
     
-    Call LogError(Err.number, Err.Description, "modCompression.Extract_File_Memory", Erl)
+    Call RegistrarError(Err.number, Err.Description, "modCompression.Extract_File_Memory", Erl)
     Resume Next
 
 End Function
@@ -492,8 +492,8 @@ Public Function File_Find(ByVal resource_file_path As String, ByVal file_name As
  
 On Error GoTo errhandler
  
-    Dim max As Integer  'Max index
-    Dim min As Integer  'Min index
+    Dim Max As Integer  'Max index
+    Dim Min As Integer  'Min index
     Dim mid_ As Integer  'Middle index
     Dim file_handler As Integer
     Dim file_head As FILEHEADER
@@ -516,11 +516,11 @@ On Error GoTo errhandler
     'Desencrypt File Header
     encryptHeaderFile file_head
    
-    min = 1
-    max = file_head.lngNumFiles
+    Min = 1
+    Max = file_head.lngNumFiles
    
-    Do While min <= max
-        mid_ = (min + max) / 2
+    Do While Min <= Max
+        mid_ = (Min + Max) / 2
         
         'Get the info header of the appropiate compressed file
         Get file_handler, CLng(Len(file_head) + CLng(Len(info_head)) * CLng((mid_ - 1)) + 1), info_head
@@ -529,16 +529,16 @@ On Error GoTo errhandler
         encryptHeaderInfo info_head
 
         If file_name < info_head.strFileName Then
-            If max = mid_ Then
-                max = max - 1
+            If Max = mid_ Then
+                Max = Max - 1
             Else
-                max = mid_
+                Max = mid_
             End If
         ElseIf file_name > info_head.strFileName Then
-            If min = mid_ Then
-                min = min + 1
+            If Min = mid_ Then
+                Min = Min + 1
             Else
-                min = mid_
+                Min = mid_
             End If
         Else
             'Copy info head

@@ -837,7 +837,7 @@ Sub RenderScreen(ByVal tilex As Integer, _
 RenderScreen_Err:
 
     If Err.number Then
-        Call LogError(Err.number, Err.Description, "Mod_TileEngine.RenderScreen")
+        Call RegistrarError(Err.number, Err.Description, "Mod_TileEngine.RenderScreen")
     End If
     
 End Sub
@@ -993,7 +993,7 @@ On Error GoTo ErrorHandler:
     
 ErrorHandler:
 
-    Call LogError(Err.number, Err.Description, "Mod_TileEngine.InitTileEngine")
+    Call RegistrarError(Err.number, Err.Description, "Mod_TileEngine.InitTileEngine")
     
     Call CloseClient
     
