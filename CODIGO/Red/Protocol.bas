@@ -5642,7 +5642,7 @@ Private Sub HandleCreateDamage()
         DamageValue = .ReadLong()
         edMode = .ReadByte()
         
-        Call mDx8_Dibujado.Damage_Create(X, Y, 0, DamageValue, edMode)
+        Call mDx8_Dibujado.Damage_Create(X, Y, DamageValue, edMode)
      
     End With
  

@@ -19,7 +19,7 @@ Private DNormalFont    As New StdFont
  
 Type DList
      DamageVal      As Integer      'Cantidad de da�o.
-     ColorRGB       As RGBA         'Color.
+     ColorRGB(3)    As RGBA         'Color.
      DamageType     As EDType       'Tipo, se usa para saber si es apu o no.
      DamageFont     As New StdFont  'Efecto del apu.
      StartedTime    As Long         'Cuando fue creado.
@@ -80,19 +80,16 @@ Sub Damage_Initialize()
 
 End Sub
 
-Sub Damage_Create(ByVal X As Integer, _
-                  ByVal Y As Integer, _
-                  ByVal ColorRGB As Long, _
+Sub Damage_Create(ByVal x As Integer, _
+                  ByVal y As Integer, _
                   ByVal DamageValue As Integer, _
                   ByVal edMode As Byte)
  
     ' @ Agrega un nuevo dano.
  
-    With MapData(X, Y).Damage
+    With MapData(x, y).Damage
      
         .Activated = True
-        
-        Call Long_2_RGBA(.ColorRGB, ColorRGB)
         
         .DamageType = edMode
         .DamageVal = DamageValue
@@ -125,16 +122,14 @@ Private Function EaseOutCubic(Time As Double)
     EaseOutCubic = Time * Time * Time + 1
 End Function
  
-Sub Damage_Draw(ByVal X As Integer, _
-                ByVal Y As Integer, _
+Sub Damage_Draw(ByVal x As Integer, _
+                ByVal y As Integer, _
                 ByVal PixelX As Integer, _
                 ByVal PixelY As Integer)
  
     ' @ Dibuja un dano
  
-    Dim tmp_color(3) As RGBA
- 
-    With MapData(X, Y).Damage
+    With MapData(x, y).Damage
      
         If (Not .Activated) Or (Not .DamageVal <> 0) Then Exit Sub
         
@@ -148,23 +143,21 @@ Sub Damage_Draw(ByVal X As Integer, _
             Select Case .DamageType
                    
                 Case EDType.edPunal
-                    Call SetRGBA(.ColorRGB, ColoresPJ(52).R, ColoresPJ(52).G, ColoresPJ(52).B)
+                    Call RGBAList(.ColorRGB, ColoresPJ(52).R, ColoresPJ(52).G, ColoresPJ(52).B)
                     
                 Case EDType.edFallo
-                    Call SetRGBA(.ColorRGB, ColoresPJ(54).R, ColoresPJ(54).G, ColoresPJ(54).B)
+                    Call RGBAList(.ColorRGB, ColoresPJ(54).R, ColoresPJ(54).G, ColoresPJ(54).B)
                     
                 Case EDType.edCurar
-                    Call SetRGBA(.ColorRGB, ColoresPJ(55).R, ColoresPJ(55).G, ColoresPJ(55).B)
+                    Call RGBAList(.ColorRGB, ColoresPJ(55).R, ColoresPJ(55).G, ColoresPJ(55).B)
                 
                 Case EDType.edTrabajo
-                    Call SetRGBA(.ColorRGB, ColoresPJ(56).R, ColoresPJ(56).G, ColoresPJ(56).B)
+                    Call RGBAList(.ColorRGB, ColoresPJ(56).R, ColoresPJ(56).G, ColoresPJ(56).B)
                     
                 Case Else 'EDType.edNormal
-                    Call SetRGBA(.ColorRGB, ColoresPJ(51).R, ColoresPJ(51).G, ColoresPJ(51).B)
+                    Call RGBAList(.ColorRGB, ColoresPJ(51).R, ColoresPJ(51).G, ColoresPJ(51).B)
                     
             End Select
-           
-            Call RGBA_ToList(tmp_color, .ColorRGB)
            
             'Efectito para el apu
             If .DamageType = EDType.edPunal Then
@@ -176,25 +169,25 @@ Sub Damage_Draw(ByVal X As Integer, _
             Select Case .DamageType
             
                 Case EDType.edCritico
-                    Call DrawText(PixelX, PixelY - .Downloading, .DamageVal & "!!", tmp_color)
+                    Call DrawText(PixelX, PixelY - .Downloading, .DamageVal & "!!", .ColorRGB)
                 
                 Case EDType.edCurar
-                    Call DrawText(PixelX, PixelY - .Downloading, "+" & .DamageVal, tmp_color)
+                    Call DrawText(PixelX, PixelY - .Downloading, "+" & .DamageVal, .ColorRGB)
                 
                 Case EDType.edTrabajo
-                    Call DrawText(PixelX, PixelY - .Downloading, "+" & .DamageVal, tmp_color)
+                    Call DrawText(PixelX, PixelY - .Downloading, "+" & .DamageVal, .ColorRGB)
                     
                 Case EDType.edFallo
-                    Call DrawText(PixelX, PixelY - .Downloading, "Fallo", tmp_color)
+                    Call DrawText(PixelX, PixelY - .Downloading, "Fallo", .ColorRGB)
                     
                 Case Else 'EDType.edNormal
-                    Call DrawText(PixelX, PixelY - .Downloading, "-" & .DamageVal, tmp_color)
+                    Call DrawText(PixelX, PixelY - .Downloading, "-" & .DamageVal, .ColorRGB)
                     
             End Select
             
         'Si llego al tiempo lo limpio
         Else
-            Damage_Clear X, Y
+            Damage_Clear x, y
            
         End If
        
@@ -202,16 +195,12 @@ Sub Damage_Draw(ByVal X As Integer, _
  
 End Sub
  
-Sub Damage_Clear(ByVal X As Integer, ByVal Y As Integer)
+Sub Damage_Clear(ByVal x As Integer, ByVal y As Integer)
  
     ' @ Limpia todo.
  
-    With MapData(X, Y).Damage
+    With MapData(x, y).Damage
         .Activated = False
-        .ColorRGB.R = 0
-        .ColorRGB.G = 0
-        .ColorRGB.B = 0
-        .ColorRGB.A = 0
         .DamageVal = 0
         .StartedTime = 0
 
