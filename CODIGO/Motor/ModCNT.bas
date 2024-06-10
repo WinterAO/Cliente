@@ -200,7 +200,7 @@ Public Sub MostrarConnect(Optional ByVal Mostrar As Boolean = False)
     'LISTA DE SERVIDORES
     Call ListarServidores
     
-    SelectConnectMap = RandomNumber(3, 4)
+    SelectConnectMap = 3 'RandomNumber(3, 4)
 
     Call MapConnect(SelectConnectMap)
 End Sub
@@ -280,6 +280,8 @@ On Error GoTo ErrorHandler:
 
     Dim x As Long
     Dim y As Long
+    Dim MaxX As Byte
+    Dim MaxY As Byte
     
     Dim PixelOffsetXTemp As Integer 'For centering grhs
     Dim PixelOffsetYTemp As Integer 'For centering grhs
@@ -295,10 +297,13 @@ On Error GoTo ErrorHandler:
     
     Movement_Speed = 1
     
+    MaxX = 40
+    MaxY = 45
+    
     Call Engine_BeginScene
      
-    For x = 1 To 32
-        For y = 1 To 24
+    For x = 0 To MaxX
+        For y = 0 To MaxY
             PixelOffsetXTemp = (x - 1) * 32
             PixelOffsetYTemp = (y - 1) * 32
             
@@ -313,8 +318,8 @@ On Error GoTo ErrorHandler:
     Next x
         
     'Capa 3
-    For x = 1 To 32
-        For y = 1 To 24
+    For x = 0 To MaxX
+        For y = 0 To MaxY
             PixelOffsetXTemp = (x - 1) * 32
             PixelOffsetYTemp = (y - 1) * 32
             With MapData(x + MapaConnect(SelectConnectMap).x, y + MapaConnect(SelectConnectMap).y)
@@ -336,8 +341,8 @@ On Error GoTo ErrorHandler:
     'Personajes
     Call RenderPJ
     
-    For x = 1 To 32
-        For y = 1 To 24
+    For x = 1 To MaxX
+        For y = 1 To MaxY
             PixelOffsetXTemp = (x - 1) * 32
             PixelOffsetYTemp = (y - 1) * 32
             
@@ -389,7 +394,7 @@ Private Sub RenderConnectGUI()
             Next i
             
             'Server
-            Call DrawText(480, 340, Servidor(ServIndSel).Nombre, COLOR_WHITE, False)
+            Call DrawText(605, 340, Servidor(ServIndSel).Nombre, COLOR_WHITE, False)
             
         Case 1 'Cuenta
         
@@ -403,16 +408,19 @@ Private Sub RenderConnectGUI()
             Next i
             
             If CurrentUser.esVIP Then _
-                Call DrawText(490, 680, "Cuenta VIP hasta el " & CurrentUser.VIP, COLOR_WHITE, True)
+                Call DrawText(660, 700, "Cuenta VIP hasta el " & CurrentUser.VIP, COLOR_WHITE, True)
             
             'Conectando
             If ModConectar.Conectando = False Then _
-                Call DrawText(490, 620, "Conectando...", COLOR_WHITE, True, 2)
+                Call DrawText(660, 650, "Conectando...", COLOR_WHITE, True, 2)
 
         Case 2 'Crear PJ
         
             'Marco
             Call Draw_GrhIndex(ButtonGUI(2).GrhNormal, ButtonGUI(2).x, ButtonGUI(2).y, 0, COLOR_WHITE, 0, False)
+            
+            'Estadisticas
+            Call Draw_GrhIndex(ButtonGUI(30).GrhNormal, ButtonGUI(30).x, ButtonGUI(30).y, 0, COLOR_WHITE, 0, False)
             
             For i = 16 To 28
                 With ButtonGUI(i)
@@ -427,18 +435,18 @@ Private Sub RenderConnectGUI()
             If botonCrear = False Then Call Draw_GrhIndex(ButtonGUI(29).GrhNormal, ButtonGUI(29).x, ButtonGUI(29).y, 0, COLOR_WHITE, 0, False)
             
             'Textos
-            Call DrawText(400, 670, frmConnect.txtCrearPJNombre.Text, COLOR_WHITE, False)
-            If CurrentUser.UserSexo <> 0 Then Call DrawText(505, 320, SexoSelect(CurrentUser.UserSexo), COLOR_WHITE, True)
-            If CurrentUser.UserRaza <> 0 Then Call DrawText(505, 370, ListaRazas(CurrentUser.UserRaza), COLOR_WHITE, True)
-            If CurrentUser.UserClase <> 0 Then Call DrawText(505, 420, ListaClases(CurrentUser.UserClase), COLOR_WHITE, True)
+            'Call DrawText(400, 670, frmConnect.txtCrearPJNombre.Text, COLOR_WHITE, False)
+            If CurrentUser.UserSexo <> 0 Then Call DrawText(605, 320, SexoSelect(CurrentUser.UserSexo), COLOR_WHITE, True)
+            If CurrentUser.UserRaza <> 0 Then Call DrawText(605, 370, ListaRazas(CurrentUser.UserRaza), COLOR_WHITE, True)
+            If CurrentUser.UserClase <> 0 Then Call DrawText(605, 420, ListaClases(CurrentUser.UserClase), COLOR_WHITE, True)
 
             
 '            Call Draw_GrhIndex(ButtonGUI(30).GrhNormal, ButtonGUI(30).x, ButtonGUI(30).y, 0, COLOR_WHITE, 0, False)
-            Call DrawText(900, 327, lblModRaza(eAtributos.Fuerza), COLOR_WHITE, True) '
-            Call DrawText(900, 364, lblModRaza(eAtributos.Agilidad), COLOR_WHITE, True)
-            Call DrawText(900, 400, lblModRaza(eAtributos.Inteligencia), COLOR_WHITE, True)
-            Call DrawText(900, 438, lblModRaza(eAtributos.Carisma), COLOR_WHITE, True)
-            Call DrawText(900, 477, lblModRaza(eAtributos.Constitucion), COLOR_WHITE, True)
+            Call DrawText(1070, 295, lblModRaza(eAtributos.Fuerza), COLOR_WHITE, True) '
+            Call DrawText(1070, 334, lblModRaza(eAtributos.Agilidad), COLOR_WHITE, True)
+            Call DrawText(1070, 372, lblModRaza(eAtributos.Inteligencia), COLOR_WHITE, True)
+            Call DrawText(1070, 405, lblModRaza(eAtributos.Carisma), COLOR_WHITE, True)
+            Call DrawText(1070, 444, lblModRaza(eAtributos.Constitucion), COLOR_WHITE, True)
             
     End Select
     
@@ -447,7 +455,7 @@ Private Sub RenderConnectGUI()
     ' Calculamos los FPS y los mostramos
     Call Engine_Update_FPS
     'If ClientSetup.FPSShow = True Then
-    Call DrawText(970, 30, "FPS: " & Mod_TileEngine.FPS, COLOR_WHITE, True)
+    Call DrawText(1220, 30, "FPS: " & Mod_TileEngine.FPS, COLOR_WHITE, True)
     
     Call DrawText(25, 730, "WinterAO " & GetVersionOfTheGame() & " Resurrection", COLOR_WHITE)
 End Sub
@@ -503,10 +511,10 @@ Private Sub RenderPJ()
         Case 2 'Crear PJ
         
         If CurrentUser.UserBody <> 0 Then
-            Call Draw_Grh(BodyData(CurrentUser.UserBody).Walk(1), 225, 560, 1, COLOR_WHITE(), 0)
+            Call Draw_Grh(BodyData(CurrentUser.UserBody).Walk(1), 595, 570, 1, COLOR_WHITE(), 0)
                 
             If CurrentUser.UserHead <> 0 Then _
-                Call DrawHead(CurrentUser.UserHead, 225 + BodyData(CurrentUser.UserBody).HeadOffset.x, 527 + BodyData(CurrentUser.UserBody).HeadOffset.y, COLOR_WHITE(), 1, True)
+                Call DrawHead(CurrentUser.UserHead, 595 + BodyData(CurrentUser.UserBody).HeadOffset.x, 537 + BodyData(CurrentUser.UserBody).HeadOffset.y, COLOR_WHITE(), 1, True)
                 
             'Nombre
             'Call DrawText(225 + 16, 560 + 30, frmConnect.txtCrearPJNombre.Text, -1, True)
@@ -719,6 +727,8 @@ Public Sub ClickEvent(ByVal tX As Long, ByVal tY As Long)
             
             
     End Select
+    
+    Debug.Print tX & " - " & tY
     
 End Sub
 

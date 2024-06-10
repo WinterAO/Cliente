@@ -820,9 +820,9 @@ Sub RenderScreen(ByVal tilex As Integer, _
     End If
     
     If colorRender <> 240 Then
-        Call Draw_GrhIndex(34027, 352, 110, 1, render_msg())
-        Call DrawText(372, 110, renderTextPk, render_msg(), True, 4)
-        Call DrawText(372, 60, renderText, render_msg(), True, 3)
+        Call Draw_GrhIndex(34027, 462, 110, 1, render_msg())
+        Call DrawText(482, 110, renderTextPk, render_msg(), True, 4)
+        Call DrawText(482, 60, renderText, render_msg(), True, 3)
     End If
     
     'Call Draw_GrhIndex(34027, 372, 80, 1, COLOR_WHITE())

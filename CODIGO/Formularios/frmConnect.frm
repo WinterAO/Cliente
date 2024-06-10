@@ -5,7 +5,7 @@ Begin VB.Form frmConnect
    ClientHeight    =   11520
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   15360
+   ClientWidth     =   19200
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    FillColor       =   &H00000040&
@@ -26,7 +26,7 @@ Begin VB.Form frmConnect
    PaletteMode     =   1  'UseZOrder
    ScaleHeight     =   768
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   1024
+   ScaleWidth      =   1280
    StartUpPosition =   2  'CenterScreen
    Visible         =   0   'False
    Begin VB.TextBox txtCrearPJNombre 
@@ -43,8 +43,8 @@ Begin VB.Form frmConnect
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   330
-      Left            =   6000
+      Height          =   345
+      Left            =   7770
       MaxLength       =   30
       TabIndex        =   3
       Top             =   10020
@@ -66,10 +66,10 @@ Begin VB.Form frmConnect
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   225
-      Left            =   6675
+      Left            =   8295
       MaxLength       =   23
       TabIndex        =   0
-      Top             =   5595
+      Top             =   5565
       Width           =   2340
    End
    Begin VB.TextBox txtPasswd 
@@ -88,15 +88,15 @@ Begin VB.Form frmConnect
       ForeColor       =   &H00FFFFFF&
       Height          =   225
       IMEMode         =   3  'DISABLE
-      Left            =   6675
+      Left            =   8295
       MaxLength       =   23
       PasswordChar    =   "*"
       TabIndex        =   1
-      Top             =   6120
+      Top             =   6090
       Width           =   2340
    End
    Begin VB.PictureBox Renderer 
-      BackColor       =   &H00404040&
+      BackColor       =   &H00000000&
       BorderStyle     =   0  'None
       ForeColor       =   &H00000000&
       Height          =   11520
@@ -104,11 +104,11 @@ Begin VB.Form frmConnect
       MousePointer    =   99  'Custom
       ScaleHeight     =   768
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   1024
+      ScaleWidth      =   1280
       TabIndex        =   2
       TabStop         =   0   'False
       Top             =   0
-      Width           =   15360
+      Width           =   19200
    End
 End
 Attribute VB_Name = "frmConnect"
@@ -135,9 +135,9 @@ Private Sub Renderer_DblClick()
     Call ModConectar.DobleClickEvent(MouseX, MouseY)
 End Sub
 
-Private Sub Renderer_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    MouseX = X - Renderer.Left
-    MouseY = Y - Renderer.Top
+Private Sub Renderer_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    MouseX = x - Renderer.Left
+    MouseY = y - Renderer.Top
     
     'Trim to fit screen
     If MouseX < 0 Then
@@ -153,7 +153,7 @@ Private Sub Renderer_MouseMove(Button As Integer, Shift As Integer, X As Single,
         MouseY = Renderer.Height
     End If
     
-    Call MouseMove_Event(X, Y)
+    Call MouseMove_Event(x, y)
     
 End Sub
 

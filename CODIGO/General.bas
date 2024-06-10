@@ -525,7 +525,7 @@ Sub Main()
     Form_Caption = "WinterAO Resurrection v" & App.Major & "." & App.Minor & "." & App.Revision
     
     'Set resolution BEFORE the loading form is displayed, therefore it will be centered.
-    Call Resolution.SetResolution(1024, 768)
+    Call Resolution.SetResolution(1280, 768)
 
     ' Load constants, classes, flags, graphics..
     Call LoadInitialConfig
@@ -1481,6 +1481,7 @@ Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
     '**************************************
 
     Dim ZonaId          As Integer
+
     Static currentMusic As Byte
 
     'Si estamos jugando y no en el conectar...
@@ -1509,10 +1510,13 @@ Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
             If ClientSetup.bMusic <> CONST_DESHABILITADA Then
                 If ClientSetup.bMusic <> CONST_DESHABILITADA Then
                 
-                    If currentMusic <> CByte(MapZonas(ZonaId).Music) Then
-                        Sound.NextMusic = MapZonas(ZonaId).Music
-                        Sound.Fading = 200
-                        currentMusic = MapZonas(ZonaId).Music
+                    If Not MapZonas(ZonaId).Music = vbNullString Then
+                        If currentMusic <> CByte(MapZonas(ZonaId).Music) Then
+                            Sound.NextMusic = MapZonas(ZonaId).Music
+                            Sound.Fading = 200
+                            currentMusic = MapZonas(ZonaId).Music
+
+                        End If
 
                     End If
 
