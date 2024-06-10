@@ -121,32 +121,49 @@ Public Sub ReleaseInstance()
     Call CloseHandle(mutexHID)
 End Sub
 
-Public Sub LogError(ByVal Numero As Long, ByVal Descripcion As String, ByVal Componente As String, Optional ByVal Linea As Integer)
-'**********************************************************
-'Author: Jopi
-'Guarda una descripcion detallada del error en Errores.log
-'**********************************************************
-    Dim File As Integer
-        File = FreeFile
-        
-    Open App.Path & "\logs\Errores.log" For Append As #File
+Public Sub DeleteFile(ByVal FileName As String)
+On Error Resume Next
+    If Len(Dir$(FileName)) > 0 Then
+        Kill FileName
+    End If
+End Sub
+
+Public Function GetErrorLogFilename() As String
+   GetErrorLogFilename = App.Path & "\logs\Errores.log"
+End Function
+
+Public Sub RegistrarError(ByVal Numero As Long, _
+                          ByVal Descripcion As String, _
+                          ByVal Componente As String, _
+                          Optional ByVal Linea As Integer)
+ 
+    On Error GoTo RegistrarError_Err
+
+    Dim File As Integer: File = FreeFile
+
+    Open GetErrorLogFilename() For Append As #File
     
-        Print #File, "Error: " & Numero
-        Print #File, "Descripcion: " & Descripcion
+    Print #File, "Error: " & Numero
+    Print #File, "Descripcion: " & Descripcion
         
-        If LenB(Linea) <> 0 Then
-            Print #File, "Linea: " & Linea
-        End If
+    Print #File, "Componente: " & Componente
+
+    If LenB(Linea) <> 0 Then
+        Print #File, "Linea: " & Linea
+
+    End If
+
+    Print #File, "Fecha y Hora: " & Date$ & "-" & Time$
         
-        Print #File, "Componente: " & Componente
-        Print #File, "Fecha y Hora: " & Date$ & "-" & Time$
-        Print #File, vbNullString
+    Print #File, vbNullString
         
     Close #File
     
-    Debug.Print "Error: " & Numero & vbNewLine & _
-                "Descripcion: " & Descripcion & vbNewLine & _
-                "Componente: " & Componente & vbNewLine & _
-                "Fecha y Hora: " & Date$ & "-" & Time$ & vbNewLine
-                
+    Debug.Print "Error: " & Numero & vbNewLine & "Descripcion: " & Descripcion & vbNewLine & "Componente: " & Componente & vbNewLine & "Linea: " & Linea & vbNewLine & "Fecha y Hora: " & Date$ & "-" & Time$ & vbNewLine
+        
+    Exit Sub
+
+RegistrarError_Err:
+    Call RegistrarError(Err.number, Err.Description, "Application.RegistrarError", Erl)
+        
 End Sub

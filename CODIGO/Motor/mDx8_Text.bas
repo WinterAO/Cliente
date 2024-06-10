@@ -2,7 +2,7 @@ Attribute VB_Name = "mDx8_Text"
 Option Explicit
 
 Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" _
-    (Destination As Any, source As Any, ByVal Length As Long)
+    (destination As Any, source As Any, ByVal length As Long)
     
 Private Type CharVA
     X As Integer
@@ -78,7 +78,7 @@ Public Sub Text_Render_Special(ByVal intX As Integer, ByVal intY As Integer, ByR
     Dim i As Long
     If LenB(strText) <> 0 Then
 
-        Call Engine_Long_To_RGB_List(temp_rgb(), lngColor)
+        Call Long_2_RGBAList(temp_rgb(), lngColor)
 
         Call Engine_Render_Text(SpriteBatch, cfonts(Font), strText, intX, intY, temp_rgb(), bolCentred, , , Font)
         
@@ -101,7 +101,7 @@ Private Sub Engine_Render_Text(ByRef Batch As clsBatch, _
                                 ByVal Text As String, _
                                 ByVal X As Long, _
                                 ByVal Y As Long, _
-                                ByRef Color() As Long, _
+                                ByRef color() As RGBA, _
                                 Optional ByVal Center As Boolean = False, _
                                 Optional ByVal Alpha As Byte = 255, _
                                 Optional ByVal ParseEmoticons As Boolean = False, _
@@ -190,7 +190,7 @@ Private Sub Engine_Render_Text(ByRef Batch As clsBatch, _
                     
                 End If
                 Call Batch.SetAlpha(False)
-                Call Batch.Draw(TempVA.X, TempVA.Y, TempVA.W, TempVA.h, Color, TempVA.Tx1, TempVA.Ty1, TempVA.Tx2, TempVA.Ty2)
+                Call Batch.Draw(TempVA.X, TempVA.Y, TempVA.W, TempVA.h, color, TempVA.Tx1, TempVA.Ty1, TempVA.Tx2, TempVA.Ty2)
 
                 'Shift over the the position to render the next character
                 Count = Count + UseFont.HeaderInfo.CharWidth(ascii(j - 1))
@@ -378,14 +378,11 @@ End Sub
 Public Sub DrawText(ByVal X As Integer, _
                     ByVal Y As Integer, _
                     ByVal Text As String, _
-                    ByVal Color As Long, _
+                    ByRef color() As RGBA, _
                     Optional Center As Boolean = False, _
                     Optional Font As Integer = 1)
 
-    Dim aux(3) As Long
-
-    Call Engine_Long_To_RGB_List(aux(), Color)
-    Call Engine_Render_Text(SpriteBatch, cfonts(Font), Text, X, Y, aux(), Center, , , Font)
+    Call Engine_Render_Text(SpriteBatch, cfonts(Font), Text, X, Y, color(), Center, , , Font)
 
 End Sub
 

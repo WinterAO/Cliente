@@ -8,8 +8,8 @@ Option Explicit
 
 Public Type RGB
     r As Long
-    g As Long
-    b As Long
+    G As Long
+    B As Long
 End Type
 
 Public Type Stream
@@ -134,7 +134,7 @@ Private Type Particle_Group
     move_x2 As Integer
     move_y1 As Integer
     move_y2 As Integer
-    rgb_list(0 To 3) As Long
+    rgb_list(0 To 3) As RGBA
     
     'Added by Juan Martin Sotuyo Dodero
     speed As Single
@@ -154,7 +154,6 @@ Public Sub CargarParticulas()
     Dim loopc As Long
     Dim i As Long
     Dim ColorSet As Long
-    Dim LaCabecera  As tCabecera
     Dim fileBuff  As clsByteBuffer
     
     InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Particulas.ind"))
@@ -166,10 +165,6 @@ Public Sub CargarParticulas()
         Set fileBuff = New clsByteBuffer
         
         fileBuff.initializeReader buffer
-        
-        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
-        LaCabecera.CRC = fileBuff.getLong
-        LaCabecera.MagicWord = fileBuff.getLong
 
         TotalStreams = fileBuff.getInteger
         
@@ -219,8 +214,8 @@ Public Sub CargarParticulas()
                 
                 For ColorSet = 1 To 4
                     .colortint(ColorSet - 1).r = fileBuff.getLong
-                    .colortint(ColorSet - 1).g = fileBuff.getLong
-                    .colortint(ColorSet - 1).b = fileBuff.getLong
+                    .colortint(ColorSet - 1).G = fileBuff.getLong
+                    .colortint(ColorSet - 1).B = fileBuff.getLong
                 Next ColorSet
     
             End With
@@ -237,13 +232,13 @@ Public Function General_Char_Particle_Create(ByVal ParticulaInd As Long, _
                                              ByVal char_index As Integer, _
                                              Optional ByVal particle_life As Long = 0) As Long
 
-    Dim rgb_list(0 To 3) As Long
+    Dim rgb_list(0 To 3) As RGBA
 
     With StreamData(ParticulaInd)
-        rgb_list(0) = RGB(.colortint(0).r, .colortint(0).g, .colortint(0).b)
-        rgb_list(1) = RGB(.colortint(1).r, .colortint(1).g, .colortint(1).b)
-        rgb_list(2) = RGB(.colortint(2).r, .colortint(2).g, .colortint(2).b)
-        rgb_list(3) = RGB(.colortint(3).r, .colortint(3).g, .colortint(3).b)
+        Call SetRGBA(rgb_list(0), .colortint(0).r, .colortint(0).G, .colortint(0).r)
+        Call SetRGBA(rgb_list(1), .colortint(1).B, .colortint(1).G, .colortint(1).r)
+        Call SetRGBA(rgb_list(2), .colortint(2).B, .colortint(2).G, .colortint(2).r)
+        Call SetRGBA(rgb_list(3), .colortint(3).B, .colortint(3).G, .colortint(3).r)
 
         General_Char_Particle_Create = Char_Particle_Group_Create(char_index, .grh_list, rgb_list(), .NumOfParticles, ParticulaInd, .alphaBlend, IIf(particle_life = 0, .life_counter, particle_life), .speed, , .x1, .y1, .angle, .vecx1, .vecx2, .vecy1, .vecy2, .life1, .life2, .friction, .spin_speedL, .gravity, .grav_strength, .bounce_strength, .x2, .y2, .XMove, .move_x1, .move_x2, .move_y1, .move_y2, .YMove, .spin_speedH, .spin)
 
@@ -256,15 +251,15 @@ Public Function General_Particle_Create(ByVal ParticulaInd As Long, _
                                         ByVal Y As Integer, _
                                         Optional ByVal particle_life As Long = 0) As Long
 
-    Dim rgb_list(0 To 3) As Long
+    Dim rgb_list(0 To 3) As RGBA
     
     If ParticulaInd = 0 Then Exit Function
 
     With StreamData(ParticulaInd)
-        rgb_list(0) = RGB(.colortint(0).r, .colortint(0).g, .colortint(0).b)
-        rgb_list(1) = RGB(.colortint(1).r, .colortint(1).g, .colortint(1).b)
-        rgb_list(2) = RGB(.colortint(2).r, .colortint(2).g, .colortint(2).b)
-        rgb_list(3) = RGB(.colortint(3).r, .colortint(3).g, .colortint(3).b)
+        Call SetRGBA(rgb_list(0), .colortint(0).B, .colortint(0).G, .colortint(0).r)
+        Call SetRGBA(rgb_list(1), .colortint(1).B, .colortint(1).G, .colortint(1).r)
+        Call SetRGBA(rgb_list(2), .colortint(2).B, .colortint(2).G, .colortint(2).r)
+        Call SetRGBA(rgb_list(3), .colortint(3).B, .colortint(3).G, .colortint(3).r)
     
         General_Particle_Create = Particle_Group_Create(X, Y, .grh_list, rgb_list(), .NumOfParticles, ParticulaInd, .alphaBlend, IIf(particle_life = 0, .life_counter, particle_life), .speed, , .x1, .y1, .angle, .vecx1, .vecx2, .vecy1, .vecy2, .life1, .life2, .friction, .spin_speedL, .gravity, .grav_strength, .bounce_strength, .x2, .y2, .XMove, .move_x1, .move_x2, .move_y1, .move_y2, .YMove, .spin_speedH, .spin)
 
@@ -348,13 +343,11 @@ Public Sub Particle_Group_Render(ByVal Particle_Group_Index As Long, ByVal scree
 'Renders a particle stream at a paticular screen point
 '*****************************************************************
     Dim loopc As Long
-    Dim temp_rgb(0 To 3) As Long
+    Dim temp_rgb(0 To 3) As RGBA
     Dim no_move As Boolean
     
     If Particle_Group_Index > UBound(particle_group_list) Then Exit Sub
     
-
-        
     With particle_group_list(Particle_Group_Index)
     
         'Set colors
@@ -407,7 +400,7 @@ Public Sub Particle_Group_Render(ByVal Particle_Group_Index As Long, ByVal scree
 End Sub
 
 Private Sub Particle_Render(ByRef temp_particle As Particle, ByVal screen_x As Integer, ByVal screen_y As Integer, _
-                            ByVal grh_index As Long, ByRef rgb_list() As Long, _
+                            ByVal grh_index As Long, ByRef rgb_list() As RGBA, _
                             Optional ByVal alphaBlend As Boolean, Optional ByVal no_move As Boolean, _
                             Optional ByVal x1 As Integer, Optional ByVal y1 As Integer, Optional ByVal angle As Integer, _
                             Optional ByVal vecx1 As Integer, Optional ByVal vecx2 As Integer, _
@@ -537,7 +530,7 @@ Private Function Particle_Group_Check(ByVal Particle_Group_Index As Long) As Boo
 
 End Function
 
-Private Function Particle_Group_Create(ByVal map_x As Integer, ByVal map_y As Integer, ByRef grh_index_list() As Long, ByRef rgb_list() As Long, _
+Private Function Particle_Group_Create(ByVal map_x As Integer, ByVal map_y As Integer, ByRef grh_index_list() As Long, ByRef rgb_list() As RGBA, _
                                         Optional ByVal Particle_Count As Long = 20, Optional ByVal stream_type As Long = 1, _
                                         Optional ByVal alphaBlend As Boolean, Optional ByVal alive_counter As Long = -1, _
                                         Optional ByVal frame_speed As Single = 0.5, Optional ByVal id As Long, _
@@ -678,7 +671,7 @@ Private Sub Particle_Group_Destroy(ByVal Particle_Group_Index As Long)
 End Sub
 
 Private Sub Particle_Group_Make(ByVal Particle_Group_Index As Long, ByVal map_x As Integer, ByVal map_y As Integer, _
-                                ByVal Particle_Count As Long, ByVal stream_type As Long, ByRef grh_index_list() As Long, ByRef rgb_list() As Long, _
+                                ByVal Particle_Count As Long, ByVal stream_type As Long, ByRef grh_index_list() As Long, ByRef rgb_list() As RGBA, _
                                 Optional ByVal alphaBlend As Boolean, Optional ByVal alive_counter As Long = -1, _
                                 Optional ByVal frame_speed As Single = 0.5, Optional ByVal id As Long, _
                                 Optional ByVal x1 As Integer, Optional ByVal y1 As Integer, Optional ByVal angle As Integer, _
@@ -803,7 +796,7 @@ Public Function Map_Particle_Group_Get(ByVal map_x As Integer, ByVal map_y As In
     End If
 End Function
 
-Private Function Char_Particle_Group_Create(ByVal char_index As Integer, ByRef grh_index_list() As Long, ByRef rgb_list() As Long, _
+Private Function Char_Particle_Group_Create(ByVal char_index As Integer, ByRef grh_index_list() As Long, ByRef rgb_list() As RGBA, _
                                         Optional ByVal Particle_Count As Long = 20, Optional ByVal stream_type As Long = 1, _
                                         Optional ByVal alphaBlend As Boolean, Optional ByVal alive_counter As Long = -1, _
                                         Optional ByVal frame_speed As Single = 0.5, Optional ByVal id As Long, _
@@ -914,7 +907,7 @@ Private Function Char_Check(ByVal char_index As Integer) As Boolean
 End Function
 
 Private Sub Char_Particle_Group_Make(ByVal Particle_Group_Index As Long, ByVal char_index As Integer, ByVal particle_char_index As Integer, _
-                                ByVal Particle_Count As Long, ByVal stream_type As Long, ByRef grh_index_list() As Long, ByRef rgb_list() As Long, _
+                                ByVal Particle_Count As Long, ByVal stream_type As Long, ByRef grh_index_list() As Long, ByRef rgb_list() As RGBA, _
                                 Optional ByVal alphaBlend As Boolean, Optional ByVal alive_counter As Long = -1, _
                                 Optional ByVal frame_speed As Single = 0.5, Optional ByVal id As Long, _
                                 Optional ByVal x1 As Integer, Optional ByVal y1 As Integer, Optional ByVal angle As Integer, _

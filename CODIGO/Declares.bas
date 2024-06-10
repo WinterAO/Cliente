@@ -69,6 +69,7 @@ Public ServIndSel As Byte
 Public DialogosClanes As clsGuildDlg
 Public Dialogos As clsDialogs
 Public Sound As clsSoundEngine
+Public LucesRedondas As clsLucesRedondas
 Public Inventario As clsGraphicalInventory
 Public InvBanco(1) As clsGraphicalInventory
 
@@ -563,6 +564,7 @@ Public NPCInventory(1 To MAX_NPC_INVENTORY_SLOTS) As NpCinV
 Public Type tCurrentUser
     UserMap As Integer
     UserCuadrante As Integer
+    UserZona As Integer
     UserMeditar As Boolean
     UserName As String
     AccountName As String
@@ -618,6 +620,7 @@ Public Type tCurrentUser
     
     VIP As String
     esVIP As Boolean
+    esGM As Boolean
 End Type
 
 Public CurrentUser As tCurrentUser
@@ -901,3 +904,12 @@ Public Type ShopObj
 End Type
 
 Public ShopObject() As ShopObj
+
+Public Enum Accion_Barra
+
+    Runa = 1
+    Resucitar = 2
+    Intermundia = 3
+    CancelarAccion = 99
+
+End Enum

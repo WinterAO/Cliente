@@ -57,27 +57,27 @@ End Sub
 ' @remarks  None Known.
 
 Public Sub ParseUserCommand(ByVal RawCommand As String)
-'***************************************************
-'Author: Alejandro Santos (AlejoLp)
-'Last Modification: 16/11/2009
-'Interpreta, valida y ejecuta el comando ingresado
-'26/03/2009: ZaMa - Flexibilizo la cantidad de parametros de /nene,  /onlinemap y /telep
-'16/11/2009: ZaMa - Ahora el /ct admite radio
-'18/09/2010: ZaMa - Agrego el comando /mod username vida xxx
-'***************************************************
-    Dim TmpArgos() As String
+    '***************************************************
+    'Author: Alejandro Santos (AlejoLp)
+    'Last Modification: 16/11/2009
+    'Interpreta, valida y ejecuta el comando ingresado
+    '26/03/2009: ZaMa - Flexibilizo la cantidad de parametros de /nene,  /onlinemap y /telep
+    '16/11/2009: ZaMa - Ahora el /ct admite radio
+    '18/09/2010: ZaMa - Agrego el comando /mod username vida xxx
+    '***************************************************
+    Dim TmpArgos()         As String
     
-    Dim Comando As String
-    Dim ArgumentosAll() As String
-    Dim ArgumentosRaw As String
-    Dim Argumentos2() As String
-    Dim Argumentos3() As String
-    Dim Argumentos4() As String
+    Dim Comando            As String
+    Dim ArgumentosAll()    As String
+    Dim ArgumentosRaw      As String
+    Dim Argumentos2()      As String
+    Dim Argumentos3()      As String
+    Dim Argumentos4()      As String
     Dim CantidadArgumentos As Long
-    Dim notNullArguments As Boolean
+    Dim notNullArguments   As Boolean
     
-    Dim tmpArr() As String
-    Dim tmpInt As Integer
+    Dim tmpArr()           As String
+    Dim tmpInt             As Integer
     
     ' TmpArgs: Un array de a lo sumo dos elementos,
     ' el primero es el comando (hasta el primer espacio)
@@ -120,6 +120,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
         ' Comando normal
         
         Select Case Comando
+
             Case "/PREPARADO"
                 Call WritedueloSet(50)
                 
@@ -133,6 +134,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteConsultaSubasta
            
             Case "/OFERTAR"
+
                 If notNullArguments Then
                     If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Long) Then
                         Call WriteOfertarSubasta(ArgumentosAll(0))
@@ -146,6 +148,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
                 
             Case "/FADD"
+
                 If notNullArguments Then
                     Call WriteAddAmigo(ArgumentosRaw, 2)
                 Else
@@ -155,6 +158,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
  
             Case "/FMSG"
+
                 If notNullArguments Then
                     Call WriteMsgAmigo(ArgumentosRaw)
                 Else
@@ -166,6 +170,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteOnAmigo
   
             Case "/DISCORD"
+
                 'Ojo, no usar notNullArguments porque se usa el string vacio para borrar cartel.
                 If CantidadArgumentos > 0 Then
                     Call WriteDiscord(ArgumentosRaw)
@@ -175,7 +180,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
                 
             Case "/SALIR"
+
                 If CurrentUser.UserParalizado Then 'Inmo
+
                     With FontTypes(FontTypeNames.FONTTYPE_WARNING)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_NO_SALIR").item("TEXTO"), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -187,7 +194,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteGuildLeave
                 
             Case "/BALANCE"
+
                 If CurrentUser.UserEstado = 1 Then 'Muerto
+
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -196,7 +205,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteRequestAccountState
                 
             Case "/QUIETO"
+
                 If CurrentUser.UserEstado = 1 Then 'Muerto
+
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -205,7 +216,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WritePetStand
                 
             Case "/ACOMPANAR"
+
                 If CurrentUser.UserEstado = 1 Then 'Muerto
+
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -214,7 +227,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WritePetFollow
                 
             Case "/LIBERAR"
+
                 If CurrentUser.UserEstado = 1 Then 'Muerto
+
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -223,7 +238,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteReleasePet
                 
             Case "/ENTRENAR"
+
                 If CurrentUser.UserEstado = 1 Then 'Muerto
+
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -232,7 +249,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteTrainList
                 
             Case "/DESCANSAR"
+
                 If CurrentUser.UserEstado = 1 Then 'Muerto
+
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -241,9 +260,11 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteRest
                 
             Case "/MEDITAR"
+
                 If CurrentUser.UserMinMAN = CurrentUser.UserMaxMAN Then Exit Sub
                 
                 If CurrentUser.UserEstado = 1 Then 'Muerto
+
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -267,13 +288,16 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteHelp
                 
             Case "/COMERCIAR"
+
                 If CurrentUser.UserEstado = 1 Then 'Muerto
+
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
                     Exit Sub
                 
                 ElseIf Comerciando Then 'Comerciando
+
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_COMERCIANDO").item("TEXTO"), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -282,7 +306,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteCommerceStart
                 
             Case "/BOVEDA"
+
                 If CurrentUser.UserEstado = 1 Then 'Muerto
+
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -309,7 +335,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WritePartyLeave
             
             Case "/COMPARTIRNPC"
+
                 If CurrentUser.UserEstado = 1 Then 'Muerto
+
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -319,7 +347,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteShareNpc
                 
             Case "/NOCOMPARTIRNPC"
+
                 If CurrentUser.UserEstado = 1 Then 'Muerto
+
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -329,10 +359,12 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteStopSharingNpc
                 
             Case "/ENCUESTA"
+
                 If CantidadArgumentos = 0 Then
                     ' Version sin argumentos: Inquiry
                     Call WriteInquiry
                 Else
+
                     ' Version con argumentos: InquiryVote
                     If ValidNumber(ArgumentosRaw, eNumber_Types.ent_byte) Then
                         Call WriteInquiryVote(ArgumentosRaw)
@@ -343,6 +375,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
         
             Case "/CMSG"
+
                 'Ojo, no usar notNullArguments porque se usa el string vacio para borrar cartel.
                 If CantidadArgumentos > 0 Then
                     Call WriteGuildMessage(ArgumentosRaw)
@@ -352,6 +385,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
         
             Case "/PMSG"
+
                 'Ojo, no usar notNullArguments porque se usa el string vacio para borrar cartel.
                 If CantidadArgumentos > 0 Then
                     Call WritePartyMessage(ArgumentosRaw)
@@ -361,8 +395,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
 
             Case "/CENTINELA"
+
                 If notNullArguments Then
-                   Call WriteCentinelReport(ArgumentosRaw)
+                    Call WriteCentinelReport(ArgumentosRaw)
                 Else
                     'Avisar que falta el parametro
                     Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_CENTINELA").item("TEXTO"))
@@ -375,6 +410,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WritePartyOnline
                 
             Case "/BMSG"
+
                 If notNullArguments Then
                     Call WriteCouncilMessage(ArgumentosRaw)
                 Else
@@ -383,6 +419,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
                 
             Case "/ROL"
+
                 If notNullArguments Then
                     Call WriteRoleMasterRequest(ArgumentosRaw)
                 Else
@@ -394,7 +431,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 frmGM.Show vbModeless, frmMain
                 
             Case "/DESC"
+
                 If CurrentUser.UserEstado = 1 Then 'Muerto
+
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -404,6 +443,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteChangeDescription(ArgumentosRaw)
             
             Case "/VOTO"
+
                 If notNullArguments Then
                     Call WriteGuildVote(ArgumentosRaw)
                 Else
@@ -412,6 +452,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
                
             Case "/PENAS"
+
                 If notNullArguments Then
                     Call WritePunishments(ArgumentosRaw)
                 Else
@@ -420,12 +461,15 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
 
             Case "/APOSTAR"
+
                 If CurrentUser.UserEstado = 1 Then 'Muerto
+
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
                     Exit Sub
                 End If
+
                 If notNullArguments Then
                     If ValidNumber(ArgumentosRaw, eNumber_Types.ent_Integer) Then
                         Call WriteGamble(ArgumentosRaw)
@@ -439,7 +483,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
                 
             Case "/RETIRARFACCION"
+
                 If CurrentUser.UserEstado = 1 Then 'Muerto
+
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -449,7 +495,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Call WriteLeaveFaction
                 
             Case "/RETIRAR"
+
                 If CurrentUser.UserEstado = 1 Then 'Muerto
+
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -457,6 +505,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
                 
                 If notNullArguments Then
+
                     ' Version con argumentos: BankExtractGold
                     If ValidNumber(ArgumentosRaw, eNumber_Types.ent_Long) Then
                         Call WriteBankExtractGold(ArgumentosRaw)
@@ -467,7 +516,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
 
             Case "/DEPOSITAR"
+
                 If CurrentUser.UserEstado = 1 Then 'Muerto
+
                     With FontTypes(FontTypeNames.FONTTYPE_INFO)
                         Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                     End With
@@ -487,6 +538,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
                 
             Case "/DENUNCIAR"
+
                 If notNullArguments Then
                     Call WriteDenounce(ArgumentosRaw)
                 Else
@@ -495,6 +547,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
                 
             Case "/FUNDARCLAN"
+
                 If CurrentUser.UserLvl >= 25 Then
                     Call WriteGuildFundate
                 Else
@@ -502,6 +555,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
             
             Case "/ECHARPARTY"
+
                 If notNullArguments Then
                     Call WritePartyKick(ArgumentosRaw)
                 Else
@@ -510,6 +564,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
                 
             Case "/PARTYLIDER"
+
                 If notNullArguments Then
                     Call WritePartySetLeader(ArgumentosRaw)
                 Else
@@ -518,6 +573,7 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 End If
                 
             Case "/ACCEPTPARTY"
+
                 If notNullArguments Then
                     Call WritePartyAcceptMember(ArgumentosRaw)
                 Else
@@ -525,1182 +581,1637 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                     Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /acceptparty NICKNAME.")
                 End If
                     
-            '
-            ' BEGIN GM COMMANDS
-            '
+                '
+                ' BEGIN GM COMMANDS
+                '
             
             Case "/BUSCAR"
-                Call WriteGMPanel(1)
-            
+                If CurrentUser.esGM Then
+                    Call WriteGMPanel(1)
+                End If
+
             Case "/LIMPIARMUNDO"
-                Call WriteLimpiarMundo
-            
+
+                If CurrentUser.esGM Then
+                    Call WriteLimpiarMundo
+                End If
+
             Case "/GMSG"
-                If notNullArguments Then
-                    Call WriteGMMessage(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"))
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteGMMessage(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"))
+                    End If
                 End If
-                
+
             Case "/SHOWNAME"
-                Call WriteShowName
-                
+
+                If CurrentUser.esGM Then
+                    Call WriteShowName
+                End If
+
             Case "/ONLINEREAL"
-                Call WriteOnlineRoyalArmy
-                
+
+                If CurrentUser.esGM Then
+                    Call WriteOnlineRoyalArmy
+                End If
+
             Case "/ONLINECAOS"
-                Call WriteOnlineChaosLegion
-                
+
+                If CurrentUser.esGM Then
+                    Call WriteOnlineChaosLegion
+                End If
+
             Case "/IRCERCA"
-                If notNullArguments Then
-                    Call WriteGoNearby(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ircerca NICKNAME.")
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteGoNearby(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ircerca NICKNAME.")
+                    End If
                 End If
-                
+
             Case "/REM"
-                If notNullArguments Then
-                    Call WriteComment(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_COMENTARIO").item("TEXTO"))
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteComment(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_COMENTARIO").item("TEXTO"))
+                    End If
                 End If
-            
+
             Case "/HORA"
-                Call Protocol_Write.WriteServerTime
-            
+
+                If CurrentUser.esGM Then
+                    Call Protocol_Write.WriteServerTime
+                End If
+
             Case "/DONDE"
-                If notNullArguments Then
-                    Call WriteWhere(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /donde NICKNAME.")
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteWhere(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /donde NICKNAME.")
+                    End If
                 End If
-                
+
             Case "/NENE"
-                If notNullArguments Then
-                    If ValidNumber(ArgumentosRaw, eNumber_Types.ent_Integer) Then
-                        Call WriteCreaturesInMap(ArgumentosRaw)
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        If ValidNumber(ArgumentosRaw, eNumber_Types.ent_Integer) Then
+                            Call WriteCreaturesInMap(ArgumentosRaw)
+                        Else
+                            ' No es numérico
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_MAPA_INCORRECTO").item("TEXTO") & " /nene MAPA.")
+                        End If
                     Else
-                        'No es numerico
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_MAPA_INCORRECTO").item("TEXTO") & " /nene MAPA.")
+                        ' Por defecto, toma el mapa en el que está
+                        Call WriteCreaturesInMap(CurrentUser.UserMap)
                     End If
-                Else
-                    'Por default, toma el mapa en el que esta
-                    Call WriteCreaturesInMap(CurrentUser.UserMap)
                 End If
-                
+
             Case "/TELEPLOC"
-                Call WriteWarpMeToTarget
-                
+
+                If CurrentUser.esGM Then
+                    Call WriteWarpMeToTarget
+                End If
+
             Case "/TELEP"
-                If notNullArguments And CantidadArgumentos >= 4 Then
-                    If ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(3), eNumber_Types.ent_Integer) Then
-                        Call WriteWarpChar(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2), ArgumentosAll(3))
+
+                If CurrentUser.esGM Then
+                    If notNullArguments And CantidadArgumentos >= 4 Then
+                        If ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(3), eNumber_Types.ent_Integer) Then
+                            Call WriteWarpChar(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2), ArgumentosAll(3), False)
+                        Else
+                            ' No es numérico
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telep NICKNAME MAPA X Y.")
+                        End If
+                    ElseIf CantidadArgumentos = 3 Then
+
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) Then
+                            ' Por defecto, si no se indica el nombre, se teletransporta el mismo usuario
+                            Call WriteWarpChar("YO", ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2), False)
+                        ElseIf ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) Then
+                            ' Por defecto, si no se indica el mapa, se teletransporta al mismo donde está el usuario
+                            Call WriteWarpChar(ArgumentosAll(0), CurrentUser.UserMap, ArgumentosAll(1), ArgumentosAll(2), False)
+                        Else
+                            ' No uso ningún formato por defecto
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telep NICKNAME MAPA X Y.")
+                        End If
+                    ElseIf CantidadArgumentos = 2 Then
+
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
+                            ' Por defecto, se considera que se quiere únicamente cambiar las coordenadas del usuario, en el mismo mapa
+                            Call WriteWarpChar("YO", CurrentUser.UserMap, ArgumentosAll(0), ArgumentosAll(1), False)
+                        Else
+                            ' No uso ningún formato por defecto
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telep NICKNAME MAPA X Y.")
+                        End If
                     Else
-                        'No es numerico
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telep NICKNAME MAPA X Y.")
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /telep NICKNAME MAPA X Y.")
                     End If
-                    
-                ElseIf CantidadArgumentos = 3 Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) Then
-                        'Por defecto, si no se indica el nombre, se teletransporta el mismo usuario
-                        Call WriteWarpChar("YO", ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2))
-                    ElseIf ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) Then
-                        'Por defecto, si no se indica el mapa, se teletransporta al mismo donde esta el usuario
-                        Call WriteWarpChar(ArgumentosAll(0), CurrentUser.UserMap, ArgumentosAll(1), ArgumentosAll(2))
-                    Else
-                        'No uso ningun formato por defecto
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telep NICKNAME MAPA X Y.")
-                    End If
-                    
-                ElseIf CantidadArgumentos = 2 Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
-                        ' Por defecto, se considera que se quiere unicamente cambiar las coordenadas del usuario, en el mismo mapa
-                        Call WriteWarpChar("YO", CurrentUser.UserMap, ArgumentosAll(0), ArgumentosAll(1))
-                    Else
-                        'No uso ningun formato por defecto
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telep NICKNAME MAPA X Y.")
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /telep NICKNAME MAPA X Y.")
                 End If
                 
+            Case "/TELEPC"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments And CantidadArgumentos >= 4 Then
+                        If ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(3), eNumber_Types.ent_Integer) Then
+                            Call WriteWarpChar(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2), ArgumentosAll(3), True)
+                        Else
+                            ' No es numérico
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telepc NICKNAME CUADRANTE X Y.")
+                        End If
+                    ElseIf CantidadArgumentos = 3 Then
+
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) Then
+                            ' Por defecto, si no se indica el nombre, se teletransporta el mismo usuario
+                            Call WriteWarpChar("YO", ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2), True)
+                        ElseIf ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) Then
+                            ' Por defecto, si no se indica el mapa, se teletransporta al mismo donde está el usuario
+                            Call WriteWarpChar(ArgumentosAll(0), CurrentUser.UserMap, ArgumentosAll(1), ArgumentosAll(2), True)
+                        Else
+                            ' No uso ningún formato por defecto
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telepc NICKNAME CUADRANTE X Y.")
+                        End If
+                    ElseIf CantidadArgumentos = 2 Then
+
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
+                            ' Por defecto, se considera que se quiere únicamente cambiar las coordenadas del usuario, en el mismo mapa
+                            Call WriteWarpChar("YO", CurrentUser.UserMap, ArgumentosAll(0), ArgumentosAll(1), True)
+                        Else
+                            ' No uso ningún formato por defecto
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /telepc NICKNAME CUADRANTE X Y.")
+                        End If
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /telepc NICKNAME CUADRANTE X Y.")
+                    End If
+                End If
+
             Case "/SILENCIAR"
-                If notNullArguments Then
-                    Call WriteSilence(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /silenciar NICKNAME.")
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteSilence(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /silenciar NICKNAME.")
+                    End If
                 End If
-                
+
             Case "/SHOW"
-                If notNullArguments Then
-                    Select Case UCase$(ArgumentosAll(0))
-                        Case "SOS"
-                            Call WriteSOSShowList
-                            
-                        Case "INT"
-                            Call WriteShowServerForm
-                        
-                        Case "DENUNCIAS"
-                            Call WriteShowDenouncesList
-                    End Select
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+
+                        Select Case UCase$(ArgumentosAll(0))
+
+                            Case "SOS"
+                                Call WriteSOSShowList
+
+                            Case "INT"
+                                Call WriteShowServerForm
+
+                            Case "DENUNCIAS"
+                                Call WriteShowDenouncesList
+                        End Select
+                    End If
                 End If
-                
+
             Case "/DENUNCIAS"
-                Call WriteEnableDenounces
-                
-            Case "/IRA"
-                If notNullArguments Then
-                    Call WriteGoToChar(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ira NICKNAME.")
+
+                If CurrentUser.esGM Then
+                    Call WriteEnableDenounces
                 End If
-        
+
+            Case "/IRA"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteGoToChar(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ira NICKNAME.")
+                    End If
+                End If
+
             Case "/INVISIBLE"
-                Call WriteInvisible
-                
+
+                If CurrentUser.esGM Then
+                    Call WriteInvisible
+                End If
+
             Case "/PANELGM"
-                Call WriteGMPanel(0)
-                
+
+                If CurrentUser.esGM Then
+                    Call WriteGMPanel(0)
+                End If
+
             Case "/TRABAJANDO"
-                Call WriteWorking
-                
+
+                If CurrentUser.esGM Then
+                    Call WriteWorking
+                End If
+
             Case "/OCULTANDO"
-                Call WriteHiding
+
+                If CurrentUser.esGM Then
+                    Call WriteHiding
+                End If
                 
             Case "/CARCEL"
-                If notNullArguments Then
-                    tmpArr = Split(ArgumentosRaw, "@")
-                    If UBound(tmpArr) = 2 Then
-                        If ValidNumber(tmpArr(2), eNumber_Types.ent_byte) Then
-                            Call WriteJail(tmpArr(0), tmpArr(1), tmpArr(2))
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        tmpArr = Split(ArgumentosRaw, "@")
+
+                        If UBound(tmpArr) = 2 Then
+                            If ValidNumber(tmpArr(2), eNumber_Types.ent_byte) Then
+                                Call WriteJail(tmpArr(0), tmpArr(1), tmpArr(2))
+                            Else
+                                ' No es numérico
+                                Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_TIEMPO_INCORRECTO").item("TEXTO") & " /carcel NICKNAME@MOTIVO@TIEMPO.")
+                            End If
                         Else
-                            'No es numerico
-                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_TIEMPO_INCORRECTO").item("TEXTO") & " /carcel NICKNAME@MOTIVO@TIEMPO.")
+                            ' Faltan los parámetros con el formato propio
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /carcel NICKNAME@MOTIVO@TIEMPO.")
                         End If
                     Else
-                        'Faltan los parametros con el formato propio
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /carcel NICKNAME@MOTIVO@TIEMPO.")
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /carcel NICKNAME@MOTIVO@TIEMPO.")
                     End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /carcel NICKNAME@MOTIVO@TIEMPO.")
                 End If
-                
+
             Case "/RMATA"
-                Call WriteKillNPC
-                
-            Case "/ADVERTENCIA"
-                If notNullArguments Then
-                    tmpArr = Split(ArgumentosRaw, "@", 2)
-                    If UBound(tmpArr) = 1 Then
-                        Call WriteWarnUser(tmpArr(0), tmpArr(1))
-                    Else
-                        'Faltan los parametros con el formato propio
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /advertencia NICKNAME@MOTIVO.")
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /advertencia NICKNAME@MOTIVO.")
+
+                If CurrentUser.esGM Then
+                    Call WriteKillNPC
                 End If
-                
-            Case "/MOD"
-                If notNullArguments And CantidadArgumentos >= 3 Then
-                    Select Case UCase$(ArgumentosAll(1))
-                        Case "BODY"
-                            tmpInt = eEditOptions.eo_Body
-                        
-                        Case "HEAD"
-                            tmpInt = eEditOptions.eo_Head
-                        
-                        Case "ORO"
-                            tmpInt = eEditOptions.eo_Gold
-                        
-                        Case "LEVEL"
-                            tmpInt = eEditOptions.eo_Level
-                        
-                        Case "SKILLS"
-                            tmpInt = eEditOptions.eo_Skills
-                        
-                        Case "CLASE"
-                            tmpInt = eEditOptions.eo_Class
-                        
-                        Case "EXP"
-                            tmpInt = eEditOptions.eo_Experience
-                        
-                        Case "CRI"
-                            tmpInt = eEditOptions.eo_CriminalsKilled
-                        
-                        Case "CIU"
-                            tmpInt = eEditOptions.eo_CiticensKilled
-                        
-                        Case "NOB"
-                            tmpInt = eEditOptions.eo_Nobleza
-                        
-                        Case "ASE"
-                            tmpInt = eEditOptions.eo_Asesino
-                        
-                        Case "SEX"
-                            tmpInt = eEditOptions.eo_Sex
-                            
-                        Case "RAZA"
-                            tmpInt = eEditOptions.eo_Raza
-                        
-                        Case "AGREGAR"
-                            tmpInt = eEditOptions.eo_addGold
-                        
-                        Case "VIDA"
-                            tmpInt = eEditOptions.eo_Vida
-                         
-                        Case "POSS"
-                            tmpInt = eEditOptions.eo_Poss
-                         
-                        Case "SPEED"
-                            tmpInt = eEditOptions.eo_Speed
-                            
-                        Case "EXPPVP"
-                            tmpInt = eEditOptions.eo_ExperiencePVP
-                         
-                        Case Else
-                            tmpInt = -1
-                    End Select
-                    
-                    If tmpInt > 0 Then
-                        
-                        If CantidadArgumentos = 3 Then
-                            Call WriteEditChar(ArgumentosAll(0), tmpInt, ArgumentosAll(2), vbNullString)
+
+            Case "/ADVERTENCIA"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        tmpArr = Split(ArgumentosRaw, "@", 2)
+
+                        If UBound(tmpArr) = 1 Then
+                            Call WriteWarnUser(tmpArr(0), tmpArr(1))
                         Else
-                            Call WriteEditChar(ArgumentosAll(0), tmpInt, ArgumentosAll(2), ArgumentosAll(3))
+                            ' Faltan los parámetros con el formato propio
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /advertencia NICKNAME@MOTIVO.")
                         End If
                     Else
-                        'Avisar que no exite el comando
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_COMANDO_INCORRECTO").item("TEXTO"))
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /advertencia NICKNAME@MOTIVO.")
                     End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO"))
                 End If
-            
+
+            Case "/MOD"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments And CantidadArgumentos >= 3 Then
+
+                        Select Case UCase$(ArgumentosAll(1))
+
+                            Case "BODY"
+                                tmpInt = eEditOptions.eo_Body
+
+                            Case "HEAD"
+                                tmpInt = eEditOptions.eo_Head
+
+                            Case "ORO"
+                                tmpInt = eEditOptions.eo_Gold
+
+                            Case "LEVEL"
+                                tmpInt = eEditOptions.eo_Level
+
+                            Case "SKILLS"
+                                tmpInt = eEditOptions.eo_Skills
+
+                            Case "CLASE"
+                                tmpInt = eEditOptions.eo_Class
+
+                            Case "EXP"
+                                tmpInt = eEditOptions.eo_Experience
+
+                            Case "CRI"
+                                tmpInt = eEditOptions.eo_CriminalsKilled
+
+                            Case "CIU"
+                                tmpInt = eEditOptions.eo_CiticensKilled
+
+                            Case "NOB"
+                                tmpInt = eEditOptions.eo_Nobleza
+
+                            Case "ASE"
+                                tmpInt = eEditOptions.eo_Asesino
+
+                            Case "SEX"
+                                tmpInt = eEditOptions.eo_Sex
+
+                            Case "RAZA"
+                                tmpInt = eEditOptions.eo_Raza
+
+                            Case "AGREGAR"
+                                tmpInt = eEditOptions.eo_addGold
+
+                            Case "VIDA"
+                                tmpInt = eEditOptions.eo_Vida
+
+                            Case "POSS"
+                                tmpInt = eEditOptions.eo_Poss
+
+                            Case "SPEED"
+                                tmpInt = eEditOptions.eo_Speed
+
+                            Case "EXPPVP"
+                                tmpInt = eEditOptions.eo_ExperiencePVP
+
+                            Case Else
+                                tmpInt = -1
+                        End Select
+
+                        If tmpInt > 0 Then
+                            If CantidadArgumentos = 3 Then
+                                Call WriteEditChar(ArgumentosAll(0), tmpInt, ArgumentosAll(2), vbNullString)
+                            Else
+                                Call WriteEditChar(ArgumentosAll(0), tmpInt, ArgumentosAll(2), ArgumentosAll(3))
+                            End If
+                        Else
+                            ' Avisar que no existe el comando
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_COMANDO_INCORRECTO").item("TEXTO"))
+                        End If
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO"))
+                    End If
+                End If
+
             Case "/INFO"
-                If notNullArguments Then
-                    Call WriteRequestCharInfo(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /info NICKNAME.")
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteRequestCharInfo(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /info NICKNAME.")
+                    End If
                 End If
                 
             Case "/STAT"
-                If notNullArguments Then
-                    Call WriteRequestCharStats(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /stat NICKNAME.")
-                End If
-                
-            Case "/BAL"
-                If notNullArguments Then
-                    Call WriteRequestCharGold(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /bal NICKNAME.")
-                End If
-                
-            Case "/INV"
-                If notNullArguments Then
-                    Call WriteRequestCharInventory(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /inv NICKNAME.")
-                End If
-                
-            Case "/BOV"
-                If notNullArguments Then
-                    Call WriteRequestCharBank(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /bov NICKNAME.")
-                End If
-                
-            Case "/SKILLS"
-                If notNullArguments Then
-                    Call WriteRequestCharSkills(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /skills NICKNAME.")
-                End If
-                
-            Case "/REVIVIR"
-                If notNullArguments Then
-                    Call WriteReviveChar(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /revivir NICKNAME.")
-                End If
-                
-            Case "/ONLINEGM"
-                Call WriteOnlineGM
-                
-            Case "/ONLINEMAP"
-                If notNullArguments Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) Then
-                        Call WriteOnlineMap(ArgumentosAll(0))
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteRequestCharStats(ArgumentosRaw)
                     Else
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_MAPA_INCORRECTO").item("TEXTO") & " /ONLINEMAP")
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /stat NICKNAME.")
                     End If
-                Else
-                    Call WriteOnlineMap(CurrentUser.UserMap)
                 End If
-                
+
+            Case "/BAL"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteRequestCharGold(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /bal NICKNAME.")
+                    End If
+                End If
+
+            Case "/INV"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteRequestCharInventory(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /inv NICKNAME.")
+                    End If
+                End If
+
+            Case "/BOV"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteRequestCharBank(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /bov NICKNAME.")
+                    End If
+                End If
+
+            Case "/SKILLS"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteRequestCharSkills(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /skills NICKNAME.")
+                    End If
+                End If
+
+            Case "/REVIVIR"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteReviveChar(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /revivir NICKNAME.")
+                    End If
+                End If
+
+            Case "/ONLINEGM"
+
+                If CurrentUser.esGM Then
+                    Call WriteOnlineGM
+                End If
+
+            Case "/ONLINEMAP"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) Then
+                            Call WriteOnlineMap(ArgumentosAll(0))
+                        Else
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_MAPA_INCORRECTO").item("TEXTO") & " /ONLINEMAP")
+                        End If
+                    Else
+                        Call WriteOnlineMap(CurrentUser.UserMap)
+                    End If
+                End If
+
             Case "/PERDON"
-                If notNullArguments Then
-                    Call WriteForgive(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /perdon NICKNAME.")
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteForgive(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /perdon NICKNAME.")
+                    End If
                 End If
-                
+
             Case "/ECHAR"
-                If notNullArguments Then
-                    Call WriteKick(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /echar NICKNAME.")
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteKick(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /echar NICKNAME.")
+                    End If
                 End If
-                
+
             Case "/EJECUTAR"
-                If notNullArguments Then
-                    Call WriteExecute(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ejecutar NICKNAME.")
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteExecute(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ejecutar NICKNAME.")
+                    End If
                 End If
                 
             Case "/BAN"
-                If notNullArguments Then
-                    tmpArr = Split(ArgumentosRaw, "@", 2)
-                    If UBound(tmpArr) = 1 Then
-                        Call WriteBanChar(tmpArr(0), tmpArr(1))
-                    Else
-                        'Faltan los parametros con el formato propio
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /ban NICKNAME@MOTIVO.")
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ban NICKNAME@MOTIVO.")
-                End If
-                
-            Case "/UNBAN"
-                If notNullArguments Then
-                    Call WriteUnbanChar(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /unban NICKNAME.")
-                End If
-                
-            Case "/SEGUIR"
-                Call WriteNPCFollow
-                
-            Case "/SUM"
-                If notNullArguments Then
-                    Call WriteSummonChar(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /sum NICKNAME.")
-                End If
-                
-            Case "/CC"
-                Call WriteSpawnListRequest
-                
-            Case "/RESETINV"
-                Call WriteResetNPCInventory
-                
-            Case "/RMSG"
-                If notNullArguments Then
-                    Call WriteServerMessage(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"))
-                End If
-            
-            Case "/MAPMSG"
-                If notNullArguments Then
-                    Call WriteMapMessage(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"))
-                End If
-                
-            Case "/NICK2IP"
-                If notNullArguments Then
-                    Call WriteNickToIP(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /nick2ip NICKNAME.")
-                End If
-                
-            Case "/IP2NICK"
-                If notNullArguments Then
-                    If validipv4str(ArgumentosRaw) Then
-                        Call WriteIPToNick(str2ipv4l(ArgumentosRaw))
-                    Else
-                        'No es una IP
-                        Call ShowConsoleMsg("IP incorrecta. Utilice /ip2nick IP.")
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ip2nick IP.")
-                End If
-                
-            Case "/ONCLAN"
-                If notNullArguments Then
-                    Call WriteGuildOnlineMembers(ArgumentosRaw)
-                Else
-                    'Avisar sintaxis incorrecta
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_ONCLAN").item("TEXTO"))
-                End If
-                
-            Case "/CT"
-                If notNullArguments And CantidadArgumentos >= 3 Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_byte) And _
-                        ValidNumber(ArgumentosAll(2), eNumber_Types.ent_byte) Then
-                        
-                        If CantidadArgumentos = 3 Then
-                            Call WriteTeleportCreate(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2))
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        tmpArr = Split(ArgumentosRaw, "@", 2)
+
+                        If UBound(tmpArr) = 1 Then
+                            Call WriteBanChar(tmpArr(0), tmpArr(1))
                         Else
-                            If ValidNumber(ArgumentosAll(3), eNumber_Types.ent_byte) Then
-                                Call WriteTeleportCreate(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2), ArgumentosAll(3))
+                            ' Faltan los parámetros con el formato propio
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /ban NICKNAME@MOTIVO.")
+                        End If
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ban NICKNAME@MOTIVO.")
+                    End If
+                End If
+
+            Case "/UNBAN"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteUnbanChar(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /unban NICKNAME.")
+                    End If
+                End If
+
+            Case "/SEGUIR"
+
+                If CurrentUser.esGM Then
+                    Call WriteNPCFollow
+                End If
+
+            Case "/SUM"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteSummonChar(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /sum NICKNAME.")
+                    End If
+                End If
+
+            Case "/CC"
+
+                If CurrentUser.esGM Then
+                    Call WriteSpawnListRequest
+                End If
+
+            Case "/RESETINV"
+
+                If CurrentUser.esGM Then
+                    Call WriteResetNPCInventory
+                End If
+
+            Case "/RMSG"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteServerMessage(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"))
+                    End If
+                End If
+
+            Case "/MAPMSG"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteMapMessage(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"))
+                    End If
+                End If
+
+            Case "/NICK2IP"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteNickToIP(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /nick2ip NICKNAME.")
+                    End If
+                End If
+
+            Case "/IP2NICK"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        If validipv4str(ArgumentosRaw) Then
+                            Call WriteIPToNick(str2ipv4l(ArgumentosRaw))
+                        Else
+                            ' No es una IP
+                            Call ShowConsoleMsg("IP incorrecta. Utilice /ip2nick IP.")
+                        End If
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ip2nick IP.")
+                    End If
+                End If
+
+            Case "/ONCLAN"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteGuildOnlineMembers(ArgumentosRaw)
+                    Else
+                        ' Avisar sintaxis incorrecta
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_ONCLAN").item("TEXTO"))
+                    End If
+                End If
+
+            Case "/CT"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments And CantidadArgumentos >= 3 Then
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_byte) Then
+                            If CantidadArgumentos = 3 Then
+                                Call WriteTeleportCreate(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2))
                             Else
-                                'No es numerico
-                                Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /ct MAPA X Y RADIO(Opcional).")
+
+                                If ValidNumber(ArgumentosAll(3), eNumber_Types.ent_byte) Then
+                                    Call WriteTeleportCreate(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2), ArgumentosAll(3))
+                                Else
+                                    ' No es numérico
+                                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /ct MAPA X Y RADIO(Opcional).")
+                                End If
+                            End If
+                        Else
+                            ' No es numérico
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /ct MAPA X Y RADIO(Opcional).")
+                        End If
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ct MAPA X Y RADIO(Opcional).")
+                    End If
+                End If
+
+            Case "/DT"
+
+                If CurrentUser.esGM Then
+                    Call WriteTeleportDestroy
+                End If
+
+            Case "/DE"
+
+                If CurrentUser.esGM Then
+                    Call WriteExitDestroy
+                End If
+
+            Case "/METEO"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments = False Then
+                        Call WriteMeteoToggle
+                    Else
+
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) Then
+                            Call WriteMeteoToggle(ArgumentosAll(0))
+                        Else
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /METEO 0: Random, 1: Lluvia, 2: Niebla, 3: Niebla + Lluvia.")
+                        End If
+                    End If
+                End If
+
+            Case "/SETDESC"
+
+                If CurrentUser.esGM Then
+                    Call WriteSetCharDescription(ArgumentosRaw)
+                End If
+
+            Case "/FORCEMUSICMAP"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+
+                        ' Elegir el mapa es opcional
+                        If CantidadArgumentos = 1 Then
+                            If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) Then
+                                ' Evitamos un mapa nulo para que tome el del usuario.
+                                Call WriteForceMUSICToMap(ArgumentosAll(0), 0)
+                            Else
+                                ' No es numérico
+                                Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /forcemusicmap MUSIC MAPA")
+                            End If
+                        Else
+
+                            If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
+                                Call WriteForceMUSICToMap(ArgumentosAll(0), ArgumentosAll(1))
+                            Else
+                                ' No es numérico
+                                Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /forcemusicmap MUSIC MAPA")
                             End If
                         End If
                     Else
-                        'No es numerico
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /ct MAPA X Y RADIO(Opcional).")
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ct MAPA X Y RADIO(Opcional).")
-                End If
-                
-            Case "/DT"
-                Call WriteTeleportDestroy
-                
-            Case "/DE"
-                Call WriteExitDestroy
-                
-            Case "/METEO"
-                If notNullArguments = False Then
-                    Call WriteMeteoToggle
-                Else
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) Then
-                        Call WriteMeteoToggle(ArgumentosAll(0))
-                    Else
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /METEO 0: Random, 1: Lluvia, 2: Niebla, 3: Niebla + Lluvia.")
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg("Utilice /forcemusicmap MUSIC MAPA")
                     End If
                 End If
-                
-            Case "/SETDESC"
-                Call WriteSetCharDescription(ArgumentosRaw)
-                
-            
-            Case "/FORCEMUSICMAP"
-                If notNullArguments Then
-                    'elegir el mapa es opcional
-                    If CantidadArgumentos = 1 Then
-                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) Then
-                            'evitamos un mapa nulo para que tome el del usuario.
-                            Call WriteForceMUSICToMap(ArgumentosAll(0), 0)
-                        Else
-                            'No es numerico
-                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /forcemusicmap MUSICA MAPA")
-                        End If
-                    Else
-                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
-                            Call WriteForceMUSICToMap(ArgumentosAll(0), ArgumentosAll(1))
-                        Else
-                            'No es numerico
-                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /forcemusicmap MUSIC MAPA")
-                        End If
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg("Utilice /forcemusicmap MUSIC MAPA")
-                End If
-                
+
             Case "/FORCEWAVMAP"
-                If notNullArguments Then
-                    'elegir la posicion es opcional
-                    If CantidadArgumentos = 1 Then
-                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) Then
-                            'evitamos una posicion nula para que tome la del usuario.
-                            Call WriteForceWAVEToMap(ArgumentosAll(0), 0, 0, 0)
-                        Else
-                            'No es numerico
-                            Call ShowConsoleMsg("Utilice /forcewavmap WAV MAP X Y, siendo los ultimos 3 opcionales.")
-                        End If
-                    ElseIf CantidadArgumentos = 4 Then
-                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(3), eNumber_Types.ent_byte) Then
-                            Call WriteForceWAVEToMap(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2), ArgumentosAll(3))
-                        Else
-                            'No es numerico
-                            Call ShowConsoleMsg("Utilice /forcewavmap WAV MAP X Y, siendo los ultimos 3 opcionales.")
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+
+                        ' Elegir la posición es opcional
+                        If CantidadArgumentos = 1 Then
+                            If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) Then
+                                ' Evitamos una posición nula para que tome la del usuario.
+                                Call WriteForceWAVEToMap(ArgumentosAll(0), 0, 0, 0)
+                            ElseIf CantidadArgumentos = 4 Then
+
+                                If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(3), eNumber_Types.ent_byte) Then
+                                    Call WriteForceWAVEToMap(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2), ArgumentosAll(3))
+                                Else
+                                    ' No es numérico
+                                    Call ShowConsoleMsg("Utilice /forcewavmap WAV MAP X Y, siendo los últimos 3 opcionales.")
+                                End If
+                            Else
+                                ' Avisar que falta el parámetro
+                                Call ShowConsoleMsg("Utilice /forcewavmap WAV MAP X Y, siendo los últimos 3 opcionales.")
+                            End If
                         End If
                     Else
-                        'Avisar que falta el parametro
-                        Call ShowConsoleMsg("Utilice /forcewavmap WAV MAP X Y, siendo los ultimos 3 opcionales.")
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg("Utilice /forcewavmap WAV MAP X Y, siendo los últimos 3 opcionales.")
                     End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg("Utilice /forcewavmap WAV MAP X Y, siendo los ultimos 3 opcionales.")
                 End If
-                
+
             Case "/REALMSG"
-                If notNullArguments Then
-                    Call WriteRoyalArmyMessage(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"))
-                End If
-                 
-            Case "/CAOSMSG"
-                If notNullArguments Then
-                    Call WriteChaosLegionMessage(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"))
-                End If
-                
-            Case "/CIUMSG"
-                If notNullArguments Then
-                    Call WriteCitizenMessage(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"))
-                End If
-            
-            Case "/CRIMSG"
-                If notNullArguments Then
-                    Call WriteCriminalMessage(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"))
-                End If
-            
-            Case "/TALKAS"
-                If notNullArguments Then
-                    Call WriteTalkAsNPC(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"))
-                End If
-        
-            Case "/MASSDEST"
-                Call WriteDestroyAllItemsInArea
-    
-            Case "/ACEPTCONSE"
-                If notNullArguments Then
-                    Call WriteAcceptRoyalCouncilMember(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /aceptconse NICKNAME.")
-                End If
-                
-            Case "/ACEPTCONSECAOS"
-                If notNullArguments Then
-                    Call WriteAcceptChaosCouncilMember(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /aceptconsecaos NICKNAME.")
-                End If
-                
-            Case "/PISO"
-                Call WriteItemsInTheFloor
-                
-            Case "/ESTUPIDO"
-                If notNullArguments Then
-                    Call WriteMakeDumb(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /estupido NICKNAME.")
-                End If
-                
-            Case "/NOESTUPIDO"
-                If notNullArguments Then
-                    Call WriteMakeDumbNoMore(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /noestupido NICKNAME.")
-                End If
-                
-            Case "/DUMPSECURITY"
-                Call WriteDumpIPTables
-                
-            Case "/KICKCONSE"
-                If notNullArguments Then
-                    Call WriteCouncilKick(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /kickconse NICKNAME.")
-                End If
-                
-            Case "/TRIGGER"
-                If notNullArguments Then
-                    If ValidNumber(ArgumentosRaw, eNumber_Types.ent_Trigger) Then
-                        Call WriteSetTrigger(ArgumentosRaw)
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteRoyalArmyMessage(ArgumentosRaw)
                     Else
-                        'No es numerico
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /trigger NUMERO.")
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"))
                     End If
-                Else
-                    'Version sin parametro
-                    Call WriteAskTrigger
                 End If
-                
+
+            Case "/CAOSMSG"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteChaosLegionMessage(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"))
+                    End If
+                End If
+
+            Case "/CIUMSG"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteCitizenMessage(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"))
+                    End If
+                End If
+
+            Case "/CRIMSG"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteCriminalMessage(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"))
+                    End If
+                End If
+
+            Case "/TALKAS"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteTalkAsNPC(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"))
+                    End If
+                End If
+
+            Case "/MASSDEST"
+
+                If CurrentUser.esGM Then
+                    Call WriteDestroyAllItemsInArea
+                End If
+
+            Case "/ACEPTCONSE"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteAcceptRoyalCouncilMember(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /aceptconse NICKNAME.")
+                    End If
+                End If
+
+            Case "/ACEPTCONSECAOS"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteAcceptChaosCouncilMember(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /aceptconsecaos NICKNAME.")
+                    End If
+                End If
+
+            Case "/PISO"
+
+                If CurrentUser.esGM Then
+                    Call WriteItemsInTheFloor
+                End If
+
+            Case "/ESTUPIDO"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteMakeDumb(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /estupido NICKNAME.")
+                    End If
+                End If
+
+            Case "/NOESTUPIDO"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteMakeDumbNoMore(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /noestupido NICKNAME.")
+                    End If
+                End If
+
+            Case "/DUMPSECURITY"
+
+                If CurrentUser.esGM Then
+                    Call WriteDumpIPTables
+                End If
+
+            Case "/KICKCONSE"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteCouncilKick(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /kickconse NICKNAME.")
+                    End If
+                End If
+
+            Case "/TRIGGER"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        If ValidNumber(ArgumentosRaw, eNumber_Types.ent_Trigger) Then
+                            Call WriteSetTrigger(ArgumentosRaw)
+                        Else
+                            ' No es numérico
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /trigger NUMERO.")
+                        End If
+                    Else
+                        ' Versión sin parámetro
+                        Call WriteAskTrigger
+                    End If
+                End If
+
             Case "/BANIPLIST"
-                Call WriteBannedIPList
-                
+
+                If CurrentUser.esGM Then
+                    Call WriteBannedIPList
+                End If
+
             Case "/BANIPRELOAD"
-                Call WriteBannedIPReload
+
+                If CurrentUser.esGM Then
+                    Call WriteBannedIPReload
+                End If
                 
             Case "/MIEMBROSCLAN"
-                If notNullArguments Then
-                    Call WriteGuildMemberList(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /miembrosclan GUILDNAME.")
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteGuildMemberList(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /miembrosclan GUILDNAME.")
+                    End If
                 End If
-                
+
             Case "/BANCLAN"
-                If notNullArguments Then
-                    Call WriteGuildBan(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /banclan GUILDNAME.")
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteGuildBan(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /banclan GUILDNAME.")
+                    End If
                 End If
-                
+
             Case "/BANIP"
-                If CantidadArgumentos >= 2 Then
-                    If validipv4str(ArgumentosAll(0)) Then
-                        Call WriteBanIP(True, str2ipv4l(ArgumentosAll(0)), vbNullString, Right$(ArgumentosRaw, Len(ArgumentosRaw) - Len(ArgumentosAll(0)) - 1))
-                    Else
-                        'No es una IP, es un nick
-                        Call WriteBanIP(False, str2ipv4l("0.0.0.0"), ArgumentosAll(0), Right$(ArgumentosRaw, Len(ArgumentosRaw) - Len(ArgumentosAll(0)) - 1))
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /banip IP motivo o /banip nick motivo.")
-                End If
-                
-            Case "/UNBANIP"
-                If notNullArguments Then
-                    If validipv4str(ArgumentosRaw) Then
-                        Call WriteUnbanIP(str2ipv4l(ArgumentosRaw))
-                    Else
-                        'No es una IP
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /unbanip IP.")
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /unbanip IP.")
-                End If
-                
-            Case "/CI"
-                If notNullArguments And CantidadArgumentos = 2 Then
-                    If IsNumeric(ArgumentosAll(0)) And IsNumeric(ArgumentosAll(1)) Then
-                        Call WriteCreateItem(ArgumentosAll(0), ArgumentosAll(1))
-                    Else
-                        'No es numerico
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_OBJETO_INCORRECTO").item("TEXTO") & " /CI " & JsonLanguage.item("OBJETO").item("TEXTO") & " " & JsonLanguage.item("CANTIDAD").item("TEXTO"))
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ci OBJETO CANTIDAD.")
-                End If
-                
-            Case "/DEST"
-                Call WriteDestroyItems
-                
-            Case "/NOCAOS"
-                If notNullArguments Then
-                    Call WriteChaosLegionKick(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /nocaos NICKNAME.")
-                End If
-    
-            Case "/NOREAL"
-                If notNullArguments Then
-                    Call WriteRoyalArmyKick(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /noreal NICKNAME.")
-                End If
-    
-            Case "/FORCEMUSIC"
-                If notNullArguments Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) Then
-                        Call WriteForceMUSICAll(ArgumentosAll(0))
-                    Else
-                        'No es numerico
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_MIDI_INCORRECTO").item("TEXTO") & " /forceusic MUSIC.")
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /forcemusic MUSIC.")
-                End If
-    
-            Case "/FORCEWAV"
-                If notNullArguments Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) Then
-                        Call WriteForceWAVEAll(ArgumentosAll(0))
-                    Else
-                        'No es numerico
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_WAV_INCORRECTO").item("TEXTO") & " /forcewav WAV.")
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /forcewav WAV.")
-                End If
-                
-            Case "/MODIFICARPENA"
-                If notNullArguments Then
-                    tmpArr = Split(ArgumentosRaw, "@", 3)
-                    If UBound(tmpArr) = 2 Then
-                        Call WriteRemovePunishment(tmpArr(0), tmpArr(1), tmpArr(2))
-                    Else
-                        'Faltan los parametros con el formato propio
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /borrarpena NICK@PENA@NuevaPena.")
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /borrarpena NICK@PENA@NuevaPena.")
-                End If
-                
-            Case "/BLOQ"
-                Call WriteTileBlockedToggle
-                
-            Case "/MATA"
-                Call WriteKillNPCNoRespawn
-        
-            Case "/MASSKILL"
-                Call WriteKillAllNearbyNPCs
-                
-            Case "/LASTIP"
-                If notNullArguments Then
-                    Call WriteLastIP(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /lastip NICKNAME.")
-                End If
-    
-            Case "/MOTDCAMBIA"
-                Call WriteChangeMOTD
-                
-            Case "/SMSG"
-                If notNullArguments Then
-                    Call WriteSystemMessage(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"))
-                End If
-                
-            Case "/ACC"
-                If notNullArguments Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) Then
-                        Call WriteCreateNPC(ArgumentosAll(0), False)
-                    Else
-                        'No es numerico
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_NPC_INCORRECTO").item("TEXTO") & " /ACC NPC.")
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ACC NPC.")
-                End If
-                
-            Case "/RACC"
-                If notNullArguments Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) Then
-                        Call WriteCreateNPC(ArgumentosAll(0), True)
-                    Else
-                        'No es numerico
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_NPC_INCORRECTO").item("TEXTO") & " /RACC NPC.")
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /RACC NPC.")
-                End If
-        
-            Case "/AI" ' 1 - 4
-                If notNullArguments And CantidadArgumentos >= 2 Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
-                        Call WriteImperialArmour(ArgumentosAll(0), ArgumentosAll(1))
-                    Else
-                        'No es numerico
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /ai ARMADURA OBJETO.")
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ai ARMADURA OBJETO.")
-                End If
-                
-            Case "/AC" ' 1 - 4
-                If notNullArguments And CantidadArgumentos >= 2 Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
-                        Call WriteChaosArmour(ArgumentosAll(0), ArgumentosAll(1))
-                    Else
-                        'No es numerico
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /ac ARMADURA OBJETO.")
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ac ARMADURA OBJETO.")
-                End If
-                
-            Case "/NAVE"
-                Call WriteNavigateToggle
-        
-            Case "/HABILITAR"
-                Call WriteServerOpenToUsersToggle
-            
-            Case "/APAGAR"
-                Call WriteTurnOffServer
-                
-            Case "/CONDEN"
-                If notNullArguments Then
-                    Call WriteTurnCriminal(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /conden NICKNAME.")
-                End If
-                
-            Case "/RAJAR"
-                If notNullArguments Then
-                    Call WriteResetFactions(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /rajar NICKNAME.")
-                End If
-                
-            Case "/RAJARCLAN"
-                If notNullArguments Then
-                    Call WriteRemoveCharFromGuild(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /rajarclan NICKNAME.")
-                End If
-                
-            Case "/LASTEMAIL"
-                If notNullArguments Then
-                    Call WriteRequestCharMail(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /lastemail NICKNAME.")
-                End If
-                
-            Case "/ANAME"
-                If notNullArguments Then
-                    tmpArr = Split(ArgumentosRaw, "@", 2)
-                    If UBound(tmpArr) = 1 Then
-                        Call WriteAlterName(tmpArr(0), tmpArr(1))
-                    Else
-                        'Faltan los parametros con el formato propio
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /aname ORIGEN@DESTINO.")
-                    End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /aname ORIGEN@DESTINO.")
-                End If
-                
-            Case "/SLOT"
-                If notNullArguments Then
-                    tmpArr = Split(ArgumentosRaw, "@", 2)
-                    If UBound(tmpArr) = 1 Then
-                        If ValidNumber(tmpArr(1), eNumber_Types.ent_byte) Then
-                            Call WriteCheckSlot(tmpArr(0), tmpArr(1))
+
+                If CurrentUser.esGM Then
+                    If CantidadArgumentos >= 2 Then
+                        If validipv4str(ArgumentosAll(0)) Then
+                            Call WriteBanIP(True, str2ipv4l(ArgumentosAll(0)), vbNullString, Right$(ArgumentosRaw, Len(ArgumentosRaw) - Len(ArgumentosAll(0)) - 1))
                         Else
-                            'Faltan o sobran los parametros con el formato propio
+                            ' No es una IP, es un nick
+                            Call WriteBanIP(False, str2ipv4l("0.0.0.0"), ArgumentosAll(0), Right$(ArgumentosRaw, Len(ArgumentosRaw) - Len(ArgumentosAll(0)) - 1))
+                        End If
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /banip IP motivo o /banip nick motivo.")
+                    End If
+                End If
+
+            Case "/UNBANIP"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        If validipv4str(ArgumentosRaw) Then
+                            Call WriteUnbanIP(str2ipv4l(ArgumentosRaw))
+                        Else
+                            ' No es una IP
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /unbanip IP.")
+                        End If
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /unbanip IP.")
+                    End If
+                End If
+
+            Case "/CI"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments And CantidadArgumentos = 2 Then
+                        If IsNumeric(ArgumentosAll(0)) And IsNumeric(ArgumentosAll(1)) Then
+                            Call WriteCreateItem(ArgumentosAll(0), ArgumentosAll(1))
+                        Else
+                            ' No es numérico
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_OBJETO_INCORRECTO").item("TEXTO") & " /CI " & JsonLanguage.item("OBJETO").item("TEXTO") & " " & JsonLanguage.item("CANTIDAD").item("TEXTO"))
+                        End If
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ci OBJETO CANTIDAD.")
+                    End If
+                End If
+
+            Case "/DEST"
+
+                If CurrentUser.esGM Then
+                    Call WriteDestroyItems
+                End If
+
+            Case "/NOCAOS"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteChaosLegionKick(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /nocaos NICKNAME.")
+                    End If
+                End If
+
+            Case "/NOREAL"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteRoyalArmyKick(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /noreal NICKNAME.")
+                    End If
+                End If
+
+            Case "/FORCEMUSIC"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) Then
+                            Call WriteForceMUSICAll(ArgumentosAll(0))
+                        Else
+                            ' No es numérico
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_MIDI_INCORRECTO").item("TEXTO") & " /forceusic MUSIC.")
+                        End If
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /forcemusic MUSIC.")
+                    End If
+                End If
+
+            Case "/FORCEWAV"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) Then
+                            Call WriteForceWAVEAll(ArgumentosAll(0))
+                        Else
+                            ' No es numérico
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_WAV_INCORRECTO").item("TEXTO") & " /forcewav WAV.")
+                        End If
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /forcewav WAV.")
+                    End If
+                End If
+    
+            Case "/MODIFICARPENA"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        tmpArr = Split(ArgumentosRaw, "@", 3)
+
+                        If UBound(tmpArr) = 2 Then
+                            Call WriteRemovePunishment(tmpArr(0), tmpArr(1), tmpArr(2))
+                        Else
+                            ' Faltan los parámetros con el formato propio
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /modificarpena NICK@PENA@NuevaPena.")
+                        End If
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /modificarpena NICK@PENA@NuevaPena.")
+                    End If
+                End If
+
+            Case "/BLOQ"
+
+                If CurrentUser.esGM Then
+                    Call WriteTileBlockedToggle
+                End If
+
+            Case "/MATA"
+
+                If CurrentUser.esGM Then
+                    Call WriteKillNPCNoRespawn
+                End If
+
+            Case "/MASSKILL"
+
+                If CurrentUser.esGM Then
+                    Call WriteKillAllNearbyNPCs
+                End If
+
+            Case "/LASTIP"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteLastIP(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /lastip NICKNAME.")
+                    End If
+                End If
+
+            Case "/MOTDCAMBIA"
+
+                If CurrentUser.esGM Then
+                    Call WriteChangeMOTD
+                End If
+
+            Case "/SMSG"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteSystemMessage(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"))
+                    End If
+                End If
+
+            Case "/ACC"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) Then
+                            Call WriteCreateNPC(ArgumentosAll(0), False)
+                        Else
+                            ' No es numérico
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_NPC_INCORRECTO").item("TEXTO") & " /acc NPC.")
+                        End If
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /acc NPC.")
+                    End If
+                End If
+
+            Case "/RACC"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) Then
+                            Call WriteCreateNPC(ArgumentosAll(0), True)
+                        Else
+                            ' No es numérico
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_NPC_INCORRECTO").item("TEXTO") & " /racc NPC.")
+                        End If
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /racc NPC.")
+                    End If
+                End If
+
+            Case "/AI" ' 1 - 4
+
+                If CurrentUser.esGM Then
+                    If notNullArguments And CantidadArgumentos >= 2 Then
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
+                            Call WriteImperialArmour(ArgumentosAll(0), ArgumentosAll(1))
+                        Else
+                            ' No es numérico
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /ai ARMADURA OBJETO.")
+                        End If
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ai ARMADURA OBJETO.")
+                    End If
+                End If
+
+            Case "/AC" ' 1 - 4
+
+                If CurrentUser.esGM Then
+                    If notNullArguments And CantidadArgumentos >= 2 Then
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) Then
+                            Call WriteChaosArmour(ArgumentosAll(0), ArgumentosAll(1))
+                        Else
+                            ' No es numérico
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /ac ARMADURA OBJETO.")
+                        End If
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ac ARMADURA OBJETO.")
+                    End If
+                End If
+
+            Case "/NAVE"
+
+                If CurrentUser.esGM Then
+                    Call WriteNavigateToggle
+                End If
+
+            Case "/HABILITAR"
+
+                If CurrentUser.esGM Then
+                    Call WriteServerOpenToUsersToggle
+                End If
+
+            Case "/APAGAR"
+
+                If CurrentUser.esGM Then
+                    Call WriteTurnOffServer
+                End If
+
+            Case "/CONDEN"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteTurnCriminal(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /conden NICKNAME.")
+                    End If
+                End If
+
+            Case "/RAJAR"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteResetFactions(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /rajar NICKNAME.")
+                    End If
+                End If
+
+            Case "/RAJARCLAN"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteRemoveCharFromGuild(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /rajarclan NICKNAME.")
+                    End If
+                End If
+
+            Case "/LASTEMAIL"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteRequestCharMail(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /lastemail NICKNAME.")
+                    End If
+                End If
+
+            Case "/ANAME"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        tmpArr = Split(ArgumentosRaw, "@", 2)
+
+                        If UBound(tmpArr) = 1 Then
+                            Call WriteAlterName(tmpArr(0), tmpArr(1))
+                        Else
+                            ' Faltan los parámetros con el formato propio
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /aname ORIGEN@DESTINO.")
+                        End If
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /aname ORIGEN@DESTINO.")
+                    End If
+                End If
+
+            Case "/SLOT"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        tmpArr = Split(ArgumentosRaw, "@", 2)
+
+                        If UBound(tmpArr) = 1 Then
+                            If ValidNumber(tmpArr(1), eNumber_Types.ent_byte) Then
+                                Call WriteCheckSlot(tmpArr(0), tmpArr(1))
+                            Else
+                                ' Faltan o sobran los parámetros con el formato propio
+                                Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /slot NICK@SLOT.")
+                            End If
+                        Else
+                            ' Faltan o sobran los parámetros con el formato propio
                             Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /slot NICK@SLOT.")
                         End If
                     Else
-                        'Faltan o sobran los parametros con el formato propio
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /slot NICK@SLOT.")
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /slot NICK@SLOT.")
                     End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /slot NICK@SLOT.")
                 End If
 
             Case "/CENTINELAACTIVADO"
-                Call WriteToggleCentinelActivated
-                
+
+                If CurrentUser.esGM Then
+                    Call WriteToggleCentinelActivated
+                End If
+
             Case "/CREARPRETORIANOS"
-            
-                If CantidadArgumentos = 3 Then
-                    
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And _
-                       ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And _
-                       ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) Then
-                       
-                        Call WriteCreatePretorianClan(Val(ArgumentosAll(0)), Val(ArgumentosAll(1)), _
-                                                      Val(ArgumentosAll(2)))
+
+                If CurrentUser.esGM Then
+                    If CantidadArgumentos = 3 Then
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_Integer) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_Integer) Then
+                            Call WriteCreatePretorianClan(Val(ArgumentosAll(0)), Val(ArgumentosAll(1)), Val(ArgumentosAll(2)))
+                        Else
+                            ' Faltan o sobran los parámetros con el formato propio
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /CrearPretorianos MAPA X Y.")
+                        End If
                     Else
-                        'Faltan o sobran los parametros con el formato propio
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /CrearPretorianos MAPA X Y.")
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /CrearPretorianos MAPA X Y.")
                     End If
-                    
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /CrearPretorianos MAPA X Y.")
                 End If
-                
+
             Case "/ELIMINARPRETORIANOS"
-            
-                If CantidadArgumentos = 1 Then
-                    
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) Then
-                       
-                        Call WriteDeletePretorianClan(Val(ArgumentosAll(0)))
+
+                If CurrentUser.esGM Then
+                    If CantidadArgumentos = 1 Then
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_Integer) Then
+                            Call WriteDeletePretorianClan(Val(ArgumentosAll(0)))
+                        Else
+                            ' Faltan o sobran los parámetros con el formato propio
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /EliminarPretorianos MAPA.")
+                        End If
                     Else
-                        'Faltan o sobran los parametros con el formato propio
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /EliminarPretorianos MAPA.")
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /EliminarPretorianos MAPA.")
                     End If
-                    
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /EliminarPretorianos MAPA.")
                 End If
-            
+
             Case "/DOBACKUP"
-                Call WriteDoBackup
-                
+
+                If CurrentUser.esGM Then
+                    Call WriteDoBackup
+                End If
+
             Case "/SHOWCMSG"
-                If notNullArguments Then
-                    Call WriteShowGuildMessages(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /showcmsg GUILDNAME.")
-                End If
-                
-            Case "/GUARDAMAPA"
-                Call WriteSaveMap
-                
-            Case "/MODZONA" ' PK, BACKUP
-                If CantidadArgumentos > 1 Then
-                    Select Case UCase$(ArgumentosAll(0))
-                        Case "PK" ' "/MODZona PK"
-                            Call WriteChangeZonaPK(ArgumentosAll(1) = "1")
-                        
-                        Case "BACKUP" ' "/MODZona BACKUP"
-                            Call WriteChangeZonaBackup(ArgumentosAll(1) = "1")
-                        
-                        Case "RESTRINGIR" '/MODZona RESTRINGIR
-                            Call WriteChangeZonaRestricted(ArgumentosAll(1))
-                        
-                        Case "MAGIASINEFECTO" '/MODZona MAGIASINEFECTO
-                            Call WriteChangeZonaNoMagic(ArgumentosAll(1) = "1")
-                        
-                        Case "INVISINEFECTO" '/MODZona INVISINEFECTO
-                            Call WriteChangeZonaNoInvi(ArgumentosAll(1) = "1")
-                        
-                        Case "RESUSINEFECTO" '/MODZona RESUSINEFECTO
-                            Call WriteChangeZonaNoResu(ArgumentosAll(1) = "1")
-                        
-                        Case "TERRENO" '/MODZona TERRENO
-                            Call WriteChangeZonaLand(ArgumentosAll(1))
-                        
-                        Case "ZONA" '/MODZona ZONA
-                            Call WriteChangeZonaZone(ArgumentosAll(1))
-                            
-                        Case "ROBONPC" '/MODZona ROBONPC
-                            Call WriteChangeZonaStealNpc(ArgumentosAll(1) = "1")
-                            
-                        Case "OCULTARSINEFECTO" '/MODZona OCULTARSINEFECTO
-                            Call WriteChangeZonaNoOcultar(ArgumentosAll(1) = "1")
-                            
-                        Case "INVOCARSINEFECTO" '/MODZona INVOCARSINEFECTO
-                            Call WriteChangeZonaNoInvocar(ArgumentosAll(1) = "1")
-                            
-                    End Select
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " : PK, BACKUP, RESTRINGIR, MAGIASINEFECTO, INVISINEFECTO, RESUSINEFECTO, TERRENO, ZONA")
-                End If
-                
-            Case "/GRABAR"
-                Call WriteSaveChars
-                
-            Case "/BORRAR"
-                If notNullArguments Then
-                    Select Case UCase$(ArgumentosAll(0))
-                        Case "SOS" ' "/BORRAR SOS"
-                            Call WriteCleanSOS
-                            
-                    End Select
-                End If
-                
-            Case "/NOCHE"
-                Call WriteNight
-                
-            Case "/ECHARTODOSPJS"
-                Call WriteKickAllChars
-                
-            Case "/RELOADNPCS"
-                Call WriteReloadNPCs
-                
-            Case "/RELOADSINI"
-                Call WriteReloadServerIni
-                
-            Case "/RELOADHECHIZOS"
-                Call WriteReloadSpells
-                
-            Case "/RELOADOBJ"
-                Call WriteReloadObjects
-                 
-            Case "/REINICIAR"
-                Call WriteRestart
-                
-            Case "/AUTOUPDATE"
-                Call WriteResetAutoUpdate
-            
-            Case "/CHATCOLOR"
-                If notNullArguments And CantidadArgumentos >= 3 Then
-                    If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_byte) Then
-                        Call WriteChatColor(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2))
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteShowGuildMessages(ArgumentosRaw)
                     Else
-                        'No es numerico
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /chatcolor R G B.")
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /showcmsg GUILDNAME.")
                     End If
-                ElseIf Not notNullArguments Then    'Go back to default!
-                    Call WriteChatColor(0, 255, 0)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /chatcolor R G B.")
+                End If
+
+            Case "/GUARDAMAPA"
+
+                If CurrentUser.esGM Then
+                    Call WriteSaveMap
+                End If
+
+            Case "/MODZONA" ' PK, BACKUP
+
+                If CurrentUser.esGM Then
+                    If CantidadArgumentos > 1 Then
+
+                        Select Case UCase$(ArgumentosAll(0))
+
+                            Case "PK" ' "/MODZona PK"
+                                Call WriteChangeZonaPK(ArgumentosAll(1) = "1")
+
+                            Case "BACKUP" ' "/MODZona BACKUP"
+                                Call WriteChangeZonaBackup(ArgumentosAll(1) = "1")
+
+                            Case "RESTRINGIR" '/MODZona RESTRINGIR
+                                Call WriteChangeZonaRestricted(ArgumentosAll(1))
+
+                            Case "MAGIASINEFECTO" '/MODZona MAGIASINEFECTO
+                                Call WriteChangeZonaNoMagic(ArgumentosAll(1) = "1")
+
+                            Case "INVISINEFECTO" '/MODZona INVISINEFECTO
+                                Call WriteChangeZonaNoInvi(ArgumentosAll(1) = "1")
+
+                            Case "RESUSINEFECTO" '/MODZona RESUSINEFECTO
+                                Call WriteChangeZonaNoResu(ArgumentosAll(1) = "1")
+
+                            Case "TERRENO" '/MODZona TERRENO
+                                Call WriteChangeZonaLand(ArgumentosAll(1))
+
+                            Case "ZONA" '/MODZona ZONA
+                                Call WriteChangeZonaZone(ArgumentosAll(1))
+
+                            Case "ROBONPC" '/MODZona ROBONPC
+                                Call WriteChangeZonaStealNpc(ArgumentosAll(1) = "1")
+
+                            Case "OCULTARSINEFECTO" '/MODZona OCULTARSINEFECTO
+                                Call WriteChangeZonaNoOcultar(ArgumentosAll(1) = "1")
+
+                            Case "INVOCARSINEFECTO" '/MODZona INVOCARSINEFECTO
+                                Call WriteChangeZonaNoInvocar(ArgumentosAll(1) = "1")
+                        End Select
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " : PK, BACKUP, RESTRINGIR, MAGIASINEFECTO, INVISINEFECTO, RESUSINEFECTO, TERRENO, ZONA")
+                    End If
+                End If
+
+            Case "/GRABAR"
+
+                If CurrentUser.esGM Then
+                    Call WriteSaveChars
+                End If
+
+            Case "/BORRAR"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+
+                        Select Case UCase$(ArgumentosAll(0))
+
+                            Case "SOS" ' "/BORRAR SOS"
+                                Call WriteCleanSOS
+                        End Select
+                    End If
+                End If
+
+            Case "/NOCHE"
+
+                If CurrentUser.esGM Then
+                    Call WriteNight
+                End If
+
+            Case "/ECHARTODOSPJS"
+
+                If CurrentUser.esGM Then
+                    Call WriteKickAllChars
+                End If
+
+            Case "/RELOADNPCS"
+
+                If CurrentUser.esGM Then
+                    Call WriteReloadNPCs
+                End If
+
+            Case "/RELOADSINI"
+
+                If CurrentUser.esGM Then
+                    Call WriteReloadServerIni
+                End If
+
+            Case "/RELOADHECHIZOS"
+
+                If CurrentUser.esGM Then
+                    Call WriteReloadSpells
+                End If
+
+            Case "/RELOADOBJ"
+
+                If CurrentUser.esGM Then
+                    Call WriteReloadObjects
+                End If
+
+            Case "/REINICIAR"
+
+                If CurrentUser.esGM Then
+                    Call WriteRestart
+                End If
+
+            Case "/AUTOUPDATE"
+
+                If CurrentUser.esGM Then
+                    Call WriteResetAutoUpdate
+                End If
+
+            Case "/CHATCOLOR"
+
+                If CurrentUser.esGM Then
+                    If notNullArguments And CantidadArgumentos >= 3 Then
+                        If ValidNumber(ArgumentosAll(0), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(1), eNumber_Types.ent_byte) And ValidNumber(ArgumentosAll(2), eNumber_Types.ent_byte) Then
+                            Call WriteChatColor(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2))
+                        Else
+                            ' No es numérico
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /chatcolor R G B.")
+                        End If
+                    ElseIf Not notNullArguments Then ' Volver al valor predeterminado
+                        Call WriteChatColor(0, 255, 0)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /chatcolor R G B.")
+                    End If
                 End If
             
             Case "/IGNORADO"
-                Call WriteIgnored
-            
+
+                If CurrentUser.esGM Then
+                    Call WriteIgnored
+                End If
+
             Case "/PING"
-                Call WritePing
-                
+
+                If CurrentUser.esGM Then
+                    Call WritePing
+                End If
+
             Case "/RETOS"
-                Call FrmRetos.Show(vbModeless, frmMain)
-            
+
+                If CurrentUser.esGM Then
+                    Call FrmRetos.Show(vbModeless, frmMain)
+                End If
+
             Case "/CERRARCLAN"
-                Call WriteCloseGuild
-                
+
+                If CurrentUser.esGM Then
+                    Call WriteCloseGuild
+                End If
+
             Case "/ACEPTAR"
-                If notNullArguments Then
-                    Call WriteFightAccept(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ACEPTAR NICKNAME.")
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteFightAccept(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /ACEPTAR NICKNAME.")
+                    End If
                 End If
-                
+
             Case "/QUEST"
-                Call WriteQuest
-                
-            Case "/SETINIVAR"
-                If CantidadArgumentos = 3 Then
-                    ArgumentosAll(2) = Replace(ArgumentosAll(2), "+", " ")
-                    Call WriteSetIniVar(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2))
-                Else
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /SETINIVAR LLAVE CLAVE VALOR")
+
+                If CurrentUser.esGM Then
+                    Call WriteQuest
                 End If
-            
+
+            Case "/SETINIVAR"
+
+                If CurrentUser.esGM Then
+                    If CantidadArgumentos = 3 Then
+                        ArgumentosAll(2) = Replace(ArgumentosAll(2), "+", " ")
+                        Call WriteSetIniVar(ArgumentosAll(0), ArgumentosAll(1), ArgumentosAll(2))
+                    Else
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FORMATO_INCORRECTO").item("TEXTO") & " /SETINIVAR LLAVE CLAVE VALOR")
+                    End If
+                End If
+
             Case "/CVC"
-                Call WriteEnviaCvc
+
+                If CurrentUser.esGM Then
+                    Call WriteEnviaCvc
+                End If
 
             Case "/ACVC"
-                Call WriteAceptarCvc
+
+                If CurrentUser.esGM Then
+                    Call WriteAceptarCvc
+                End If
 
             Case "/IRCVC"
-                Call WriteIrCvc
-            
+
+                If CurrentUser.esGM Then
+                    Call WriteIrCvc
+                End If
+
             Case "/HOGAR"
-                Call WriteHome
+
+                If CurrentUser.esGM Then
+                    Call WriteHome
+                End If
 
             Case "/SETDIALOG"
-                If notNullArguments Then
-                    Call WriteSetDialog(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /SETDIALOG DIALOGO.")
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteSetDialog(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /SETDIALOG DIALOGO.")
+                    End If
                 End If
-            
+
             Case "/IMPERSONAR"
-                Call WriteImpersonate
-                
+
+                If CurrentUser.esGM Then
+                    Call WriteImpersonate
+                End If
+
             Case "/SILENCIARGLOBAL"
-                If notNullArguments Then
-                    Call WriteSilenciarGlobal(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg("Faltan parámetros. Utilice /SilenciarGlobal NICKNAME.")
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteSilenciarGlobal(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg("Faltan parámetros. Utilice /SilenciarGlobal NICKNAME.")
+                    End If
                 End If
 
             Case "/TOGGLEGLOBAL"
-                Call WriteToggleGlobal
-                
+
+                If CurrentUser.esGM Then
+                    Call WriteToggleGlobal
+                End If
+
             Case "/MIMETIZAR"
-                Call WriteImitate
-                
+
+                If CurrentUser.esGM Then
+                    Call WriteImitate
+                End If
+
             Case "/EDITGEMS"
-                If notNullArguments And CantidadArgumentos >= 2 Then
-                    If Not IsNumeric(ArgumentosAll(0)) And IsNumeric(ArgumentosAll(1)) Then
-                        Call WriteEditGems(ArgumentosAll(0), ArgumentosAll(1), 0)
+
+                If CurrentUser.esGM Then
+                    If notNullArguments And CantidadArgumentos >= 2 Then
+                        If Not IsNumeric(ArgumentosAll(0)) And IsNumeric(ArgumentosAll(1)) Then
+                            Call WriteEditGems(ArgumentosAll(0), ArgumentosAll(1), 0)
+                        Else
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
+                        End If
                     Else
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
                     End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
                 End If
-                
+
             Case "/SUMARGEMS"
-                If notNullArguments And CantidadArgumentos >= 2 Then
-                    If Not IsNumeric(ArgumentosAll(0)) And IsNumeric(ArgumentosAll(1)) Then
-                        Call WriteEditGems(ArgumentosAll(0), ArgumentosAll(1), 1)
+
+                If CurrentUser.esGM Then
+                    If notNullArguments And CantidadArgumentos >= 2 Then
+                        If Not IsNumeric(ArgumentosAll(0)) And IsNumeric(ArgumentosAll(1)) Then
+                            Call WriteEditGems(ArgumentosAll(0), ArgumentosAll(1), 1)
+                        Else
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
+                        End If
                     Else
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
                     End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
                 End If
-                
+
             Case "/RESTARGEMS"
-                If notNullArguments And CantidadArgumentos >= 2 Then
-                    If Not IsNumeric(ArgumentosAll(0)) And IsNumeric(ArgumentosAll(1)) Then
-                        Call WriteEditGems(ArgumentosAll(0), ArgumentosAll(1), 2)
+
+                If CurrentUser.esGM Then
+                    If notNullArguments And CantidadArgumentos >= 2 Then
+                        If Not IsNumeric(ArgumentosAll(0)) And IsNumeric(ArgumentosAll(1)) Then
+                            Call WriteEditGems(ArgumentosAll(0), ArgumentosAll(1), 2)
+                        Else
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
+                        End If
                     Else
-                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_VALOR_INCORRECTO").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
                     End If
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /EDITGEMS NICKNAME CANTIDAD.")
                 End If
-                
+
             Case "/CONSULTARGEMS"
-                If notNullArguments Then
-                    Call WriteConsultarGems(ArgumentosRaw)
-                Else
-                    'Avisar que falta el parametro
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /CONSULTARGEMS NICKNAME.")
+
+                If CurrentUser.esGM Then
+                    If notNullArguments Then
+                        Call WriteConsultarGems(ArgumentosRaw)
+                    Else
+                        ' Avisar que falta el parámetro
+                        Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FALTAN_PARAMETROS").item("TEXTO") & " /CONSULTARGEMS NICKNAME.")
+                    End If
                 End If
         
         End Select
         
     ElseIf Left$(Comando, 1) = ";" Then
+
         If notNullArguments Then
             If CurrentUser.UserEstado = 1 Then 'Muerto
+
                 With FontTypes(FontTypeNames.FONTTYPE_INFO)
                     Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
                 End With
@@ -1713,7 +2224,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
         End If
         
     ElseIf Left$(Comando, 1) = "\" Then
+
         If CurrentUser.UserEstado = 1 Then 'Muerto
+
             With FontTypes(FontTypeNames.FONTTYPE_INFO)
                 Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
             End With
@@ -1723,7 +2236,9 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
         Call AuxWriteWhisper(mid$(Comando, 2), ArgumentosRaw)
         
     ElseIf Left$(Comando, 1) = "-" Then
+
         If CurrentUser.UserEstado = 1 Then 'Muerto
+
             With FontTypes(FontTypeNames.FONTTYPE_INFO)
                 Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
             End With

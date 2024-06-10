@@ -9,7 +9,7 @@ Option Explicit
 '***************************************************
 
 Public Type c_PartyMember
-    Name As String
+    name As String
     Head As Integer
     Lvl As Byte
     ExpParty As Long
@@ -28,7 +28,7 @@ Public Sub Reset_Party()
             PartyMembers(i).ExpParty = 0
             PartyMembers(i).Head = 0
             PartyMembers(i).Lvl = 0
-            PartyMembers(i).Name = vbNullString
+            PartyMembers(i).name = vbNullString
         Next i
 End Sub
 
@@ -41,10 +41,10 @@ Public Sub Draw_Party_Members()
         Dim i As Byte, Count As Byte
         Count = 0
             For i = 1 To 5
-                If Len(PartyMembers(i).Name) > 0 Then
+                If Len(PartyMembers(i).name) > 0 Then
                     Count = Count + 1
                     Call Engine_Draw_Box(410, 20 + (Count - 1) * 50 + 5, 120, 40, D3DColorARGB(100, 0, 0, 0))
-                    Call Draw_GrhIndex(HeadData(PartyMembers(i).Head).Head(3).GrhIndex, 410, 20 + (Count - 1) * 50 + 35, 1, Normal_RGBList(), 0, True)
+                    Call Draw_GrhIndex(HeadData(PartyMembers(i).Head).Head(3).GrhIndex, 410, 20 + (Count - 1) * 50 + 35, 1, COLOR_WHITE(), 0, True)
                     'Fonts_Render_String PartyMembers(i).Name, 440, 20 + (Count - 1) * 50 + 10, D3DColorARGB(150, 255, 255, 255), 2
                     'Fonts_Render_String "Nivel: " & PartyMembers(i).Lvl, 440, 20 + (Count - 1) * 50 + 20, D3DColorARGB(150, 255, 255, 255), 2
                     'Fonts_Render_String "Exp: " & PartyMembers(i).ExpParty, 440, 20 + (Count - 1) * 50 + 30, D3DColorARGB(150, 255, 255, 255), 2
@@ -56,7 +56,7 @@ Public Sub Draw_Party_Members()
             End If
 End Sub
 
-Public Sub Set_PartyMember(ByVal Member As Byte, Name As String, ExpParty As Long, Lvl As Byte, Head As Integer)
+Public Sub Set_PartyMember(ByVal Member As Byte, name As String, ExpParty As Long, Lvl As Byte, Head As Integer)
 '***************************************************
 'Author: Ezequiel Juarez (Standelf)
 'Last Modification: 28/05/10
@@ -64,7 +64,7 @@ Public Sub Set_PartyMember(ByVal Member As Byte, Name As String, ExpParty As Lon
 '***************************************************
     If Member < 1 Or Member > 5 Then Exit Sub
         With PartyMembers(Member)
-            .Name = Name
+            .name = name
             .ExpParty = ExpParty
             .Head = Head
             .Lvl = Lvl
@@ -79,7 +79,7 @@ Public Sub Kick_PartyMember(ByVal Member As Byte)
 '***************************************************
     If Member < 1 Or Member > 5 Then Exit Sub
         With PartyMembers(Member)
-            .Name = vbNullString
+            .name = vbNullString
             .ExpParty = 0
             .Head = 0
             .Lvl = 0

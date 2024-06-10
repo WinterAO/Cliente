@@ -91,14 +91,14 @@ Public Sub Draw()
     For i = 1 To CantidadDialogos
         If Trim$(p_Dialogos(i).Texto) <> vbNullString Then
 
-            Dim ColorText As Long  
-            ColorText = D3DColorARGB(180, 255, 228, 157)
+            Dim ColorText(3) As RGBA
+            Call RGBAList(ColorText, 255, 228, 157, 180)
 
             If Left$(p_Dialogos(i).Texto, 1) = Chr$(3) Then
-                Call DrawText(X, Y + (i * 10), mid$(p_Dialogos(i).Texto, 2), ColorText , False, 1)
+                Call DrawText(X, Y + (i * 10), mid$(p_Dialogos(i).Texto, 2), ColorText, False, 1)
                 
             Else 'Draw del MOTD
-                Call DrawText(X, Y + 260 + (i * 10), p_Dialogos(i).Texto, ColorText , False, 1)
+                Call DrawText(X, Y + 260 + (i * 10), p_Dialogos(i).Texto, ColorText, False, 1)
             
             End If
         End If

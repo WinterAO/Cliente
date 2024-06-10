@@ -39,7 +39,7 @@ Option Explicit
 ' Cantidad de tiles buffer
 ' (para que graficos grandes se vean desde fuera de la pantalla)
 ' (debe coincidir con el mismo valor en el server - areas)
-Public Const TilesBuffer As Byte = 5
+Public Const TilesBuffer As Byte = 8
 
 ' Tamanio de las areas
 Private AreasX As Byte
@@ -59,7 +59,7 @@ Public Sub CalcularAreas(HalfWindowTileWidth As Integer, HalfWindowTileHeight As
 End Sub
 
 ' Elimina todo fuera del area del usuario
-Public Sub CambioDeArea(ByVal X As Integer, ByVal Y As Integer, ByVal Head As Byte)
+Public Sub CambioDeArea(ByVal x As Integer, ByVal y As Integer, ByVal Head As Byte)
 
     Dim loopX     As Integer
     Dim loopY     As Integer
@@ -69,35 +69,35 @@ Public Sub CambioDeArea(ByVal X As Integer, ByVal Y As Integer, ByVal Head As By
     Dim MaxX      As Integer
     Dim MaxY      As Integer
 
-    CurAreaX = X \ AreasX
-    CurAreaY = Y \ AreasY
+    CurAreaX = x \ AreasX
+    CurAreaY = y \ AreasY
 
-    MinX = X
-    MinY = Y
-    MaxX = X
-    MaxY = Y
+    MinX = x
+    MinY = y
+    MaxX = x
+    MaxY = y
 
     Select Case Head
     
-        Case E_Heading.south
+        Case E_Heading.SOUTH
             MinX = MinX - MargenX
             MaxX = MaxX + MargenX
             MinY = MinY - MargenY - 1
             MaxY = MinY
             
-        Case Head = E_Heading.north
+        Case Head = E_Heading.NORTH
             MinX = MinX - MargenX
             MaxX = MaxX + MargenX
             MinY = MinY + MargenY + 1
             MaxY = MinY
         
-        Case Head = E_Heading.east
+        Case Head = E_Heading.EAST
             MinX = MinX - MargenX - 1
             MaxX = MinX
             MinY = MinY - MargenY
             MaxY = MaxY + MargenY
         
-        Case Head = E_Heading.west
+        Case Head = E_Heading.WEST
             MinX = MinX + MargenX + 1
             MaxX = MinX
             MinY = MinY - MargenY
@@ -139,6 +139,6 @@ Public Sub CambioDeArea(ByVal X As Integer, ByVal Y As Integer, ByVal Head As By
 End Sub
 
 ' Calcula si la posicion se encuentra dentro del area del usuario
-Public Function EstaDentroDelArea(ByVal X As Integer, ByVal Y As Integer) As Boolean
-    EstaDentroDelArea = (Abs(CurAreaX - X \ AreasX) <= 1) And (Abs(CurAreaY - Y \ AreasY) <= 1)
+Public Function EstaDentroDelArea(ByVal x As Integer, ByVal y As Integer) As Boolean
+    EstaDentroDelArea = (Abs(CurAreaX - x \ AreasX) <= 1) And (Abs(CurAreaY - y \ AreasY) <= 1)
 End Function

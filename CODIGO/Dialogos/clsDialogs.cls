@@ -81,7 +81,7 @@ Private Type dialog
     startTime   As Long
     lifeTime    As Long
     CharIndex   As Integer
-    Color       As Long
+    color       As Long
     renderable  As Boolean
     Sube        As Integer
     startTickCount As Long
@@ -159,7 +159,7 @@ End Function
 ' @remarks  If there are no more free slots, and the char didn't have a previous dialog,
 '           the chat is ignored.
 
-Public Sub CreateDialog(ByRef chat As String, ByVal CharIndex As Integer, ByVal Color As Long)
+Public Sub CreateDialog(ByRef chat As String, ByVal CharIndex As Integer, ByVal color As Long)
 '**************************************************************
 'Author: Juan Martin Sotuyo Dodero
 'Last Modification: 08/29/07 by Rapsodius
@@ -189,7 +189,7 @@ Public Sub CreateDialog(ByRef chat As String, ByVal CharIndex As Integer, ByVal 
     
     With dialogs(slot)
         .CharIndex = CharIndex
-        .Color = ColorToDX8(Color)
+        .color = ColorToDX8(color)
         .renderable = False
         .startTime = GetTickCount()
         .textLine = FormatChat(chat)
@@ -216,7 +216,7 @@ Private Function FormatChat(ByRef chat As String) As String()
 '**************************************************************
     Dim word As String
     Dim curPos As Long
-    Dim Length As Long
+    Dim length As Long
     Dim acumLength As Long
     Dim lineLength As Long
     Dim wordLength As Long
@@ -226,13 +226,13 @@ Private Function FormatChat(ByRef chat As String) As String()
     'Initialize variables
     curLine = 0
     curPos = 1
-    Length = Len(chat)
+    length = Len(chat)
     acumLength = 0
     lineLength = -1
     ReDim chatLines(FieldCount(chat, 32)) As String
     
     'Start formating
-    Do While acumLength < Length
+    Do While acumLength < length
         word = ReadField(curPos, chat, 32)
         
         wordLength = Len(word)
@@ -266,8 +266,8 @@ Private Function FormatChat(ByRef chat As String) As String()
     Loop
     
     ' If it's only one line, center text
-    If curLine = 0 And Length < MAX_LENGTH Then
-        chatLines(curLine) = String$((MAX_LENGTH - Length) \ 2 + 1, " ") & chatLines(curLine)
+    If curLine = 0 And length < MAX_LENGTH Then
+        chatLines(curLine) = String$((MAX_LENGTH - length) \ 2 + 1, " ") & chatLines(curLine)
     End If
     
     'Resize array to fit
@@ -312,10 +312,11 @@ Public Sub Render()
 'Changed the way it gets rid of older dialogs.
 '**************************************************************
     Dim i As Long
-    Dim J As Long
-    Dim Offset As Integer
+    Dim j As Long
+    Dim offset As Integer
     Dim removedDialogs As Long
     Dim Count_dialog As Long
+    Dim tmp_color(3) As RGBA
     
     Count_dialog = dialogCount - 1
     
@@ -331,7 +332,7 @@ Public Sub Render()
                 Dim Upper_textLine As Long
                     Upper_textLine = UBound(.textLine())
                 
-                Offset = -(usedFont.Size + 2) * Upper_textLine
+                offset = -(usedFont.Size + 2) * Upper_textLine
                 
                 'Letras suben desde la cabeza.
                     If timeGetTime > .startTickCount Then
@@ -341,10 +342,13 @@ Public Sub Render()
                     If .Sube > 0 Then .Y = .Y + .Sube
                 
                 'Render it
-                For J = 0 To Upper_textLine
-                    Call DrawText(.X, .Y + Offset, .textLine(J), .Color)
-                    Offset = Offset + usedFont.Size + 5
-                Next J
+                For j = 0 To Upper_textLine
+                
+                    Call Long_2_RGBAList(tmp_color, .color)
+                
+                    Call DrawText(.X, .Y + offset, .textLine(j), tmp_color)
+                    offset = offset + usedFont.Size + 5
+                Next j
                 
                 'Won't render it unless it's updated in next frmae
                 .renderable = False

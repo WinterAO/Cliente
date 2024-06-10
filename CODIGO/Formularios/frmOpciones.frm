@@ -503,7 +503,6 @@ Private Sub chkop_MouseUp(Index As Integer, Button As Integer, Shift As Integer,
 '***************************************************
 'Author: Lorwik
 'Fecha: 30/05/2020
-'Descripcion: Activa/Desactiva los sonidos
 '***************************************************
 
     Call Sound.Sound_Play(SND_CLICK)

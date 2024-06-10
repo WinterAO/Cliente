@@ -104,59 +104,59 @@ Private Type tMapHeader
 End Type
 
 Private Type tDatosBloqueados
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
 End Type
 
 Private Type tDatosGrh
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     GrhIndex As Long
 End Type
 
 Private Type tDatosTrigger
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     Trigger As Integer
 End Type
 
 Private Type tDatosZonas
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     Zona As Integer
 End Type
 
 Public Type tDatosLuces
-    r As Integer
-    g As Integer
-    b As Integer
+    R As Integer
+    G As Integer
+    B As Integer
     range As Byte
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
 End Type
 
 Private Type tDatosParticulas
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     Particula As Long
 End Type
 
 Private Type tDatosNPC
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     NPCIndex As Integer
 End Type
 
 Private Type tDatosObjs
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     ObjIndex As Integer
     ObjAmmount As Integer
 End Type
 
 Private Type tDatosTE
-    X As Integer
-    Y As Integer
+    x As Integer
+    y As Integer
     DestM As Integer
     DestX As Integer
     DestY As Integer
@@ -218,8 +218,6 @@ Public Sub LeerConfiguracion()
     On Local Error GoTo fileErr:
     
     Dim i As Byte
-
-    Call IniciarCabecera
 
     Set Lector = New clsIniManager
     Call Lector.Initialize(Carga.Path(Init) & CLIENT_FILE)
@@ -382,7 +380,6 @@ On Error GoTo ErrorHandler:
     Dim Frame       As Long
     Dim grhCount    As Long
     Dim fileVersion As Long
-    Dim LaCabecera  As tCabecera
     Dim fileBuff    As clsByteBuffer
     Dim InfoHead    As INFOHEADER
     Dim buffer()    As Byte
@@ -396,10 +393,6 @@ On Error GoTo ErrorHandler:
         Set fileBuff = New clsByteBuffer
         
         fileBuff.initializeReader buffer
-        
-        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
-        LaCabecera.CRC = fileBuff.getLong
-        LaCabecera.MagicWord = fileBuff.getLong
     
         fileVersion = fileBuff.getLong
         
@@ -445,17 +438,17 @@ On Error GoTo ErrorHandler:
                     .FileNum = fileBuff.getLong
                     If .FileNum <= 0 Then GoTo ErrorHandler
                     
-                    .pixelWidth = fileBuff.getInteger
-                    If .pixelWidth <= 0 Then GoTo ErrorHandler
-                    
-                    .pixelHeight = fileBuff.getInteger
-                    If .pixelHeight <= 0 Then GoTo ErrorHandler
-                    
                     .sX = fileBuff.getInteger
                     If .sX < 0 Then GoTo ErrorHandler
                     
                     .sY = fileBuff.getInteger
                     If .sY < 0 Then GoTo ErrorHandler
+                    
+                    .pixelWidth = fileBuff.getInteger
+                    If .pixelWidth <= 0 Then GoTo ErrorHandler
+                    
+                    .pixelHeight = fileBuff.getInteger
+                    If .pixelHeight <= 0 Then GoTo ErrorHandler
                     
                     '.Trans = fileBuff.getByte
                     'If .Trans < 0 Then GoTo ErrorHandler
@@ -502,7 +495,6 @@ On Error GoTo errhandler:
     Dim buffer()    As Byte
     Dim InfoHead    As INFOHEADER
     Dim i           As Integer
-    Dim LaCabecera  As tCabecera
     Dim fileBuff  As clsByteBuffer
     
     InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Head.ind"))
@@ -514,10 +506,6 @@ On Error GoTo errhandler:
         Set fileBuff = New clsByteBuffer
         
         fileBuff.initializeReader buffer
-        
-        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
-        LaCabecera.CRC = fileBuff.getLong
-        LaCabecera.MagicWord = fileBuff.getLong
         
         NumHeads = fileBuff.getInteger()  'cantidad de cabezas
     
@@ -560,7 +548,6 @@ On Error GoTo errhandler:
     Dim dLen        As Long
     Dim InfoHead    As INFOHEADER
     Dim i           As Integer
-    Dim LaCabecera  As tCabecera
     Dim fileBuff  As clsByteBuffer
     
     InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Helmet.ind"))
@@ -572,10 +559,6 @@ On Error GoTo errhandler:
         Set fileBuff = New clsByteBuffer
         
         fileBuff.initializeReader buffer
-        
-        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
-        LaCabecera.CRC = fileBuff.getLong
-        LaCabecera.MagicWord = fileBuff.getLong
     
         NumCascos = fileBuff.getInteger()   'cantidad de cascos
              
@@ -620,7 +603,6 @@ On Error GoTo errhandler:
     Dim i           As Long
     Dim NumCuerpos As Integer
     Dim MisCuerpos() As tIndiceCuerpo
-    Dim LaCabecera As tCabecera
     Dim fileBuff  As clsByteBuffer
     
     InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Personajes.ind"))
@@ -632,10 +614,6 @@ On Error GoTo errhandler:
         Set fileBuff = New clsByteBuffer
         
         fileBuff.initializeReader buffer
-        
-        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
-        LaCabecera.CRC = fileBuff.getLong
-        LaCabecera.MagicWord = fileBuff.getLong
     
         'num de cabezas
         NumCuerpos = fileBuff.getInteger()
@@ -658,8 +636,8 @@ On Error GoTo errhandler:
                 Call InitGrh(BodyData(i).Walk(3), MisCuerpos(i).Body(3), 0)
                 Call InitGrh(BodyData(i).Walk(4), MisCuerpos(i).Body(4), 0)
                 
-                BodyData(i).HeadOffset.X = MisCuerpos(i).HeadOffsetX
-                BodyData(i).HeadOffset.Y = MisCuerpos(i).HeadOffsetY
+                BodyData(i).HeadOffset.x = MisCuerpos(i).HeadOffsetX
+                BodyData(i).HeadOffset.y = MisCuerpos(i).HeadOffsetY
             End If
         Next i
     
@@ -695,7 +673,6 @@ On Error GoTo errhandler:
     Dim i           As Long
     Dim NumCuerpos As Integer
     Dim MisCuerpos() As tIndiceCuerpo
-    Dim LaCabecera As tCabecera
     Dim fileBuff  As clsByteBuffer
     
     InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Ataques.ind"))
@@ -707,10 +684,6 @@ On Error GoTo errhandler:
         Set fileBuff = New clsByteBuffer
         
         fileBuff.initializeReader buffer
-        
-        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
-        LaCabecera.CRC = fileBuff.getLong
-        LaCabecera.MagicWord = fileBuff.getLong
     
         'num de cabezas
         NumAtaques = fileBuff.getInteger()
@@ -733,8 +706,8 @@ On Error GoTo errhandler:
                 Call InitGrh(AtaqueData(i).AtaqueWalk(3), MisAtaques(i).Body(3), 0)
                 Call InitGrh(AtaqueData(i).AtaqueWalk(4), MisAtaques(i).Body(4), 0)
                 
-                AtaqueData(i).HeadOffset.X = MisAtaques(i).HeadOffsetX
-                AtaqueData(i).HeadOffset.Y = MisAtaques(i).HeadOffsetY
+                AtaqueData(i).HeadOffset.x = MisAtaques(i).HeadOffsetX
+                AtaqueData(i).HeadOffset.y = MisAtaques(i).HeadOffsetY
             End If
         Next i
     
@@ -769,7 +742,6 @@ On Error GoTo errhandler:
     Dim InfoHead    As INFOHEADER
     Dim i           As Long
     Dim NumFxs      As Integer
-    Dim LaCabecera  As tCabecera
     Dim fileBuff  As clsByteBuffer
     
     InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("FXs.ind"))
@@ -781,10 +753,6 @@ On Error GoTo errhandler:
         Set fileBuff = New clsByteBuffer
         
         fileBuff.initializeReader buffer
-        
-        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
-        LaCabecera.CRC = fileBuff.getLong
-        LaCabecera.MagicWord = fileBuff.getLong
     
         'num de Fxs
         NumFxs = fileBuff.getInteger()
@@ -851,7 +819,6 @@ On Error GoTo errhandler:
     Dim dLen        As Long
     Dim InfoHead    As INFOHEADER
     Dim i As Long
-    Dim LaCabecera As tCabecera
     Dim fileBuff  As clsByteBuffer
     
     InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Armas.ind"))
@@ -863,10 +830,6 @@ On Error GoTo errhandler:
         Set fileBuff = New clsByteBuffer
         
         fileBuff.initializeReader buffer
-        
-        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
-        LaCabecera.CRC = fileBuff.getLong
-        LaCabecera.MagicWord = fileBuff.getLong
     
         'num de armas
         NumWeaponAnims = fileBuff.getInteger()
@@ -918,7 +881,6 @@ Public Sub CargarColores()
 On Error GoTo errhandler:
     Dim buffer()    As Byte
     Dim InfoHead    As INFOHEADER
-    Dim LaCabecera  As tCabecera
     Dim fileBuff    As clsByteBuffer
     Dim i           As Long
     
@@ -932,13 +894,11 @@ On Error GoTo errhandler:
         
         fileBuff.initializeReader buffer
         
-        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
-        LaCabecera.CRC = fileBuff.getLong
-        LaCabecera.MagicWord = fileBuff.getLong
-        
         For i = 0 To MAXCOLORES
         
-            ColoresPJ(i) = fileBuff.getLong
+            ColoresPJ(i).R = fileBuff.getByte
+            ColoresPJ(i).G = fileBuff.getByte
+            ColoresPJ(i).B = fileBuff.getByte
         
         Next i
         
@@ -970,7 +930,6 @@ On Error GoTo errhandler:
     Dim buffer()    As Byte
     Dim InfoHead    As INFOHEADER
     Dim i As Long
-    Dim LaCabecera As tCabecera
     Dim fileBuff  As clsByteBuffer
     
     InfoHead = File_Find(Carga.Path(ePath.recursos) & "\Scripts.WAO", LCase$("Escudos.ind"))
@@ -982,17 +941,13 @@ On Error GoTo errhandler:
         Set fileBuff = New clsByteBuffer
         
         fileBuff.initializeReader buffer
-        
-        LaCabecera.Desc = fileBuff.getString(Len(LaCabecera.Desc))
-        LaCabecera.CRC = fileBuff.getLong
-        LaCabecera.MagicWord = fileBuff.getLong
     
         'num de escudos
         NumEscudosAnims = fileBuff.getInteger()
         
         'Resize array
-        ReDim ShieldAnimData(1 To NumWeaponAnims) As ShieldAnimData
-        ReDim Shields(1 To NumWeaponAnims) As tIndiceEscudos
+        ReDim ShieldAnimData(1 To NumEscudosAnims) As ShieldAnimData
+        ReDim Shields(1 To NumEscudosAnims) As tIndiceEscudos
         
         For i = 1 To NumEscudosAnims
             Shields(i).shield(1) = fileBuff.getLong()
@@ -1110,6 +1065,7 @@ Sub CargarMapa(ByVal fileMap As String)
             .Terreno = fileBuff.getString()
             .Ambient = fileBuff.getString()
             Call fileBuff.getString
+            Call fileBuff.getString
             Call fileBuff.getBoolean
             Call fileBuff.getBoolean
             Call fileBuff.getBoolean
@@ -1147,9 +1103,9 @@ Sub CargarMapa(ByVal fileMap As String)
 
             For i = 1 To .NumeroBloqueados
                 With Blqs(i)
-                    .X = fileBuff.getInteger()
-                    .Y = fileBuff.getInteger()
-                    MapData(.X, .Y).Blocked = 1
+                    .x = fileBuff.getInteger()
+                    .y = fileBuff.getInteger()
+                    MapData(.x, .y).Blocked = 1
                 End With
             Next i
 
@@ -1161,11 +1117,11 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroLayers(2)
             
                 With L2(i)
-                    .X = fileBuff.getInteger()
-                    .Y = fileBuff.getInteger()
+                    .x = fileBuff.getInteger()
+                    .y = fileBuff.getInteger()
                     .GrhIndex = fileBuff.getLong()
                 
-                    Call InitGrh(MapData(.X, .Y).Graphic(2), .GrhIndex)
+                    Call InitGrh(MapData(.x, .y).Graphic(2), .GrhIndex)
                 End With
             Next i
 
@@ -1177,11 +1133,11 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroLayers(3)
             
                 With L3(i)
-                    .X = fileBuff.getInteger()
-                    .Y = fileBuff.getInteger()
+                    .x = fileBuff.getInteger()
+                    .y = fileBuff.getInteger()
                     .GrhIndex = fileBuff.getLong()
                 
-                    Call InitGrh(MapData(.X, .Y).Graphic(3), .GrhIndex)
+                    Call InitGrh(MapData(.x, .y).Graphic(3), .GrhIndex)
                 End With
             Next i
 
@@ -1193,11 +1149,11 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroLayers(4)
             
                 With L4(i)
-                    .X = fileBuff.getInteger()
-                    .Y = fileBuff.getInteger()
+                    .x = fileBuff.getInteger()
+                    .y = fileBuff.getInteger()
                     .GrhIndex = fileBuff.getLong()
   
-                    Call InitGrh(MapData(.X, .Y).Graphic(4), .GrhIndex)
+                    Call InitGrh(MapData(.x, .y).Graphic(4), .GrhIndex)
                 End With
             Next i
 
@@ -1209,11 +1165,11 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroTriggers
                 
                 With Triggers(i)
-                    .X = fileBuff.getInteger()
-                    .Y = fileBuff.getInteger()
+                    .x = fileBuff.getInteger()
+                    .y = fileBuff.getInteger()
                     .Trigger = fileBuff.getInteger()
                 
-                    MapData(.X, .Y).Trigger = .Trigger
+                    MapData(.x, .y).Trigger = .Trigger
                 End With
                 
             Next i
@@ -1227,12 +1183,12 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroParticulas
 
                 With Particulas(i)
-                    .X = fileBuff.getInteger()
-                    .Y = fileBuff.getInteger()
+                    .x = fileBuff.getInteger()
+                    .y = fileBuff.getInteger()
                     .Particula = fileBuff.getLong()
 
-                    MapData(.X, .Y).Particle_Index = .Particula
-                    Call General_Particle_Create(.Particula, .X, .Y)
+                    MapData(.x, .y).Particle_Index = .Particula
+                    Call General_Particle_Create(.Particula, .x, .y)
                 End With
 
             Next i
@@ -1245,14 +1201,14 @@ Sub CargarMapa(ByVal fileMap As String)
             
             For i = 1 To .NumeroLuces
                 With Luces(i)
-                    .r = fileBuff.getInteger()
-                    .g = fileBuff.getInteger()
-                    .b = fileBuff.getInteger()
+                    .R = fileBuff.getInteger()
+                    .G = fileBuff.getInteger()
+                    .B = fileBuff.getInteger()
                     .range = fileBuff.getByte()
-                    .X = fileBuff.getInteger()
-                    .Y = fileBuff.getInteger()
+                    .x = fileBuff.getInteger()
+                    .y = fileBuff.getInteger()
 
-                    Call Create_Light_To_Map(.X, .Y, .range, .r, .g, .b, False)
+                    Call LucesRedondas.Create_Light_To_Map(.x, .y, RGBA_From_Comp(.R, .G, .B), .range, False)
                 End With
             Next i
             
@@ -1264,11 +1220,11 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroZonas
                 
                 With Zonas(i)
-                    .X = fileBuff.getInteger()
-                    .Y = fileBuff.getInteger()
+                    .x = fileBuff.getInteger()
+                    .y = fileBuff.getInteger()
                     .Zona = fileBuff.getInteger()
                 
-                    MapData(.X, .Y).ZonaIndex = .Zona
+                    MapData(.x, .y).ZonaIndex = .Zona
                 End With
                 
             Next i
@@ -1281,13 +1237,13 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroOBJs
 
                 With Objetos(i)
-                    .X = fileBuff.getInteger()
-                    .Y = fileBuff.getInteger()
+                    .x = fileBuff.getInteger()
+                    .y = fileBuff.getInteger()
                     .ObjIndex = fileBuff.getInteger()
                     .ObjAmmount = fileBuff.getInteger()
                 
                     'Erase OBJs
-                    MapData(.X, .Y).ObjGrh.GrhIndex = 0
+                    MapData(.x, .y).ObjGrh.GrhIndex = 0
                 End With
             Next i
             
@@ -1303,7 +1259,7 @@ ErrorHandler:
     If fh <> 0 Then Close fh
     
     If Err.number <> 0 Then
-        'Call LogError(Err.number, Err.Description, "modCarga.CargarMapa")
+        'Call RegistrarError(Err.number, Err.Description, "modCarga.CargarMapa")
         Call MsgBox("err: " & Err.number & " desc: " & Err.Description)
     End If
 

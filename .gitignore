@@ -1,6 +1,7 @@
 # Client Files.
 Errores.log
 Fotos/*
+Logs/*
 Codigo/*.log
 *.vbw
 *.oca
@@ -8,18 +9,20 @@ Codigo/*.log
 *.lvw
 *.OBJ
 
-INIT/BindKeys.bin
-INIT/Config.ini
-RECURSOS/Musica.WAO
-RECURSOS/Ambient.WAO
+Recursos/Ambient.WAO
+Recursos/Musica.WAO
+Recursos/Fuentes.WAO
+Recursos/Graficos.WAO
+Recursos/Interface.WAO
+Recursos/Mapas.WAO
+Recursos/Minimap.WAO
+Recursos/Scripts.WAO
+Recursos/Sounds.WAO
+Recursos/Skins/*.WAO
 WinterAOResurrection.exe
 
-INIT/Inicio.con
-INIT/sinfo.dat
-INIT/AO.dat
-INIT/messages.txt
-Argentum.exe
-
+INIT/BindKeys.bin
+INIT/Config.ini
 
 # System Files.
 .DS_Store

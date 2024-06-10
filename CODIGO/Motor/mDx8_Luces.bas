@@ -9,7 +9,7 @@ Attribute VB_Name = "mDx8_Luces"
 Option Base 0
 
 Private Type tLight
-    RGBcolor As D3DCOLORVALUE
+    RGBcolor As RGBA
     active As Boolean
     map_x As Integer
     map_y As Integer
@@ -17,6 +17,7 @@ Private Type tLight
 End Type
  
 Private Light_List() As tLight
+
 Private NumLights As Integer
 
 Public Function Create_Light_To_Map(ByVal map_x As Integer, ByVal map_y As Integer, Optional range As Byte = 3, Optional ByVal Red As Byte = 255, Optional ByVal Green = 255, Optional ByVal Blue As Byte = 255, Optional ByVal Render As Boolean = True)
@@ -25,9 +26,9 @@ Public Function Create_Light_To_Map(ByVal map_x As Integer, ByVal map_y As Integ
     ReDim Preserve Light_List(1 To NumLights) As tLight
    
     Light_List(NumLights).RGBcolor.r = Red
-    Light_List(NumLights).RGBcolor.g = Green
-    Light_List(NumLights).RGBcolor.b = Blue
-    Light_List(NumLights).RGBcolor.a = 255
+    Light_List(NumLights).RGBcolor.G = Green
+    Light_List(NumLights).RGBcolor.B = Blue
+    Light_List(NumLights).RGBcolor.A = 255
     Light_List(NumLights).range = range
     Light_List(NumLights).active = True
     Light_List(NumLights).map_x = map_x
@@ -95,16 +96,10 @@ Private Sub LightRender(ByVal light_index As Integer)
     Dim Ya As Integer
     Dim Xa As Integer
    
-    Dim AmbientColor As D3DCOLORVALUE
-    Dim LightColor As D3DCOLORVALUE
+    Dim LightColor As RGBA
    
     Dim XCoord As Integer
     Dim YCoord As Integer
-   
-    AmbientColor.a = Estado_Actual.a
-    AmbientColor.r = Estado_Actual.r
-    AmbientColor.g = Estado_Actual.g
-    AmbientColor.b = Estado_Actual.b
 
     LightColor = Light_List(light_index).RGBcolor
        
@@ -120,53 +115,51 @@ Private Sub LightRender(ByVal light_index As Integer)
             If InMapBounds(Xa, Ya) Then
                 XCoord = Xa
                 YCoord = Ya
-                Call Engine_Get_ARGB(MapData(Xa, Ya).Engine_Light(0), TEMP_COLOR)
-                
-                MapData(Xa, Ya).Engine_Light(0) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x, Light_List(light_index).map_y, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(0), LightColor, TEMP_COLOR)
+                MapData(Xa, Ya).Engine_Light(0) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x, Light_List(light_index).map_y, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(0), LightColor)
  
                 XCoord = Xa + 1
                 YCoord = Ya
-                Call Engine_Get_ARGB(MapData(Xa, Ya).Engine_Light(3), TEMP_COLOR)
-                                
-                MapData(Xa, Ya).Engine_Light(3) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x, Light_List(light_index).map_y, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(3), LightColor, TEMP_COLOR)
+                MapData(Xa, Ya).Engine_Light(3) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x, Light_List(light_index).map_y, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(3), LightColor)
                        
                 XCoord = Xa
                 YCoord = Ya + 1
-                Call Engine_Get_ARGB(MapData(Xa, Ya).Engine_Light(1), TEMP_COLOR)
-                MapData(Xa, Ya).Engine_Light(1) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x, Light_List(light_index).map_y, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(1), LightColor, TEMP_COLOR)
+                MapData(Xa, Ya).Engine_Light(1) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x, Light_List(light_index).map_y, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(1), LightColor)
    
                 XCoord = Xa
                 YCoord = Ya
-                Call Engine_Get_ARGB(MapData(Xa, Ya).Engine_Light(2), TEMP_COLOR)
-                MapData(Xa, Ya).Engine_Light(2) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x, Light_List(light_index).map_y, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(2), LightColor, TEMP_COLOR)
+                MapData(Xa, Ya).Engine_Light(2) = LightCalculate(Light_List(light_index).range, Light_List(light_index).map_x, Light_List(light_index).map_y, XCoord, YCoord, MapData(Xa, Ya).Engine_Light(2), LightColor)
                
             End If
         Next Xa
     Next Ya
 End Sub
 
-Private Function LightCalculate(ByVal cRadio As Integer, ByVal LightX As Integer, ByVal LightY As Integer, ByVal XCoordenadas As Integer, ByVal YCoordenadas As Integer, TileLight As Long, LightColor As D3DCOLORVALUE, AmbientColor As D3DCOLORVALUE) As Long
-    Dim DistanciaX As Single
-    Dim DistanciaY As Single
-    Dim DistanciaVertex As Single
-    Dim Radio As Integer
+Private Function LightCalculate(ByVal Radio2 As Long, ByVal LightX As Integer, ByVal LightY As Integer, ByVal XCoord As Integer, ByVal YCoord As Integer, TileLight As RGBA, LightColor As RGBA) As RGBA
     
-    Dim CurrentColor As D3DCOLORVALUE
+    On Error GoTo LightCalculate_Err
     
-    Radio = cRadio
-    
-    DistanciaX = LightX + 0.5 - XCoordenadas
-    DistanciaY = LightY + 0.5 - YCoordenadas
-    
-    DistanciaVertex = Sqr(DistanciaX * DistanciaX + DistanciaY * DistanciaY)
-    
-    If DistanciaVertex <= Radio Then
-        Call D3DXColorLerp(CurrentColor, LightColor, AmbientColor, DistanciaVertex / Radio)
-        LightCalculate = D3DColorXRGB(CurrentColor.r, CurrentColor.g, CurrentColor.b)
-        If TileLight > LightCalculate Then LightCalculate = TileLight
+    Dim XDist        As Single
+    Dim YDist        As Single
+    Dim VertexDist2  As Single
+
+    XDist = LightX - XCoord
+    YDist = LightY - YCoord
+
+    VertexDist2 = XDist * XDist + YDist * YDist
+
+    If VertexDist2 <= Radio2 Then
+        Call LerpRGBA(LightCalculate, LightColor, TileLight, VertexDist2 / Radio2)
     Else
         LightCalculate = TileLight
     End If
+
+    
+    Exit Function
+
+LightCalculate_Err:
+    Call LogError(Err.number, Err.Description, "clsLucesRedondas.LightCalculate", Erl)
+    Resume Next
+    
 End Function
 
 #Else 'Luces Normales
@@ -181,17 +174,17 @@ Private Sub LightRender(ByVal light_index As Integer)
     Dim Y As Integer
     Dim ia As Single
     Dim i As Integer
-    Dim Color(3) As Long
+    Dim color(3) As Long
     Dim Ya As Integer
     Dim Xa As Integer
 
     Dim XCoord As Integer
     Dim YCoord As Integer
     
-    Color(0) = D3DColorARGB(255, Light_List(light_index).RGBcolor.r, Light_List(light_index).RGBcolor.g, Light_List(light_index).RGBcolor.b)
-    Color(1) = Color(0)
-    Color(2) = Color(0)
-    Color(3) = Color(0)
+    color(0) = D3DColorARGB(255, Light_List(light_index).RGBcolor.r, Light_List(light_index).RGBcolor.G, Light_List(light_index).RGBcolor.B)
+    color(1) = color(0)
+    color(2) = color(0)
+    color(3) = color(0)
 
     'Set up light borders
     min_x = Light_List(light_index).map_x - Light_List(light_index).range
@@ -202,51 +195,51 @@ Private Sub LightRender(ByVal light_index As Integer)
     'Arrange corners
     'NE
     If InMapBounds(min_x, min_y) Then
-        MapData(min_x, min_y).Engine_Light(3) = Color(3)
+        MapData(min_x, min_y).Engine_Light(3) = color(3)
     End If
     'NW
     If InMapBounds(max_x, min_y) Then
-        MapData(max_x, min_y).Engine_Light(2) = Color(2)
+        MapData(max_x, min_y).Engine_Light(2) = color(2)
     End If
     'SW
     If InMapBounds(max_x, max_y) Then
-        MapData(max_x, max_y).Engine_Light(0) = Color(0)
+        MapData(max_x, max_y).Engine_Light(0) = color(0)
     End If
     'SE
     If InMapBounds(min_x, max_y) Then
-        MapData(min_x, max_y).Engine_Light(1) = Color(1)
+        MapData(min_x, max_y).Engine_Light(1) = color(1)
     End If
     
     'Arrange borders
     'Upper border
     For X = min_x + 1 To max_x - 1
         If InMapBounds(X, min_y) Then
-            MapData(X, min_y).Engine_Light(2) = Color(2)
-            MapData(X, min_y).Engine_Light(3) = Color(3)
+            MapData(X, min_y).Engine_Light(2) = color(2)
+            MapData(X, min_y).Engine_Light(3) = color(3)
         End If
     Next X
     
     'Lower border
     For X = min_x + 1 To max_x - 1
         If InMapBounds(X, max_y) Then
-            MapData(X, max_y).Engine_Light(1) = Color(1)
-            MapData(X, max_y).Engine_Light(0) = Color(0)
+            MapData(X, max_y).Engine_Light(1) = color(1)
+            MapData(X, max_y).Engine_Light(0) = color(0)
         End If
     Next X
     
     'Left border
     For Y = min_y + 1 To max_y - 1
         If InMapBounds(min_x, Y) Then
-            MapData(min_x, Y).Engine_Light(1) = Color(1)
-            MapData(min_x, Y).Engine_Light(3) = Color(3)
+            MapData(min_x, Y).Engine_Light(1) = color(1)
+            MapData(min_x, Y).Engine_Light(3) = color(3)
         End If
     Next Y
     
     'Right border
     For Y = min_y + 1 To max_y - 1
         If InMapBounds(max_x, Y) Then
-            MapData(max_x, Y).Engine_Light(0) = Color(0)
-            MapData(max_x, Y).Engine_Light(2) = Color(2)
+            MapData(max_x, Y).Engine_Light(0) = color(0)
+            MapData(max_x, Y).Engine_Light(2) = color(2)
         End If
     Next Y
     
@@ -254,10 +247,10 @@ Private Sub LightRender(ByVal light_index As Integer)
     For X = min_x + 1 To max_x - 1
         For Y = min_y + 1 To max_y - 1
             If InMapBounds(X, Y) Then
-                MapData(X, Y).Engine_Light(0) = Color(0)
-                MapData(X, Y).Engine_Light(1) = Color(1)
-                MapData(X, Y).Engine_Light(2) = Color(2)
-                MapData(X, Y).Engine_Light(3) = Color(3)
+                MapData(X, Y).Engine_Light(0) = color(0)
+                MapData(X, Y).Engine_Light(1) = color(1)
+                MapData(X, Y).Engine_Light(2) = color(2)
+                MapData(X, Y).Engine_Light(3) = color(3)
             End If
         Next Y
     Next X
@@ -278,7 +271,7 @@ Private Sub Delete_Light_To_Index(ByVal light_index As Integer)
     Dim Y As Integer
     Dim colorz As Long
 
-    colorz = D3DColorARGB(Estado_Actual.a, Estado_Actual.r, Estado_Actual.g, Estado_Actual.b)
+    colorz = D3DColorARGB(Estado_Actual.A, Estado_Actual.r, Estado_Actual.G, Estado_Actual.B)
     
     'Set up light borders
     min_x = Light_List(light_index).map_x - Light_List(light_index).range

@@ -253,10 +253,11 @@ Sub SetConnected()
     keysMovementPressedQueue.Clear
 
     frmMain.lblName.Caption = CurrentUser.UserName
-    frmMain.lblMapName.Caption = MapZonas(UserZonaId(UserCharIndex)).name
     
     'Load main form
     frmMain.Visible = True
+    
+    Call CheckZona(UserCharIndex)
     
     Call DibujarMinimapa
     
@@ -273,6 +274,7 @@ Sub RandomMove()
 ' 06/03/2006: AlejoLp - Ahora utiliza la funcion MoveTo
 '***************************************************
     Call Map_MoveTo(RandomNumber(SOUTH, EAST))
+    
 End Sub
 
 Private Sub AddMovementToKeysMovementPressedQueue()
@@ -380,9 +382,9 @@ Sub SwitchMap(ByVal Map As Integer)
     Dim filename    As String
     
     If Battlegrounds Then
-        filename = LCase$("Bg" & Map & ".csm")
+        filename = LCase$("bg" & Map & ".csm")
     Else
-        filename = LCase$("Mapa" & Map & ".csm")
+        filename = LCase$("mapa" & Map & ".csm")
     End If
     
     'Si es el mismo Mapa, no lo cargamos
@@ -408,7 +410,7 @@ Sub SwitchMap(ByVal Map As Integer)
         Call Particle_Group_Remove_All
         
         'Borramos todas las luces
-        Call LightRemoveAll(False)
+        Call LucesRedondas.LightRemoveAll(False)
    
         'Cargamos el mapa.
         Call Carga.CargarMapa(filename)
@@ -487,22 +489,20 @@ End Function
 
 Sub Main()
     Static lastFlush As Long
+    
+    Call Application.DeleteFile(Application.GetErrorLogFilename())
+    
     ' Detecta el idioma del sistema (TRUE) y carga las traducciones
     Call SetLanguageApplication
 
     Call GenerateContra
     
+    Call IniciarCabecera
+    
     'Load client configurations.
     Call Carga.LeerConfiguracion
 
     #If Desarrollo = 0 Then
-        'If GetVar(Carga.Path(Init) & CLIENT_FILE, "PARAMETERS", "LAUCH") <> 1 Then
-        '    Call MsgBox("Para iniciar WinterAO debes hacerlo desde el Launcher.", vbCritical)
-        '    End
-        'Else
-        '    Call WriteVar(Carga.Path(Init) & CLIENT_FILE, "PARAMETERS", "LAUCH", "0")
-        'End If
-    
         'If Application.FindPreviousInstance Then
         '    Call MsgBox(JsonLanguage.item("OTRO_CLIENTE_ABIERTO").item("TEXTO"), vbApplicationModal + vbInformation + vbOKOnly, "Error al ejecutar")
         '    End
@@ -686,7 +686,7 @@ Private Sub LoadInitialConfig()
     Call InicializarNombres
     
     ' Initialize FONTTYPES
-    Call Protocol_Handle.InitFonts
+    Call Protocol_Handler.InitFonts
  
     CurrentUser.UserMap = 1
     
@@ -830,16 +830,16 @@ Private Function CMSValidateChar_(ByVal iAsc As Integer) As Boolean
 End Function
 
 'TODO : como todo lo relativo a mapas, no tiene nada que hacer aca....
-Function HayAgua(ByVal X As Integer, ByVal Y As Integer) As Boolean
+Function HayAgua(ByVal x As Integer, ByVal y As Integer) As Boolean
     '*******************************************
     'Author: Unknown
     'Last Modification: -
     '
     '*******************************************
 
-    If X > XMinMapSize And X < XMaxMapSize + 1 And Y > YMinMapSize And Y < YMaxMapSize + 1 Then
+    If x > XMinMapSize And x < XMaxMapSize + 1 And y > YMinMapSize And y < YMaxMapSize + 1 Then
 
-        With MapData(X, Y)
+        With MapData(x, y)
 
             If ((.Graphic(1).GrhIndex >= 1505 And .Graphic(1).GrhIndex <= 1520) Or _
                 (.Graphic(1).GrhIndex >= 12439 And .Graphic(1).GrhIndex <= 12454) Or _
@@ -982,24 +982,23 @@ Public Sub CloseClient()
     'Fix: intentaba guardar cuando el juego cerraba por un error,
     'antes de cargar los recursos. Me aprovecho de prgRun
     'para saber si ya fueron cargados
-    If prgRun Then
-        Call Carga.GuardarConfiguracion
-    End If
+    If prgRun Then Call Carga.GuardarConfiguracion
 
     'Cerramos Sockets/Winsocks/WindowsAPI
     frmMain.Client.CloseSck
     
+    Call Sound.Engine_DeInitialize
+    
     'Stop tile engine
     Call Engine_DirectX8_End
-
-    Call Sound.Engine_DeInitialize
-
+    
     'Destruimos los objetos publicos creados
     Set CustomKeys = Nothing
     Set SurfaceDB = Nothing
     Set Dialogos = Nothing
     Set DialogosClanes = Nothing
     Set Sound = Nothing
+    Set LucesRedondas = Nothing
     Set Inventario = Nothing
     Set MainTimer = Nothing
     Set incomingData = Nothing
@@ -1016,13 +1015,13 @@ Public Sub CloseClient()
     
 End Sub
 
-Public Function EsGM(ByVal CharIndex As Integer) As Boolean
+Public Function esGM(ByVal CharIndex As Integer) As Boolean
 
     If charlist(CharIndex).priv >= 1 And charlist(CharIndex).priv <= 5 Or charlist(CharIndex).priv = 25 Then
-        EsGM = True
+        esGM = True
     End If
     
-    EsGM = False
+    esGM = False
 
 End Function
 
@@ -1281,15 +1280,6 @@ Public Function ArrayInitialized(ByVal TheArray As Long) As Boolean
 
 End Function
 
-Public Sub SetSpeedUsuario(ByVal speed As Double)
-'*******************************
-'Autor: ???
-'Fecha: ???
-'*******************************
-
-    Engine_BaseSpeed = speed
-End Sub
-
 Public Function CheckIfIpIsNumeric(CurrentIp As String) As String
 '*******************************
 'Autor: ???
@@ -1473,34 +1463,33 @@ Public Function UserZonaId(ByVal CharIndex As Integer) As Integer
         UserZonaId = 0
         Exit Function
     
-    ElseIf charlist(CharIndex).Pos.X < 1 Or charlist(CharIndex).Pos.Y < 1 Then
+    ElseIf charlist(CharIndex).Pos.x < 1 Or charlist(CharIndex).Pos.y < 1 Then
         UserZonaId = 0
         Exit Function
         
     End If
     
-    UserZonaId = MapData(charlist(CharIndex).Pos.X, charlist(CharIndex).Pos.Y).ZonaIndex
+    UserZonaId = MapData(charlist(CharIndex).Pos.x, charlist(CharIndex).Pos.y).ZonaIndex
 
 End Function
 
 Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
-'**************************************
-'Autor: Lorwik
-'Fecha: 02/04/2021
-'Descripción: Comprueba si hubo cambio de zona
-'**************************************
+    '**************************************
+    'Autor: Lorwik
+    'Fecha: 02/04/2021
+    'Descripción: Comprueba si hubo cambio de zona
+    '**************************************
 
-    Static ZonaActual   As Integer
     Dim ZonaId          As Integer
-    Static MapActual    As String
+    Static currentMusic As Byte
 
-    'Nueva zona
-    ZonaId = UserZonaId(CharIndex)
-
-    If ZonaActual <> ZonaId Then
+    'Si estamos jugando y no en el conectar...
+    If frmMain.Visible Then
     
-        'Si estamos jugando y no en el conectar...
-        If frmMain.Visible Then
+        'Nueva zona
+        ZonaId = UserZonaId(CharIndex)
+    
+        If CurrentUser.UserZona <> ZonaId Then
             'Resetear el mensaje en render con el nombre del mapa.
             renderText = MapZonas(ZonaId).name
             renderFont = 2
@@ -1519,20 +1508,22 @@ Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
             
             If ClientSetup.bMusic <> CONST_DESHABILITADA Then
                 If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-                    'Comprobamos si la musica de la zona anterior y la actual es la misma
-                    If CurMap = MapActual Then
-                        If MapZonas(ZonaActual).Music = MapZonas(ZonaId).Music Then Exit Function
+                
+                    If currentMusic <> CByte(MapZonas(ZonaId).Music) Then
+                        Sound.NextMusic = MapZonas(ZonaId).Music
+                        Sound.Fading = 200
+                        currentMusic = MapZonas(ZonaId).Music
+
                     End If
-                    
-                    Sound.NextMusic = MapZonas(ZonaActual).Music
-                    Sound.Fading = 200
+
                 End If
+
             End If
+        
         End If
         
-        MapActual = CurMap
-        ZonaActual = ZonaId
-        
+        CurrentUser.UserZona = ZonaId
+
     End If
 
 End Function
@@ -1544,10 +1535,10 @@ Public Sub ActualizarMiniMapa()
     '***************************************************
     
     With frmMain
-        .UserM.Left = UserPosCuadrante.X - 2
-        .UserM.Top = UserPosCuadrante.Y - 2
-        .UserAreaMinimap.Left = UserPosCuadrante.X - 13
-        .UserAreaMinimap.Top = UserPosCuadrante.Y - 11
+        .UserM.Left = UserPosCuadrante.x - 2
+        .UserM.Top = UserPosCuadrante.y - 2
+        .UserAreaMinimap.Left = UserPosCuadrante.x - 13
+        .UserAreaMinimap.Top = UserPosCuadrante.y - 11
         .MiniMapa.Refresh
     End With
 End Sub
@@ -1576,3 +1567,45 @@ Public Sub DibujarMinimapa()
         
     End If
 End Sub
+
+Public Function Max(ByVal A As Variant, ByVal B As Variant) As Variant
+    
+    On Error GoTo max_Err
+    
+
+    If A > B Then
+        Max = A
+    Else
+        Max = B
+
+    End If
+
+    
+    Exit Function
+
+max_Err:
+    Call RegistrarError(Err.number, Err.Description, "Mod_General.max", Erl)
+    Resume Next
+    
+End Function
+
+Public Function Min(ByVal A As Double, ByVal B As Double) As Variant
+    
+    On Error GoTo min_Err
+    
+
+    If A < B Then
+        Min = A
+    Else
+        Min = B
+
+    End If
+
+    
+    Exit Function
+
+min_Err:
+    Call RegistrarError(Err.number, Err.Description, "Mod_General.min", Erl)
+    Resume Next
+    
+End Function

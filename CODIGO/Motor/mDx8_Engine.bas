@@ -49,17 +49,26 @@ Public ScreenHeight As Long
 Public MainScreenRect As RECT
 
 Public Type TLVERTEX
-    X As Single
-    Y As Single
+    x As Single
+    y As Single
     Z As Single
     rhw As Single
-    Color As Long
+    color As Long
     Specular As Long
     tu As Single
     tv As Single
 End Type
 
 Private EndTime As Long
+
+Public Sub SetSpeedUsuario(ByVal speed As Double)
+'*******************************
+'Autor: ???
+'Fecha: ???
+'*******************************
+
+    Engine_BaseSpeed = speed
+End Sub
 
 Public Sub Engine_DirectX8_Init()
     On Error GoTo EngineHandler:
@@ -132,7 +141,7 @@ Public Sub Engine_DirectX8_Init()
     Exit Sub
 EngineHandler:
     
-    Call LogError(Err.number, Err.Description, "mDx8_Engine.Engine_DirectX8_Init")
+    Call RegistrarError(Err.number, Err.Description, "mDx8_Engine.Engine_DirectX8_Init")
     
     Call CloseClient
 End Sub
@@ -232,7 +241,7 @@ On Error Resume Next
     Dim i As Byte
     
     '   DeInit Lights
-    Call DeInit_LightEngine
+    Call LucesRedondas.DeInit_LightEngine
     
     '   Clean Particles
     Call Particle_Group_Remove_All
@@ -252,6 +261,9 @@ On Error Resume Next
     Set DirectX = Nothing
     Set DirectDevice = Nothing
     Set SpriteBatch = Nothing
+    Set LucesRedondas = Nothing
+    Set Sound = Nothing
+    
 End Sub
 
 Public Sub Engine_DirectX8_Aditional_Init()
@@ -279,15 +291,16 @@ Public Sub Engine_DirectX8_Aditional_Init()
     
     If Not prgRun Then
     
+        Set LucesRedondas = New clsLucesRedondas
+    
         ColorTecho = 250
         colorRender = 240
         
         ' Seteamos algunos colores por adelantado y unica vez.
-        Call Engine_Long_To_RGB_List(Normal_RGBList(), -1)
-        Call Engine_Long_To_RGB_List(Color_Shadow(), D3DColorARGB(50, 0, 0, 0))
-        Call Engine_Long_To_RGB_List(NoUsa_RGBList(), D3DColorARGB(255, 200, 30, 30))
-        Call Engine_Long_To_RGB_List(Color_Arbol(), D3DColorARGB(190, 100, 100, 100))
-        Color_Paralisis = D3DColorARGB(180, 230, 230, 250)
+        Call RGBAList(COLOR_WHITE(), 255, 255, 255, 255)
+        Call RGBAList(COLOR_SHADOW(), 0, 0, 0, 50)
+        Call RGBAList(COLOR_RED(), 200, 30, 30, 255)
+        Call RGBAList(COLOR_ARBOL(), 100, 100, 100, 190)
         
         ' Inicializamos otros sistemas.
         Call mDx8_Text.Engine_Init_FontSettings
@@ -299,34 +312,6 @@ Public Sub Engine_DirectX8_Aditional_Init()
         
     End If
     
-End Sub
-
-Public Sub Engine_Draw_Line(x1 As Single, y1 As Single, x2 As Single, y2 As Single, Optional Color As Long = -1, Optional Color2 As Long = -1)
-On Error GoTo Error
-    
-    Call Engine_Long_To_RGB_List(temp_rgb(), Color)
-    
-    Call SpriteBatch.SetTexture(Nothing)
-    Call SpriteBatch.Draw(x1, y1, x2, y2, temp_rgb())
-    
-Exit Sub
-
-Error:
-    'Call Log_Engine("Error in Engine_Draw_Line, " & Err.Description & " (" & Err.number & ")")
-End Sub
-
-Public Sub Engine_Draw_Point(x1 As Single, y1 As Single, Optional Color As Long = -1)
-On Error GoTo Error
-    
-    Call Engine_Long_To_RGB_List(temp_rgb(), Color)
-    
-    Call SpriteBatch.SetTexture(Nothing)
-    Call SpriteBatch.Draw(x1, y1, 0, 1, temp_rgb(), 0, 0)
-    
-Exit Sub
-
-Error:
-    'Call Log_Engine("Error in Engine_Draw_Point, " & Err.Description & " (" & Err.number & ")")
 End Sub
 
 Public Function Engine_ElapsedTime() As Long
@@ -347,59 +332,63 @@ Dim Start_Time As Long
 
 End Function
 
-Public Function Engine_PixelPosX(ByVal X As Long) As Long
+Public Function Engine_PixelPosX(ByVal x As Long) As Long
 '*****************************************************************
 'Converts a tile position to a screen position
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_PixelPosX
 '*****************************************************************
 
-    Engine_PixelPosX = (X - 1) * 32
+    Engine_PixelPosX = (x - 1) * 32
     
 End Function
 
-Public Function Engine_PixelPosY(ByVal Y As Long) As Long
+Public Function Engine_PixelPosY(ByVal y As Long) As Long
 '*****************************************************************
 'Converts a tile position to a screen position
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_PixelPosY
 '*****************************************************************
 
-    Engine_PixelPosY = (Y - 1) * 32
+    Engine_PixelPosY = (y - 1) * 32
     
 End Function
 
-Public Function Engine_TPtoSPX(ByVal X As Integer) As Long
+Public Function Engine_TPtoSPX(ByVal x As Integer) As Long
 '************************************************************
 'Tile Position to Screen Position
 'Takes the tile position and returns the pixel location on the screen
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_TPtoSPX
 '************************************************************
 
-    Engine_TPtoSPX = Engine_PixelPosX(X - ((UserPos.X - HalfWindowTileWidth) - TileBufferSize)) + OffsetCounterX - 272 + ((10 - TileBufferSize) * 32)
+    Engine_TPtoSPX = Engine_PixelPosX(x - ((UserPos.x - HalfWindowTileWidth) - TileBufferSize)) + OffsetCounterX - 272 + ((10 - TileBufferSize) * 32)
     
 End Function
 
-Public Function Engine_TPtoSPY(ByVal Y As Integer) As Long
+Public Function Engine_TPtoSPY(ByVal y As Integer) As Long
 '************************************************************
 'Tile Position to Screen Position
 'Takes the tile position and returns the pixel location on the screen
 'More info: http://www.vbgore.com/GameClient.TileEngine.Engine_TPtoSPY
 '************************************************************
 
-    Engine_TPtoSPY = Engine_PixelPosY(Y - ((UserPos.Y - HalfWindowTileHeight) - TileBufferSize)) + OffsetCounterY - 272 + ((10 - TileBufferSize) * 32)
+    Engine_TPtoSPY = Engine_PixelPosY(y - ((UserPos.y - HalfWindowTileHeight) - TileBufferSize)) + OffsetCounterY - 272 + ((10 - TileBufferSize) * 32)
     
 End Function
 
-Public Sub Engine_Draw_Box(ByVal X As Integer, ByVal Y As Integer, ByVal Width As Integer, ByVal Height As Integer, Color As Long)
-'***************************************************
-'Author: Ezequiel Juarez (Standelf)
-'Last Modification: 29/12/10
-'Blisse-AO | Render Box
-'***************************************************
+Public Sub Engine_Draw_Box(ByVal x As Integer, ByVal y As Integer, ByVal Width As Integer, ByVal Height As Integer, color As Long)
 
-    Call Engine_Long_To_RGB_List(temp_rgb(), Color)
+    On Error GoTo Engine_Draw_Box_Err
+
+   Call Long_2_RGBAList(temp_rgb(), color)
 
     Call SpriteBatch.SetTexture(Nothing)
-    Call SpriteBatch.Draw(X, Y, Width, ByVal Height, temp_rgb())
+    Call SpriteBatch.SetAlpha(False)
+    Call SpriteBatch.Draw(x, y, Width, Height, temp_rgb())
+    
+    Exit Sub
+
+Engine_Draw_Box_Err:
+    Call RegistrarError(Err.number, Err.Description, "mDx8_Engine.Engine_Draw_Box", Erl)
+    Resume Next
     
 End Sub
 
@@ -521,7 +510,7 @@ Function Engine_Collision_Rect(ByVal x1 As Integer, ByVal y1 As Integer, ByVal W
 
 End Function
 
-Public Sub Engine_BeginScene(Optional ByVal Color As Long = 0)
+Public Sub Engine_BeginScene(Optional ByVal color As Long = 0)
 '***************************************************
 'Author: Ezequiel Juarez (Standelf)
 'Last Modification: 29/12/10
@@ -529,7 +518,7 @@ Public Sub Engine_BeginScene(Optional ByVal Color As Long = 0)
 '***************************************************
 
     Call DirectDevice.BeginScene
-    Call DirectDevice.Clear(0, ByVal 0, D3DCLEAR_TARGET, Color, 1#, 0)
+    Call DirectDevice.Clear(0, ByVal 0, D3DCLEAR_TARGET, color, 1#, 0)
     Call SpriteBatch.Begin
     
 End Sub
@@ -719,30 +708,3 @@ ErrOut:
 Exit Function
  
 End Function
-
-Public Sub Engine_Get_ARGB(Color As Long, Data As D3DCOLORVALUE)
-'**************************************************************
-'Author: Standelf
-'Last Modify Date: 18/10/2012
-'**************************************************************
-    
-    Dim a As Long, r As Long, g As Long, b As Long
-        
-    If Color < 0 Then
-        a = ((Color And (&H7F000000)) / (2 ^ 24)) Or &H80&
-    Else
-        a = Color / (2 ^ 24)
-    End If
-    
-    r = (Color And &HFF0000) / (2 ^ 16)
-    g = (Color And &HFF00&) / (2 ^ 8)
-    b = (Color And &HFF&)
-    
-    With Data
-        .a = a
-        .r = r
-        .g = g
-        .b = b
-    End With
-        
-End Sub

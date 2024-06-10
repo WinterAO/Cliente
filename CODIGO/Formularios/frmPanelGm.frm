@@ -1,6 +1,7 @@
 VERSION 5.00
 Begin VB.Form frmPanelGm 
-   BorderStyle     =   1  'Fixed Single
+   BackColor       =   &H00000000&
+   BorderStyle     =   4  'Fixed ToolWindow
    Caption         =   "Panel GM"
    ClientHeight    =   5355
    ClientLeft      =   45
@@ -12,15 +13,18 @@ Begin VB.Form frmPanelGm
    MinButton       =   0   'False
    ScaleHeight     =   5355
    ScaleWidth      =   7995
+   ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
    Begin VB.Frame Frame1 
+      BackColor       =   &H00000000&
       BorderStyle     =   0  'None
       Height          =   2415
-      Left            =   120
+      Left            =   -30
       TabIndex        =   20
-      Top             =   840
+      Top             =   720
       Width           =   3975
       Begin VB.TextBox txtNuevoUsuario 
+         BackColor       =   &H8000000A&
          Height          =   285
          Left            =   120
          TabIndex        =   23
@@ -45,6 +49,7 @@ Begin VB.Form frmPanelGm
          Width           =   3735
       End
       Begin VB.TextBox txtNuevaDescrip 
+         BackColor       =   &H8000000A&
          Height          =   765
          Left            =   120
          MaxLength       =   40
@@ -67,10 +72,11 @@ Begin VB.Form frmPanelGm
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
+         ForeColor       =   &H00FFFFFF&
          Height          =   255
-         Left            =   120
+         Left            =   150
          TabIndex        =   25
-         Top             =   120
+         Top             =   90
          Width           =   1575
       End
       Begin VB.Label Label9 
@@ -97,14 +103,14 @@ Begin VB.Form frmPanelGm
       Caption         =   "Actualizar"
       CausesValidation=   0   'False
       Height          =   255
-      Left            =   240
+      Left            =   150
       TabIndex        =   19
-      Top             =   0
+      Top             =   60
       Width           =   3675
    End
    Begin VB.ComboBox cboListaUsus 
       Height          =   315
-      Left            =   240
+      Left            =   120
       Sorted          =   -1  'True
       Style           =   2  'Dropdown List
       TabIndex        =   18
@@ -112,6 +118,7 @@ Begin VB.Form frmPanelGm
       Width           =   3675
    End
    Begin VB.Frame Frame 
+      BackColor       =   &H00000000&
       BorderStyle     =   0  'None
       Height          =   5355
       Index           =   0
@@ -145,6 +152,7 @@ Begin VB.Form frmPanelGm
          Width           =   3735
       End
       Begin VB.TextBox txtObs 
+         BackColor       =   &H8000000A&
          Height          =   975
          Left            =   120
          Locked          =   -1  'True
@@ -155,6 +163,7 @@ Begin VB.Form frmPanelGm
          Width           =   3735
       End
       Begin VB.TextBox txtDescrip 
+         BackColor       =   &H8000000A&
          Height          =   675
          Left            =   120
          Locked          =   -1  'True
@@ -166,6 +175,7 @@ Begin VB.Form frmPanelGm
          Width           =   3735
       End
       Begin VB.TextBox txtCreador 
+         BackColor       =   &H8000000A&
          Height          =   315
          Left            =   2160
          Locked          =   -1  'True
@@ -174,6 +184,7 @@ Begin VB.Form frmPanelGm
          Width           =   1695
       End
       Begin VB.TextBox txtTimeOn 
+         BackColor       =   &H8000000A&
          Height          =   315
          Left            =   2160
          Locked          =   -1  'True
@@ -182,6 +193,7 @@ Begin VB.Form frmPanelGm
          Width           =   1695
       End
       Begin VB.TextBox txtIP 
+         BackColor       =   &H8000000A&
          Height          =   315
          Left            =   2160
          Locked          =   -1  'True
@@ -190,6 +202,7 @@ Begin VB.Form frmPanelGm
          Width           =   1695
       End
       Begin VB.ListBox lstUsers 
+         BackColor       =   &H8000000A&
          Height          =   2400
          Left            =   120
          TabIndex        =   2
@@ -198,6 +211,7 @@ Begin VB.Form frmPanelGm
       End
       Begin VB.Label Label2 
          AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
          Caption         =   "Estado:"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
@@ -208,6 +222,7 @@ Begin VB.Form frmPanelGm
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
+         ForeColor       =   &H00FFFFFF&
          Height          =   195
          Left            =   2160
          TabIndex        =   16
@@ -215,6 +230,7 @@ Begin VB.Form frmPanelGm
          Width           =   660
       End
       Begin VB.Label Label7 
+         BackStyle       =   0  'Transparent
          Caption         =   "Observaciones"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
@@ -225,6 +241,7 @@ Begin VB.Form frmPanelGm
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
+         ForeColor       =   &H00FFFFFF&
          Height          =   375
          Left            =   120
          TabIndex        =   13
@@ -232,6 +249,7 @@ Begin VB.Form frmPanelGm
          Width           =   1575
       End
       Begin VB.Label Label6 
+         BackStyle       =   0  'Transparent
          Caption         =   "Descripcion"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
@@ -242,6 +260,7 @@ Begin VB.Form frmPanelGm
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
+         ForeColor       =   &H00FFFFFF&
          Height          =   375
          Left            =   120
          TabIndex        =   11
@@ -249,6 +268,7 @@ Begin VB.Form frmPanelGm
          Width           =   1575
       End
       Begin VB.Label Label5 
+         BackStyle       =   0  'Transparent
          Caption         =   "Creador"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
@@ -259,6 +279,7 @@ Begin VB.Form frmPanelGm
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
+         ForeColor       =   &H00FFFFFF&
          Height          =   375
          Left            =   2160
          TabIndex        =   9
@@ -266,6 +287,7 @@ Begin VB.Form frmPanelGm
          Width           =   1575
       End
       Begin VB.Label Label4 
+         BackStyle       =   0  'Transparent
          Caption         =   "Logueado Hace:"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
@@ -276,6 +298,7 @@ Begin VB.Form frmPanelGm
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
+         ForeColor       =   &H00FFFFFF&
          Height          =   375
          Left            =   2160
          TabIndex        =   7
@@ -283,6 +306,7 @@ Begin VB.Form frmPanelGm
          Width           =   1575
       End
       Begin VB.Label Label3 
+         BackStyle       =   0  'Transparent
          Caption         =   "IP:"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
@@ -293,6 +317,7 @@ Begin VB.Form frmPanelGm
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
+         ForeColor       =   &H00FFFFFF&
          Height          =   255
          Left            =   2160
          TabIndex        =   5
@@ -320,6 +345,7 @@ Begin VB.Form frmPanelGm
          Width           =   735
       End
       Begin VB.Label Label1 
+         BackStyle       =   0  'Transparent
          Caption         =   "Usuarios Marcados"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
@@ -330,6 +356,7 @@ Begin VB.Form frmPanelGm
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
+         ForeColor       =   &H00FFFFFF&
          Height          =   255
          Left            =   120
          TabIndex        =   3
@@ -341,9 +368,9 @@ Begin VB.Form frmPanelGm
       Caption         =   "Cerrar"
       CausesValidation=   0   'False
       Height          =   375
-      Left            =   240
+      Left            =   150
       TabIndex        =   0
-      Top             =   3480
+      Top             =   4770
       Width           =   3495
    End
    Begin VB.Menu mnuSeguimientos 
