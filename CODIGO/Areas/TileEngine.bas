@@ -1778,6 +1778,7 @@ Error:
     Else
         'Call Log_Engine("Error in Draw_Grh, " & Err.Description & ", (" & Err.number & ")")
         MsgBox "Error en el Engine Grafico, Por favor contacte a los adminsitradores enviandoles el archivo Errors.Log que se encuentra el la carpeta del cliente.", vbCritical
+        Debug.Print "Error en el Engine Grafico. Grh: " & Grh.GrhIndex
         Call CloseClient
     End If
 End Sub

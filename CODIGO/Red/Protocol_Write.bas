@@ -324,28 +324,27 @@ Public Sub WriteChatOverHeadInConsole(ByVal CharIndex As Integer, ByVal ChatText
     Dim NameBlue As Byte
     
     With charlist(CharIndex)
-        'Todo: Hacer que los colores se usen de Colores.dat
-        'Haciendo uso de ColoresPj ya que el mismo en algun momento lo hace para DX
-        If .priv = 0 Then
+
+        If .priv > 0 Then
+            NameRed = ColoresPJ(.priv).R
+            NameGreen = ColoresPJ(.priv).G
+            NameBlue = ColoresPJ(.priv).B
+        Else
             If .Atacable Then
                 NameRed = 236
                 NameGreen = 89
                 NameBlue = 57
             Else
                 If .Criminal Then
-                    NameRed = 247
-                    NameGreen = 44
-                    NameBlue = 0
+                    NameRed = ColoresPJ(50).R
+                    NameGreen = ColoresPJ(50).G
+                    NameBlue = ColoresPJ(50).B
                 Else
-                    NameRed = 218
-                    NameGreen = 131
-                    NameBlue = 225
+                    NameRed = ColoresPJ(49).R
+                    NameGreen = ColoresPJ(49).G
+                    NameBlue = ColoresPJ(49).B
                 End If
             End If
-         Else
-            NameRed = 222
-            NameGreen = 221
-            NameBlue = 211
         End If
 
         Dim Pos As Integer
@@ -833,7 +832,7 @@ End Sub
 ' @param    y Tile coord in the y-axis in which the user clicked.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteLeftClick(ByVal X As Integer, ByVal Y As Integer)
+Public Sub WriteLeftClick(ByVal x As Integer, ByVal y As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -842,8 +841,8 @@ Public Sub WriteLeftClick(ByVal X As Integer, ByVal Y As Integer)
     With outgoingData
         Call .WriteByte(ClientPacketID.LeftClick)
         
-        Call .WriteInteger(X)
-        Call .WriteInteger(Y)
+        Call .WriteInteger(x)
+        Call .WriteInteger(y)
     End With
 End Sub
 
@@ -854,7 +853,7 @@ End Sub
 ' @param    y Tile coord in the y-axis in which the user clicked.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteAccionClick(ByVal X As Integer, ByVal Y As Integer)
+Public Sub WriteAccionClick(ByVal x As Integer, ByVal y As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -863,8 +862,8 @@ Public Sub WriteAccionClick(ByVal X As Integer, ByVal Y As Integer)
     With outgoingData
         Call .WriteByte(ClientPacketID.AccionClick)
         
-        Call .WriteInteger(X)
-        Call .WriteInteger(Y)
+        Call .WriteInteger(x)
+        Call .WriteInteger(y)
     End With
 End Sub
 
@@ -992,7 +991,7 @@ End Sub
 ' @param    skill The skill which the user attempts to use.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteWorkLeftClick(ByVal X As Integer, ByVal Y As Integer, ByVal Skill As eSkill)
+Public Sub WriteWorkLeftClick(ByVal x As Integer, ByVal y As Integer, ByVal Skill As eSkill)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -1001,8 +1000,8 @@ Public Sub WriteWorkLeftClick(ByVal X As Integer, ByVal Y As Integer, ByVal Skil
     With outgoingData
         Call .WriteByte(ClientPacketID.WorkLeftClick)
         
-        Call .WriteInteger(X)
-        Call .WriteInteger(Y)
+        Call .WriteInteger(x)
+        Call .WriteInteger(y)
         
         Call .WriteByte(Skill)
     End With
@@ -1015,7 +1014,7 @@ End Sub
 ' @param    y Tile coord in the y-axis in which the user clicked.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteInvitarPartyClick(ByVal X As Integer, ByVal Y As Integer)
+Public Sub WriteInvitarPartyClick(ByVal x As Integer, ByVal y As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -1024,8 +1023,8 @@ Public Sub WriteInvitarPartyClick(ByVal X As Integer, ByVal Y As Integer)
     With outgoingData
         Call .WriteByte(ClientPacketID.InvitarPartyClick)
         
-        Call .WriteInteger(X)
-        Call .WriteInteger(Y)
+        Call .WriteInteger(x)
+        Call .WriteInteger(y)
         
     End With
 End Sub
@@ -2754,7 +2753,7 @@ End Sub
 ' @param    y The y position in the map to which to waro the character.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal X As Integer, ByVal Y As Integer, ByVal Cuadrante As Boolean)
+Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal x As Integer, ByVal y As Integer, ByVal Cuadrante As Boolean)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -2763,7 +2762,7 @@ Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal X
     
     'Para que te vas a tepear al mismo lugar? Te pinta spamear el FX del summon?
     'No mandemos paquetes al pedo.
-    If X = UserPos.X And Y = UserPos.Y Then Exit Sub
+    If x = UserPos.x And y = UserPos.y Then Exit Sub
     
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
@@ -2773,8 +2772,8 @@ Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal X
         
         Call .WriteInteger(Map)
         
-        Call .WriteInteger(X)
-        Call .WriteInteger(Y)
+        Call .WriteInteger(x)
+        Call .WriteInteger(y)
         
         Call .WriteBoolean(Cuadrante)
     End With
@@ -3505,7 +3504,7 @@ End Sub
 ' @param    y The position in the y axis to which the teleport will lead.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteTeleportCreate(ByVal Map As Integer, ByVal X As Integer, ByVal Y As Integer, Optional ByVal Radio As Byte = 0)
+Public Sub WriteTeleportCreate(ByVal Map As Integer, ByVal x As Integer, ByVal y As Integer, Optional ByVal Radio As Byte = 0)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -3517,8 +3516,8 @@ Public Sub WriteTeleportCreate(ByVal Map As Integer, ByVal X As Integer, ByVal Y
         
         Call .WriteInteger(Map)
         
-        Call .WriteInteger(X)
-        Call .WriteInteger(Y)
+        Call .WriteInteger(x)
+        Call .WriteInteger(y)
         
         Call .WriteByte(Radio)
     End With
@@ -3622,7 +3621,7 @@ End Sub
 ' @param    y       The position in the y axis in which to play the given wave.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteForceWAVEToMap(ByVal waveID As Byte, ByVal Map As Integer, ByVal X As Integer, ByVal Y As Integer)
+Public Sub WriteForceWAVEToMap(ByVal waveID As Byte, ByVal Map As Integer, ByVal x As Integer, ByVal y As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -3636,8 +3635,8 @@ Public Sub WriteForceWAVEToMap(ByVal waveID As Byte, ByVal Map As Integer, ByVal
         
         Call .WriteInteger(Map)
         
-        Call .WriteInteger(X)
-        Call .WriteInteger(Y)
+        Call .WriteInteger(x)
+        Call .WriteInteger(y)
     End With
 End Sub
 
@@ -5136,7 +5135,7 @@ End Sub
 ' @param    Y           The y pos where the king is settled.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteCreatePretorianClan(ByVal Map As Byte, ByVal X As Integer, ByVal Y As Integer)
+Public Sub WriteCreatePretorianClan(ByVal Map As Byte, ByVal x As Integer, ByVal y As Integer)
 '***************************************************
 'Author: ZaMa
 'Last Modification: 29/10/2010
@@ -5146,8 +5145,8 @@ Public Sub WriteCreatePretorianClan(ByVal Map As Byte, ByVal X As Integer, ByVal
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.CreatePretorianClan)
         Call .WriteByte(Map)
-        Call .WriteInteger(X)
-        Call .WriteInteger(Y)
+        Call .WriteInteger(x)
+        Call .WriteInteger(y)
     End With
 End Sub
 
@@ -5184,10 +5183,10 @@ Public Sub FlushBuffer()
     Dim sndData As String
     
     With outgoingData
-        If .Length = 0 Then _
+        If .length = 0 Then _
             Exit Sub
         
-        sndData = .ReadASCIIStringFixed(.Length)
+        sndData = .ReadASCIIStringFixed(.length)
         
         Call SendData(sndData)
     End With
