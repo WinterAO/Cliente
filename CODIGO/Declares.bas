@@ -649,8 +649,6 @@ Public Ciudades(1 To NUMCIUDADES) As String
 Public ListaRazas(1 To NUMRAZAS) As String
 Public ListaClases(1 To NUMCLASES) As String
 
-Public SkillPoints As Integer
-Public Alocados As Integer
 Public flags() As Integer
 
 Public UsingSkill As Integer
@@ -695,7 +693,6 @@ Public Enum eEditOptions
     eo_Level
     eo_Class
     eo_Skills
-    eo_SkillPointsLeft
     eo_Nobleza
     eo_Asesino
     eo_Sex

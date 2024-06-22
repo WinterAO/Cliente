@@ -43,7 +43,7 @@ Begin VB.Form frmEstadisticas
       Height          =   165
       Index           =   24
       Left            =   5265
-      TabIndex        =   41
+      TabIndex        =   40
       Top             =   5730
       Width           =   315
    End
@@ -64,7 +64,7 @@ Begin VB.Form frmEstadisticas
       Height          =   165
       Index           =   23
       Left            =   5520
-      TabIndex        =   40
+      TabIndex        =   39
       Top             =   5490
       Width           =   315
    End
@@ -85,263 +85,9 @@ Begin VB.Form frmEstadisticas
       Height          =   165
       Index           =   22
       Left            =   5235
-      TabIndex        =   39
+      TabIndex        =   38
       Top             =   5250
       Width           =   315
-   End
-   Begin VB.Label lblLibres 
-      AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "000"
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   195
-      Left            =   5280
-      TabIndex        =   38
-      Top             =   1005
-      Width           =   315
-   End
-   Begin VB.Image menoskill 
-      Height          =   135
-      Index           =   13
-      Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":000C
-      Top             =   3900
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image masskill 
-      Height          =   135
-      Index           =   13
-      Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":23A7
-      Top             =   3900
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image menoskill 
-      Height          =   135
-      Index           =   12
-      Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":475D
-      Top             =   3705
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image masskill 
-      Height          =   135
-      Index           =   12
-      Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":6AF8
-      Top             =   3705
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image menoskill 
-      Height          =   135
-      Index           =   11
-      Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":8EAE
-      Top             =   3480
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image masskill 
-      Height          =   135
-      Index           =   11
-      Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":B249
-      Top             =   3480
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image menoskill 
-      Height          =   135
-      Index           =   10
-      Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":D5FF
-      Top             =   3270
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image masskill 
-      Height          =   135
-      Index           =   10
-      Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":F99A
-      Top             =   3270
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image menoskill 
-      Height          =   135
-      Index           =   9
-      Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":11D50
-      Top             =   3075
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image masskill 
-      Height          =   135
-      Index           =   9
-      Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":140EB
-      Top             =   3075
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image menoskill 
-      Height          =   135
-      Index           =   8
-      Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":164A1
-      Top             =   2865
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image masskill 
-      Height          =   135
-      Index           =   8
-      Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":1883C
-      Top             =   2865
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image menoskill 
-      Height          =   135
-      Index           =   7
-      Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":1ABF2
-      Top             =   2640
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image masskill 
-      Height          =   135
-      Index           =   7
-      Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":1CF8D
-      Top             =   2640
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image menoskill 
-      Height          =   135
-      Index           =   6
-      Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":1F343
-      Top             =   2430
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image masskill 
-      Height          =   135
-      Index           =   6
-      Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":216DE
-      Top             =   2430
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image menoskill 
-      Height          =   135
-      Index           =   5
-      Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":23A94
-      Top             =   2220
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image masskill 
-      Height          =   135
-      Index           =   5
-      Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":25E2F
-      Top             =   2220
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image menoskill 
-      Height          =   135
-      Index           =   4
-      Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":281E5
-      Top             =   2025
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image masskill 
-      Height          =   135
-      Index           =   4
-      Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":2A580
-      Top             =   2025
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image menoskill 
-      Height          =   135
-      Index           =   3
-      Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":2C936
-      Top             =   1830
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image masskill 
-      Height          =   135
-      Index           =   3
-      Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":2ECD1
-      Top             =   1830
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image menoskill 
-      Height          =   135
-      Index           =   2
-      Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":31087
-      Top             =   1635
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image masskill 
-      Height          =   135
-      Index           =   2
-      Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":33422
-      Top             =   1635
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image menoskill 
-      Height          =   135
-      Index           =   1
-      Left            =   5040
-      Picture         =   "FrmEstadisticas.frx":357D8
-      Top             =   1425
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image masskill 
-      Height          =   135
-      Index           =   1
-      Left            =   5280
-      Picture         =   "FrmEstadisticas.frx":37B73
-      Top             =   1425
-      Visible         =   0   'False
-      Width           =   135
    End
    Begin VB.Label Skills 
       AutoSize        =   -1  'True
@@ -1261,32 +1007,7 @@ Private Sub LoadButtons()
 
 End Sub
 
-Public Sub MostrarAsignacion()
-    Dim i As Integer
-
-    If SkillPoints > 0 Then
-        For i = 1 To 13
-            masskill(i).Visible = True
-            menoskill(i).Visible = True
-        Next i
-        
-        For i = 1 To 13
-            menoskill(i).Picture = General_Load_Picture_From_Resource("195.gif", False)
-            masskill(i).Picture = General_Load_Picture_From_Resource("196.gif", False)
-        Next i
-        
-    Else
-    
-        For i = 1 To 13
-            masskill(i).Visible = False
-            menoskill(i).Visible = False
-        Next i
-
-    End If
-    
-End Sub
-
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 
@@ -1295,78 +1016,15 @@ Unload Me
 End Sub
 
 Private Sub imgCerrar_Click()
-    Dim skillChanges(NUMSKILLS) As Byte
-    Dim i As Long
-
-    For i = 1 To NUMSKILLS
-        skillChanges(i) = CByte(Skills(i).Caption) - CurrentUser.UserSkills(i)
-        'Actualizamos nuestros datos locales
-        CurrentUser.UserSkills(i) = Val(Skills(i).Caption)
-    Next i
-    
-    Call WriteModifySkills(skillChanges())
-    
-    SkillPoints = Alocados
     
     Unload Me
 End Sub
 
-Private Sub imgCerrar_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub imgCerrar_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
 
     If imgCerrar.Tag = 1 Then
         imgCerrar.Picture = General_Load_Picture_From_Resource("25.gif", False)
         imgCerrar.Tag = 0
     End If
 
-End Sub
-
-Private Sub masskill_Click(Index As Integer)
-
-    Call SumarSkillPoint(Index)
-    
-End Sub
-
-Private Sub menoskill_Click(Index As Integer)
-
-    Call RestarSkillPoint(Index)
-    
-End Sub
-
-Private Sub SumarSkillPoint(ByVal SkillIndex As Integer)
-'************************************
-'Autor: ????
-'Fecha: ????
-'Descripción: Suma Skills
-'************************************
-
-    If Alocados > 0 Then
-
-        If Val(Skills(SkillIndex).Caption) < MAXSKILLPOINTS Then
-            Skills(SkillIndex).Caption = Val(Skills(SkillIndex).Caption) + 1
-            flags(SkillIndex) = flags(SkillIndex) + 1
-            Alocados = Alocados - 1
-        End If
-            
-    End If
-    
-    lblLibres.Caption = Alocados
-End Sub
-
-Private Sub RestarSkillPoint(ByVal SkillIndex As Integer)
-'************************************
-'Autor: ????
-'Fecha: ????
-'Descripción: Resta Skills
-'************************************
-
-    If Alocados < SkillPoints Then
-        
-        If Val(Skills(SkillIndex).Caption) > 0 And flags(SkillIndex) > 0 Then
-            Skills(SkillIndex).Caption = Val(Skills(SkillIndex).Caption) - 1
-            flags(SkillIndex) = flags(SkillIndex) - 1
-            Alocados = Alocados + 1
-        End If
-    End If
-    
-    lblLibres.Caption = Alocados
 End Sub

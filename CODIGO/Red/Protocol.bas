@@ -111,7 +111,6 @@ Private Enum ServerPacketID
     UpdateHungerAndThirst        ' EHYS
     Fame                         ' FAMA
     MiniStats                    ' MEST
-    LevelUp                      ' SUNI
     AddForumMsg                  ' FMSG
     ShowForumForm                ' MFOR
     SetInvisible                 ' NOVER
@@ -609,9 +608,6 @@ On Error Resume Next
         
         Case ServerPacketID.MiniStats               ' MEST
             Call HandleMiniStats
-            
-        Case ServerPacketID.LevelUp                 ' SUNI
-            Call HandleLevelUp
         
         Case ServerPacketID.AddForumMsg             ' FMSG
             Call HandleAddForumMessage
@@ -3718,27 +3714,6 @@ Private Sub HandleMiniStats()
         .Clase = ListaClases(incomingData.ReadByte())
         .PenaCarcel = incomingData.ReadLong()
     End With
-End Sub
-
-''
-' Handles the LevelUp message.
-
-Private Sub HandleLevelUp()
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'
-'***************************************************
-    If incomingData.length < 3 Then
-        Err.Raise incomingData.NotEnoughDataErrCode
-        Exit Sub
-    End If
-    
-    'Remove packet ID
-    Call incomingData.ReadByte
-    
-    SkillPoints = SkillPoints + incomingData.ReadInteger()
-
 End Sub
 
 ''

@@ -1205,8 +1205,6 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
         .UserEmail = vbNullString
         .UserELO = 0
         .UserEquitando = 0
-        Alocados = 0
-        SkillPoints = 0
         
         lblHelm = "0/0"
         lblWeapon = "0/0"

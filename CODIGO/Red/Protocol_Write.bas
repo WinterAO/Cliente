@@ -40,7 +40,6 @@ Private Enum ClientPacketID
     SpellInfo                       'INFS
     EquipItem                       'EQUI
     ChangeHeading                   'CHEA
-    ModifySkills                    'SKSE
     Train                           'ENTR
     CommerceBuy                     'COMP
     BankExtractItem                 'RETI
@@ -1125,29 +1124,6 @@ Public Sub WriteChangeHeading(ByVal Heading As E_Heading)
         Call .WriteByte(Heading)
     End With
     
-End Sub
-
-''
-' Writes the "ModifySkills" message to the outgoing data buffer.
-'
-' @param    skillEdt a-based array containing for each skill the number of points to add to it.
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WriteModifySkills(ByRef skillEdt() As Byte)
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'Writes the "ModifySkills" message to the outgoing data buffer
-'***************************************************
-    Dim i As Long
-    
-    With outgoingData
-        Call .WriteByte(ClientPacketID.ModifySkills)
-        
-        For i = 1 To NUMSKILLS
-            Call .WriteByte(skillEdt(i))
-        Next i
-    End With
 End Sub
 
 ''

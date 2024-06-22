@@ -1558,11 +1558,6 @@ Private Sub btnEstadisticas_Click()
         DoEvents 'esperamos a que lleguen y mantenemos la interfaz viva
     Loop
     
-    Alocados = SkillPoints
-    frmEstadisticas.lblLibres.Caption = SkillPoints
-    
-    Call frmEstadisticas.MostrarAsignacion
-    
     frmEstadisticas.Iniciar_Labels
     frmEstadisticas.Show , frmMain
     LlegaronAtrib = False
