@@ -129,7 +129,7 @@ Private Sub Form_Load()
     ' TODO: Traducir los textos de las imagenes via labels en visual basic, para que en el futuro si se quiere se pueda traducir a mas idiomas
     ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
     ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
-    Me.Picture = General_Load_Picture_From_Resource("2.bmp", False)
+    Me.Picture = General_Load_Picture_From_Resource("mensaje.bmp", False)
     
     Call LoadButtons
 End Sub

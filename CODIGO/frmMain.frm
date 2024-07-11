@@ -168,7 +168,6 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -1240,7 +1239,9 @@ Private Sub LoadTextsForm()
     btnEstadisticas.Caption = JsonLanguage.item("LBL_ESTADISTICAS").item("TEXTO")
     btnQuest.Caption = JsonLanguage.item("LBL_QUEST").item("TEXTO")
     btnClanes.Caption = JsonLanguage.item("LBL_CLANES").item("TEXTO")
+    btnPvP.Caption = JsonLanguage.item("LBL_PVP").item("TEXTO")
 End Sub
+
 Private Sub cmdMoverHechi_Click(Index As Integer)
 
     If hlst.Visible = True Then

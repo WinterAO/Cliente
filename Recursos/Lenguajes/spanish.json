@@ -1176,6 +1176,9 @@
     "LBL_CLANES": {
         "TEXTO": "Clanes"
     },
+	"LBL_PVP": {
+        "TEXTO": "PVP"
+    },
     "LBL_RETOS": {
         "TEXTO": "Retos"
     },

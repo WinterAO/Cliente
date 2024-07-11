@@ -508,6 +508,7 @@ Type tEstadisticasUsu
     UsuariosMatados As Long
     NpcsMatados As Long
     Clase As String
+    Raza As String
     PenaCarcel As Long
 End Type
 

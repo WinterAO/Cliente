@@ -3698,7 +3698,7 @@ Private Sub HandleMiniStats()
 'Last Modification: 05/17/06
 '
 '***************************************************
-    If incomingData.length < 20 Then
+    If incomingData.length < 21 Then
         Err.Raise incomingData.NotEnoughDataErrCode
         Exit Sub
     End If
@@ -3712,6 +3712,7 @@ Private Sub HandleMiniStats()
         .UsuariosMatados = incomingData.ReadLong()
         .NpcsMatados = incomingData.ReadInteger()
         .Clase = ListaClases(incomingData.ReadByte())
+        .Raza = ListaRazas(incomingData.ReadByte())
         .PenaCarcel = incomingData.ReadLong()
     End With
 End Sub
