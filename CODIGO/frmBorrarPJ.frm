@@ -195,22 +195,22 @@ Private Sub LoadButtons()
     
     If Language = "spanish" Then
 
-        Call cBotonCancelar.Initialize(cmdVolver, "4.bmp", _
-                                          "216.bmp", _
-                                          "217.bmp", Me)
+        Call cBotonCancelar.Initialize(cmdVolver, "btncancelar_es.bmp", _
+                                          "btncancelar-over_es.bmp", _
+                                          "btncancelar-down_es.bmp", Me)
                                           
-        Call cBotonBorrar.Initialize(cmdBorrar, "3.bmp", _
-                                          "213.bmp", _
-                                          "214.bmp", Me)
+        Call cBotonBorrar.Initialize(cmdBorrar, "btnaceptar_es.bmp", _
+                                          "btnaceptar-over_es.bmp", _
+                                          "btnaceptar-down_es.bmp", Me)
     Else
     
-        Call cBotonCancelar.Initialize(cmdVolver, "6.bmp", _
-                                          "218.bmp", _
-                                          "219.bmp", Me)
+        Call cBotonCancelar.Initialize(cmdVolver, "btncancelar_en.bmp", _
+                                          "btncancelar-over_en.bmp", _
+                                          "btncancelar-down_en.bmp", Me)
                                           
-        Call cBotonBorrar.Initialize(cmdBorrar, "5.bmp", _
-                                          "211.bmp", _
-                                          "212.bmp", Me)
+        Call cBotonBorrar.Initialize(cmdBorrar, "btnaceptar_es.bmp", _
+                                          "btnaceptar-over_en.bmp", _
+                                          "btnaceptar-down_en.bmp", Me)
         
     End If
     

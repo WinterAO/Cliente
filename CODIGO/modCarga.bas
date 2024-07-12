@@ -33,7 +33,6 @@ Public Type tSetupMods
     ProyectileEngine As Boolean
     PartyMembers As Boolean
     UsarSombras As Boolean
-    UsarReflejos As Boolean
     UsarAuras As Boolean
     ParticleEngine As Boolean
     HUD As Boolean
@@ -229,7 +228,6 @@ Public Sub LeerConfiguracion()
         .ProyectileEngine = CBool(Lector.GetValue("VIDEO", "ProjectileEngine"))
         .PartyMembers = CBool(Lector.GetValue("VIDEO", "PartyMembers"))
         .UsarSombras = CBool(Lector.GetValue("VIDEO", "Sombras"))
-        .UsarReflejos = CBool(Lector.GetValue("VIDEO", "Reflejos"))
         .UsarAuras = CBool(Lector.GetValue("VIDEO", "Auras"))
         .ParticleEngine = CBool(Lector.GetValue("VIDEO", "ParticleEngine"))
         .LimiteFPS = CBool(Lector.GetValue("VIDEO", "LimitarFPS"))
@@ -296,7 +294,6 @@ Public Sub GuardarConfiguracion()
         Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ProyectileEngine, "1", "0"))
         Call Lector.ChangeValue("VIDEO", "PartyMembers", IIf(.PartyMembers, "1", "0"))
         Call Lector.ChangeValue("VIDEO", "Sombras", IIf(.UsarSombras, "1", "0"))
-        Call Lector.ChangeValue("VIDEO", "Reflejos", IIf(.UsarReflejos, "1", "0"))
         Call Lector.ChangeValue("VIDEO", "Auras", IIf(.UsarAuras, "1", "0"))
         Call Lector.ChangeValue("VIDEO", "ParticleEngine", IIf(.ParticleEngine, "1", "0"))
         Call Lector.ChangeValue("VIDEO", "LimitarFPS", IIf(.LimiteFPS, "1", "0"))

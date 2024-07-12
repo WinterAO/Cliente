@@ -133,7 +133,7 @@ Public Pasos() As tPaso
 
 'Sonidos
 Public Const SND_CLICK As String = 190
-Public Const SND_MSG As String = 84
+Public Const SND_MSG As String = 530
 Public Const SND_FUEGO As Integer = 79
 Public Const GRH_FOGATA As Integer = 1521
 Public Const SND_RELAMPAGO As Byte = 97

@@ -2,10 +2,10 @@ VERSION 5.00
 Begin VB.Form frmConfirmacion 
    BackColor       =   &H00C0C0C0&
    BorderStyle     =   0  'None
-   ClientHeight    =   3210
+   ClientHeight    =   3180
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   4020
+   ClientWidth     =   3990
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    BeginProperty Font 
@@ -19,9 +19,9 @@ Begin VB.Form frmConfirmacion
    EndProperty
    ForeColor       =   &H00000000&
    LinkTopic       =   "Form1"
-   ScaleHeight     =   214
+   ScaleHeight     =   212
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   268
+   ScaleWidth      =   266
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
    Begin VB.Image imgCancelar 
@@ -75,10 +75,7 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    ' TODO: Traducir los textos de las imagenes via labels en visual basic, para que en el futuro si se quiere se pueda traducir a mas idiomas
-    ' No ando con mas ganas/tiempo para hacer eso asi que se traducen las imagenes asi tenemos el juego en ingles.
-    ' Tambien usar los controles uAObuttons para los botones, usar de ejemplo frmCambiaMotd.frm
-    Me.Picture = General_Load_Picture_From_Resource("124.bmp", False)
+    Me.Picture = General_Load_Picture_From_Resource("mensaje.bmp", False)
     
     Call LoadButtons
 End Sub
@@ -88,36 +85,38 @@ Private Sub Form_Deactivate()
 End Sub
 
 Private Sub LoadButtons()
-    Dim boton As String
-    
-   ' GrhPath = Carga.path(Interfaces)
 
     Set cBotonAceptar = New clsGraphicalButton
     Set cBotonCancelar = New clsGraphicalButton
     
     Set LastButtonPressed = New clsGraphicalButton
     
-    
     If Language = "spanish" Then
-        boton = "btnaceptar.bmp"
+        Call cBotonAceptar.Initialize(imgAceptar, _
+            Carga.Path(Interfaces) & "btnaceptar_es.bmp", _
+            Carga.Path(Interfaces) & "btnaceptar-over_es.bmp", _
+            Carga.Path(Interfaces) & "btnaceptar-down_es.bmp", Me)
     Else
-        boton = "btnaccept.bmp"
-    End If
-    
-    Call cBotonAceptar.Initialize(imgAceptar, Carga.Path(Interfaces) & boton, _
-                                     Carga.Path(Interfaces) & "123.bmp", _
-                                     Carga.Path(Interfaces) & "122.bmp", Me)
-                                     
-                                     
-    If Language = "spanish" Then
-        boton = "btncancelar.bmp"
-    Else
-        boton = "btncancel.bmp"
+        Call cBotonAceptar.Initialize(imgAceptar, _
+            Carga.Path(Interfaces) & "btnaceptar_en.bmp", _
+            Carga.Path(Interfaces) & "btnaceptar-over_en.bmp", _
+            Carga.Path(Interfaces) & "btnaceptar-down_en.bmp", Me)
+
     End If
                                      
-    Call cBotonCancelar.Initialize(imgCancelar, Carga.Path(Interfaces) & boton, _
-                                     Carga.Path(Interfaces) & "125.bmp", _
-                                     Carga.Path(Interfaces) & "126.bmp", Me)
+    If Language = "spanish" Then
+        Call cBotonCancelar.Initialize(imgCancelar, _
+            Carga.Path(Interfaces) & "btncancelar_es.bmp", _
+            Carga.Path(Interfaces) & "btncancelar-over_es.bmp", _
+            Carga.Path(Interfaces) & "btncancelar-down_es.bmp", Me)
+    Else
+        Call cBotonCancelar.Initialize(imgCancelar, _
+            Carga.Path(Interfaces) & "btncancelar_en.bmp", _
+            Carga.Path(Interfaces) & "btncancelar-over_en.bmp", _
+            Carga.Path(Interfaces) & "btncancelar-down_en.bmp", Me)
+
+    End If
+                                     
 End Sub
 
 Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)

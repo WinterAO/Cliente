@@ -67,14 +67,14 @@ Private Sub LoadButtons()
     
     If Language = "spanish" Then
 
-        Call cBotonCerrar.Initialize(imgCerrar, "3.bmp", _
-                                          "213.bmp", _
-                                          "214.bmp", Me)
+        Call cBotonCerrar.Initialize(imgCerrar, "btnaceptar_es.bmp", _
+                                          "btnaceptar-over_es.bmp", _
+                                          "btnaceptar-down_es.bmp", Me)
     Else
     
-        Call cBotonCerrar.Initialize(imgCerrar, "5.bmp", _
-                                          "211.bmp", _
-                                          "212.bmp", Me)
+        Call cBotonCerrar.Initialize(imgCerrar, "btnaceptar_en.bmp", _
+                                          "btnaceptar-over_en.bmp", _
+                                          "btnaceptar-down_en.bmp", Me)
         
     End If
     

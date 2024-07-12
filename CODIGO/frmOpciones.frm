@@ -29,7 +29,7 @@ Begin VB.Form frmOpciones
       Caption         =   "Miscelanea"
       Height          =   1335
       Left            =   120
-      TabIndex        =   38
+      TabIndex        =   37
       Top             =   5160
       Width           =   3735
       Begin VB.CheckBox chkop 
@@ -37,7 +37,7 @@ Begin VB.Form frmOpciones
          Height          =   255
          Index           =   14
          Left            =   120
-         TabIndex        =   40
+         TabIndex        =   39
          Top             =   360
          Width           =   3375
       End
@@ -45,7 +45,7 @@ Begin VB.Form frmOpciones
          Caption         =   "Configurar Teclas"
          Height          =   360
          Left            =   120
-         TabIndex        =   39
+         TabIndex        =   38
          Top             =   840
          Width           =   3450
       End
@@ -200,17 +200,8 @@ Begin VB.Form frmOpciones
          Height          =   195
          Index           =   13
          Left            =   240
-         TabIndex        =   37
-         Top             =   1420
-         Width           =   2055
-      End
-      Begin VB.CheckBox chkop 
-         Caption         =   "Activar Reflejos"
-         Height          =   195
-         Index           =   12
-         Left            =   240
          TabIndex        =   36
-         Top             =   1150
+         Top             =   1170
          Width           =   2055
       End
       Begin VB.CheckBox chkop 
@@ -499,7 +490,7 @@ Private bSoundEffectsActivated As Boolean
 
 Private loading As Boolean
 
-Private Sub chkop_MouseUp(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub chkop_MouseUp(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
 '***************************************************
 'Author: Lorwik
 'Fecha: 30/05/2020
@@ -567,9 +558,6 @@ Private Sub chkop_MouseUp(Index As Integer, Button As Integer, Shift As Integer,
             
         Case 11 'Sombras
             ClientSetup.UsarSombras = Not ClientSetup.UsarSombras
-            
-        Case 12 'Reflejos
-            ClientSetup.UsarReflejos = Not ClientSetup.UsarReflejos
             
         Case 13 'Auras
             ClientSetup.UsarAuras = Not ClientSetup.UsarAuras
@@ -821,12 +809,6 @@ Private Sub LoadUserConfig()
         chkop(11).value = vbChecked
     Else
         chkop(11).value = vbUnchecked
-    End If
-    
-    If ClientSetup.UsarReflejos Then
-        chkop(12).value = vbChecked
-    Else
-        chkop(12).value = vbUnchecked
     End If
     
     If ClientSetup.UsarAuras Then
