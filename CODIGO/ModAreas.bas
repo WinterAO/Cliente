@@ -45,8 +45,8 @@ Private CurAreaX As Integer
 Private CurAreaY As Integer
 
 'LAS GUARDAMOS PARA PROCESAR LOS MPs y sabes si borrar personajes
-Public Const MargenX As Integer = 16
-Public Const MargenY As Integer = 14
+Public Const MargenX As Integer = 30
+Public Const MargenY As Integer = 19
 
 Public Sub CalcularAreas(HalfWindowTileWidth As Integer, HalfWindowTileHeight As Integer)
     AreasX = HalfWindowTileWidth + TileBufferSizeX
@@ -54,7 +54,7 @@ Public Sub CalcularAreas(HalfWindowTileWidth As Integer, HalfWindowTileHeight As
 End Sub
 
 ' Elimina todo fuera del area del usuario
-Public Sub CambioDeArea(ByVal X As Integer, ByVal Y As Integer, ByVal Head As Byte)
+Public Sub CambioDeArea(ByVal x As Integer, ByVal y As Integer, ByVal heading As E_Heading)
 
     Dim loopX     As Integer
     Dim loopY     As Integer
@@ -64,47 +64,57 @@ Public Sub CambioDeArea(ByVal X As Integer, ByVal Y As Integer, ByVal Head As By
     Dim MaxX      As Integer
     Dim MaxY      As Integer
 
-    CurAreaX = X \ AreasX
-    CurAreaY = Y \ AreasY
-
-    MinX = X
-    MinY = Y
-    MaxX = X
-    MaxY = Y
-
-    Select Case Head
+    CurAreaX = x \ AreasX
+    CurAreaY = y \ AreasY
+    
+    Select Case heading
     
         Case E_Heading.SOUTH
-            MinX = MinX - MargenX
-            MaxX = MaxX + MargenX
-            MinY = MinY - MargenY - 1
-            MaxY = MinY
+            MinX = x - MargenX
+            MaxX = x + MargenX
+            MinY = y - MargenY - 1
+            MaxY = y
             
-        Case Head = E_Heading.NORTH
-            MinX = MinX - MargenX
-            MaxX = MaxX + MargenX
-            MinY = MinY + MargenY + 1
-            MaxY = MinY
+        Case E_Heading.NORTH
+            MinX = x - MargenX
+            MaxX = x + MargenX
+            MinY = y
+            MaxY = y + MargenY + 1
         
-        Case Head = E_Heading.EAST
-            MinX = MinX - MargenX - 1
-            MaxX = MinX
-            MinY = MinY - MargenY
-            MaxY = MaxY + MargenY
+        Case E_Heading.EAST
+            MinX = x
+            MaxX = x + MargenX + 1
+            MinY = y - MargenY
+            MaxY = y + MargenY
         
-        Case Head = E_Heading.WEST
-            MinX = MinX + MargenX + 1
-            MaxX = MinX
-            MinY = MinY - MargenY
-            MaxY = MaxY + MargenY
+        Case E_Heading.WEST
+            MinX = x - MargenX - 1
+            MaxX = x
+            MinY = y - MargenY
+            MaxY = y + MargenY
     
     End Select
     
-    If MinY < 1 Then MinY = 1
+    If MinX > MaxX Then
+        Dim tempX As Integer
+        tempX = MinX
+        MinX = MaxX
+        MaxX = tempX
+    End If
+    
+    If MinY > MaxY Then
+        Dim tempY As Integer
+        tempY = MinY
+        MinY = MaxY
+        MaxY = tempY
+    End If
+    
     If MinX < 1 Then MinX = 1
-    If MaxY > YMaxMapSize Then MaxY = YMaxMapSize
     If MaxX > XMaxMapSize Then MaxX = XMaxMapSize
-
+    
+    If MinY < 1 Then MinY = 1
+    If MaxY > YMaxMapSize Then MaxY = YMaxMapSize
+    
     ' Recorremos el mapa entero (TODO: Se puede optimizar si el server nos enviara la direccion del area que nos movimos)
     For loopX = MinX To MaxX
         For loopY = MinY To MaxY
@@ -131,11 +141,11 @@ Public Sub CambioDeArea(ByVal X As Integer, ByVal Y As Integer, ByVal Head As By
         Next loopY
     Next loopX
     
-    Debug.Print "Cambio de Area"
+    Debug.Print "Cambio de Area - Limpieza en MinX: " & MinX & " - MaxX: " & MaxX & " - MinY: " & MinY & " - MaxY: " & MaxY & " - Heading: " & heading
 
 End Sub
 
 ' Calcula si la posicion se encuentra dentro del area del usuario
-Public Function EstaDentroDelArea(ByVal X As Integer, ByVal Y As Integer) As Boolean
-    EstaDentroDelArea = (Abs(CurAreaX - X \ AreasX) <= 1) And (Abs(CurAreaY - Y \ AreasY) <= 1)
+Public Function EstaDentroDelArea(ByVal x As Integer, ByVal y As Integer) As Boolean
+    EstaDentroDelArea = (Abs(CurAreaX - x \ AreasX) <= 1) And (Abs(CurAreaY - y \ AreasY) <= 1)
 End Function

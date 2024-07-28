@@ -1514,7 +1514,7 @@ Private Sub HandleBankInit()
     
     BankGold = incomingData.ReadLong
     Call InvBanco(0).Initialize(DirectD3D8, frmBancoObj.PicBancoInv, MAX_BANCOINVENTORY_SLOTS)
-    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call InvBanco(1).Initialize(DirectD3D8, frmBancoObj.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     For i = 1 To MAX_INVENTORY_SLOTS
         With Inventario
@@ -2332,8 +2332,8 @@ On Error GoTo errhandler
     
     Dim CharIndex As Integer
     Dim Body As Integer
-    Dim Head As Integer
-    Dim Heading As E_Heading
+    Dim head As Integer
+    Dim heading As E_Heading
     Dim x As Integer
     Dim y As Integer
     Dim weapon As Integer
@@ -2347,8 +2347,8 @@ On Error GoTo errhandler
     
     CharIndex = buffer.ReadInteger()
     Body = buffer.ReadInteger()
-    Head = buffer.ReadInteger()
-    Heading = buffer.ReadByte()
+    head = buffer.ReadInteger()
+    heading = buffer.ReadByte()
     x = buffer.ReadInteger()
     y = buffer.ReadInteger()
     weapon = buffer.ReadInteger()
@@ -2403,7 +2403,7 @@ On Error GoTo errhandler
         .EstadoQuest = buffer.ReadByte()
     End With
     
-    Call Char_Make(CharIndex, Body, Head, Heading, x, y, weapon, shield, helmet, Ataque, AuraAnim, AuraColor)
+    Call Char_Make(CharIndex, Body, head, heading, x, y, weapon, shield, helmet, Ataque, AuraAnim, AuraColor)
     
     'If we got here then packet is complete, copy data back to original queue
     Call incomingData.CopyBuffer(buffer)
@@ -2547,12 +2547,12 @@ Private Sub HandleCharacterChange()
     Call incomingData.ReadByte
     
     Dim CharIndex As Integer
-    Dim Heading As Byte
+    Dim heading As Byte
     
     CharIndex = incomingData.ReadInteger()
     
-    Heading = incomingData.ReadByte()
-    charlist(CharIndex).Heading = Heading
+    heading = incomingData.ReadByte()
+    charlist(CharIndex).heading = heading
     
     '// Char Body
     Call Char_SetBody(CharIndex, incomingData.ReadInteger())
@@ -2831,13 +2831,13 @@ Private Sub HandleAreaChanged()
     
     Dim x As Integer
     Dim y As Integer
-    Dim Head As Byte
+    Dim heading As Byte
     
     x = incomingData.ReadInteger()
     y = incomingData.ReadInteger()
-    Head = incomingData.ReadByte()
+    heading = incomingData.ReadByte()
         
-    Call CambioDeArea(x, y, Head)
+    Call CambioDeArea(x, y, heading)
 End Sub
 
 ''
@@ -5310,7 +5310,7 @@ Private Sub HandleEnviarPJUserAccount()
             With cPJ(loopc)
                 .Nombre = buffer.ReadASCIIString
                 .Body = buffer.ReadInteger
-                .Head = buffer.ReadInteger
+                .head = buffer.ReadInteger
                 .weapon = buffer.ReadInteger
                 .shield = buffer.ReadInteger
                 .helmet = buffer.ReadInteger
@@ -5322,13 +5322,13 @@ Private Sub HandleEnviarPJUserAccount()
                 .Dead = buffer.ReadBoolean
                 
                 If .Dead Then
-                    .Head = eCabezas.CASPER_HEAD
+                    .head = eCabezas.CASPER_HEAD
                     .Body = iCuerpoMuerto
                     .weapon = 0
                     .helmet = 0
                     .shield = 0
                 ElseIf (.Body = 397 Or .Body = 395 Or .Body = 399) Then
-                    .Head = 0
+                    .head = 0
                 End If
 
                 .GameMaster = buffer.ReadBoolean
@@ -5797,7 +5797,7 @@ Private Sub HandleAtaqueNPC()
     With charlist(NPCAtaqueIndex)
             
         MapData(.Pos.x, .Pos.y).CharIndex = NPCAtaqueIndex
-        .Ataque.AtaqueWalk(.Heading).Started = 1
+        .Ataque.AtaqueWalk(.heading).Started = 1
         .NPCAttack = True
     End With
 End Sub
