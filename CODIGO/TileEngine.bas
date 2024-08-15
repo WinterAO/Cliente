@@ -569,10 +569,10 @@ Sub RenderScreen(ByVal tilex As Integer, _
     screenminX = tilex - HalfWindowTileWidth
     screenmaxX = tilex + HalfWindowTileWidth
     
-    MinY = screenminY - TileBufferSizeY
-    MaxY = screenmaxY + TileBufferSizeY
-    MinX = screenminX - TileBufferSizeX
-    MaxX = screenmaxX + TileBufferSizeX
+    MinY = screenminY - TileBufferSize
+    MaxY = screenmaxY + TileBufferSize
+    MinX = screenminX - TileBufferSize
+    MaxX = screenmaxX + TileBufferSize
     
     'Make sure mins and maxs are allways in map bounds
     If MinY < XMinMapSize Then
@@ -631,11 +631,11 @@ Sub RenderScreen(ByVal tilex As Integer, _
     Next
     
     '<----- Layer 2 ----->
-    ScreenY = minYOffset - TileBufferSizeY
+    ScreenY = minYOffset - TileBufferSize
 
     For y = MinY To MaxY
         
-        ScreenX = minXOffset - TileBufferSizeX
+        ScreenX = minXOffset - TileBufferSize
 
         For x = MinX To MaxX
             If Map_InBounds(x, y) Then
@@ -656,11 +656,11 @@ Sub RenderScreen(ByVal tilex As Integer, _
     Next y
     
     '<----- Layer Obj, Char, 3 ----->
-    ScreenY = minYOffset - TileBufferSizeY
+    ScreenY = minYOffset - TileBufferSize
 
     For y = MinY To MaxY
         
-        ScreenX = minXOffset - TileBufferSizeX
+        ScreenX = minXOffset - TileBufferSize
 
         For x = MinX To MaxX
             If Map_InBounds(x, y) Then
@@ -734,11 +734,11 @@ Sub RenderScreen(ByVal tilex As Integer, _
     Next y
     
     '<----- Layer 4 ----->
-    ScreenY = minYOffset - TileBufferSizeY
+    ScreenY = minYOffset - TileBufferSize
 
     For y = MinY To MaxY
 
-        ScreenX = minXOffset - TileBufferSizeX
+        ScreenX = minXOffset - TileBufferSize
 
         For x = MinX To MaxX
             
@@ -804,8 +804,8 @@ Sub RenderScreen(ByVal tilex As Integer, _
                     End If
     
                     'Draw if within range
-                    x = ((-MinX - 1) * 32) + ProjectileList(j).x + PixelOffsetX + ((10 - TileBufferSizeX) * 32) - 288 + ProjectileList(j).OffsetX
-                    y = ((-MinY - 1) * 32) + ProjectileList(j).y + PixelOffsetY + ((10 - TileBufferSizeY) * 32) - 288 + ProjectileList(j).OffsetY
+                    x = ((-MinX - 1) * 32) + ProjectileList(j).x + PixelOffsetX + ((10 - TileBufferSize) * 32) - 288 + ProjectileList(j).OffsetX
+                    y = ((-MinY - 1) * 32) + ProjectileList(j).y + PixelOffsetY + ((10 - TileBufferSize) * 32) - 288 + ProjectileList(j).OffsetY
 
                     If y >= -32 Then
                         If y <= (ScreenHeight + 32) Then

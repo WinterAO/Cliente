@@ -168,6 +168,7 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -1615,6 +1616,10 @@ End Sub
 
 Private Sub lblMinimizar_Click()
     Me.WindowState = vbMinimized
+End Sub
+
+Private Sub lblName_Click()
+    Call LimpiarArea
 End Sub
 
 Private Sub lblPanelGM_Click()
