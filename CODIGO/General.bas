@@ -497,8 +497,6 @@ Sub Main()
 
     Call GenerateContra
     
-    Call IniciarCabecera
-    
     'Load client configurations.
     Call Carga.LeerConfiguracion
 

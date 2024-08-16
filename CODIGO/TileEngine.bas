@@ -236,11 +236,11 @@ End Type
 
 'Info de cada mapa
 Public Type tZonaInfo
-    Music As String
+    Music As Integer
     name As String
     StartPos As WorldPos
     MapVersion As Integer
-    Ambient As String
+    Ambient As Integer
     Zona As String
     Terreno As String
     LuzBase As Long

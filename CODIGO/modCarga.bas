@@ -5,12 +5,6 @@ Attribute VB_Name = "Carga"
 
 Option Explicit
 
-Public Type tCabecera
-    Desc As String * 255
-    CRC As Long
-    MagicWord As Long
-End Type
-
 Public Enum ePath
     Script
     Init
@@ -81,7 +75,6 @@ Public Type tSetupMods
 End Type
 
 Public ClientSetup As tSetupMods
-Public MiCabecera As tCabecera
 
 Private Lector As clsIniManager
 Public Const CLIENT_FILE As String = "Config.ini"
@@ -179,16 +172,6 @@ Public NumHeads As Integer
 Public NumCascos As Integer
 Public NumEscudosAnims As Integer
 Public NumAtaques As Integer
-
-Public Sub IniciarCabecera()
-
-    With MiCabecera
-        .Desc = "WinterAO Resurrection mod Argentum Online by Noland Studios. http://winterao.com.ar"
-        .CRC = Rnd * 245
-        .MagicWord = Rnd * 92
-    End With
-    
-End Sub
 
 Public Function Path(ByVal PathType As ePath) As String
 
@@ -1004,8 +987,6 @@ Sub CargarMapa(ByVal fileMap As String)
     
     Dim i            As Long
     Dim j            As Long
-
-    Dim LaCabecera   As tCabecera
     
     Dim buffer()     As Byte
     Dim fileBuff     As clsByteBuffer
@@ -1017,12 +998,6 @@ Sub CargarMapa(ByVal fileMap As String)
     Set fileBuff = New clsByteBuffer
         
     fileBuff.initializeReader buffer
-    
-    With LaCabecera
-        .Desc = fileBuff.getString(Len(.Desc))
-        .CRC = fileBuff.getLong
-        .MagicWord = fileBuff.getLong
-    End With
     
     With MH
         .NumeroBloqueados = fileBuff.getLong()
@@ -1057,12 +1032,12 @@ Sub CargarMapa(ByVal fileMap As String)
             Call fileBuff.getBoolean
             Call fileBuff.getBoolean
             Call fileBuff.getString
-            .Music = fileBuff.getString()
+            .Music = fileBuff.getInteger()
             .Zona = fileBuff.getString()
             .Terreno = fileBuff.getString()
-            .Ambient = fileBuff.getString()
-            Call fileBuff.getString
-            Call fileBuff.getString
+            .Ambient = fileBuff.getInteger()
+            Call fileBuff.getInteger
+            Call fileBuff.getInteger
             Call fileBuff.getBoolean
             Call fileBuff.getBoolean
             Call fileBuff.getBoolean
@@ -1070,7 +1045,6 @@ Sub CargarMapa(ByVal fileMap As String)
             Call fileBuff.getBoolean
             Call fileBuff.getBoolean
             .LuzBase = fileBuff.getLong()
-            Debug.Print .LuzBase
             Call fileBuff.getLong
             Call fileBuff.getBoolean
             
