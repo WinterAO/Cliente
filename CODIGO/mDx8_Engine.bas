@@ -277,8 +277,6 @@ Public Sub Engine_DirectX8_Aditional_Init()
 
     TileBufferSize = 8
     
-    Call CalcularAreas(HalfWindowTileWidth, HalfWindowTileHeight)
-    
     Engine_BaseSpeed = 0.018
     
     With MainScreenRect

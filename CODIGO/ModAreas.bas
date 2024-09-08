@@ -44,80 +44,40 @@ Private AreasY As Byte
 Private CurAreaX As Integer
 Private CurAreaY As Integer
 
+Public DebugAreas As Boolean
+
 Public Sub CalcularAreas(HalfWindowTileWidth As Integer, HalfWindowTileHeight As Integer)
-    AreasX = HalfWindowTileWidth + TileBufferSize
-    AreasY = HalfWindowTileHeight + TileBufferSize
+    AreasX = HalfWindowTileWidth + TileBufferSize + 8
+    AreasY = HalfWindowTileHeight + TileBufferSize + 2
+    Debug.Print AreasX & " " & AreasY
 End Sub
 
 ' Elimina todo fuera del area del usuario
-Public Sub CambioDeArea(ByVal x As Integer, ByVal y As Integer, ByVal Heading As E_Heading)
+Public Sub CambioDeArea(ByVal x As Integer, _
+                        ByVal y As Integer, _
+                        ByVal Heading As E_Heading)
 
+    Dim CharIndex As Integer
+    
+    Dim MinX As Integer
+    Dim MaxX As Integer
+    Dim MinY As Integer
+    Dim MaxY As Integer
+    
     Dim loopX     As Integer
     Dim loopY     As Integer
-    Dim CharIndex As Integer
-    Dim MinX      As Integer
-    Dim MinY      As Integer
-    Dim MaxX      As Integer
-    Dim MaxY      As Integer
-
+    
+    ' Calculamos el area actual al que pertenece
     CurAreaX = x \ AreasX
     CurAreaY = y \ AreasY
-    
-    Select Case Heading
 
-        Case E_Heading.SOUTH
-            MinX = x - AreasX
-            MaxX = x + AreasX
-            MinY = y - AreasY - 1
-            MaxY = y
-
-        Case E_Heading.NORTH
-            MinX = x - AreasX
-            MaxX = x + AreasX
-            MinY = y + AreasY + 1
-            MaxY = y
-
-        Case E_Heading.EAST
-            MinX = x - AreasX - 1
-            MaxX = x
-            MinY = y - AreasY
-            MaxY = y + AreasY
-
-        Case E_Heading.WEST
-            MinX = x + AreasX + 1
-            MaxX = x
-            MinY = y - AreasY
-            MaxY = y + AreasY
-
-    End Select
-
-    If MinX > MaxX Then
-        Dim tempX As Integer
-        tempX = MinX
-        MinX = MaxX
-        MaxX = tempX
-    End If
-
-    If MinY > MaxY Then
-        Dim tempY As Integer
-        tempY = MinY
-        MinY = MaxY
-        MaxY = tempY
-    End If
-
-    If MinX < 1 Then MinX = 1
-    If MaxX > XMaxMapSize Then MaxX = XMaxMapSize
-
-    If MinY < 1 Then MinY = 1
-    If MaxY > YMaxMapSize Then MaxY = YMaxMapSize
-    
-    Debug.Print "MinX: " & MinX & " MaxX: " & MaxX & " MinY: " & MinY & " MaxY: " & MaxY & " Heading: " & Heading
+    Call CalcularArea(Heading, MinX, MaxX, MinY, MaxY)
     
     For loopX = MinX To MaxX
         For loopY = MinY To MaxY
 
             ' Si el tile esta fuera del area
-            If Not EstaDentroDelArea(loopX, loopY) Then
+            'If Not EstaDentroDelArea(loopX, loopY) Then
 
                 ' Borrar char
                 CharIndex = Char_MapPosExits(loopX, loopY)
@@ -133,41 +93,77 @@ Public Sub CambioDeArea(ByVal x As Integer, ByVal y As Integer, ByVal Heading As
                     Call Map_DestroyObject(loopX, loopY)
                 End If
 
-            End If
+           ' End If
 
         Next loopY
     Next loopX
 
 End Sub
 
+Public Sub CalcularArea(ByVal Heading As Byte, ByRef MinX As Integer, ByRef MaxX As Integer, ByRef MinY As Integer, ByRef MaxY As Integer)
+
+    Dim MinAreaX  As Integer
+    Dim MinAreaY  As Integer
+    Dim MaxAreaX  As Integer
+    Dim MaxAreaY  As Integer
+
+    Select Case Heading
+
+        Case E_Heading.NORTH
+            ' 3 areas nuevas arriba
+            MinAreaX = CurAreaX - 1
+            MinAreaY = CurAreaY - 1
+            MaxAreaX = CurAreaX + 1
+            MaxAreaY = CurAreaY - 1
+
+        Case E_Heading.EAST
+            ' 3 areas nuevas a la derecha
+            MinAreaX = CurAreaX + 1
+            MinAreaY = CurAreaY - 1
+            MaxAreaX = CurAreaX + 1
+            MaxAreaY = CurAreaY + 1
+
+        Case E_Heading.SOUTH
+            ' 3 areas nuevas abajo
+            MinAreaX = CurAreaX - 1
+            MinAreaY = CurAreaY + 1
+            MaxAreaX = CurAreaX + 1
+            MaxAreaY = CurAreaY + 1
+
+        Case E_Heading.WEST
+            ' 3 areas nuevas a la izquierda
+            MinAreaX = CurAreaX - 1
+            MinAreaY = CurAreaY - 1
+            MaxAreaX = CurAreaX - 1
+            MaxAreaY = CurAreaY + 1
+
+        Case Else ' Heading = USER_NUEVO (cambio de mapa, recien logueado, etc.)
+            ' 9 areas nuevas alrededor del usuario (3x3)
+            MinAreaX = CurAreaX - 1
+            MinAreaY = CurAreaY - 1
+            MaxAreaX = CurAreaX + 1
+            MaxAreaY = CurAreaY + 1
+
+    End Select
+
+    ' Convertimos de areas a tiles
+    MinX = MinAreaX * AreasX
+    MinY = MinAreaY * AreasY
+    MaxX = (MaxAreaX + 1) * AreasX - 1
+    MaxY = (MaxAreaY + 1) * AreasY - 1
+
+    ' Comprobamos que este dentro del mapa
+    If MinX < XMinMapSize Then MinX = XMinMapSize
+    If MinY < YMinMapSize Then MinY = YMinMapSize
+    If MaxX > XMaxMapSize Then MaxX = XMaxMapSize
+    If MaxY > YMaxMapSize Then MaxY = YMaxMapSize
+    
+    'Debug.Print "MinX: " & MinX & " MaxX: " & MaxX & " MinY: " & MinY & " MaxY: " & MaxY & " Heading: " & Heading
+
+End Sub
+
 ' Calcula si la posicion se encuentra dentro del area del usuario
 Public Function EstaDentroDelArea(ByVal x As Integer, ByVal y As Integer) As Boolean
-    ' Calcula si está dentro del área
     EstaDentroDelArea = (Abs(CurAreaX - x \ AreasX) <= 1) And (Abs(CurAreaY - y \ AreasY) <= 1)
-    
-    ' Log para depuración
-    'Debug.Print "EstaDentroDelArea - Posición: (" & x & ", " & y & ") - Resultado: " & EstaDentroDelArea & " (CurAreaX: " & CurAreaX & ", CurAreaY: " & CurAreaY & ")"
 End Function
 
-Public Sub LimpiarArea()
-Dim x As Integer
-Dim y As Integer
-
-    For x = UserPos.x - AreasX * 2 To UserPos.x + AreasX * 2
-        For y = UserPos.y - AreasY * 2 To UserPos.y + AreasY * 2
-        
-            If InMapBounds(x, y) Then
-                If MapData(x, y).CharIndex > 0 Then
-                    If MapData(x, y).CharIndex <> UserCharIndex Then
-                        Call Char_Erase(MapData(x, y).CharIndex)
-                    End If
-                End If
-
-                ' Borrar objeto
-                If (Map_PosExitsObject(x, y) > 0) Then
-                    Call Map_DestroyObject(x, y)
-                End If
-            End If
-        Next y
-    Next x
-End Sub

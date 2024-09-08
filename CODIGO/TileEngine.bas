@@ -368,67 +368,6 @@ Public Sub InitGrh(ByRef Grh As Grh, ByVal GrhIndex As Long, Optional ByVal Star
     Grh.speed = GrhData(Grh.GrhIndex).speed
 End Sub
 
-Sub MoveCharbyHead(ByVal CharIndex As Integer, ByVal nHeading As E_Heading)
-'*****************************************************************
-'Starts the movement of a character in nHeading direction
-'*****************************************************************
-    Dim addx As Integer
-    Dim addy As Integer
-    Dim x As Integer
-    Dim y As Integer
-    Dim nX As Integer
-    Dim nY As Integer
-    
-    With charlist(CharIndex)
-        x = .Pos.x
-        y = .Pos.y
-        
-        'Figure out which way to move
-        Select Case nHeading
-            Case E_Heading.NORTH
-                addy = -1
-        
-            Case E_Heading.EAST
-                addx = 1
-        
-            Case E_Heading.SOUTH
-                addy = 1
-            
-            Case E_Heading.WEST
-                addx = -1
-        End Select
-        
-        nX = x + addx
-        nY = y + addy
-        
-        If nX <= 0 Then nX = 1
-        If nY <= 0 Then nY = 1
-        MapData(nX, nY).CharIndex = CharIndex
-        .Pos.x = nX
-        .Pos.y = nY
-        
-        If (x Or y) = 0 Then Exit Sub
-        MapData(x, y).CharIndex = 0
-        
-        .MoveOffsetX = -1 * (TilePixelWidth * addx)
-        .MoveOffsetY = -1 * (TilePixelHeight * addy)
-        
-        .Moving = 1
-        .Heading = nHeading
-        
-        .scrollDirectionX = addx
-        .scrollDirectionY = addy
-    End With
-    
-    If CurrentUser.UserEstado = 0 Then Call DoPasosFx(CharIndex)
-
-    If CharIndex <> UserCharIndex Then
-        If Not EstaDentroDelArea(nX, nY) Then
-            Call Char_Erase(CharIndex)
-        End If
-    End If
-End Sub
-
 Public Function EstaPCarea(ByVal CharIndex As Integer) As Boolean
 '***************************************************
 'Author: Unknown
@@ -524,9 +463,9 @@ Public Sub DrawImageInPicture(ByRef PictureBox As PictureBox, ByRef Picture As S
 End Sub
 
 Sub RenderScreen(ByVal tilex As Integer, _
-                 ByVal tiley As Integer, _
-                 ByVal PixelOffsetX As Integer, _
-                 ByVal PixelOffsetY As Integer)
+   ByVal tiley As Integer, _
+   ByVal PixelOffsetX As Integer, _
+   ByVal PixelOffsetY As Integer)
     '**************************************************************
     'Author: Aaron Perkins
     'Last Modify Date: 8/14/2007
@@ -619,8 +558,7 @@ Sub RenderScreen(ByVal tilex As Integer, _
             PixelOffsetYTemp = (ScreenY - 1) * TilePixelHeight + PixelOffsetY
             
             'Layer 1 **********************************
-            If MapData(x, y).Graphic(1).GrhIndex <> 0 Then _
-                Call Draw_Grh(MapData(x, y).Graphic(1), PixelOffsetXTemp, PixelOffsetYTemp, 1, MapData(x, y).Light_Value(), 1)
+            If MapData(x, y).Graphic(1).GrhIndex <> 0 Then Call Draw_Grh(MapData(x, y).Graphic(1), PixelOffsetXTemp, PixelOffsetYTemp, 1, MapData(x, y).Light_Value(), 1)
             
             ScreenX = ScreenX + 1
         Next
@@ -643,11 +581,10 @@ Sub RenderScreen(ByVal tilex As Integer, _
                 PixelOffsetXTemp = ScreenX * TilePixelWidth + PixelOffsetX
                 PixelOffsetYTemp = ScreenY * TilePixelHeight + PixelOffsetY
    
-               'Layer 2 **********************************
-                If MapData(x, y).Graphic(2).GrhIndex <> 0 Then _
-                    Call Draw_Grh(MapData(x, y).Graphic(2), PixelOffsetXTemp, PixelOffsetYTemp, 1, MapData(x, y).Light_Value(), 1)
+                'Layer 2 **********************************
+                If MapData(x, y).Graphic(2).GrhIndex <> 0 Then Call Draw_Grh(MapData(x, y).Graphic(2), PixelOffsetXTemp, PixelOffsetYTemp, 1, MapData(x, y).Light_Value(), 1)
     
-                End If
+            End If
             
             ScreenX = ScreenX + 1
         Next x
@@ -672,8 +609,7 @@ Sub RenderScreen(ByVal tilex As Integer, _
                 
                     'Object Layer **********************************
                     If .ObjGrh.GrhIndex <> 0 Then
-                        If .OBJInfo.Shadow = 1 Then _
-                            Call Draw_Grh(.ObjGrh, PixelOffsetXTemp + 5, PixelOffsetYTemp + -9, 1, COLOR_SHADOW(), 0, False, 187, 1, 1.2)
+                        If .OBJInfo.Shadow = 1 Then Call Draw_Grh(.ObjGrh, PixelOffsetXTemp + 5, PixelOffsetYTemp + -9, 1, COLOR_SHADOW(), 0, False, 187, 1, 1.2)
                            
                         Call Draw_Grh(.ObjGrh, PixelOffsetXTemp, PixelOffsetYTemp, 1, .Light_Value(), 1)
                     End If
@@ -769,6 +705,38 @@ Sub RenderScreen(ByVal tilex As Integer, _
                 
             End If
             
+            If DebugAreas Then
+                Dim MinAreaX As Integer, MaxAreaX As Integer, MinAreaY As Integer, MaxAreaY As Integer
+                
+                Call CalcularArea(1, MinAreaX, MaxAreaX, MinAreaY, MaxAreaY)
+                If y >= MinAreaY And y <= MaxAreaY Then
+                    If x >= MinAreaX And x <= MaxAreaX Then
+                        Call Draw_GrhIndex(2, PixelOffsetXTemp, PixelOffsetYTemp, 1, COLOR_WHITE())
+                    End If
+                End If
+                
+                Call CalcularArea(2, MinAreaX, MaxAreaX, MinAreaY, MaxAreaY)
+                If y >= MinAreaY And y <= MaxAreaY Then
+                    If x >= MinAreaX And x <= MaxAreaX Then
+                        Call Draw_GrhIndex(2, PixelOffsetXTemp, PixelOffsetYTemp, 1, COLOR_WHITE())
+                    End If
+                End If
+                
+                Call CalcularArea(3, MinAreaX, MaxAreaX, MinAreaY, MaxAreaY)
+                If y >= MinAreaY And y <= MaxAreaY Then
+                    If x >= MinAreaX And x <= MaxAreaX Then
+                        Call Draw_GrhIndex(2, PixelOffsetXTemp, PixelOffsetYTemp, 1, COLOR_WHITE())
+                    End If
+                End If
+                
+                Call CalcularArea(4, MinAreaX, MaxAreaX, MinAreaY, MaxAreaY)
+                If y >= MinAreaY And y <= MaxAreaY Then
+                    If x >= MinAreaX And x <= MaxAreaX Then
+                        Call Draw_GrhIndex(2, PixelOffsetXTemp, PixelOffsetYTemp, 1, COLOR_WHITE())
+                    End If
+                End If
+            End If
+            
             ScreenX = ScreenX + 1
             
         Next x
@@ -776,8 +744,7 @@ Sub RenderScreen(ByVal tilex As Integer, _
         ScreenY = ScreenY + 1
     Next y
     'Weather Update & Render - Aca se renderiza la lluvia, nieve, etc.
-    If ClientSetup.ParticleEngine Then _
-        Call mDx8_Clima.Engine_Weather_Update
+    If ClientSetup.ParticleEngine Then Call mDx8_Clima.Engine_Weather_Update
 
     If ClientSetup.ProyectileEngine Then
                             
@@ -997,6 +964,7 @@ On Error GoTo ErrorHandler:
     MinYBorder = YMinMapSize + (WindowTileHeight \ 2)
     MaxYBorder = YMaxMapSize - (WindowTileHeight \ 2)
     
+    Call CalcularAreas(HalfWindowTileWidth, HalfWindowTileHeight)
 
     'Resize mapdata array
     ReDim MapData(XMinMapSize To XMaxMapSize, YMinMapSize To YMaxMapSize) As MapBlock

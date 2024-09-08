@@ -710,7 +710,7 @@ Private Sub LoadInitialConfig()
     Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 70)
     
     'Inicializamos el inventario grafico
-    Call Inventario.Initialize(DirectD3D8, frmMain.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call Inventario.Initialize(DirectD3D8, frmMain.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_MAPA").item("TEXTO"), 75)
     
@@ -1506,7 +1506,7 @@ Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
             If ClientSetup.bMusic <> CONST_DESHABILITADA Then
                 If ClientSetup.bMusic <> CONST_DESHABILITADA Then
                 
-                    If Not MapZonas(ZonaId).Music = vbNullString Then
+                    If Not MapZonas(ZonaId).Music > 0 Then
                         If currentMusic <> CByte(MapZonas(ZonaId).Music) Then
                             Sound.NextMusic = MapZonas(ZonaId).Music
                             Sound.Fading = 200

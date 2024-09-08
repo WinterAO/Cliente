@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
 Begin VB.Form frmMain 
    BorderStyle     =   0  'None
    ClientHeight    =   11520
@@ -168,7 +168,6 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -200,15 +199,15 @@ Begin VB.Form frmMain
       BackColor       =   &H00000000&
       BorderStyle     =   0  'None
       ForeColor       =   &H00000000&
-      Height          =   9090
-      Left            =   240
+      Height          =   9120
+      Left            =   225
       MousePointer    =   99  'Custom
-      ScaleHeight     =   606
+      ScaleHeight     =   608
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   976
+      ScaleWidth      =   978
       TabIndex        =   10
-      Top             =   2310
-      Width           =   14640
+      Top             =   2250
+      Width           =   14670
       Begin VB.Frame fMenu 
          Appearance      =   0  'Flat
          BackColor       =   &H00000000&
@@ -1618,10 +1617,6 @@ Private Sub lblMinimizar_Click()
     Me.WindowState = vbMinimized
 End Sub
 
-Private Sub lblName_Click()
-    Call LimpiarArea
-End Sub
-
 Private Sub lblPanelGM_Click()
     On Error GoTo lblPanelGM_Click_Err
     
@@ -2082,6 +2077,9 @@ Private Sub MainViewPic_Click()
             Else
                 'Call WriteRightClick(tx, tY) 'Proximamnete lo implementaremos..
                 Call AbrirMenuViewPort
+                
+                If DebugAreas Then Call AddtoRichTextBox(RecTxt, "Debug Areas> CharIndex: " & MapData(tX, tY).CharIndex & " X: " & tX & " Y: " & tY, 255, 127, 39)
+                
             End If
         ElseIf (MouseShift And 1) = 1 Then
 
