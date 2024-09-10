@@ -646,11 +646,8 @@ Sub RenderScreen(ByVal tilex As Integer, _
                     
                     'Particulas
                     If .Particle_Group_Index Then
-                    
-                        'Solo las renderizamos si estan cerca del area de vision.
-                        If EstaDentroDelArea(x, y) Then
-                            Call mDx8_Particulas.Particle_Group_Render(.Particle_Group_Index, PixelOffsetXTemp + 16, PixelOffsetYTemp + 16)
-                        End If
+
+                        Call mDx8_Particulas.Particle_Group_Render(.Particle_Group_Index, PixelOffsetXTemp + 16, PixelOffsetYTemp + 16)
                         
                     End If
 
@@ -703,38 +700,6 @@ Sub RenderScreen(ByVal tilex As Integer, _
                     
                 End If
                 
-            End If
-            
-            If DebugAreas Then
-                Dim MinAreaX As Integer, MaxAreaX As Integer, MinAreaY As Integer, MaxAreaY As Integer
-                
-                Call CalcularArea(1, MinAreaX, MaxAreaX, MinAreaY, MaxAreaY)
-                If y >= MinAreaY And y <= MaxAreaY Then
-                    If x >= MinAreaX And x <= MaxAreaX Then
-                        Call Draw_GrhIndex(2, PixelOffsetXTemp, PixelOffsetYTemp, 1, COLOR_WHITE())
-                    End If
-                End If
-                
-                Call CalcularArea(2, MinAreaX, MaxAreaX, MinAreaY, MaxAreaY)
-                If y >= MinAreaY And y <= MaxAreaY Then
-                    If x >= MinAreaX And x <= MaxAreaX Then
-                        Call Draw_GrhIndex(2, PixelOffsetXTemp, PixelOffsetYTemp, 1, COLOR_WHITE())
-                    End If
-                End If
-                
-                Call CalcularArea(3, MinAreaX, MaxAreaX, MinAreaY, MaxAreaY)
-                If y >= MinAreaY And y <= MaxAreaY Then
-                    If x >= MinAreaX And x <= MaxAreaX Then
-                        Call Draw_GrhIndex(2, PixelOffsetXTemp, PixelOffsetYTemp, 1, COLOR_WHITE())
-                    End If
-                End If
-                
-                Call CalcularArea(4, MinAreaX, MaxAreaX, MinAreaY, MaxAreaY)
-                If y >= MinAreaY And y <= MaxAreaY Then
-                    If x >= MinAreaX And x <= MaxAreaX Then
-                        Call Draw_GrhIndex(2, PixelOffsetXTemp, PixelOffsetYTemp, 1, COLOR_WHITE())
-                    End If
-                End If
             End If
             
             ScreenX = ScreenX + 1
@@ -963,8 +928,6 @@ On Error GoTo ErrorHandler:
     MaxXBorder = XMaxMapSize - (WindowTileWidth \ 2)
     MinYBorder = YMinMapSize + (WindowTileHeight \ 2)
     MaxYBorder = YMaxMapSize - (WindowTileHeight \ 2)
-    
-    Call CalcularAreas(HalfWindowTileWidth, HalfWindowTileHeight)
 
     'Resize mapdata array
     ReDim MapData(XMinMapSize To XMaxMapSize, YMinMapSize To YMaxMapSize) As MapBlock

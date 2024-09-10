@@ -2836,8 +2836,6 @@ Private Sub HandleAreaChanged()
     x = incomingData.ReadInteger()
     y = incomingData.ReadInteger()
     Heading = incomingData.ReadByte()
-        
-    Call CambioDeArea(x, y, Heading)
     
     Debug.Print "HandleAreaChanged"
 End Sub

@@ -661,12 +661,6 @@ Begin VB.Form frmPanelGm
          Caption         =   "SILENCIARGLOBAL"
       End
    End
-   Begin VB.Menu mnuDebug 
-      Caption         =   "Debug"
-      Begin VB.Menu mnuDebugAreas 
-         Caption         =   "Areas"
-      End
-   End
 End
 Attribute VB_Name = "frmPanelGm"
 Attribute VB_GlobalNameSpace = False
@@ -1538,10 +1532,6 @@ Private Sub mnubantemp_Click()
     If LenB(tStr) <> 0 Then _
         If MsgBox("Seguro desea banear al usuario " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then _
             Call WriteBanTemporal(tStr, razon, dias)
-End Sub
-
-Private Sub mnuDebugAreas_Click()
-    DebugAreas = Not DebugAreas
 End Sub
 
 Private Sub mnuDelete_Click()

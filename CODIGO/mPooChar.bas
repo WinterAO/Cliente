@@ -631,10 +631,6 @@ Sub Char_MovebyPos(ByVal CharIndex As Integer, ByVal nX As Integer, ByVal nY As 
 
     If Not EstaPCarea(CharIndex) Then Call Dialogos.RemoveDialog(CharIndex)
     
-    If Not EstaDentroDelArea(nX, nY) Then
-        Call Char_Erase(CharIndex)
-    End If
-    
 End Sub
 
 Sub Char_MoveScreen(ByVal nHeading As E_Heading)
@@ -753,12 +749,6 @@ Sub Char_MovebyHead(ByVal CharIndex As Integer, ByVal nHeading As E_Heading)
     
     If (CurrentUser.UserEstado = 0) Then
         Call DoPasosFx(CharIndex)
-    End If
-
-    If CharIndex <> UserCharIndex Then
-        If Not EstaDentroDelArea(nX, nY) Then
-            Call Char_Erase(CharIndex)
-        End If
     End If
 
 End Sub
