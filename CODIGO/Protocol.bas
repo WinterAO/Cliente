@@ -1392,7 +1392,7 @@ Private Sub HandleDisconnect()
     Call incomingData.ReadByte
 
     Call ResetAllInfo(False)
-    Call Areas.LimpiarAreas
+    Call ModAreas.LimpiarAreas
     
     frmMain.Visible = False
     Call MostrarCuenta(True)
@@ -2336,8 +2336,8 @@ On Error GoTo errhandler
     Dim Body As Integer
     Dim Head As Integer
     Dim Heading As E_Heading
-    Dim X As Integer
-    Dim Y As Integer
+    Dim x As Integer
+    Dim y As Integer
     Dim weapon As Integer
     Dim shield As Integer
     Dim helmet As Integer
@@ -2351,8 +2351,8 @@ On Error GoTo errhandler
     Body = buffer.ReadInteger()
     Head = buffer.ReadInteger()
     Heading = buffer.ReadByte()
-    X = buffer.ReadInteger()
-    Y = buffer.ReadInteger()
+    x = buffer.ReadInteger()
+    y = buffer.ReadInteger()
     weapon = buffer.ReadInteger()
     shield = buffer.ReadInteger()
     helmet = buffer.ReadInteger()
@@ -2405,7 +2405,7 @@ On Error GoTo errhandler
         .EstadoQuest = buffer.ReadByte()
     End With
     
-    Call Char_Make(CharIndex, Body, Head, Heading, X, Y, weapon, shield, helmet, Ataque, AuraAnim, AuraColor)
+    Call Char_Make(CharIndex, Body, Head, Heading, x, y, weapon, shield, helmet, Ataque, AuraAnim, AuraColor)
     
     'If we got here then packet is complete, copy data back to original queue
     Call incomingData.CopyBuffer(buffer)
@@ -2486,12 +2486,12 @@ Private Sub HandleCharacterMove()
     Call incomingData.ReadByte
     
     Dim CharIndex As Integer
-    Dim X As Integer
-    Dim Y As Integer
+    Dim x As Integer
+    Dim y As Integer
     
     CharIndex = incomingData.ReadInteger()
-    X = incomingData.ReadInteger()
-    Y = incomingData.ReadInteger()
+    x = incomingData.ReadInteger()
+    y = incomingData.ReadInteger()
 
     With charlist(CharIndex)
         If .FxIndex >= 40 And .FxIndex <= 49 Then   'If it's meditating, we remove the FX
@@ -2506,7 +2506,7 @@ Private Sub HandleCharacterMove()
 
     End With
     
-    Call Char_MovebyPos(CharIndex, X, Y)
+    Call Char_MovebyPos(CharIndex, x, y)
 End Sub
 
 ''
@@ -2621,19 +2621,19 @@ Private Sub HandleObjectCreate()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    Dim X               As Integer
-    Dim Y               As Integer
+    Dim x               As Integer
+    Dim y               As Integer
     Dim GrhIndex        As Long
     Dim ParticulaIndex  As Integer
     Dim Shadow          As Byte
     
-    X = incomingData.ReadInteger()
-    Y = incomingData.ReadInteger()
+    x = incomingData.ReadInteger()
+    y = incomingData.ReadInteger()
     GrhIndex = incomingData.ReadLong()
     ParticulaIndex = incomingData.ReadInteger()
     Shadow = incomingData.ReadByte()
     
-    Call Map_CreateObject(X, Y, GrhIndex, ParticulaIndex, Shadow)
+    Call Map_CreateObject(x, y, GrhIndex, ParticulaIndex, Shadow)
 End Sub
 
 ''
@@ -2653,19 +2653,19 @@ Private Sub HandleObjectDelete()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    Dim X   As Integer
-    Dim Y   As Integer
+    Dim x   As Integer
+    Dim y   As Integer
     Dim obj As Long
 
-    X = incomingData.ReadInteger()
-    Y = incomingData.ReadInteger()
+    x = incomingData.ReadInteger()
+    y = incomingData.ReadInteger()
         
-    obj = Map_PosExitsObject(X, Y)
+    obj = Map_PosExitsObject(x, y)
 
-    Call Particle_Group_Remove(MapData(X, Y).Particle_Group_Index)
+    Call Particle_Group_Remove(MapData(x, y).Particle_Group_Index)
 
     If (obj > 0) Then
-        Call Map_DestroyObject(X, Y)
+        Call Map_DestroyObject(x, y)
     End If
 End Sub
 
@@ -2686,18 +2686,18 @@ Private Sub HandleBlockPosition()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    Dim X As Integer
-    Dim Y As Integer
+    Dim x As Integer
+    Dim y As Integer
     Dim block As Boolean
     
-    X = incomingData.ReadInteger()
-    Y = incomingData.ReadInteger()
+    x = incomingData.ReadInteger()
+    y = incomingData.ReadInteger()
     block = incomingData.ReadBoolean()
     
     If block Then
-        Map_SetBlocked X, Y, 1
+        Map_SetBlocked x, y, 1
     Else
-        Map_SetBlocked X, Y, 0
+        Map_SetBlocked x, y, 0
     End If
 End Sub
 
@@ -2831,15 +2831,15 @@ Private Sub HandleAreaChanged()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    Dim X As Integer
-    Dim Y As Integer
+    Dim x As Integer
+    Dim y As Integer
     Dim Heading As Byte
     
-    X = incomingData.ReadInteger()
-    Y = incomingData.ReadInteger()
+    x = incomingData.ReadInteger()
+    y = incomingData.ReadInteger()
     Heading = incomingData.ReadByte()
         
-    Call CambioDeArea(X, Y, Heading)
+    Call CambioDeArea(x, y, Heading)
     
     Debug.Print "HandleAreaChanged"
 End Sub
@@ -5248,21 +5248,21 @@ Private Sub HandleFXtoMap()
 
     End If
     
-    Dim X As Integer, Y As Integer, FxIndex As Integer, Loops As Integer
+    Dim x As Integer, y As Integer, FxIndex As Integer, Loops As Integer
     
     'Remove packet ID
     Call incomingData.ReadByte
     
     Loops = incomingData.ReadByte
-    X = incomingData.ReadInteger
-    Y = incomingData.ReadInteger
+    x = incomingData.ReadInteger
+    y = incomingData.ReadInteger
     FxIndex = incomingData.ReadInteger
     
     'Comprobamos si las coordenadas estan dentro de lo esperado
-    If Not Map_InBounds(X, Y) Then Exit Sub
+    If Not Map_InBounds(x, y) Then Exit Sub
 
     'Set the fx on the map
-    With MapData(X, Y) 'TODO: hay que hacer una funcion separada que haga esto
+    With MapData(x, y) 'TODO: hay que hacer una funcion separada que haga esto
         .FxIndex = FxIndex
     
         If .FxIndex > 0 Then
@@ -5612,17 +5612,17 @@ Private Sub HandleCreateDamage()
         ' Leemos el ID del paquete.
         Call .ReadByte
         
-        Dim X As Integer
-        Dim Y As Integer
+        Dim x As Integer
+        Dim y As Integer
         Dim DamageValue As Long
         Dim edMode As Byte
         
-        X = .ReadInteger()
-        Y = .ReadInteger()
+        x = .ReadInteger()
+        y = .ReadInteger()
         DamageValue = .ReadLong()
         edMode = .ReadByte()
         
-        Call mDx8_Dibujado.Damage_Create(X, Y, DamageValue, edMode)
+        Call mDx8_Dibujado.Damage_Create(x, y, DamageValue, edMode)
      
     End With
  
@@ -5800,7 +5800,7 @@ Private Sub HandleAtaqueNPC()
 
     With charlist(NPCAtaqueIndex)
             
-        MapData(.Pos.X, .Pos.Y).CharIndex = NPCAtaqueIndex
+        MapData(.Pos.x, .Pos.y).CharIndex = NPCAtaqueIndex
         .Ataque.AtaqueWalk(.Heading).Started = 1
         .NPCAttack = True
     End With

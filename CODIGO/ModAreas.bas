@@ -1,4 +1,4 @@
-Attribute VB_Name = "Areas"
+Attribute VB_Name = "ModAreas"
 'Argentum Online 0.11.6
 '
 'Copyright (C) 2002 Marquez Pablo Ignacio
@@ -52,8 +52,8 @@ Public Sub CalcularAreas(HalfWindowTileWidth As Integer, HalfWindowTileHeight As
 End Sub
 
 ' Elimina todo fuera del area del usuario
-Public Sub CambioDeArea(ByVal X As Integer, _
-                        ByVal Y As Integer, _
+Public Sub CambioDeArea(ByVal x As Integer, _
+                        ByVal y As Integer, _
                         ByVal Heading As E_Heading)
 
     Dim CharIndex As Integer
@@ -67,11 +67,11 @@ Public Sub CambioDeArea(ByVal X As Integer, _
     Dim loopY     As Integer
     
     ' Calculamos el area actual al que pertenece
-    CurAreaX = X \ AreasX
-    CurAreaY = Y \ AreasY
+    CurAreaX = x \ AreasX
+    CurAreaY = y \ AreasY
     
-    For loopX = UserPos.X - 50 To UserPos.X + 50
-        For loopY = UserPos.Y - 50 To UserPos.Y + 50
+    For loopX = UserPos.x - 50 To UserPos.x + 50
+        For loopY = UserPos.y - 50 To UserPos.y + 50
 
             ' Si el tile esta fuera del area
             If Not EstaDentroDelArea(loopX, loopY) Then
@@ -160,8 +160,8 @@ Public Sub CalcularArea(ByVal Heading As Byte, ByRef MinX As Integer, ByRef MaxX
 End Sub
 
 ' Calcula si la posicion se encuentra dentro del area del usuario
-Public Function EstaDentroDelArea(ByVal X As Integer, ByVal Y As Integer) As Boolean
-    EstaDentroDelArea = (Abs(CurAreaX - X \ AreasX) <= 1) And (Abs(CurAreaY - Y \ AreasY) <= 1)
+Public Function EstaDentroDelArea(ByVal x As Integer, ByVal y As Integer) As Boolean
+    EstaDentroDelArea = (Abs(CurAreaX - x \ AreasX) <= 1) And (Abs(CurAreaY - y \ AreasY) <= 1)
 End Function
 
 Public Sub LimpiarAreas()
