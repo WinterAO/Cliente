@@ -354,7 +354,7 @@ Private Function CreateBufferFromFile_Ex(ByVal file_name As String, ByVal buffer
 '**************************************************************
 
 On Error GoTo ErrorHandler
-
+If tipo = 1 Then Debug.Print file_name
     Dim extension As String
     
     Dim btArr() As Byte, gudtHeader As WAVETYPE
@@ -433,7 +433,8 @@ On Error GoTo ErrorHandler
 Exit Function
 
 ErrorHandler:
-    'Ocurrió un error, la causa más probable es que el archivo no exista
+
+    Call RegistrarError("1", "Ocurrió un error, la causa más probable es que el archivo no exista o tenga algun problema.", "CreateBufferFromFile_Ex")
     'If General_File_Exists(Windows_Temp_Dir & file_name & ".wav", vbNormal) Then
     '    Delete_File Windows_Temp_Dir & file_name & ".wav"
     'End If
@@ -566,7 +567,7 @@ Public Function CargarBuffer(ByVal filename As String, ByVal tipo As srcFileType
     
 End Function
 
-Public Function Reproducir(ByVal file_name As String, play_format As CONST_DSBPLAYFLAGS, ByVal Volume As Long, ByVal pan As Long) As Boolean
+Public Function Reproducir(ByVal file_name As String, play_format As CONST_DSBPLAYFLAGS, ByVal Volume As Long, ByVal pan As Long, Optional ByVal tipo As srcFileType = Wav) As Boolean
 '**************************************************************
 'Author: Augusto José Rando
 'Last Modify Date: 17/08/2005
@@ -577,7 +578,7 @@ Static Sound_Buffer As DirectSoundSecondaryBuffer8
 
 On Error GoTo ErrorHandler
 
-    Call GetBuffer(file_name, Sound_Buffer, Wav)
+    Call GetBuffer(file_name, Sound_Buffer, tipo)
     If Sound_Buffer Is Nothing Then Exit Function
     
     'Esto solo debería pasar si ya hay MAX_BUFFERS en reproducción

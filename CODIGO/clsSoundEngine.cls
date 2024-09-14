@@ -59,10 +59,6 @@ Dim IBA   As IBasicAudio
 Dim IME   As IMediaEvent
 Dim IMPos As IMediaPosition
 
-'**** AMBIENT ********
-Dim ambient_buffer As DirectSoundSecondaryBuffer8
-Dim ambient_fire_buffer As DirectSoundSecondaryBuffer8
-
 Private mAmbienteActual As Integer
 Private mMusActual As String
 Private WavPath As String
@@ -75,6 +71,7 @@ Private Engine_Initialized As Boolean
 Private Buffers As clsBufferMan
 Private Buffers_Sec As clsBufferMan
 Private Buffers_Ter As clsBufferMan
+Private Buffers_Ambient As clsBufferMan
 
 'El volúmen actual real (sonidos)
 Private mEffectsVolume As Long
@@ -101,9 +98,6 @@ Private mFadingMusicMod As Long
 '¿Próxima musica?
 Private mNextMusic As String
 Private mLastMusic As String
-
-'Playing flags
-Private play_fire As Boolean
 
 'Musica de mapa
 Private mLastMapMusic As Integer
@@ -171,6 +165,11 @@ Public Function Engine_DeInitialize()
         Set Buffers_Ter = Nothing
     End If
     
+    If Not Buffers_Ambient Is Nothing Then
+        Call Buffers_Ambient.BorrarTodo
+        Set Buffers_Ambient = Nothing
+    End If
+    
     Call Music_Empty
     
     Set dmSegState = Nothing
@@ -194,71 +193,72 @@ Public Function Engine_DeInitialize()
 
 End Function
 
-Public Function Initialize_Engine(ByVal main_hwnd As String, ByVal SoundPath As String, Optional ByVal Play_only_on_focus As Boolean = True, Optional ByVal Initialize_Sounds As Boolean = True, Optional ByVal Initialize_Music As Boolean = True, Optional ByVal sound_volume As Long, Optional ByVal music_volume As Long, Optional ByVal invert_snd As Boolean) As Boolean
-'**************************************************************
-'Author: Augusto José Rando (barrin@imperiumao.com.ar)
-'Last Modify Date: 2/08/2006
-'**************************************************************
+Public Function Initialize_Engine(ByVal main_hwnd As String, _
+                                  ByVal SoundPath As String, _
+                                  Optional ByVal Play_only_on_focus As Boolean = True, _
+                                  Optional ByVal sound_volume As Long, _
+                                  Optional ByVal music_volume As Long, _
+                                  Optional ByVal invert_snd As Boolean) As Boolean
+    '**************************************************************
+    'Author: Augusto José Rando (barrin@imperiumao.com.ar)
+    'Last Modify Date: 2/08/2006
+    '**************************************************************
 
     On Error GoTo errhandler
     
     Dim dmA As DMUS_AUDIOPARAMS
     
-    If Initialize_Sounds Or Initialize_Music Then
-        Set dX = New DirectX8
+    Set dX = New DirectX8
     
-        If Initialize_Sounds Then
-            SetWavPath = SoundPath
-            Set DS_Enum = dX.GetDSEnum
-            Set DS = dX.DirectSoundCreate(DS_Enum.GetGuid(1))
+    'SONIDOS
+    SetWavPath = SoundPath
+    Set DS_Enum = dX.GetDSEnum
+    Set DS = dX.DirectSoundCreate(DS_Enum.GetGuid(1))
             
-            Set Buffers = New clsBufferMan
-            Set Buffers_Sec = New clsBufferMan
-            Set Buffers_Ter = New clsBufferMan
+    Set Buffers = New clsBufferMan
+    Set Buffers_Sec = New clsBufferMan
+    Set Buffers_Ter = New clsBufferMan
             
-            Buffers.Path = SoundPath
-            Buffers_Sec.Path = SoundPath
-            Buffers_Ter.Path = SoundPath
+    Buffers.Path = SoundPath
+    Buffers_Sec.Path = SoundPath
+    Buffers_Ter.Path = SoundPath
             
-            Call Buffers.Init(DS, 400)
-            Call Buffers_Sec.Init(DS, 200)
-            Call Buffers_Ter.Init(DS, 100)
+    Call Buffers.Init(DS, 400)
+    Call Buffers_Sec.Init(DS, 200)
+    Call Buffers_Ter.Init(DS, 100)
             
-            If Play_only_on_focus Then
-                DS.SetCooperativeLevel main_hwnd, DSSCL_NORMAL
-            Else
-                DS.SetCooperativeLevel main_hwnd, DSSCL_PRIORITY
-            End If
-        
-            VolumenActual = sound_volume
-            mInvert_Sound = invert_snd
-            
-        End If
-        
-        Sound.VolumenActualAmbient_set ClientSetup.AmbientVol
-        
-        If Initialize_Music Then
-            SetMP3Path = SoundPath
-            VolumenActualMusicMax = music_volume
-            Set dmLoader = dX.DirectMusicLoaderCreate
-            Set dmPerf = dX.DirectMusicPerformanceCreate
-            dmPerf.InitAudio main_hwnd, DMUS_AUDIOF_ENVIRON + DMUS_AUDIOF_BUFFERS + DMUS_AUDIOF_3D + DMUS_AUDIOF_EAX + DMUS_AUDIOF_DMOS, dmA
-            dmPerf.SetMasterVolume (music_volume)
-            Set dmPath = dmPerf.CreateStandardAudioPath(DMUS_APATH_DYNAMIC_3D, 64, True)
-        End If
-        
-        Engine_Initialized = True
-        Initialize_Engine = True
+    If Play_only_on_focus Then
+        DS.SetCooperativeLevel main_hwnd, DSSCL_NORMAL
     Else
-        Engine_Initialized = False
-        Initialize_Engine = True
+        DS.SetCooperativeLevel main_hwnd, DSSCL_PRIORITY
     End If
-    
-    Call Ambient_General_Load(mEffectsVolumeAmbient)
+        
+    VolumenActual = sound_volume
+    mInvert_Sound = invert_snd
+        
+    'AMBIENT
+    Set Buffers_Ambient = New clsBufferMan
+    Buffers_Ambient.Path = SoundPath
+    Call Buffers_Ambient.Init(DS, 50)
+        
+    'MUSICA
+    Sound.VolumenActualAmbient_set ClientSetup.AmbientVol
+        
+    SetMP3Path = SoundPath
+    VolumenActualMusicMax = music_volume
+    Set dmLoader = dX.DirectMusicLoaderCreate
+    Set dmPerf = dX.DirectMusicPerformanceCreate
+    dmPerf.InitAudio main_hwnd, DMUS_AUDIOF_ENVIRON + DMUS_AUDIOF_BUFFERS + DMUS_AUDIOF_3D + DMUS_AUDIOF_EAX + DMUS_AUDIOF_DMOS, dmA
+    dmPerf.SetMasterVolume (music_volume)
+    Set dmPath = dmPerf.CreateStandardAudioPath(DMUS_APATH_DYNAMIC_3D, 64, True)
+        
+    Engine_Initialized = True
+    Initialize_Engine = True
     
     Exit Function
 
 errhandler:
+
     If Len(Trim$(Err.Description)) Then
         Engine_Initialized = False
         Initialize_Engine = False
@@ -455,8 +455,6 @@ Public Function Sound_Stop_All() As Boolean
     Buffers.DetenerTodo
     Buffers_Sec.DetenerTodo
     Buffers_Ter.DetenerTodo
-    
-    'Ambient_Stop
     
     Sound_Stop_All = True
 
@@ -728,114 +726,6 @@ Error_Handl:
 
 End Function
 
-Public Function Ambient_Load(ByVal file_name As String, Optional ByVal Volume As Long = 0)
-'**************************************************************
-'Author: Augusto José Rando (barrin@imperiumao.com.ar)
-'Last Modify Date: 2/08/2006
-'**************************************************************
-    
-    On Error GoTo Error_Handl
-
-    If (file_name <= 0) Or (ClientSetup.bAmbient = 0) Or (Engine_Initialized = False) Then Exit Function
-    
-    Call Buffers.GetBuffer(file_name & ".wav", ambient_buffer, Ambient)
-    
-    If Volume < -4000 Then Volume = -4000
-    ambient_buffer.SetVolume Volume
-    
-    Ambient_Load = True
-    Exit Function
-
-Error_Handl:
-    Ambient_Load = False
-
-End Function
-
-Public Function Ambient_General_Load(ByVal Volume As Long)
-'**************************************************************
-'Author: Augusto José Rando (barrin@imperiumao.com.ar)
-'Last Modify Date: 2/08/2006
-'**************************************************************
-    
-    On Error GoTo Error_Handl
-
-    If (ClientSetup.bAmbient = 0) Or (Engine_Initialized = False) Then Exit Function
-    
-    Call Buffers.GetBuffer(SND_FUEGO, ambient_fire_buffer, Wav)
-    
-    If Volume < -4000 Then Volume = -4000
-    
-    Ambient_General_Load = True
-    Exit Function
-
-Error_Handl:
-    Ambient_General_Load = False
-
-End Function
-
-Public Function Ambient_Play() As Boolean
-'**************************************************************
-'Author: Augusto José Rando (barrin@imperiumao.com.ar)
-'Last Modify Date: 2/08/2006
-'**************************************************************
-    
-    On Error GoTo Error_Handl
-    
-    If (ClientSetup.bAmbient = 0) Or (Engine_Initialized = False) Then Exit Function
-    ambient_buffer.Play DSBPLAY_LOOPING
-    
-    Ambient_Play = True
-    Exit Function
-
-Error_Handl:
-    Ambient_Play = False
-End Function
-
-Public Function Ambient_Stop() As Boolean
-'**************************************************************
-'Author: Augusto José Rando (barrin@imperiumao.com.ar)
-'Last Modify Date: 2/08/2006
-'**************************************************************
-
-    On Error GoTo Error_Handl
-    
-    If (ClientSetup.bAmbient = 0) Or (Engine_Initialized = False) Then Exit Function
-    
-    If Not ambient_buffer Is Nothing Then ambient_buffer.Stop
-    
-    play_fire = False
-    mAmbienteActual = 0
-    
-    Ambient_Stop = True
-    Exit Function
-
-Error_Handl:
-    Ambient_Stop = False
-End Function
-
-Public Function Ambient_Volume_Set(ByVal sound_volume As Long) As Boolean
-'**************************************************************
-'Author: Augusto José Rando (barrin@imperiumao.com.ar)
-'Last Modify Date: 2/08/2006
-'**************************************************************
-
-    On Error GoTo Error_Handl
-    
-    If (ClientSetup.bAmbient = 0) Or (Engine_Initialized = False) Then Exit Function
-    
-    If sound_volume > 0 Then sound_volume = 0
-    If sound_volume < -4000 Then sound_volume = -4000
-    
-    If Not ambient_buffer Is Nothing Then ambient_buffer.SetVolume sound_volume
-    'ambient_rain_int_buffer.SetVolume sound_volume
-    'ambient_rain_buffer.SetVolume sound_volume
-    
-    Ambient_Volume_Set = True
-    Exit Function
-
-Error_Handl:
-    Ambient_Volume_Set = False
-End Function
 
 Public Function Sound_Render()
 '**************************************************************
@@ -845,7 +735,7 @@ Public Function Sound_Render()
 
 On Error Resume Next
 
-    Dim TiempoActual As Long, X As Integer, Y As Integer, mAmb As Integer
+    Dim TiempoActual As Long, x As Integer, y As Integer, mAmb As Integer
     
     Static under_roof As Boolean
     Static Sound_Buffer As DirectSoundSecondaryBuffer8
@@ -860,13 +750,12 @@ On Error Resume Next
         If CurrentUser.UserMap > 0 Then
             under_roof = bTecho
                 
-            mAmb = Ambient_Calculate
+            mAmb = MapZonas(UserZonaId(UserCharIndex)).Ambient
                         
             If mAmbienteActual <> mAmb Then
-                Call Ambient_Stop
+                Call Ambient_Stop_All
                 mAmbienteActual = mAmb
-                Call Ambient_Load(mAmbienteActual, mEffectsVolumeAmbient)
-                Call Ambient_Play
+                Call Ambient_Play(mAmbienteActual, True, mEffectsVolumeAmbient)
             End If
                         
             If under_roof Then 'En los interiores el sonido es más suave :)
@@ -881,22 +770,6 @@ On Error Resume Next
                 End If
             End If
                     
-        End If
-                    
-        
-        If Map_Item_Grh_In_Current_Area(GRH_FOGATA, X, Y) Then
-            If Not play_fire Then
-                ambient_fire_buffer.SetVolume Calculate_Volume(X, Y)
-                ambient_fire_buffer.SetPan Calculate_Pan(X, Y)
-                ambient_fire_buffer.Play DSBPLAY_LOOPING
-                play_fire = True
-            ElseIf charlist(UserCharIndex).moved Then
-                ambient_fire_buffer.SetVolume Calculate_Volume(X, Y)
-                ambient_fire_buffer.SetPan Calculate_Pan(X, Y)
-            End If
-        ElseIf play_fire Then
-            play_fire = False
-            ambient_fire_buffer.Stop
         End If
                 
         If mFadingMusicMod <> 0 And ClientSetup.bMusic <> CONST_DESHABILITADA Then
@@ -1025,49 +898,92 @@ Public Function Calculate_Volume(ByVal map_x As Integer, ByVal map_y As Integer)
 
 End Function
 
-Private Function Ambient_Calculate() As Integer
+Public Function Ambient_Stop_All() As Boolean
+'**************************************************************
+'Author: Lorwik
+'Last Modify Date: 15/09/2024
+'**************************************************************
 
-    Static under_roof As Boolean
-    Dim intSound As Integer
-    Dim ZonaId As Integer
+    On Error GoTo Error_Handl
     
-    ZonaId = UserZonaId(UserCharIndex)
+    Buffers_Ambient.DetenerTodo
     
-    under_roof = bTecho
-    intSound = Val(MapZonas(ZonaId).Ambient)
+    Ambient_Stop_All = True
+
+Exit Function
     
-    '¿Esta lloviendo? Y NO ES DUNGEON!
-    If MeterologiaEnDungeon Then
+Error_Handl:
+    Ambient_Stop_All = False
+
+End Function
+
+Public Function Ambient_Play(ByVal Sound_File As Integer, Optional ByVal Do_Loop As Boolean = False, Optional ByVal Volume As Long = 0) As Boolean
+'**************************************************************
+'Author: Lorwik
+'Last Modify Date: 15/09/2024
+'**************************************************************
+
+On Error GoTo Error_Handl
     
-        'Mapas de tipo bosque, sonido de lluvia
-        If MapZonas(ZonaId).Terreno = "BOSQUE" Then
-            '¿Esta en techo?
-            If under_roof Then
-                intSound = SND_LLUVIAIN
-                                        
-            Else '¿Esta fuera?
-                intSound = SND_LLUVIAOUT
-                                              
-            End If
-            
-        Else 'El resto, sonido de viento
-            intSound = SND_VIENTO
-            
-        End If
+    If (Sound_File <= 0) Or (ClientSetup.bAmbient = 0) Or (Engine_Initialized = False) Then Exit Function
     
-    '¿Es de noche?
-    ElseIf Estado_Actual_Date = e_estados.Noche Then
+    If Volume = 0 Then Volume = mEffectsVolumeMax
     
-        If MapZonas(ZonaId).Zona = "BOSQUE" Then 'Sonidos en bosques:
-            intSound = SND_AMBIENTE_NOCHE
-            
-        ElseIf MapZonas(ZonaId).Zona = "CIUDAD" Then 'Sonidos en ciudad:
-            intSound = SND_AMBIENTE_NOCHE_CIU
-            
-        End If
-        
+    Call Buffers_Ambient.Reproducir(Sound_File & ".wav", IIf(Do_Loop, DSBPLAY_LOOPING, DSBPLAY_DEFAULT), Volume, 0, Ambient)
+    
+    Ambient_Play = True
+    
+    Exit Function
+    
+Error_Handl:
+    Ambient_Play = False
+End Function
+
+Public Function Ambient_Load(ByVal file_num As String) As Boolean
+'**************************************************************
+'Author: Augusto José Rando
+'Last Modify Date: 7/16/2005
+'**************************************************************
+    
+    If (ClientSetup.bAmbient = 0) Or (Engine_Initialized = False) Then Exit Function
+    
+    If Buffers_Ambient.CargarBuffer(file_num & ".wav", Ambient) Then
+        Ambient_Load = True
     End If
+
+End Function
+
+Public Function Ambient_Stop(ByVal Sound_File As Integer) As Boolean
+'**************************************************************
+'Author: Lorwik
+'Last Modify Date: 15/09/2024
+'**************************************************************
+
+On Error GoTo Error_Handl
     
-    Ambient_Calculate = intSound
+    If (Sound_File <= 0) Or (ClientSetup.bAmbient = 0) Or (Engine_Initialized = False) Then Exit Function
+    
+    Call Buffers_Ambient.Detener(Sound_File)
+    
+    Ambient_Stop = True
+    
+    Exit Function
+
+Error_Handl:
+    Ambient_Stop = False
+
+End Function
+
+Private Function Ambient_Volume_Set(ByVal vNewValue As Long)
+'**************************************************************
+'Author: Lorwik
+'Last Modify Date: 15/09/2024
+'**************************************************************
+    
+    If vNewValue > 0 Then vNewValue = 0
+    If vNewValue < -4000 Then vNewValue = -4000
+    
+    mAmbientVolumeMax = vNewValue
+    Buffers_Ambient.ModificarVolumenTodo (vNewValue)
 
 End Function
