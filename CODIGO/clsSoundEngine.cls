@@ -750,7 +750,7 @@ On Error Resume Next
         If CurrentUser.UserMap > 0 Then
             under_roof = bTecho
                 
-            mAmb = MapZonas(UserZonaId(UserCharIndex)).Ambient
+            mAmb = Ambient_Calculate
                         
             If mAmbienteActual <> mAmb Then
                 Call Ambient_Stop_All
@@ -985,5 +985,52 @@ Private Function Ambient_Volume_Set(ByVal vNewValue As Long)
     
     mAmbientVolumeMax = vNewValue
     Buffers_Ambient.ModificarVolumenTodo (vNewValue)
+
+End Function
+
+Private Function Ambient_Calculate() As Integer
+
+    Static under_roof As Boolean
+    Dim intSound As Integer
+    Dim ZonaId As Integer
+    
+    ZonaId = UserZonaId(UserCharIndex)
+    
+    under_roof = bTecho
+    intSound = Val(MapZonas(ZonaId).Ambient)
+    
+    '¿Esta lloviendo? Y NO ES DUNGEON!
+    If MeterologiaEnDungeon Then
+    
+        'Mapas de tipo bosque, sonido de lluvia
+        If MapZonas(ZonaId).Terreno = "BOSQUE" Then
+            '¿Esta en techo?
+            If under_roof Then
+                intSound = SND_LLUVIAIN
+                                        
+            Else '¿Esta fuera?
+                intSound = SND_LLUVIAOUT
+                                              
+            End If
+            
+        Else 'El resto, sonido de viento
+            intSound = SND_VIENTO
+            
+        End If
+    
+    '¿Es de noche?
+    ElseIf Estado_Actual_Date = e_estados.Noche Then
+    
+        If MapZonas(ZonaId).Zona = "BOSQUE" Then 'Sonidos en bosques:
+            intSound = SND_AMBIENTE_NOCHE
+            
+        ElseIf MapZonas(ZonaId).Zona = "CIUDAD" Then 'Sonidos en ciudad:
+            intSound = SND_AMBIENTE_NOCHE_CIU
+            
+        End If
+        
+    End If
+    
+    Ambient_Calculate = intSound
 
 End Function

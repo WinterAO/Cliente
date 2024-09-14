@@ -148,7 +148,7 @@ Public Const SND_LLUVIAIN As Byte = 17
 Public Const SND_LLUVIAOUT As Byte = 18
 Public Const SND_VIENTO As Byte = 14
 Public Const SND_AMBIENTE_NOCHE As Byte = 7
-Public Const SND_AMBIENTE_NOCHE_CIU As Byte = 3
+Public Const SND_AMBIENTE_NOCHE_CIU As Byte = 1
 
 '###########################
 ' Constantes de intervalo
