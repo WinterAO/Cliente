@@ -133,7 +133,7 @@ Public Pasos() As tPaso
 
 'Sonidos
 Public Const SND_CLICK As String = 190
-Public Const SND_MSG As String = 84
+Public Const SND_MSG As String = 530
 Public Const SND_FUEGO As Integer = 79
 Public Const GRH_FOGATA As Integer = 1521
 Public Const SND_RELAMPAGO As Byte = 97
@@ -508,6 +508,7 @@ Type tEstadisticasUsu
     UsuariosMatados As Long
     NpcsMatados As Long
     Clase As String
+    Raza As String
     PenaCarcel As Long
 End Type
 
@@ -649,8 +650,6 @@ Public Ciudades(1 To NUMCIUDADES) As String
 Public ListaRazas(1 To NUMRAZAS) As String
 Public ListaClases(1 To NUMCLASES) As String
 
-Public SkillPoints As Integer
-Public Alocados As Integer
 Public flags() As Integer
 
 Public UsingSkill As Integer
@@ -695,7 +694,6 @@ Public Enum eEditOptions
     eo_Level
     eo_Class
     eo_Skills
-    eo_SkillPointsLeft
     eo_Nobleza
     eo_Asesino
     eo_Sex

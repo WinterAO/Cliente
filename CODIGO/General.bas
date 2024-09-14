@@ -497,8 +497,6 @@ Sub Main()
 
     Call GenerateContra
     
-    Call IniciarCabecera
-    
     'Load client configurations.
     Call Carga.LeerConfiguracion
 
@@ -525,7 +523,7 @@ Sub Main()
     Form_Caption = "WinterAO Resurrection v" & App.Major & "." & App.Minor & "." & App.Revision
     
     'Set resolution BEFORE the loading form is displayed, therefore it will be centered.
-    Call Resolution.SetResolution(1024, 768)
+    Call Resolution.SetResolution(1280, 768)
 
     ' Load constants, classes, flags, graphics..
     Call LoadInitialConfig
@@ -581,7 +579,7 @@ Sub Main()
             
         End If
         
-        If (ClientSetup.bSound = 1 Or ClientSetup.bMusic <> CONST_DESHABILITADA) Then Call Sound.Sound_Render
+        If (ClientSetup.bSound = 1 Or ClientSetup.bMusic <> CONST_DESHABILITADA Or ClientSetup.bAmbient = 1) Then Call Sound.Sound_Render
         
         'FPS Counter - mostramos las FPS
         If GetTickCount - lFrameTimer >= 1000 Then
@@ -664,7 +662,7 @@ Private Sub LoadInitialConfig()
     Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_SONIDO").item("TEXTO"), 20)
     
     'Inicializamos el sonido
-    If Sound.Initialize_Engine(frmMain.hWnd, Path(ePath.recursos), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
+    If Sound.Initialize_Engine(frmMain.hWnd, Path(ePath.recursos), False, ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
         'frmCargando.picLoad.Width = 300
     Else
         MsgBox "¡No se ha logrado iniciar el engine de DirectSound! Reinstale los últimos controladores de DirectX. No habrá soporte de audio en el juego.", vbCritical, "Advertencia"
@@ -1166,7 +1164,7 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
         
         'Stop audio
         Sound.Sound_Stop_All
-        Sound.Ambient_Stop
+        Sound.Ambient_Stop_All
         
         ' Reset flags
         pausa = False
@@ -1205,8 +1203,6 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
         .UserEmail = vbNullString
         .UserELO = 0
         .UserEquitando = 0
-        Alocados = 0
-        SkillPoints = 0
         
         lblHelm = "0/0"
         lblWeapon = "0/0"
@@ -1481,6 +1477,7 @@ Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
     '**************************************
 
     Dim ZonaId          As Integer
+
     Static currentMusic As Byte
 
     'Si estamos jugando y no en el conectar...
@@ -1509,10 +1506,13 @@ Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
             If ClientSetup.bMusic <> CONST_DESHABILITADA Then
                 If ClientSetup.bMusic <> CONST_DESHABILITADA Then
                 
-                    If currentMusic <> CByte(MapZonas(ZonaId).Music) Then
-                        Sound.NextMusic = MapZonas(ZonaId).Music
-                        Sound.Fading = 200
-                        currentMusic = MapZonas(ZonaId).Music
+                    If Not MapZonas(ZonaId).Music > 0 Then
+                        If currentMusic <> CByte(MapZonas(ZonaId).Music) Then
+                            Sound.NextMusic = MapZonas(ZonaId).Music
+                            Sound.Fading = 200
+                            currentMusic = MapZonas(ZonaId).Music
+
+                        End If
 
                     End If
 
