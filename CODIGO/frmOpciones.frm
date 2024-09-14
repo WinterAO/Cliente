@@ -526,12 +526,11 @@ Private Sub chkop_MouseUp(Index As Integer, Button As Integer, Shift As Integer,
             
             If chkop(Index).value = vbUnchecked Then
                 ClientSetup.bAmbient = 0
-                Call Sound.Sound_Stop_All
+                Call Sound.Ambient_Stop_All
             Else
                 ClientSetup.bAmbient = 1
                 scrAmbient.Enabled = True
-                Call Sound.Ambient_Load(Sound.AmbienteActual, ClientSetup.AmbientVol)
-                Call Sound.Ambient_Play
+                Call Sound.Ambient_Play(Sound.AmbienteActual, True, ClientSetup.AmbientVol)
             End If
             
         Case 4 'HUD

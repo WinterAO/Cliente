@@ -579,7 +579,7 @@ Sub Main()
             
         End If
         
-        If (ClientSetup.bSound = 1 Or ClientSetup.bMusic <> CONST_DESHABILITADA) Then Call Sound.Sound_Render
+        If (ClientSetup.bSound = 1 Or ClientSetup.bMusic <> CONST_DESHABILITADA Or ClientSetup.bAmbient = 1) Then Call Sound.Sound_Render
         
         'FPS Counter - mostramos las FPS
         If GetTickCount - lFrameTimer >= 1000 Then
@@ -662,7 +662,7 @@ Private Sub LoadInitialConfig()
     Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_SONIDO").item("TEXTO"), 20)
     
     'Inicializamos el sonido
-    If Sound.Initialize_Engine(frmMain.hWnd, Path(ePath.recursos), False, (ClientSetup.bSound > 0), (ClientSetup.bMusic <> CONST_DESHABILITADA), ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
+    If Sound.Initialize_Engine(frmMain.hWnd, Path(ePath.recursos), False, ClientSetup.SoundVolume, ClientSetup.MusicVolume, ClientSetup.Invertido) Then
         'frmCargando.picLoad.Width = 300
     Else
         MsgBox "¡No se ha logrado iniciar el engine de DirectSound! Reinstale los últimos controladores de DirectX. No habrá soporte de audio en el juego.", vbCritical, "Advertencia"
@@ -710,7 +710,7 @@ Private Sub LoadInitialConfig()
     Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 70)
     
     'Inicializamos el inventario grafico
-    Call Inventario.Initialize(DirectD3D8, frmMain.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call Inventario.Initialize(DirectD3D8, frmMain.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_MAPA").item("TEXTO"), 75)
     
@@ -1164,7 +1164,7 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
         
         'Stop audio
         Sound.Sound_Stop_All
-        Sound.Ambient_Stop
+        Sound.Ambient_Stop_All
         
         ' Reset flags
         pausa = False
