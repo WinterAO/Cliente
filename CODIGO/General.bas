@@ -669,12 +669,9 @@ Private Sub LoadInitialConfig()
         frmOpciones.Frame2.Enabled = False
     End If
 
-    If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-        Sound.NextMusic = MUS_Inicio
-        Sound.Fading = 350
-        Sound.Sound_Render
-    End If
-
+    Call Sound.Music_Next(MUS_Inicio, 350)
+    Call Sound.Sound_Render
+    
     Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 30)
     
     '###########
@@ -1502,22 +1499,13 @@ Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
         
             'Aqui ponemos el nombre del mapa en el label del frmMain
             frmMain.lblMapName.Caption = MapZonas(ZonaId).name
-            
-            If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-                If ClientSetup.bMusic <> CONST_DESHABILITADA Then
                 
-                    If Not MapZonas(ZonaId).Music > 0 Then
-                        If currentMusic <> CByte(MapZonas(ZonaId).Music) Then
-                            Sound.NextMusic = MapZonas(ZonaId).Music
-                            Sound.Fading = 200
-                            currentMusic = MapZonas(ZonaId).Music
-
-                        End If
-
-                    End If
+            If MapZonas(ZonaId).Music > 0 Then
+                If currentMusic <> CByte(MapZonas(ZonaId).Music) Then
+                    Call Sound.Music_Next(MapZonas(ZonaId).Music, 200)
+                    currentMusic = MapZonas(ZonaId).Music
 
                 End If
-
             End If
         
         End If

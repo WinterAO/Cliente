@@ -650,13 +650,8 @@ Public Sub ClickEvent(ByVal tX As Long, ByVal tY As Long)
             'Volver
             If (tX >= ButtonGUI(17).x And tX <= ButtonGUI(17).PosX) And (tY >= ButtonGUI(17).y And tY <= ButtonGUI(17).PosY) Then
                 Call Sound.Sound_Play(SND_CLICK)
-
-                If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-                    If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-                        Sound.NextMusic = MUS_VolverInicio
-                        Sound.Fading = 200
-                    End If
-                End If
+                
+                Call Sound.Music_Next(MUS_VolverInicio, 200)
                 
                 Call MostrarCuenta
             End If
@@ -809,14 +804,10 @@ Private Sub CrearNuevoPJ()
         Exit Sub
     End If
     
-    If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-        If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-            Sound.NextMusic = MUS_CrearPersonaje
-            Sound.Fading = 500
-        End If
-    End If
+    Call Sound.Music_Next(MUS_CrearPersonaje, 200)
 
     Call MostrarCreacion
+    
 End Sub
 
 Private Sub btnConectar()

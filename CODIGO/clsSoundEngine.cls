@@ -603,6 +603,19 @@ Error_Handl:
     Music_Load = False
 End Function
 
+Public Sub Music_Next(ByVal Music As Integer, ByVal Fade As Integer)
+'**************************************************************
+'Author: Lorwik
+'Last Modify Date: 15/09/2024
+'**************************************************************
+
+    If ClientSetup.bMusic <> CONST_DESHABILITADA Then
+        Sound.NextMusic = Music
+        Sound.Fading = Fade
+    End If
+    
+End Sub
+
 Public Function Music_Play() As Boolean
 '**************************************************************
 'Author: Augusto José Rando (barrin@imperiumao.com.ar)

@@ -1397,12 +1397,7 @@ Private Sub HandleDisconnect()
     frmMain.Visible = False
     Call MostrarCuenta(True)
     
-    If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-        If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-            Sound.NextMusic = MUS_VolverInicio
-            Sound.Fading = 200
-        End If
-    End If
+    Call Sound.Music_Next(MUS_VolverInicio, 200)
     
 End Sub
 
@@ -2724,12 +2719,8 @@ Private Sub HandlePlayMUSIC()
     currentMusic = incomingData.ReadInteger()
     Loops = incomingData.ReadInteger()
     
-    If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-        If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-            Sound.NextMusic = currentMusic
-            Sound.Fading = 200
-        End If
-    End If
+    Call Sound.Music_Next(currentMusic, 200)
+    
 End Sub
 
 ''
