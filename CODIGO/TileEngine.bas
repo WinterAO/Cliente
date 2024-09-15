@@ -241,6 +241,7 @@ Public Type tZonaInfo
     StartPos As WorldPos
     MapVersion As Integer
     Ambient As Integer
+    AmbientNight As Integer
     Zona As String
     Terreno As String
     LuzBase As Long

@@ -1036,6 +1036,7 @@ Sub CargarMapa(ByVal fileMap As String)
             .Zona = fileBuff.getString()
             .Terreno = fileBuff.getString()
             .Ambient = fileBuff.getInteger()
+            .AmbientNight = fileBuff.getInteger()
             Call fileBuff.getInteger
             Call fileBuff.getInteger
             Call fileBuff.getBoolean

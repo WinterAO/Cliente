@@ -1034,13 +1034,9 @@ Private Function Ambient_Calculate() As Integer
     '¿Es de noche?
     ElseIf Estado_Actual_Date = e_estados.Noche Then
     
-        If MapZonas(ZonaId).Zona = "BOSQUE" Then 'Sonidos en bosques:
-            intSound = SND_AMBIENTE_NOCHE
-            
-        ElseIf MapZonas(ZonaId).Zona = "CIUDAD" Then 'Sonidos en ciudad:
-            intSound = SND_AMBIENTE_NOCHE_CIU
-            
-        End If
+        'Si la zona tiene un sonido para noche lo usamos
+        If MapZonas(ZonaId).AmbientNight > 0 Then _
+            intSound = MapZonas(ZonaId).AmbientNight
         
     End If
     
