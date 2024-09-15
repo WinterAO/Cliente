@@ -61,15 +61,6 @@ End Type
 
 Private EndTime As Long
 
-Public Sub SetSpeedUsuario(ByVal speed As Double)
-'*******************************
-'Autor: ???
-'Fecha: ???
-'*******************************
-
-    Engine_BaseSpeed = speed
-End Sub
-
 Public Sub Engine_DirectX8_Init()
     On Error GoTo EngineHandler:
 

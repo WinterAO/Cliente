@@ -163,6 +163,7 @@ Public Enum eIntervalos
     INT_USEITEMDCK = 250    'Usar Item dobleclick
     INT_SENTRPU = 2000      'Manda L
     INT_CHANGE_HEADING = 300
+    INT_WALK = 210
 End Enum
 
 '#######################
@@ -891,8 +892,6 @@ Public IntervaloParalizado As Integer
 Public IntervaloInvisible As Integer
 
 Public Security As New clsSecurity
-
-Public Const SPEED_NORMAL As Double = 0.018
 
 Public Type ShopObj
     ObjIndex As Integer

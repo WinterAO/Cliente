@@ -51,7 +51,7 @@ Private Type tFont
 End Type
 
 Private Enum ServerPacketID
-    logged = 1                  ' LOGGED
+    Logged = 1                  ' LOGGED
     RemoveDialogs               ' QTDL
     RemoveCharDialog            ' QDL
     NavigateToggle              ' NAVEG
@@ -89,7 +89,7 @@ Private Enum ServerPacketID
     UserCommerceInit            ' INITCOMUSU
     UserCommerceEnd             ' FINCOMUSUOK
     UserOfferConfirm
-    PlayMUSIC                    ' TM
+    PlayMusic                    ' TM
     PlayWave                     ' TW
     guildList                    ' GL
     AreaChanged                  ' CA
@@ -137,6 +137,7 @@ Private Enum ServerPacketID
     BattleGs                     'Battlegrounds
     MostrarShop
     ActualizarGemasShop
+    SpeedToChar
     
     'GM =  messages
     SpawnList                    ' SPL
@@ -147,7 +148,6 @@ Private Enum ServerPacketID
     ShowDenounces
     RecordList
     RecordDetails
-    
     ShowGuildAlign
     ShowPartyForm
     PeticionInvitarParty
@@ -165,13 +165,13 @@ Private Enum ServerPacketID
     QuestDetails
     QuestListSend
     ActualizarNPCQuest
-    CreateDamage                 ' CDMG
+    CreateDamage                ' CDMG
     UserInEvent
     DeletedChar
     EquitandoToggle
     InitCraftman
     EnviarListDeAmigos
-    Proyectil
+    proyectil
     CharParticle
     IniciarSubastaConsulta
     ConfirmarInstruccion
@@ -180,6 +180,7 @@ Private Enum ServerPacketID
     MostrarPVP
     eBarFx
     ePrivilegios
+
 End Enum
 
 Public Enum FontTypeNames
@@ -426,7 +427,7 @@ On Error Resume Next
     
     Select Case Packet
             
-        Case ServerPacketID.logged                  ' LOGGED
+        Case ServerPacketID.Logged                  ' LOGGED
             Call HandleLogged
         
         Case ServerPacketID.RemoveDialogs           ' QTDL
@@ -540,7 +541,7 @@ On Error Resume Next
         Case ServerPacketID.UserOfferConfirm
             Call HandleUserOfferConfirm
         
-        Case ServerPacketID.PlayMUSIC                ' TM
+        Case ServerPacketID.PlayMusic                ' TM
             Call HandlePlayMUSIC
         
         Case ServerPacketID.PlayWave                ' TW
@@ -744,7 +745,7 @@ On Error Resume Next
         Case ServerPacketID.EnviarListDeAmigos
             Call HandleEnviarListDeAmigos
             
-        Case ServerPacketID.Proyectil
+        Case ServerPacketID.proyectil
             Call HandleProyectil
             
         Case ServerPacketID.CharParticle
@@ -765,9 +766,6 @@ On Error Resume Next
         Case ServerPacketID.MostrarShop
             Call HandleMostrarShop
             
-        Case ServerPacketID.ActualizarGemasShop
-            Call HandleActualizarGemasShop
-            
         Case ServerPacketID.MostrarPVP
             Call HandleMostrarPVP
             
@@ -776,6 +774,12 @@ On Error Resume Next
             
         Case ServerPacketID.ePrivilegios
             Call HandlePrivilegios
+            
+        Case ServerPacketID.ActualizarGemasShop
+            Call HandleActualizarGemasShop
+            
+        Case ServerPacketID.SpeedToChar
+            Call HandleSpeedToChar
 
         '*******************
         'GM messages
@@ -2314,7 +2318,7 @@ Private Sub HandleCharacterCreate()
 'Last Modification: 05/17/06
 '
 '***************************************************
-    If incomingData.length < 24 Then
+    If incomingData.length < 27 Then
         Err.Raise incomingData.NotEnoughDataErrCode
         Exit Sub
     End If
@@ -2396,7 +2400,7 @@ On Error GoTo errhandler
         AuraAnim = buffer.ReadLong()
         AuraColor = buffer.ReadLong()
         
-        .NoShadow = buffer.ReadByte()
+        .Speeding = buffer.ReadLong()
         .EstadoQuest = buffer.ReadByte()
     End With
     
@@ -2520,6 +2524,8 @@ Private Sub HandleForceCharMove()
     Dim Direccion As Byte
     
     Direccion = incomingData.ReadByte()
+    
+    Call MainTimer.Restart(TimersIndex.Walk)
 
     Call Char_MovebyHead(UserCharIndex, Direccion)
     Call Char_MoveScreen(Direccion)
@@ -5603,10 +5609,10 @@ Private Sub HandleCreateDamage()
         ' Leemos el ID del paquete.
         Call .ReadByte
         
-        Dim x As Integer
-        Dim y As Integer
+        Dim x           As Integer
+        Dim y           As Integer
         Dim DamageValue As Long
-        Dim edMode As Byte
+        Dim edMode      As Byte
         
         x = .ReadInteger()
         y = .ReadInteger()
@@ -5764,20 +5770,20 @@ End Sub
 Private Sub HandleSetSpeed()
 '***************************************************
 'Author: Lorwik
-'Last Modification: 23/10/2020
+'Last Modification: 15/09/2024
 'Setea la nueva velocidad recibida por el server
 '***************************************************
-
-    Dim speed As Double
     
     With incomingData
+    
         Call .ReadByte
         
-        speed = .ReadDouble
+        charlist(UserCharIndex).Speeding = .ReadSingle
         
-        Call SetSpeedUsuario(speed)
+        Call MainTimer.SetInterval(TimersIndex.Walk, eIntervalos.INT_WALK / charlist(UserCharIndex).Speeding)
         
     End With
+    
 End Sub
 
 Private Sub HandleAtaqueNPC()
@@ -5794,7 +5800,9 @@ Private Sub HandleAtaqueNPC()
         MapData(.Pos.x, .Pos.y).CharIndex = NPCAtaqueIndex
         .Ataque.AtaqueWalk(.Heading).Started = 1
         .NPCAttack = True
+        
     End With
+    
 End Sub
 
 Private Sub HandleBattlegrounds()
@@ -5942,4 +5950,28 @@ Public Sub HandlePrivilegios()
 errhandler:
 
     Call RegistrarError(Err.number, Err.Description, "Protocol_Handler.HandlePrivilegios", Erl)
+End Sub
+
+Private Sub HandleSpeedToChar()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 16/09/2024
+'
+'***************************************************
+ 
+    With incomingData
+        
+        ' Leemos el ID del paquete.
+        Call .ReadByte
+        
+        Dim CharIndex As Integer
+        Dim Speeding As Single
+
+        CharIndex = .ReadInteger()
+        Speeding = .ReadSingle()
+        
+        charlist(CharIndex).Speeding = Speeding
+     
+    End With
+ 
 End Sub

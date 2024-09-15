@@ -192,13 +192,14 @@ Public Type Char
     Particle_Count As Long
     Particle_Group() As Long
     
-    NoShadow As Byte 'No emite sombra
     NPCAttack As Boolean
     EstadoQuest As eStatusQuest
     
     BarTime As Single
     MaxBarTime As Integer
     BarAccion As Byte
+    
+    Speeding As Single
 End Type
 
 'Info de un objeto
@@ -318,6 +319,9 @@ Public bTecho       As Boolean 'hay techo?
 Public bFogata       As Boolean
 
 Public charlist(1 To 10000) As Char
+
+Public LastOffset2X As Double
+Public LastOffset2Y As Double
 
 ' Used by GetTextExtentPoint32
 Private Type Size
@@ -1017,12 +1021,10 @@ Public Sub LoadGraphics()
     Call SurfaceDB.Initialize(DirectD3D8, ClientSetup.byMemory)
 End Sub
 
-Sub ShowNextFrame(ByVal DisplayFormTop As Integer, _
-                  ByVal DisplayFormLeft As Integer, _
-                  ByVal MouseViewX As Integer, _
+Sub ShowNextFrame(ByVal MouseViewX As Integer, _
                   ByVal MouseViewY As Integer)
 
-On Error GoTo ErrorHandler:
+    On Error GoTo ErrorHandler:
 
     If EngineRun Then
         
@@ -1035,28 +1037,28 @@ On Error GoTo ErrorHandler:
             
             '****** Move screen Left and Right if needed ******
             If AddtoUserPos.x <> 0 Then
-                OffsetCounterX = OffsetCounterX - ScrollPixelsPerFrameX * AddtoUserPos.x * timerTicksPerFrame
-    
+                LastOffset2X = ScrollPixelsPerFrameX * AddtoUserPos.x * timerTicksPerFrame * charlist(UserCharIndex).Speeding
+                OffsetCounterX = OffsetCounterX - LastOffset2X
+
                 If Abs(OffsetCounterX) >= Abs(TilePixelWidth * AddtoUserPos.x) Then
+                    LastOffset2X = 0
                     OffsetCounterX = 0
                     AddtoUserPos.x = 0
                     UserMoving = False
-    
                 End If
-                    
             End If
-                
+
             '****** Move screen Up and Down if needed ******
             If AddtoUserPos.y <> 0 Then
-                OffsetCounterY = OffsetCounterY - ScrollPixelsPerFrameY * AddtoUserPos.y * timerTicksPerFrame
-    
+                LastOffset2Y = ScrollPixelsPerFrameY * AddtoUserPos.y * timerTicksPerFrame * charlist(UserCharIndex).Speeding
+                OffsetCounterY = OffsetCounterY - LastOffset2Y
+
                 If Abs(OffsetCounterY) >= Abs(TilePixelHeight * AddtoUserPos.y) Then
+                    LastOffset2Y = 0
                     OffsetCounterY = 0
                     AddtoUserPos.y = 0
                     UserMoving = False
-                        
                 End If
-    
             End If
     
         End If
@@ -1140,7 +1142,7 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
 
             'If needed, move left and right
             If .scrollDirectionX <> 0 Then
-                .MoveOffsetX = .MoveOffsetX + ScrollPixelsPerFrameX * Sgn(.scrollDirectionX) * timerTicksPerFrame
+                .MoveOffsetX = .MoveOffsetX + ScrollPixelsPerFrameX * Sgn(.scrollDirectionX) * timerTicksPerFrame * .Speeding
                 
                 'Start animations
                 'TODO : Este parche es para evita los uncornos exploten al moverse!! REVER!!!
@@ -1162,7 +1164,7 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
             
             'If needed, move up and down
             If .scrollDirectionY <> 0 Then
-                .MoveOffsetY = .MoveOffsetY + ScrollPixelsPerFrameY * Sgn(.scrollDirectionY) * timerTicksPerFrame
+                .MoveOffsetY = .MoveOffsetY + ScrollPixelsPerFrameY * Sgn(.scrollDirectionY) * timerTicksPerFrame * .Speeding
                 
                 'Start animations
                 'TODO : Este parche es para evita los uncornos exploten al moverse!! REVER!!!
@@ -1438,9 +1440,6 @@ Private Sub RenderSombras(ByVal CharIndex As Integer, ByVal PixelOffsetX As Inte
    
     With charlist(CharIndex)
         
-        'Si no emite sombra salimos
-        If .NoShadow Then Exit Sub
-        
         'Shadow Body & Shadow Head
         
         If (.iHead > 0) And (.iBody = 617 Or .iBody = 612 Or .iBody = 614 Or .iBody = 616) Then
@@ -1653,11 +1652,12 @@ Sub Draw_Grh(ByRef Grh As Grh, ByVal x As Integer, ByVal y As Integer, ByVal Cen
 '*****************************************************************
 'Draws a GRH transparently to a X and Y position
 '*****************************************************************
+    
+On Error GoTo Error
+
     Dim CurrentGrhIndex As Long
     
     If Grh.GrhIndex = 0 Then Exit Sub
-    
-On Error GoTo Error
     
     If Animate Then
         If Grh.Started = 1 Then
