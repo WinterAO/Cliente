@@ -850,61 +850,58 @@ Public Function Sound_Load(ByVal file_num As String) As Boolean
 End Function
 
 Public Function Calculate_Pan(ByVal map_x As Integer, ByVal map_y As Integer) As Long
-'**************************************************************
-'Author: Augusto José Rando
-'Last Modify Date: 7/16/2005
-'**************************************************************
+    '**************************************************************
+    'Author: Augusto José Rando
+    'Last Modify Date: 7/16/2005
+    '**************************************************************
     
-    Dim total_distance As Integer, position_sgn As Integer, curr_x As Integer, curr_y As Integer
+    Dim total_distance As Integer, position_sgn As Integer
     
-    If Char_Pos_Get(UserCharIndex, curr_x, curr_y) Then
-        total_distance = General_Distance_Get(map_x, map_y, curr_x, curr_y)
+    total_distance = General_Distance_Get(map_x, map_y, UserPos.x, UserPos.y)
         
-        If mInvert_Sound = False Then
-            If map_x < curr_x Then
-                position_sgn = -1
-            Else
-                position_sgn = 1
-            End If
+    If mInvert_Sound = False Then
+        If map_x < UserPos.x Then
+            position_sgn = -1
         Else
-            If map_x > curr_x Then
-                position_sgn = -1
-            Else
-                position_sgn = 1
-            End If
+            position_sgn = 1
         End If
+    Else
+
+        If map_x > UserPos.x Then
+            position_sgn = -1
+        Else
+            position_sgn = 1
+        End If
+    End If
         
-        If (total_distance = 0) Or (map_x = curr_x) Then
-            Calculate_Pan = 0
-        ElseIf total_distance < 9 Then
-            Calculate_Pan = position_sgn * (total_distance * PAN_MOD)
-        Else
-            Calculate_Pan = position_sgn * (PAN_MOD * 9)
-        End If
+    If (total_distance = 0) Or (map_x = UserPos.x) Then
+        Calculate_Pan = 0
+    ElseIf total_distance < 19 Then
+        Calculate_Pan = position_sgn * (total_distance * 200)
+    Else
+        Calculate_Pan = position_sgn * 9000
     End If
 
 End Function
 
 Public Function Calculate_Volume(ByVal map_x As Integer, ByVal map_y As Integer) As Long
-'**************************************************************
-'Author: Augusto José Rando
-'Last Modify Date: 7/16/2005
-'**************************************************************
+    '**************************************************************
+    'Author: Augusto José Rando
+    'Last Modify Date: 7/16/2005
+    '**************************************************************
     
-    Dim total_distance As Integer, curr_x As Integer, curr_y As Integer
+    Dim total_distance As Integer
     
     If (ClientSetup.bSound = 0) Or (Engine_Initialized = False) Then Exit Function
     
-    If Char_Pos_Get(UserCharIndex, curr_x, curr_y) Then
-        total_distance = General_Distance_Get(map_x, map_y, curr_x, curr_y)
+    total_distance = General_Distance_Get(map_x, map_y, UserPos.x, UserPos.y)
         
-        If (total_distance = 0) Then
-            Calculate_Volume = mEffectsVolumeMax
-        ElseIf total_distance < 9 Then
-            Calculate_Volume = mEffectsVolumeMax - (total_distance * VOLUME_DISTANCE_MOD)
-        Else
-            Calculate_Volume = mEffectsVolumeMax - (VOLUME_DISTANCE_MOD * 9)
-        End If
+    If (total_distance = 0) Then
+        Calculate_Volume = mEffectsVolumeMax
+    ElseIf total_distance < 19 Then
+        Calculate_Volume = mEffectsVolumeMax - (total_distance * 200)
+    Else
+        Calculate_Volume = mEffectsVolumeMax - 9000
     End If
 
     If Calculate_Volume < -4000 Then Calculate_Volume = -4000

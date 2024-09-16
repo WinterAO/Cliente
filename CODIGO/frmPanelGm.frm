@@ -3,35 +3,165 @@ Begin VB.Form frmPanelGm
    BackColor       =   &H00000000&
    BorderStyle     =   4  'Fixed ToolWindow
    Caption         =   "Panel GM"
-   ClientHeight    =   5355
+   ClientHeight    =   7335
    ClientLeft      =   45
    ClientTop       =   630
-   ClientWidth     =   7995
+   ClientWidth     =   9465
    ClipControls    =   0   'False
+   BeginProperty Font 
+      Name            =   "Tahoma"
+      Size            =   8.25
+      Charset         =   0
+      Weight          =   400
+      Underline       =   0   'False
+      Italic          =   0   'False
+      Strikethrough   =   0   'False
+   EndProperty
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   5355
-   ScaleWidth      =   7995
+   ScaleHeight     =   7335
+   ScaleWidth      =   9465
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
+   Begin VB.Frame Frame2 
+      BackColor       =   &H00000000&
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   1995
+      Left            =   60
+      TabIndex        =   26
+      Top             =   5250
+      Width           =   5205
+      Begin VB.CommandButton cmdIr 
+         BackColor       =   &H8000000A&
+         Caption         =   "Ira"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Left            =   120
+         Style           =   1  'Graphical
+         TabIndex        =   31
+         Top             =   660
+         Width           =   1440
+      End
+      Begin VB.CommandButton cmdInfo 
+         BackColor       =   &H8000000A&
+         Caption         =   "Info"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Left            =   120
+         Style           =   1  'Graphical
+         TabIndex        =   30
+         Top             =   1500
+         Width           =   1440
+      End
+      Begin VB.CommandButton cmdSummon 
+         BackColor       =   &H8000000A&
+         Caption         =   "Sum"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Left            =   120
+         Style           =   1  'Graphical
+         TabIndex        =   28
+         Top             =   1080
+         Width           =   1440
+      End
+      Begin VB.CommandButton cmdIrCerca 
+         BackColor       =   &H8000000A&
+         Caption         =   "Ir Cerca"
+         Height          =   360
+         Left            =   120
+         Style           =   1  'Graphical
+         TabIndex        =   27
+         Top             =   240
+         Width           =   1440
+      End
+   End
    Begin VB.Frame Frame1 
       BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      Height          =   2415
-      Left            =   -30
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   4275
+      Left            =   30
       TabIndex        =   20
-      Top             =   720
-      Width           =   3975
+      Top             =   960
+      Width           =   5235
+      Begin VB.CommandButton cmdEliminarSeguimiento 
+         BackColor       =   &H8000000A&
+         Caption         =   "Eliminar Seguimiento"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   285
+         Left            =   120
+         Style           =   1  'Graphical
+         TabIndex        =   29
+         Top             =   3930
+         Width           =   5025
+      End
       Begin VB.TextBox txtNuevoUsuario 
          BackColor       =   &H8000000A&
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   285
          Left            =   120
          TabIndex        =   23
          Top             =   360
-         Width           =   3735
+         Width           =   4995
       End
       Begin VB.CommandButton cmdAddFollow 
+         BackColor       =   &H8000000A&
          Caption         =   "Agregar Seguimiento"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
@@ -42,29 +172,39 @@ Begin VB.Form frmPanelGm
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   375
+         Height          =   285
          Left            =   120
+         Style           =   1  'Graphical
          TabIndex        =   22
-         Top             =   1740
-         Width           =   3735
+         Top             =   3600
+         Width           =   5025
       End
       Begin VB.TextBox txtNuevaDescrip 
          BackColor       =   &H8000000A&
-         Height          =   765
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   2835
          Left            =   120
          MaxLength       =   40
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   21
-         Top             =   900
-         Width           =   3735
+         Top             =   690
+         Width           =   4995
       End
       Begin VB.Label Label8 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "Usuario"
          BeginProperty Font 
-            Name            =   "MS Sans Serif"
+            Name            =   "Tahoma"
             Size            =   8.25
             Charset         =   0
             Weight          =   700
@@ -73,11 +213,11 @@ Begin VB.Form frmPanelGm
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00FFFFFF&
-         Height          =   255
+         Height          =   195
          Left            =   150
          TabIndex        =   25
-         Top             =   90
-         Width           =   1575
+         Top             =   120
+         Width           =   645
       End
       Begin VB.Label Label9 
          AutoSize        =   -1  'True
@@ -100,113 +240,190 @@ Begin VB.Form frmPanelGm
       End
    End
    Begin VB.CommandButton cmdActualiza 
+      BackColor       =   &H8000000A&
       Caption         =   "Actualizar"
       CausesValidation=   0   'False
-      Height          =   255
-      Left            =   150
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   405
+      Left            =   120
+      Style           =   1  'Graphical
       TabIndex        =   19
       Top             =   60
-      Width           =   3675
+      Width           =   5085
    End
    Begin VB.ComboBox cboListaUsus 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   315
       Left            =   120
       Sorted          =   -1  'True
       Style           =   2  'Dropdown List
       TabIndex        =   18
-      Top             =   360
-      Width           =   3675
+      Top             =   540
+      Width           =   5055
    End
    Begin VB.Frame Frame 
       BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      Height          =   5355
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   5535
       Index           =   0
-      Left            =   3960
+      Left            =   5310
       TabIndex        =   1
-      Top             =   0
-      Width           =   3975
+      Top             =   30
+      Width           =   4065
       Begin VB.CommandButton cmdRefresh 
+         BackColor       =   &H8000000A&
          Caption         =   "ACTUALIZAR"
          Height          =   495
-         Left            =   2160
+         Left            =   2220
+         Style           =   1  'Graphical
          TabIndex        =   17
-         Top             =   2100
+         Top             =   2190
          Width           =   1695
       End
       Begin VB.CommandButton cmdAddObs 
+         BackColor       =   &H8000000A&
          Caption         =   "Agregar Observacion"
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
          Height          =   375
-         Left            =   120
+         Left            =   210
+         Style           =   1  'Graphical
          TabIndex        =   15
-         Top             =   4800
+         Top             =   4980
          Width           =   3735
       End
       Begin VB.TextBox txtObs 
          BackColor       =   &H8000000A&
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   975
-         Left            =   120
+         Left            =   180
          Locked          =   -1  'True
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   14
-         Top             =   3780
-         Width           =   3735
+         Top             =   3870
+         Width           =   3765
       End
       Begin VB.TextBox txtDescrip 
          BackColor       =   &H8000000A&
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   675
-         Left            =   120
+         Left            =   180
          Locked          =   -1  'True
          MaxLength       =   40
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   12
-         Top             =   2880
+         Top             =   2970
          Width           =   3735
       End
       Begin VB.TextBox txtCreador 
          BackColor       =   &H8000000A&
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   315
-         Left            =   2160
+         Left            =   2220
          Locked          =   -1  'True
          TabIndex        =   10
-         Top             =   1620
+         Top             =   1710
          Width           =   1695
       End
       Begin VB.TextBox txtTimeOn 
          BackColor       =   &H8000000A&
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   315
-         Left            =   2160
+         Left            =   2220
          Locked          =   -1  'True
          TabIndex        =   8
-         Top             =   1080
+         Top             =   1170
          Width           =   1695
       End
       Begin VB.TextBox txtIP 
          BackColor       =   &H8000000A&
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   315
-         Left            =   2160
+         Left            =   2220
          Locked          =   -1  'True
          TabIndex        =   6
-         Top             =   540
+         Top             =   630
          Width           =   1695
       End
       Begin VB.ListBox lstUsers 
          BackColor       =   &H8000000A&
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   2400
-         Left            =   120
+         Left            =   180
          TabIndex        =   2
-         Top             =   240
+         Top             =   330
          Width           =   1695
       End
       Begin VB.Label Label2 
@@ -214,7 +431,7 @@ Begin VB.Form frmPanelGm
          BackStyle       =   0  'Transparent
          Caption         =   "Estado:"
          BeginProperty Font 
-            Name            =   "MS Sans Serif"
+            Name            =   "Tahoma"
             Size            =   8.25
             Charset         =   0
             Weight          =   700
@@ -224,16 +441,16 @@ Begin VB.Form frmPanelGm
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   195
-         Left            =   2160
+         Left            =   2220
          TabIndex        =   16
-         Top             =   60
-         Width           =   660
+         Top             =   150
+         Width           =   615
       End
       Begin VB.Label Label7 
          BackStyle       =   0  'Transparent
          Caption         =   "Observaciones"
          BeginProperty Font 
-            Name            =   "MS Sans Serif"
+            Name            =   "Tahoma"
             Size            =   8.25
             Charset         =   0
             Weight          =   700
@@ -243,16 +460,16 @@ Begin VB.Form frmPanelGm
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   375
-         Left            =   120
+         Left            =   180
          TabIndex        =   13
-         Top             =   3600
+         Top             =   3690
          Width           =   1575
       End
       Begin VB.Label Label6 
          BackStyle       =   0  'Transparent
          Caption         =   "Descripcion"
          BeginProperty Font 
-            Name            =   "MS Sans Serif"
+            Name            =   "Tahoma"
             Size            =   8.25
             Charset         =   0
             Weight          =   700
@@ -262,16 +479,16 @@ Begin VB.Form frmPanelGm
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   375
-         Left            =   120
+         Left            =   180
          TabIndex        =   11
-         Top             =   2700
+         Top             =   2790
          Width           =   1575
       End
       Begin VB.Label Label5 
          BackStyle       =   0  'Transparent
          Caption         =   "Creador"
          BeginProperty Font 
-            Name            =   "MS Sans Serif"
+            Name            =   "Tahoma"
             Size            =   8.25
             Charset         =   0
             Weight          =   700
@@ -281,16 +498,16 @@ Begin VB.Form frmPanelGm
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   375
-         Left            =   2160
+         Left            =   2220
          TabIndex        =   9
-         Top             =   1440
+         Top             =   1530
          Width           =   1575
       End
       Begin VB.Label Label4 
          BackStyle       =   0  'Transparent
          Caption         =   "Logueado Hace:"
          BeginProperty Font 
-            Name            =   "MS Sans Serif"
+            Name            =   "Tahoma"
             Size            =   8.25
             Charset         =   0
             Weight          =   700
@@ -300,16 +517,16 @@ Begin VB.Form frmPanelGm
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   375
-         Left            =   2160
+         Left            =   2220
          TabIndex        =   7
-         Top             =   900
+         Top             =   990
          Width           =   1575
       End
       Begin VB.Label Label3 
          BackStyle       =   0  'Transparent
          Caption         =   "IP:"
          BeginProperty Font 
-            Name            =   "MS Sans Serif"
+            Name            =   "Tahoma"
             Size            =   8.25
             Charset         =   0
             Weight          =   700
@@ -319,9 +536,9 @@ Begin VB.Form frmPanelGm
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   255
-         Left            =   2160
+         Left            =   2220
          TabIndex        =   5
-         Top             =   360
+         Top             =   450
          Width           =   1095
       End
       Begin VB.Label lblEstado 
@@ -329,7 +546,7 @@ Begin VB.Form frmPanelGm
          BackStyle       =   0  'Transparent
          Caption         =   "Online"
          BeginProperty Font 
-            Name            =   "MS Sans Serif"
+            Name            =   "Tahoma"
             Size            =   8.25
             Charset         =   0
             Weight          =   700
@@ -339,16 +556,16 @@ Begin VB.Form frmPanelGm
          EndProperty
          ForeColor       =   &H00008000&
          Height          =   255
-         Left            =   2880
+         Left            =   2940
          TabIndex        =   4
-         Top             =   60
+         Top             =   150
          Width           =   735
       End
       Begin VB.Label Label1 
          BackStyle       =   0  'Transparent
          Caption         =   "Usuarios Marcados"
          BeginProperty Font 
-            Name            =   "MS Sans Serif"
+            Name            =   "Tahoma"
             Size            =   8.25
             Charset         =   0
             Weight          =   700
@@ -358,32 +575,31 @@ Begin VB.Form frmPanelGm
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   255
-         Left            =   120
+         Left            =   150
          TabIndex        =   3
-         Top             =   0
+         Top             =   120
          Width           =   1695
       End
    End
    Begin VB.CommandButton cmdCerrar 
+      BackColor       =   &H8000000A&
       Caption         =   "Cerrar"
       CausesValidation=   0   'False
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
-      Left            =   150
+      Left            =   5670
+      Style           =   1  'Graphical
       TabIndex        =   0
-      Top             =   4770
-      Width           =   3495
-   End
-   Begin VB.Menu mnuSeguimientos 
-      Caption         =   "Seguimientos"
-      Begin VB.Menu mnuIra 
-         Caption         =   "Ir Cerca"
-      End
-      Begin VB.Menu mnuSum 
-         Caption         =   "Sumonear"
-      End
-      Begin VB.Menu mnuDelete 
-         Caption         =   "Eliminar Seguimiento"
-      End
+      Top             =   6780
+      Width           =   3465
    End
    Begin VB.Menu mnuWorld 
       Caption         =   "World"
@@ -576,26 +792,14 @@ Begin VB.Form frmPanelGm
    End
    Begin VB.Menu mnuJugador 
       Caption         =   "Jugador"
-      Begin VB.Menu cmdIRCERCA 
-         Caption         =   "IRCERCA"
-      End
       Begin VB.Menu cmdTELEP 
          Caption         =   "TELEP"
-      End
-      Begin VB.Menu cmdSUM 
-         Caption         =   "SUM"
       End
       Begin VB.Menu cmdDONDE 
          Caption         =   "DONDE"
       End
       Begin VB.Menu cmdConsulta 
          Caption         =   "Consulta"
-      End
-      Begin VB.Menu cmdIRA 
-         Caption         =   "IRA"
-      End
-      Begin VB.Menu cmdINFO 
-         Caption         =   "INFO"
       End
       Begin VB.Menu cmdSTAT 
          Caption         =   "STAT"
@@ -711,9 +915,7 @@ Private Sub cmdACEPTCONSE_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        If MsgBox("Seguro desea aceptar a " & Nick & " como consejero real?", vbYesNo, "Atencion!") = vbYes Then _
-            Call WriteAcceptRoyalCouncilMember(Nick)
+    If LenB(Nick) <> 0 Then If MsgBox("Seguro desea aceptar a " & Nick & " como consejero real?", vbYesNo, "Atencion!") = vbYes Then Call WriteAcceptRoyalCouncilMember(Nick)
 End Sub
 
 Private Sub cmdACEPTCONSECAOS_Click()
@@ -722,15 +924,14 @@ Private Sub cmdACEPTCONSECAOS_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        If MsgBox("Seguro desea aceptar a " & Nick & " como consejero del caos?", vbYesNo, "Atencion!") = vbYes Then _
-            Call WriteAcceptChaosCouncilMember(Nick)
+    If LenB(Nick) <> 0 Then If MsgBox("Seguro desea aceptar a " & Nick & " como consejero del caos?", vbYesNo, "Atencion!") = vbYes Then Call WriteAcceptChaosCouncilMember(Nick)
 End Sub
 
 Private Sub cmdAddFollow_Click()
-Dim i As Long
+    Dim i As Long
 
     For i = 0 To lstUsers.ListCount
+
         If UCase$(lstUsers.List(i)) = UCase$(txtNuevoUsuario.Text) Then
             Call MsgBox("El usuario ya esta en la lista!", vbOKOnly + vbExclamation)
             Exit Sub
@@ -754,7 +955,7 @@ Dim i As Long
 End Sub
 
 Private Sub cmdAddObs_Click()
-Dim Obs As String
+    Dim Obs As String
     
     Obs = InputBox("Ingrese la observacion", "Nueva Observacion")
     
@@ -794,8 +995,7 @@ Private Sub cmdBAL_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        Call WriteRequestCharGold(Nick)
+    If LenB(Nick) <> 0 Then Call WriteRequestCharGold(Nick)
 End Sub
 
 Private Sub cmdBAN_Click()
@@ -808,9 +1008,7 @@ Private Sub cmdBAN_Click()
     If LenB(Nick) <> 0 Then
         tStr = InputBox("Escriba el motivo del ban.", "BAN a " & Nick)
                 
-        If LenB(tStr) <> 0 Then _
-            If MsgBox("Seguro desea banear a " & Nick & "?", vbYesNo, "Atencion!") = vbYes Then _
-                Call WriteBanChar(Nick, tStr)
+        If LenB(tStr) <> 0 Then If MsgBox("Seguro desea banear a " & Nick & "?", vbYesNo, "Atencion!") = vbYes Then Call WriteBanChar(Nick, tStr)
     End If
 End Sub
 
@@ -819,23 +1017,20 @@ Private Sub cmdBANCLAN_Click()
     Dim tStr As String
     
     tStr = InputBox("Escriba el nombre del clan.", "Banear clan")
-    If LenB(tStr) <> 0 Then _
-        If MsgBox("Seguro desea banear al clan " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then _
-            Call WriteGuildBan(tStr)
+
+    If LenB(tStr) <> 0 Then If MsgBox("Seguro desea banear al clan " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then Call WriteGuildBan(tStr)
 End Sub
 
 Private Sub cmdBANIP_Click()
     '/BANIP
-    Dim tStr As String
+    Dim tStr   As String
     Dim reason As String
     
     tStr = InputBox("Escriba el ip o el nick del PJ.", "Banear IP")
     
     reason = InputBox("Escriba el motivo del ban.", "Banear IP")
     
-    If LenB(tStr) <> 0 Then _
-        If MsgBox("Seguro desea banear la ip " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then _
-            Call ParseUserCommand("/BANIP " & tStr & " " & reason) 'We use the Parser to control the command format
+    If LenB(tStr) <> 0 Then If MsgBox("Seguro desea banear la ip " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then Call ParseUserCommand("/BANIP " & tStr & " " & reason) 'We use the Parser to control the command format
 End Sub
 
 Private Sub cmdBANIPLIST_Click()
@@ -849,9 +1044,9 @@ Private Sub cmdBANIPRELOAD_Click()
 End Sub
 
 Private Sub cmdBORRAR_SOS_Click()
+
     '/BORRAR SOS
-    If MsgBox("Seguro desea borrar el SOS?", vbYesNo, "Atencion!") = vbYes Then _
-        Call WriteCleanSOS
+    If MsgBox("Seguro desea borrar el SOS?", vbYesNo, "Atencion!") = vbYes Then Call WriteCleanSOS
 End Sub
 
 Private Sub cmdBORRARPENA_Click()
@@ -863,9 +1058,8 @@ Private Sub cmdBORRARPENA_Click()
     
     If LenB(Nick) <> 0 Then
         tStr = InputBox("Indique el numero de la pena a borrar.", "Borrar pena")
-        If LenB(tStr) <> 0 Then _
-            If MsgBox("Seguro desea borrar la pena " & tStr & " a " & Nick & "?", vbYesNo, "Atencion!") = vbYes Then _
-                Call ParseUserCommand("/BORRARPENA " & Nick & "@" & tStr) 'We use the Parser to control the command format
+
+        If LenB(tStr) <> 0 Then If MsgBox("Seguro desea borrar la pena " & tStr & " a " & Nick & "?", vbYesNo, "Atencion!") = vbYes Then Call ParseUserCommand("/BORRARPENA " & Nick & "@" & tStr) 'We use the Parser to control the command format
     End If
 End Sub
 
@@ -875,8 +1069,7 @@ Private Sub cmdBOV_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        Call WriteRequestCharBank(Nick)
+    If LenB(Nick) <> 0 Then Call WriteRequestCharBank(Nick)
 End Sub
 
 Private Sub cmdCAOSMSG_Click()
@@ -884,8 +1077,8 @@ Private Sub cmdCAOSMSG_Click()
     Dim tStr As String
     
     tStr = InputBox(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"), "Mensaje por consola LegionOscura")
-    If LenB(tStr) <> 0 Then _
-        Call WriteChaosLegionMessage(tStr)
+
+    If LenB(tStr) <> 0 Then Call WriteChaosLegionMessage(tStr)
 End Sub
 
 Private Sub cmdCARCEL_Click()
@@ -925,9 +1118,8 @@ Private Sub cmdCI_Click()
     Dim tStr As String
     
     tStr = InputBox("Indique el numero del objeto a crear.", "Crear Objeto")
-    If LenB(tStr) <> 0 Then _
-        If MsgBox("Seguro desea crear el objeto " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then _
-            Call ParseUserCommand("/CI " & tStr) 'We use the Parser to control the command format
+
+    If LenB(tStr) <> 0 Then If MsgBox("Seguro desea crear el objeto " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then Call ParseUserCommand("/CI " & tStr) 'We use the Parser to control the command format
 End Sub
 
 Private Sub cmdCIUMSG_Click()
@@ -935,8 +1127,8 @@ Private Sub cmdCIUMSG_Click()
     Dim tStr As String
     
     tStr = InputBox(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"), "Mensaje por consola Ciudadanos")
-    If LenB(tStr) <> 0 Then _
-        Call WriteCitizenMessage(tStr)
+
+    If LenB(tStr) <> 0 Then Call WriteCitizenMessage(tStr)
 End Sub
 
 Private Sub cmdCONDEN_Click()
@@ -945,9 +1137,7 @@ Private Sub cmdCONDEN_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        If MsgBox("Seguro desea volver criminal a " & Nick & "?", vbYesNo, "Atencion!") = vbYes Then _
-            Call WriteTurnCriminal(Nick)
+    If LenB(Nick) <> 0 Then If MsgBox("Seguro desea volver criminal a " & Nick & "?", vbYesNo, "Atencion!") = vbYes Then Call WriteTurnCriminal(Nick)
 End Sub
 
 Private Sub cmdConsulta_Click()
@@ -959,20 +1149,20 @@ Private Sub cmdCT_Click()
     Dim tStr As String
     
     tStr = InputBox("Indique la posicion donde lleva el portal (MAPA X Y).", "Crear Portal")
-    If LenB(tStr) <> 0 Then _
-        Call ParseUserCommand("/CT " & tStr) 'We use the Parser to control the command format
+
+    If LenB(tStr) <> 0 Then Call ParseUserCommand("/CT " & tStr) 'We use the Parser to control the command format
 End Sub
 
 Private Sub cmdDE_Click()
-'/DE
-    If MsgBox("Seguro desea destruir el Tile Exit?", vbYesNo, "Atencion!") = vbYes Then _
-        Call WriteExitDestroy
+
+    '/DE
+    If MsgBox("Seguro desea destruir el Tile Exit?", vbYesNo, "Atencion!") = vbYes Then Call WriteExitDestroy
 End Sub
 
 Private Sub cmdDEST_Click()
+
     '/DEST
-    If MsgBox("Seguro desea destruir el objeto sobre el que esta parado?", vbYesNo, "Atencion!") = vbYes Then _
-        Call WriteDestroyItems
+    If MsgBox("Seguro desea destruir el objeto sobre el que esta parado?", vbYesNo, "Atencion!") = vbYes Then Call WriteDestroyItems
 End Sub
 
 Private Sub cmdDONDE_Click()
@@ -981,14 +1171,13 @@ Private Sub cmdDONDE_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        Call WriteWhere(Nick)
+    If LenB(Nick) <> 0 Then Call WriteWhere(Nick)
 End Sub
 
 Private Sub cmdDT_Click()
+
     'DT
-    If MsgBox("Seguro desea destruir el portal?", vbYesNo, "Atencion!") = vbYes Then _
-        Call WriteTeleportDestroy
+    If MsgBox("Seguro desea destruir el portal?", vbYesNo, "Atencion!") = vbYes Then Call WriteTeleportDestroy
 End Sub
 
 Private Sub cmdECHAR_Click()
@@ -997,8 +1186,7 @@ Private Sub cmdECHAR_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        Call WriteKick(Nick)
+    If LenB(Nick) <> 0 Then Call WriteKick(Nick)
 End Sub
 
 Private Sub cmdEJECUTAR_Click()
@@ -1007,9 +1195,23 @@ Private Sub cmdEJECUTAR_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        If MsgBox("Seguro desea ejecutar a " & Nick & "?", vbYesNo, "Atencion!") = vbYes Then _
-            Call WriteExecute(Nick)
+    If LenB(Nick) <> 0 Then If MsgBox("Seguro desea ejecutar a " & Nick & "?", vbYesNo, "Atencion!") = vbYes Then Call WriteExecute(Nick)
+End Sub
+
+Private Sub cmdEliminarSeguimiento_Click()
+
+    With lstUsers
+
+        If .ListIndex = -1 Then
+            Call MsgBox("Seleccione un usuario para remover el seguimiento!", vbOKOnly + vbExclamation)
+            Exit Sub
+        End If
+        
+        If MsgBox("Desea eliminar el seguimiento al personaje " & .List(.ListIndex) & "?", vbYesNo) = vbYes Then
+            Call WriteRecordRemove(.ListIndex + 1)
+            Call ClearRecordDetails
+        End If
+    End With
 End Sub
 
 Private Sub cmdESTUPIDO_Click()
@@ -1018,8 +1220,7 @@ Private Sub cmdESTUPIDO_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        Call WriteMakeDumb(Nick)
+    If LenB(Nick) <> 0 Then Call WriteMakeDumb(Nick)
 End Sub
 
 Private Sub cmdGMSG_Click()
@@ -1027,8 +1228,8 @@ Private Sub cmdGMSG_Click()
     Dim tStr As String
     
     tStr = InputBox("Escriba el mensaje.", "Mensaje por consola de GM")
-    If LenB(tStr) <> 0 Then _
-        Call WriteGMMessage(tStr)
+
+    If LenB(tStr) <> 0 Then Call WriteGMMessage(tStr)
 End Sub
 
 Private Sub cmdHORA_Click()
@@ -1041,24 +1242,13 @@ Private Sub cmdIGNORADO_Click()
     Call WriteIgnored
 End Sub
 
-Private Sub cmdINFO_Click()
-    '/INFO
-    Dim Nick As String
-
-    Nick = cboListaUsus.Text
-    
-    If LenB(Nick) <> 0 Then _
-        Call WriteRequestCharInfo(Nick)
-End Sub
-
 Private Sub cmdINV_Click()
     '/INV
     Dim Nick As String
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        Call WriteRequestCharInventory(Nick)
+    If LenB(Nick) <> 0 Then Call WriteRequestCharInventory(Nick)
 End Sub
 
 Private Sub cmdINVISIBLE_Click()
@@ -1071,28 +1261,43 @@ Private Sub cmdIP2NICK_Click()
     Dim tStr As String
     
     tStr = InputBox("Escriba la ip.", "IP to Nick")
-    If LenB(tStr) <> 0 Then _
-        Call ParseUserCommand("/IP2NICK " & tStr) 'We use the Parser to control the command format
+
+    If LenB(tStr) <> 0 Then Call ParseUserCommand("/IP2NICK " & tStr) 'We use the Parser to control the command format
 End Sub
 
-Private Sub cmdIRA_Click()
-    '/IRA
-    Dim Nick As String
+Private Sub cmdIr_Click()
 
-    Nick = cboListaUsus.Text
+    '/IR
+    With lstUsers
+
+        If .ListIndex <> -1 Then
+            Call WriteGoToChar(.List(.ListIndex))
+        End If
+    End With
     
-    If LenB(Nick) <> 0 Then _
-        Call WriteGoToChar(Nick)
 End Sub
 
-Private Sub cmdIRCERCA_Click()
+Private Sub cmdInfo_Click()
+
+    '/INFO
+    With lstUsers
+
+        If .ListIndex <> -1 Then
+            Call WriteRequestCharInfo(.List(.ListIndex))
+        End If
+    End With
+    
+End Sub
+
+Private Sub cmdIrCerca_Click()
+
     '/IRCERCA
-    Dim Nick As String
+    With lstUsers
 
-    Nick = cboListaUsus.Text
-    
-    If LenB(Nick) <> 0 Then _
-        Call WriteGoNearby(Nick)
+        If .ListIndex <> -1 Then
+            Call WriteGoNearby(.List(.ListIndex))
+        End If
+    End With
 End Sub
 
 Private Sub cmdKICKCONSE_Click()
@@ -1101,9 +1306,7 @@ Private Sub cmdKICKCONSE_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        If MsgBox("Seguro desea destituir a " & Nick & " de su cargo de consejero?", vbYesNo, "Atencion!") = vbYes Then _
-            Call WriteCouncilKick(Nick)
+    If LenB(Nick) <> 0 Then If MsgBox("Seguro desea destituir a " & Nick & " de su cargo de consejero?", vbYesNo, "Atencion!") = vbYes Then Call WriteCouncilKick(Nick)
 End Sub
 
 Private Sub cmdLASTEMAIL_Click()
@@ -1112,8 +1315,7 @@ Private Sub cmdLASTEMAIL_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        Call WriteRequestCharMail(Nick)
+    If LenB(Nick) <> 0 Then Call WriteRequestCharMail(Nick)
 End Sub
 
 Private Sub cmdLASTIP_Click()
@@ -1122,8 +1324,7 @@ Private Sub cmdLASTIP_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        Call WriteLastIP(Nick)
+    If LenB(Nick) <> 0 Then Call WriteLastIP(Nick)
 End Sub
 
 Private Sub cmdLIMPIAR_Click()
@@ -1137,14 +1338,13 @@ Private Sub cmdMETEO_Click()
     
     tBte = InputBox("Escriba el fenomeno, 0: Random, 1: Lluvia, 2: Niebla, 3: Niebla + Lluvia.", "Seleccion meteorologico")
     
-    If Val(tBte) < 0 And Val(tBte) > 250 Then _
-        Call WriteMeteoToggle(Val(tBte))
+    If Val(tBte) < 0 And Val(tBte) > 250 Then Call WriteMeteoToggle(Val(tBte))
 End Sub
 
 Private Sub cmdMASSDEST_Click()
+
     '/MASSDEST
-    If MsgBox("Seguro desea destruir todos los items del mapa?", vbYesNo, "Atencion!") = vbYes Then _
-        Call WriteDestroyAllItemsInArea
+    If MsgBox("Seguro desea destruir todos los items del mapa?", vbYesNo, "Atencion!") = vbYes Then Call WriteDestroyAllItemsInArea
 End Sub
 
 Private Sub cmdMIEMBROSCLAN_Click()
@@ -1152,8 +1352,8 @@ Private Sub cmdMIEMBROSCLAN_Click()
     Dim tStr As String
     
     tStr = InputBox("Escriba el nombre del clan.", "Lista de miembros del clan")
-    If LenB(tStr) <> 0 Then _
-        Call WriteGuildMemberList(tStr)
+
+    If LenB(tStr) <> 0 Then Call WriteGuildMemberList(tStr)
 End Sub
 
 Private Sub cmdMOTDCAMBIA_Click()
@@ -1171,8 +1371,8 @@ Private Sub cmdNENE_Click()
     Dim tStr As String
     
     tStr = InputBox("Indique el mapa.", "Numero de NPCs enemigos.")
-    If LenB(tStr) <> 0 Then _
-        Call ParseUserCommand("/NENE " & tStr) 'We use the Parser to control the command format
+
+    If LenB(tStr) <> 0 Then Call ParseUserCommand("/NENE " & tStr) 'We use the Parser to control the command format
 End Sub
 
 Private Sub cmdNICK2IP_Click()
@@ -1181,8 +1381,7 @@ Private Sub cmdNICK2IP_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        Call WriteNickToIP(Nick)
+    If LenB(Nick) <> 0 Then Call WriteNickToIP(Nick)
 End Sub
 
 Private Sub cmdNOCAOS_Click()
@@ -1191,9 +1390,7 @@ Private Sub cmdNOCAOS_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        If MsgBox("Seguro desea expulsar a " & Nick & " de la legion oscura?", vbYesNo, "Atencion!") = vbYes Then _
-            Call WriteChaosLegionKick(Nick)
+    If LenB(Nick) <> 0 Then If MsgBox("Seguro desea expulsar a " & Nick & " de la legion oscura?", vbYesNo, "Atencion!") = vbYes Then Call WriteChaosLegionKick(Nick)
 End Sub
 
 Private Sub cmdNOESTUPIDO_Click()
@@ -1202,8 +1399,7 @@ Private Sub cmdNOESTUPIDO_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        Call WriteMakeDumbNoMore(Nick)
+    If LenB(Nick) <> 0 Then Call WriteMakeDumbNoMore(Nick)
 End Sub
 
 Private Sub cmdNOREAL_Click()
@@ -1212,9 +1408,7 @@ Private Sub cmdNOREAL_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        If MsgBox("Seguro desea expulsar a " & Nick & " de la armada real?", vbYesNo, "Atencion!") = vbYes Then _
-            Call WriteRoyalArmyKick(Nick)
+    If LenB(Nick) <> 0 Then If MsgBox("Seguro desea expulsar a " & Nick & " de la armada real?", vbYesNo, "Atencion!") = vbYes Then Call WriteRoyalArmyKick(Nick)
 End Sub
 
 Private Sub cmdOCULTANDO_Click()
@@ -1248,8 +1442,7 @@ Private Sub cmdPENAS_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        Call WritePunishments(Nick)
+    If LenB(Nick) <> 0 Then Call WritePunishments(Nick)
 End Sub
 
 Private Sub cmdPERDON_Click()
@@ -1258,8 +1451,7 @@ Private Sub cmdPERDON_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        Call WriteForgive(Nick)
+    If LenB(Nick) <> 0 Then Call WriteForgive(Nick)
 End Sub
 
 Private Sub cmdPISO_Click()
@@ -1273,9 +1465,7 @@ Private Sub cmdRAJAR_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        If MsgBox("Seguro desea resetear la faccion de " & Nick & "?", vbYesNo, "Atencion!") = vbYes Then _
-            Call WriteResetFactions(Nick)
+    If LenB(Nick) <> 0 Then If MsgBox("Seguro desea resetear la faccion de " & Nick & "?", vbYesNo, "Atencion!") = vbYes Then Call WriteResetFactions(Nick)
 End Sub
 
 Private Sub cmdRAJARCLAN_Click()
@@ -1284,9 +1474,7 @@ Private Sub cmdRAJARCLAN_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        If MsgBox("Seguro desea expulsar a " & Nick & " de su clan?", vbYesNo, "Atencion!") = vbYes Then _
-            Call WriteRemoveCharFromGuild(Nick)
+    If LenB(Nick) <> 0 Then If MsgBox("Seguro desea expulsar a " & Nick & " de su clan?", vbYesNo, "Atencion!") = vbYes Then Call WriteRemoveCharFromGuild(Nick)
 End Sub
 
 Private Sub cmdREALMSG_Click()
@@ -1294,8 +1482,8 @@ Private Sub cmdREALMSG_Click()
     Dim tStr As String
     
     tStr = InputBox(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"), "Mensaje por consola ArmadaReal")
-    If LenB(tStr) <> 0 Then _
-        Call WriteRoyalArmyMessage(tStr)
+
+    If LenB(tStr) <> 0 Then Call WriteRoyalArmyMessage(tStr)
 End Sub
 
 Private Sub cmdRefresh_Click()
@@ -1308,8 +1496,8 @@ Private Sub cmdREM_Click()
     Dim tStr As String
     
     tStr = InputBox("Escriba el comentario.", "Comentario en el logGM")
-    If LenB(tStr) <> 0 Then _
-        Call WriteComment(tStr)
+
+    If LenB(tStr) <> 0 Then Call WriteComment(tStr)
 End Sub
 
 Private Sub cmdREVIVIR_Click()
@@ -1318,8 +1506,7 @@ Private Sub cmdREVIVIR_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        Call WriteReviveChar(Nick)
+    If LenB(Nick) <> 0 Then Call WriteReviveChar(Nick)
 End Sub
 
 Private Sub cmdRMSG_Click()
@@ -1327,8 +1514,8 @@ Private Sub cmdRMSG_Click()
     Dim tStr As String
     
     tStr = InputBox("Escriba el mensaje.", "Mensaje por consola de RoleMaster")
-    If LenB(tStr) <> 0 Then _
-        Call WriteServerMessage(tStr)
+
+    If LenB(tStr) <> 0 Then Call WriteServerMessage(tStr)
 End Sub
 
 Private Sub cmdSETDESC_Click()
@@ -1336,8 +1523,8 @@ Private Sub cmdSETDESC_Click()
     Dim tStr As String
     
     tStr = InputBox("Escriba una DESC.", "Set Description")
-    If LenB(tStr) <> 0 Then _
-        Call WriteSetCharDescription(tStr)
+
+    If LenB(tStr) <> 0 Then Call WriteSetCharDescription(tStr)
 End Sub
 
 Private Sub cmdSHOW_SOS_Click()
@@ -1350,8 +1537,8 @@ Private Sub cmdSHOWCMSG_Click()
     Dim tStr As String
     
     tStr = InputBox("Escriba el nombre del clan que desea escuchar.", "Escuchar los mensajes del clan")
-    If LenB(tStr) <> 0 Then _
-        Call WriteShowGuildMessages(tStr)
+
+    If LenB(tStr) <> 0 Then Call WriteShowGuildMessages(tStr)
 End Sub
 
 Private Sub cmdSHOWNAME_Click()
@@ -1365,8 +1552,7 @@ Private Sub cmdSILENCIAR_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        Call WriteSilence(Nick)
+    If LenB(Nick) <> 0 Then Call WriteSilence(Nick)
 End Sub
 
 Private Sub cmdSilenciarGlobal_Click()
@@ -1374,9 +1560,7 @@ Private Sub cmdSilenciarGlobal_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        If MsgBox("Seguro desea silenciar del global a " & Nick & "?", vbYesNo, "Atencion!") = vbYes Then _
-            Call WriteSilenciarGlobal(Nick)
+    If LenB(Nick) <> 0 Then If MsgBox("Seguro desea silenciar del global a " & Nick & "?", vbYesNo, "Atencion!") = vbYes Then Call WriteSilenciarGlobal(Nick)
 End Sub
 
 Private Sub cmdSKILLS_Click()
@@ -1385,8 +1569,7 @@ Private Sub cmdSKILLS_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        Call WriteRequestCharSkills(Nick)
+    If LenB(Nick) <> 0 Then Call WriteRequestCharSkills(Nick)
 End Sub
 
 Private Sub cmdSMSG_Click()
@@ -1394,8 +1577,8 @@ Private Sub cmdSMSG_Click()
     Dim tStr As String
     
     tStr = InputBox("Escriba el mensaje.", "Mensaje de sistema")
-    If LenB(tStr) <> 0 Then _
-        Call WriteSystemMessage(tStr)
+
+    If LenB(tStr) <> 0 Then Call WriteSystemMessage(tStr)
 End Sub
 
 Private Sub cmdSTAT_Click()
@@ -1404,18 +1587,16 @@ Private Sub cmdSTAT_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        Call WriteRequestCharStats(Nick)
+    If LenB(Nick) <> 0 Then Call WriteRequestCharStats(Nick)
 End Sub
 
-Private Sub cmdSUM_Click()
+Private Sub cmdSummon_Click()
     '/SUM
     Dim Nick As String
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        Call WriteSummonChar(Nick)
+    If LenB(Nick) <> 0 Then Call WriteSummonChar(Nick)
 End Sub
 
 Private Sub cmdTALKAS_Click()
@@ -1423,8 +1604,8 @@ Private Sub cmdTALKAS_Click()
     Dim tStr As String
     
     tStr = InputBox(JsonLanguage.item("MENSAJE_INPUT_MSJ").item("TEXTO"), "Hablar por NPC")
-    If LenB(tStr) <> 0 Then _
-        Call WriteTalkAsNPC(tStr)
+
+    If LenB(tStr) <> 0 Then Call WriteTalkAsNPC(tStr)
 End Sub
 
 Private Sub cmdTELEP_Click()
@@ -1436,8 +1617,8 @@ Private Sub cmdTELEP_Click()
     
     If LenB(Nick) <> 0 Then
         tStr = InputBox("Indique la posicion (MAPA X Y).", "Transportar a " & Nick)
-        If LenB(tStr) <> 0 Then _
-            Call ParseUserCommand("/TELEP " & Nick & " " & tStr) 'We use the Parser to control the command format
+
+        If LenB(tStr) <> 0 Then Call ParseUserCommand("/TELEP " & Nick & " " & tStr) 'We use the Parser to control the command format
     End If
 End Sub
 
@@ -1456,9 +1637,7 @@ Private Sub cmdUNBAN_Click()
 
     Nick = cboListaUsus.Text
     
-    If LenB(Nick) <> 0 Then _
-        If MsgBox("Seguro desea unbanear a " & Nick & "?", vbYesNo, "Atencion!") = vbYes Then _
-            Call WriteUnbanChar(Nick)
+    If LenB(Nick) <> 0 Then If MsgBox("Seguro desea unbanear a " & Nick & "?", vbYesNo, "Atencion!") = vbYes Then Call WriteUnbanChar(Nick)
 End Sub
 
 Private Sub cmdUNBANIP_Click()
@@ -1466,9 +1645,8 @@ Private Sub cmdUNBANIP_Click()
     Dim tStr As String
     
     tStr = InputBox("Escriba el ip.", "Unbanear IP")
-    If LenB(tStr) <> 0 Then _
-        If MsgBox("Seguro desea unbanear la ip " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then _
-            Call ParseUserCommand("/UNBANIP " & tStr) 'We use the Parser to control the command format
+
+    If LenB(tStr) <> 0 Then If MsgBox("Seguro desea unbanear la ip " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then Call ParseUserCommand("/UNBANIP " & tStr) 'We use the Parser to control the command format
 End Sub
 
 Private Sub Form_Load()
@@ -1479,8 +1657,6 @@ Private Sub Form_Load()
     'Actualiza los seguimientos
     Call cmdRefresh_Click
     
-    'Oculta el menu usado para el PopUp
-    mnuSeguimientos.Visible = False
 End Sub
 
 Private Sub cmdActualiza_Click()
@@ -1496,14 +1672,14 @@ Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
     Unload Me
 End Sub
 
-Private Sub lstUsers_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
-    If Button = vbRightButton Then
-        PopupMenu mnuSeguimientos
-    Else
-        If lstUsers.ListIndex <> -1 Then
-            Call ClearRecordDetails
-            Call WriteRecordDetailsRequest(lstUsers.ListIndex + 1)
-        End If
+Private Sub lstUsers_MouseUp(Button As Integer, _
+                             Shift As Integer, _
+                             x As Single, _
+                             y As Single)
+
+    If lstUsers.ListIndex <> -1 Then
+        Call ClearRecordDetails
+        Call WriteRecordDetailsRequest(lstUsers.ListIndex + 1)
     End If
 End Sub
 
@@ -1520,66 +1696,32 @@ Private Sub mnuBanSerial_Click()
     Dim tStr As String
     
     tStr = InputBox("Escriba el nombre de usuario.", "Banear Serial")
-    If LenB(tStr) <> 0 Then _
-        If MsgBox("Seguro desea banear el serial de " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then _
-            Call WriteBanSerial(tStr)
+
+    If LenB(tStr) <> 0 Then If MsgBox("Seguro desea banear el serial de " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then Call WriteBanSerial(tStr)
 End Sub
 
 Private Sub mnubantemp_Click()
     On Error Resume Next
     
-    Dim tStr As String
+    Dim tStr  As String
     Dim razon As String
-    Dim dias As Integer
+    Dim dias  As Integer
     
     tStr = InputBox("Escriba el nombre de usuario.", "Banear Temporal")
     razon = InputBox("Escriba el motivo del baneo.", "Banear Temporal")
     dias = InputBox("¿Cuantos dias quieres banear al usuario?", "Banear Temporal")
-    If LenB(tStr) <> 0 Then _
-        If MsgBox("Seguro desea banear al usuario " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then _
-            Call WriteBanTemporal(tStr, razon, dias)
+
+    If LenB(tStr) <> 0 Then If MsgBox("Seguro desea banear al usuario " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then Call WriteBanTemporal(tStr, razon, dias)
 End Sub
 
 Private Sub mnuDebugAreas_Click()
     DebugAreas = Not DebugAreas
 End Sub
 
-Private Sub mnuDelete_Click()
-    With lstUsers
-        If .ListIndex = -1 Then
-            Call MsgBox("Seleccione un usuario para remover el seguimiento!", vbOKOnly + vbExclamation)
-            Exit Sub
-        End If
-        
-        If MsgBox("Desea eliminar el seguimiento al personaje " & .List(.ListIndex) & "?", vbYesNo) = vbYes Then
-            Call WriteRecordRemove(.ListIndex + 1)
-            Call ClearRecordDetails
-        End If
-    End With
-End Sub
-
 Private Sub mnudesbanserial_Click()
     Dim tStr As String
     
     tStr = InputBox("Escriba el nombre de usuario.", "Desbanear Serial")
-    If LenB(tStr) <> 0 Then _
-        If MsgBox("Seguro desea desbanear el serial de " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then _
-            Call WriteUnBanSerial(tStr)
-End Sub
 
-Private Sub mnuIra_Click()
-    With lstUsers
-        If .ListIndex <> -1 Then
-            Call WriteGoToChar(.List(.ListIndex))
-        End If
-    End With
+    If LenB(tStr) <> 0 Then If MsgBox("Seguro desea desbanear el serial de " & tStr & "?", vbYesNo, "Atencion!") = vbYes Then Call WriteUnBanSerial(tStr)
 End Sub
-
-Private Sub mnuSum_Click()
-    With lstUsers
-        If .ListIndex <> -1 Then
-            Call WriteSummonChar(.List(.ListIndex))
-        End If
-    End With
-End Sub
-
