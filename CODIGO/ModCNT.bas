@@ -193,8 +193,6 @@ Public Sub MostrarConnect(Optional ByVal Mostrar As Boolean = False)
     'frmConnect.txtNombre.SelStart = Len(frmConnect.txtNombre.Text)
     TextSelected = 1
     
-    Battlegrounds = False
-    
     EngineRun = False
     
     'LISTA DE SERVIDORES

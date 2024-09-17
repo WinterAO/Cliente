@@ -38,8 +38,6 @@ Public Form_Caption As String
 Public MacAdress        As String
 Public HDserial         As Long
 
-Public Battlegrounds    As Boolean
-
 '#######################
 'HUD
 '#######################

@@ -381,11 +381,7 @@ Sub SwitchMap(ByVal Map As Integer)
     Dim InfoHead    As INFOHEADER
     Dim filename    As String
     
-    If Battlegrounds Then
-        filename = LCase$("bg" & Map & ".csm")
-    Else
-        filename = LCase$("mapa" & Map & ".csm")
-    End If
+    filename = LCase$("mapa" & Map & ".csm")
     
     'Si es el mismo Mapa, no lo cargamos
     If filename = CurMap Then Exit Sub
@@ -1544,11 +1540,7 @@ Public Sub DibujarMinimapa()
     Dim InfoHead    As INFOHEADER
     Dim filename As String
 
-    If Battlegrounds Then
-        filename = LCase$("Bg" & CurrentUser.UserMap & "-" & CurrentUser.UserCuadrante - 1 & ".bmp")
-    Else
-        filename = LCase$("Mapa" & CurrentUser.UserMap & "-" & CurrentUser.UserCuadrante - 1 & ".bmp")
-    End If
+    filename = LCase$("Mapa" & CurrentUser.UserMap & "-" & CurrentUser.UserCuadrante - 1 & ".bmp")
 
     'Dibujamos el Mini-Mapa'
     If Extract_File_Memory(srcFileType.Minimap, filename, bytArr()) Then

@@ -134,7 +134,6 @@ Private Enum ServerPacketID
     SendNight                    ' NOC
     Pong
     UpdateTagAndStatus
-    BattleGs                     'Battlegrounds
     MostrarShop
     ActualizarGemasShop
     SpeedToChar
@@ -759,9 +758,6 @@ On Error Resume Next
 
         Case ServerPacketID.AtaqueNPC
             Call HandleAtaqueNPC
-            
-        Case ServerPacketID.BattleGs
-            Call HandleBattlegrounds
             
         Case ServerPacketID.MostrarShop
             Call HandleMostrarShop
@@ -5803,20 +5799,6 @@ Private Sub HandleAtaqueNPC()
         
     End With
     
-End Sub
-
-Private Sub HandleBattlegrounds()
-'*****************************
-'Autor: Lorwik
-'Fecha: 02/05/2022
-'Descripción: Recibe la variable Battegrounds del server
-'*****************************
-
-    'Remove packet ID
-    Call incomingData.ReadByte
-    
-    Battlegrounds = incomingData.ReadBoolean()
-
 End Sub
 
 Private Sub HandleMostrarShop()
