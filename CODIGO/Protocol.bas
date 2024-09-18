@@ -2333,9 +2333,9 @@ On Error GoTo errhandler
     Dim Heading As E_Heading
     Dim x As Integer
     Dim y As Integer
-    Dim weapon As Integer
-    Dim shield As Integer
-    Dim helmet As Integer
+    Dim Weapon As Integer
+    Dim Shield As Integer
+    Dim Helmet As Integer
     Dim Ataque As Integer
     Dim privs As Integer
     Dim NickColor As Byte
@@ -2348,9 +2348,9 @@ On Error GoTo errhandler
     Heading = buffer.ReadByte()
     x = buffer.ReadInteger()
     y = buffer.ReadInteger()
-    weapon = buffer.ReadInteger()
-    shield = buffer.ReadInteger()
-    helmet = buffer.ReadInteger()
+    Weapon = buffer.ReadInteger()
+    Shield = buffer.ReadInteger()
+    Helmet = buffer.ReadInteger()
     Ataque = buffer.ReadInteger()
 
     With charlist(CharIndex)
@@ -2397,10 +2397,11 @@ On Error GoTo errhandler
         AuraColor = buffer.ReadLong()
         
         .Speeding = buffer.ReadLong()
+        .EsNPC = buffer.ReadBoolean()
         .EstadoQuest = buffer.ReadByte()
     End With
     
-    Call Char_Make(CharIndex, Body, Head, Heading, x, y, weapon, shield, helmet, Ataque, AuraAnim, AuraColor)
+    Call Char_Make(CharIndex, Body, Head, Heading, x, y, Weapon, Shield, Helmet, Ataque, AuraAnim, AuraColor)
     
     'If we got here then packet is complete, copy data back to original queue
     Call incomingData.CopyBuffer(buffer)
@@ -2456,8 +2457,16 @@ Private Sub HandleCharacterRemove()
     
     Dim CharIndex As Integer
     Dim Desaparece As Boolean
+    Dim Desvanecido As Boolean
+    Dim fueWarp As Boolean
     
     CharIndex = incomingData.ReadInteger()
+    Desvanecido = incomingData.ReadBoolean()
+    fueWarp = incomingData.ReadBoolean()
+    
+    If Desvanecido And charlist(CharIndex).EsNPC = True Then
+        Call modUtils.Ghost_Create(CharIndex)
+    End If
 
     Call Char_Erase(CharIndex)
     
@@ -5308,9 +5317,9 @@ Private Sub HandleEnviarPJUserAccount()
                 .Nombre = buffer.ReadASCIIString
                 .Body = buffer.ReadInteger
                 .Head = buffer.ReadInteger
-                .weapon = buffer.ReadInteger
-                .shield = buffer.ReadInteger
-                .helmet = buffer.ReadInteger
+                .Weapon = buffer.ReadInteger
+                .Shield = buffer.ReadInteger
+                .Helmet = buffer.ReadInteger
                 .Class = buffer.ReadByte
                 .Race = buffer.ReadByte
                 .Map = buffer.ReadInteger
@@ -5321,9 +5330,9 @@ Private Sub HandleEnviarPJUserAccount()
                 If .Dead Then
                     .Head = eCabezas.CASPER_HEAD
                     .Body = iCuerpoMuerto
-                    .weapon = 0
-                    .helmet = 0
-                    .shield = 0
+                    .Weapon = 0
+                    .Helmet = 0
+                    .Shield = 0
                 ElseIf (.Body = 397 Or .Body = 395 Or .Body = 399) Then
                     .Head = 0
                 End If

@@ -69,7 +69,7 @@ Private Sub Char_ResetInfo(ByVal CharIndex As Integer)
         'Remove particles
         Call Char_Particle_Group_Remove_All(CharIndex)
             
-        .active = 0
+        .Active = 0
         .Criminal = 0
         .FxIndex = 0
         .invisible = False
@@ -87,7 +87,7 @@ Private Sub Char_ResetInfo(ByVal CharIndex As Integer)
         .BarTime = 0
         .BarAccion = 0
         .MaxBarTime = 0
-            
+        .EsNPC = False
     End With
  
 End Sub
