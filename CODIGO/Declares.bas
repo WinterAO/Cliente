@@ -38,8 +38,6 @@ Public Form_Caption As String
 Public MacAdress        As String
 Public HDserial         As Long
 
-Public Battlegrounds    As Boolean
-
 '#######################
 'HUD
 '#######################
@@ -148,7 +146,7 @@ Public Const SND_LLUVIAIN As Byte = 17
 Public Const SND_LLUVIAOUT As Byte = 18
 Public Const SND_VIENTO As Byte = 14
 Public Const SND_AMBIENTE_NOCHE As Byte = 7
-Public Const SND_AMBIENTE_NOCHE_CIU As Byte = 3
+Public Const SND_AMBIENTE_NOCHE_CIU As Byte = 1
 
 '###########################
 ' Constantes de intervalo
@@ -163,6 +161,7 @@ Public Enum eIntervalos
     INT_USEITEMDCK = 250    'Usar Item dobleclick
     INT_SENTRPU = 2000      'Manda L
     INT_CHANGE_HEADING = 300
+    INT_WALK = 210
 End Enum
 
 '#######################
@@ -891,8 +890,6 @@ Public IntervaloParalizado As Integer
 Public IntervaloInvisible As Integer
 
 Public Security As New clsSecurity
-
-Public Const SPEED_NORMAL As Double = 0.018
 
 Public Type ShopObj
     ObjIndex As Integer

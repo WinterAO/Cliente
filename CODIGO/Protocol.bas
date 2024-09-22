@@ -51,7 +51,7 @@ Private Type tFont
 End Type
 
 Private Enum ServerPacketID
-    logged = 1                  ' LOGGED
+    Logged = 1                  ' LOGGED
     RemoveDialogs               ' QTDL
     RemoveCharDialog            ' QDL
     NavigateToggle              ' NAVEG
@@ -89,7 +89,7 @@ Private Enum ServerPacketID
     UserCommerceInit            ' INITCOMUSU
     UserCommerceEnd             ' FINCOMUSUOK
     UserOfferConfirm
-    PlayMUSIC                    ' TM
+    PlayMusic                    ' TM
     PlayWave                     ' TW
     guildList                    ' GL
     AreaChanged                  ' CA
@@ -134,9 +134,9 @@ Private Enum ServerPacketID
     SendNight                    ' NOC
     Pong
     UpdateTagAndStatus
-    BattleGs                     'Battlegrounds
     MostrarShop
     ActualizarGemasShop
+    SpeedToChar
     
     'GM =  messages
     SpawnList                    ' SPL
@@ -147,7 +147,6 @@ Private Enum ServerPacketID
     ShowDenounces
     RecordList
     RecordDetails
-    
     ShowGuildAlign
     ShowPartyForm
     PeticionInvitarParty
@@ -165,13 +164,13 @@ Private Enum ServerPacketID
     QuestDetails
     QuestListSend
     ActualizarNPCQuest
-    CreateDamage                 ' CDMG
+    CreateDamage                ' CDMG
     UserInEvent
     DeletedChar
     EquitandoToggle
     InitCraftman
     EnviarListDeAmigos
-    Proyectil
+    proyectil
     CharParticle
     IniciarSubastaConsulta
     ConfirmarInstruccion
@@ -180,6 +179,7 @@ Private Enum ServerPacketID
     MostrarPVP
     eBarFx
     ePrivilegios
+
 End Enum
 
 Public Enum FontTypeNames
@@ -426,7 +426,7 @@ On Error Resume Next
     
     Select Case Packet
             
-        Case ServerPacketID.logged                  ' LOGGED
+        Case ServerPacketID.Logged                  ' LOGGED
             Call HandleLogged
         
         Case ServerPacketID.RemoveDialogs           ' QTDL
@@ -540,7 +540,7 @@ On Error Resume Next
         Case ServerPacketID.UserOfferConfirm
             Call HandleUserOfferConfirm
         
-        Case ServerPacketID.PlayMUSIC                ' TM
+        Case ServerPacketID.PlayMusic                ' TM
             Call HandlePlayMUSIC
         
         Case ServerPacketID.PlayWave                ' TW
@@ -744,7 +744,7 @@ On Error Resume Next
         Case ServerPacketID.EnviarListDeAmigos
             Call HandleEnviarListDeAmigos
             
-        Case ServerPacketID.Proyectil
+        Case ServerPacketID.proyectil
             Call HandleProyectil
             
         Case ServerPacketID.CharParticle
@@ -759,14 +759,8 @@ On Error Resume Next
         Case ServerPacketID.AtaqueNPC
             Call HandleAtaqueNPC
             
-        Case ServerPacketID.BattleGs
-            Call HandleBattlegrounds
-            
         Case ServerPacketID.MostrarShop
             Call HandleMostrarShop
-            
-        Case ServerPacketID.ActualizarGemasShop
-            Call HandleActualizarGemasShop
             
         Case ServerPacketID.MostrarPVP
             Call HandleMostrarPVP
@@ -776,6 +770,12 @@ On Error Resume Next
             
         Case ServerPacketID.ePrivilegios
             Call HandlePrivilegios
+            
+        Case ServerPacketID.ActualizarGemasShop
+            Call HandleActualizarGemasShop
+            
+        Case ServerPacketID.SpeedToChar
+            Call HandleSpeedToChar
 
         '*******************
         'GM messages
@@ -1397,12 +1397,7 @@ Private Sub HandleDisconnect()
     frmMain.Visible = False
     Call MostrarCuenta(True)
     
-    If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-        If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-            Sound.NextMusic = MUS_VolverInicio
-            Sound.Fading = 200
-        End If
-    End If
+    Call Sound.Music_Next(MUS_VolverInicio, 200)
     
 End Sub
 
@@ -2319,7 +2314,7 @@ Private Sub HandleCharacterCreate()
 'Last Modification: 05/17/06
 '
 '***************************************************
-    If incomingData.length < 24 Then
+    If incomingData.length < 27 Then
         Err.Raise incomingData.NotEnoughDataErrCode
         Exit Sub
     End If
@@ -2338,9 +2333,9 @@ On Error GoTo errhandler
     Dim Heading As E_Heading
     Dim x As Integer
     Dim y As Integer
-    Dim weapon As Integer
-    Dim shield As Integer
-    Dim helmet As Integer
+    Dim Weapon As Integer
+    Dim Shield As Integer
+    Dim Helmet As Integer
     Dim Ataque As Integer
     Dim privs As Integer
     Dim NickColor As Byte
@@ -2353,9 +2348,9 @@ On Error GoTo errhandler
     Heading = buffer.ReadByte()
     x = buffer.ReadInteger()
     y = buffer.ReadInteger()
-    weapon = buffer.ReadInteger()
-    shield = buffer.ReadInteger()
-    helmet = buffer.ReadInteger()
+    Weapon = buffer.ReadInteger()
+    Shield = buffer.ReadInteger()
+    Helmet = buffer.ReadInteger()
     Ataque = buffer.ReadInteger()
 
     With charlist(CharIndex)
@@ -2401,11 +2396,12 @@ On Error GoTo errhandler
         AuraAnim = buffer.ReadLong()
         AuraColor = buffer.ReadLong()
         
-        .NoShadow = buffer.ReadByte()
+        .Speeding = buffer.ReadLong()
+        .EsNPC = buffer.ReadBoolean()
         .EstadoQuest = buffer.ReadByte()
     End With
     
-    Call Char_Make(CharIndex, Body, Head, Heading, x, y, weapon, shield, helmet, Ataque, AuraAnim, AuraColor)
+    Call Char_Make(CharIndex, Body, Head, Heading, x, y, Weapon, Shield, Helmet, Ataque, AuraAnim, AuraColor)
     
     'If we got here then packet is complete, copy data back to original queue
     Call incomingData.CopyBuffer(buffer)
@@ -2461,8 +2457,16 @@ Private Sub HandleCharacterRemove()
     
     Dim CharIndex As Integer
     Dim Desaparece As Boolean
+    Dim Desvanecido As Boolean
+    Dim fueWarp As Boolean
     
     CharIndex = incomingData.ReadInteger()
+    Desvanecido = incomingData.ReadBoolean()
+    fueWarp = incomingData.ReadBoolean()
+    
+    If Desvanecido And charlist(CharIndex).EsNPC = True Then
+        Call modUtils.Ghost_Create(CharIndex)
+    End If
 
     Call Char_Erase(CharIndex)
     
@@ -2525,6 +2529,8 @@ Private Sub HandleForceCharMove()
     Dim Direccion As Byte
     
     Direccion = incomingData.ReadByte()
+    
+    Call MainTimer.Restart(TimersIndex.Walk)
 
     Call Char_MovebyHead(UserCharIndex, Direccion)
     Call Char_MoveScreen(Direccion)
@@ -2724,12 +2730,8 @@ Private Sub HandlePlayMUSIC()
     currentMusic = incomingData.ReadInteger()
     Loops = incomingData.ReadInteger()
     
-    If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-        If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-            Sound.NextMusic = currentMusic
-            Sound.Fading = 200
-        End If
-    End If
+    Call Sound.Music_Next(currentMusic, 200)
+    
 End Sub
 
 ''
@@ -5315,9 +5317,9 @@ Private Sub HandleEnviarPJUserAccount()
                 .Nombre = buffer.ReadASCIIString
                 .Body = buffer.ReadInteger
                 .Head = buffer.ReadInteger
-                .weapon = buffer.ReadInteger
-                .shield = buffer.ReadInteger
-                .helmet = buffer.ReadInteger
+                .Weapon = buffer.ReadInteger
+                .Shield = buffer.ReadInteger
+                .Helmet = buffer.ReadInteger
                 .Class = buffer.ReadByte
                 .Race = buffer.ReadByte
                 .Map = buffer.ReadInteger
@@ -5328,9 +5330,9 @@ Private Sub HandleEnviarPJUserAccount()
                 If .Dead Then
                     .Head = eCabezas.CASPER_HEAD
                     .Body = iCuerpoMuerto
-                    .weapon = 0
-                    .helmet = 0
-                    .shield = 0
+                    .Weapon = 0
+                    .Helmet = 0
+                    .Shield = 0
                 ElseIf (.Body = 397 Or .Body = 395 Or .Body = 399) Then
                     .Head = 0
                 End If
@@ -5612,10 +5614,10 @@ Private Sub HandleCreateDamage()
         ' Leemos el ID del paquete.
         Call .ReadByte
         
-        Dim x As Integer
-        Dim y As Integer
+        Dim x           As Integer
+        Dim y           As Integer
         Dim DamageValue As Long
-        Dim edMode As Byte
+        Dim edMode      As Byte
         
         x = .ReadInteger()
         y = .ReadInteger()
@@ -5773,20 +5775,20 @@ End Sub
 Private Sub HandleSetSpeed()
 '***************************************************
 'Author: Lorwik
-'Last Modification: 23/10/2020
+'Last Modification: 15/09/2024
 'Setea la nueva velocidad recibida por el server
 '***************************************************
-
-    Dim speed As Double
     
     With incomingData
+    
         Call .ReadByte
         
-        speed = .ReadDouble
+        charlist(UserCharIndex).Speeding = .ReadSingle
         
-        Call SetSpeedUsuario(speed)
+        Call MainTimer.SetInterval(TimersIndex.Walk, eIntervalos.INT_WALK / charlist(UserCharIndex).Speeding)
         
     End With
+    
 End Sub
 
 Private Sub HandleAtaqueNPC()
@@ -5803,21 +5805,9 @@ Private Sub HandleAtaqueNPC()
         MapData(.Pos.x, .Pos.y).CharIndex = NPCAtaqueIndex
         .Ataque.AtaqueWalk(.Heading).Started = 1
         .NPCAttack = True
+        
     End With
-End Sub
-
-Private Sub HandleBattlegrounds()
-'*****************************
-'Autor: Lorwik
-'Fecha: 02/05/2022
-'Descripción: Recibe la variable Battegrounds del server
-'*****************************
-
-    'Remove packet ID
-    Call incomingData.ReadByte
     
-    Battlegrounds = incomingData.ReadBoolean()
-
 End Sub
 
 Private Sub HandleMostrarShop()
@@ -5951,4 +5941,28 @@ Public Sub HandlePrivilegios()
 errhandler:
 
     Call RegistrarError(Err.number, Err.Description, "Protocol_Handler.HandlePrivilegios", Erl)
+End Sub
+
+Private Sub HandleSpeedToChar()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 16/09/2024
+'
+'***************************************************
+ 
+    With incomingData
+        
+        ' Leemos el ID del paquete.
+        Call .ReadByte
+        
+        Dim CharIndex As Integer
+        Dim Speeding As Single
+
+        CharIndex = .ReadInteger()
+        Speeding = .ReadSingle()
+        
+        charlist(CharIndex).Speeding = Speeding
+     
+    End With
+ 
 End Sub

@@ -124,7 +124,6 @@ Private Enum ClientPacketID
     Consultation
     moveItem
     LoginExistingAccount
-    CentinelReport                  '/CENTINELA
     Ecvc
     Acvc
     IrCvc
@@ -302,7 +301,6 @@ Public Enum eGMCommands
     RecordListRequest
     RecordDetailsRequest
     ExitDestroy             '/DE
-    ToggleCentinelActivated '/CENTINELAACTIVADO
     SearchNpc               '/BUSCAR
     SearchObj               '/BUSCAR
     LimpiarMundo            '/LIMPIARMUNDO
@@ -2143,26 +2141,6 @@ Public Sub WritePartyMessage(ByVal Message As String)
         Call .WriteByte(ClientPacketID.PartyMessage)
         
         Call .WriteASCIIString(Message)
-    End With
-End Sub
-
-''
-' Writes the "CentinelReport" message to the outgoing data buffer.
-'
-' @param    number The number to report to the centinel.
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WriteCentinelReport(ByVal Clave As String)
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 02/05/2012
-'                   Nuevo centinela : maTih.-
-'Writes the "CentinelReport" message to the outgoing data buffer
-'***************************************************
-    With outgoingData
-        Call .WriteByte(ClientPacketID.CentinelReport)
-        
-        Call .WriteASCIIString(Clave)
     End With
 End Sub
 
@@ -4490,21 +4468,6 @@ Public Sub WriteAlterName(ByVal UserName As String, ByVal newName As String)
         Call .WriteASCIIString(UserName)
         Call .WriteASCIIString(newName)
     End With
-End Sub
-
-''
-' Writes the "ToggleCentinelActivated" message to the outgoing data buffer.
-'
-' @remarks  The data is not actually sent until the buffer is properly flushed.
-
-Public Sub WriteToggleCentinelActivated()
-'***************************************************
-'Author: Juan Martin Sotuyo Dodero (Maraxus)
-'Last Modification: 05/17/06
-'Writes the "ToggleCentinelActivated" message to the outgoing data buffer
-'***************************************************
-    Call outgoingData.WriteByte(ClientPacketID.GMCommands)
-    Call outgoingData.WriteByte(eGMCommands.ToggleCentinelActivated)
 End Sub
 
 ''

@@ -381,11 +381,7 @@ Sub SwitchMap(ByVal Map As Integer)
     Dim InfoHead    As INFOHEADER
     Dim filename    As String
     
-    If Battlegrounds Then
-        filename = LCase$("bg" & Map & ".csm")
-    Else
-        filename = LCase$("mapa" & Map & ".csm")
-    End If
+    filename = LCase$("mapa" & Map & ".csm")
     
     'Si es el mismo Mapa, no lo cargamos
     If filename = CurMap Then Exit Sub
@@ -568,7 +564,7 @@ Sub Main()
 
         'Solo dibujamos si la ventana no esta minimizada
         If frmMain.WindowState <> vbMinimized And frmMain.Visible Then
-            Call ShowNextFrame(frmMain.Top, frmMain.Left, frmMain.MouseX, frmMain.MouseY)
+            Call ShowNextFrame(frmMain.MouseX, frmMain.MouseY)
             
             Call CheckKeys
             
@@ -669,12 +665,9 @@ Private Sub LoadInitialConfig()
         frmOpciones.Frame2.Enabled = False
     End If
 
-    If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-        Sound.NextMusic = MUS_Inicio
-        Sound.Fading = 350
-        Sound.Sound_Render
-    End If
-
+    Call Sound.Music_Next(MUS_Inicio, 350)
+    Call Sound.Sound_Render
+    
     Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 30)
     
     '###########
@@ -701,6 +694,9 @@ Private Sub LoadInitialConfig()
     Call InitTileEngine(frmMain.hWnd, 32, 32, 8, 8)
     
     Call mDx8_Engine.Engine_DirectX8_Aditional_Init
+    
+    LastOffset2X = 0
+    LastOffset2Y = 0
 
     Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 55)
     
@@ -745,6 +741,7 @@ Private Sub LoadTimerIntervals()
         Call .SetInterval(TimersIndex.Arrows, eIntervalos.INT_ARROWS)
         Call .SetInterval(TimersIndex.CastAttack, eIntervalos.INT_CAST_ATTACK)
         Call .SetInterval(TimersIndex.ChangeHeading, eIntervalos.INT_CHANGE_HEADING)
+        Call .SetInterval(TimersIndex.Walk, eIntervalos.INT_WALK)
     
         'Init timers
         Call .Start(TimersIndex.Attack)
@@ -756,7 +753,8 @@ Private Sub LoadTimerIntervals()
         Call .Start(TimersIndex.Arrows)
         Call .Start(TimersIndex.CastAttack)
         Call .Start(TimersIndex.ChangeHeading)
-    
+        Call .Start(TimersIndex.Walk)
+        
     End With
 
 End Sub
@@ -1193,6 +1191,7 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
         Dim i As Long
         For i = 1 To LastChar
             charlist(i).invisible = False
+            charlist(i).Speeding = 0
     
         Next i
     
@@ -1203,15 +1202,13 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
         .UserEmail = vbNullString
         .UserELO = 0
         .UserEquitando = 0
-        
+
         lblHelm = "0/0"
         lblWeapon = "0/0"
         lblArmor = "0/0"
         lblShielder = "0/0"
         
         Call Actualizar_Estado(e_estados.MedioDia)
-    
-        Call SetSpeedUsuario(SPEED_NORMAL)
     
         ' Reset skills
         For i = 1 To NUMSKILLS
@@ -1502,22 +1499,13 @@ Public Function CheckZona(ByVal CharIndex As Integer) As Boolean
         
             'Aqui ponemos el nombre del mapa en el label del frmMain
             frmMain.lblMapName.Caption = MapZonas(ZonaId).name
-            
-            If ClientSetup.bMusic <> CONST_DESHABILITADA Then
-                If ClientSetup.bMusic <> CONST_DESHABILITADA Then
                 
-                    If Not MapZonas(ZonaId).Music > 0 Then
-                        If currentMusic <> CByte(MapZonas(ZonaId).Music) Then
-                            Sound.NextMusic = MapZonas(ZonaId).Music
-                            Sound.Fading = 200
-                            currentMusic = MapZonas(ZonaId).Music
-
-                        End If
-
-                    End If
+            If MapZonas(ZonaId).Music > 0 Then
+                If currentMusic <> CByte(MapZonas(ZonaId).Music) Then
+                    Call Sound.Music_Next(MapZonas(ZonaId).Music, 200)
+                    currentMusic = MapZonas(ZonaId).Music
 
                 End If
-
             End If
         
         End If
@@ -1552,11 +1540,7 @@ Public Sub DibujarMinimapa()
     Dim InfoHead    As INFOHEADER
     Dim filename As String
 
-    If Battlegrounds Then
-        filename = LCase$("Bg" & CurrentUser.UserMap & "-" & CurrentUser.UserCuadrante - 1 & ".bmp")
-    Else
-        filename = LCase$("Mapa" & CurrentUser.UserMap & "-" & CurrentUser.UserCuadrante - 1 & ".bmp")
-    End If
+    filename = LCase$("Mapa" & CurrentUser.UserMap & "-" & CurrentUser.UserCuadrante - 1 & ".bmp")
 
     'Dibujamos el Mini-Mapa'
     If Extract_File_Memory(srcFileType.Minimap, filename, bytArr()) Then

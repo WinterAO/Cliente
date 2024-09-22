@@ -603,6 +603,19 @@ Error_Handl:
     Music_Load = False
 End Function
 
+Public Sub Music_Next(ByVal Music As Integer, ByVal Fade As Integer)
+'**************************************************************
+'Author: Lorwik
+'Last Modify Date: 15/09/2024
+'**************************************************************
+
+    If ClientSetup.bMusic <> CONST_DESHABILITADA Then
+        Sound.NextMusic = Music
+        Sound.Fading = Fade
+    End If
+    
+End Sub
+
 Public Function Music_Play() As Boolean
 '**************************************************************
 'Author: Augusto José Rando (barrin@imperiumao.com.ar)
@@ -750,7 +763,7 @@ On Error Resume Next
         If CurrentUser.UserMap > 0 Then
             under_roof = bTecho
                 
-            mAmb = MapZonas(UserZonaId(UserCharIndex)).Ambient
+            mAmb = Ambient_Calculate
                         
             If mAmbienteActual <> mAmb Then
                 Call Ambient_Stop_All
@@ -837,61 +850,58 @@ Public Function Sound_Load(ByVal file_num As String) As Boolean
 End Function
 
 Public Function Calculate_Pan(ByVal map_x As Integer, ByVal map_y As Integer) As Long
-'**************************************************************
-'Author: Augusto José Rando
-'Last Modify Date: 7/16/2005
-'**************************************************************
+    '**************************************************************
+    'Author: Augusto José Rando
+    'Last Modify Date: 7/16/2005
+    '**************************************************************
     
-    Dim total_distance As Integer, position_sgn As Integer, curr_x As Integer, curr_y As Integer
+    Dim total_distance As Integer, position_sgn As Integer
     
-    If Char_Pos_Get(UserCharIndex, curr_x, curr_y) Then
-        total_distance = General_Distance_Get(map_x, map_y, curr_x, curr_y)
+    total_distance = General_Distance_Get(map_x, map_y, UserPos.x, UserPos.y)
         
-        If mInvert_Sound = False Then
-            If map_x < curr_x Then
-                position_sgn = -1
-            Else
-                position_sgn = 1
-            End If
+    If mInvert_Sound = False Then
+        If map_x < UserPos.x Then
+            position_sgn = -1
         Else
-            If map_x > curr_x Then
-                position_sgn = -1
-            Else
-                position_sgn = 1
-            End If
+            position_sgn = 1
         End If
+    Else
+
+        If map_x > UserPos.x Then
+            position_sgn = -1
+        Else
+            position_sgn = 1
+        End If
+    End If
         
-        If (total_distance = 0) Or (map_x = curr_x) Then
-            Calculate_Pan = 0
-        ElseIf total_distance < 9 Then
-            Calculate_Pan = position_sgn * (total_distance * PAN_MOD)
-        Else
-            Calculate_Pan = position_sgn * (PAN_MOD * 9)
-        End If
+    If (total_distance = 0) Or (map_x = UserPos.x) Then
+        Calculate_Pan = 0
+    ElseIf total_distance < 19 Then
+        Calculate_Pan = position_sgn * (total_distance * 200)
+    Else
+        Calculate_Pan = position_sgn * 9000
     End If
 
 End Function
 
 Public Function Calculate_Volume(ByVal map_x As Integer, ByVal map_y As Integer) As Long
-'**************************************************************
-'Author: Augusto José Rando
-'Last Modify Date: 7/16/2005
-'**************************************************************
+    '**************************************************************
+    'Author: Augusto José Rando
+    'Last Modify Date: 7/16/2005
+    '**************************************************************
     
-    Dim total_distance As Integer, curr_x As Integer, curr_y As Integer
+    Dim total_distance As Integer
     
     If (ClientSetup.bSound = 0) Or (Engine_Initialized = False) Then Exit Function
     
-    If Char_Pos_Get(UserCharIndex, curr_x, curr_y) Then
-        total_distance = General_Distance_Get(map_x, map_y, curr_x, curr_y)
+    total_distance = General_Distance_Get(map_x, map_y, UserPos.x, UserPos.y)
         
-        If (total_distance = 0) Then
-            Calculate_Volume = mEffectsVolumeMax
-        ElseIf total_distance < 9 Then
-            Calculate_Volume = mEffectsVolumeMax - (total_distance * VOLUME_DISTANCE_MOD)
-        Else
-            Calculate_Volume = mEffectsVolumeMax - (VOLUME_DISTANCE_MOD * 9)
-        End If
+    If (total_distance = 0) Then
+        Calculate_Volume = mEffectsVolumeMax
+    ElseIf total_distance < 19 Then
+        Calculate_Volume = mEffectsVolumeMax - (total_distance * 200)
+    Else
+        Calculate_Volume = mEffectsVolumeMax - 9000
     End If
 
     If Calculate_Volume < -4000 Then Calculate_Volume = -4000
@@ -985,5 +995,48 @@ Private Function Ambient_Volume_Set(ByVal vNewValue As Long)
     
     mAmbientVolumeMax = vNewValue
     Buffers_Ambient.ModificarVolumenTodo (vNewValue)
+
+End Function
+
+Private Function Ambient_Calculate() As Integer
+
+    Static under_roof As Boolean
+    Dim intSound As Integer
+    Dim ZonaId As Integer
+    
+    ZonaId = UserZonaId(UserCharIndex)
+    
+    under_roof = bTecho
+    intSound = Val(MapZonas(ZonaId).Ambient)
+    
+    '¿Esta lloviendo? Y NO ES DUNGEON!
+    If MeterologiaEnDungeon Then
+    
+        'Mapas de tipo bosque, sonido de lluvia
+        If MapZonas(ZonaId).Terreno = "BOSQUE" Then
+            '¿Esta en techo?
+            If under_roof Then
+                intSound = SND_LLUVIAIN
+                                        
+            Else '¿Esta fuera?
+                intSound = SND_LLUVIAOUT
+                                              
+            End If
+            
+        Else 'El resto, sonido de viento
+            intSound = SND_VIENTO
+            
+        End If
+    
+    '¿Es de noche?
+    ElseIf Estado_Actual_Date = e_estados.Noche Then
+    
+        'Si la zona tiene un sonido para noche lo usamos
+        If MapZonas(ZonaId).AmbientNight > 0 Then _
+            intSound = MapZonas(ZonaId).AmbientNight
+        
+    End If
+    
+    Ambient_Calculate = intSound
 
 End Function

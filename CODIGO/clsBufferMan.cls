@@ -586,7 +586,7 @@ On Error GoTo ErrorHandler
     
     Sound_Buffer.SetPan pan
     Sound_Buffer.SetVolume Volume
-            
+
     Sound_Buffer.Play play_format
     
     Reproducir = True

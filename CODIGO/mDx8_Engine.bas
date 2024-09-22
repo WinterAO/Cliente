@@ -61,15 +61,6 @@ End Type
 
 Private EndTime As Long
 
-Public Sub SetSpeedUsuario(ByVal speed As Double)
-'*******************************
-'Autor: ???
-'Fecha: ???
-'*******************************
-
-    Engine_BaseSpeed = speed
-End Sub
-
 Public Sub Engine_DirectX8_Init()
     On Error GoTo EngineHandler:
 
@@ -555,50 +546,6 @@ DeviceHandler:
     
 End Sub
 
-Public Sub Engine_ZoomIn()
-'**************************************************************
-'Author: Standelf
-'Last Modify Date: 29/12/2010
-'**************************************************************
-
-    With MainScreenRect
-        .Top = 0
-        .Left = 0
-        .Bottom = IIf(.Bottom - 1 <= 367, .Bottom, .Bottom - 1)
-        .Right = IIf(.Right - 1 <= 491, .Right, .Right - 1)
-    End With
-    
-End Sub
-
-Public Sub Engine_ZoomOut()
-'**************************************************************
-'Author: Standelf
-'Last Modify Date: 29/12/2010
-'**************************************************************
-
-    With MainScreenRect
-        .Top = 0
-        .Left = 0
-        .Bottom = IIf(.Bottom + 1 >= 459, .Bottom, .Bottom + 1)
-        .Right = IIf(.Right + 1 >= 583, .Right, .Right + 1)
-    End With
-    
-End Sub
-
-Public Sub Engine_ZoomNormal()
-'**************************************************************
-'Author: Standelf
-'Last Modify Date: 29/12/2010
-'**************************************************************
-
-    With MainScreenRect
-        .Top = 0
-        .Left = 0
-        .Bottom = ScreenHeight
-        .Right = ScreenWidth
-    End With
-    
-End Sub
 
 Function Engine_Distance(ByVal x1 As Integer, ByVal y1 As Integer, ByVal x2 As Integer, ByVal y2 As Integer) As Long
 '***************************************************
@@ -634,13 +581,16 @@ Public Sub Engine_Update_FPS()
 
 End Sub
 
-Public Function Engine_GetAngle(ByVal CenterX As Integer, ByVal CenterY As Integer, ByVal TargetX As Integer, ByVal TargetY As Integer) As Single
-'************************************************************
-'Gets the angle between two points in a 2d plane
-'More info: http://www.vbgore.com/GameClient.TileEn ... e_GetAngle" class="postlink" rel="nofollow" onClick="window.open(this.href);return false;
-'************************************************************
-Dim SideA As Single
-Dim SideC As Single
+Public Function Engine_GetAngle(ByVal CenterX As Integer, _
+                                ByVal CenterY As Integer, _
+                                ByVal TargetX As Integer, _
+                                ByVal TargetY As Integer) As Single
+    '************************************************************
+    'Gets the angle between two points in a 2d plane
+    'More info: http://www.vbgore.com/GameClient.TileEn ... e_GetAngle" class="postlink" rel="nofollow" onClick="window.open(this.href);return false;
+    '************************************************************
+    Dim SideA As Single
+    Dim SideC As Single
  
     On Error GoTo ErrOut
  
@@ -695,7 +645,7 @@ Dim SideC As Single
  
     'Exit function
  
-Exit Function
+    Exit Function
  
     'Check for error
 ErrOut:
@@ -703,6 +653,6 @@ ErrOut:
     'Return a 0 saying there was an error
     Engine_GetAngle = 0
  
-Exit Function
+    Exit Function
  
 End Function

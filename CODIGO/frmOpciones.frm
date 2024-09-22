@@ -529,9 +529,17 @@ Private Sub chkop_MouseUp(Index As Integer, Button As Integer, Shift As Integer,
                 Call Sound.Ambient_Stop_All
             Else
                 ClientSetup.bAmbient = 1
-                scrAmbient.Enabled = True
-                Call Sound.Ambient_Play(Sound.AmbienteActual, True, ClientSetup.AmbientVol)
+
             End If
+            
+        Case 3 'Invertir Canales L/R
+            If chkop(Index).value = vbUnchecked Then
+                ClientSetup.Invertido = 0
+            Else
+                ClientSetup.Invertido = 1
+            End If
+            
+            Sound.InvertirSonido = (ClientSetup.Invertido = 1)
             
         Case 4 'HUD
         
@@ -741,23 +749,30 @@ Private Sub LoadUserConfig()
     'Sonidos
     If ClientSetup.bSound = 1 Then
         chkop(1).value = vbChecked
-        chkop(4).value = IIf(ClientSetup.Invertido = True, 1, 0)
+        chkop(3).value = IIf(ClientSetup.Invertido = True, 1, 0)
         scrVolume.value = ClientSetup.SoundVolume
     Else
         chkop(1).value = vbUnchecked
-        chkop(4).value = IIf(ClientSetup.Invertido = True, 1, 0)
-        chkop(4).Enabled = False
+        chkop(3).value = IIf(ClientSetup.Invertido = True, 1, 0)
+        chkop(3).Enabled = False
         scrVolume.value = ClientSetup.SoundVolume
         scrVolume.Enabled = False
     End If
     
     'Ambiente
     If ClientSetup.bAmbient = 1 Then
-        chkop(3).value = vbChecked
+        chkop(2).value = vbChecked
         scrAmbient.value = ClientSetup.AmbientVol
     Else
-        chkop(3).value = vbUnchecked
+        chkop(2).value = vbUnchecked
         scrAmbient.value = ClientSetup.AmbientVol
+    End If
+    
+    'Invertir canales L/R
+    If ClientSetup.Invertido = 1 Then
+        chkop(3).value = vbChecked
+    Else
+        chkop(3).value = vbUnchecked
     End If
     
     txtLevel = ClientSetup.byMurderedLevel
