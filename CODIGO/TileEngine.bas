@@ -148,7 +148,7 @@ End Enum
 'Apariencia del personaje
 Public Type Char
     Movement As Boolean
-    Active As Byte
+    active As Byte
     Heading As E_Heading
     Pos As Position
     moved As Boolean
@@ -208,12 +208,11 @@ End Type
 Public Type obj
     ObjIndex As Integer
     Amount As Integer
-    Shadow As Byte
 End Type
 
 Public Type tGhost
 
-    Active As Boolean
+    active As Boolean
     Body As Grh
     Head As Integer
     Weapon As Grh
@@ -619,11 +618,8 @@ Sub RenderScreen(ByVal tilex As Integer, _
                 With MapData(X, Y)
                 
                     'Object Layer **********************************
-                    If .ObjGrh.GrhIndex <> 0 Then
-                        If .OBJInfo.Shadow = 1 Then Call Draw_Grh(.ObjGrh, PixelOffsetXTemp + 5, PixelOffsetYTemp + -9, 1, COLOR_SHADOW(), 0, False, 187, 1, 1.2)
-                           
+                    If .ObjGrh.GrhIndex <> 0 Then _
                         Call Draw_Grh(.ObjGrh, PixelOffsetXTemp, PixelOffsetYTemp, 1, .Light_Value(), 1)
-                    End If
                     '***********************************************
 
                     'Char Ghost ***********************************
@@ -829,7 +825,7 @@ Private Sub RenderGhotChar(ByVal X As Integer, _
     
     With MapData(X, Y)
     
-        If .GhostChar.Active Then
+        If .GhostChar.active Then
                     
             If .GhostChar.AlphaB > 0 Then
                     
@@ -856,7 +852,7 @@ Private Sub RenderGhotChar(ByVal X As Integer, _
                 End If
 
             Else
-                .GhostChar.Active = False
+                .GhostChar.active = False
 
             End If
 

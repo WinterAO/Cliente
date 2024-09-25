@@ -12,7 +12,7 @@ Private Const GrhFogata As Long = 1521
 
 Public Sub Map_RemoveOldUser()
 
-      With MapData(UserPos.x, UserPos.y)
+      With MapData(UserPos.X, UserPos.Y)
 
             If (.CharIndex = UserCharIndex) Then
                   .CharIndex = 0
@@ -22,7 +22,7 @@ Public Sub Map_RemoveOldUser()
 
 End Sub
 
-Public Sub Map_CreateObject(ByVal x As Integer, ByVal y As Integer, ByVal GrhIndex As Long, ByVal ParticulaIndex As Integer, ByVal Shadow As Byte)
+Public Sub Map_CreateObject(ByVal X As Integer, ByVal Y As Integer, ByVal GrhIndex As Long, ByVal ParticulaIndex As Integer)
 
       'Dim objgrh As Integer
         
@@ -32,16 +32,15 @@ Public Sub Map_CreateObject(ByVal x As Integer, ByVal y As Integer, ByVal GrhInd
 
       End If
                         
-      If (Map_InBounds(x, y)) Then
+      If (Map_InBounds(X, Y)) Then
 
-            With MapData(x, y)
+            With MapData(X, Y)
 
                   'If (Map_PosExitsObject(x, y) > 0) Then
                   '      Call Map_DestroyObject(x, y)
                   'End If
                   
-                  .OBJInfo.Shadow = Shadow
-                  If ParticulaIndex > 0 And .Particle_Group_Index = 0 Then .Particle_Group_Index = General_Particle_Create(ParticulaIndex, x, y)
+                  If ParticulaIndex > 0 And .Particle_Group_Index = 0 Then .Particle_Group_Index = General_Particle_Create(ParticulaIndex, X, Y)
                   Call InitGrh(.ObjGrh, GrhIndex)
             End With
 
@@ -49,12 +48,12 @@ Public Sub Map_CreateObject(ByVal x As Integer, ByVal y As Integer, ByVal GrhInd
 
 End Sub
 
-Public Sub Map_DestroyObject(ByVal x As Integer, ByVal y As Integer)
+Public Sub Map_DestroyObject(ByVal X As Integer, ByVal Y As Integer)
     Dim ParticulaObject As Long
     
-      If (Map_InBounds(x, y)) Then
+      If (Map_InBounds(X, Y)) Then
 
-            With MapData(x, y)
+            With MapData(X, Y)
                   '.objgrh.GrhIndex = 0
                   .OBJInfo.ObjIndex = 0
                   .OBJInfo.Amount = 0
@@ -67,17 +66,17 @@ Public Sub Map_DestroyObject(ByVal x As Integer, ByVal y As Integer)
 
 End Sub
 
-Public Function Map_PosExitsObject(ByVal x As Integer, ByVal y As Integer) As Long
+Public Function Map_PosExitsObject(ByVal X As Integer, ByVal Y As Integer) As Long
  
       '*****************************************************************
       'Checks to see if a tile position has a char_index and return it
       '*****************************************************************
 
-      If (Map_InBounds(x, y)) Then
-        If MapData(x, y).ObjGrh.GrhIndex > 0 Then
-            Map_PosExitsObject = MapData(x, y).ObjGrh.GrhIndex
-        ElseIf MapData(x, y).Particle_Group_Index > 0 Then
-            Map_PosExitsObject = MapData(x, y).Particle_Group_Index
+      If (Map_InBounds(X, Y)) Then
+        If MapData(X, Y).ObjGrh.GrhIndex > 0 Then
+            Map_PosExitsObject = MapData(X, Y).ObjGrh.GrhIndex
+        ElseIf MapData(X, Y).Particle_Group_Index > 0 Then
+            Map_PosExitsObject = MapData(X, Y).Particle_Group_Index
         End If
       Else
             Map_PosExitsObject = 0
@@ -85,23 +84,23 @@ Public Function Map_PosExitsObject(ByVal x As Integer, ByVal y As Integer) As Lo
  
 End Function
 
-Public Function Map_GetBlocked(ByVal x As Integer, ByVal y As Integer) As Boolean
+Public Function Map_GetBlocked(ByVal X As Integer, ByVal Y As Integer) As Boolean
       '*****************************************************************
       'Author: Aaron Perkins - Modified by Juan Martin Sotuyo Dodero
       'Last Modify Date: 10/07/2002
       'Checks to see if a tile position is blocked
       '*****************************************************************
 
-      If (Map_InBounds(x, y)) Then
-            Map_GetBlocked = (MapData(x, y).Blocked)
+      If (Map_InBounds(X, Y)) Then
+            Map_GetBlocked = (MapData(X, Y).Blocked)
       End If
 
 End Function
 
-Public Sub Map_SetBlocked(ByVal x As Integer, ByVal y As Integer, ByVal block As Byte)
+Public Sub Map_SetBlocked(ByVal X As Integer, ByVal Y As Integer, ByVal block As Byte)
 
-      If (Map_InBounds(x, y)) Then
-            MapData(x, y).Blocked = block
+      If (Map_InBounds(X, Y)) Then
+            MapData(X, Y).Blocked = block
       End If
 
 End Sub
@@ -124,16 +123,16 @@ Sub Map_MoveTo(ByVal Direccion As E_Heading)
       Select Case Direccion
 
             Case E_Heading.NORTH
-                  LegalOk = Map_LegalPos(UserPos.x, UserPos.y - 1)
+                  LegalOk = Map_LegalPos(UserPos.X, UserPos.Y - 1)
 
             Case E_Heading.EAST
-                  LegalOk = Map_LegalPos(UserPos.x + 1, UserPos.y)
+                  LegalOk = Map_LegalPos(UserPos.X + 1, UserPos.Y)
 
             Case E_Heading.SOUTH
-                  LegalOk = Map_LegalPos(UserPos.x, UserPos.y + 1)
+                  LegalOk = Map_LegalPos(UserPos.X, UserPos.Y + 1)
 
             Case E_Heading.WEST
-                  LegalOk = Map_LegalPos(UserPos.x - 1, UserPos.y)
+                  LegalOk = Map_LegalPos(UserPos.X - 1, UserPos.Y)
                         
       End Select
 
@@ -169,7 +168,7 @@ Sub Map_MoveTo(ByVal Direccion As E_Heading)
         
 End Sub
 
-Function Map_LegalPos(ByVal x As Integer, ByVal y As Integer) As Boolean
+Function Map_LegalPos(ByVal X As Integer, ByVal Y As Integer) As Boolean
       '*****************************************************************
       'Author: ZaMa
       'Last Modification: 06/04/2020
@@ -184,7 +183,7 @@ Function Map_LegalPos(ByVal x As Integer, ByVal y As Integer) As Boolean
     
       'Limites del mapa
 
-      If x < MinXBorder Or x > MaxXBorder Or y < MinYBorder Or y > MaxYBorder Then
+      If X < MinXBorder Or X > MaxXBorder Or Y < MinYBorder Or Y > MaxYBorder Then
 
             Exit Function
 
@@ -192,19 +191,19 @@ Function Map_LegalPos(ByVal x As Integer, ByVal y As Integer) As Boolean
     
       'Tile Bloqueado?
 
-      If (Map_GetBlocked(x, y)) Then
+      If (Map_GetBlocked(X, Y)) Then
          
             Exit Function
 
       End If
     
-      CharIndex = (Char_MapPosExits(CInt(x), CInt(y)))
+      CharIndex = (Char_MapPosExits(CInt(X), CInt(Y)))
         
       'Hay un personaje?
 
       If (CharIndex > 0) Then
     
-            If (Map_GetBlocked(UserPos.x, UserPos.y)) Then
+            If (Map_GetBlocked(UserPos.X, UserPos.Y)) Then
                 
                   Exit Function
 
@@ -220,8 +219,8 @@ Function Map_LegalPos(ByVal x As Integer, ByVal y As Integer) As Boolean
                   Else
                         ' No puedo intercambiar con un casper que este en la orilla (Lado tierra)
 
-                        If (Map_CheckWater(UserPos.x, UserPos.y)) Then
-                              If Not (Map_CheckWater(x, y)) Then
+                        If (Map_CheckWater(UserPos.X, UserPos.Y)) Then
+                              If Not (Map_CheckWater(X, Y)) Then
                                             
                                     Exit Function
 
@@ -230,7 +229,7 @@ Function Map_LegalPos(ByVal x As Integer, ByVal y As Integer) As Boolean
                         Else
                               ' No puedo intercambiar con un casper que este en la orilla (Lado agua)
 
-                              If (Map_CheckWater(x, y)) Then
+                              If (Map_CheckWater(X, Y)) Then
                                              
                                     Exit Function
 
@@ -255,14 +254,14 @@ Function Map_LegalPos(ByVal x As Integer, ByVal y As Integer) As Boolean
 
       End If
    
-      If (CurrentUser.UserNavegando <> Map_CheckWater(x, y)) Then
+      If (CurrentUser.UserNavegando <> Map_CheckWater(X, Y)) Then
                
             Exit Function
 
       End If
 
       'Esta el usuario Equitando bajo un techo?
-      If CurrentUser.UserEquitando And MapData(x, y).Trigger = eTrigger.BAJOTECHO Or CurrentUser.UserEquitando And MapData(x, y).Trigger = eTrigger.CASA Then
+      If CurrentUser.UserEquitando And MapData(X, Y).Trigger = eTrigger.BAJOTECHO Or CurrentUser.UserEquitando And MapData(X, Y).Trigger = eTrigger.CASA Then
             Exit Function
       End If
       
@@ -272,12 +271,12 @@ Function Map_LegalPos(ByVal x As Integer, ByVal y As Integer) As Boolean
       Map_LegalPos = True
 End Function
 
-Function Map_InBounds(ByVal x As Integer, ByVal y As Integer) As Boolean
+Function Map_InBounds(ByVal X As Integer, ByVal Y As Integer) As Boolean
       '*****************************************************************
       'Checks to see if a tile position is in the maps bounds
       '*****************************************************************
 
-      If (x < XMinMapSize) Or (x > XMaxMapSize) Or (y < YMinMapSize) Or (y > YMaxMapSize) Then
+      If (X < XMinMapSize) Or (X > XMaxMapSize) Or (Y < YMinMapSize) Or (Y > YMaxMapSize) Then
             Map_InBounds = False
 
             Exit Function
@@ -292,13 +291,13 @@ Public Function Map_CheckBonfire(ByRef Location As Position) As Boolean
       Dim j As Long
       Dim k As Long
     
-      For j = UserPos.x - 8 To UserPos.x + 8
-            For k = UserPos.y - 6 To UserPos.y + 6
+      For j = UserPos.X - 8 To UserPos.X + 8
+            For k = UserPos.Y - 6 To UserPos.Y + 6
 
                   If Map_InBounds(j, k) Then
                         If MapData(j, k).ObjGrh.GrhIndex = GrhFogata Then
-                              Location.x = j
-                              Location.y = k
+                              Location.X = j
+                              Location.Y = k
                               Map_CheckBonfire = True
 
                               Exit Function
@@ -311,11 +310,11 @@ Public Function Map_CheckBonfire(ByRef Location As Position) As Boolean
 
 End Function
 
-Function Map_CheckWater(ByVal x As Integer, ByVal y As Integer) As Boolean
+Function Map_CheckWater(ByVal X As Integer, ByVal Y As Integer) As Boolean
 
-      If Map_InBounds(x, y) Then
+      If Map_InBounds(X, Y) Then
 
-            With MapData(x, y)
+            With MapData(X, Y)
 
                   If ((.Graphic(1).GrhIndex >= 1505 And .Graphic(1).GrhIndex <= 1520) Or (.Graphic(1).GrhIndex >= 5665 And .Graphic(1).GrhIndex <= 5680) Or (.Graphic(1).GrhIndex >= 13547 And .Graphic(1).GrhIndex <= 13562)) And .Graphic(2).GrhIndex = 0 Then
                         Map_CheckWater = True
