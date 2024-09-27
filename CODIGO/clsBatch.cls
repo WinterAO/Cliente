@@ -41,6 +41,9 @@ Public Sub Begin()
     '
     ' Re-initialise the states of the batch
     '
+    
+    On Error GoTo Begin_Err
+    
     Call DirectDevice.SetTexture(0, m_Texture)
     Call DirectDevice.SetStreamSource(0, m_VBuffer, 24)
     Call DirectDevice.SetIndices(m_IBuffer, 0)
@@ -52,10 +55,17 @@ Public Sub Begin()
         Call DirectDevice.SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA)
         Call DirectDevice.SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA)
     End If
- 
+    
+    Exit Sub
+
+Begin_Err:
+    Call RegistrarError(Err.number, Err.Description, "clsBatch.Begin", Erl)
+    Resume Next
 End Sub
  
 Public Sub SetAlpha(ByVal IsAlpha As Boolean)
+ 
+    On Error GoTo SetAlpha_Err
  
     If IsAlpha <> m_Alpha Then
         
@@ -78,10 +88,17 @@ Public Sub SetAlpha(ByVal IsAlpha As Boolean)
         End If
  
     End If
- 
+    
+    Exit Sub
+
+SetAlpha_Err:
+    Call RegistrarError(Err.number, Err.Description, "clsBatch.SetAlpha", Erl)
+    Resume Next
 End Sub
  
 Public Sub SetTexture(ByRef Texture As Direct3DTexture8)
+ 
+    On Error GoTo SetTexture_Err
  
     If ObjPtr(m_Texture) <> ObjPtr(Texture) Then 'te cabe vb6
         
@@ -98,7 +115,11 @@ Public Sub SetTexture(ByRef Texture As Direct3DTexture8)
         Call DirectDevice.SetTexture(0, Texture)
  
     End If
- 
+    
+    Exit Sub
+SetTexture_Err:
+    Call RegistrarError(Err.number, Err.Description, "clsBatch.SetTexture", Erl)
+    Resume Next
 End Sub
  
 Friend Sub Draw(ByVal X As Long, _
@@ -112,6 +133,8 @@ Friend Sub Draw(ByVal X As Long, _
                 Optional ByVal Ty2 As Single = 1, _
                 Optional ByVal angle As Single = 0)
                
+    On Error GoTo Draw_Err
+              
     If angle > 0 And angle <= 360 Then
         Dim NewX     As Single
         Dim NewY     As Single
@@ -210,20 +233,34 @@ Friend Sub Draw(ByVal X As Long, _
     If (m_Position >= ((UBound(m_Data) / 4))) Then
         Call Flush
     End If
-   
+    
+    Exit Sub
+
+Draw_Err:
+    Call RegistrarError(Err.number, Err.Description, "clsBatch.Draw", Erl)
+    Resume Next
 End Sub
  
 Public Sub Finish()
 
+    On Error GoTo Finish_Err
+    
     '
     ' Flush the batch since we're finished
     '
     Call Flush
  
+    Exit Sub
+
+Finish_Err:
+    Call RegistrarError(Err.number, Err.Description, "clsBatch.Finish", Erl)
+    Resume Next
 End Sub
  
 Public Sub Flush()
- 
+
+    On Error GoTo Flush_Err
+    
     '
     ' Only draw if there is any data in the buffer
     '
@@ -243,9 +280,16 @@ Public Sub Flush()
  
     End If
  
+    Exit Sub
+
+Flush_Err:
+    Call RegistrarError(Err.number, Err.Description, "clsBatch.Flush", Erl)
+    Resume Next
 End Sub
  
 Public Sub Initialise(ByVal Capacity As Long)
+
+    On Error GoTo Initialize_Err
 
     ReDim m_Data(4 * Capacity) As TYPE_VERTEX
    
@@ -277,6 +321,11 @@ Public Sub Initialise(ByVal Capacity As Long)
     Next
    
     Call D3DIndexBuffer8SetData(m_IBuffer, 0, UBound(lpIndices), 0, lpIndices(0))
-       
+    
+    Exit Sub
+
+Initialize_Err:
+    Call RegistrarError(Err.number, Err.Description, "clsBatch.Initialize", Erl)
+    Resume Next
 End Sub
 
