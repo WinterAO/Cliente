@@ -43,15 +43,6 @@ Begin VB.Form frmPanelGm
       Begin VB.CommandButton cmdIr 
          BackColor       =   &H8000000A&
          Caption         =   "Ira"
-         BeginProperty Font 
-            Name            =   "Tahoma"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
          Height          =   360
          Left            =   120
          Style           =   1  'Graphical
@@ -62,15 +53,6 @@ Begin VB.Form frmPanelGm
       Begin VB.CommandButton cmdInfo 
          BackColor       =   &H8000000A&
          Caption         =   "Info"
-         BeginProperty Font 
-            Name            =   "Tahoma"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
          Height          =   360
          Left            =   120
          Style           =   1  'Graphical
@@ -81,15 +63,6 @@ Begin VB.Form frmPanelGm
       Begin VB.CommandButton cmdSummon 
          BackColor       =   &H8000000A&
          Caption         =   "Sum"
-         BeginProperty Font 
-            Name            =   "Tahoma"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
          Height          =   360
          Left            =   120
          Style           =   1  'Graphical
@@ -1674,8 +1647,8 @@ End Sub
 
 Private Sub lstUsers_MouseUp(Button As Integer, _
                              Shift As Integer, _
-                             x As Single, _
-                             y As Single)
+                             X As Single, _
+                             Y As Single)
 
     If lstUsers.ListIndex <> -1 Then
         Call ClearRecordDetails

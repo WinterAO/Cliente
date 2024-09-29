@@ -119,6 +119,9 @@ Public Enum TipoPaso
     CONST_PISO = 5
     CONST_DESIERTO = 6
     CONST_PESADO = 7
+    CONST_MADERA = 8
+    CONST_NAVEGAR = 9
+    CONST_TREPAR = 10
 End Enum
 
 Public Type tPaso
@@ -126,15 +129,18 @@ Public Type tPaso
     Wav() As Integer
 End Type
 
-Public Const NUM_PASOS As Byte = 7
+Public Const NUM_PASOS As Byte = 10
 Public Pasos() As tPaso
 
 'Sonidos
-Public Const SND_CLICK As String = 190
-Public Const SND_MSG As String = 530
-Public Const SND_FUEGO As Integer = 79
+Public Const SND_MSG As String = 60
+Public Const SND_CLICK As String = 61
+Public Const SND_SUBCLICK As String = 62
+Public Const SND_FUEGO As Integer = 49
+Public Const SND_RELAMPAGO As Byte = 131
+
+'GRH
 Public Const GRH_FOGATA As Integer = 1521
-Public Const SND_RELAMPAGO As Byte = 97
 
 'Musicas
 Public Const MUS_Inicio As String = "1"
@@ -544,9 +550,9 @@ Public Type PjCuenta
     Nombre      As String
     Head        As Integer
     Body        As Integer
-    shield      As Byte
-    helmet      As Byte
-    weapon      As Byte
+    Shield      As Byte
+    Helmet      As Byte
+    Weapon      As Byte
     Mapa        As Integer
     Class       As Byte
     Race        As Byte
@@ -795,11 +801,11 @@ Public Type tIndiceFx
 End Type
 
 Public Type tIndiceArmas
-    weapon(1 To 4) As Long
+    Weapon(1 To 4) As Long
 End Type
 
 Public Type tIndiceEscudos
-    shield(1 To 4) As Long
+    Shield(1 To 4) As Long
 End Type
 
 Public EsperandoLevel As Boolean

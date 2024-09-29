@@ -20,8 +20,8 @@ Private m_Alpha   As Boolean
  
 Private Type TYPE_VERTEX
            
-    X       As Single
-    Y       As Single
+    x       As Single
+    y       As Single
     Z       As Single
  
     Colour  As RGBA
@@ -41,6 +41,9 @@ Public Sub Begin()
     '
     ' Re-initialise the states of the batch
     '
+    
+    On Error GoTo Begin_Err
+    
     Call DirectDevice.SetTexture(0, m_Texture)
     Call DirectDevice.SetStreamSource(0, m_VBuffer, 24)
     Call DirectDevice.SetIndices(m_IBuffer, 0)
@@ -52,10 +55,17 @@ Public Sub Begin()
         Call DirectDevice.SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA)
         Call DirectDevice.SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA)
     End If
- 
+    
+    Exit Sub
+
+Begin_Err:
+    Call RegistrarError(Err.number, Err.Description, "clsBatch.Begin", Erl)
+    Resume Next
 End Sub
  
 Public Sub SetAlpha(ByVal IsAlpha As Boolean)
+ 
+    On Error GoTo SetAlpha_Err
  
     If IsAlpha <> m_Alpha Then
         
@@ -78,10 +88,17 @@ Public Sub SetAlpha(ByVal IsAlpha As Boolean)
         End If
  
     End If
- 
+    
+    Exit Sub
+
+SetAlpha_Err:
+    Call RegistrarError(Err.number, Err.Description, "clsBatch.SetAlpha", Erl)
+    Resume Next
 End Sub
  
 Public Sub SetTexture(ByRef Texture As Direct3DTexture8)
+ 
+    On Error GoTo SetTexture_Err
  
     If ObjPtr(m_Texture) <> ObjPtr(Texture) Then 'te cabe vb6
         
@@ -98,11 +115,15 @@ Public Sub SetTexture(ByRef Texture As Direct3DTexture8)
         Call DirectDevice.SetTexture(0, Texture)
  
     End If
- 
+    
+    Exit Sub
+SetTexture_Err:
+    Call RegistrarError(Err.number, Err.Description, "clsBatch.SetTexture", Erl)
+    Resume Next
 End Sub
  
-Friend Sub Draw(ByVal X As Long, _
-                ByVal Y As Long, _
+Friend Sub Draw(ByVal x As Long, _
+                ByVal y As Long, _
                 ByVal Width As Long, _
                 ByVal Height As Long, _
                 ByRef color() As RGBA, _
@@ -112,6 +133,8 @@ Friend Sub Draw(ByVal X As Long, _
                 Optional ByVal Ty2 As Single = 1, _
                 Optional ByVal angle As Single = 0)
                
+    On Error GoTo Draw_Err
+              
     If angle > 0 And angle <= 360 Then
         Dim NewX     As Single
         Dim NewY     As Single
@@ -123,16 +146,16 @@ Friend Sub Draw(ByVal X As Long, _
        
         RadAngle = angle * DegreeToRadian
    
-        CenterX = X + (Width * 0.5)
-        CenterY = Y + (Height * 0.5)
+        CenterX = x + (Width * 0.5)
+        CenterY = y + (Height * 0.5)
        
         SinRad = Sin(RadAngle)
         CosRad = Cos(RadAngle)
        
     End If
  
-    m_Data(m_Position).X = X
-    m_Data(m_Position).Y = Y
+    m_Data(m_Position).x = x
+    m_Data(m_Position).y = y
     m_Data(m_Position).Z = 0
     m_Data(m_Position).Colour = color(0)
     m_Data(m_Position).tX = Tx1
@@ -140,18 +163,18 @@ Friend Sub Draw(ByVal X As Long, _
    
     If angle > 0 And angle <= 360 Then
    
-        NewX = CenterX + (m_Data(m_Position).X - CenterX) * -CosRad - (m_Data(m_Position).Y - CenterY) * -SinRad
-        NewY = CenterY + (m_Data(m_Position).Y - CenterY) * -CosRad + (m_Data(m_Position).X - CenterX) * -SinRad
+        NewX = CenterX + (m_Data(m_Position).x - CenterX) * -CosRad - (m_Data(m_Position).y - CenterY) * -SinRad
+        NewY = CenterY + (m_Data(m_Position).y - CenterY) * -CosRad + (m_Data(m_Position).x - CenterX) * -SinRad
        
-        m_Data(m_Position).X = NewX
-        m_Data(m_Position).Y = NewY
+        m_Data(m_Position).x = NewX
+        m_Data(m_Position).y = NewY
        
     End If
    
     m_Position = m_Position + 1
    
-    m_Data(m_Position).X = X
-    m_Data(m_Position).Y = Y + Height
+    m_Data(m_Position).x = x
+    m_Data(m_Position).y = y + Height
     m_Data(m_Position).Z = 0
     m_Data(m_Position).Colour = color(1)
     m_Data(m_Position).tX = Tx1
@@ -159,18 +182,18 @@ Friend Sub Draw(ByVal X As Long, _
  
     If angle > 0 And angle <= 360 Then
    
-        NewX = CenterX + (m_Data(m_Position).X - CenterX) * -CosRad - (m_Data(m_Position).Y - CenterY) * -SinRad
-        NewY = CenterY + (m_Data(m_Position).Y - CenterY) * -CosRad + (m_Data(m_Position).X - CenterX) * -SinRad
+        NewX = CenterX + (m_Data(m_Position).x - CenterX) * -CosRad - (m_Data(m_Position).y - CenterY) * -SinRad
+        NewY = CenterY + (m_Data(m_Position).y - CenterY) * -CosRad + (m_Data(m_Position).x - CenterX) * -SinRad
        
-        m_Data(m_Position).X = NewX
-        m_Data(m_Position).Y = NewY
+        m_Data(m_Position).x = NewX
+        m_Data(m_Position).y = NewY
        
     End If
    
     m_Position = m_Position + 1
    
-    m_Data(m_Position).X = X + Width
-    m_Data(m_Position).Y = Y + Height
+    m_Data(m_Position).x = x + Width
+    m_Data(m_Position).y = y + Height
     m_Data(m_Position).Z = 0
     m_Data(m_Position).Colour = color(2)
     m_Data(m_Position).tX = Tx2
@@ -178,18 +201,18 @@ Friend Sub Draw(ByVal X As Long, _
  
     If angle > 0 And angle <= 360 Then
    
-        NewX = CenterX + (m_Data(m_Position).X - CenterX) * -CosRad - (m_Data(m_Position).Y - CenterY) * -SinRad
-        NewY = CenterY + (m_Data(m_Position).Y - CenterY) * -CosRad + (m_Data(m_Position).X - CenterX) * -SinRad
+        NewX = CenterX + (m_Data(m_Position).x - CenterX) * -CosRad - (m_Data(m_Position).y - CenterY) * -SinRad
+        NewY = CenterY + (m_Data(m_Position).y - CenterY) * -CosRad + (m_Data(m_Position).x - CenterX) * -SinRad
        
-        m_Data(m_Position).X = NewX
-        m_Data(m_Position).Y = NewY
+        m_Data(m_Position).x = NewX
+        m_Data(m_Position).y = NewY
        
     End If
    
     m_Position = m_Position + 1
    
-    m_Data(m_Position).X = X + Width
-    m_Data(m_Position).Y = Y
+    m_Data(m_Position).x = x + Width
+    m_Data(m_Position).y = y
     m_Data(m_Position).Z = 0
     m_Data(m_Position).Colour = color(3)
     m_Data(m_Position).tX = Tx2
@@ -197,11 +220,11 @@ Friend Sub Draw(ByVal X As Long, _
  
     If angle > 0 And angle <= 360 Then
    
-        NewX = CenterX + (m_Data(m_Position).X - CenterX) * -CosRad - (m_Data(m_Position).Y - CenterY) * -SinRad
-        NewY = CenterY + (m_Data(m_Position).Y - CenterY) * -CosRad + (m_Data(m_Position).X - CenterX) * -SinRad
+        NewX = CenterX + (m_Data(m_Position).x - CenterX) * -CosRad - (m_Data(m_Position).y - CenterY) * -SinRad
+        NewY = CenterY + (m_Data(m_Position).y - CenterY) * -CosRad + (m_Data(m_Position).x - CenterX) * -SinRad
        
-        m_Data(m_Position).X = NewX
-        m_Data(m_Position).Y = NewY
+        m_Data(m_Position).x = NewX
+        m_Data(m_Position).y = NewY
        
     End If
    
@@ -210,20 +233,98 @@ Friend Sub Draw(ByVal X As Long, _
     If (m_Position >= ((UBound(m_Data) / 4))) Then
         Call Flush
     End If
+    
+    Exit Sub
+
+Draw_Err:
+    Call RegistrarError(Err.number, Err.Description, "clsBatch.Draw", Erl)
+    Resume Next
+End Sub
+
+Friend Sub DrawBreathing(ByVal x As Long, _
+                         ByVal y As Long, _
+                         ByVal Width As Long, _
+                         ByVal Height As Long, _
+                         ByVal ease As Single, _
+                         ByRef color() As RGBA, _
+                         Optional ByVal Tx1 As Single = 0, _
+                         Optional ByVal Ty1 As Single = 0, _
+                         Optional ByVal Tx2 As Single = 1, _
+                         Optional ByVal Ty2 As Single = 1)
+    
+    On Error GoTo DrawBreathing_Err
+
+    Dim dy As Integer
+    dy = Int(2 * ease)
+
+    m_Data(m_Position).x = x + 0.25
+    m_Data(m_Position).y = y + Height
+    m_Data(m_Position).Z = 0
+    m_Data(m_Position).Colour = color(0)
+    m_Data(m_Position).tX = Tx1
+    m_Data(m_Position).tY = Ty2
+ 
+    m_Position = m_Position + 1
+    
+    m_Data(m_Position).x = x + 0.25
+    m_Data(m_Position).y = y - dy
+    m_Data(m_Position).Z = 0
+    m_Data(m_Position).Colour = color(1)
+    m_Data(m_Position).tX = Tx1
+    m_Data(m_Position).tY = Ty1
    
+    m_Position = m_Position + 1
+   
+    m_Data(m_Position).x = x + Width + 0.25
+    m_Data(m_Position).y = y + Height
+    m_Data(m_Position).Z = 0
+    m_Data(m_Position).Colour = color(2)
+    m_Data(m_Position).tX = Tx2
+    m_Data(m_Position).tY = Ty2
+
+    m_Position = m_Position + 1
+   
+    m_Data(m_Position).x = x + Width + 0.25
+    m_Data(m_Position).y = y - dy
+    m_Data(m_Position).Z = 0
+    m_Data(m_Position).Colour = color(3)
+    m_Data(m_Position).tX = Tx2
+    m_Data(m_Position).tY = Ty1
+
+    m_Position = m_Position + 1
+   
+    If m_Position >= UBound(m_Data) Then
+        Call Flush
+    End If
+    
+    Exit Sub
+
+DrawBreathing_Err:
+    Call RegistrarError(Err.number, Err.Description, "clsBatch.DrawBreathing", Erl)
+    Resume Next
+    
 End Sub
  
 Public Sub Finish()
 
+    On Error GoTo Finish_Err
+    
     '
     ' Flush the batch since we're finished
     '
     Call Flush
  
+    Exit Sub
+
+Finish_Err:
+    Call RegistrarError(Err.number, Err.Description, "clsBatch.Finish", Erl)
+    Resume Next
 End Sub
  
 Public Sub Flush()
- 
+
+    On Error GoTo Flush_Err
+    
     '
     ' Only draw if there is any data in the buffer
     '
@@ -243,9 +344,16 @@ Public Sub Flush()
  
     End If
  
+    Exit Sub
+
+Flush_Err:
+    Call RegistrarError(Err.number, Err.Description, "clsBatch.Flush", Erl)
+    Resume Next
 End Sub
  
 Public Sub Initialise(ByVal Capacity As Long)
+
+    On Error GoTo Initialize_Err
 
     ReDim m_Data(4 * Capacity) As TYPE_VERTEX
    
@@ -277,6 +385,11 @@ Public Sub Initialise(ByVal Capacity As Long)
     Next
    
     Call D3DIndexBuffer8SetData(m_IBuffer, 0, UBound(lpIndices), 0, lpIndices(0))
-       
+    
+    Exit Sub
+
+Initialize_Err:
+    Call RegistrarError(Err.number, Err.Description, "clsBatch.Initialize", Erl)
+    Resume Next
 End Sub
 
