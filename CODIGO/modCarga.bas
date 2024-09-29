@@ -96,25 +96,25 @@ Private Type tMapHeader
 End Type
 
 Private Type tDatosBloqueados
-    x As Integer
-    y As Integer
+    X As Integer
+    Y As Integer
 End Type
 
 Private Type tDatosGrh
-    x As Integer
-    y As Integer
+    X As Integer
+    Y As Integer
     GrhIndex As Long
 End Type
 
 Private Type tDatosTrigger
-    x As Integer
-    y As Integer
+    X As Integer
+    Y As Integer
     Trigger As Integer
 End Type
 
 Private Type tDatosZonas
-    x As Integer
-    y As Integer
+    X As Integer
+    Y As Integer
     Zona As Integer
 End Type
 
@@ -123,32 +123,32 @@ Public Type tDatosLuces
     G As Integer
     B As Integer
     range As Byte
-    x As Integer
-    y As Integer
+    X As Integer
+    Y As Integer
 End Type
 
 Private Type tDatosParticulas
-    x As Integer
-    y As Integer
+    X As Integer
+    Y As Integer
     Particula As Long
 End Type
 
 Private Type tDatosNPC
-    x As Integer
-    y As Integer
+    X As Integer
+    Y As Integer
     NPCIndex As Integer
 End Type
 
 Private Type tDatosObjs
-    x As Integer
-    y As Integer
+    X As Integer
+    Y As Integer
     ObjIndex As Integer
     ObjAmmount As Integer
 End Type
 
 Private Type tDatosTE
-    x As Integer
-    y As Integer
+    X As Integer
+    Y As Integer
     DestM As Integer
     DestX As Integer
     DestY As Integer
@@ -616,8 +616,8 @@ On Error GoTo errhandler:
                 Call InitGrh(BodyData(i).Walk(3), MisCuerpos(i).Body(3), 0)
                 Call InitGrh(BodyData(i).Walk(4), MisCuerpos(i).Body(4), 0)
                 
-                BodyData(i).HeadOffset.x = MisCuerpos(i).HeadOffsetX
-                BodyData(i).HeadOffset.y = MisCuerpos(i).HeadOffsetY
+                BodyData(i).HeadOffset.X = MisCuerpos(i).HeadOffsetX
+                BodyData(i).HeadOffset.Y = MisCuerpos(i).HeadOffsetY
             End If
         Next i
     
@@ -686,8 +686,8 @@ On Error GoTo errhandler:
                 Call InitGrh(AtaqueData(i).AtaqueWalk(3), MisAtaques(i).Body(3), 0)
                 Call InitGrh(AtaqueData(i).AtaqueWalk(4), MisAtaques(i).Body(4), 0)
                 
-                AtaqueData(i).HeadOffset.x = MisAtaques(i).HeadOffsetX
-                AtaqueData(i).HeadOffset.y = MisAtaques(i).HeadOffsetY
+                AtaqueData(i).HeadOffset.X = MisAtaques(i).HeadOffsetX
+                AtaqueData(i).HeadOffset.Y = MisAtaques(i).HeadOffsetY
             End If
         Next i
     
@@ -819,17 +819,17 @@ On Error GoTo errhandler:
         ReDim Weapons(1 To NumWeaponAnims) As tIndiceArmas
         
         For i = 1 To NumWeaponAnims
-            Weapons(i).weapon(1) = fileBuff.getLong()
-            Weapons(i).weapon(2) = fileBuff.getLong()
-            Weapons(i).weapon(3) = fileBuff.getLong()
-            Weapons(i).weapon(4) = fileBuff.getLong()
+            Weapons(i).Weapon(1) = fileBuff.getLong()
+            Weapons(i).Weapon(2) = fileBuff.getLong()
+            Weapons(i).Weapon(3) = fileBuff.getLong()
+            Weapons(i).Weapon(4) = fileBuff.getLong()
             
-            If Weapons(i).weapon(1) Then
+            If Weapons(i).Weapon(1) Then
             
-                Call InitGrh(WeaponAnimData(i).WeaponWalk(1), Weapons(i).weapon(1), 0)
-                Call InitGrh(WeaponAnimData(i).WeaponWalk(2), Weapons(i).weapon(2), 0)
-                Call InitGrh(WeaponAnimData(i).WeaponWalk(3), Weapons(i).weapon(3), 0)
-                Call InitGrh(WeaponAnimData(i).WeaponWalk(4), Weapons(i).weapon(4), 0)
+                Call InitGrh(WeaponAnimData(i).WeaponWalk(1), Weapons(i).Weapon(1), 0)
+                Call InitGrh(WeaponAnimData(i).WeaponWalk(2), Weapons(i).Weapon(2), 0)
+                Call InitGrh(WeaponAnimData(i).WeaponWalk(3), Weapons(i).Weapon(3), 0)
+                Call InitGrh(WeaponAnimData(i).WeaponWalk(4), Weapons(i).Weapon(4), 0)
             
             End If
         Next i
@@ -930,17 +930,17 @@ On Error GoTo errhandler:
         ReDim Shields(1 To NumEscudosAnims) As tIndiceEscudos
         
         For i = 1 To NumEscudosAnims
-            Shields(i).shield(1) = fileBuff.getLong()
-            Shields(i).shield(2) = fileBuff.getLong()
-            Shields(i).shield(3) = fileBuff.getLong()
-            Shields(i).shield(4) = fileBuff.getLong()
+            Shields(i).Shield(1) = fileBuff.getLong()
+            Shields(i).Shield(2) = fileBuff.getLong()
+            Shields(i).Shield(3) = fileBuff.getLong()
+            Shields(i).Shield(4) = fileBuff.getLong()
             
-            If Shields(i).shield(1) Then
+            If Shields(i).Shield(1) Then
             
-                Call InitGrh(ShieldAnimData(i).ShieldWalk(1), Shields(i).shield(1), 0)
-                Call InitGrh(ShieldAnimData(i).ShieldWalk(2), Shields(i).shield(2), 0)
-                Call InitGrh(ShieldAnimData(i).ShieldWalk(3), Shields(i).shield(3), 0)
-                Call InitGrh(ShieldAnimData(i).ShieldWalk(4), Shields(i).shield(4), 0)
+                Call InitGrh(ShieldAnimData(i).ShieldWalk(1), Shields(i).Shield(1), 0)
+                Call InitGrh(ShieldAnimData(i).ShieldWalk(2), Shields(i).Shield(2), 0)
+                Call InitGrh(ShieldAnimData(i).ShieldWalk(3), Shields(i).Shield(3), 0)
+                Call InitGrh(ShieldAnimData(i).ShieldWalk(4), Shields(i).Shield(4), 0)
             
             End If
         Next i
@@ -1075,9 +1075,9 @@ Sub CargarMapa(ByVal fileMap As String)
 
             For i = 1 To .NumeroBloqueados
                 With Blqs(i)
-                    .x = fileBuff.getInteger()
-                    .y = fileBuff.getInteger()
-                    MapData(.x, .y).Blocked = 1
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
+                    MapData(.X, .Y).Blocked = 1
                 End With
             Next i
 
@@ -1089,11 +1089,11 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroLayers(2)
             
                 With L2(i)
-                    .x = fileBuff.getInteger()
-                    .y = fileBuff.getInteger()
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
                     .GrhIndex = fileBuff.getLong()
                 
-                    Call InitGrh(MapData(.x, .y).Graphic(2), .GrhIndex)
+                    Call InitGrh(MapData(.X, .Y).Graphic(2), .GrhIndex)
                 End With
             Next i
 
@@ -1105,11 +1105,11 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroLayers(3)
             
                 With L3(i)
-                    .x = fileBuff.getInteger()
-                    .y = fileBuff.getInteger()
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
                     .GrhIndex = fileBuff.getLong()
                 
-                    Call InitGrh(MapData(.x, .y).Graphic(3), .GrhIndex)
+                    Call InitGrh(MapData(.X, .Y).Graphic(3), .GrhIndex)
                 End With
             Next i
 
@@ -1121,11 +1121,11 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroLayers(4)
             
                 With L4(i)
-                    .x = fileBuff.getInteger()
-                    .y = fileBuff.getInteger()
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
                     .GrhIndex = fileBuff.getLong()
   
-                    Call InitGrh(MapData(.x, .y).Graphic(4), .GrhIndex)
+                    Call InitGrh(MapData(.X, .Y).Graphic(4), .GrhIndex)
                 End With
             Next i
 
@@ -1137,11 +1137,11 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroTriggers
                 
                 With Triggers(i)
-                    .x = fileBuff.getInteger()
-                    .y = fileBuff.getInteger()
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
                     .Trigger = fileBuff.getInteger()
                 
-                    MapData(.x, .y).Trigger = .Trigger
+                    MapData(.X, .Y).Trigger = .Trigger
                 End With
                 
             Next i
@@ -1155,12 +1155,12 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroParticulas
 
                 With Particulas(i)
-                    .x = fileBuff.getInteger()
-                    .y = fileBuff.getInteger()
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
                     .Particula = fileBuff.getLong()
 
-                    MapData(.x, .y).Particle_Index = .Particula
-                    Call General_Particle_Create(.Particula, .x, .y)
+                    MapData(.X, .Y).Particle_Index = .Particula
+                    Call General_Particle_Create(.Particula, .X, .Y)
                 End With
 
             Next i
@@ -1177,10 +1177,10 @@ Sub CargarMapa(ByVal fileMap As String)
                     .G = fileBuff.getInteger()
                     .B = fileBuff.getInteger()
                     .range = fileBuff.getByte()
-                    .x = fileBuff.getInteger()
-                    .y = fileBuff.getInteger()
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
 
-                    Call LucesRedondas.Create_Light_To_Map(.x, .y, RGBA_From_Comp(.R, .G, .B), .range, False)
+                    Call LucesRedondas.Create_Light_To_Map(.X, .Y, RGBA_From_Comp(.R, .G, .B), .range, False)
                 End With
             Next i
             
@@ -1192,11 +1192,11 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroZonas
                 
                 With Zonas(i)
-                    .x = fileBuff.getInteger()
-                    .y = fileBuff.getInteger()
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
                     .Zona = fileBuff.getInteger()
                 
-                    MapData(.x, .y).ZonaIndex = .Zona
+                    MapData(.X, .Y).ZonaIndex = .Zona
                 End With
                 
             Next i
@@ -1209,13 +1209,13 @@ Sub CargarMapa(ByVal fileMap As String)
             For i = 1 To .NumeroOBJs
 
                 With Objetos(i)
-                    .x = fileBuff.getInteger()
-                    .y = fileBuff.getInteger()
+                    .X = fileBuff.getInteger()
+                    .Y = fileBuff.getInteger()
                     .ObjIndex = fileBuff.getInteger()
                     .ObjAmmount = fileBuff.getInteger()
                 
                     'Erase OBJs
-                    MapData(.x, .y).ObjGrh.GrhIndex = 0
+                    MapData(.X, .Y).ObjGrh.GrhIndex = 0
                 End With
             Next i
             
@@ -1243,39 +1243,53 @@ Public Sub CargarPasos()
 
     Pasos(CONST_BOSQUE).CantPasos = 2
     ReDim Pasos(CONST_BOSQUE).Wav(1 To Pasos(CONST_BOSQUE).CantPasos) As Integer
-    Pasos(CONST_BOSQUE).Wav(1) = 201
-    Pasos(CONST_BOSQUE).Wav(2) = 202
+    Pasos(CONST_BOSQUE).Wav(1) = 1
+    Pasos(CONST_BOSQUE).Wav(2) = 2
 
     Pasos(CONST_NIEVE).CantPasos = 2
     ReDim Pasos(CONST_NIEVE).Wav(1 To Pasos(CONST_NIEVE).CantPasos) As Integer
-    Pasos(CONST_NIEVE).Wav(1) = 199
-    Pasos(CONST_NIEVE).Wav(2) = 200
+    Pasos(CONST_NIEVE).Wav(1) = 3
+    Pasos(CONST_NIEVE).Wav(2) = 4
 
     Pasos(CONST_CABALLO).CantPasos = 2
     ReDim Pasos(CONST_CABALLO).Wav(1 To Pasos(CONST_CABALLO).CantPasos) As Integer
-    Pasos(CONST_CABALLO).Wav(1) = 23
-    Pasos(CONST_CABALLO).Wav(2) = 24
+    Pasos(CONST_CABALLO).Wav(1) = 14
+    Pasos(CONST_CABALLO).Wav(2) = 15
 
     Pasos(CONST_DUNGEON).CantPasos = 2
     ReDim Pasos(CONST_DUNGEON).Wav(1 To Pasos(CONST_DUNGEON).CantPasos) As Integer
-    Pasos(CONST_DUNGEON).Wav(1) = 23
-    Pasos(CONST_DUNGEON).Wav(2) = 24
+    Pasos(CONST_DUNGEON).Wav(1) = 5
+    Pasos(CONST_DUNGEON).Wav(2) = 6
 
     Pasos(CONST_DESIERTO).CantPasos = 2
     ReDim Pasos(CONST_DESIERTO).Wav(1 To Pasos(CONST_DESIERTO).CantPasos) As Integer
-    Pasos(CONST_DESIERTO).Wav(1) = 197
-    Pasos(CONST_DESIERTO).Wav(2) = 198
+    Pasos(CONST_DESIERTO).Wav(1) = 7
+    Pasos(CONST_DESIERTO).Wav(2) = 8
 
     Pasos(CONST_PISO).CantPasos = 2
     ReDim Pasos(CONST_PISO).Wav(1 To Pasos(CONST_PISO).CantPasos) As Integer
-    Pasos(CONST_PISO).Wav(1) = 23
-    Pasos(CONST_PISO).Wav(2) = 24
+    Pasos(CONST_PISO).Wav(1) = 5
+    Pasos(CONST_PISO).Wav(2) = 6
+    
+    Pasos(CONST_MADERA).CantPasos = 2
+    ReDim Pasos(CONST_MADERA).Wav(1 To Pasos(CONST_MADERA).CantPasos) As Integer
+    Pasos(CONST_MADERA).Wav(1) = 47
+    Pasos(CONST_MADERA).Wav(2) = 48
+    
+    Pasos(CONST_NAVEGAR).CantPasos = 1
+    ReDim Pasos(CONST_NAVEGAR).Wav(1 To Pasos(CONST_NAVEGAR).CantPasos) As Integer
+    Pasos(CONST_NAVEGAR).Wav(1) = 16
+    
+    Pasos(CONST_TREPAR).CantPasos = 2
+    ReDim Pasos(CONST_TREPAR).Wav(1 To Pasos(CONST_TREPAR).CantPasos) As Integer
+    Pasos(CONST_TREPAR).Wav(1) = 50
+    Pasos(CONST_TREPAR).Wav(2) = 51
 
     Pasos(CONST_PESADO).CantPasos = 3
     ReDim Pasos(CONST_PESADO).Wav(1 To Pasos(CONST_PESADO).CantPasos) As Integer
-    Pasos(CONST_PESADO).Wav(1) = 220
-    Pasos(CONST_PESADO).Wav(2) = 221
-    Pasos(CONST_PESADO).Wav(3) = 222
+    Pasos(CONST_PESADO).Wav(1) = 9
+    Pasos(CONST_PESADO).Wav(2) = 10
+    Pasos(CONST_PESADO).Wav(3) = 11
 
 End Sub
 
