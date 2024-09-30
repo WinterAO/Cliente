@@ -1426,7 +1426,7 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
 
             Call Draw_Grh(TempGrh, PixelOffsetX + 1 + .Body.HeadOffset.X, PixelOffsetY - 55 + .Body.HeadOffset.Y, 1, COLOR_WHITE(), False)
 
-            Engine_Draw_Box PixelOffsetX + 5 + .Body.HeadOffset.X, PixelOffsetY - 28 + .Body.HeadOffset.Y, .BarTime / .MaxBarTime * 26, 4, D3DColorARGB(3, 214, 166, 120) ', RGBA_From_Comp(0, 0, 0, 255)
+            Engine_Draw_Box PixelOffsetX + 4 + .Body.HeadOffset.X, PixelOffsetY - 29 + .Body.HeadOffset.Y, .BarTime / .MaxBarTime * 26, 4, RGBA_From_Comp(3, 214, 166, 120) ', RGBA_From_Comp(0, 0, 0, 255)
 
             .BarTime = .BarTime + (timerElapsedTime / 1000)
             'Debug.Print .BarTime
