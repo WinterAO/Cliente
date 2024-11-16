@@ -80,14 +80,14 @@ Sub Damage_Initialize()
 
 End Sub
 
-Sub Damage_Create(ByVal x As Integer, _
-                  ByVal y As Integer, _
+Sub Damage_Create(ByVal X As Integer, _
+                  ByVal Y As Integer, _
                   ByVal DamageValue As Integer, _
                   ByVal edMode As Byte)
  
     ' @ Agrega un nuevo dano.
  
-    With MapData(x, y).Damage
+    With MapData(X, Y).Damage
      
         .Activated = True
         
@@ -122,14 +122,14 @@ Private Function EaseOutCubic(Time As Double)
     EaseOutCubic = Time * Time * Time + 1
 End Function
  
-Sub Damage_Draw(ByVal x As Integer, _
-                ByVal y As Integer, _
+Sub Damage_Draw(ByVal X As Integer, _
+                ByVal Y As Integer, _
                 ByVal PixelX As Integer, _
                 ByVal PixelY As Integer)
  
     ' @ Dibuja un dano
  
-    With MapData(x, y).Damage
+    With MapData(X, Y).Damage
      
         If (Not .Activated) Or (Not .DamageVal <> 0) Then Exit Sub
         
@@ -187,7 +187,7 @@ Sub Damage_Draw(ByVal x As Integer, _
             
         'Si llego al tiempo lo limpio
         Else
-            Damage_Clear x, y
+            Damage_Clear X, Y
            
         End If
        
@@ -195,11 +195,11 @@ Sub Damage_Draw(ByVal x As Integer, _
  
 End Sub
  
-Sub Damage_Clear(ByVal x As Integer, ByVal y As Integer)
+Sub Damage_Clear(ByVal X As Integer, ByVal Y As Integer)
  
     ' @ Limpia todo.
  
-    With MapData(x, y).Damage
+    With MapData(X, Y).Damage
         .Activated = False
         .DamageVal = 0
         .StartedTime = 0
@@ -230,3 +230,70 @@ Function Damage_NewSize(ByVal ElapsedTime As Integer) As Byte
     End Select
  
 End Function
+
+Public Sub DibujarMenuMacros(Optional ActualizarCual As Byte = 0)
+'************************************
+'Autor: Lorwik
+'Fecha: 07/03/2021
+'Descripcion: Dibuja los macros del frmmain
+'***********************************
+
+    Dim i As Integer
+    
+    If ActualizarCual <= 0 Then
+    
+        For i = 1 To NUMMACROS
+            Select Case MacrosKey(i).TipoAccion
+                Case 1 'Envia comando
+                    Call Mod_TileEngine.RenderItem(frmMain.picMacro(i - 1), 37605)
+                    frmMain.picMacro(i - 1).ToolTipText = "Enviar comando: " & MacrosKey(i).Comando
+                    
+                Case 2 'Lanza hechizo
+                    Call Mod_TileEngine.RenderItem(frmMain.picMacro(i - 1), 609)
+                    frmMain.picMacro(i - 1).ToolTipText = "Lanzar hechizo: " & MacrosKey(i).SpellName
+                    
+                Case 3 'Equipa
+                    If MacrosKey(i).InvGrh > 0 Then
+                        Call Mod_TileEngine.RenderItem(frmMain.picMacro(i - 1), MacrosKey(i).InvGrh)
+                        frmMain.picMacro(i - 1).ToolTipText = "Equipar objeto: " & MacrosKey(i).invName
+                    End If
+                    
+                Case 4 'Usa
+                    If MacrosKey(i).InvGrh > 0 Then
+                        Call Mod_TileEngine.RenderItem(frmMain.picMacro(i - 1), MacrosKey(i).InvGrh)
+                        frmMain.picMacro(i - 1).ToolTipText = "Usar objeto: " & MacrosKey(i).invName
+                    End If
+                    
+                End Select
+        Next i
+    
+    Else
+    
+        Select Case MacrosKey(ActualizarCual).TipoAccion
+            Case 1 'Envia comando
+                Call Mod_TileEngine.RenderItem(frmMain.picMacro(ActualizarCual - 1), 37605)
+                frmMain.picMacro(ActualizarCual - 1).ToolTipText = "Enviar comando: " & MacrosKey(ActualizarCual).Comando
+                
+            Case 2 'Lanza hechizo
+                Call Mod_TileEngine.RenderItem(frmMain.picMacro(ActualizarCual - 1), 609)
+                frmMain.picMacro(ActualizarCual - 1).ToolTipText = "Lanzar hechizo: " & MacrosKey(ActualizarCual).SpellName
+                
+            Case 3 'Equipa
+                If MacrosKey(ActualizarCual).InvGrh > 0 Then
+                    Call Mod_TileEngine.RenderItem(frmMain.picMacro(ActualizarCual - 1), MacrosKey(ActualizarCual).InvGrh)
+                    frmMain.picMacro(ActualizarCual - 1).ToolTipText = "Equipar objeto: " & MacrosKey(ActualizarCual).invName
+                End If
+                
+            Case 4 'Usa
+                If MacrosKey(ActualizarCual).InvGrh > 0 Then
+                    Call Mod_TileEngine.RenderItem(frmMain.picMacro(ActualizarCual - 1), MacrosKey(ActualizarCual).InvGrh)
+                    frmMain.picMacro(ActualizarCual - 1).ToolTipText = "Usar objeto: " & MacrosKey(ActualizarCual).invName
+                End If
+        End Select
+    
+        frmMain.picMacro(ActualizarCual - 1).Refresh
+    
+    End If
+
+End Sub
+

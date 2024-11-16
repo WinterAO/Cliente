@@ -1619,22 +1619,19 @@ Public Sub Device_Textured_Render(ByVal X As Single, ByVal Y As Single, _
         
 End Sub
 
-Public Sub RenderItem(ByVal hWndDest As Long, ByVal GrhIndex As Long)
+Public Sub RenderItem(ByRef Pic As PictureBox, ByVal GrhIndex As Long)
+    
+    On Error Resume Next
+    
     Dim DR As RECT
     
     With DR
-        .Left = 0
-        .Top = 0
         .Right = 32
         .Bottom = 32
     End With
     
-    Call Engine_BeginScene
-
-    Call Draw_GrhIndex(GrhIndex, 0, 0, 0, COLOR_WHITE(), 0, False)
-        
-    Call Engine_EndScene(DR, hWndDest)
-    
+    Call DrawGrhtoHdc(Pic, GrhIndex, DR)
+     
 End Sub
 
 Sub Draw_GrhIndex(ByVal GrhIndex As Long, ByVal X As Integer, ByVal Y As Integer, ByVal Center As Byte, ByRef Color_List() As RGBA, Optional ByVal angle As Single = 0, Optional ByVal Alpha As Boolean = False)

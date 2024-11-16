@@ -5,7 +5,7 @@ Begin VB.Form frmCustomKeys
    ClientHeight    =   5220
    ClientLeft      =   45
    ClientTop       =   390
-   ClientWidth     =   12090
+   ClientWidth     =   9990
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    BeginProperty Font 
@@ -22,14 +22,14 @@ Begin VB.Form frmCustomKeys
    MinButton       =   0   'False
    ScaleHeight     =   348
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   806
+   ScaleWidth      =   666
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
    Begin VB.CommandButton cmdSalir 
       Caption         =   "Salir"
       Height          =   480
       Left            =   120
-      TabIndex        =   105
+      TabIndex        =   92
       Top             =   4680
       Width           =   2085
    End
@@ -48,115 +48,7 @@ Begin VB.Form frmCustomKeys
       Left            =   7680
       TabIndex        =   67
       Top             =   0
-      Width           =   4335
-      Begin VB.TextBox txtComando 
-         Appearance      =   0  'Flat
-         Height          =   285
-         Index           =   12
-         Left            =   2280
-         TabIndex        =   103
-         Top             =   4560
-         Width           =   1815
-      End
-      Begin VB.TextBox txtComando 
-         Appearance      =   0  'Flat
-         Height          =   285
-         Index           =   11
-         Left            =   2280
-         TabIndex        =   102
-         Top             =   4200
-         Width           =   1815
-      End
-      Begin VB.TextBox txtComando 
-         Appearance      =   0  'Flat
-         Height          =   285
-         Index           =   10
-         Left            =   2280
-         TabIndex        =   101
-         Top             =   3840
-         Width           =   1815
-      End
-      Begin VB.TextBox txtComando 
-         Appearance      =   0  'Flat
-         Height          =   285
-         Index           =   9
-         Left            =   2280
-         TabIndex        =   100
-         Top             =   3480
-         Width           =   1815
-      End
-      Begin VB.TextBox txtComando 
-         Appearance      =   0  'Flat
-         Height          =   285
-         Index           =   8
-         Left            =   2280
-         TabIndex        =   99
-         Top             =   3120
-         Width           =   1815
-      End
-      Begin VB.TextBox txtComando 
-         Appearance      =   0  'Flat
-         Height          =   285
-         Index           =   7
-         Left            =   2280
-         TabIndex        =   98
-         Top             =   2760
-         Width           =   1815
-      End
-      Begin VB.TextBox txtComando 
-         Appearance      =   0  'Flat
-         Height          =   285
-         Index           =   6
-         Left            =   2280
-         TabIndex        =   97
-         Top             =   2400
-         Width           =   1815
-      End
-      Begin VB.TextBox txtComando 
-         Appearance      =   0  'Flat
-         Height          =   285
-         Index           =   5
-         Left            =   2280
-         TabIndex        =   96
-         Top             =   2040
-         Width           =   1815
-      End
-      Begin VB.TextBox txtComando 
-         Appearance      =   0  'Flat
-         Height          =   285
-         Index           =   4
-         Left            =   2280
-         TabIndex        =   95
-         Top             =   1680
-         Width           =   1815
-      End
-      Begin VB.TextBox txtComando 
-         Appearance      =   0  'Flat
-         Height          =   285
-         Index           =   3
-         Left            =   2280
-         TabIndex        =   94
-         Top             =   1320
-         Width           =   1815
-      End
-      Begin VB.TextBox txtComando 
-         Appearance      =   0  'Flat
-         Height          =   285
-         Index           =   2
-         Left            =   2280
-         TabIndex        =   93
-         Top             =   960
-         Width           =   1815
-      End
-      Begin VB.TextBox txtComando 
-         Appearance      =   0  'Flat
-         Height          =   285
-         Index           =   1
-         Left            =   2280
-         TabIndex        =   92
-         Top             =   600
-         Width           =   1815
-      End
+      Width           =   2235
       Begin VB.TextBox Text1 
          Appearance      =   0  'Flat
          BackColor       =   &H00FFFFFF&
@@ -397,59 +289,49 @@ Begin VB.Form frmCustomKeys
          Top             =   600
          Width           =   975
       End
-      Begin VB.Label lblComando 
-         AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "Comandos:"
-         Height          =   195
-         Left            =   2280
-         TabIndex        =   104
-         Top             =   360
-         Width           =   810
-      End
       Begin VB.Label lblFuncion8 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "Funcion 8"
+         Caption         =   "Funcion 12"
          Height          =   195
          Index           =   0
          Left            =   240
          TabIndex        =   79
          Top             =   4575
-         Width           =   735
+         Width           =   780
       End
       Begin VB.Label lblFuncion7 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "Funcion 7"
+         Caption         =   "Funcion 11"
          Height          =   195
          Index           =   1
          Left            =   240
          TabIndex        =   78
          Top             =   4215
-         Width           =   735
+         Width           =   780
       End
       Begin VB.Label lblFuncion6 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "Funcion 6"
+         Caption         =   "Funcion 10"
          Height          =   195
          Index           =   1
          Left            =   240
          TabIndex        =   77
          Top             =   3855
-         Width           =   735
+         Width           =   780
       End
       Begin VB.Label lblFuncion5 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "Funcion 5"
+         Caption         =   "Funcion 9"
          Height          =   195
          Index           =   0
          Left            =   240
          TabIndex        =   76
          Top             =   3495
-         Width           =   735
+         Width           =   690
       End
       Begin VB.Label lblFuncion8 
          AutoSize        =   -1  'True
@@ -1635,10 +1517,6 @@ Private Sub Form_Load()
         Text1(i).Text = CustomKeys.ReadableName(CustomKeys.BindedKey(i))
     Next i
     
-    For i = 1 To 12
-        txtComando(i).Text = CStr(ClientSetup.Funcion(i))
-    Next i
-    
     If ClientSetup.BloqueoMovimiento Then
         chkBloquearMovimiento.value = vbChecked
     Else
@@ -1669,12 +1547,7 @@ Private Sub imgGuardar_Click()
         End If
     Next i
     
-    For i = 1 To 12
-        ClientSetup.Funcion(i) = Trim$(frmCustomKeys.txtComando(i).Text)
-    Next i
-    
     Call Carga.GuardarConfiguracion
-    Call Carga.GuardarFunciones
     
     Unload Me
 End Sub

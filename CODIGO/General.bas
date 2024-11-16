@@ -261,6 +261,9 @@ Sub SetConnected()
     
     Call DibujarMinimapa
     
+    frmMain.fMacros.Visible = MacrosActivados
+    If MacrosActivados Then Call DibujarMenuMacros
+    
     ModConectar.Conectando = True
 
     FPSFLAG = True
@@ -320,7 +323,7 @@ Private Sub CheckKeys()
     If pausa Then Exit Sub
 
     'Si esta chateando, no mover el pj, tanto para chat de clanes y normal
-    If frmMain.SendTxt.Visible And ClientSetup.BloqueoMovimiento Then Exit Sub
+    If frmMain.Sendtxt.Visible And ClientSetup.BloqueoMovimiento Then Exit Sub
 
     'Don't allow any these keys during movement..
     If UserMoving = 0 Then
@@ -706,7 +709,7 @@ Private Sub LoadInitialConfig()
     Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 70)
     
     'Inicializamos el inventario grafico
-    Call Inventario.Initialize(DirectD3D8, frmMain.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call Inventario.Initialize(DirectD3D8, frmMain.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_MAPA").item("TEXTO"), 75)
     
@@ -826,16 +829,16 @@ Private Function CMSValidateChar_(ByVal iAsc As Integer) As Boolean
 End Function
 
 'TODO : como todo lo relativo a mapas, no tiene nada que hacer aca....
-Function HayAgua(ByVal x As Integer, ByVal y As Integer) As Boolean
+Function HayAgua(ByVal X As Integer, ByVal Y As Integer) As Boolean
     '*******************************************
     'Author: Unknown
     'Last Modification: -
     '
     '*******************************************
 
-    If x > XMinMapSize And x < XMaxMapSize + 1 And y > YMinMapSize And y < YMaxMapSize + 1 Then
+    If X > XMinMapSize And X < XMaxMapSize + 1 And Y > YMinMapSize And Y < YMaxMapSize + 1 Then
 
-        With MapData(x, y)
+        With MapData(X, Y)
 
             If ((.Graphic(1).GrhIndex >= 1505 And .Graphic(1).GrhIndex <= 1520) Or _
                 (.Graphic(1).GrhIndex >= 12439 And .Graphic(1).GrhIndex <= 12454) Or _
@@ -1222,6 +1225,19 @@ Public Sub ResetAllInfo(Optional ByVal UnloadForms As Boolean = True)
         
         ' Clear inventory slots
         Inventario.ClearAllSlots
+        
+        ' Clear Macros
+        For i = 1 To NUMMACROS
+            MacrosKey(i).TipoAccion = 0
+            MacrosKey(i).invName = vbNullString
+            MacrosKey(i).InvGrh = 0
+            MacrosKey(i).invName = vbNullString
+            MacrosKey(i).Comando = vbNullString
+            
+            frmMain.picMacro(i - 1).Picture = Nothing
+        Next i
+    
+        Call DibujarMenuMacros
     End With
 
 End Sub
@@ -1243,9 +1259,9 @@ Public Sub ResetAllInfoAccounts()
                 .Nombre = vbNullString
                 .Body = 0
                 .Head = 0
-                .weapon = 0
-                .shield = 0
-                .helmet = 0
+                .Weapon = 0
+                .Shield = 0
+                .Helmet = 0
                 .Class = 0
                 .Race = 0
                 .Map = 0
@@ -1456,13 +1472,13 @@ Public Function UserZonaId(ByVal CharIndex As Integer) As Integer
         UserZonaId = 0
         Exit Function
     
-    ElseIf charlist(CharIndex).Pos.x < 1 Or charlist(CharIndex).Pos.y < 1 Then
+    ElseIf charlist(CharIndex).Pos.X < 1 Or charlist(CharIndex).Pos.Y < 1 Then
         UserZonaId = 0
         Exit Function
         
     End If
     
-    UserZonaId = MapData(charlist(CharIndex).Pos.x, charlist(CharIndex).Pos.y).ZonaIndex
+    UserZonaId = MapData(charlist(CharIndex).Pos.X, charlist(CharIndex).Pos.Y).ZonaIndex
 
 End Function
 
@@ -1523,10 +1539,10 @@ Public Sub ActualizarMiniMapa()
     '***************************************************
     
     With frmMain
-        .UserM.Left = UserPosCuadrante.x - 2
-        .UserM.Top = UserPosCuadrante.y - 2
-        .UserAreaMinimap.Left = UserPosCuadrante.x - 13
-        .UserAreaMinimap.Top = UserPosCuadrante.y - 11
+        .UserM.Left = UserPosCuadrante.X - 2
+        .UserM.Top = UserPosCuadrante.Y - 2
+        .UserAreaMinimap.Left = UserPosCuadrante.X - 13
+        .UserAreaMinimap.Top = UserPosCuadrante.Y - 11
         .MiniMapa.Refresh
     End With
 End Sub
@@ -1550,6 +1566,57 @@ Public Sub DibujarMinimapa()
         frmMain.MiniMapa.Picture = Nothing
         
     End If
+End Sub
+
+Public Sub accionMacrosKey(ByVal Index As Byte, Optional ByVal BotonDerecho As Boolean = False)
+'*********************************************
+'Autor: Lorwik
+'Fecha: 07/03/2021
+'Descripcion: Si existe el macro manda al server la orden, si no existe se abre la config
+'*********************************************
+
+    If MacrosActivados = 0 Then Exit Sub
+
+    MacroElegido = Index
+
+    With MacrosKey(Index)
+    
+        If .TipoAccion = 0 Or BotonDerecho Then
+            frmBindKey.Show vbModeless, frmMain
+       Else
+            Select Case .TipoAccion
+                Case 1 '¿Es un comando?
+                    Call ParseUserCommand("/" & .Comando)
+                
+                Case 2 'Hechizos
+                    If CurrentUser.UserEstado = 1 Then
+                        With FontTypes(FontTypeNames.FONTTYPE_INFO)
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
+                        End With
+                    End If
+                    
+                    If MainTimer.Check(TimersIndex.Work) Then _
+                        Call WriteEjecutarMacro(Index)
+                        
+                Case 3 'Equipar
+                    If CurrentUser.UserEstado = 1 Then
+                        With FontTypes(FontTypeNames.FONTTYPE_INFO)
+                            Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_USER_MUERTO").item("TEXTO").item(1), .Red, .Green, .Blue, .bold, .italic)
+                        End With
+                    End If
+            
+                    If MainTimer.Check(TimersIndex.UseItemWithDblClick) Then _
+                        Call WriteEjecutarMacro(Index)
+                        
+                
+                Case 4 'Usar
+                    If MainTimer.Check(TimersIndex.UseItemWithU) Then _
+                        Call WriteEjecutarMacro(Index)
+                
+            End Select
+        End If
+    End With
+    
 End Sub
 
 Public Function Max(ByVal A As Variant, ByVal B As Variant) As Variant

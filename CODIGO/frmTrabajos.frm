@@ -520,7 +520,7 @@ On Error Resume Next
 
 End Sub
 
-Private Sub Form_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
 On Error Resume Next
 
     InvMaterialTrabajo(1).DrawInventory
@@ -572,20 +572,6 @@ Public Sub HideExtraControls(ByVal NumItems As Integer, Optional ByVal Upgrading
     
 End Sub
 
-Private Sub RenderItem(ByRef Pic As PictureBox, ByVal GrhIndex As Long)
-On Error Resume Next
-
-    Dim DR As RECT
-    
-    With DR
-        .Right = 32
-        .Bottom = 32
-    End With
-
-    Call DrawGrhtoHdc(Pic, GrhIndex, DR)
-
-End Sub
-
 Public Sub RenderList(ByVal Inicio As Integer)
 
 On Error Resume Next
@@ -607,7 +593,7 @@ On Error Resume Next
             With ObjTrabajo(i + Inicio)
             
                 ' Agrego el item
-                Call RenderItem(picItem(i), .GrhIndex)
+                Call Mod_TileEngine.RenderItem(picItem(i), .GrhIndex)
                 picItem(i).ToolTipText = .name
                 
                  ' Inventariode lingotes
@@ -627,7 +613,7 @@ On Error Resume Next
     
 End Sub
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 
@@ -662,19 +648,19 @@ Private Sub picConstruir3_Click()
     Call ConstruirItem(4)
 End Sub
 
-Private Sub picMaterial00_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub picMaterial00_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 
-Private Sub picMaterial01_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub picMaterial01_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 
-Private Sub picMaterial02_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub picMaterial02_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 
-Private Sub picMaterial03_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub picMaterial03_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 

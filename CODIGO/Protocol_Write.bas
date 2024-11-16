@@ -155,6 +155,8 @@ Private Enum ClientPacketID
     BuyShop
     InitPVP
     DueloSet
+    EjecutarMacro
+    GuardarMacro
     GMCommands
 End Enum
 
@@ -829,7 +831,7 @@ End Sub
 ' @param    y Tile coord in the y-axis in which the user clicked.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteLeftClick(ByVal x As Integer, ByVal y As Integer)
+Public Sub WriteLeftClick(ByVal X As Integer, ByVal Y As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -838,8 +840,8 @@ Public Sub WriteLeftClick(ByVal x As Integer, ByVal y As Integer)
     With outgoingData
         Call .WriteByte(ClientPacketID.LeftClick)
         
-        Call .WriteInteger(x)
-        Call .WriteInteger(y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
     End With
 End Sub
 
@@ -850,7 +852,7 @@ End Sub
 ' @param    y Tile coord in the y-axis in which the user clicked.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteAccionClick(ByVal x As Integer, ByVal y As Integer)
+Public Sub WriteAccionClick(ByVal X As Integer, ByVal Y As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -859,8 +861,8 @@ Public Sub WriteAccionClick(ByVal x As Integer, ByVal y As Integer)
     With outgoingData
         Call .WriteByte(ClientPacketID.AccionClick)
         
-        Call .WriteInteger(x)
-        Call .WriteInteger(y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
     End With
 End Sub
 
@@ -988,7 +990,7 @@ End Sub
 ' @param    skill The skill which the user attempts to use.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteWorkLeftClick(ByVal x As Integer, ByVal y As Integer, ByVal Skill As eSkill)
+Public Sub WriteWorkLeftClick(ByVal X As Integer, ByVal Y As Integer, ByVal Skill As eSkill)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -997,8 +999,8 @@ Public Sub WriteWorkLeftClick(ByVal x As Integer, ByVal y As Integer, ByVal Skil
     With outgoingData
         Call .WriteByte(ClientPacketID.WorkLeftClick)
         
-        Call .WriteInteger(x)
-        Call .WriteInteger(y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
         
         Call .WriteByte(Skill)
     End With
@@ -1011,7 +1013,7 @@ End Sub
 ' @param    y Tile coord in the y-axis in which the user clicked.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteInvitarPartyClick(ByVal x As Integer, ByVal y As Integer)
+Public Sub WriteInvitarPartyClick(ByVal X As Integer, ByVal Y As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -1020,8 +1022,8 @@ Public Sub WriteInvitarPartyClick(ByVal x As Integer, ByVal y As Integer)
     With outgoingData
         Call .WriteByte(ClientPacketID.InvitarPartyClick)
         
-        Call .WriteInteger(x)
-        Call .WriteInteger(y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
         
     End With
 End Sub
@@ -2707,7 +2709,7 @@ End Sub
 ' @param    y The y position in the map to which to waro the character.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal x As Integer, ByVal y As Integer, ByVal Cuadrante As Boolean)
+Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal X As Integer, ByVal Y As Integer, ByVal Cuadrante As Boolean)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -2716,7 +2718,7 @@ Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal x
     
     'Para que te vas a tepear al mismo lugar? Te pinta spamear el FX del summon?
     'No mandemos paquetes al pedo.
-    If x = UserPos.x And y = UserPos.y Then Exit Sub
+    If X = UserPos.X And Y = UserPos.Y Then Exit Sub
     
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
@@ -2726,8 +2728,8 @@ Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal x
         
         Call .WriteInteger(Map)
         
-        Call .WriteInteger(x)
-        Call .WriteInteger(y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
         
         Call .WriteBoolean(Cuadrante)
     End With
@@ -3458,7 +3460,7 @@ End Sub
 ' @param    y The position in the y axis to which the teleport will lead.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteTeleportCreate(ByVal Map As Integer, ByVal x As Integer, ByVal y As Integer, Optional ByVal Radio As Byte = 0)
+Public Sub WriteTeleportCreate(ByVal Map As Integer, ByVal X As Integer, ByVal Y As Integer, Optional ByVal Radio As Byte = 0)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -3470,8 +3472,8 @@ Public Sub WriteTeleportCreate(ByVal Map As Integer, ByVal x As Integer, ByVal y
         
         Call .WriteInteger(Map)
         
-        Call .WriteInteger(x)
-        Call .WriteInteger(y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
         
         Call .WriteByte(Radio)
     End With
@@ -3575,7 +3577,7 @@ End Sub
 ' @param    y       The position in the y axis in which to play the given wave.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteForceWAVEToMap(ByVal waveID As Byte, ByVal Map As Integer, ByVal x As Integer, ByVal y As Integer)
+Public Sub WriteForceWAVEToMap(ByVal waveID As Byte, ByVal Map As Integer, ByVal X As Integer, ByVal Y As Integer)
 '***************************************************
 'Author: Juan Martin Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -3589,8 +3591,8 @@ Public Sub WriteForceWAVEToMap(ByVal waveID As Byte, ByVal Map As Integer, ByVal
         
         Call .WriteInteger(Map)
         
-        Call .WriteInteger(x)
-        Call .WriteInteger(y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
     End With
 End Sub
 
@@ -5074,7 +5076,7 @@ End Sub
 ' @param    Y           The y pos where the king is settled.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteCreatePretorianClan(ByVal Map As Byte, ByVal x As Integer, ByVal y As Integer)
+Public Sub WriteCreatePretorianClan(ByVal Map As Byte, ByVal X As Integer, ByVal Y As Integer)
 '***************************************************
 'Author: ZaMa
 'Last Modification: 29/10/2010
@@ -5084,8 +5086,8 @@ Public Sub WriteCreatePretorianClan(ByVal Map As Byte, ByVal x As Integer, ByVal
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.CreatePretorianClan)
         Call .WriteByte(Map)
-        Call .WriteInteger(x)
-        Call .WriteInteger(y)
+        Call .WriteInteger(X)
+        Call .WriteInteger(Y)
     End With
 End Sub
 
@@ -5777,4 +5779,39 @@ Public Sub WritedueloSet(ByVal TipoDuelo As Byte)
 
     Call outgoingData.WriteByte(ClientPacketID.DueloSet)
     Call outgoingData.WriteByte(TipoDuelo)
+End Sub
+
+Public Sub WriteEjecutarMacro(ByVal Index As Byte)
+'***************************************************
+'Author: Lorwik
+'Last Modification: 07/03/2021
+'Envia la accion de un macro
+'***************************************************
+
+    With outgoingData
+        Call .WriteByte(ClientPacketID.EjecutarMacro)
+        Call .WriteByte(Index)
+        
+    End With
+
+End Sub
+
+Public Sub WriteGuardarMacro(ByVal Index As Byte, Optional ByVal SpellSlot As Integer = 0, Optional ByVal InvSlot As Byte = 0, Optional ByVal Comando As String = vbNullString)
+'***************************************************
+'Author: Lorwik
+'Last Modification: 07/03/2021
+'Mandar a guardar la configuracion de un macro
+'***************************************************
+
+    With outgoingData
+        Call .WriteByte(ClientPacketID.GuardarMacro)
+        
+        Call .WriteByte(Index)
+        
+        Call .WriteByte(MacrosKey(Index).TipoAccion)
+        Call .WriteInteger(SpellSlot)
+        Call .WriteInteger(InvSlot)
+        Call .WriteASCIIString(Comando)
+        
+    End With
 End Sub

@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "Richtx32.ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
 Begin VB.Form frmMain 
    BorderStyle     =   0  'None
    ClientHeight    =   11520
@@ -168,6 +168,7 @@ Begin VB.Form frmMain
       _Version        =   393217
       BackColor       =   0
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -208,6 +209,208 @@ Begin VB.Form frmMain
       TabIndex        =   10
       Top             =   2250
       Width           =   14670
+      Begin VB.Frame fMacros 
+         BackColor       =   &H00404040&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H00404040&
+         Height          =   615
+         Left            =   3750
+         TabIndex        =   38
+         Top             =   8370
+         Width           =   7065
+         Begin VB.PictureBox picMacro 
+            AutoRedraw      =   -1  'True
+            BackColor       =   &H00000000&
+            BorderStyle     =   0  'None
+            FillStyle       =   0  'Solid
+            Height          =   480
+            Index           =   11
+            Left            =   6510
+            ScaleHeight     =   32
+            ScaleMode       =   3  'Pixel
+            ScaleWidth      =   32
+            TabIndex        =   50
+            TabStop         =   0   'False
+            Top             =   60
+            Width           =   480
+         End
+         Begin VB.PictureBox picMacro 
+            AutoRedraw      =   -1  'True
+            BackColor       =   &H00000000&
+            BorderStyle     =   0  'None
+            FillStyle       =   0  'Solid
+            Height          =   480
+            Index           =   10
+            Left            =   5940
+            ScaleHeight     =   32
+            ScaleMode       =   3  'Pixel
+            ScaleWidth      =   32
+            TabIndex        =   49
+            TabStop         =   0   'False
+            Top             =   60
+            Width           =   480
+         End
+         Begin VB.PictureBox picMacro 
+            AutoRedraw      =   -1  'True
+            BackColor       =   &H00000000&
+            BorderStyle     =   0  'None
+            FillStyle       =   0  'Solid
+            Height          =   480
+            Index           =   9
+            Left            =   5355
+            ScaleHeight     =   32
+            ScaleMode       =   3  'Pixel
+            ScaleWidth      =   32
+            TabIndex        =   48
+            TabStop         =   0   'False
+            Top             =   60
+            Width           =   480
+         End
+         Begin VB.PictureBox picMacro 
+            AutoRedraw      =   -1  'True
+            BackColor       =   &H00000000&
+            BorderStyle     =   0  'None
+            FillStyle       =   0  'Solid
+            Height          =   480
+            Index           =   8
+            Left            =   4770
+            ScaleHeight     =   32
+            ScaleMode       =   3  'Pixel
+            ScaleWidth      =   32
+            TabIndex        =   47
+            TabStop         =   0   'False
+            Top             =   60
+            Width           =   480
+         End
+         Begin VB.PictureBox picMacro 
+            AutoRedraw      =   -1  'True
+            BackColor       =   &H00000000&
+            BorderStyle     =   0  'None
+            FillStyle       =   0  'Solid
+            Height          =   480
+            Index           =   7
+            Left            =   4185
+            ScaleHeight     =   32
+            ScaleMode       =   3  'Pixel
+            ScaleWidth      =   32
+            TabIndex        =   46
+            TabStop         =   0   'False
+            Top             =   60
+            Width           =   480
+         End
+         Begin VB.PictureBox picMacro 
+            AutoRedraw      =   -1  'True
+            BackColor       =   &H00000000&
+            BorderStyle     =   0  'None
+            FillStyle       =   0  'Solid
+            Height          =   480
+            Index           =   6
+            Left            =   3600
+            ScaleHeight     =   32
+            ScaleMode       =   3  'Pixel
+            ScaleWidth      =   32
+            TabIndex        =   45
+            TabStop         =   0   'False
+            Top             =   60
+            Width           =   480
+         End
+         Begin VB.PictureBox picMacro 
+            AutoRedraw      =   -1  'True
+            BackColor       =   &H00000000&
+            BorderStyle     =   0  'None
+            FillStyle       =   0  'Solid
+            Height          =   480
+            Index           =   5
+            Left            =   3015
+            ScaleHeight     =   32
+            ScaleMode       =   3  'Pixel
+            ScaleWidth      =   32
+            TabIndex        =   44
+            TabStop         =   0   'False
+            Top             =   60
+            Width           =   480
+         End
+         Begin VB.PictureBox picMacro 
+            AutoRedraw      =   -1  'True
+            BackColor       =   &H00000000&
+            BorderStyle     =   0  'None
+            FillStyle       =   0  'Solid
+            Height          =   480
+            Index           =   4
+            Left            =   2430
+            ScaleHeight     =   32
+            ScaleMode       =   3  'Pixel
+            ScaleWidth      =   32
+            TabIndex        =   43
+            TabStop         =   0   'False
+            Top             =   60
+            Width           =   480
+         End
+         Begin VB.PictureBox picMacro 
+            AutoRedraw      =   -1  'True
+            BackColor       =   &H00000000&
+            BorderStyle     =   0  'None
+            FillStyle       =   0  'Solid
+            Height          =   480
+            Index           =   2
+            Left            =   1260
+            ScaleHeight     =   32
+            ScaleMode       =   3  'Pixel
+            ScaleWidth      =   32
+            TabIndex        =   42
+            TabStop         =   0   'False
+            Top             =   60
+            Width           =   480
+         End
+         Begin VB.PictureBox picMacro 
+            AutoRedraw      =   -1  'True
+            BackColor       =   &H00000000&
+            BorderStyle     =   0  'None
+            FillStyle       =   0  'Solid
+            Height          =   480
+            Index           =   3
+            Left            =   1845
+            ScaleHeight     =   32
+            ScaleMode       =   3  'Pixel
+            ScaleWidth      =   32
+            TabIndex        =   41
+            TabStop         =   0   'False
+            Top             =   60
+            Width           =   480
+         End
+         Begin VB.PictureBox picMacro 
+            AutoRedraw      =   -1  'True
+            BackColor       =   &H00000000&
+            BorderStyle     =   0  'None
+            FillStyle       =   0  'Solid
+            Height          =   480
+            Index           =   1
+            Left            =   675
+            ScaleHeight     =   32
+            ScaleMode       =   3  'Pixel
+            ScaleWidth      =   32
+            TabIndex        =   40
+            TabStop         =   0   'False
+            Top             =   60
+            Width           =   480
+         End
+         Begin VB.PictureBox picMacro 
+            AutoRedraw      =   -1  'True
+            BackColor       =   &H00000000&
+            BorderStyle     =   0  'None
+            FillStyle       =   0  'Solid
+            Height          =   480
+            Index           =   0
+            Left            =   70
+            ScaleHeight     =   32
+            ScaleMode       =   3  'Pixel
+            ScaleWidth      =   32
+            TabIndex        =   39
+            TabStop         =   0   'False
+            Top             =   60
+            Width           =   480
+         End
+      End
       Begin VB.Frame fMenu 
          Appearance      =   0  'Flat
          BackColor       =   &H00000000&
@@ -1083,7 +1286,7 @@ Call Sound.Sound_Play(SND_CLICK)
             btnSolapa(2).Picture = General_Load_Picture_From_Resource("btnsocial_off.bmp", True)
             
             ' Activo controles de inventario
-            PicInv.Visible = True
+            picInv.Visible = True
         
             ' Desactivo controles de hechizo y amigos
             hlst.Visible = False
@@ -1117,7 +1320,7 @@ Call Sound.Sound_Play(SND_CLICK)
             cmdMoverHechi(1).Visible = True
             
             ' Desactivo controles de inventario y amigos
-            PicInv.Visible = False
+            picInv.Visible = False
             
             ListAmigos.Visible = False
             AgregarAmigo.Visible = False
@@ -1134,7 +1337,7 @@ Call Sound.Sound_Play(SND_CLICK)
             BorrarAmigo.Visible = True
             
             ' Desactivo controles de inventario y hechizos
-            PicInv.Visible = False
+            picInv.Visible = False
             
             hlst.Visible = False
             btnInfo.Visible = False
@@ -1204,7 +1407,7 @@ Private Sub Form_Load()
     
     FirstTimeChat = True
     SendingType = 1
-    
+
 End Sub
 
 Private Sub LoadButtons()
@@ -1286,7 +1489,7 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
     '18/11/2009: ZaMa - Ahora se pueden poner comandos en los mensajes personalizados (execpto guildchat y privados)
     '18/11/2010: Amraphen - Agregue el handle correspondiente para las nuevas configuraciones de teclas (CTRL+0..9).
     '***************************************************
-    If (Not SendTxt.Visible) Then
+    If (Not Sendtxt.Visible) Then
         
         If KeyCode = vbKeyControl Then
 
@@ -1391,39 +1594,39 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
         Select Case KeyCode
             Case CustomKeys.BindedKey(eKeyType.mKeyChatNormal)
                 SendingType = 1
-                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
-                lblChat.Caption = "1.Normal"
+                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
+                LbLChat.Caption = "1.Normal"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatGritar)
                 SendingType = 2
-                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
-                lblChat.Caption = "2.Gritar"
+                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
+                LbLChat.Caption = "2.Gritar"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatPrivado)
                 sndPrivateTo = InputBox("Nombre del destinatario:", vbNullString)
     
                 If sndPrivateTo <> vbNullString Then
                     SendingType = 3
-                    If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
+                    If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
                 Else
                     MsgBox "¡Escribe un nombre."
                 End If
-                lblChat.Caption = "3.Privado"
+                LbLChat.Caption = "3.Privado"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatClan)
                 SendingType = 4
-                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
-                lblChat.Caption = "4.Clan"
+                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
+                LbLChat.Caption = "4.Clan"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatGrupo)
                 SendingType = 5
-                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
-                lblChat.Caption = "5.Party"
+                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
+                LbLChat.Caption = "5.Party"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyChatGlobal)
                 SendingType = 6
-                If frmMain.SendTxt.Visible Then frmMain.SendTxt.SetFocus
-                lblChat.Caption = "6.Global"
+                If frmMain.Sendtxt.Visible Then frmMain.Sendtxt.SetFocus
+                LbLChat.Caption = "6.Global"
             
             Case CustomKeys.BindedKey(eKeyType.mKeyTakeScreenShot)
                 Call Mod_General.Client_Screenshot(frmMain.hDC, frmMain.ScaleWidth, frmMain.ScaleHeight)
@@ -1455,73 +1658,61 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
                 
                 If (Not Comerciando) And (Not MirandoAsignarSkills) And (Not frmMSG.Visible) And (Not MirandoForo) And (Not frmEstadisticas.Visible) And (Not frmCantidad.Visible) And (Not frmPVP.Visible) And (Not frmShop.Visible) Then
                     Call CompletarEnvioMensajes
-                    SendTxt.Visible = True
-                    SendTxt.SetFocus
+                    Sendtxt.Visible = True
+                    Sendtxt.SetFocus
                 Else
                     Call Enviar_SendTxt
                 End If
                 
             Case CustomKeys.BindedKey(eKeyType.mKeyFuncionUno)
-                If Len(ClientSetup.Funcion(1)) > 0 Then _
-                    Call ParseUserCommand(ClientSetup.Funcion(1))
+                Call accionMacrosKey(1)
                 
             Case CustomKeys.BindedKey(eKeyType.mKeyFuncionDos)
-                If Len(ClientSetup.Funcion(2)) > 0 Then _
-                    Call ParseUserCommand(ClientSetup.Funcion(2))
+                Call accionMacrosKey(2)
                 
             Case CustomKeys.BindedKey(eKeyType.mKeyFuncionTres)
-                If Len(ClientSetup.Funcion(3)) > 0 Then _
-                    Call ParseUserCommand(ClientSetup.Funcion(3))
-                
+                Call accionMacrosKey(3)
+            
             Case CustomKeys.BindedKey(eKeyType.mKeyFuncionCuatro)
-                If Len(ClientSetup.Funcion(4)) > 0 Then _
-                    Call ParseUserCommand(ClientSetup.Funcion(4))
-                
+                Call accionMacrosKey(4)
+            
             Case CustomKeys.BindedKey(eKeyType.mKeyFuncionCinco)
-                If Len(ClientSetup.Funcion(5)) > 0 Then _
-                    Call ParseUserCommand(ClientSetup.Funcion(5))
-                
+                Call accionMacrosKey(5)
+            
             Case CustomKeys.BindedKey(eKeyType.mKeyFuncionSeis)
-                If Len(ClientSetup.Funcion(6)) > 0 Then _
-                    Call ParseUserCommand(ClientSetup.Funcion(6))
-                
+                Call accionMacrosKey(6)
+            
             Case CustomKeys.BindedKey(eKeyType.mKeyFuncionSiete)
-                If Len(ClientSetup.Funcion(7)) > 0 Then _
-                    Call ParseUserCommand(ClientSetup.Funcion(7))
-                
+                Call accionMacrosKey(7)
+            
             Case CustomKeys.BindedKey(eKeyType.mKeyFuncionOcho)
-                If Len(ClientSetup.Funcion(8)) > 0 Then _
-                    Call ParseUserCommand(ClientSetup.Funcion(8))
-                
+                Call accionMacrosKey(8)
+            
             Case CustomKeys.BindedKey(eKeyType.mKeyFuncionNueve)
-                If Len(ClientSetup.Funcion(9)) > 0 Then _
-                    Call ParseUserCommand(ClientSetup.Funcion(9))
-                
+                Call accionMacrosKey(9)
+            
             Case CustomKeys.BindedKey(eKeyType.mKeyFuncionDiez)
-                If Len(ClientSetup.Funcion(10)) > 0 Then _
-                    Call ParseUserCommand(ClientSetup.Funcion(10))
-                
+                Call accionMacrosKey(10)
+            
             Case CustomKeys.BindedKey(eKeyType.mKeyFuncionOnce)
-                If Len(ClientSetup.Funcion(11)) > 0 Then _
-                    Call ParseUserCommand(ClientSetup.Funcion(11))
+                Call accionMacrosKey(11)
                 
-            Case CustomKeys.BindedKey(eKeyType.mKeyFuncionDoce)
-                If Len(ClientSetup.Funcion(12)) > 0 Then _
-                    Call ParseUserCommand(ClientSetup.Funcion(12))
+            'Case CustomKeys.BindedKey(eKeyType.mKeyFuncionDoce)
+            '    Call accionMacrosKey(12)
                 
                 
         End Select
      End If
 End Sub
 
-Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     MouseBoton = Button
     MouseShift = Shift
 End Sub
 
-Private Sub Form_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
-    clicX = x
-    clicY = y
+Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    clicX = X
+    clicY = Y
 End Sub
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
@@ -1578,8 +1769,8 @@ End Sub
 
 Private Sub InvEqu_MouseMove(Button As Integer, _
                              Shift As Integer, _
-                             x As Single, _
-                             y As Single)
+                             X As Single, _
+                             Y As Single)
     LastButtonPressed.ToggleToNormal
 End Sub
 
@@ -1667,8 +1858,8 @@ Private Sub MensajeAmigo_Click()
         Exit Sub
     End If
     
-    SendTxt.Visible = True
-    SendTxt.Text = ("\" & ListAmigos.List(ListAmigos.ListIndex) & " ")
+    Sendtxt.Visible = True
+    Sendtxt.Text = ("\" & ListAmigos.List(ListAmigos.ListIndex) & " ")
 End Sub
 
 Private Sub mnuEquipar_Click()
@@ -1708,6 +1899,17 @@ Private Sub Coord_Click()
                           False, False, True)
 End Sub
 
+Private Sub picMacro_MouseUp(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
+
+    Dim BotonDerecho As Boolean
+    
+    If Button = vbRightButton Then _
+        BotonDerecho = True
+
+    Call accionMacrosKey(Index + 1, BotonDerecho)
+    
+End Sub
+
 Private Sub picSM_Click(Index As Integer)
     Select Case Index
     
@@ -1722,18 +1924,18 @@ End Sub
 
 Private Sub RecTxt_MouseMove(Button As Integer, _
                              Shift As Integer, _
-                             x As Single, _
-                             y As Single)
+                             X As Single, _
+                             Y As Single)
     StartCheckingLinks
 End Sub
 
 Private Sub SendTxt_KeyDown(KeyCode As Integer, Shift As Integer)
     ' Para borrar el mensaje de fondo
     If FirstTimeChat Then
-        SendTxt.Text = vbNullString
+        Sendtxt.Text = vbNullString
         FirstTimeChat = False
         ' Cambiamos el color de texto al original
-        SendTxt.ForeColor = &HE0E0E0
+        Sendtxt.ForeColor = &HE0E0E0
     End If
     
 errhandler:
@@ -1747,12 +1949,12 @@ Private Sub SendTxt_KeyUp(KeyCode As Integer, Shift As Integer)
         If LenB(stxtbuffer) <> 0 Then Call ParseUserCommand(stxtbuffer)
         
         stxtbuffer = vbNullString
-        SendTxt.Text = vbNullString
+        Sendtxt.Text = vbNullString
         KeyCode = 0
-        SendTxt.Visible = False
+        Sendtxt.Visible = False
         
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
         ElseIf hlst.Visible Then
             hlst.SetFocus
         Else
@@ -1858,8 +2060,8 @@ End Sub
 
 Private Sub btnLanzar_MouseMove(Button As Integer, _
                                 Shift As Integer, _
-                                x As Single, _
-                                y As Single)
+                                X As Single, _
+                                Y As Single)
     UsaMacro = False
     CnTd = 0
 End Sub
@@ -1909,8 +2111,8 @@ End Sub
 
 Private Sub MainViewPic_MouseDown(Button As Integer, _
                                   Shift As Integer, _
-                                  x As Single, _
-                                  y As Single)
+                                  X As Single, _
+                                  Y As Single)
     MouseBoton = Button
     MouseShift = Shift
     
@@ -1925,18 +2127,18 @@ End Sub
 
 Private Sub MainViewPic_MouseMove(Button As Integer, _
                                   Shift As Integer, _
-                                  x As Single, _
-                                  y As Single)
-    MouseX = x
-    MouseY = y
+                                  X As Single, _
+                                  Y As Single)
+    MouseX = X
+    MouseY = Y
 End Sub
 
 Private Sub MainViewPic_MouseUp(Button As Integer, _
                                 Shift As Integer, _
-                                x As Single, _
-                                y As Single)
-    clicX = x
-    clicY = y
+                                X As Single, _
+                                Y As Single)
+    clicX = X
+    clicY = Y
 End Sub
 
 Private Sub MainViewPic_DblClick()
@@ -2105,9 +2307,9 @@ Private Sub Form_DblClick()
 End Sub
 
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
-    MouseX = x - MainViewPic.Left
-    MouseY = y - MainViewPic.Top
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    MouseX = X - MainViewPic.Left
+    MouseY = Y - MainViewPic.Top
     
     'Trim to fit screen
     If MouseX < 0 Then
@@ -2169,7 +2371,7 @@ Private Sub picInv_DblClick()
     
 End Sub
 
-Private Sub picInv_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub picInv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
     Call Sound.Sound_Play(SND_CLICK)
 End Sub
 
@@ -2179,8 +2381,8 @@ Private Sub RecTxt_Change()
 
     If Not Application.IsAppActive() Then Exit Sub
     
-    If SendTxt.Visible Then
-        SendTxt.SetFocus
+    If Sendtxt.Visible Then
+        Sendtxt.SetFocus
     
     ElseIf (Not Comerciando) And _
            (Not MirandoAsignarSkills) And _
@@ -2192,8 +2394,8 @@ Private Sub RecTxt_Change()
            (Not frmShop.Visible) And _
            (Not MirandoParty) Then
 
-        If PicInv.Visible Then
-            PicInv.SetFocus
+        If picInv.Visible Then
+            picInv.SetFocus
                         
         ElseIf hlst.Visible Then
             hlst.SetFocus
@@ -2206,8 +2408,8 @@ End Sub
 
 Private Sub RecTxt_KeyDown(KeyCode As Integer, Shift As Integer)
 
-    If PicInv.Visible Then
-        PicInv.SetFocus
+    If picInv.Visible Then
+        picInv.SetFocus
     Else
         hlst.SetFocus
     End If
@@ -2221,7 +2423,7 @@ Private Sub SendTxt_Change()
     'Last Modify Date: 3/06/2006
     '3/06/2006: Maraxus - impedi se inserten caracteres no imprimibles
     '**************************************************************
-    If Len(SendTxt.Text) > 160 Then
+    If Len(Sendtxt.Text) > 160 Then
         stxtbuffer = JsonLanguage.item("MENSAJE_SOY_CHEATER").item("TEXTO")
     Else
         'Make sure only valid chars are inserted (with Shift + Insert they can paste illegal chars)
@@ -2229,21 +2431,21 @@ Private Sub SendTxt_Change()
         Dim tempstr   As String
         Dim CharAscii As Integer
         
-        For i = 1 To Len(SendTxt.Text)
-            CharAscii = Asc(mid$(SendTxt.Text, i, 1))
+        For i = 1 To Len(Sendtxt.Text)
+            CharAscii = Asc(mid$(Sendtxt.Text, i, 1))
 
             If CharAscii >= vbKeySpace And CharAscii <= 250 Then
                 tempstr = tempstr & Chr$(CharAscii)
             End If
         Next i
         
-        If tempstr <> SendTxt.Text Then
+        If tempstr <> Sendtxt.Text Then
             'We only set it if it's different, otherwise the event will be raised
             'constantly and the client will crush
-            SendTxt.Text = tempstr
+            Sendtxt.Text = tempstr
         End If
         
-        stxtbuffer = SendTxt.Text
+        stxtbuffer = Sendtxt.Text
     End If
 End Sub
 
@@ -2256,21 +2458,21 @@ Private Sub CompletarEnvioMensajes()
 
     Select Case SendingType
         Case 1
-            SendTxt.Text = vbNullString
+            Sendtxt.Text = vbNullString
         Case 2
-            SendTxt.Text = "-"
+            Sendtxt.Text = "-"
         Case 3
-            SendTxt.Text = ("\" & sndPrivateTo & " ")
+            Sendtxt.Text = ("\" & sndPrivateTo & " ")
         Case 4
-            SendTxt.Text = "/CMSG "
+            Sendtxt.Text = "/CMSG "
         Case 5
-            SendTxt.Text = "/PMSG "
+            Sendtxt.Text = "/PMSG "
         Case 6
-            SendTxt.Text = "; "
+            Sendtxt.Text = "; "
     End Select
     
-    stxtbuffer = SendTxt.Text
-    SendTxt.SelStart = Len(SendTxt.Text)
+    stxtbuffer = Sendtxt.Text
+    Sendtxt.SelStart = Len(Sendtxt.Text)
 
 End Sub
 
@@ -2310,8 +2512,8 @@ Private Sub Enviar_SendTxt()
     End If
 
     stxtbuffer = vbNullString
-    SendTxt.Text = vbNullString
-    SendTxt.Visible = False
+    Sendtxt.Text = vbNullString
+    Sendtxt.Visible = False
     
 End Sub
 
@@ -2443,7 +2645,7 @@ End Sub
 Private Sub Client_Error(ByVal number As Integer, _
                          Description As String, _
                          ByVal sCode As Long, _
-                         ByVal source As String, _
+                         ByVal Source As String, _
                          ByVal HelpFile As String, _
                          ByVal HelpContext As Long, _
                          CancelDisplay As Boolean)
@@ -2508,11 +2710,11 @@ End Sub
 
 Private Sub Minimapa_MouseDown(Button As Integer, _
                                Shift As Integer, _
-                               x As Single, _
-                               y As Single)
+                               X As Single, _
+                               Y As Single)
 
     If Button = vbRightButton Then
-        Call WriteWarpChar("YO", CurrentUser.UserMap, CByte(x - 1), CByte(y - 1), False)
+        Call WriteWarpChar("YO", CurrentUser.UserMap, CByte(X - 1), CByte(Y - 1), False)
         Call ActualizarMiniMapa
         
     ElseIf Button = vbLeftButton Then
@@ -2554,7 +2756,7 @@ Private Sub btnRetos_Click()
     Call FrmRetos.Show(vbModeless, frmMain)
 End Sub
 
-Private Sub btnMenu_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub btnMenu_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If btnMenu.Tag = 1 Then
         btnMenu.Picture = General_Load_Picture_From_Resource("24.bmp", True)
         btnMenu.Tag = 0
@@ -2562,7 +2764,7 @@ Private Sub btnMenu_MouseMove(Button As Integer, Shift As Integer, x As Single, 
 
 End Sub
 
-Private Sub btnShop_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub btnShop_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If btnShop.Tag = 1 Then
         btnShop.Picture = General_Load_Picture_From_Resource("27.bmp", True)
         btnShop.Tag = 0
@@ -2659,8 +2861,8 @@ Public Sub ActualizarCoordenadas(ByVal tX As Integer, ByVal tY As Integer)
     cy = Fix((tY / 100))
     
     CurrentUser.UserCuadrante = ((cy) * AnchoMap) + cx + 1
-    UserPosCuadrante.x = tX - (cx * 100)
-    UserPosCuadrante.y = tY - (cy * 100)
+    UserPosCuadrante.X = tX - (cx * 100)
+    UserPosCuadrante.Y = tY - (cy * 100)
     
     'Si cambiamos de cuadrante cambiamos el minimapa
     If CurrentCuadrante <> CurrentUser.UserCuadrante Then _
@@ -2668,7 +2870,7 @@ Public Sub ActualizarCoordenadas(ByVal tX As Integer, ByVal tY As Integer)
     
     If ClientSetup.VerCuadrantes Then
 
-        Coord.Caption = "Cuadrante: " & CurrentUser.UserCuadrante & " X: " & UserPosCuadrante.x & " Y: " & UserPosCuadrante.y
+        Coord.Caption = "Cuadrante: " & CurrentUser.UserCuadrante & " X: " & UserPosCuadrante.X & " Y: " & UserPosCuadrante.Y
     
     Else
         Coord.Caption = "Map:" & CurrentUser.UserMap & " X:" & tX & " Y:" & tY

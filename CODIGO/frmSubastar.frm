@@ -151,7 +151,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Private Sub cmdSalir_Click()
+Private Sub CMDSalir_Click()
     Call WriteCancelarsubasta
 End Sub
 
@@ -244,6 +244,6 @@ Private Sub list1_Click()
         lblInfo.ForeColor = &H8000000C
         cmdSubastar.Visible = True
         
-        Call RenderItem(Picture1.hWnd, Inventario.GrhIndex(Val(List1.ListIndex + 1)))
+        Call Mod_TileEngine.RenderItem(Picture1, Inventario.GrhIndex(Val(List1.ListIndex + 1)))
     End If
 End Sub

@@ -69,9 +69,6 @@ Public Type tSetupMods
     MouseGeneral As Byte
     MouseBaston As Byte
     SkinSeleccionado As String
-    
-    'Funciones
-    Funcion(1 To 12) As String
 End Type
 
 Public ClientSetup As tSetupMods
@@ -246,11 +243,6 @@ Public Sub LeerConfiguracion()
         .BloqueoMovimiento = CBool(Lector.GetValue("OTHER", "BLOQUEOMOV"))
         .VerCuadrantes = CBool(Lector.GetValue("OTHER", "CUADRANTES"))
         
-        ' FUNCION
-        For i = 1 To 12
-            .Funcion(i) = Trim$(CStr(Lector.GetValue("FUNCION", "F" & i)))
-        Next i
-        
     End With
 
   Exit Sub
@@ -315,32 +307,6 @@ fileErr:
 
     If Err.number <> 0 Then
         MsgBox ("Ha ocurrido un error al guardar la configuracion del cliente. Error " & Err.number & " : " & Err.Description)
-    End If
-End Sub
-
-Public Sub GuardarFunciones()
-'*************************************
-'Autor: Lorwik
-'Fecha: 13/09/2020
-'Descripción: Guarda la configuración de funciones
-'*************************************
-
-    On Local Error GoTo fileErr:
-    
-    Dim i As Byte
-    
-    Set Lector = New clsIniManager
-    Call Lector.Initialize(Carga.Path(Init) & CLIENT_FILE)
-    
-    For i = 1 To 12
-        Call Lector.ChangeValue("FUNCION", "F" & i, ClientSetup.Funcion(i))
-    Next i
-    
-    Call Lector.DumpFile(Carga.Path(Init) & CLIENT_FILE)
-fileErr:
-
-    If Err.number <> 0 Then
-        MsgBox ("Ha ocurrido un error al guardar la configuracion de funciones del cliente. Error " & Err.number & " : " & Err.Description)
     End If
 End Sub
 

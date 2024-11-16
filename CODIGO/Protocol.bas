@@ -137,6 +137,7 @@ Private Enum ServerPacketID
     MostrarShop
     ActualizarGemasShop
     SpeedToChar
+    EnviarMacros
     
     'GM =  messages
     SpawnList                    ' SPL
@@ -776,6 +777,9 @@ On Error Resume Next
             
         Case ServerPacketID.SpeedToChar
             Call HandleSpeedToChar
+            
+        Case ServerPacketID.EnviarMacros
+            Call HandleEnviarMacros
 
         '*******************
         'GM messages
@@ -5963,4 +5967,35 @@ Private Sub HandleSpeedToChar()
      
     End With
  
+End Sub
+
+Private Sub HandleEnviarMacros()
+'***************************************************
+'Author: Lorwik
+'Last Modification: 06/03/2021
+'Recibe la configuracion de macros
+'***************************************************
+
+    Dim i As Byte
+    
+    Call incomingData.ReadByte
+    
+    MacrosActivados = incomingData.ReadLong
+    
+    If MacrosActivados Then
+    
+        For i = 1 To NUMMACROS
+        
+            MacrosKey(i).TipoAccion = incomingData.ReadByte
+            MacrosKey(i).SpellName = incomingData.ReadASCIIString
+            MacrosKey(i).InvGrh = incomingData.ReadLong
+            MacrosKey(i).invName = incomingData.ReadASCIIString
+            MacrosKey(i).Comando = incomingData.ReadASCIIString
+        
+        Next i
+        
+        Call DibujarMenuMacros(MacroElegido)
+    
+    End If
+    
 End Sub

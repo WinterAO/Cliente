@@ -118,6 +118,7 @@ Class=clsLucesRedondas; CODIGO\clsLucesRedondas.cls
 Form=CODIGO\frmMonitor.frm
 Module=modMonitor; CODIGO\modMonitor.bas
 Module=modUtils; CODIGO\modUtils.bas
+Form=CODIGO\frmBindKey.frm
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""

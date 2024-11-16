@@ -914,3 +914,23 @@ Public Enum Accion_Barra
     CancelarAccion = 99
 
 End Enum
+
+'-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+'MACROS - Acciones rapidas
+'-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+Public MacrosActivados As Long
+Public MacroElegido As Byte
+Public Const NUMMACROS As Byte = 12
+
+Type eMacros
+
+    TipoAccion  As Byte
+    SpellName   As String
+    InvGrh      As Long
+    invName     As String
+    Comando     As String
+    
+End Type
+
+Public MacrosKey(1 To NUMMACROS) As eMacros
