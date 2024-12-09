@@ -539,11 +539,11 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 
             Case "/FUNDARCLAN"
 
-                If CurrentUser.UserLvl >= 25 Then
+                'If CurrentUser.UserLvl >= 25 Then
                     Call WriteGuildFundate
-                Else
-                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FUNDAR_CLAN").item("TEXTO"))
-                End If
+'                Else
+'                    Call ShowConsoleMsg(JsonLanguage.item("MENSAJE_FUNDAR_CLAN").item("TEXTO"))
+'                End If
             
             Case "/ECHARPARTY"
 
