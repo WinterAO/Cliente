@@ -323,7 +323,7 @@ Private Sub CheckKeys()
     If pausa Then Exit Sub
 
     'Si esta chateando, no mover el pj, tanto para chat de clanes y normal
-    If frmMain.Sendtxt.Visible And ClientSetup.BloqueoMovimiento Then Exit Sub
+    If frmMain.SendTxt.Visible And ClientSetup.BloqueoMovimiento Then Exit Sub
 
     'Don't allow any these keys during movement..
     If UserMoving = 0 Then
@@ -515,6 +515,9 @@ Sub Main()
     
     'usaremos esto para ayudar en los parches
     Call SaveSetting("WinterAOCliente", "Init", "Path", App.Path & "\")
+    
+    'Cambia el estado en Discord a Jugando a WinterAO
+    Call Discord_Presence_Start
     
     ChDrive App.Path
     ChDir App.Path
@@ -709,7 +712,7 @@ Private Sub LoadInitialConfig()
     Call frmCargando.ActualizarCarga(JsonLanguage.item("HECHO").item("TEXTO"), 70)
     
     'Inicializamos el inventario grafico
-    Call Inventario.Initialize(DirectD3D8, frmMain.picInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
+    Call Inventario.Initialize(DirectD3D8, frmMain.PicInv, MAX_INVENTORY_SLOTS, , , , , , , , True)
     
     Call frmCargando.ActualizarCarga(JsonLanguage.item("INICIA_MAPA").item("TEXTO"), 75)
     
@@ -1004,6 +1007,9 @@ Public Sub CloseClient()
     Set outgoingData = Nothing
     Set JsonLanguage = Nothing
     Set frmMain.Client = Nothing
+    
+    'Limpiamos el estado de discord
+    Call Discord_Presence_End
     
     Call UnloadAllForms
     
