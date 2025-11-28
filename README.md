@@ -95,6 +95,23 @@ Para ejecutar el cliente necesitas:
 4. La carpeta `Recursos/` con los gráficos y sonidos del juego
 5. Conexión al servidor de WinterAO Resurrection
 
+## 🎞️ Galeria
+
+![lm8UACN](https://github.com/user-attachments/assets/dc92a254-5ab9-4be8-a7c8-287fa5926869)
+![M4wQuLv](https://github.com/user-attachments/assets/b4997bae-3fc7-45a6-b0d0-c35abbcb5c9c)
+![MTLYnjw](https://github.com/user-attachments/assets/d724725f-5aaf-4786-a776-095fe812b41a)
+<img width="1274" height="764" alt="zQWaUHS" src="https://github.com/user-attachments/assets/a5bd7853-ac4d-43d8-9260-0c563ef959d7" />
+![0mmOupv](https://github.com/user-attachments/assets/dce0b903-41b9-46f3-b5fe-d8f9b3ba6c6b)
+![HUrzHOy](https://github.com/user-attachments/assets/482ddef5-a4ab-4792-8e17-f839e60f9e92)
+![p77KKPl](https://github.com/user-attachments/assets/adcb38b8-b6ca-4466-a030-868a6078ce55)
+![O0UpgRF](https://github.com/user-attachments/assets/55af7017-6f25-40db-8f47-d1de6e17031d)
+![72LFOl6](https://github.com/user-attachments/assets/6b51f52c-207d-48a9-b0a7-97e4f00c0dcd)
+![HXOLlSA](https://github.com/user-attachments/assets/78b13ef6-9d27-4485-948f-d98864ace3a5)
+![2PwFRhT](https://github.com/user-attachments/assets/8e6dd15b-5a41-4f01-88b6-cf2080ee301a)
+![PDuNySB](https://github.com/user-attachments/assets/a4e8b770-a486-474d-94c7-30ff5d113c86)
+![zvwXlCf](https://github.com/user-attachments/assets/bdb7bf19-a35f-494f-9cf0-247c6b5f8f57)
+<img width="1000" height="1000" alt="RVVUhWZ" src="https://github.com/user-attachments/assets/f3551270-4ff8-498b-8295-d5f7579ef53c" />
+
 ## 🔗 Enlaces
 
 - [Repositorio del Servidor](https://github.com/WinterAO/Server)
